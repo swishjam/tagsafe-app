@@ -1,0 +1,11 @@
+<div class="text-center">
+  <h5><%= @script_change.monitored_script.friendly_name %> <%= @script_change.pretty_last_changed_at %> change.</h5>
+  <p>
+    <% if @script_change.change_in_bytes.zero? %>
+      The script size remained <%= @script_change.bytes %> Bytes.
+    <% else %>
+      It <%= @script_change.byte_change_operator %> in size by <%= @script_change.change_in_bytes.abs %> bytes.
+    <% end %>
+  </p>
+  <%= link_to 'View Script Contents', content_monitored_script_script_change_path(@script_change.monitored_script, @script_change), target: :_blank %>
+</div>

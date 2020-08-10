@@ -1,0 +1,24 @@
+.monitored-script-card {
+  margin: 10px;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  &:hover {
+    box-shadow: 5px 5px 0px 0 rgba(0, 0, 0, 0.25);
+    transition: 0.5s all;
+  }
+}
+
+.git-diff {
+  overflow-wrap: anywhere;
+}
+
+.monitored-script-card .byte-change-results {
+  .decreased {
+    color: green;
+  }
+  .increased {
+    color: red;
+  }
+}

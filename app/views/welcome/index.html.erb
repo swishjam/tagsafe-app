@@ -1,0 +1,9 @@
+<%= render partial: 'partials/logged_out_nav' %>
+<h1>Tag Safe</h1>
+
+<% if current_user.nil? %>
+  <%= link_to 'Login', login_path %>
+<% else %>
+  Hello <%= current_user.email %>!
+  <%= link_to "View Dashboard", monitored_scripts_path %>
+<% end %>

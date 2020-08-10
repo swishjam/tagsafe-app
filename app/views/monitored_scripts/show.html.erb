@@ -1,0 +1,44 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/monitored_scripts">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @monitored_script.short_name %></li>
+  </ol>
+</nav>
+
+<div class="text-center">
+  <h5><%= @monitored_script.url %></h5>
+
+  <h6>The script was last updated: <%= @monitored_script.pretty_last_changed_at %></h6>
+  <% if @monitored_script.script_changes.count === 1 %>
+    <h6>This was the first time Tag Safe captured a change. There have been no changes since.</h6>
+  <% end %>
+</div>
+
+<%= line_chart @monitored_script.script_changes.map{ |change| [change.pretty_last_changed_at, change.bytes] }, 
+      download: true, 
+      bytes: true,
+      title: 'Change in file size over time.',
+      ytitle: 'Byte Size',
+      xtitle: 'Time of Change',
+      messages: { empty: "No script changes to display." } %>
+
+<div class="text-center row">
+  <% @monitored_script.script_changes.each do |change| %>
+    <div class="col-sm-12 col-md-4">
+      <div class="card monitored-script-card">
+        <%= link_to monitored_script_script_change_path(@monitored_script, change) do %>
+          <div class="card-body">
+            <h6 class="card-title"><%= change.pretty_last_changed_at %></h6>
+            <p class="byte-change-results <%=change.byte_change_operator%>">
+              <% unless change.previous_change.nil? %>
+                It <span class="<%=change.byte_change_operator%>"><%= change.byte_change_operator %></span> in size by <%= change.change_in_bytes.abs %> bytes.
+              <% else %>
+                This was the first time Tag Safe monitored the script, no changes to report.
+              <% end %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

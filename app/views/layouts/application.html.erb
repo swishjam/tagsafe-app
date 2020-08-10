@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tag Safe</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+
+  <body class="<%=controller_name%>">
+    <div class="container-fluid">
+      <% if flash[:error] %>
+        <div class="flash-error banner-message">
+          <%= flash[:error] %>
+        </div>
+      <% end %>
+      <% if flash[:message] %>
+        <div class="flash-message banner-message">
+          <%= flash[:message] %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

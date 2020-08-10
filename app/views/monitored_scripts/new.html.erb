@@ -1,0 +1,7 @@
+<h1>Input JS script's endpoint to monitor</h1>
+
+<%= form_for @monitored_script do |f| %>
+  <%= f.label :script_endpoint %>
+  <%= f.text_field :url %>
+  <%= f.submit 'Monitor Script' %>
+<% end %>
