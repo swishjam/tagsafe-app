@@ -1,6 +1,6 @@
 class CreateScriptSubscriberJoinTable < ActiveRecord::Migration[5.2]
   def up
-    create_table :script_subscribers_users do |t|
+    create_table :notification_subscribers do |t|
       t.integer :script_subscriber_id
       t.integer :user_id
 

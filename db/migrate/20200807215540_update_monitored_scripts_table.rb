@@ -1,7 +1,7 @@
 class UpdateMonitoredScriptsTable < ActiveRecord::Migration[5.2]
   def up
     add_column :monitored_scripts, :name, :string
-    add_column :monitored_scripts, :sript_last_updated_at, :timestamp
+    add_column :monitored_scripts, :script_last_updated_at, :timestamp
   end
 
   def down
