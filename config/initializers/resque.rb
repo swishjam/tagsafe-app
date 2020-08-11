@@ -3,6 +3,7 @@ require 'active_scheduler'
 Resque.redis = 'localhost:6379'
 
 Resque.logger = Logger.new(STDOUT)
+# :debug, :info, :warn, :error, :fatal, and :unknown,
 Resque.logger.level = Logger::INFO
 # Resque.logger.formatter = Resque::VerboseFormatter.new
 

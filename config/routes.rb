@@ -16,6 +16,14 @@ Rails.application.routes.draw do
   # TODO: make my routes more Rails-y
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
+
+  resources :notification_subscribers, only: [:index, :show] do
+    member do
+      post :subscribe
+      post :unsubscribe
+    end
+  end
 
   resources :monitored_scripts do
     resources :script_changes, only: [:show] do
@@ -23,6 +31,7 @@ Rails.application.routes.draw do
         get :content
       end
     end
+    resources :notification_subscribers
   end
 
   get '/script_changes/:hash' => 'script_changes#show', as: :script_change, format: :js

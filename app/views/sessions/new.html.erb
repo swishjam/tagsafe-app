@@ -1,9 +1,24 @@
-<h1>Login</h1>
 
-<%= form_for :login do |f| %>
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <%= f.label :password %>
-  <%= f.password_field :password %>
-  <%= f.submit 'Log In' %>
-<% end %>
+<div class="col-md-4 offset-md-4 card login-card text-center">
+  <h1>Login</h1>
+
+  <%= form_for :login do |f| %>
+    <%
+=begin%>
+ <%= f.label :email %> 
+<%
+=end%>
+    <div class="form-group">
+      <%= f.email_field :email, class: "form-control form-control-lg", placeholder: 'Email' %>
+    </div>
+    <%
+=begin%>
+ <%= f.label :password %> 
+<%
+=end%>
+    <div class="form-group">
+      <%= f.password_field :password, class: "form-control form-control-lg", placeholder: 'Password' %>
+    </div>
+    <%= f.submit 'Submit', class: 'tag-safe-button' %>
+  <% end %>
+</div>

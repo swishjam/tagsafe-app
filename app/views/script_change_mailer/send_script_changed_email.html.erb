@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= @monitored_script.url %> channged!</h1>
+    <%
+=begin%>
+ <%= link_to 'View Changes', monitored_script_url(@monitored_script) %>  
+<%
+=end%>
+  </body>
+</html>

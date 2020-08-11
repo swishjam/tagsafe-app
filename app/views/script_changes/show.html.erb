@@ -1,7 +1,9 @@
 <div class="text-center">
   <h5><%= @script_change.monitored_script.friendly_name %> <%= @script_change.pretty_last_changed_at %> change.</h5>
   <p>
-    <% if @script_change.change_in_bytes.zero? %>
+    <% if @script_change.first_change? %>
+      This was the first time Tag Safe monitored this endpoint. It is <%= @script_change.bytes %> Bytes.
+    <% elsif @script_change.change_in_bytes.zero? %>
       The script size remained <%= @script_change.bytes %> Bytes.
     <% else %>
       It <%= @script_change.byte_change_operator %> in size by <%= @script_change.change_in_bytes.abs %> bytes.

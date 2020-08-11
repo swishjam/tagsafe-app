@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def ensure_logged_out
+    redirect_to monitored_scripts_path unless current_user.nil?
+  end
+
   def ensure_organization_is_subscribed(script)
     unless current_organization.monitored_scripts.include? script
       flash[:error] = "No access."

@@ -6,9 +6,9 @@ class ScriptManager::Fetcher
   end
 
   def fetch!
-    # response = HTTParty.get(@url)
-    fake_response = Struct.new(:body)
-    response = fake_response.new("Collin Schneider")
+    response = HTTParty.get(@url)
+    # fake_response = Struct.new(:body)
+    # response = fake_response.new("Collin Schneider")
     format_response(response)
   end
 

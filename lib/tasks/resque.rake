@@ -6,14 +6,12 @@ namespace :resque do
   task :setup => :environment do
     require 'resque'
 
-    Resque.before_fork = Proc.new do |job|
-      Resque.logger.info "Before Hook block!@!!!!"
-      # ActiveRecord::Base.connection.disconnect!
-    end
-    Resque.after_fork = Proc.new do |job|
-      Resque.logger.info "After Hook block!@!!!!"
-      # ActiveRecord::Base.establish_connection
-    end
+    # Resque.before_fork = Proc.new do |job|
+    #   # ActiveRecord::Base.connection.disconnect!
+    # end
+    # Resque.after_fork = Proc.new do |job|
+    #   # ActiveRecord::Base.establish_connection
+    # end
     # you probably already have this somewhere
     # Resque.redis = 'localhost:6379'
   end

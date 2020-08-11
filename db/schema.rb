@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_10_142708) do
+ActiveRecord::Schema.define(version: 2020_08_11_145550) do
 
   create_table "monitored_scripts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "url"
@@ -18,6 +18,18 @@ ActiveRecord::Schema.define(version: 2020_08_10_142708) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.timestamp "script_last_updated_at"
+  end
+
+  create_table "monitored_scripts_organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "monitored_script_id"
+  end
+
+  create_table "notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "monitored_script_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -33,11 +45,6 @@ ActiveRecord::Schema.define(version: 2020_08_10_142708) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "bytes"
-  end
-
-  create_table "script_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "monitored_script_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

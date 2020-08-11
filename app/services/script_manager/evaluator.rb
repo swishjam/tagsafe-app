@@ -10,17 +10,16 @@ class ScriptManager::Evaluator
 
     if should_log_script_change?(response_data)
       script_changed!(response_data)
+      Resque.logger.info "ScriptEvaluator Log Message: Found a change in #{monitored_script.url}! New hash value is #{monitored_script.most_recent_result.hashed_content}."
     else
-      # SILLY! and NOT WORKING! how do I log to rails AND resque!?
-      Resque.logger.info "ScriptEvaluator Log Message (#{DateTime.current}): #{monitored_script.url} did not change from #{monitored_script.most_recent_result.hashed_content} hash."
-      Rails.logger.info "ScriptEvaluator Log Message (#{DateTime.current}): #{monitored_script.url} did not change from #{monitored_script.most_recent_result.hashed_content} hash."
+      Resque.logger.info "ScriptEvaluator Log Message: #{monitored_script.url} did not change from #{monitored_script.most_recent_result.hashed_content} hash."
     end
   end
 
   private
 
   def should_log_script_change?(response_data)
-    monitored_script.script_subscribers.empty? || monitored_script.most_recent_result.hashed_content != response_data[:hashed_content]
+    monitored_script.first_eval? || monitored_script.most_recent_result.hashed_content != response_data[:hashed_content]
   end
 
   def script_changed!(data)

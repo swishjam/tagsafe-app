@@ -1,9 +1,16 @@
-<%= render partial: 'partials/logged_out_nav' %>
-<h1>Tag Safe</h1>
 
-<% if current_user.nil? %>
-  <%= link_to 'Login', login_path %>
-<% else %>
-  Hello <%= current_user.email %>!
-  <%= link_to "View Dashboard", monitored_scripts_path %>
-<% end %>
+<div class="splash-container red row">
+  <div class="col-md-6 col-sm-12 text-left">
+    <div class="header">
+      <h1 class="brand">Tag Safe</h1>
+      <h4 class="sub-heading">It's time to take control of your tags.</h4>
+      <p class="description">
+        Gain visibility into your third party JavaScript tags. Monitor changes in real time, and ensure your site is not hurt by a third party release.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="splash-container white row">
+  
+</div>

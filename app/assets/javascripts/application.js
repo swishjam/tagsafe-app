@@ -16,3 +16,17 @@
 //= require_tree .
 //= require chartkick
 //= require Chart.bundle
+//= require jquery3
+//= require popper
+//= require bootstrap-sprockets
+
+// (function() {
+//   var closeFlash = document.querySelectorAll('.close-flash-banner');
+//   if(!!closeFlash) {
+//     closeFlash.addEventListener('click', function(e) {
+//       document.querySelectorAll('.flash-banner').forEach(function(el) {
+//         el.addClass('hidden');
+//       })
+//     })
+//   }
+// })()

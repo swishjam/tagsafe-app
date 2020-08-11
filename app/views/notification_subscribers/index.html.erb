@@ -1,0 +1,12 @@
+<ul>
+  <% @monitored_scripts.each do |script| %>
+    <div class="card">
+      <h6><%= script.friendly_name %></h6>
+      <% if current_user.subscribed?(script) %>
+        <%= link_to "Unsubscribe", unsubscribe_notification_subscriber_path(script), method: :post %>
+      <% else %>
+        <%= link_to "Subscribe", subscribe_notification_subscriber_path(script), method: :post %>
+      <% end %>
+    </div>
+  <% end %>
+</ul>

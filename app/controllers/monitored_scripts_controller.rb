@@ -2,7 +2,7 @@ class MonitoredScriptsController < ApplicationController
   before_action :authorize!
   
   def index
-    @monitored_scripts = current_organization.monitored_scripts.includes(:script_changes)
+    @monitored_scripts = current_organization.monitored_scripts.includes(:script_changes).order('script_last_updated_at DESC')
   end
 
   def new
@@ -17,7 +17,7 @@ class MonitoredScriptsController < ApplicationController
   def create
     script = MonitoredScript.find_by(url: params[:monitored_script][:url])
     script = MonitoredScript.create(monitored_script_params) unless script
-    script.subscribe(current_organization)
+    current_organization.add_monitored_script(script)
 
     redirect_to monitored_script_path(script)
   end

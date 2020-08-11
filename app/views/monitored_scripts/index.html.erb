@@ -1,27 +1,33 @@
-<h1>Welcome Home!</h1>
+<div class="text-center">
 
-<h3>Monitored Scripts:</h3>
+  <%
+=begin%>
+ <%= scatter_chart ScriptChange.pluck(:monitored_script_id, :bytes) %>  
+<%
+=end%>
+<h3>Monitor Center</h3>
 
-<%= scatter_chart ScriptChange.pluck(:monitored_script_id, :bytes) %>
-
-<div class="row">
-  <% @monitored_scripts.each do |script| %>
-    <div class="col-sm-12 col-md-4 card monitored-script-card">      
-      <%= link_to monitored_script_path(script) do %>
-        <div class="card-body text-center">
-          <h4 class="card-title"><%= script.friendly_name %></h2>
-          <h6 class="card-subtitle">Script was last updated: <%= script.pretty_last_changed_at %></h6>
-          <p class="card-body">
-            <% if script.script_changes.count === 1 %>
-              This was the first time Tag Safe capured the content. There has been no changes since.
-            <% elsif script.most_recent_change.change_in_bytes === 0 %>
-              It did not change in size.
-            <% else %>
-              it <%= script.most_recent_change.byte_change_operator %> in size by <%= script.most_recent_change.change_in_bytes.abs %> bytes.
-            <% end %>
-          </p>
+  <div class="row">
+    <% @monitored_scripts.each do |script| %>
+      <div class="col-sm-12 col-md-4">
+        <div class="card monitored-script-card">
+          <%= link_to monitored_script_path(script) do %>
+            <div class="card-body text-center">
+              <h4 class="card-title"><%= script.friendly_name %></h2>
+              <h6 class="card-subtitle">Script was last updated: <%= script.pretty_last_changed_at %></h6>
+              <p class="card-body">
+                <% if script.script_changes.count === 1 %>
+                  This was the first time Tag Safe capured the content. There has been no changes since.
+                <% elsif script.most_recent_change.change_in_bytes === 0 %>
+                  It did not change in size. It is <%= script.most_recent_change.bytes %> bytes.
+                <% else %>
+                  it <%= script.most_recent_change.byte_change_operator %> in size by <%= script.most_recent_change.change_in_bytes.abs %> bytes.
+                <% end %>
+              </p>
+            </div>
+          <% end %>
         </div>
-      <% end %>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

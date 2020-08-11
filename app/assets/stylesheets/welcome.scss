@@ -1,0 +1,21 @@
+body.welcome {
+  .splash-container {
+    border: 1px solid black;
+    height: 80vh;
+    .header {
+      margin-top: 30vh;
+      margin-left: 10vw;
+      .brand {
+        font-size: 4rem;
+      }
+      .sub-heading {
+        font-size: 2rem;
+      }
+    }
+
+    &.red {
+      color: rgb(248, 138, 138);
+      background: rgb(230, 230, 230);
+    }
+  }
+}

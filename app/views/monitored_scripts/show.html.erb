@@ -6,7 +6,7 @@
 </nav>
 
 <div class="text-center">
-  <h5><%= @monitored_script.url %></h5>
+  <h5>Recent updates to <%= @monitored_script.friendly_name %></h5>
 
   <h6>The script was last updated: <%= @monitored_script.pretty_last_changed_at %></h6>
   <% if @monitored_script.script_changes.count === 1 %>

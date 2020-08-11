@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tag Safe</title>
+    <title>TagSafe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,16 +13,19 @@
 
   <body class="<%=controller_name%>">
     <div class="container-fluid">
-      <% if flash[:error] %>
-        <div class="flash-error banner-message">
-          <%= flash[:error] %>
+        <% unless flash[:error].nil? %>
+        <div class="flash-banner error text-center row">
+          <p class="col-11"><%= flash[:error] %></p>
+          <span class="col-sm-1 close-flash-banner">X</span>
         </div>
       <% end %>
-      <% if flash[:message] %>
-        <div class="flash-message banner-message">
-          <%= flash[:message] %>
+      <% unless flash[:message].nil? %>
+        <div class="flash-banner message text-center row">
+          <p class="col-11"><%= flash[:message] %></p>
+          <span class="col-1 close-flash-banner">X</span>
         </div>
       <% end %>
+      <%= render partial: current_user.nil? ? 'partials/logged_out_nav' : 'partials/logged_in_nav' %>
       <%= yield %>
     </div>
   </body>

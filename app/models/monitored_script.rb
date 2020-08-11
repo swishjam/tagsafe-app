@@ -1,6 +1,6 @@
 class MonitoredScript < ApplicationRecord
-  has_many :script_subscribers
-  has_many :organizations, through: :script_subscribers
+  has_many :notification_subscribers
+  has_and_belongs_to_many :organizations
   has_many :script_changes, -> { order('created_at DESC') }
 
   after_create :evaluate_script_details
@@ -10,12 +10,13 @@ class MonitoredScript < ApplicationRecord
   end
   alias most_recent_change most_recent_result
 
-  def evaluate_script_details
-    ScriptManager::Evaluator.new(self).evaluate!
+  def first_eval?
+    most_recent_result.nil?
   end
 
-  def subscribe(organization)
-    script_subscribers.create(organization_id: organization.id)
+  def evaluate_script_details
+    # should this be on the main thread?
+    ScriptManager::Evaluator.new(self).evaluate!
   end
 
   def friendly_name

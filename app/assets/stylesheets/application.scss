@@ -11,13 +11,87 @@
  * It is generally better to create a new file per style scope.
  *
  */
- @import "bootstrap";
- @import "*";
+@import "bootstrap";
+@import "*";
 
- body {
-  //  background: #ff8082
- }
+// rgb(248, 138, 138) red color
+// rgb(230, 230, 230) grey color
+.hidden {
+  display: none;
+}
 
- nav {
-  //  background: #97AABD
- }
+.container-fluid {
+  padding: 0;
+}
+
+.flash-banner {
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  font-size: 16px;
+  width: 100vw;
+  z-index: 100000;
+  color: white;
+  padding: 10px;
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+   -ms-animation: fadein 2s; /* Internet Explorer */
+    -o-animation: fadein 2s; /* Opera < 12.1 */
+       animation: fadein 2s;
+  p {
+    margin: 0;
+  }
+  &.error {
+    background: rgb(252, 88, 88)
+  }
+  &.message {
+    background: rgb(69, 238, 35)
+  }
+  .close-flash-banner {
+    cursor: pointer;
+  }
+}
+
+.tag-safe-button {
+  border-radius: 5px;
+  background: white;
+  border: 1px solid grey;
+  font-size: 18px;
+  padding: 10px;
+  color: grey;
+  transition: 250ms all;
+  &:hover {
+    color: white;
+    text-decoration: none;
+    background: rgb(248, 138, 138);
+  }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
