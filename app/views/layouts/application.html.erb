@@ -9,6 +9,9 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+      window.currentUser = "<%= current_user&.email %>"
+    </script>
   </head>
 
   <body class="<%=controller_name%>">
