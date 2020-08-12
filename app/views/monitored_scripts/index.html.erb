@@ -1,11 +1,5 @@
 <div class="text-center">
-
-  <%
-=begin%>
- <%= scatter_chart ScriptChange.pluck(:monitored_script_id, :bytes) %>  
-<%
-=end%>
-<h3>Monitor Center</h3>
+  <h3>Monitor Center</h3>
 
   <div class="row">
     <% @monitored_scripts.each do |script| %>
@@ -15,7 +9,7 @@
             <div class="card-body text-center">
               <h4 class="card-title hidden full-url"><%= script.url %></h4>
               <h4 class="card-title short-url"><%= script.short_name %></h2>
-              <h6 class="card-subtitle">Script was last updated: <%= script.pretty_last_changed_at %></h6>
+              <h6><%=  time_ago_in_words(script.script_last_updated_at) %> ago</h6>
               <p class="card-body">
                 <% if script.script_changes.count === 1 %>
                   This was the first time Tag Safe capured the content. There has been no changes since.
@@ -26,6 +20,17 @@
                 <% end %>
               </p>
             </div>
+            <% if script.script_changes.count > 1 %>
+              <%
+=begin%>
+ <%= line_chart script.script_changes.map{ |change| [change.pretty_last_changed_at, change.bytes] }, 
+                        bytes: true,
+                        ytitle: 'Byte Size',
+                        xtitle: 'Time of Change',
+                        messages: { empty: "No script changes to display." } %> 
+<%
+=end%>
+            <% end %>
           <% end %>
         </div>
       </div>
