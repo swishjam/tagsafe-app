@@ -3,8 +3,13 @@ class User < ApplicationRecord
 
   belongs_to :organization
   has_many :notification_subscribers
+  has_and_belongs_to_many :roles
 
   validates :email, presence: true, uniqueness: true
+
+  def is_admin?
+    roles.include? Role.ADMIN
+  end
 
   def subscribed?(monitored_script)
     notification_subscribers.collect(&:monitored_script_id).include? monitored_script.id

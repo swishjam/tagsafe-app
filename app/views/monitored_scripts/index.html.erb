@@ -13,7 +13,8 @@
         <div class="card monitored-script-card">
           <%= link_to monitored_script_path(script) do %>
             <div class="card-body text-center">
-              <h4 class="card-title"><%= script.friendly_name %></h2>
+              <h4 class="card-title hidden full-url"><%= script.url %></h4>
+              <h4 class="card-title short-url"><%= script.short_name %></h2>
               <h6 class="card-subtitle">Script was last updated: <%= script.pretty_last_changed_at %></h6>
               <p class="card-body">
                 <% if script.script_changes.count === 1 %>

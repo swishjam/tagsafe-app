@@ -5,9 +5,9 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:login][:password])
       session[:user_id] = user.id.to_s
       flash[:message] = "Welcome, #{user.email}."
-      redirect_to root_path
+      redirect_to monitored_scripts_path
     else
-      flash[:error] = "Incorrect email or password, try again."
+      flash[:local_error] = "Incorrect email or password, try again."
       render :new
     end
   end

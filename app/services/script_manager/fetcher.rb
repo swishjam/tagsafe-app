@@ -5,11 +5,15 @@ class ScriptManager::Fetcher
     @url = url
   end
 
-  def fetch!
-    response = HTTParty.get(@url)
+  def fetch_and_format!
+    response = fetch!
     # fake_response = Struct.new(:body)
     # response = fake_response.new("Collin Schneider")
     format_response(response)
+  end
+
+  def fetch!
+    HTTParty.get(@url)
   end
 
   private

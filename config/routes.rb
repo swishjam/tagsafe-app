@@ -1,17 +1,12 @@
 Rails.application.routes.draw do
   root 'welcome#index'
 
-  # config/routes.rb
-  resque_web_constraint = lambda do |request|
-    # current_user = request.env['warden'].user
-    # current_user.present? && current_user.respond_to?(:is_admin?) && current_user.is_admin?
-    true
+  protected_app = Rack::Auth::Basic.new(Resque::Server) do |username, password|
+    password === 'test'
   end
 
   require 'resque/server'
-  constraints resque_web_constraint do
-    mount Resque::Server, at: '/queue'
-  end
+  mount Resque::Server.new, at: '/queue'
 
   # TODO: make my routes more Rails-y
   get '/login' => 'sessions#new'

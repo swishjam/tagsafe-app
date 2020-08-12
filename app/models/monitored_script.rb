@@ -5,6 +5,9 @@ class MonitoredScript < ApplicationRecord
 
   after_create :evaluate_script_details
 
+  validate :valid_url
+  # validate :endpoint_exists
+
   def most_recent_result
     script_changes.first
   end
@@ -32,6 +35,16 @@ class MonitoredScript < ApplicationRecord
   end
 
   def short_name
-    URI.parse(url).host
+    parsed = URI.parse(url)
+    (parsed.path === "/" || parsed.path === "") ? parsed.host : parsed.path
+  end
+
+  ###############
+  # Validations #
+  ###############
+  def valid_url
+    ScriptManager::Fetcher.new(url).fetch!
+  rescue => e
+    errors.add(:url, "error. Unable to connect to #{url}. URL must return a valid response.")
   end
 end

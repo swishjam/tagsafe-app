@@ -13,13 +13,13 @@
 
   <body class="<%=controller_name%>">
     <div class="container-fluid">
-        <% unless flash[:error].nil? %>
+        <% unless flash[:banner_error].nil? %>
         <div class="flash-banner error text-center row">
           <p class="col-11"><%= flash[:error] %></p>
           <span class="col-sm-1 close-flash-banner">X</span>
         </div>
       <% end %>
-      <% unless flash[:message].nil? %>
+      <% unless flash[:banner_message].nil? %>
         <div class="flash-banner message text-center row">
           <p class="col-11"><%= flash[:message] %></p>
           <span class="col-1 close-flash-banner">X</span>

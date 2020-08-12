@@ -6,7 +6,7 @@ class ScriptManager::Evaluator
   end
 
   def evaluate!
-    response_data = ScriptManager::Fetcher.new(monitored_script.url).fetch!
+    response_data = ScriptManager::Fetcher.new(monitored_script.url).fetch_and_format!
 
     if should_log_script_change?(response_data)
       script_changed!(response_data)
