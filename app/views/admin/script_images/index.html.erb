@@ -1,0 +1,8 @@
+<%= form_for ScriptImage.new do |f| %>
+  <%= f.file_field :image %>
+  <%= f.submitt %>
+<% end %>
+
+<% @script_images.each do |script_image| %>
+  <%= script_image %>
+<% end %>

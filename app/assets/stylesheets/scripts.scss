@@ -1,0 +1,23 @@
+.script-subscriptions {
+  .tag-safe-card {
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px 3px rgba(170,170,170,.35);
+    transition: transform .5s ease-in-out, box-shadow .5s ease-in-out;
+
+    &:hover {
+      transform: matrix(1.05,0,0,1.04999995231628,0,0);
+      box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
+    }
+
+    &.inactive {
+      border-color: red;
+      .card-body {
+        color: grey;
+      }
+    }
+    a {
+      height: 100%;
+    }
+  }
+}

@@ -2,13 +2,16 @@
   <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/monitored_scripts">Home</a>
+        <a class="nav-link" href=<%= scripts_path %>>Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%= new_monitored_script_path %>">Monitor New Endpoint</a>
+        <a class="nav-link" href="<%= test_subscribers_path %>">Manage Tests</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%= notification_subscribers_path %>">Manage Notifications</a>
+        <a class="nav-link" href="<%= script_subscribers_path %>">Manage Scripts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= notification_preferences_path %>">Manage Notifications</a>
       </li>
     </ul>
   </div>
@@ -18,11 +21,30 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   </div>
-  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-    <ul class="navbar-nav ml-auto">
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2 ml-auto">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropdown
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <% current_organization.domains.each do |domain| %>
+          <% klass = current_domain === domain ? 'dropdown-item active' : 'dropdown-item' %>
+          <%= link_to domain.url, update_current_domain_domain_path(domain), method: :post, class: klass %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+    <%
+=begin%>
+ <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <a class="nav-link" href="/logout">Sign Out</a>
       </li>
-    </ul>
+    </ul> 
+<%
+=end%>
   </div>
 </nav>

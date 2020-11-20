@@ -1,0 +1,20 @@
+<div class="text-center">
+  <h4><%= @test.title %></h4>
+  <h6><%= @test.description %></h6>
+
+  <h6>Your tags subscribed to this test:</h6>
+  <ul>
+    <% @test_subscriptions.each do |test_subscription| %>
+      <div class="row text-center">
+        <li>
+          <%= test_subscription.script.url %>
+          <div class="custom-control custom-switch">
+            <input style="cursor: pointer" type="checkbox" class="custom-control-input" id="subsribe" <%= test_subscription.active ? 'checked' : nil %> onclick="var xhr = new XMLHttpRequest();xhr.open('POST', '/api/test_subscriptions/<%=test_subscription.id%>/toggle', true);xhr.send();">
+            <label class="custom-control-label" for="subsribe">Subscribe</label>
+            <h6>Expect the result to <%= test_subscription.expected_test_result.operator %> <%= test_subscription.expected_test_result.expected_result %></h6>
+          </div>
+        </li>
+      </div>
+    <% end %>
+  </ul>
+</div>

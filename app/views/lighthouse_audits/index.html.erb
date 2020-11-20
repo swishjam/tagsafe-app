@@ -1,0 +1,65 @@
+<div class="top-items row" style="padding: 0px 15px 0px 15px">
+  <div class="col-12 text-right">
+    <% if @script_change.is_most_recent_change? %>
+      <%= link_to "Manually Re-Run Audit", run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
+<div class="text-center">
+  <h4>Lighthouse Audits on the <%= @script_change.created_at.formatted_short %> change to <%= @script_subscriber.try_friendly_name %></h4>
+  <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 10%">Primary Audit</th>
+        <th scope="col" style='width: 22.5%'>Date of Audit</th>
+        <th scope="col" style='width: 22.5%'>Impact on Performance Score</th>
+        <th scope="col" style='width: 22.5%'>Execution Reason</th>
+        <th scope="col" style='width: 22.5%'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lighthouse_audits.each do |audit| %>
+        <tr>
+          <td scope="row">
+            <% unless audit.pending? || audit.failed? %>
+              <input type="radio" name="primary_lighthouse_audit" <%=audit.is_primary? ? 'checked' : nil %> value="<%=audit.id%>"/>
+            <% end %>
+          </td>
+          <td scope="row"><%= audit.enqueued_at.formatted %></td>
+          <td scope="row">
+            <% if audit.failed? %>
+              <span class="badge badge-danger">Failed</span>
+            <% elsif audit.pending? %>
+              <span class="badge badge-primary">Pending completion</span>
+            <% else %>
+              <%= audit.delta_result.formatted_performance_score %>
+            <% end %>
+          </td>
+          <td scope="row"><%= audit.execution_reason.name %></td>
+          <td scope="row"><%= link_to 'View Audit', script_subscriber_script_change_lighthouse_audit_path(@script_subscriber, @script_change, audit) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="update-primary-audit-container text-center hidden">
+    <%= link_to 'Update Primary Audit', '#', method: :post, class: 'btn btn-primary' %>
+  </div>
+</div>
+
+<script>
+  var updateContainer = document.querySelector('.update-primary-audit-container');
+  var radios = document.querySelectorAll('input[name="primary_lighthouse_audit"]');
+  var submitButton = updateContainer.querySelector('a');
+  for(i=0; i<radios.length; i++) {
+    radios[i].addEventListener('change', function(e) {
+      var radioButton = e.target;
+      if(radioButton.value !== "<%= @primary_lighthouse_audit.id %>") {
+        updateContainer.classList.remove('hidden');
+        submitButton.href = "/script_subscribers/<%=@script_subscriber.id%>/script_changes/<%=@script_change.id%>/lighthouse_audits/"+radioButton.value+"/make_primary";
+      } else {
+        updateContainer.classList.add('hidden');
+        submitButton.href = "#";
+      }
+    })
+  }
+</script>

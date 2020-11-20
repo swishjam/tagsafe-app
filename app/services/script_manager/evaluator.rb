@@ -1,33 +1,55 @@
 class ScriptManager::Evaluator
-  attr_accessor :monitored_script
+  attr_accessor :script_change
 
-  def initialize(monitored_script)
-    @monitored_script = monitored_script
+  def initialize(script)
+    @script = script
+    @script_change = nil
   end
 
   def evaluate!
-    response_data = ScriptManager::Fetcher.new(monitored_script.url).fetch_and_format!
+    @response = fetcher.fetch!
+    log_script_check!
+    if fetcher.response_code === 200
+      @hashed_content = ScriptManager::Hasher.hash!(@response.body)
 
-    if should_log_script_change?(response_data)
-      script_changed!(response_data)
-      Resque.logger.info "ScriptEvaluator Log Message: Found a change in #{monitored_script.url}! New hash value is #{monitored_script.most_recent_result.hashed_content}."
+      try_script_change!
     else
-      Resque.logger.info "ScriptEvaluator Log Message: #{monitored_script.url} did not change from #{monitored_script.most_recent_result.hashed_content} hash."
+      Rails.logger.error "Fetch for #{@script.url} (id: #{@script.id}) resulted in a #{@response.code} response code. Skipping script change creation and test runs."
     end
+  end
+
+  def script_changed?
+    !@script_change.nil?
   end
 
   private
 
-  def should_log_script_change?(response_data)
-    monitored_script.first_eval? || monitored_script.most_recent_result.hashed_content != response_data[:hashed_content]
+  def fetcher
+    @fetcher ||= ScriptManager::Fetcher.new(@script.url)
   end
 
-  def script_changed!(data)
-    data = clean_data(data) # just in case
-    monitored_script.script_changes.create(data)
+  def log_script_check!
+    if @script.should_log_script_checks
+      ScriptCheck.create(
+        response_time_ms: fetcher.response_time_ms, 
+        response_code: fetcher.response_code, 
+        script: @script
+      )
+    end
   end
 
-  def clean_data(data)
-    data.select { |key,_| [:content, :hashed_content, :bytes].include? key }
+  def try_script_change!
+    if should_log_script_change?
+      Resque.logger.info "Capturing a change to script: #{@script.url}."
+      @script_change = ScriptManager::ChangeProcessor.new(@script, @response.body, hashed_content: @hashed_content).process_change!
+    end
+  end
+
+  def should_log_script_change?
+    @script.first_eval? || script_content_changed?
+  end
+
+  def script_content_changed?
+    @script.most_recent_result.hashed_content != @hashed_content
   end
 end

@@ -1,0 +1,11 @@
+<div class="container">
+  <h4> Run Test Script </h4>
+
+  <%= form_for @test do |f| %>
+    <%= f.text_area :test_script, value: 'const browser = await puppeteer.launch({ headless: true }); \n
+                                      const page = await browser.newPage(); \n
+                                      // add your code here! \n
+                                      await browser.close();' %>
+    <%= f.submit 'Run Test' %>
+  <% end %>
+</div>

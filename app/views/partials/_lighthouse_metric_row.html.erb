@@ -1,0 +1,19 @@
+<div class="col-md-12 col-lg-6">
+  <div class="metric-row row">
+    <div class="col-6 metric-title">
+      <%= metric_title %>
+    </div>
+    <div class="col-6 metric-value">
+      <span class="current-value"><%= number_to_human(current_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %></span>
+      <% unless previous_metric.nil? %>
+        <% diff_in_metric = current_metric - previous_metric %>
+        <span data-toggle="tooltip"
+              data-placement="top"
+              title="The previous version of <%= script_subscriber.try_friendly_name %>'s 'Impact on <%= metric_title %>' was <%=number_to_human(previous_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil })%> (<%= previous_timestamp.formatted_short %>)." 
+              class="<%= diff_in_metric.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
+          (<%= diff_in_metric.positive? ? '+' : nil %><%= number_to_human(diff_in_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>)
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>

@@ -10,26 +10,96 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_180326) do
+ActiveRecord::Schema.define(version: 2020_11_19_213630) do
 
-  create_table "monitored_scripts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_change_id"
+    t.integer "script_subscriber_id"
+    t.integer "execution_reason_id"
+    t.boolean "primary"
+    t.timestamp "lighthouse_audit_enqueued_at"
+    t.timestamp "lighthouse_audit_completed_at"
+    t.timestamp "test_suite_enqueued_at"
+    t.timestamp "test_suite_completed_at"
+    t.integer "lighthouse_audit_iterations"
+    t.integer "lighthouse_audit_url"
+    t.timestamp "created_at"
+    t.string "lighthouse_error_message"
+  end
+
+  create_table "domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "organization_id"
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
-    t.timestamp "script_last_updated_at"
+    t.index ["organization_id"], name: "index_domains_on_organization_id"
+    t.index ["url"], name: "index_domains_on_url"
   end
 
-  create_table "monitored_scripts_organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "monitored_script_id"
+  create_table "execution_reasons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "expected_test_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "expected_result"
+    t.string "operator"
+    t.string "data_type"
+  end
+
+  create_table "lighthouse_audit_metric_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.string "key"
+    t.string "result_unit"
+  end
+
+  create_table "lighthouse_audit_metrics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "lighthouse_audit_id"
+    t.float "result"
+    t.float "score"
+    t.integer "lighthouse_audit_metric_type_id"
+  end
+
+  create_table "lighthouse_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "error_message", limit: 16777215
+    t.float "performance_score"
+    t.string "type"
+    t.integer "audit_id"
+  end
+
+  create_table "lighthouse_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_subscriber_id"
+    t.boolean "should_run_audit"
+    t.string "url_to_audit"
+    t.integer "num_test_iterations"
+    t.boolean "should_capture_individual_audit_metrics"
+    t.float "performance_impact_threshold"
   end
 
   create_table "notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "monitored_script_id"
+    t.string "type"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "script_subscriber_id"
   end
 
   create_table "organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -48,12 +118,105 @@ ActiveRecord::Schema.define(version: 2020_08_12_180326) do
   end
 
   create_table "script_changes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "monitored_script_id"
+    t.bigint "script_id"
+    t.integer "bytes"
     t.string "hashed_content"
-    t.text "content", limit: 4294967295
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "bytes"
+    t.boolean "most_recent"
+    t.index ["script_id"], name: "index_script_changes_on_script_id"
+  end
+
+  create_table "script_check_region", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "script_checks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_id"
+    t.integer "script_check_region_id"
+    t.float "response_time_ms"
+    t.integer "response_code"
+    t.timestamp "created_at"
+  end
+
+  create_table "script_domain_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_image_id"
+    t.string "script_domain_url"
+  end
+
+  create_table "script_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "script_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "domain_id"
+    t.bigint "script_id"
+    t.boolean "active"
+    t.string "friendly_name"
+    t.index ["domain_id"], name: "index_script_subscribers_on_domain_id"
+    t.index ["script_id"], name: "index_script_subscribers_on_script_id"
+  end
+
+  create_table "script_test_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "scripts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "url"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.timestamp "content_changed_at"
+    t.boolean "should_log_script_checks"
+  end
+
+  create_table "test_group_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "test_subscriber_id"
+    t.bigint "script_change_id"
+    t.boolean "passed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "execution_reason_id"
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
+    t.index ["script_change_id"], name: "index_test_group_runs_on_script_change_id"
+    t.index ["test_subscriber_id"], name: "index_test_group_runs_on_test_subscriber_id"
+  end
+
+  create_table "test_result_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "test_id"
+    t.index ["test_id"], name: "index_test_result_subscribers_on_test_id"
+    t.index ["user_id"], name: "index_test_result_subscribers_on_user_id"
+  end
+
+  create_table "test_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.boolean "passed"
+    t.text "results", limit: 16777215
+    t.timestamp "created_at"
+    t.integer "script_test_type_id"
+    t.integer "test_subscriber_id"
+    t.integer "script_change_id"
+    t.integer "test_group_run_id"
+    t.integer "standalone_test_run_domain_id"
+  end
+
+  create_table "test_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "test_id"
+    t.integer "script_subscriber_id"
+    t.integer "expected_test_result_id"
+    t.boolean "active"
+    t.index ["test_id"], name: "index_test_subscribers_on_test_id"
+  end
+
+  create_table "tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "test_script", limit: 16777215
+    t.boolean "default_test", default: false
+    t.integer "created_by_organization_id"
+    t.string "title"
+    t.string "description"
+    t.integer "created_by_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -64,4 +227,5 @@ ActiveRecord::Schema.define(version: 2020_08_12_180326) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end

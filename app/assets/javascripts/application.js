@@ -15,18 +15,15 @@
 //= require turbolinks
 //= require_tree .
 //= require chartkick
-//= require Chart.bundle
+//= require highcharts
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
 
-// (function() {
-//   var closeFlash = document.querySelectorAll('.close-flash-banner');
-//   if(!!closeFlash) {
-//     closeFlash.addEventListener('click', function(e) {
-//       document.querySelectorAll('.flash-banner').forEach(function(el) {
-//         el.addClass('hidden');
-//       })
-//     })
-//   }
-// })()
+// $(document).ready(function() {
+//   $('[data-toggle="tooltip"]').tooltip();
+//   $('.close-flash-banner').click(function() {
+//     $('.flash-banner p').innerText = null;
+//     $('.flash-banner').addClass('fade-out');
+//   })
+// })

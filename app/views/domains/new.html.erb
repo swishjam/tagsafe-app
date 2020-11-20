@@ -1,0 +1,12 @@
+<div class="col-sm-10 offset-sm-1 text-center monitor-script-form-container">
+<h3>Enter the domain to monitor</h3>
+  <%= form_for @domain do |f| %>
+    <div class="form-group row">
+      <%= f.text_field :url, class: "form-control form-control-lg col-12 col-sm-10", placeholder: 'Domain To Monitor' %>
+      <%= f.submit 'Monitor', class: 'form-control-lg col-10 col-offset-1 col-sm-2 tag-safe-button' %>
+    </div>
+  <% end %>
+  <% if flash[:local_error] %>
+    <p style="color: red"><%= flash[:local_error] %></p>
+  <% end %>
+</div>

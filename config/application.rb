@@ -12,6 +12,7 @@ module TagSafe
     config.load_defaults 5.2
 
     config.time_zone = "Pacific Time (US & Canada)"
+    # config.time_zone = "Eastern Time (US & Canada)"
 
     config.active_job.queue_adapter = :resque
     # config.active_record.raise_in_transactional_callbacks = true
@@ -19,5 +20,16 @@ module TagSafe
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Load decorators as late as possible so models being extended already autoloaded     
+    # %w[ decorators ].each do |dir|       
+    #   config.to_prepare do         
+    #     Dir.glob(File.join(Rails.root, 'app', dir, '**/*_decorator.rb')).each { |c| require_dependency(c) }       
+    #   end
+    # end
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{*/}')]
+    
+    config.active_storage.analyzers = []
+    config.active_storage.previewers = []
   end
 end

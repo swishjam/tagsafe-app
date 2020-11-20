@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-12 lighthouse-results-container">
+    <% if audit.nil? %>
+      No audits run.
+    <% elsif audit.lighthouse_audit_pending? %>
+      <span class="badge badge-primary" style="white-space: normal">Lighthouse Audit currently running.</span>
+    <% elsif audit.lighthouse_audit_failed? %>
+      Lighthouse Failure:
+      <%= audit.lighthouse_error_message %>
+    <% else %>
+      <h6>
+        Performance Score Impact:
+        <% if script_subscriber.has_pending_lighthouse_audits_by_script_change?(script_subscriber.script.most_recent_change) %>
+          <span data-toggle="tooltip"
+                data-placement="top"
+                title="Another audit is currently running, metrics will update upon completion.">
+            <i class="fas fa-vial"></i>
+          </span>
+        <% end %>
+      </h6>
+      <% impact_on_performance_score = audit.delta_lighthouse_audit.formatted_performance_score %>
+      <h4><%= impact_on_performance_score %></h4>
+      <% unless previous_audit.nil? %>
+        <% previous_impact_on_performance_score = previous_audit.delta_lighthouse_audit.formatted_performance_score %>
+        <% diff_in_psi = (impact_on_performance_score - previous_impact_on_performance_score).round(2) %>
+        <% icon_class = diff_in_psi.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+        <span data-toggle="tooltip"
+              data-placement="top"
+              title="The previous version of <%= script_subscriber.try_friendly_name %> had a <%=previous_impact_on_performance_score%> PSI; <%= diff_in_psi.positive? ? 'an improvement' : 'a drop'%> of <%=diff_in_psi.abs%> points." 
+              class="<%=diff_in_psi.positive? ? 'positive' : 'negative'%>">
+          <i class="fas <%=icon_class%>"></i>
+          <%= diff_in_psi %>
+        </span>
+      <% else %>
+        <span>--</span>
+      <% end %>
+    <% end %>
+  </div>
+</div>

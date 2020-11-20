@@ -1,0 +1,51 @@
+<div class="text-center">
+  <h3>Monitor Center</h3>
+
+  <div class="global-psi-chart-container">
+    <h5>Performance Score Impact</h5>
+    <%= 
+      line_chart script_changes_chart_path(current_domain), 
+          download: true, 
+          title: 'Performance Score Impact Over Time',
+          ytitle: 'Performance Score Impact',
+          xtitle: 'Script Change',
+          curve: false,
+          messages: { empty: "No Audits Ran." },
+          curve: false, 
+          legend: "bottom", 
+          code: true 
+      %>
+  </div>
+
+  <div class="row equal-height row-no-side-margins script-subscriptions">
+    <% @script_subscriptions.each do |script_subscription| %>
+      <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card tag-safe-card script-subscription <%= script_subscription.active ? 'active' : 'inactive' %>">
+          <%= link_to script_subscriber_path(script_subscription) do %>
+            <div class="col-12">
+              <img class="img-fluid" src='https://media-exp1.licdn.com/dms/image/C560BAQHwLj3toRYF_g/company-logo_200_200/0?e=2159024400&v=beta&t=2MQGVdnroZzS27kcAyUQqwIBzsDQ1Dp-7znPnejukuE'/>
+              <h5 class="card-title short-url"><%= script_subscription.try_friendly_name %></h5>
+            </div>
+            <div class="card-body text-center col-12">
+              <% if script_subscription.inactive? %>
+                <p><i class="fas fa-exclamation-circle"></i> Inactive</p>
+              <% else %>
+                <p>
+                  Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
+                </p>
+                <%= render partial: 'partials/card_audit_stats', locals: {
+                  script_subscriber: script_subscription,
+                  audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change),
+                  previous_audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change&.previous_change)
+                } %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="row pagination-container text-center">
+    <%= paginate @script_subscriptions %>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-.monitored-script-card {
+.tag-safe-card {
   margin: 10px;
   a {
     text-decoration: none;
@@ -14,11 +14,49 @@
   overflow-wrap: anywhere;
 }
 
-.monitored-script-card .byte-change-results {
+.tag-safe-card .byte-change-results {
   .decreased {
     color: green;
   }
   .increased {
     color: red;
+  }
+}
+
+.metrics-container {
+  .metric-row {
+    border-top: 1px solid lightgrey;
+    margin: 0px 5px 0px 5px;
+    padding: 5px;
+    &.bottom-row {
+      border-bottom: 1px solid lightgrey;
+    }
+    // &:nth-of-type(5), &:nth-of-type(6) {
+    //   border-bottom: 1px solid lightgrey;
+    // }
+    .metric-title {
+      text-align: left;
+    }
+    .metric-value {
+      text-align: right;
+    }
+  }
+}
+
+.positive-change {
+  &.good {
+    color: green;
+  }
+  &.bad {
+    color: red;
+  }
+}
+
+.negative-change {
+  &.bad {
+    color: red;
+  }
+  &.good {
+    color: green;
   }
 }

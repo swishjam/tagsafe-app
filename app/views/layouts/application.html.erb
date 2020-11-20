@@ -7,6 +7,8 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script>
@@ -17,20 +19,45 @@
   <body class="<%=controller_name%>">
     <div class="container-fluid">
         <% unless flash[:banner_error].nil? %>
-        <div class="flash-banner error text-center row">
-          <p class="col-11"><%= flash[:error] %></p>
+        <div class="flash-banner error text-center row row-no-side-margins fade-in">
+          <p class="col-11"><%= flash[:banner_error] %></p>
           <span class="col-sm-1 close-flash-banner">X</span>
         </div>
       <% end %>
       <% unless flash[:banner_message].nil? %>
-        <div class="flash-banner message text-center row">
-          <p class="col-11"><%= flash[:message] %></p>
+        <div class="flash-banner message text-center row row-no-side-margins fade-in">
+          <p class="col-11"><%= flash[:banner_message] %></p>
           <span class="col-1 close-flash-banner">X</span>
         </div>
       <% end %>
       <%= render partial: current_user.nil? ? 'partials/logged_out_nav' : 'partials/logged_in_nav' %>
-      <%= yield %>
+      <%= render partial: 'partials/breadcrumbs' %>
+      <div id="content">
+        <%= yield %>
+      </div>
     </div>
-    <%= javascript_include_tag "https://cdn.quantummetric.com/qscripts/quantum-collin.js", async: true %>
+    <script>
+      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.close-flash-banner').click(function() {
+          $('.flash-banner p').innerText = null;
+          $('.flash-banner').addClass('fade-out');
+        })
+      })
+    </script>
+    <%
+=begin%>
+ <%= javascript_include_tag "https://cdn.quantummetric.com/qscripts/quantum-collin.js", async: true %> 
+<%
+=end%>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GSZ6G0R2K4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GSZ6G0R2K4');
+    </script>
   </body>
 </html>

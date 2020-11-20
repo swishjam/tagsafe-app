@@ -4,11 +4,7 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1><%= @monitored_script.url %> channged!</h1>
-    <%
-=begin%>
- <%= link_to 'View Changes', monitored_script_url(@monitored_script) %>  
-<%
-=end%>
+    <h1><%= @script.url %> changed!</h1>
+    <%= link_to 'View Changes', script_subscriber_script_change_url(@script_subscriber, @script_change, host: 'http://localhost') %>  
   </body>
 </html>

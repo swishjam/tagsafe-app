@@ -1,0 +1,88 @@
+<div class="text-center">
+  <% if @script_subscriber.inactive? %>
+    <h6><i class="fas fa-exclamation-circle"></i> This tag is inactive and not being monitored. Would you like to <%= link_to 'active it?', script_subscribers_path %></h6>
+  <% end %>
+  <h5>Recent updates to <%= @script_subscriber.try_friendly_name %></h5>
+  <h6>The script was last updated: <%= @script_subscriber.script.content_changed_at.formatted %></h6>
+  <% unless @script_subscriber.script.most_recent_change.nil? %>
+    <%= link_to run_audit_script_subscriber_script_change_path(@script_subscriber, @script_subscriber.script.most_recent_change), method: :post, class: 'btn btn-outline-primary' do %>
+        <i class="fas fa-redo"></i> Run Audit
+      <% end %>
+  <% end %>
+</div>
+
+<%= 
+ # Come back to clean up, need to specify execution reason
+  area_chart @script_subscriber.audits.primary.collect(&:delta_lighthouse_audit).map { |lighthouse_audit|
+    [lighthouse_audit.enqueued_at, lighthouse_audit.formatted_performance_score]
+  },
+    download: true, 
+    title: 'Performance Score Impact Over Time',
+    ytitle: 'Performance Score Impact',
+    xtitle: 'Script Change',
+    curve: false,
+    messages: { empty: "No Audits Ran." } 
+%>
+
+<div class="row row-no-side-margins">
+<table class="script-changes-table table table-hover col-12 text-center" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" style='width: 20%'>Date of Change</th>
+        <th scope="col" style='width: 20%'>Performance Score Impact</th>
+        <th scope="col" style='width: 20%'>Change in In Performance Score Impact</th>
+        <th scope="col" style='width: 20%'></th>
+        <th scope="col" style='width: 20%'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% script_changes = @script_subscriber.script.script_changes.most_recent_first %>
+      <% if script_changes.any? %>
+        <% script_changes.each_with_index  do |script_change, i| %>
+          <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_lighthouse_audits: true) %>
+          <% previous_audit = @script_subscriber.primary_audit_by_script_change(script_changes[i+1]) %>
+          <tr>
+            <td scope="row"><%= script_change.created_at.formatted_short %></td>
+            <td scope="row">
+              <% if audit %>
+                <span class="<%= audit.exceeded_psi_threshold? ? 'negative' : 'positive'%>">
+                  <%= audit.delta_lighthouse_audit.formatted_performance_score %>
+                </span>
+              <% else %>
+                <span>
+                  No lighthouse audit run
+                </span>
+              <% end %>
+            </td>
+            <td scope="row">
+              <% if audit && previous_audit %>
+                <% diff_in_psi = (audit.delta_lighthouse_audit.formatted_performance_score - previous_audit.delta_lighthouse_audit.formatted_performance_score).round(2) %>
+                <% icon_class = diff_in_psi.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+                <span class="<%=diff_in_psi.positive? ? 'positive' : 'negative'%>">
+                  <i class="fas <%=icon_class%>"></i>
+                  <%= diff_in_psi %>
+                </span>
+              <% else %>
+                --
+              <% end %>
+            </td>
+            <td scope="row">
+              <% unless audit.nil? %>
+                <%= link_to 'View Audit', script_subscriber_script_change_audit_path(@script_subscriber, script_change, audit) %> 
+              <% end %>
+            </td>
+            <td scope="row">
+              <% unless audit.nil? %>
+                <%= link_to 'View Changes', script_subscriber_script_change_path(@script_subscriber, script_change), { target: "_blank" } %> 
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <h6>No changes recorded yet for <%= @script_subscriber.try_friendly_name %>.
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

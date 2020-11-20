@@ -1,0 +1,2 @@
+class AverageWithoutTagLighthouseAudit < LighthouseAudit
+end

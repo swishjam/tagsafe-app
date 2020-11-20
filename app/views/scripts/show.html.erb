@@ -1,0 +1,42 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", scripts_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @script.short_name %></li>
+  </ol>
+</nav>
+
+<div class="text-center">
+  <h5>Recent updates to <%= @script.friendly_name %></h5>
+
+  <h6>The script was last updated: <%= @script.content_changed_at.formatted %></h6>
+  <% if @script.script_changes.count === 1 %>
+    <h6>This was the first time Tag Safe captured a change. There have been no changes since.</h6>
+  <% end %>
+
+  <%= link_to "Run Test Suite on #{current_domain.url}", enqueue_test_suite_for_script_test_subscribers_path(current_domain, @script), method: :post %> 
+</div>
+
+<%= line_chart @lighthouse_audit_metrics.map { |metric_type_name, metrics|
+  { 
+    name: metric_type_name, 
+    data: metrics.collect{ |metric| [metric.ran_at_timestamp, metric.result] }
+  }
+}, 
+download: true, 
+bytes: true,
+title: 'Change in file size over time.',
+# ytitle: 'Byte Size',
+xtitle: 'Time of Change',
+messages: { empty: "No script changes to display." } %>
+
+<div class="text-center row row-no-side-margins">
+  <h4>Tag Change Results</h4>
+  <%= form_tag script_path(@script), :method => "get" do %>
+    <%= select_tag :execution_reason, options_for_select(['All Reasons'].concat(ExecutionReason.REASON_TYPES), params[:execution_reason]), selected: params[:execution_reason] || 'Script Change', onchange: "this.form.submit()" %>
+  <% end %>
+</div>
+<div class="row row-no-side-margins">
+  <% @script.script_changes.each do |script_change| %>
+    <%= render partial: 'partials/script_change_card', locals: { script_change: script_change } %>
+  <% end %>
+</div>

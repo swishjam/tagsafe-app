@@ -1,5 +1,5 @@
-check_scripts:
-  class: ScriptCheckerJob
+one_minute_check_scripts:
+  class: OneMinuteScriptCheckerJob
   cron: "*/1 * * * *"
-  description: "Checks all monitored scripts to check if they've been changed"
+  description: "Checks all scripts to check if they've been changed"
   queue: "default"

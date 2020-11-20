@@ -1,0 +1,7 @@
+<h4><%= @domain.url %></h4>
+
+<ul>
+  <% @domain.scripts.each do |script| %>
+    <li><%= script.url %></li>
+  <% end %>
+</ul>

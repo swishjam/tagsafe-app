@@ -1,0 +1,154 @@
+<div class="top-items row" style="padding: 0px 15px 0px 15px">
+  <div class="col-6">
+    <% if @lighthouse_audit.is_primary? %>
+      <%= link_to script_subscriber_script_change_lighthouse_audits_path(@script_subscriber, @script_change) do %>
+        <h4>
+          <span data-toggle="tooltip"
+                data-placement="right"
+                title="This tag version of <%=@script_subscriber.try_friendly_name%> has <%=@count_of_audits_for_script_change%> Lighthouse Audit performed on it. This is the primary audit, 
+                which is used in comparisons and calculations between tag versions. Click this badge to edit the primary lighthouse audit."
+                class="badge badge-info">
+            Primary Lighthouse Audit
+          <span class="badge badge-light">(<%= @count_of_audits_for_script_change %>)</span>
+        </h4>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-6 text-right">
+    <% if @script_change.is_most_recent_change? %>
+      <%= link_to "Manually Re-Run Audit", run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
+<div class="text-center">
+  <h5>Audit results on <%= @script_change.created_at.formatted_short %> change to the <%= @script_subscriber.try_friendly_name %>.</h5>
+  <h6>It was run due to a 
+    <span style="font-style: italic;"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="A lighthouse audit can be performed for the following reasons: Script Change, Manual Execution, Reactivated Script.">
+      <%= @lighthouse_audit.execution_reason.name %>
+    </span> 
+    on <%= @lighthouse_audit.enqueued_at.formatted %>.</h6>
+  <% if @count_of_audits_for_script_change > 1 %>
+    <h6>This is one of <%= @count_of_audits_for_script_change %> audits perfomed on the version of this tag. <%= link_to 'View all', script_subscriber_script_change_lighthouse_audits_path(@script_subscriber, @script_change) %></h6>
+  <% else %>
+    <h6>This is the only audit that was performed on the version of this tag.</h6>
+  <% end %>
+
+  <div class="row lighthouse-performance-results">
+    <div class="col-12 performance-score-impact-container">
+      <h4>Performance Score Impact</h4>
+      <div class="performance-score-impact">
+        <% delta_score = @lighthouse_audit.delta_result.formatted_performance_score %>
+        <h4><%= delta_score %></h4>
+        <% unless @previous_lighthouse_audit.nil? %>
+          <% previous_delta_score = @previous_lighthouse_audit.delta_result.formatted_performance_score %>
+          <% delta_score_change = delta_score - previous_delta_score %>
+          <h6>
+            <span data-toggle="tooltip"
+                  data-placement="right"
+                  title="The previous version of <%=@script_subscriber.try_friendly_name%> 'Impact on Performance Score' was <%=previous_delta_score%> at <%= @previous_lighthouse_audit.enqueued_at.formatted_short %>." 
+                  class="<%=delta_score_change.positive? ? 'good positive' : 'bad negative'%>-change">
+              <%= delta_score_change.positive? ? '+' : nil %><%= delta_score_change.round(2) %>
+            </span>
+          </h6>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-10 offset-1 metrics-container">
+      <h5>Impact on Metrics</h5>
+      <div class="row">
+        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+          script_subscriber: @script_subscriber, 
+          metric_title: 'First Contentful Paint',
+          current_metric: @lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('first-contentful-paint').first.result,
+          previous_metric: @previous_lighthouse_audit ? @previous_lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('first-contentful-paint').first.result : nil,
+          unit: 'ms',
+          previous_timestamp: @previous_lighthouse_audit ? @previous_lighthouse_audit.enqueued_at : nil
+        } %>
+        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+          script_subscriber: @script_subscriber,
+          metric_title: 'Time to Interactive',
+          current_metric: @lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('interactive').first.result,
+          previous_metric: @previous_lighthouse_audit ? @previous_lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('interactive').first.result : nil,
+          unit: 'ms',
+          previous_timestamp: @previous_lighthouse_audit ? @previous_lighthouse_audit.enqueued_at : nil
+        } %>
+      </div>
+      <div class="row">
+        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+          script_subscriber: @script_subscriber, 
+          metric_title: 'Speed Index',
+          current_metric: @lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('speed-index').first.result,
+          previous_metric: @previous_lighthouse_audit ? @previous_lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('speed-index').first.result : nil,
+          unit: 'ms',
+          previous_timestamp: @previous_lighthouse_audit ? @previous_lighthouse_audit.enqueued_at : nil
+        } %>
+        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+          script_subscriber: @script_subscriber, 
+          metric_title: 'Total Blocking Time',
+          current_metric: @lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('total-blocking-time').first.result,
+          previous_metric: @previous_lighthouse_audit ? @previous_lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('total-blocking-time').first.result : nil,
+          unit: 'ms',
+          previous_timestamp: @previous_lighthouse_audit ? @previous_lighthouse_audit.enqueued_at : nil
+        } %>
+      </div>
+      <div class="row">
+        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+          script_subscriber: @script_subscriber, 
+          metric_title: 'Largest Contentful Paint',
+          current_metric: @lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('largest-contentful-paint').first.result,
+          previous_metric: @previous_lighthouse_audit ? @previous_lighthouse_audit&.delta_result.lighthouse_audit_result_metrics.by_key('largest-contentful-paint').first.result : nil,
+          unit: 'ms',
+          previous_timestamp: @previous_lighthouse_audit ? @previous_lighthouse_audit.enqueued_at : nil
+        } %>
+        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+          script_subscriber: @script_subscriber, 
+          metric_title: 'Cumulative Layout Shift',
+          current_metric: @lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('cumulative-layout-shift').first.result,
+          previous_metric: @previous_lighthouse_audit ? @previous_lighthouse_audit.delta_result.lighthouse_audit_result_metrics.by_key('cumulative-layout-shift').first.result : nil,
+          unit: nil,
+          previous_timestamp: @previous_lighthouse_audit ? @previous_lighthouse_audit.enqueued_at : nil
+        } %>
+      </div>
+    </div>
+  </div>
+  <h6>Lighthouse Audits w/ Tag:</h6>
+  <ul>
+    <% @lighthouse_audit.lighthouse_audit_results.by_audit_type([LighthouseAuditType.CURRENT_TAG]).each do |lar| %>
+      <li><%= link_to "View Lighthouse Audit w/ Tag", report_lighthouse_audit_result_path(lar), { target: "_blank"} %></li>
+    <% end %>
+  </ul>
+  <h6>Lighthouse Audits w/o Tag:</h6>
+  <ul>
+    <% @lighthouse_audit.lighthouse_audit_results.by_audit_type([LighthouseAuditType.WITHOUT_TAG]).each do |lar| %>
+      <li><%= link_to "View Lighthouse Audit w/o Tag", report_lighthouse_audit_result_path(lar), { target: "_blank"} %></li>
+    <% end %>
+  </ul>
+<%
+=begin%>
+ 
+  <% if @script_change.has_tests_run?(current_domain) %>
+    <h5 class="script-change-test-status <%= @script_change.test_results_status(current_domain) %>">Test suite <%= @script_change.test_results_status(current_domain) %></h5>
+    <div class="row row-no-side-margins">
+      <% @script_change.test_group_runs.by_domain(current_domain).each do |test_group_run| %>
+        <div class="col-sm-12 col-md-4">
+          <div class="card tag-safe-card">
+            <%= link_to script_script_change_test_group_run_path(@script_change.script, @script_change, test_group_run) do %>
+              <div class="card-body">
+                <h5><%= test_group_run.test.title %></h5>
+                <h6 class="<%=test_group_run.result_status%>"><%= test_group_run.result_status.upcase %></h6>
+                <p><%= test_group_run.test.description %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <h4>No test suites run yet!</h4>
+  <% end %> 
+<%
+=end%>
+</div>

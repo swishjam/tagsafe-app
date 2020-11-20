@@ -1,0 +1,2 @@
+class AverageCurrentTagLighthouseAudit < LighthouseAudit
+end

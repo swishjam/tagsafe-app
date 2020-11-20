@@ -1,0 +1,31 @@
+<div class="text-center">
+  <h4><%= current_domain.url %> Scripts</h4>
+
+  <table class="table table-hover col-12" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" class="col-8" style='width: 60%'>Script URL</th>
+        <th scope="col" class="col-2" style='width: 13.333%'># Tests</th>
+        <th scope="col" class="col-2" style='width: 13.333%'>Monitor</th>
+        <th scope="col" class="col-2" style='width: 13.333%'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @script_subscriptions.each do |script_subscription| %>
+        <tr>
+          <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b></td>
+          <td><span class="badge badge-pill badge-primary">PLACEHOLDER</span></td>
+          <td>
+            <div class="custom-control custom-switch" style='cursor: pointer'>
+              <input style="cursor: pointer" type="checkbox" class="custom-control-input" id="active-<%=script_subscription.id%>" <%= script_subscription.active ? 'checked' : nil %> onclick="var xhr = new XMLHttpRequest();xhr.open('POST', '/api/script_subscribers/<%=script_subscription.id%>/toggle_active', true);xhr.send();">
+              <label class="custom-control-label" for="active-<%=script_subscription.id%>" style='cursor: pointer;'>Active</label>
+            </div>
+          </td>
+          <td>
+            <%= link_to 'Edit', edit_script_subscriber_path(script_subscription) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+
+<div class="text-center">
+  <h4>Edit <%= @script_subscriber.try_friendly_name %></h4>
+
+  <div class="col-8 offset-2">
+    <%= form_for @script_subscriber do |f| %>
+      <div class="form-group">
+        <%= f.text_field :friendly_name, class: "form-control form-control-lg", value: @script_subscriber.try_friendly_name %>
+      </div>
+      <% if flash[:local_error] %>
+        <p style="color: #e74d4d"><%= flash[:local_error] %></p>
+      <% end %>
+      <%= f.submit 'Update', class: 'tag-safe-button' %>
+    <% end %>
+  </div>
+</div>

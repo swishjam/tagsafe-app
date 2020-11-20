@@ -1,9 +1,10 @@
 class Organization < ApplicationRecord
   has_many :users
-  # has_many :monitored_scripts_organizations
-  has_and_belongs_to_many :monitored_scripts
+  has_many :domains, dependent: :destroy
+  has_many :created_tests, class_name: 'Test'
+  has_many :scripts, through: :domains
 
-  def add_monitored_script(script)
-    monitored_scripts << script
+  def has_multiple_domains?
+    domains.count > 1
   end
 end

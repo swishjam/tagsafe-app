@@ -1,13 +1,17 @@
-<div class="text-center">
-  <h5><%= @script_change.monitored_script.friendly_name %> <%= @script_change.pretty_last_changed_at %> change.</h5>
-  <p>
-    <% if @script_change.first_change? %>
-      This was the first time Tag Safe monitored this endpoint. It is <%= @script_change.bytes %> Bytes.
-    <% elsif @script_change.change_in_bytes.zero? %>
-      The script size remained <%= @script_change.bytes %> Bytes.
+<style><%= Diffy::CSS %></style>
+<div class="row git-diff-container">
+  <div class="col-6" style="word-break: break-all">
+    <h6 class="text-center"><%= @script_change.created_at.formatted %></h6>
+    <%= @git_diff_script_change %>
+  </div>
+  <div class="col-6">
+    <% if @previous_script_change.nil? %>
+      <h6 class="text-center">This was the first time the tag has been captured by TagSafe. No previous changes to compare to.</h6>
     <% else %>
-      It <%= @script_change.byte_change_operator %> in size by <%= @script_change.change_in_bytes.abs %> bytes.
+      <div style="word-break: break-all">
+        <h6 class="text-center"><%= @previous_script_change.created_at.formatted %></h6>
+        <%= @git_diff_previous_script_change %>
+      </div>
     <% end %>
-  </p>
-  <%= link_to 'View Script Contents', content_monitored_script_script_change_path(@script_change.monitored_script, @script_change), target: :_blank %>
+  </div>
 </div>
