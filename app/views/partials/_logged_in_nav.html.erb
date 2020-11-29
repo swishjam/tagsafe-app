@@ -29,12 +29,14 @@
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Dropdown
       </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <% current_organization.domains.each do |domain| %>
-          <% klass = current_domain === domain ? 'dropdown-item active' : 'dropdown-item' %>
-          <%= link_to domain.url, update_current_domain_domain_path(domain), method: :post, class: klass %>
-        <% end %>
-      </div>
+      <% if current_organization.has_multiple_domains? %>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <% current_organization.domains.each do |domain| %>
+            <% klass = current_domain === domain ? 'dropdown-item active' : 'dropdown-item' %>
+            <%= link_to domain.url, update_current_domain_domain_path(domain), method: :post, class: klass %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
     <%

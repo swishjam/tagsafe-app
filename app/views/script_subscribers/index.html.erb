@@ -1,31 +1,51 @@
 <div class="text-center">
-  <h4><%= current_domain.url %> Scripts</h4>
+  <% if current_domain.nil? %>
+    <h5>You have not defined your domain(s) to monitor.</h5>
+  <% else %>
+    <h4><%= current_domain.url %> Scripts</h4>
 
-  <table class="table table-hover col-12" style="table-layout: fixed">
-    <thead>
-      <tr>
-        <th scope="col" class="col-8" style='width: 60%'>Script URL</th>
-        <th scope="col" class="col-2" style='width: 13.333%'># Tests</th>
-        <th scope="col" class="col-2" style='width: 13.333%'>Monitor</th>
-        <th scope="col" class="col-2" style='width: 13.333%'></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @script_subscriptions.each do |script_subscription| %>
+    <table class="table table-hover col-12" style="table-layout: fixed">
+      <thead>
         <tr>
-          <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b></td>
-          <td><span class="badge badge-pill badge-primary">PLACEHOLDER</span></td>
-          <td>
-            <div class="custom-control custom-switch" style='cursor: pointer'>
-              <input style="cursor: pointer" type="checkbox" class="custom-control-input" id="active-<%=script_subscription.id%>" <%= script_subscription.active ? 'checked' : nil %> onclick="var xhr = new XMLHttpRequest();xhr.open('POST', '/api/script_subscribers/<%=script_subscription.id%>/toggle_active', true);xhr.send();">
-              <label class="custom-control-label" for="active-<%=script_subscription.id%>" style='cursor: pointer;'>Active</label>
-            </div>
-          </td>
-          <td>
-            <%= link_to 'Edit', edit_script_subscriber_path(script_subscription) %>
-          </td>
+          <th scope="col" class="col-8" style='width: 60%'>Script URL</th>
+          <th scope="col" class="col-2" style='width: 20%'>Monitor</th>
+          <th scope="col" class="col-2" style='width: 20%'></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @script_subscriptions.each do |script_subscription| %>
+          <tr class="<%= script_subscription.removed_from_site? ? 'removed-from-site' : nil %>">
+            <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>
+              <% if script_subscription.removed_from_site? %>
+                <span data-toggle="tooltip"
+                      data-placement="top"
+                      title="The <%= script_subscription.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= script_subscription.removed_from_site_at.formatted %>.">
+                  <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
+                </span>
+              <% else %>
+                <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
+              <% end %>
+            </td>
+            <td>
+              <div class="custom-control custom-switch" style='cursor: pointer'>
+                <% if script_subscription.removed_from_site? %>
+                  <span data-toggle="tooltip"
+                        data-placement="top"
+                        title="The <%= script_subscription.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= script_subscription.removed_from_site_at.formatted %>.">
+                  <input style="cursor: pointer" type="checkbox" class="script-subscriber-active-toggle custom-control-input" data-script-subscriber="<%=script_subscription.id%>" id="active-<%=script_subscription.id%>" disabled>
+                  <label class="custom-control-label" for="active-<%=script_subscription.id%>" style='cursor: pointer;'>Active</label>
+                <% else %>
+                  <input style="cursor: pointer" type="checkbox" class="script-subscriber-active-toggle custom-control-input" data-script-subscriber="<%=script_subscription.id%>" id="active-<%=script_subscription.id%>" <%= script_subscription.active? ? 'checked' : nil %>>
+                  <label class="custom-control-label" for="active-<%=script_subscription.id%>" style='cursor: pointer;'>Active</label>
+                <% end %>
+              </div>
+            </td>
+            <td>
+              <%= link_to 'Edit', edit_script_subscriber_path(script_subscription) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>

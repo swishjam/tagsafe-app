@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_domain
-    @current_domain ||= session[:current_domain_id] ? current_organization.domains.find(session[:current_domain_id]) : current_organization.domains.first
+    @current_domain ||= session[:current_domain_id] ? current_organization&.domains&.find(session[:current_domain_id]) : current_organization&.domains&.first
   end
 
   def current_organization
@@ -57,4 +57,14 @@ class ApplicationController < ActionController::Base
   def ensure_logged_out
     redirect_to scripts_path unless current_user.nil?
   end
+
+  def display_toast_message(*messages)
+    flash[:toast_messages] = messages
+  end
+  alias display_toast_messages display_toast_message
+
+  def display_toast_error(*messages)
+    flash[:toast_errors] = messages
+  end
+  alias display_toast_errors display_toast_error
 end

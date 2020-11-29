@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_213630) do
+ActiveRecord::Schema.define(version: 2020_11_29_161537) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -42,8 +42,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_213630) do
     t.timestamp "lighthouse_audit_completed_at"
     t.timestamp "test_suite_enqueued_at"
     t.timestamp "test_suite_completed_at"
-    t.integer "lighthouse_audit_iterations"
-    t.integer "lighthouse_audit_url"
+    t.string "lighthouse_audit_url"
     t.timestamp "created_at"
     t.string "lighthouse_error_message"
   end
@@ -106,6 +105,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_213630) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "maximum_active_script_subscriptions"
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -139,9 +139,9 @@ ActiveRecord::Schema.define(version: 2020_11_19_213630) do
     t.timestamp "created_at"
   end
 
-  create_table "script_domain_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "script_image_domain_lookup_patterns", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "script_image_id"
-    t.string "script_domain_url"
+    t.string "url_pattern"
   end
 
   create_table "script_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -154,6 +154,8 @@ ActiveRecord::Schema.define(version: 2020_11_19_213630) do
     t.bigint "script_id"
     t.boolean "active"
     t.string "friendly_name"
+    t.timestamp "removed_from_site_at"
+    t.boolean "monitor_changes"
     t.index ["domain_id"], name: "index_script_subscribers_on_domain_id"
     t.index ["script_id"], name: "index_script_subscribers_on_script_id"
   end
@@ -169,6 +171,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_213630) do
     t.datetime "updated_at", null: false
     t.timestamp "content_changed_at"
     t.boolean "should_log_script_checks"
+    t.integer "script_image_id"
   end
 
   create_table "test_group_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -217,6 +220,16 @@ ActiveRecord::Schema.define(version: 2020_11_19_213630) do
     t.string "title"
     t.string "description"
     t.integer "created_by_user_id"
+  end
+
+  create_table "user_invites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "organization_id"
+    t.string "email"
+    t.string "token"
+    t.timestamp "expires_at"
+    t.timestamp "created_at"
+    t.integer "invited_by_user_id"
+    t.timestamp "redeemed_at"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

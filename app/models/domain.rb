@@ -1,14 +1,16 @@
 class Domain < ApplicationRecord
   belongs_to :organization
   has_many :script_subscriptions, class_name: 'ScriptSubscriber', dependent: :destroy
-  has_many :scripts, through: :script_subscriptions, dependent: :destroy
+  has_many :scripts, through: :script_subscriptions
 
   validates :url, presence: true, uniqueness: true
 
-  after_create_commit :scan_and_capture_domains_scripts
+  after_create_commit do
+    scan_and_capture_domains_scripts unless Domain.skip_callbacks
+  end
 
-  def subscribe!(script, active = false)
-    script_subscriptions.create!(script: script, active: active)
+  def subscribe!(script, active: false, monitor_changes: true)
+    script_subscriptions.create!(script: script, active: active, monitor_changes: monitor_changes)
   end
 
   def subscribed_to_script?(script)
@@ -24,6 +26,7 @@ class Domain < ApplicationRecord
   end
 
   def scan_and_capture_domains_scripts
+    binding.pry
     GeppettoModerator::Senders::ScanDomain.new(self).send!
   end
 

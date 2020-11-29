@@ -2,14 +2,14 @@ class LighthouseAuditMetric < ApplicationRecord
   belongs_to :lighthouse_audit
   belongs_to :lighthouse_audit_metric_type
 
-  scope :by_key, -> (key) { includes(:lighthouse_audit_metric_type).where(lighthouse_audit_metric_type: LighthouseAuditMetricType.by_key(key)) }
-  scope :by_lighthouse_audit_class, -> (lighthouse_audit_class) { includes(:lighthouse_audit).where(lighthouse_audit: { lighthouse_audit_type: audit_type  }) }
+  scope :by_key, -> (key) { joins(:lighthouse_audit_metric_type).where(lighthouse_audit_metric_types: { key: key }) }
+  scope :primary_audits, -> { includes(lighthouse_audit: :audit).where(audits: { primary: true })}
+  scope :by_lighthouse_audit_type, -> (lighthouse_audit_type) { joins(:lighthouse_audit).where(lighthouse_audits: { type: lighthouse_audit_type  }) }
+  scope :by_execution_reason, -> (execution_reason) { joins(lighthouse_audit: :audit).where(audits: { execution_reason_id: execution_reason.id }) }
   scope :by_script_subscriber, -> (script_subscriber) {
     includes(:lighthouse_audit_metric_type)
-    .joins(:lighthouse_audit_result)
-    .where(lighthouse_audit_result: 
-      LighthouseAuditResult.where(lighthouse_audit: 
-        LighthouseAudit.where(script_subscriber: script_subscriber))) 
+    .joins(lighthouse_audit: :audit)
+    .where(audits: { script_subscriber_id: script_subscriber.id }) 
   }
 
   # create unique lighthouse_audit_result_metric_type validation with scope 

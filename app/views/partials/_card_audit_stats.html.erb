@@ -36,4 +36,11 @@
       <% end %>
     <% end %>
   </div>
+  <%
+=begin%>
+ <div class="psi-gauge-container col-12" style="height: 20px; border: 1px solid black; padding:0">
+    <div class="psi-gauge" data-psi-impact="<%= impact_on_performance_score %>" style="width:<%=impact_on_performance_score.abs%>%; background-color: green; height: 100%"></div>
+  </div> 
+<%
+=end%>
 </div>

@@ -1,4 +1,5 @@
 class OrganizationsController < ApplicationController
-  def show
+  def create
+    
   end
 end

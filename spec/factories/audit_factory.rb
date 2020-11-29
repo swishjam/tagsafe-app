@@ -6,7 +6,6 @@ FactoryBot.define do
     primary { true }
     lighthouse_audit_enqueued_at { DateTime.yesterday }
     lighthouse_audit_completed_at { DateTime.now }
-    lighthouse_audit_iterations { 3 }
     test_suite_enqueued_at { DateTime.yesterday }
     test_suite_completed_at { DateTime.now }
   end

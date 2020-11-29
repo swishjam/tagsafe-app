@@ -6,6 +6,10 @@ def stub_script_changed_job
   expect(ScriptChangedJob).to receive(:perform_later).at_least(:once).and_return('STUBBED')
 end
 
+def stub_evaluate_script_job
+  expect(ScriptManager::Evaluator).to receive(:new).at_least(:once).and_return(OpenStruct.new(evaluate!: "foo"))
+end
+
 def create_execution_reasons
   create(:manual_execution)
   create(:reactivated_script_execution)

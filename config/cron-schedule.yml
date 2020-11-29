@@ -3,3 +3,8 @@ one_minute_check_scripts:
   cron: "*/1 * * * *"
   description: "Checks all scripts to check if they've been changed"
   queue: "default"
+re_scan_domains:
+  class: ScanDomainsJob
+  cron: "0 */3 * * *" # every 3 hours
+  description: "Updates each sites scripts"
+  queue: "default"

@@ -5,16 +5,19 @@ class ScriptChange < ApplicationRecord
   has_many :audits, dependent: :destroy
   has_one_attached :js_file
   
-  scope :most_recent_first, -> { order('created_at DESC') }
   scope :older_than, -> (timestamp) { where("created_at < ?", timestamp).order('created_at DESC') }
   scope :newer_than, -> (timestamp) { where("created_at > ?", timestamp).order('created_at DESC') }
 
-  after_create :after_creation
+  # very hacky to allow us to seed DB without resulting background jobs,
+  after_create do
+    after_creation unless ScriptChange.skip_callbacks
+  end
   after_destroy :purge_js_file
 
   validate :only_one_most_recent
 
   def after_creation
+    binding.pry
     set_script_content_changed_at_timestamp
     make_most_recent!
     ScriptChangedJob.perform_later(self)

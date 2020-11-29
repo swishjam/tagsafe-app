@@ -35,11 +35,11 @@ RSpec.describe Domain, type: :model do
     end
   end
 
-  describe '#subscribed?' do
+  describe '#subscribed_to_script?' do
     it 'returns false if the domain is not yet subscribed' do
-      expect(@domain.subscribed?(@script)).to eq(false)
+      expect(@domain.subscribed_to_script?(@script)).to eq(false)
       @domain.subscribe!(@script)
-      expect(@domain.subscribed?(@script)).to eq(true)
+      expect(@domain.subscribed_to_script?(@script)).to eq(true)
     end
   end
 end

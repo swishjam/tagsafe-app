@@ -2,11 +2,17 @@ class ScriptSubscribersController < ApplicationController
   before_action :authorize!
 
   def index
-    @script_subscriptions = current_domain.script_subscriptions.includes(:script, :lighthouse_preferences)
+    unless current_domain.nil?
+      @script_subscriptions = current_domain.script_subscriptions
+                                              .includes(:script, :lighthouse_preferences)
+                                              .order('script_subscribers.removed_from_site_at ASC')
+                                              .order('script_subscribers.active DESC')
+    end
   end
 
   def show
     @script_subscriber = current_domain.script_subscriptions.includes(:script).find(params[:id])
+    @script_changes = @script_subscriber.script.script_changes.most_recent_first
     permitted_to_view?(@script_subscriber)
     render_breadcrumbs(
       { text: 'Home', url: scripts_path }, 

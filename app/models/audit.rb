@@ -49,7 +49,7 @@ class Audit < ApplicationRecord
     check_after_completion
   end
 
-  def after_completion
+  def check_after_completion
     if complete?
       AuditCompletedJob.perform_later(self)
     end
