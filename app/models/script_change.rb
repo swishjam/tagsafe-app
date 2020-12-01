@@ -17,7 +17,6 @@ class ScriptChange < ApplicationRecord
   validate :only_one_most_recent
 
   def after_creation
-    binding.pry
     set_script_content_changed_at_timestamp
     make_most_recent!
     ScriptChangedJob.perform_later(self)

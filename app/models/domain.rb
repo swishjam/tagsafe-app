@@ -26,7 +26,6 @@ class Domain < ApplicationRecord
   end
 
   def scan_and_capture_domains_scripts
-    binding.pry
     GeppettoModerator::Senders::ScanDomain.new(self).send!
   end
 
