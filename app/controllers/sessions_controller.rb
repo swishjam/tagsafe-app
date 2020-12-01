@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  layout 'purgatory'
+
   def create
     user = User.find_by(email: params[:login][:email].downcase)
 
@@ -14,6 +16,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session.delete(:user_id)
+    session.delete(:current_domain_id)
     redirect_to login_path
   end
 end

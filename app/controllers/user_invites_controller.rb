@@ -1,4 +1,5 @@
 class UserInvitesController < ApplicationController
+  layout 'purgatory'
 
   def new
     @user_invite = UserInvite.new
@@ -7,9 +8,9 @@ class UserInvitesController < ApplicationController
   def create
     invite = current_user.invite_user_to_organization!(params[:user_invite][:email])
     if invite.valid?
-      flash[:banner_message] = "Invite sent to #{params[:user_invite][:email]}"
+      display_toast_message("Invite sent to #{params[:user_invite][:email]}")
     else
-      flash[:banner_error] = invite.errors.full_messages.join('\n')
+      display_toast_errors(invite.errors.full_messages)
     end
     redirect_to request.referrer
   end
@@ -18,7 +19,7 @@ class UserInvitesController < ApplicationController
     @user = User.new
     @user_invite = UserInvite.includes(:organization).find_by(token: params[:token])
     unless @user_invite.reedemable?
-      flash[:banner_error] = "Invite expired. Please request a new invite from your admin."
+      display_toast_error("Invite expired. Please request a new invite from your admin.")
       redirect_to root_path
     end
   end
@@ -30,14 +31,14 @@ class UserInvitesController < ApplicationController
       user = User.create(user_params)
       if user.valid?
         invite.redeem!
-        flash[:banner_message] = "Invite accepted successfully. Welcome to TagSafe!"
+        display_toast_message("Invite accepted successfully. Welcome to TagSafe!")
         redirect_to scripts_path
       else
-        flash[:banner_error] = user.errors.full_messages.join('\n')
+        display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer
       end
     else
-      flash[:banner_error] = "Invite expired. Please request a new invite from your admin."
+      display_toast_error("Invite expired. Please request a new invite from your admin.")
       redirect_to root_path
     end
   end

@@ -27,12 +27,12 @@ class UserInvite < ApplicationRecord
   def expired?
     expires_at < DateTime.now
   end
-
-  private
-
+  
   def send_invite!
     UserInviteMailer.send_invite_email(self).deliver
   end
+
+  private
 
   def user_doesnt_exist
     if User.find_by(email: email)

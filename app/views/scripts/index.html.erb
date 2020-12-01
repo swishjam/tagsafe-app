@@ -15,7 +15,7 @@
       </select>
       <div id="scripts-chart-container">
         <%= 
-          line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.collect(&:id)), 
+          line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id)), 
             download: true, 
             title: 'Performance Score Impact Over Time',
             ytitle: 'Performance Score Impact',

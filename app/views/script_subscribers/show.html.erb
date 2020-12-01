@@ -50,7 +50,7 @@
           <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_lighthouse_audits: true) %>
           <% previous_audit = @script_subscriber.primary_audit_by_script_change(@script_changes[i+1]) %>
           <tr>
-            <td scope="row"><%= script_change.id %>: <%= script_change.created_at.formatted_short %></td>
+            <td scope="row"><%= script_change.created_at.formatted_short %></td>
             <td scope="row">
               <% if audit %>
                 <span class="<%= audit.exceeded_psi_threshold? ? 'negative' : 'positive'%>">

@@ -1,4 +1,4 @@
-class ScriptChangesController < ApplicationController
+class ScriptChangesController < LoggedInController
   before_action :authorize!
 
   def show
@@ -17,7 +17,7 @@ class ScriptChangesController < ApplicationController
     @git_diff_script_change = diff.right.html_safe
     @git_diff_previous_script_change = diff.left.html_safe
     render_breadcrumbs(
-      { url: scripts_path, text: "Home" },
+      { url: scripts_path, text: "Monitor Center" },
       { url: script_subscriber_path(@script_subscriber), text: "#{@script_subscriber.try_friendly_name} Details" },
       { text: "#{@script_change.created_at.formatted} Tag Change", active: true}
     )

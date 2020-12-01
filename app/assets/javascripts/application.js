@@ -41,7 +41,6 @@ function renderChart() {
   getChartData(function(chartData) {
     const epochStartDate = Math.min.apply(Math, chartData.map(function(data) { return Date.parse(Object.keys(data.data)[0]); }));
     const epochEndDate = Math.max.apply(Math, chartData.map(function(data) { var timestamps = Object.keys(data.data); return Date.parse(timestamps[timestamps.length-1]); }));
-    debugger;
     return Highcharts.chart('scripts-chart-container', {
       chart: {
         type: 'line'
