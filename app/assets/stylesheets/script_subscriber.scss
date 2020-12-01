@@ -1,5 +1,12 @@
-// .script-changes-table {
-//   tbody tr.exceeded {
-//     background: red;
-//   }
-// }
+.script_subscribers {
+  table {
+    tr.removed-from-site {
+      background: rgb(226, 226, 226);
+    }
+    td.script-name-column {
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      white-space: nowrap;
+    }
+  }
+}

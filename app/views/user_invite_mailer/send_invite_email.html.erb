@@ -1,0 +1,6 @@
+<h5>You've been invited to TagSafe by <%= @invited_by_user.email %> of <%= @organization.name %>.
+
+<p>
+  Accept your invite from the below link. *Note this link expires in 24 hours.
+  <%= link_to 'Accept Invite', @accept_invite_url, class: "button button-outline-primary" %>
+</p>

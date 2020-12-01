@@ -1,6 +1,4 @@
 class AuditCompleteMailer < ApplicationMailer
-  default from: 'collinschneider3@gmail.com'
-
   def send_audit_completed_email(audit, user)
     @audit = audit
     @script_subscriber = @audit.script_subscriber

@@ -1,6 +1,4 @@
-class TestSubscribersController < ApplicationController
-  before_action :authorize!
-
+class TestSubscribersController < LoggedInController
   def index
     @test_subscriptions = current_domain.test_subscriptions.includes(:test, script_subscriber: :script).group_by(&:test)
   end

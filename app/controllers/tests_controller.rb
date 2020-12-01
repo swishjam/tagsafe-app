@@ -1,6 +1,4 @@
-class TestsController < ApplicationController
-  before_action :authorize!
-
+class TestsController < LoggedInController
   def new
     @test = Test.new
   end

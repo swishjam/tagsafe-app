@@ -18,6 +18,10 @@ class User < ApplicationRecord
     roles.include? Role.ADMIN
   end
 
+  def invite_user_to_organization!(email_to_invite)
+    UserInvite.invite!(email_to_invite, organization, self)
+  end
+
   def subscribed_to_notification?(notification_class, script_subscriber)
     !notification_class.find_by(script_subscriber: script_subscriber, user: self).nil?
   end

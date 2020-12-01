@@ -1,6 +1,6 @@
 class AuditRunner
   def initialize(script_subscriber:, script_change:, execution_reason:)
-    @script_subscriber = script_subscriber
+    @script_subscriber = script_subscriber.reload
     @script_change = script_change
     @execution_reason = execution_reason
   end

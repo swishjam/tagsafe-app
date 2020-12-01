@@ -8,8 +8,7 @@ class LighthouseManager::ResultsHandler
 
   def capture_results!
     if @error
-      raise 'Need to add lighthouse_error_message onto the audit table!'
-      lighthouse_audit.errored!(@error)
+      audit.lighthouse_error!(@error)
       # create an audit.retry method maybe? new audit reason ('Retry')? lighthouse errors shouldn't happen!
     else
       results_with_current_tag = capture_raw_results(CurrentTagLighthouseAudit, @results_with_tag)

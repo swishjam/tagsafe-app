@@ -1,4 +1,5 @@
 class Script < ApplicationRecord
+  belongs_to :script_image, optional: true
   has_many :script_subscribers, dependent: :destroy
   has_many :domains, through: :script_subscribers
   has_many :script_changes, -> { order('created_at DESC') }, dependent: :destroy
@@ -17,7 +18,8 @@ class Script < ApplicationRecord
   scope :one_minute_interval_checks, -> { self.all }
   scope :five_minute_interval_checks, -> { self.all }
   # etc...
-  scope :with_active_subscribers, -> { includes(:script_subscribers).where(script_subscribers: { active: true }) }
+  scope :with_active_subscribers, -> { joins(:script_subscribers).where(script_subscribers: { active: true }) }
+  scope :still_on_site, -> { joins(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
 
   def current_test_status(domain)
     most_recent_result.test_results_status(domain)
@@ -52,6 +54,14 @@ class Script < ApplicationRecord
     evaluator = ScriptManager::Evaluator.new(self)
     evaluator.evaluate!
     evaluator
+  end
+
+  def try_to_apply_script_image
+    ScriptImageDomainLookupPattern.find_and_apply_image_to_script(self)
+  end
+
+  def remove_script_image
+    update(script_image_id: nil)
   end
 
   def friendly_name

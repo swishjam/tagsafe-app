@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
+  resources :registrations, only: [:new, :create]
+  
+  resources :user_invites, only: [:new, :create]
+  get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
+  post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
+
   resources :scripts, only: :index
 
   resources :domains do
@@ -43,8 +49,15 @@ Rails.application.routes.draw do
   get '/notification_preferences' => 'notification_preferences#index'
 
   namespace :admin do
-    resources :script_domain_images
-    resources :script_images
+    resources :script_images do
+      member do
+        post :apply_to_scripts
+      end
+      collection do
+        post :apply_all_to_scripts
+      end
+      resources :script_image_domain_lookup_patterns, only: [:create, :destroy]
+    end
   end
 
   namespace :api do
@@ -65,6 +78,6 @@ Rails.application.routes.draw do
   end
 
   
-  get '/charts/domain/:domain_id/script_changes' => 'charts#script_changes', as: :script_changes_chart
-  get '/charts/domain/:domain_id/script_changes/:script_change_id' => 'charts#script_change', as: :script_change_chart
+  get '/charts/domain/:domain_id' => 'charts#script_subscribers', as: :domain_script_subscribers_chart
+  get '/charts/script_subscriber/:script_subscriber_id' => 'charts#script_subscriber', as: :script_subscriber_chart
 end

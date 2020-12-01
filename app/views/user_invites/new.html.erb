@@ -1,0 +1,9 @@
+<div class="col-md-4 offset-md-4 card login-card text-center">
+  <h5>Invite users to <%= current_organization.name %></h5>
+  <%= form_for @user_invite do |f| %>
+    <div class="form-group">
+      <%= f.text_field :email %>
+    </div>
+    <%= f.submit 'Invite', class: 'tag-safe-button' %>
+  <% end %>
+</div>

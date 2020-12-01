@@ -11,12 +11,21 @@
   <% end %>
 </div>
 
+
+
+
+<div class="col-12 text-right">
+  <select class="selectpicker" id="chart-metrics-dropdown" multiple data-live-search="true">
+    <option value="psi" selected>Performance Score Impact</option>
+    <% LighthouseAuditMetricType.all.each do |metric_type| %>
+      <option value="<%=metric_type.key%>"><%= metric_type.title %></option>
+    <% end %>
+  </select>
+</div>
 <%= 
- # Come back to clean up, need to specify execution reason
-  area_chart @script_subscriber.audits.primary.collect(&:delta_lighthouse_audit).map { |lighthouse_audit|
-    [lighthouse_audit.enqueued_at, lighthouse_audit.formatted_performance_score]
-  },
+  line_chart script_subscriber_chart_path(@script_subscriber),
     download: true, 
+    code: true, 
     title: 'Performance Score Impact Over Time',
     ytitle: 'Performance Score Impact',
     xtitle: 'Script Change',
@@ -36,11 +45,10 @@
       </tr>
     </thead>
     <tbody>
-      <% script_changes = @script_subscriber.script.script_changes.most_recent_first %>
-      <% if script_changes.any? %>
-        <% script_changes.each_with_index  do |script_change, i| %>
+      <% if @script_changes.any? %>
+        <% @script_changes.each_with_index  do |script_change, i| %>
           <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_lighthouse_audits: true) %>
-          <% previous_audit = @script_subscriber.primary_audit_by_script_change(script_changes[i+1]) %>
+          <% previous_audit = @script_subscriber.primary_audit_by_script_change(@script_changes[i+1]) %>
           <tr>
             <td scope="row"><%= script_change.created_at.formatted_short %></td>
             <td scope="row">

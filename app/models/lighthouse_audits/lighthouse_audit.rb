@@ -12,7 +12,9 @@ class LighthouseAudit < ApplicationRecord
   scope :older_than, -> (timestamp) { where('lighthouse_audits.enqueued_at > ?', timestamp).order(enqueued_at: :DESC) }
   scope :failed, -> { where.not(error_message: nil) }
   scope :successful, -> { where(error_message: nil) }
-  scope :by_execution_reason, -> (execution_reason) { where(execution_reason: execution_reason) }
+  scope :by_execution_reason, -> (execution_reason) { includes(:audit).where(audits: { execution_reason_id: execution_reason.id }) }
+  scope :by_lighthouse_audit_type, -> (audit_type) { where(type: audit_type) }
+  scope :primary_audits, -> { includes(:audit).where(audits: { primary: true })}
 
   # validate :only_one_primary
 

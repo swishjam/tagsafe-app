@@ -115,5 +115,14 @@ RSpec.describe ScriptSubscriber, type: :model do
       expect(script_subscriber_2.valid?).to eq(false)
       expect(script_subscriber_3.valid?).to eq(true)
     end
+
+    it 'does not allow for more active script subcriptions than the organization maximum_active_script_subscriptions' do
+      @domain.organization.update_column :maximum_active_script_subscriptions, 1
+
+      new_script = create(:script, url: "www.123.com")
+      new_script_subscriber = build(:script_subscriber, script: new_script, domain: @domain)
+      expect(new_script_subscriber.valid?).to eq(false)
+      expect(new_script_subscriber.errors.full_messages).to eq(["Cannot activate tag. Your plan only allows for 1 active monitored tags."])
+    end
   end
 end

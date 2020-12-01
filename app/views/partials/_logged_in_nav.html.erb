@@ -1,50 +1,29 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-  <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href=<%= scripts_path %>>Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<%= test_subscribers_path %>">Manage Tests</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<%= script_subscribers_path %>">Manage Scripts</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<%= notification_preferences_path %>">Manage Notifications</a>
-      </li>
-    </ul>
-  </div>
-  <div class="mx-auto order-0">
-    <a class="navbar-brand mx-auto" href="#">Tag Safe</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </div>
-  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2 ml-auto">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown
+<div class="navigation">
+  <a href="/scripts">
+    <div class="logo-container">
+      <h3>TagSafe</h3>
+    </div>
+  </a>
+  <% if current_organization.has_multiple_domains? %>
+    <div class="dropdown show">
+      <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= current_domain.url %>
       </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <% current_organization.domains.each do |domain| %>
           <% klass = current_domain === domain ? 'dropdown-item active' : 'dropdown-item' %>
           <%= link_to domain.url, update_current_domain_domain_path(domain), method: :post, class: klass %>
         <% end %>
       </div>
     </div>
+  <% end %>
+  <ul>
+    <li><a class="nav-link" href="<%= scripts_path %>"><i class="fas fa-home"></i> Monitor Center</a></li>
+    <li><a class="nav-link" href="<%= script_subscribers_path %>"><i class="fas fa-tasks"></i> Manage Scripts</a></li>
+    <li><a class="nav-link" href="<%= notification_preferences_path %>"><i class="far fa-paper-plane"></i> Manage Notifications</a></li>
+    <li><a class="nav-link" href="<%= new_user_invite_path %>"><i class="fas fa-users"></i> Manage Users</a></li>
+  </ul>
+  <div class="logout-link-container">
+    <a class="logout-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
-    <%
-=begin%>
- <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Sign Out</a>
-      </li>
-    </ul> 
-<%
-=end%>
-  </div>
-</nav>
+</div>

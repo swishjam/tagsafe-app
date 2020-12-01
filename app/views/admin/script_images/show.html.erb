@@ -1,0 +1,31 @@
+<div class="text-center">
+  <div class="row text-right">
+    <%= button_to 'Delete', admin_script_image_path(@script_image), method: :delete %>
+    <%= button_to 'Apply to Scripts', apply_to_scripts_admin_script_image_path(@script_image) %>
+  </div>
+  <%= image_tag url_for(@script_image.image), style: "width: 400px; height: 400px" %>
+
+  <%= form_for ScriptImageDomainLookupPattern.new, url: admin_script_image_script_image_domain_lookup_patterns_path(@script_image) do |f| %>
+    <div class="form-group">
+      <%= f.hidden_field :script_image_id, value: @script_image.id %>
+      <%= f.label :url_pattern %>
+      <%= f.text_field :url_pattern %>
+    </div>
+    <%= f.submit 'Create URL Pattern' %>
+  <% end %>
+  <div class="text-center">
+    <h5>URL Patterns</h5>
+    <ul class="list-group">
+      <% @script_image.lookup_patterns.each do |pattern| %>
+        <li class="list-group-item"><%= pattern.url_pattern %> <%= link_to 'Remove', admin_script_image_script_image_domain_lookup_pattern_path(@script_image, pattern), method: :delete, data: { confirm: "Are you sure you want to delete the #{pattern.url_pattern} pattern?" } %></li>
+      <% end %>
+    </ul>
+
+    <h5>Scripts</h5>
+    <ul>
+      <% @script_image.scripts.each do |script| %>
+        <li><%= script.url %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

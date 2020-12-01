@@ -1,20 +1,5 @@
-class ScriptChangesController < ApplicationController
+class ScriptChangesController < LoggedInController
   before_action :authorize!
-
-  def index
-    script = Script.find(params[:script_id])
-    permitted_to_view?(script)
-
-    @script_changes = ScriptChange.where(script_id: params[:script_id])
-  end
-
-  def content
-    script_change = ScriptChange.find(params[:id])
-    diff = Diffy::SplitDiff.new(script_change.previous_change.content, script_change.content, format: :html)
-
-    @new_script = diff.left.html_safe
-    @previous_script = diff.right.html_safe
-  end
 
   def show
     @script_change = ScriptChange.find(params[:id])
@@ -32,7 +17,7 @@ class ScriptChangesController < ApplicationController
     @git_diff_script_change = diff.right.html_safe
     @git_diff_previous_script_change = diff.left.html_safe
     render_breadcrumbs(
-      { url: scripts_path, text: "Home" },
+      { url: scripts_path, text: "Monitor Center" },
       { url: script_subscriber_path(@script_subscriber), text: "#{@script_subscriber.try_friendly_name} Details" },
       { text: "#{@script_change.created_at.formatted} Tag Change", active: true}
     )

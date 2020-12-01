@@ -1,11 +1,14 @@
 class ScriptSubscriber < ApplicationRecord
+  include Rails.application.routes.url_helpers
   # has_many :test_subscriptions, class_name: 'TestSubscriber', dependent: :destroy
 
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
+  has_many :lighthouse_audits, through: :audits
   belongs_to :domain
   belongs_to :script
-  has_one :lighthouse_preferences, class_name: 'LighthousePreference'
+  has_one :lighthouse_preferences, class_name: 'LighthousePreference', dependent: :destroy
 
+  has_many :notification_subscribers, dependent: :destroy
   has_many :script_change_notification_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
   has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber'
@@ -14,12 +17,17 @@ class ScriptSubscriber < ApplicationRecord
   has_one_attached :image
 
   validates_uniqueness_of :script_id, scope: :domain_id
+  validate :within_maximum_active_script_subscriptions
 
   after_update :after_update
   after_create :add_defaults
 
+  scope :monitor_changes, -> { where(monitor_changes: true) }
+  scope :do_not_monitor_changes, -> { where(monitor_changes: false) }
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :still_on_site, -> { where(removed_from_site_at: nil) }
+  scope :no_longer_on_site, -> { where.not(removed_from_site_at: nil) }
   scope :should_run_lighthouse_audit, -> { joins(:lighthouse_preferences).where(lighthouse_preferences: { should_run_audit: true }) }
   scope :should_not_run_lighthouse_audit, -> { joins(:lighthouse_preferences).where(lighthouse_preferences: { should_run_audit: false }) }
 
@@ -43,8 +51,24 @@ class ScriptSubscriber < ApplicationRecord
     !active
   end
 
+  def removed_from_site?
+    !removed_from_site_at.nil?
+  end
+
+  def still_on_site?
+    !removed_from_site?
+  end
+
   def try_friendly_name
     friendly_name || script.friendly_name
+  end
+
+  def try_image_url
+    script.script_image ? rails_blob_path(script.script_image.image, only_path: true) : default_image_url
+  end
+
+  def default_image_url
+    'https://media-exp1.licdn.com/dms/image/C560BAQHwLj3toRYF_g/company-logo_200_200/0?e=2159024400&v=beta&t=2MQGVdnroZzS27kcAyUQqwIBzsDQ1Dp-7znPnejukuE'
   end
 
   def create_default_lighthouse_preferences
@@ -128,6 +152,11 @@ class ScriptSubscriber < ApplicationRecord
     update(active: !active)
   end
 
+  def removed_from_site!
+    touch(:removed_from_site_at)
+    update(active: false)
+  end
+
   private
 
   def determine_audit_scopes(include_pending_lighthouse_audits:, include_pending_test_suites:, include_failed_lighthouse_audits:)
@@ -136,5 +165,14 @@ class ScriptSubscriber < ApplicationRecord
       include_pending_test_suites ? nil : :completed_test_suites,
       include_failed_lighthouse_audits ? nil : :successful_lighthouse_audits
     ].compact || []
+  end
+
+  def within_maximum_active_script_subscriptions
+    if (changed? && active_was === false && active === true) || (new_record? && active === true)
+      if !domain.organization.maximum_active_script_subscriptions.nil? &&
+         domain.organization.script_subscriptions.active.count + 1 > domain.organization.maximum_active_script_subscriptions
+        errors.add(:base, "Cannot activate tag. Your plan only allows for #{domain.organization.maximum_active_script_subscriptions} active monitored tags.")
+      end
+    end
   end
 end
