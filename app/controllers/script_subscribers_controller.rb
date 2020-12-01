@@ -1,4 +1,4 @@
-class ScriptSubscribersController < ApplicationController
+class ScriptSubscribersController < LoggedInController
   before_action :authorize!
 
   def index
@@ -15,7 +15,7 @@ class ScriptSubscribersController < ApplicationController
     @script_changes = @script_subscriber.script.script_changes.most_recent_first
     permitted_to_view?(@script_subscriber)
     render_breadcrumbs(
-      { text: 'Home', url: scripts_path }, 
+      { text: 'Monitor Center', url: scripts_path }, 
       { text: "#{@script_subscriber.try_friendly_name} Details", active: true }
     )
   end
@@ -24,7 +24,7 @@ class ScriptSubscribersController < ApplicationController
     @script_subscriber = ScriptSubscriber.find(params[:id])
     permitted_to_view?(@script_subscriber)
     render_breadcrumbs(
-      { text: 'Home', url: scripts_path }, 
+      { text: 'Monitor Center', url: scripts_path }, 
       { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },
       { text: "Edit #{@script_subscriber.try_friendly_name}", active: true }
     )

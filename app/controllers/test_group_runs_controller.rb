@@ -1,5 +1,4 @@
-class TestGroupRunsController < ApplicationController
-  before_action :authorize!
+class TestGroupRunsController < LoggedInController
   def show
     script = Script.find(params[:script_id])
     permitted_to_view?(script)

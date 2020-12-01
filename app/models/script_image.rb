@@ -8,6 +8,6 @@ class ScriptImage < ApplicationRecord
   end
 
   def apply_to_scripts(override_existing_image = false)
-    lookup_patterns.map { |pattern| pattern.apply_image_to_script(override_existing_image) }
+    lookup_patterns.map { |pattern| pattern.apply_image_to_scripts_with_matching_pattern(override_existing_image) }
   end
 end

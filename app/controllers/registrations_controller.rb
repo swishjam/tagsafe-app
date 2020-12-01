@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class RegistrationsController < LoggedOutController
   def new
     @organization = Organization.new
   end

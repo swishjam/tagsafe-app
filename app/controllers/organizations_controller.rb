@@ -1,4 +1,4 @@
-class OrganizationsController < ApplicationController
+class OrganizationsController < LoggedInController
   def create
     
   end

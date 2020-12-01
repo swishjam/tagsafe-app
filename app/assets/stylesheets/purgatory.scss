@@ -1,0 +1,10 @@
+.user_invites {
+  background: lightgrey;
+  .accept-invite-card {
+    border-radius: 15px;
+    padding: 50px;
+    .error {
+      color: red;
+    }
+  }
+}

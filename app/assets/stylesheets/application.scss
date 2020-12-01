@@ -16,8 +16,65 @@
 @import "font-awesome";
 @import "*";
 
-// rgb(248, 138, 138) red color
-// rgb(230, 230, 230) grey color
+// // Small devices (landscape phones, 576px and up)
+// @media (min-width: 576px) { ... }
+// // Medium devices (tablets, 768px and up)
+// @media (min-width: 768px) { ... }
+// // Large devices (desktops, 992px and up)
+// @media (min-width: 992px) { ... }
+// // Extra large devices (large desktops, 1200px and up)
+// @media (min-width: 1200px) { ... }
+
+body.logged-in {
+  .navigation {
+    width: 15%;
+    border: 1px solid black;
+    background-color: navy;
+    color: white;
+    float: left;
+    height: 100vh;
+    position: fixed;
+    padding: 10px;
+    font-size: 14px;
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    a {
+      color: white;
+    }
+    .dropdown-item {
+      color: blue;
+    }
+    li {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .logo-container {
+      height: 150px;
+      border: 1px solid white;
+      text-align: center;
+    }
+    .logout-link-container {
+      position: absolute;
+      bottom: 10px;
+    }
+  }
+  #content {
+    width: 85%;
+    float: right;
+    #inner-content {
+      padding: 30px 15px 30px 15px;
+    }
+  }
+}
+
+.viewport-height {
+  height: 100vh;
+}
+
 .hidden {
   display: none;
 }

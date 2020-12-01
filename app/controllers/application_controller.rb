@@ -67,4 +67,10 @@ class ApplicationController < ActionController::Base
     flash[:toast_errors] = messages
   end
   alias display_toast_errors display_toast_error
+
+  def display_inline_errors(*messages)
+    binding.pry
+    flash[:inline_errors] = messages
+  end
+  alias display_inline_error display_inline_errors
 end

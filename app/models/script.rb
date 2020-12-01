@@ -1,5 +1,5 @@
 class Script < ApplicationRecord
-  belongs_to :script_image
+  belongs_to :script_image, optional: true
   has_many :script_subscribers, dependent: :destroy
   has_many :domains, through: :script_subscribers
   has_many :script_changes, -> { order('created_at DESC') }, dependent: :destroy
@@ -54,6 +54,14 @@ class Script < ApplicationRecord
     evaluator = ScriptManager::Evaluator.new(self)
     evaluator.evaluate!
     evaluator
+  end
+
+  def try_to_apply_script_image
+    ScriptImageDomainLookupPattern.find_and_apply_image_to_script(self)
+  end
+
+  def remove_script_image
+    update(script_image_id: nil)
   end
 
   def friendly_name
