@@ -22,7 +22,6 @@
 //= require bootstrap-select
 
 window.addEventListener('load', function() {
-  // let chart = renderChart();
   setChartMetricListener();
 
   setScriptSubscriberToggleListeners();
@@ -37,39 +36,39 @@ window.addEventListener('load', function() {
   $('.toast:not(.js-toast)').toast('show');
 });
 
-function renderChart() {
-  getChartData(function(chartData) {
-    const epochStartDate = Math.min.apply(Math, chartData.map(function(data) { return Date.parse(Object.keys(data.data)[0]); }));
-    const epochEndDate = Math.max.apply(Math, chartData.map(function(data) { var timestamps = Object.keys(data.data); return Date.parse(timestamps[timestamps.length-1]); }));
-    return Highcharts.chart('scripts-chart-container', {
-      chart: {
-        type: 'line'
-      },
-      title: {
-        text: 'Performance Score Impact'
-      },
-      yAxis: {
-        title: {
-          text: 'Performance Score Impact'
-        }
-      },
-      xAxis: { 
-        type: 'datetime',
-        title: {
-          text: 'Tag Changes'
-        }
-      },
-      plotOptions: {
-        series: {
-            pointStart: epochStartDate,
-            pointEnd: epochEndDate
-            // pointInterval: 86400 * 1000
-        }
-      },
-      series: formatChartData(chartData)
-    });
-  });
-}
+// function renderChart() {
+//   getChartData(function(chartData) {
+//     const epochStartDate = Math.min.apply(Math, chartData.map(function(data) { return Date.parse(Object.keys(data.data)[0]); }));
+//     const epochEndDate = Math.max.apply(Math, chartData.map(function(data) { var timestamps = Object.keys(data.data); return Date.parse(timestamps[timestamps.length-1]); }));
+//     return Highcharts.chart('scripts-chart-container', {
+//       chart: {
+//         type: 'line'
+//       },
+//       title: {
+//         text: 'Performance Score Impact'
+//       },
+//       yAxis: {
+//         title: {
+//           text: 'Performance Score Impact'
+//         }
+//       },
+//       xAxis: { 
+//         type: 'datetime',
+//         title: {
+//           text: 'Tag Changes'
+//         }
+//       },
+//       plotOptions: {
+//         series: {
+//             pointStart: epochStartDate,
+//             pointEnd: epochEndDate
+//             // pointInterval: 86400 * 1000
+//         }
+//       },
+//       series: formatChartData(chartData)
+//     });
+//   });
+// }
 
 function formatChartData(chartData) {
   var formatted = chartData.map(function(data) {
