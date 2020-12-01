@@ -70,18 +70,18 @@ window.addEventListener('load', function() {
 //   });
 // }
 
-function formatChartData(chartData) {
-  var formatted = chartData.map(function(data) {
-    // reverse order here because data.data is an object of datetime: score in order
-    // from oldest to most recent, parsing to array flips order in opposite direction
-    let dataObjectAsArray = Object.keys(data.data).reverse(); 
-    return {
-      name: data.name,
-      data: dataObjectAsArray.map(function(timestamp) { return [timestamp, data.data[timestamp]] })
-    }
-  });
-  return formatted
-}
+// function formatChartData(chartData) {
+//   var formatted = chartData.map(function(data) {
+//     // reverse order here because data.data is an object of datetime: score in order
+//     // from oldest to most recent, parsing to array flips order in opposite direction
+//     let dataObjectAsArray = Object.keys(data.data).reverse(); 
+//     return {
+//       name: data.name,
+//       data: dataObjectAsArray.map(function(timestamp) { return [timestamp, data.data[timestamp]] })
+//     }
+//   });
+//   return formatted
+// }
 
 function setChartMetricListener() {
   var dropdown = document.querySelector('#metric-dropdown');
