@@ -7,6 +7,7 @@ class ScriptChange < ApplicationRecord
   
   scope :older_than, -> (timestamp) { where("created_at < ?", timestamp).order('created_at DESC') }
   scope :newer_than, -> (timestamp) { where("created_at > ?", timestamp).order('created_at DESC') }
+  scope :most_recent, -> { where(most_recent: true) }
 
   # very hacky to allow us to seed DB without resulting background jobs,
   after_create do

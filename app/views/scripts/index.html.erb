@@ -38,7 +38,11 @@
                 <%= link_to script_subscriber_path(script_subscription) do %>
                   <div class="col-12 logo-container">
                     <%= image_tag script_subscription.try_image_url, class: 'img-fluid script-logo' %>
-                    <h5 class="card-title"><%= script_subscription.try_friendly_name %></h5>
+                    <span data-toggle="tooltip"
+                      data-placement="top"
+                      title="<%= script_subscription.try_friendly_name%>">
+                      <h5 class="card-title"><%= script_subscription.try_friendly_name %></h5>
+                    </span>
                   </div>
                   <div class="card-body text-center col-12">
                     <% if script_subscription.removed_from_site? %>

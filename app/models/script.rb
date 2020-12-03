@@ -18,8 +18,9 @@ class Script < ApplicationRecord
   scope :one_minute_interval_checks, -> { self.all }
   scope :five_minute_interval_checks, -> { self.all }
   # etc...
-  scope :with_active_subscribers, -> { joins(:script_subscribers).where(script_subscribers: { active: true }) }
-  scope :still_on_site, -> { joins(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
+  scope :with_active_subscribers, -> { includes(:script_subscribers).where(script_subscribers: { active: true }) }
+  scope :still_on_site, -> { includes(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
+  scope :monitor_changes, -> { includes(:script_subscribers).where(script_subscribers: { monitor_changes: true }) }
 
   def current_test_status(domain)
     most_recent_result.test_results_status(domain)

@@ -1,5 +1,5 @@
 module Admin
-  class BaseController < ApplicationController
+  class BaseController < LoggedInController
     before_action :verify_admin
   
     def verify_admin

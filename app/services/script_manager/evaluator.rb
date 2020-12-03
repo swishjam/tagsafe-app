@@ -9,12 +9,12 @@ class ScriptManager::Evaluator
   def evaluate!
     @response = fetcher.fetch!
     log_script_check!
-    if fetcher.response_code === 200
+    if fetcher.response_code == 200
       @hashed_content = ScriptManager::Hasher.hash!(@response.body)
 
       try_script_change!
     else
-      Rails.logger.error "Fetch for #{@script.url} (id: #{@script.id}) resulted in a #{@response.code} response code. Skipping script change creation and test runs."
+      Resque.logger.error "Fetch for #{@script.url} (id: #{@script.id}) resulted in a #{@response.code} response code. Skipping script change creation and test runs."
     end
   end
 
@@ -42,6 +42,8 @@ class ScriptManager::Evaluator
     if should_log_script_change?
       Resque.logger.info "Capturing a change to script: #{@script.url}."
       @script_change = ScriptManager::ChangeProcessor.new(@script, @response.body, hashed_content: @hashed_content).process_change!
+    else
+      Resque.logger.info "#{@script.url} did not change. Previous hash: #{@script.most_recent_result.hashed_content}, this hash: #{@hashed_content}."
     end
   end
 
