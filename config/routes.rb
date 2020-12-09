@@ -27,16 +27,20 @@ Rails.application.routes.draw do
   end
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
+    member do 
+      get :with_without
+    end
     resources :script_changes, only: [:show] do
       member do
         post :run_audit
+        get :content
       end
       resources :audits, only: [:index, :show] do
         member do
           post :make_primary  
         end
+        resources :performance_audit_logs, only: [:index]
       end
-      resources :lighthouse_audits, only: [:show]
     end
   end
   resources :tests
@@ -74,7 +78,7 @@ Rails.application.routes.draw do
     post 'geppetto_receiver/domain_scan_complete' => 'geppetto_receiver#domain_scan_complete'
     post 'geppetto_receiver/standalone_test_complete' => 'geppetto_receiver#standalone_test_complete'
     post 'geppetto_receiver/test_group_complete' => 'geppetto_receiver#test_group_complete'
-    post 'geppetto_receiver/lighthouse_audit_complete' => 'geppetto_receiver#lighthouse_audit_complete'
+    post 'geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
   end
 
   

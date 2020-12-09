@@ -7,40 +7,37 @@ class Audit < ApplicationRecord
   belongs_to :script_subscriber
   belongs_to :execution_reason
 
-  has_many :lighthouse_audits, dependent: :destroy
-
-  has_one :delta_lighthouse_audit, dependent: :destroy
-  has_one :average_current_tag_lighthouse_audit, dependent: :destroy
-  has_one :average_without_tag_lighthouse_audit, dependent: :destroy
-  has_many :current_tag_lighthouse_audits, dependent: :destroy
-  has_many :without_tag_lighthouse_audits, dependent: :destroy
+  has_many :performance_audits
+  has_one :performance_audit_with_tag
+  has_one :performance_audit_without_tag
+  has_one :delta_performance_audit
 
   ##########
   # SCOPES #
   ##########
-  scope :older_than, -> (timestamp) { where('created_at > ?', timestamp) }
   scope :primary, -> { where(primary: true) }
 
-  scope :pending_lighthouse_audits, -> { where(lighthouse_audit_completed_at: nil) }
-  scope :completed_lighthouse_audits, -> { where.not(lighthouse_audit_completed_at: nil) }
-
-  scope :failed_lighthouse_audits, -> { where.not(lighthouse_error_message: nil) }
-  scope :successful_lighthouse_audits, -> { where(lighthouse_error_message: nil) }
-
   scope :pending_test_suite, -> { where(test_suite_completed_at: nil) }
-  scope :completed_test_suites, -> { where.not(test_suite_completed_at: nil) }
+  scope :completed_test_suite, -> { where.not(test_suite_completed_at: nil) }
 
-  scope :pending_completion, -> { where(test_suite_completed_at: nil).or(where(lighthouse_audit_completed_at: nil)) }
-  scope :completed, -> { where.not(test_suite_completed_at: nil, lighthouse_audit_completed_at: nil) }
+  scope :pending_performance_audit, -> { where(performance_audit_completed_at: nil) }
+  scope :completed_performance_audit, -> { where.not(performance_audit_completed_at: nil) }
 
-  def completed_lighthouse_audits!
+  scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
+  scope :successful_performance_audit, -> { where(performance_audit_error_message: nil) }
+
+  scope :pending_completion, -> { where(test_suite_completed_at: nil).or(where(performance_audit_completed_at: nil)) }
+  scope :completed, -> { where.not(test_suite_completed_at: nil, performance_audit_completed_at: nil) }
+
+  def completed_performance_audit!
     make_primary! unless primary?
-    touch(:lighthouse_audit_completed_at)
+    touch(:performance_audit_completed_at)
     check_after_completion
   end
 
-  def lighthouse_audit_pending?
-    lighthouse_audit_completed_at.nil?
+  def performance_audit_error!(err_msg)
+    update(performance_audit_error_message: err_msg)
+    touch(:performance_audit_completed_at)
   end
 
   def completed_test_suite!
@@ -55,33 +52,37 @@ class Audit < ApplicationRecord
     end
   end
 
+  def performance_audit_failed?
+    !performance_audit_error_message.nil?
+  end
+
+  def performance_audit_pending?
+    performance_audit_completed_at.nil?
+  end
+
+  def performance_audit_complete?
+    !performance_audit_pending?
+  end
+  alias performance_audit_completed? performance_audit_complete?
+
   def test_suite_pending?
     test_suite_completed_at.nil?
   end
 
-  def pending?
-    lighthouse_audit_pending? || test_suite_pending?
+  def test_suite_complete?
+    !test_suite_pending?
   end
-  alias is_pending? pending?
+  alias test_suite_completed? test_suite_complete?
 
-  def lighthouse_error!(error_msg)
-    update(lighthouse_error_message: error_msg)
+  def complete?
+    performance_audit_complete? && test_suite_complete?
   end
-
-  def lighthouse_audit_failed?
-    !lighthouse_error_message.nil?
-  end
-  alias has_failed_lighthouse_audit? lighthouse_audit_failed?
+  alias completed? complete?
 
   def primary?
     primary
   end
   alias is_primary? primary?
-
-  def complete?
-    !lighthouse_audit_completed_at.nil? && !test_suite_completed_at.nil?
-  end
-  alias completed? complete?
 
   def make_primary!
     if previous_primary_audit = script_subscriber.primary_audit_by_script_change(script_change)
@@ -96,16 +97,7 @@ class Audit < ApplicationRecord
   end
   memoize :previous_primary_audit
 
-  def exceeded_psi_threshold?
-    script_subscriber.lighthouse_preferences.performance_impact_threshold.abs < delta_lighthouse_audit.performance_score.abs
-  end
-
-  def psi_over_threshold
-    delta_lighthouse_audit.performance_score.abs - script_subscriber.lighthouse_preferences.performance_impact_threshold.abs
-  end
-
-  def psi_percent_over_threshold
-    return 0.0 unless exceeded_psi_threshold?
-    psi_over_threshold / script_subscriber.lighthouse_preferences.performance_impact_threshold.abs
+  def result_metric_percent_impact(metric_key)
+    ((delta_performance_audit.metric_result(metric_key)/performance_audit_with_tag.metric_result(metric_key))*100).round(2)
   end
 end

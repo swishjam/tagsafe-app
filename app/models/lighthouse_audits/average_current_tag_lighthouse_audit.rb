@@ -1,2 +1,0 @@
-class AverageCurrentTagLighthouseAudit < LighthouseAudit
-end

@@ -1,5 +1,6 @@
 class ScriptChangesController < LoggedInController
-  before_action :authorize!
+  skip_before_action :authorize!, only: :content
+  protect_from_forgery except: :content
 
   def show
     @script_change = ScriptChange.find(params[:id])
@@ -23,12 +24,17 @@ class ScriptChangesController < LoggedInController
     )
   end
 
+  def content
+    @content = ScriptChange.find(params[:id]).content
+    render js: @content
+  end
+
   def run_audit
     script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
     permitted_to_view?(script_subscriber, raise_error: true)
     script_change = ScriptChange.find(params[:id])
     script_subscriber.run_audit_for_script_change(script_change)
-    flash[:banner_message] = "Performing audit on #{script_subscriber.try_friendly_name}"
+    display_toast_message("Performing audit on #{script_subscriber.try_friendly_name}")
     redirect_to request.referrer
   end
 end

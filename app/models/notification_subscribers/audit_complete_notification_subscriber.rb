@@ -4,6 +4,6 @@ class AuditCompleteNotificationSubscriber < NotificationSubscriber
   end
 
   def send_email!(audit)
-    AuditCompleteMailer.send_audit_completed_email(audit, user).deliver
+    TagSafeMailer.send_audit_completed_email(audit, user).deliver
   end
 end

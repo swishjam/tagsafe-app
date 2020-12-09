@@ -5,10 +5,6 @@ module Api
       toggle_notification_type!(AuditCompleteNotificationSubscriber)
     end
 
-    def toggle_lighthouse_audit_exceeded_threshold_notification
-      toggle_notification_type!(LighthouseAuditExceededThresholdNotificationSubscriber)
-    end
-
     def toggle_test_failed_notification
       toggle_notification_type!(FailedTestNotificationSubscriber)
     end

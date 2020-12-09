@@ -5,8 +5,6 @@ class ScriptChange < ApplicationRecord
   has_many :audits, dependent: :destroy
   has_one_attached :js_file
   
-  scope :older_than, -> (timestamp) { where("created_at < ?", timestamp).order('created_at DESC') }
-  scope :newer_than, -> (timestamp) { where("created_at > ?", timestamp).order('created_at DESC') }
   scope :most_recent, -> { where(most_recent: true) }
 
   # very hacky to allow us to seed DB without resulting background jobs,
@@ -32,9 +30,12 @@ class ScriptChange < ApplicationRecord
     update!(most_recent: true)
   end
 
-  def js_file_url(only_path = true)
-    # figure out how to define host! we have env['host], does that work?
+  def js_file_path(only_path = true)
     rails_blob_path(js_file.attachment, only_path: only_path)
+  end
+
+  def js_file_url
+    rails_blob_url(js_file.attachment, host: ENV['host'])
   end
 
   def primary_audit

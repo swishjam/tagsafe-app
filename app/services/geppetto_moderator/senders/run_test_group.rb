@@ -39,6 +39,6 @@ class GeppettoModerator::Senders::RunTestGroup < GeppettoModerator::Senders::Bas
 
   # assume this runs after the newest script_change was created, so use the previous js file
   def endpoint_to_override_to
-    @script_change.first_change? ? nil : "#{ENV['host']}#{@script_change.previous_change.js_file_url}"
+    @script_change.first_change? ? nil : @script_change.previous_change.js_file_url
   end
 end

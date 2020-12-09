@@ -1,0 +1,20 @@
+body.performance_audit_logs {
+  .log-container {
+    span {
+      word-wrap: break-word;
+      display: block;
+    }
+    .log-description {
+      font-weight: bold;
+    }
+    .blocked-request {
+      color: red;
+    }
+    .allowed-request {
+      color: green;
+    }
+    .blocked-request:hover, .allowed-request:hover {
+      background: lightgrey;
+    }
+  }
+}

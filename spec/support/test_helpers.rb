@@ -2,6 +2,11 @@ def stub_script_valid_url_validation
   # expect_any_instance_of(Script).to receive(:valid_url).at_least(:once).and_return(true)
 end
 
+def stub_domain_scan
+  expect_any_instance_of(GeppettoModerator::Senders::ScanDomain).to receive(:send!)
+  # expect_any_instance_of(Domain).to receive(:scan_and_capture_domains_scripts)
+end
+
 def stub_script_changed_job
   expect(ScriptChangedJob).to receive(:perform_later).at_least(:once).and_return('STUBBED')
 end

@@ -1,16 +1,16 @@
 <div class="row">
   <div class="col-12 lighthouse-results-container">
     <% if audit.nil? %>
-      No audits run.
-    <% elsif audit.lighthouse_audit_pending? %>
-      <span class="badge badge-primary" style="white-space: normal">Lighthouse Audit currently running.</span>
-    <% elsif audit.lighthouse_audit_failed? %>
-      Lighthouse Failure:
-      <%= audit.lighthouse_error_message %>
+      No performance audits run.
+    <% elsif audit.performance_audit_pending? %>
+      <span class="badge badge-primary" style="white-space: normal">Performance Audit currently running.</span>
+    <% elsif audit.performance_audit_failed? %>
+      Performance audit Failure:
+      <%= audit.performance_audit_error_message %>
     <% else %>
       <h6>
-        Performance Score Impact:
-        <% if script_subscriber.has_pending_lighthouse_audits_by_script_change?(script_subscriber.script.most_recent_change) %>
+        <%= performance_audit_metric_type.title %> Impact:
+        <% if script_subscriber.has_pending_performance_audits_by_script_change?(script_subscriber.script.most_recent_change) %>
           <span data-toggle="tooltip"
                 data-placement="top"
                 title="Another audit is currently running, metrics will update upon completion.">
@@ -18,29 +18,23 @@
           </span>
         <% end %>
       </h6>
-      <% impact_on_performance_score = audit.delta_lighthouse_audit.formatted_performance_score %>
-      <h4><%= impact_on_performance_score %></h4>
+      <% impact = audit.delta_performance_audit.metric_result(performance_audit_metric_type.key) %>
+      <h4><%= number_to_human(impact, units: { unit: 'ms', thousand: 'seconds' }) %></h4>
       <% unless previous_audit.nil? %>
-        <% previous_impact_on_performance_score = previous_audit.delta_lighthouse_audit.formatted_performance_score %>
-        <% diff_in_psi = (impact_on_performance_score - previous_impact_on_performance_score).round(2) %>
-        <% icon_class = diff_in_psi.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+        <% previous_impact = previous_audit.delta_performance_audit.metric_result(performance_audit_metric_type.key) %>
+        <% diff_in_impact = (impact - previous_impact).round(2) %>
+        <% percent_change = ((diff_in_impact/previous_impact)*100).round(2) %>
+        <% icon_class = diff_in_impact.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
         <span data-toggle="tooltip"
               data-placement="top"
-              title="The previous version of <%= script_subscriber.try_friendly_name %> had a <%=previous_impact_on_performance_score%> PSI; <%= diff_in_psi.positive? ? 'an improvement' : 'a drop'%> of <%=diff_in_psi.abs%> points." 
-              class="<%=diff_in_psi.positive? ? 'positive' : 'negative'%>">
+              title="The previous version of <%= script_subscriber.try_friendly_name %> had a <%= number_to_human(previous_impact, units: { unit: 'ms', thousand: 'seconds' }) %> impact on <%= performance_audit_metric_type.title %>; <%= diff_in_impact.positive? ? 'an increase' : 'a decrease'%> of <%=diff_in_impact.abs%> <%=performance_audit_metric_type.unit%>." 
+              class="<%=diff_in_impact.positive? ? 'negative' : 'positive'%>">
           <i class="fas <%=icon_class%>"></i>
-          <%= diff_in_psi %>
+          <%= number_to_human(diff_in_impact, units: { unit: 'ms', thousand: 'seconds' }) %> (<%= number_with_delimiter(percent_change) %>%)
         </span>
       <% else %>
         <span>--</span>
       <% end %>
     <% end %>
   </div>
-  <%
-=begin%>
- <div class="psi-gauge-container col-12" style="height: 20px; border: 1px solid black; padding:0">
-    <div class="psi-gauge" data-psi-impact="<%= impact_on_performance_score %>" style="width:<%=impact_on_performance_score.abs%>%; background-color: green; height: 100%"></div>
-  </div> 
-<%
-=end%>
 </div>

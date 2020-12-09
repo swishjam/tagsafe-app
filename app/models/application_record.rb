@@ -1,8 +1,19 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
+  scope :older_than, -> (timestamp) { where("created_at < ?", timestamp).order('created_at DESC') }
+  scope :older_than_or_equal_to, -> (timestamp) { where("created_at <= ?", timestamp).order('created_at DESC') }
+  scope :newer_than, -> (timestamp) { where("created_at > ?", timestamp).order('created_at DESC') }
+  scope :newer_than_or_equal_to, -> (timestamp) { where("created_at >= ?", timestamp).order('created_at DESC') }
+
   scope :most_recent_first, -> (timestamp_column = 'created_at') { order("#{timestamp_column} DESC") }
   scope :most_recent_last, -> (timestamp_column = 'created_at') { order("#{timestamp_column} ASC") }
+  
+  def toggle_boolean_column(column)
+    attrs = {}
+    attrs[column] = !send(column)
+    update(attrs)
+  end
 
   class << self
     attr_accessor :skip_callbacks
@@ -14,7 +25,7 @@ class ApplicationRecord < ActiveRecord::Base
     end
 
     # allows us to use .send dynamically using many methods
-    def send_chain(methods)
+    def chain_scopes(methods)
       methods.inject(self) { |result, method| 
         result.send(*method) 
       }

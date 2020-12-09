@@ -3,7 +3,7 @@ class AuditsController < LoggedInController
     @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
     permitted_to_view?(@script_subscriber)
     @script_change = ScriptChange.find(params[:script_change_id])
-    @audits = @script_subscriber.audits_by_script_change(@script_change, include_pending_lighthouse_audits: true, include_pending_test_suites: true, include_failed_lighthouse_audits: true)
+    @audits = @script_subscriber.audits_by_script_change(@script_change)
     @primary_audit = @script_subscriber.primary_audit_by_script_change(@script_change)
     render_breadcrumbs(
       { url: scripts_path, text: "Monitor Center" },
@@ -18,10 +18,8 @@ class AuditsController < LoggedInController
     @script_change = ScriptChange.find(params[:script_change_id])
     @audit = Audit.find(params[:id])
     @previous_audit = @script_subscriber.primary_audit_by_script_change(@script_change.previous_change)
-    @count_of_audits_for_script_change = @script_subscriber.audits_by_script_change(@script_change, 
-                                                                                    include_pending_lighthouse_audits: true, 
-                                                                                    include_pending_test_suites: true, 
-                                                                                    include_failed_lighthouse_audits: true).count
+    @count_of_audits_for_script_change = @script_subscriber.audits_by_script_change(@script_change).count
+    @metric_types = PerformanceAuditMetricType.all
     render_breadcrumbs(
       { url: scripts_path, text: "Monitor Center" },
       { url: script_subscriber_path(@script_subscriber), text: "#{@script_subscriber.try_friendly_name} Details" },
