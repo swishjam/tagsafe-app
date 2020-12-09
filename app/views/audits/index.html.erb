@@ -14,7 +14,7 @@
       <tr>
         <th scope="col" style="width: 10%">Primary Audit</th>
         <th scope="col" style='width: 22.5%'>Date of Audit</th>
-        <th scope="col" style='width: 22.5%'>Impact on Performance Score</th>
+        <th scope="col" style='width: 22.5%'>Impact on DOM Complete</th>
         <th scope="col" style='width: 22.5%'>Execution Reason</th>
         <th scope="col" style='width: 22.5%'></th>
       </tr>
@@ -23,18 +23,18 @@
       <% @audits.each do |audit| %>
         <tr>
           <td scope="row">
-            <% unless audit.lighthouse_audit_pending? || audit.lighthouse_audit_failed? %>
+            <% unless audit.performance_audit_pending? || audit.performance_audit_failed? %>
               <input type="radio" name="primary_lighthouse_audit" <%=audit.is_primary? ? 'checked' : nil %> value="<%=audit.id%>"/>
             <% end %>
           </td>
           <td scope="row"><%= audit.created_at.formatted %></td>
           <td scope="row">
-            <% if audit.lighthouse_audit_failed? %>
+            <% if audit.performance_audit_failed? %>
               <span class="badge badge-danger">Failed</span>
-            <% elsif audit.lighthouse_audit_pending? %>
+            <% elsif audit.performance_audit_pending? %>
               <span class="badge badge-primary">Pending completion</span>
             <% else %>
-              <%= audit.delta_lighthouse_audit.formatted_performance_score %>
+              <%= number_to_human(audit.delta_performance_audit.metric_result('DOMComplete'), units: { unit: 'ms', thousand: 'seconds' }) %>
             <% end %>
           </td>
           <td scope="row"><%= audit.execution_reason.name %></td>

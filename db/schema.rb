@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_29_161537) do
+ActiveRecord::Schema.define(version: 2020_12_07_025029) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -38,13 +38,13 @@ ActiveRecord::Schema.define(version: 2020_11_29_161537) do
     t.integer "script_subscriber_id"
     t.integer "execution_reason_id"
     t.boolean "primary"
-    t.timestamp "lighthouse_audit_enqueued_at"
-    t.timestamp "lighthouse_audit_completed_at"
+    t.timestamp "performance_audit_enqueued_at"
+    t.timestamp "performance_audit_completed_at"
     t.timestamp "test_suite_enqueued_at"
     t.timestamp "test_suite_completed_at"
-    t.string "lighthouse_audit_url"
+    t.string "performance_audit_url"
     t.timestamp "created_at"
-    t.string "lighthouse_error_message"
+    t.string "performance_audit_error_message"
   end
 
   create_table "domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -66,35 +66,6 @@ ActiveRecord::Schema.define(version: 2020_11_29_161537) do
     t.string "data_type"
   end
 
-  create_table "lighthouse_audit_metric_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title"
-    t.string "key"
-    t.string "result_unit"
-  end
-
-  create_table "lighthouse_audit_metrics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "lighthouse_audit_id"
-    t.float "result"
-    t.float "score"
-    t.integer "lighthouse_audit_metric_type_id"
-  end
-
-  create_table "lighthouse_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "error_message", limit: 16777215
-    t.float "performance_score"
-    t.string "type"
-    t.integer "audit_id"
-  end
-
-  create_table "lighthouse_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "script_subscriber_id"
-    t.boolean "should_run_audit"
-    t.string "url_to_audit"
-    t.integer "num_test_iterations"
-    t.boolean "should_capture_individual_audit_metrics"
-    t.float "performance_impact_threshold"
-  end
-
   create_table "notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "type"
     t.integer "user_id"
@@ -106,6 +77,38 @@ ActiveRecord::Schema.define(version: 2020_11_29_161537) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "maximum_active_script_subscriptions"
+  end
+
+  create_table "performance_audit_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "performance_audit_id"
+    t.text "logs", limit: 4294967295
+  end
+
+  create_table "performance_audit_metric_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.string "key"
+    t.text "description"
+    t.string "unit"
+  end
+
+  create_table "performance_audit_metrics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "performance_audit_id"
+    t.integer "performance_audit_metric_type_id"
+    t.float "result"
+  end
+
+  create_table "performance_audit_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_subscriber_id"
+    t.boolean "should_run_audit"
+    t.string "url_to_audit"
+    t.integer "num_test_iterations"
+  end
+
+  create_table "performance_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "audit_id"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -156,6 +159,10 @@ ActiveRecord::Schema.define(version: 2020_11_29_161537) do
     t.string "friendly_name"
     t.timestamp "removed_from_site_at"
     t.boolean "monitor_changes"
+    t.boolean "allowed_third_party_tag", default: false
+    t.boolean "is_third_party_tag", default: true
+    t.timestamp "created_at"
+    t.integer "first_script_change_id"
     t.index ["domain_id"], name: "index_script_subscribers_on_domain_id"
     t.index ["script_id"], name: "index_script_subscribers_on_script_id"
   end

@@ -23,8 +23,6 @@ class ApplicationController < ActionController::Base
       case model.class.to_s
       when 'Script'
         no_access!(raise_error) unless current_domain.subscribed_to_script? model
-      when 'LighthouseAudit'
-        no_access!(raise_error) unless current_domain.script_subscriptions.include? model.script_subscriber
       when 'ScriptSubscriber'
         no_access!(raise_error) unless current_domain.script_subscriptions.include? model
       when 'ScriptChange'

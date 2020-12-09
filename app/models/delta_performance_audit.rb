@@ -1,0 +1,2 @@
+class DeltaPerformanceAudit < PerformanceAudit
+end

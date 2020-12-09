@@ -3,16 +3,16 @@ class ScriptSubscriber < ApplicationRecord
   # has_many :test_subscriptions, class_name: 'TestSubscriber', dependent: :destroy
 
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
-  has_many :lighthouse_audits, through: :audits
   belongs_to :domain
   belongs_to :script
-  has_one :lighthouse_preferences, class_name: 'LighthousePreference', dependent: :destroy
+  belongs_to :first_script_change, class_name: 'ScriptChange'
 
   has_many :notification_subscribers, dependent: :destroy
   has_many :script_change_notification_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
   has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber'
-  has_many :lighthouse_audit_exceeded_threshold_notification_subscribers, class_name: 'LighthouseAuditExceededThresholdNotificationSubscriber'
+
+  has_one :performance_audit_preferences, class_name: 'PerformanceAuditPreference'
 
   has_one_attached :image
 
@@ -28,11 +28,11 @@ class ScriptSubscriber < ApplicationRecord
   scope :inactive, -> { where(active: false) }
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :no_longer_on_site, -> { where.not(removed_from_site_at: nil) }
-  scope :should_run_lighthouse_audit, -> { joins(:lighthouse_preferences).where(lighthouse_preferences: { should_run_audit: true }) }
-  scope :should_not_run_lighthouse_audit, -> { joins(:lighthouse_preferences).where(lighthouse_preferences: { should_run_audit: false }) }
+  scope :is_third_party_tag, -> { where(is_third_party_tag: true) }
+  scope :third_party_tags_that_shouldnt_be_blocked, -> { where(is_third_party_tag: false).or(where(allowed_third_party_tag: true)) }
 
   def add_defaults
-    create_default_lighthouse_preferences
+    create_performance_audit_preferences
     add_default_tests
   end
 
@@ -41,6 +41,10 @@ class ScriptSubscriber < ApplicationRecord
     if saved_changes['active'] && saved_changes['active'][0] == false && saved_changes['active'][1] == true
       AfterScriptSubscriberActivationJob.perform_later(self)
     end
+  end
+
+  def script_changes
+    script.script_changes.newer_than_or_equal_to(first_script_change.created_at).most_recent_first
   end
 
   def active?
@@ -71,47 +75,33 @@ class ScriptSubscriber < ApplicationRecord
     'https://media-exp1.licdn.com/dms/image/C560BAQHwLj3toRYF_g/company-logo_200_200/0?e=2159024400&v=beta&t=2MQGVdnroZzS27kcAyUQqwIBzsDQ1Dp-7znPnejukuE'
   end
 
-  def create_default_lighthouse_preferences
-    raise 'LighthousePreference relation already exists' unless lighthouse_preferences.nil?
-    LighthousePreference.create_default!(self)
+  def create_performance_audit_preferences
+    PerformanceAuditPreference.create_default(self)
   end
 
   def run_audit_for_script_change(script_change, execution_reason = ExecutionReason.MANUAL)
     RunAuditForScriptSubscriberJob.perform_later(self, script_change, execution_reason)
   end
 
-
-  def lighthouse_audit_result_metrics
-    LighthouseAuditResultMetric.by_script_subscriber(self)
-  end
-
   def has_pending_audits_by_script_change?(script_change)
     audits.pending_completion.where(script_change: script_change).any?
   end
 
-  def has_pending_lighthouse_audits_by_script_change?(script_change)
-    audits.pending_lighthouse_audits.where(script_change: script_change).any?
+  def has_pending_performance_audits_by_script_change?(script_change)
   end
 
   def most_recent_audit_is_pending?
-    audits.limit(1).first.pending?
+    most_recent_audit.pending?
   end
 
-  def has_pending_lighthouse_audit?
-    audits.pending_lighthouse_audits.any?
+  def audits_by_script_change(script_change)
+    # scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
+    audits.where(script_change: script_change).order('audits.created_at DESC')
   end
 
-  def audits_by_script_change(script_change, include_pending_lighthouse_audits: false, include_pending_test_suites: false, include_failed_lighthouse_audits: false)
-    scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
-    audits.send_chain(scopes)
-            .includes(:lighthouse_audits)
-            .where(script_change: script_change)
-            .order('audits.created_at DESC')
-  end
-
-  def most_recent_audit(include_pending_lighthouse_audits: false, include_pending_test_suites: false, include_failed_lighthouse_audits: false)
-    scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
-    audits.send_chain(scopes).includes(:lighthouse_audits).limit(1).first
+  def most_recent_audit
+    # scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
+    audits.limit(1).first
   end
 
   def primary_audit_by_script_change(script_change)
@@ -119,9 +109,9 @@ class ScriptSubscriber < ApplicationRecord
     audits.where(script_change: script_change, primary: true).limit(1).first
   end
 
-  def most_recent_audit_by_script_change(script_change, include_pending_lighthouse_audits: false, include_pending_test_suites: false, include_failed_lighthouse_audits: false)
-    scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
-    audits.send_chain(scopes).where(script_change: script_change).includes(:lighthouse_audits).limit(1).first
+  def most_recent_audit_by_script_change(script_change, include_pending_performance_audits: false, include_failed_performance_audits: false)
+    scopes = determine_audit_scopes(include_pending_performance_audits: include_pending_performance_audits, include_failed_performance_audits: include_failed_performance_audits)
+    audits.chain_scopes(scopes).where(script_change: script_change).limit(1).first
   end
 
   def run_audit!(script_change, execution_reason)
@@ -144,26 +134,30 @@ class ScriptSubscriber < ApplicationRecord
     test_subscriptions.create(test: test, expected_test_result: expected_test_result, active: true)
   end
 
-  def toggle_lighthouse_flag!
-    lighthouse_preferences.update(should_run_audit: !lighthouse_preferences.should_run_audit)
-  end
-
-  def toggle_active_flag!
-    update(active: !active)
-  end
-
   def removed_from_site!
     touch(:removed_from_site_at)
     update(active: false)
   end
 
+  def toggle_monitor_changes_flag!
+    toggle_boolean_column(:monitor_changes)
+  end
+
+  def toggle_active_flag!
+    toggle_boolean_column(:active)
+  end
+
+  def toggle_third_party_flag!
+    toggle_boolean_column(:is_third_party_tag)
+  end
+
   private
 
-  def determine_audit_scopes(include_pending_lighthouse_audits:, include_pending_test_suites:, include_failed_lighthouse_audits:)
+  def determine_audit_scopes(include_pending_performance_audits:, include_failed_performance_audits:)
     [
-      include_pending_lighthouse_audits ? nil : :completed_lighthouse_audits,
-      include_pending_test_suites ? nil : :completed_test_suites,
-      include_failed_lighthouse_audits ? nil : :successful_lighthouse_audits
+      include_pending_performance_audits ? nil : :completed_performance_audit,
+      # include_pending_test_suites ? nil : :completed_test_suite,
+      include_failed_performance_audits ? nil : :successful_performance_audit
     ].compact || []
   end
 

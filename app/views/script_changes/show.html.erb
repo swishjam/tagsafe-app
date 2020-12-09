@@ -1,17 +1,19 @@
 <style><%= Diffy::CSS %></style>
 <div class="row git-diff-container">
-  <div class="col-6" style="word-break: break-all">
-    <h6 class="text-center"><%= @script_change.created_at.formatted %></h6>
-    <%= @git_diff_script_change %>
+  <div class="col-6">
+    <div style="word-break: break-all; margin: 15px; border-radius: 15px; border: 1px solid grey; background: white; padding: 15px;">
+      <h6 class="text-center"><%= @script_change.created_at.formatted %></h6>
+      <%= @git_diff_script_change %>
+    </div>
   </div>
   <div class="col-6">
-    <% if @previous_script_change.nil? %>
-      <h6 class="text-center">This was the first time the tag has been captured by TagSafe. No previous changes to compare to.</h6>
-    <% else %>
-      <div style="word-break: break-all">
+    <div style="word-break: break-all; margin: 15px; border-radius: 15px; border: 1px solid grey; background: white; padding: 15px;">
+      <% if @previous_script_change.nil? %>
+        <h6 class="text-center">This was the first time the tag has been captured by TagSafe. No previous changes to compare to.</h6>
+      <% else %>
         <h6 class="text-center"><%= @previous_script_change.created_at.formatted %></h6>
         <%= @git_diff_previous_script_change %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

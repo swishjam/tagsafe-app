@@ -3,6 +3,7 @@ module ScriptManager
     def initialize(domain, new_script_urls)
       @domain = domain
       @new_script_urls = new_script_urls
+      @first_scan = @domain.scripts.count.zero?
     end
 
     def evaluate!
@@ -26,15 +27,16 @@ module ScriptManager
 
     def subscribe_domain_to_existing_script(script)
       unless @domain.subscribed_to_script? script
-        script_subscriber = @domain.subscribe!(script)
-        script_subscriber.run_audit!(script_subscriber.script.most_recent_change, ExecutionReason.FIRST_AUDIT)
+        @domain.subscribe!(script, first_script_change: script.most_recent_change, first_scan: @first_scan)
+        # No audits should be run. The script subscriber is inactive. We will run audits upon activation.
+        # script_subscriber.run_audit!(script_subscriber.script.most_recent_change, ExecutionReason.FIRST_AUDIT)
       end
     end
 
     def subscribe_domain_to_new_script(url)
       script = Script.create(url: url, should_log_script_checks: false)
-      script_subscriber = @domain.subscribe!(script)
-      script.evaluate_script_content
+      evaluator = script.evaluate_script_content
+      @domain.subscribe!(script, first_script_change: evaluator.script_change, first_scan: @first_scan)
     end
 
     def remove_scripts_no_longer_on_domain

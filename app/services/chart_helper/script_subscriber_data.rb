@@ -1,39 +1,71 @@
 module ChartHelper
   class ScriptSubscriberData
-    def initialize(script_subscriber)
+    def initialize(script_subscriber, chart_type, metric_keys)
       @script_subscriber = script_subscriber
+      @chart_type = chart_type
+      @metric_keys = metric_keys
+      @chart_data = []
     end
 
-    def get_metric_data_by_keys!(keys)
-      chart_data = []
-      if keys.include?('psi')
-        chart_data.concat(get_psi_data!)
-      end
-      keys.delete('psi')
-      LighthouseAuditMetric.includes(lighthouse_audit: [audit: [:script_change]])
-                            .by_script_subscriber(@script_subscriber)
-                            .by_lighthouse_audit_type('DeltaLighthouseAudit')
-                            .primary_audits
-                            .by_key(keys)
-                            .group_by(&:title).each do |metric_obj|
-        metric_data = { name: metric_obj[0], data: {} }
-        metric_obj[1].each do |metric|
-          metric_data[:data][metric.lighthouse_audit.audit.script_change.created_at] = metric.result
+    def get_metric_data!
+      grouped_performance_audit_metrics.each do |dataset_tite, audit_metrics|
+        metric_data = { name: dataset_tite, data: {} }
+        audit_metrics.each do |metric|
+          metric_data[:data][metric.performance_audit.audit.script_change.created_at] = metric.result
         end
-        chart_data << metric_data
+        @chart_data << metric_data
       end
-      chart_data
+      @chart_data
     end
 
-    def get_psi_data!
-      psi_data = { name: 'Performance Score Impact', data: {} }
-      @script_subscriber.lighthouse_audits
-                          .includes(audit: [:script_change])
-                          .by_lighthouse_audit_type('DeltaLighthouseAudit')
-                          .primary_audits.each do |lighthouse_audit|
-        psi_data[:data][lighthouse_audit.audit.script_change.created_at] = lighthouse_audit.formatted_performance_score
+    private
+
+    def grouped_performance_audit_metrics
+      PerformanceAuditMetric.includes(performance_audit: [audit: [:script_change]])
+                              .by_script_subscriber(@script_subscriber)
+                              .by_audit_type(audit_types)
+                              .primary_audits
+                              .by_key(@metric_keys)
+                              .group_by{ |metric| grouped_by_method(metric) }
+    end
+
+    def grouped_by_method(metric)
+      [metric.title, friendly_audit_type_name(metric.performance_audit)].join(' ')
+    end
+
+    def friendly_audit_type_name(performance_audit)
+      case performance_audit.type
+      when 'DeltaPerformanceAudit'
+        'Impact'
+      when 'PerformanceAuditWithTag'
+        'With Tag'
+      when 'PerformanceAuditWithoutTag'
+        'Without Tag'
       end
-      [psi_data]
+    end
+
+    def audit_types
+      @chart_type == 'impact' ? 'DeltaPerformanceAudit' : ['PerformanceAuditWithTag', 'PerformanceAuditWithoutTag']
     end
   end
 end
+
+#   if chart_type == 'impact'
+    
+#   else
+#     PerformanceAuditMetric.includes(performance_audit: [audit: [:script_change]])
+#                           .by_script_subscriber(@script_subscriber)
+#                           .by_audit_type(['PerformanceAuditWithTag', 'PerformanceAuditWithoutTag'])
+#                           .primary_audits
+#                           .by_key(keys)
+#                           .group_by{ |metric| 
+#                             [metric.performance_audit.type, metric.title].join(' - ') 
+#                           }.each do |metric_obj|
+#       metric_data = { name: metric_obj[0], data: {} }
+#       metric_obj[1].each do |metric|
+#         metric_data[:data][metric.performance_audit.audit.script_change.created_at] = metric.result
+#       end
+#       chart_data << metric_data
+#     end
+#   end
+# end

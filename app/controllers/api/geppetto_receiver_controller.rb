@@ -8,13 +8,15 @@ module Api
         scripts: JSON.parse(params[:scripts])
       )
     end
-    
-    def lighthouse_audit_complete
-      receive!('LighthouseAuditCompleted', 
-        results_with_tag: JSON.parse(params[:results_with_tag]),
-        results_without_tag: JSON.parse(params[:results_without_tag]),
-        audit_id: params[:audit_id],
-        error: params[:error]
+
+    def performance_audit_complete
+      receive!('PerformanceAuditCompleted',
+        error: params[:error], 
+        results_with_tag: JSON.parse(params[:results_with_tag] || '[]'), 
+        results_without_tag: JSON.parse(params[:results_without_tag] || '[]'), 
+        with_tag_logs: params[:with_tag_logs],
+        without_tag_logs: params[:without_tag_logs],
+        audit_id: params[:audit_id]
       )
     end
 

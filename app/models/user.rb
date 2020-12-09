@@ -10,7 +10,6 @@ class User < ApplicationRecord
   has_many :script_change_notification_subscriptions, class_name: 'ScriptChangeNotificationSubscriber'
   has_many :test_failed_notification_subscriptions, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscriptions, class_name: 'AuditCompleteNotificationSubscriber'
-  has_many :lighthouse_audit_exceeded_threshold_notification_subscriptions, class_name: 'LighthouseAuditExceededThresholdNotificationSubscriber'
 
   validates :email, presence: true, uniqueness: true
 

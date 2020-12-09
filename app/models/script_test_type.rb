@@ -1,6 +1,5 @@
 class ScriptTestType < ApplicationRecord
   has_many :test_runs
-  has_many :lighthouse_audit_results
 
   def self.CURRENT_TAG
     @current_tag || find_by(name: 'Current Tag')

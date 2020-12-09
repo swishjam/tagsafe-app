@@ -1,2 +1,0 @@
-class AverageWithoutTagLighthouseAudit < LighthouseAudit
-end

@@ -11,35 +11,16 @@
   <% end %>
 </div>
 
+<%= render partial: 'partials/script_subscriber_chart', locals: { script_subscriber: @script_subscriber } %>
 
-
-
-<div class="col-12 text-right">
-  <select class="selectpicker" id="chart-metrics-dropdown" multiple data-live-search="true">
-    <option value="psi" selected>Performance Score Impact</option>
-    <% LighthouseAuditMetricType.all.each do |metric_type| %>
-      <option value="<%=metric_type.key%>"><%= metric_type.title %></option>
-    <% end %>
-  </select>
-</div>
-<%= 
-  line_chart script_subscriber_chart_path(@script_subscriber),
-    download: true, 
-    code: true, 
-    title: 'Performance Score Impact Over Time',
-    ytitle: 'Performance Score Impact',
-    xtitle: 'Script Change',
-    curve: false,
-    messages: { empty: "No Audits Ran." } 
-%>
-
-<div class="row row-no-side-margins">
-<table class="script-changes-table table table-hover col-12 text-center" style="table-layout: fixed">
+<div class="script-changes-container">
+  <h5 class="text-center">Tag Change Log</h5>
+  <table class="script-changes-table table table-hover col-12 text-center" style="table-layout: fixed">
     <thead>
       <tr>
         <th scope="col" style='width: 20%'>Date of Change</th>
-        <th scope="col" style='width: 20%'>Performance Score Impact</th>
-        <th scope="col" style='width: 20%'>Change in In Performance Score Impact</th>
+        <th scope="col" style='width: 20%'>DOM Complete Impact</th>
+        <th scope="col" style='width: 20%'>Change in DOM Complete Impact</th>
         <th scope="col" style='width: 20%'></th>
         <th scope="col" style='width: 20%'></th>
       </tr>
@@ -47,28 +28,37 @@
     <tbody>
       <% if @script_changes.any? %>
         <% @script_changes.each_with_index  do |script_change, i| %>
-          <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_lighthouse_audits: true) %>
+          <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_performance_audits: true) %>
           <% previous_audit = @script_subscriber.primary_audit_by_script_change(@script_changes[i+1]) %>
           <tr>
             <td scope="row"><%= script_change.created_at.formatted_short %></td>
             <td scope="row">
-              <% if audit %>
-                <span class="<%= audit.exceeded_psi_threshold? ? 'negative' : 'positive'%>">
-                  <%= audit.delta_lighthouse_audit.formatted_performance_score %>
+              <% if !audit %>
+                <span>
+                  No performance audits run
+                </span>
+              <% elsif audit.performance_audit_pending? %>
+                <span>
+                  Performance audit currently running.
+                </span>
+              <% elsif audit.performance_audit_failed? %>
+                <span>
+                  Audit failure: <%= audit.performance_audit_error_message %>
                 </span>
               <% else %>
                 <span>
-                  No lighthouse audit run
+                  <%= number_with_delimiter(audit.delta_performance_audit.metric_result('DOMComplete')) %> ms
                 </span>
               <% end %>
             </td>
             <td scope="row">
-              <% if audit && previous_audit %>
-                <% diff_in_psi = (audit.delta_lighthouse_audit.formatted_performance_score - previous_audit.delta_lighthouse_audit.formatted_performance_score).round(2) %>
-                <% icon_class = diff_in_psi.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
-                <span class="<%=diff_in_psi.positive? ? 'positive' : 'negative'%>">
+              <% if !audit.nil? && !audit.performance_audit_pending? && !audit.performance_audit_failed? && 
+                    !previous_audit.nil? && !previous_audit.performance_audit_pending? && !previous_audit.performance_audit_failed? %>
+                <% diff_in_metric = (audit.delta_performance_audit.metric_result('DOMComplete') - previous_audit.delta_performance_audit.metric_result('DOMComplete')).round(2) %>
+                <% icon_class = diff_in_metric.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+                <span class="<%=diff_in_metric.positive? ? 'negative' : 'positive' %>">
                   <i class="fas <%=icon_class%>"></i>
-                  <%= diff_in_psi %>
+                  <%= number_with_delimiter(diff_in_metric) %> ms
                 </span>
               <% else %>
                 --

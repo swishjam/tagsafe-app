@@ -8,7 +8,6 @@ class Script < ApplicationRecord
   has_many :script_change_notification_subscribers, through: :script_subscribers
   has_many :test_failed_notification_subscribers, through: :script_subscribers
   has_many :audit_complete_notification_subscribers, through: :script_subscribers
-  has_many :lighthouse_audit_exceeded_threshold_notification_subscribers, through: :script_subscribers
   
   has_one_attached :image
 
@@ -21,6 +20,7 @@ class Script < ApplicationRecord
   scope :with_active_subscribers, -> { includes(:script_subscribers).where(script_subscribers: { active: true }) }
   scope :still_on_site, -> { includes(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
   scope :monitor_changes, -> { includes(:script_subscribers).where(script_subscribers: { monitor_changes: true }) }
+  scope :should_run_audit, -> { includes(script_subscribers: [:performance_audit_preferences]).where(script_subscribers: { performance_audit_preferences: { should_run_audit: true }} ) }
 
   def current_test_status(domain)
     most_recent_result.test_results_status(domain)
@@ -41,8 +41,8 @@ class Script < ApplicationRecord
   alias most_recent_change most_recent_result
   alias most_recent_script_change most_recent_result
 
-  def current_js_file_url
-    most_recent_result.js_file_url
+  def current_js_file_path
+    most_recent_result.js_file_path
   end
 
   def first_eval?

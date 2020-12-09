@@ -1,0 +1,2 @@
+class PerformanceAuditWithTag < PerformanceAudit
+end

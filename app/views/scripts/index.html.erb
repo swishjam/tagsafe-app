@@ -1,33 +1,58 @@
 <div class="text-center">
-  <h3>Monitor Center</h3>
+  <h1 class="page-title">Monitor Center</h1>
 
   <% if current_domain.nil? %>
     <h5>You have not defined your domain(s) to monitor.</h5>
   <% else %>
-    <div class="global-psi-chart-container">
-      <h5>Performance Score Impact</h5>
+    <div class="generic-metrics-container">
+      <div class="row">
+        <div class="col-4">
+          <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
+            <h5 class="generic-metric-card-title"># Third Party Tags</h5>
+            <h4 class="generic-metric-card-value"><%= @script_subscriptions.is_third_party_tag.count %></h5>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
+            <h5 class="generic-metric-card-title"># Tag Changes Today</h5>
+            <h4 class="generic-metric-card-value"><%= @tag_change_count %></h5>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
+            <h5 class="generic-metric-card-title"># Active Third Party Tags</h5>
+            <h4 class="generic-metric-card-value"><%= @script_subscriptions.count %></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="global-scripts-chart-container tag-safe-container">
+      <h5>Tag Impact</h5>
       <label for="metric-dropdown">Select Chart Metric</label>
       <select class="selectpicker" id="metric-dropdown" data-max-options="1" data-live-search="true">
-        <option value="psi" data-metric-unit="points" selected>Performance Score Impact</option>
-        <% LighthouseAuditMetricType.all.each do |metric_type| %>
-          <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.result_unit%>"><%= metric_type.title %></option>
-        <% end %>
+        <% PerformanceAuditMetricType.all.each do |metric_type| %>
+          <% if metric_type == @filtered_performance_audit_metric_type %>
+            <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>" selected><%= metric_type.title %></option>
+          <% else %>
+            <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>"><%= metric_type.title %></option>
+          <% end %>
+        <% end %> 
       </select>
       <div id="scripts-chart-container">
-        <%= 
-          line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id)), 
+        <%=
+          line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key), 
             download: true, 
-            title: 'Performance Score Impact Over Time',
-            ytitle: 'Performance Score Impact',
-            xtitle: 'Script Change',
+            title: "#{@filtered_performance_audit_metric_type.title} Impact",
+            ytitle: "#{@filtered_performance_audit_metric_type.title} (#{@filtered_performance_audit_metric_type.unit})",
+            xtitle: 'Tag Changes',
             curve: false,
             messages: { empty: "No Audits Ran." },
             curve: false, 
             legend: "bottom", 
             code: true 
-        %>
+        %> 
       </div>
-    </div>  
+    </div>
 
     <div class="script-subscriptions">
       <% @script_subscriptions.in_groups_of(3, false).each do |group| %>
@@ -58,14 +83,17 @@
                         <p><i class="fas fa-exclamation-circle"></i> Inactive</p>
                       </span>
                     <% else %>
-                      <p>
-                        Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
-                      </p>
+                      <% if !script_subscription.script.most_recent_script_change.first_change? %>
+                        <p>
+                          Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
+                        </p>
+                      <% end %>
                       <%= render partial: 'partials/card_audit_stats', locals: {
                         script_subscriber: script_subscription,
-                        audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change),
-                        previous_audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change&.previous_change)
-                      } %>
+                        audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true),
+                        previous_audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change&.previous_change),
+                        performance_audit_metric_type: @filtered_performance_audit_metric_type
+                      } %> 
                     <% end %>
                   </div>
                 <% end %>

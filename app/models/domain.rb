@@ -9,12 +9,24 @@ class Domain < ApplicationRecord
     scan_and_capture_domains_scripts unless Domain.skip_callbacks
   end
 
-  def subscribe!(script, active: false, monitor_changes: true)
-    script_subscriptions.create!(script: script, active: active, monitor_changes: monitor_changes)
+  def subscribe!(script, first_script_change:, first_scan: false, active: false, monitor_changes: true, allowed_third_party_tag: false, is_third_party_tag: true)
+    ss = script_subscriptions.create!(
+      script: script,
+      first_script_change: first_script_change,
+      active: active, 
+      monitor_changes: monitor_changes,
+      allowed_third_party_tag: allowed_third_party_tag,
+      is_third_party_tag: is_third_party_tag
+    )
+    AfterScriptSubscriberCreationJob.perform_later(ss, first_scan)
   end
 
   def subscribed_to_script?(script)
     scripts.include? script
+  end
+
+  def allowed_third_party_tag_urls
+    script_subscriptions.third_party_tags_that_shouldnt_be_blocked.collect{ |ss| ss.script.url }
   end
 
   def test_subscriptions

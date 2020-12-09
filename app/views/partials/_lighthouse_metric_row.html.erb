@@ -4,14 +4,16 @@
       <%= metric_title %>
     </div>
     <div class="col-6 metric-value">
-      <span class="current-value"><%= number_to_human(current_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %></span>
-      <% unless previous_metric.nil? %>
-        <% diff_in_metric = current_metric - previous_metric %>
+      <span class="current-value"><%= number_to_human(impact_result, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %></span>
+      <% unless previous_impact_result.nil? %>
+        <br/>
+        <% diff_in_metric = impact_result - previous_impact_result %>
         <span data-toggle="tooltip"
               data-placement="top"
-              title="The previous version of <%= script_subscriber.try_friendly_name %>'s 'Impact on <%= metric_title %>' was <%=number_to_human(previous_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil })%> (<%= previous_timestamp.formatted_short %>)." 
+              title="The previous version of <%= script_subscriber.try_friendly_name %>'s 'Impact on <%= metric_title %>' was <%=number_to_human(previous_impact_result, units: { unit: unit, thousand: unit ? 'seconds' : nil })%> (<%= previous_timestamp.formatted_short %>)." 
               class="<%= diff_in_metric.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
-          (<%= diff_in_metric.positive? ? '+' : nil %><%= number_to_human(diff_in_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>)
+          <%= diff_in_metric.positive? ? '+' : nil %><%= number_to_human(diff_in_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
+          (<%= number_with_delimiter(((diff_in_metric/previous_impact_result)*100).round(2)) %>%)
         <% end %>
       </span>
     </div>
