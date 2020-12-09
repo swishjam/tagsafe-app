@@ -1,5 +1,5 @@
 window.addEventListener('load', function() {
-  let stateKeeper = {
+  var stateKeeper = {
     metricKeys: ['DOMComplete'],
     chartType: 'impact'
   }
