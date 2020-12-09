@@ -32,7 +32,7 @@ function setScriptSubscriberChartMetricListener(stateKeeper) {
 function updateChartData(chartType, metricKeys) {
   var chart = Chartkick.charts["chart-1"];
   var xhr = new XMLHttpRequest();
-    xhr.open('GET', `/charts/script_subscriber/${window.scriptSubscriberId}?chart_type=${chartType}&metric_keys=${JSON.stringify(metricKeys)}`, true);
+    xhr.open('GET', '/charts/script_subscriber/'+window.scriptSubscriberId+'?chart_type='+chartType+'&metric_keys='+JSON.stringify(metricKeys), true);
     xhr.send();
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
