@@ -1,0 +1,33 @@
+<h3 class="page-title">Change Log</h3>
+<div class="tag-safe-container">
+  <table class="table table-hover col-12" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" class="col-8" style='width: 20%'>Change Date</th>
+        <th scope="col" class="col-2" style='width: 40%'>Tag</th>
+        <th scope="col" class="col-2" style='width: 30%'>Dom Complete Impact</th>
+        <th scope="col" class="col-2" style='width: 10%'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @audits.each do |audit| %>
+        <tr>
+          <td scope="row"><%= audit.script_change.created_at.formatted %></td>
+          <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= audit.script_subscriber.try_friendly_name %></td>
+          <td scope="row">
+            <% if audit.performance_audit_pending? %>
+            <% elsif audit.performance_audit_failed? %>
+            <% else %>
+              <%= audit.delta_performance_audit.metric_result('DOMComplete') %> ms
+            <% end %>
+          </td>
+          <td scope="row"><%= link_to "View Results", script_subscriber_script_change_audit_path(audit.script_subscriber, audit.script_change, audit) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="pagination-container text-center">
+  <%= paginate @audits %>
+</div>

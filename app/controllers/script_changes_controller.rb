@@ -24,6 +24,13 @@ class ScriptChangesController < LoggedInController
     )
   end
 
+  def index
+    @audits = Audit.joins(:script_subscriber, :script_change)
+                    .where(primary: true, script_subscriber: current_domain.script_subscriptions)
+                    .most_recent_first
+                    .page(params[:page] || 1).per(params[:per_page] || 10)
+  end
+
   def content
     @content = ScriptChange.find(params[:id]).content
     render js: @content

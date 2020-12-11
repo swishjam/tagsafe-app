@@ -7,6 +7,9 @@ body.performance_audit_logs {
     .log-description {
       font-weight: bold;
     }
+    .overwritten-url {
+      color: orange;
+    }
     .blocked-request {
       color: red;
     }

@@ -18,10 +18,23 @@
     </div>
   <% end %>
   <ul>
-    <li><a class="nav-link" href="<%= scripts_path %>"><i class="fas fa-home"></i> Monitor Center</a></li>
-    <li><a class="nav-link" href="<%= script_subscribers_path %>"><i class="fas fa-tasks"></i> Manage Scripts</a></li>
-    <li><a class="nav-link" href="<%= notification_preferences_path %>"><i class="far fa-paper-plane"></i> Manage Notifications</a></li>
-    <li><a class="nav-link" href="<%= new_user_invite_path %>"><i class="fas fa-users"></i> Manage Users</a></li>
+    <% 
+      nav_items = [
+        { path: scripts_path, text: "Monitor Center", icon_class: "fas fa-home" },
+        { path: change_log_path, text: "Change Log", icon_class: "fas fa-stream" },
+        { path: script_subscribers_path, text: "Manage Scripts", icon_class: "fas fa-tasks" },
+        { path: notification_preferences_path, text: "Manage Notifications", icon_class: "fas fa-paper-plane" },
+        { path: new_user_invite_path, text: "Manage Users", icon_class: "fas fa-users" }
+      ]
+    %>
+    <% nav_items.each do |nav| %>
+      <li>
+        <% klass = request.path == nav[:path] ? 'current nav-link' : 'nav-link' %>
+        <%= link_to nav[:path], class: klass do %>
+          <i class="<%= nav[:icon_class] %>"></i> <%= nav[:text] %>
+        <% end %>
+      </li>
+    <% end %>
   </ul>
   <div class="logout-link-container">
     <a class="logout-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>

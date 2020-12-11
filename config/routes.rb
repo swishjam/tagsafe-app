@@ -11,26 +11,28 @@ Rails.application.routes.draw do
 
   resources :registrations, only: [:new, :create]
   
+  resources :organization_users, only: [:destroy]
   resources :user_invites, only: [:new, :create]
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
 
   resources :scripts, only: :index
+  get '/change_log' => 'script_changes#index'
 
-  resources :domains do
-    member do
-      get '/test_subscriptions' => 'test_subscribers#domain_tests' # move this to test_subscriptions routes
-      get '/run_standalone_test' => 'tests#run_standalone_test'
-      post '/post_standalone_test' => 'tests#post_standalone_test'
-      post '/update_current_domain' => 'domains#update_current_domain'
-    end
-  end
+  # resources :domains do
+  #   member do
+  #     get '/test_subscriptions' => 'test_subscribers#domain_tests' # move this to test_subscriptions routes
+  #     get '/run_standalone_test' => 'tests#run_standalone_test'
+  #     post '/post_standalone_test' => 'tests#post_standalone_test'
+  #     post '/update_current_domain' => 'domains#update_current_domain'
+  #   end
+  # end
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
     member do 
       get :with_without
     end
-    resources :script_changes, only: [:show] do
+    resources :script_changes, only: [:show, :index] do
       member do
         post :run_audit
         get :content

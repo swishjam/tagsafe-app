@@ -69,6 +69,7 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
+    bootstrap-select-rails (1.13.8)
     builder (3.2.4)
     byebug (11.1.3)
     capybara (3.33.0)
@@ -378,9 +379,6 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     uber (0.1.0)
@@ -411,6 +409,7 @@ DEPENDENCIES
   binding_of_caller
   bootsnap (>= 1.1.0)
   bootstrap
+  bootstrap-select-rails
   byebug
   capybara (>= 2.15)
   chartkick
@@ -441,7 +440,6 @@ DEPENDENCIES
   solargraph
   spring
   spring-watcher-listen (~> 2.0.0)
-  turbolinks (~> 5)
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
 

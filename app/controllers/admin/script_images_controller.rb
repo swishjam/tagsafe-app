@@ -8,8 +8,8 @@ module Admin
     def show
       @script_image = ScriptImage.find(params[:id])
       render_breadcrumbs(
-        url: admin_script_images_path, text: 'Admin Script Images',
-        text: 'Admin Script Image', active: true
+        { url: admin_script_images_path, text: 'Admin Script Images' },
+        { text: 'Admin Script Image', active: true }
       )
     end
   

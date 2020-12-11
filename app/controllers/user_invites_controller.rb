@@ -1,8 +1,10 @@
 class UserInvitesController < ApplicationController
-  layout 'purgatory'
+  layout 'purgatory', except: :new
+  layout 'logged_in_layout', only: :new
 
   def new
     @user_invite = UserInvite.new
+    @organization_users = OrganizationUser.where(organization_id: current_organization.id)
   end
 
   def create

@@ -12,6 +12,7 @@
  *
  */
 @import "bootstrap";
+@import "bootstrap-select";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "*";
@@ -33,6 +34,9 @@ body.logged-in {
     margin: 0;
     background-color: #eeeeee;
     min-height: 100vh;
+  }
+  .breadcrumb {
+    background: white;
   }
   .page-title {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -61,8 +65,14 @@ body.logged-in {
       list-style: none;
       padding-left: 0;
     }
-    a {
+    a.nav-link {
       color: white;
+      &.current {
+        background: dodgerblue;
+      }
+      &:hover {
+        background: dodgerblue;
+      }
     }
     .dropdown-item {
       color: blue;

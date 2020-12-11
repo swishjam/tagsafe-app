@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_organization
-    @current_organization ||= current_user && current_user.organization
+    @current_organization ||= session[:current_organization_id] ? Organization.find(session[:current_organization_id]) : current_user && current_user.organizations.first
   end
 
   def permitted_to_view?(*models, raise_error: false)

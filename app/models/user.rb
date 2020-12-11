@@ -2,8 +2,9 @@ class User < ApplicationRecord
   class InvalidSubscribeError < StandardError; end;
   has_secure_password
 
-  belongs_to :organization
   has_many :tests
+  has_many :organization_users
+  has_many :organizations, through: :organization_users
   has_and_belongs_to_many :roles
 
   has_many :notification_subscriptions, class_name: 'NotificationSubscriber'
@@ -15,6 +16,10 @@ class User < ApplicationRecord
 
   def is_admin?
     roles.include? Role.ADMIN
+  end
+
+  def can_remove_user_from_organization?(organization)
+    organizations.include? organization
   end
 
   def invite_user_to_organization!(email_to_invite)
