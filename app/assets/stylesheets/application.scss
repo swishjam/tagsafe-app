@@ -44,12 +44,36 @@ body.logged-in {
     text-align: left;
     margin-left: 50px;
     margin-bottom: 30px;
+    &.with-sub-title {
+      margin-bottom: 0;
+    }
+  }
+  .page-sub-title {
+    font-size: 18px;
+    text-align: left;
+    margin-left: 50px;
+    margin-bottom: 30px;
   }
   .tag-safe-container {
     border: 1px solid grey;
     border-radius: 15px;
     background: white;
     padding: 15px;
+  }
+  .ellipsis-dropdown {
+    a.dropdown-link {
+      text-decoration: none;
+      color: black;
+      i {
+        font-size: 26px;
+      }
+      &:hover {
+        i {
+          transition: 500ms all;
+          font-size: 28px;
+        }
+      }
+    }
   }
   .navigation {
     width: 15%;
@@ -124,7 +148,8 @@ body.logged-in {
 }
 
 .toast {
-  background: #e6e6e6;
+  background: #def3f9;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 ul.pagination {

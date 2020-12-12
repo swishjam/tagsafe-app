@@ -5,7 +5,8 @@ module Api
     def domain_scan_complete
       receive!('DomainScanned',
         domain_id: params[:domain_id],
-        scripts: JSON.parse(params[:scripts])
+        scripts: JSON.parse(params[:scripts]),
+        error: params[:error]
       )
     end
 
@@ -16,7 +17,8 @@ module Api
         results_without_tag: JSON.parse(params[:results_without_tag] || '[]'), 
         with_tag_logs: params[:with_tag_logs],
         without_tag_logs: params[:without_tag_logs],
-        audit_id: params[:audit_id]
+        audit_id: params[:audit_id],
+        num_attempts: params[:num_attempts].to_i
       )
     end
 

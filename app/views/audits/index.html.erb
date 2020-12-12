@@ -1,21 +1,39 @@
-<div class="top-items row" style="padding: 0px 15px 0px 15px">
-  <div class="col-12 text-right">
-    <% if @script_change.most_recent %>
-      <%= link_to run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'btn btn-outline-primary' do %>
-        <i class="fas fa-redo"></i> Manually Re-Run Audit
-      <% end %>
-    <% end %>
+<h5 class="page-title with-sub-title">Audits</h5>
+<h6 class="page-sub-title">
+  <%= @script_subscriber.try_friendly_name %>
+  <br/>
+  <%= @script_change.created_at.formatted_short %> tag change
+</h6>
+<div class="tag-safe-container text-center">
+  <div class="col-12">
+    <span style="float: right;" data-toggle="tooltip" data-placement="top" title="A tag version can have many audits run against it. This tag version has <%= @audits.count %>."><i class="far fa-question-circle"></i></span>
+    <br/>
+    <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">
+      <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-h"></i>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <%= link_to 'View Tag Change Content', script_subscriber_script_change_path(@script_subscriber, @script_change), class: 'dropdown-item', target: '_blank' %>
+        <div class="dropdown-divider"></div>
+        <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'dropdown-item', data: { confirm: "Run audit on #{@script_subscriber.try_friendly_name}?" } %>
+      </div>
+    </div>
   </div>
-</div>
-<div class="text-center">
-  <h4>Audits on the <%= @script_change.created_at.formatted_short %> change to <%= @script_subscriber.try_friendly_name %></h4>
   <table class="table table-hover col-12 text-center" style="table-layout: fixed">
     <thead>
       <tr>
-        <th scope="col" style="width: 10%">Primary Audit</th>
+        <th scope="col" style="width: 10%">
+          <span data-toggle="tooltip" data-placement="top" title="A tag version must have one audit that is the 'primary audit'. The primary audit is used in the calculations between tag versions. For this reason you must select the most accurate audit.">
+            Primary Audit
+          </span>
+        </th>
         <th scope="col" style='width: 22.5%'>Date of Audit</th>
         <th scope="col" style='width: 22.5%'>Impact on DOM Complete</th>
-        <th scope="col" style='width: 22.5%'>Execution Reason</th>
+        <th scope="col" style='width: 22.5%'>
+          <span data-toggle="tooltip" data-placement="top" title="An audit can be executed for the following reasons: Initial Audit, Reactivated Tag, Tag Change, Manual Audit, Scheduled Audit, or a Retry.">
+            Execution Reason
+          </span>
+        </th>
         <th scope="col" style='width: 22.5%'></th>
       </tr>
     </thead>

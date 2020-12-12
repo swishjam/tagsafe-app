@@ -18,9 +18,6 @@
 //= require highcharts
 //= require popper
 //= require bootstrap-sprockets
-//= require bootstrap-select
-//= require bootstrap/alert
-//= require bootstrap/dropdown
 
 window.addEventListener('load', function() {
   $('[data-toggle="tooltip"]').tooltip();
@@ -30,6 +27,12 @@ window.addEventListener('load', function() {
     delay: 12000
   });
   $('.toast:not(.js-toast)').toast('show');
+  $('.custom-file-input').on('change',function(){
+    //get the file name
+    var fileName = $(this).val();
+    //replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(fileName);
+  })
 });
 
 function showToastMessage(msg) {

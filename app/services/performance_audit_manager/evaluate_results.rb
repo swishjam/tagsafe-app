@@ -1,17 +1,18 @@
 module PerformanceAuditManager
   class EvaluateResults
-    def initialize(error:, results_with_tag:, results_without_tag:, audit_id:, with_tag_logs:, without_tag_logs:)
+    def initialize(error:, results_with_tag:, results_without_tag:, audit_id:, with_tag_logs:, without_tag_logs:, num_attempts: 1)
       @audit = Audit.find(audit_id)
       @error = error
       @results_with_tag = results_with_tag
       @results_without_tag = results_without_tag
       @with_tag_logs = with_tag_logs
       @without_tag_logs = without_tag_logs
+      @num_attempts = num_attempts
     end
 
     def evaluate!
       if @error
-        @audit.performance_audit_error!(@error)
+        @audit.performance_audit_error!(@error, @num_attempts)
       else
         capture_results(PerformanceAuditWithTag, @results_with_tag, @with_tag_logs)
         capture_results(PerformanceAuditWithoutTag, @results_without_tag, @without_tag_logs)

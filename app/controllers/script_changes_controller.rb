@@ -26,9 +26,10 @@ class ScriptChangesController < LoggedInController
 
   def index
     @audits = Audit.joins(:script_subscriber, :script_change)
-                    .where(primary: true, script_subscriber: current_domain.script_subscriptions)
+                    .where(primary: true, execution_reason: ExecutionReason.TAG_CHANGE, script_subscriber: current_domain.script_subscriptions)
                     .most_recent_first
                     .page(params[:page] || 1).per(params[:per_page] || 10)
+    @number_of_tags = current_domain.script_subscriptions.is_third_party_tag.active.monitor_changes.count
   end
 
   def content

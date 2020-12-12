@@ -40,7 +40,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'jquery-rails'
 gem 'bootstrap'
-gem 'bootstrap-select-rails'
+# gem 'bootstrap-select-rails'
 
 gem 'httparty'
 

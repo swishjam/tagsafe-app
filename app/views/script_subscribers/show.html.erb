@@ -1,14 +1,9 @@
 <div class="text-center">
   <% if @script_subscriber.inactive? %>
-    <h6><i class="fas fa-exclamation-circle"></i> This tag is inactive and not being monitored. Would you like to <%= link_to 'active it?', script_subscribers_path %></h6>
+    <h6><i class="fas fa-exclamation-circle"></i> This tag is inactive and not being monitored. Would you like to <%= link_to 'activate it?', script_subscribers_path %></h6>
   <% end %>
-  <h5>Recent updates to <%= @script_subscriber.try_friendly_name %></h5>
-  <h6>The script was last updated: <%= @script_subscriber.script.content_changed_at.formatted %></h6>
-  <% unless @script_subscriber.script.most_recent_change.nil? %>
-    <%= link_to run_audit_script_subscriber_script_change_path(@script_subscriber, @script_subscriber.script.most_recent_change), method: :post, class: 'btn btn-outline-primary' do %>
-        <i class="fas fa-redo"></i> Run Audit
-      <% end %>
-  <% end %>
+  <h5 class="page-title with-sub-title">Tag Details</h6>
+  <h6 class="page-sub-title"><%= @script_subscriber.try_friendly_name %></h6>
 </div>
 
 <%= render partial: 'partials/script_subscriber_chart', locals: { script_subscriber: @script_subscriber } %>
@@ -21,8 +16,9 @@
         <th scope="col" style='width: 20%'>Date of Change</th>
         <th scope="col" style='width: 20%'>DOM Complete Impact</th>
         <th scope="col" style='width: 20%'>Change in DOM Complete Impact</th>
-        <th scope="col" style='width: 20%'></th>
-        <th scope="col" style='width: 20%'></th>
+        <th scope="col" style='width: 10%'></th>
+        <th scope="col" style='width: 10%'></th>
+        <th scope="col" style='width: 10%'></th>
       </tr>
     </thead>
     <tbody>
@@ -54,11 +50,14 @@
             <td scope="row">
               <% if !audit.nil? && !audit.performance_audit_pending? && !audit.performance_audit_failed? && 
                     !previous_audit.nil? && !previous_audit.performance_audit_pending? && !previous_audit.performance_audit_failed? %>
-                <% diff_in_metric = (audit.delta_performance_audit.metric_result('DOMComplete') - previous_audit.delta_performance_audit.metric_result('DOMComplete')).round(2) %>
+                <% dom_complete = audit.delta_performance_audit.metric_result('DOMComplete') %>
+                <% previous_dom_complete = previous_audit.delta_performance_audit.metric_result('DOMComplete') %>
+                <% diff_in_metric = (dom_complete - previous_dom_complete).round(2) %>
+                <% percent_change = ((diff_in_metric/previous_dom_complete)*100).round(2) %>
                 <% icon_class = diff_in_metric.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
                 <span class="<%=diff_in_metric.positive? ? 'negative' : 'positive' %>">
                   <i class="fas <%=icon_class%>"></i>
-                  <%= number_with_delimiter(diff_in_metric) %> ms
+                  <%= number_with_delimiter(diff_in_metric) %> ms (<%= number_with_delimiter(percent_change) %>%)
                 </span>
               <% else %>
                 --
@@ -72,6 +71,11 @@
             <td scope="row">
               <% unless audit.nil? %>
                 <%= link_to 'View Changes', script_subscriber_script_change_path(@script_subscriber, script_change), { target: "_blank" } %> 
+              <% end %>
+            </td>
+            <td scope="row">
+              <% unless audit.nil? %>
+                <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, script_change), method: :post %> 
               <% end %>
             </td>
           </tr>

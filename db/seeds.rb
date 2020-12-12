@@ -9,7 +9,7 @@ script_test_types.each do |name|
 end 
 
 puts "Creating Execution Reasons."
-execution_reasons =  ['Manual Execution', 'Scheduled Execution', 'Script Change', 'Reactivated Script', 'Test']
+execution_reasons =  ['Manual Execution', 'Scheduled Execution', 'Tagript Change', 'Reactivated Tag', 'Test', 'Initial Audit']
 execution_reasons.each do |name|
   unless ExecutionReason.find_by(name: name)
     ExecutionReason.create(name: name)
@@ -114,13 +114,13 @@ def seed_script_changes_for_script(script)
   script.script_changes
 end
 
-def create_audit(script_change, script_subscriber, execution_reason: ExecutionReason.SCRIPT_CHANGE)
+def create_audit(script_change, script_subscriber, execution_reason: ExecutionReason.TAG_CHANGE)
   puts "Creating audit."
   Audit.create(
     script_change: script_change,
     script_subscriber: script_subscriber,
     execution_reason: execution_reason,
-    lighthouse_audit_enqueued_at: execution_reason == ExecutionReason.SCRIPT_CHANGE ? script_change.created_at : script_change.created_at + 1.hour,
+    lighthouse_audit_enqueued_at: execution_reason == ExecutionReason.TAG_CHANGE ? script_change.created_at : script_change.created_at + 1.hour,
     test_suite_enqueued_at: script_change.created_at,
     test_suite_completed_at: script_change.created_at,
     lighthouse_audit_url: script_subscriber.reload.lighthouse_preferences.url_to_audit

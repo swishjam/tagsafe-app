@@ -1,6 +1,7 @@
 require 'memoist'
 
 class Audit < ApplicationRecord
+  class InvalidRetry < StandardError; end;
   extend Memoist
 
   belongs_to :script_change
@@ -16,6 +17,9 @@ class Audit < ApplicationRecord
   # SCOPES #
   ##########
   scope :primary, -> { where(primary: true) }
+
+  scope :basline, -> { where(is_basline: true) }
+  scope :not_basline, -> { where(is_basline: false) }
 
   scope :pending_test_suite, -> { where(test_suite_completed_at: nil) }
   scope :completed_test_suite, -> { where.not(test_suite_completed_at: nil) }
@@ -35,9 +39,10 @@ class Audit < ApplicationRecord
     check_after_completion
   end
 
-  def performance_audit_error!(err_msg)
+  def performance_audit_error!(err_msg, num_attempts)
     update(performance_audit_error_message: err_msg)
     touch(:performance_audit_completed_at)
+    after_performance_audit_error(num_attempts)
   end
 
   def completed_test_suite!
@@ -50,6 +55,24 @@ class Audit < ApplicationRecord
     if complete?
       AuditCompletedJob.perform_later(self)
     end
+  end
+
+  def after_performance_audit_error(num_attempts)
+    if script_subscriber.should_retry_audits_on_errors?(num_attempts)
+      Rails.logger.info "Retrying audit for script_subscriber #{script_subscriber.id}. Will be the #{num_attempts+1} attempt."
+      retry!(num_attempts) 
+    else
+      Rails.logger.error "Reached max number of audit retry attempts: #{num_attempts}. Stopping retries."
+    end
+  end
+
+  def retry!(num_attempts, reason = ExecutionReason.RETRY)
+    script_subscriber.run_audit!(script_change, reason, num_attempts: num_attempts)
+  end
+
+  def retry_pending_audit!
+    raise InvalidRetry unless performance_audit_pending? || test_suite_pending?
+    script_subscriber.run_audit!(script_change, execution_reason, existing_audit: self)
   end
 
   def performance_audit_failed?

@@ -28,8 +28,6 @@ module ScriptManager
     def subscribe_domain_to_existing_script(script)
       unless @domain.subscribed_to_script? script
         @domain.subscribe!(script, first_script_change: script.most_recent_change, first_scan: @first_scan)
-        # No audits should be run. The script subscriber is inactive. We will run audits upon activation.
-        # script_subscriber.run_audit!(script_subscriber.script.most_recent_change, ExecutionReason.FIRST_AUDIT)
       end
     end
 

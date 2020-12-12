@@ -8,6 +8,7 @@ class ScriptsController < LoggedInController
                                             .order('scripts.content_changed_at DESC')
                                             .page(params[:page] || 1).per(params[:per_page] || 9)
       @filtered_performance_audit_metric_type = PerformanceAuditMetricType.find_by(key: params[:metric_type] || 'DOMComplete')
+      @active_tag_count = @script_subscriptions.is_third_party_tag.active.still_on_site.count
       # need to exclude first script changes
       @tag_change_count = 0
       # @tag_change_count = @script_subscriptions.map do |ss| 

@@ -1,4 +1,6 @@
 class Script < ApplicationRecord
+  include Rails.application.routes.url_helpers
+  
   belongs_to :script_image, optional: true
   has_many :script_subscribers, dependent: :destroy
   has_many :domains, through: :script_subscribers
@@ -63,6 +65,14 @@ class Script < ApplicationRecord
 
   def remove_script_image
     update(script_image_id: nil)
+  end
+
+  def try_image_url
+    script_image ? rails_blob_path(script_image.image, only_path: true) : default_image_url
+  end
+
+  def default_image_url
+    'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
   end
 
   def friendly_name

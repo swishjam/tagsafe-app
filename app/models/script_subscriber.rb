@@ -21,6 +21,7 @@ class ScriptSubscriber < ApplicationRecord
 
   after_update :after_update
   after_create :add_defaults
+  after_create :run_baseline_audit!
 
   scope :monitor_changes, -> { where(monitor_changes: true) }
   scope :do_not_monitor_changes, -> { where(monitor_changes: false) }
@@ -34,6 +35,10 @@ class ScriptSubscriber < ApplicationRecord
   def add_defaults
     create_performance_audit_preferences
     add_default_tests
+  end
+
+  def run_baseline_audit!
+    run_audit!(first_script_change, ExecutionReason.INITIAL_AUDIT)
   end
 
   def after_update
@@ -68,11 +73,11 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def try_image_url
-    script.script_image ? rails_blob_path(script.script_image.image, only_path: true) : default_image_url
+    image.attached? ? rails_blob_path(image, only_path: true) : script.try_image_url
   end
 
-  def default_image_url
-    'https://media-exp1.licdn.com/dms/image/C560BAQHwLj3toRYF_g/company-logo_200_200/0?e=2159024400&v=beta&t=2MQGVdnroZzS27kcAyUQqwIBzsDQ1Dp-7znPnejukuE'
+  def should_retry_audits_on_errors?(num_attempts)
+    ENV['MAX_NUM_AUDIT_RETRIES'] && num_attempts < ENV['MAX_NUM_AUDIT_RETRIES'].to_i
   end
 
   def create_performance_audit_preferences
@@ -105,7 +110,6 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def primary_audit_by_script_change(script_change)
-    # shouldn't have to determine scopes, primary is primary
     audits.where(script_change: script_change, primary: true).limit(1).first
   end
 
@@ -114,11 +118,13 @@ class ScriptSubscriber < ApplicationRecord
     audits.chain_scopes(scopes).where(script_change: script_change).limit(1).first
   end
 
-  def run_audit!(script_change, execution_reason)
+  def run_audit!(script_change, execution_reason, existing_audit: nil, num_attempts: 0)
     AuditRunner.new(
       script_subscriber: self, 
       script_change: script_change, 
-      execution_reason: execution_reason
+      execution_reason: execution_reason,
+      existing_audit: existing_audit,
+      num_attempts: num_attempts
     ).run!
   end
 

@@ -19,19 +19,12 @@ Rails.application.routes.draw do
   resources :scripts, only: :index
   get '/change_log' => 'script_changes#index'
 
-  # resources :domains do
-  #   member do
-  #     get '/test_subscriptions' => 'test_subscribers#domain_tests' # move this to test_subscriptions routes
-  #     get '/run_standalone_test' => 'tests#run_standalone_test'
-  #     post '/post_standalone_test' => 'tests#post_standalone_test'
-  #     post '/update_current_domain' => 'domains#update_current_domain'
-  #   end
-  # end
+  post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
-    member do 
-      get :with_without
-    end
+    # member do 
+    #   get :with_without
+    # end
     resources :script_changes, only: [:show, :index] do
       member do
         post :run_audit

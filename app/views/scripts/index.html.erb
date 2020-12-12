@@ -9,7 +9,7 @@
         <div class="col-4">
           <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
             <h5 class="generic-metric-card-title"># Third Party Tags</h5>
-            <h4 class="generic-metric-card-value"><%= @script_subscriptions.is_third_party_tag.count %></h5>
+            <h4 class="generic-metric-card-value"><%= @active_tag_count %></h5>
           </div>
         </div>
         <div class="col-4">
@@ -27,30 +27,34 @@
       </div>
     </div>
     <div class="global-scripts-chart-container tag-safe-container">
-      <h5>Tag Impact</h5>
-      <label for="metric-dropdown">Select Chart Metric</label>
-      <select class="selectpicker" id="metric-dropdown" data-max-options="1" data-live-search="true">
-        <% PerformanceAuditMetricType.all.each do |metric_type| %>
-          <% if metric_type == @filtered_performance_audit_metric_type %>
-            <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>" selected><%= metric_type.title %></option>
-          <% else %>
-            <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>"><%= metric_type.title %></option>
-          <% end %>
-        <% end %> 
-      </select>
-      <div id="scripts-chart-container">
-        <%=
-          line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key), 
-            download: true, 
-            title: "#{@filtered_performance_audit_metric_type.title} Impact",
-            ytitle: "#{@filtered_performance_audit_metric_type.title} (#{@filtered_performance_audit_metric_type.unit})",
-            xtitle: 'Tag Changes',
-            curve: false,
-            messages: { empty: "No Audits Ran." },
-            curve: false, 
-            legend: "bottom"
-        %> 
-      </div>
+      <% if @active_tag_count > 0 %>
+        <h5>Tag Impact</h5>
+        <label for="metric-dropdown">Select Chart Metric</label>
+        <select class="selectpicker" id="metric-dropdown" data-max-options="1" data-live-search="true">
+          <% PerformanceAuditMetricType.all.each do |metric_type| %>
+            <% if metric_type == @filtered_performance_audit_metric_type %>
+              <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>" selected><%= metric_type.title %></option>
+            <% else %>
+              <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>"><%= metric_type.title %></option>
+            <% end %>
+          <% end %> 
+        </select>
+        <div id="scripts-chart-container">
+          <%=
+            line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key), 
+              download: true, 
+              title: "#{@filtered_performance_audit_metric_type.title} Impact",
+              ytitle: "#{@filtered_performance_audit_metric_type.title} (#{@filtered_performance_audit_metric_type.unit})",
+              xtitle: 'Tag Changes',
+              curve: false,
+              messages: { empty: "No Audits Run." },
+              curve: false, 
+              legend: "bottom"
+          %> 
+        </div>
+      <% else %>
+        <span>You are not monitoring any tags. <%= link_to 'Activate tags here', script_subscribers_path %>.</span>
+      <% end %>
     </div>
 
     <div class="script-subscriptions">

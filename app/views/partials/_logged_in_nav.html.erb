@@ -12,7 +12,7 @@
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         <% current_organization.domains.each do |domain| %>
           <% klass = current_domain === domain ? 'dropdown-item active' : 'dropdown-item' %>
-          <%= link_to domain.url, update_current_domain_domain_path(domain), method: :post, class: klass %>
+          <%= link_to domain.url, update_current_domain_path(domain.id), method: :post, class: klass %>
         <% end %>
       </div>
     </div>

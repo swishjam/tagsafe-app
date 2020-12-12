@@ -20,15 +20,15 @@ class ScriptSubscribersController < LoggedInController
     )
   end
 
-  def with_without
-    @script_subscriber = ScriptSubscriber.find(params[:id])
-    permitted_to_view?(@script_subscriber)
-    render_breadcrumbs(
-      { text: 'Monitor Center', url: scripts_path }, 
-      { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },
-      { text: "Edit #{@script_subscriber.try_friendly_name}", active: true }
-    )
-  end
+  # def with_without
+  #   @script_subscriber = ScriptSubscriber.find(params[:id])
+  #   permitted_to_view?(@script_subscriber)
+  #   render_breadcrumbs(
+  #     { text: 'Monitor Center', url: scripts_path }, 
+  #     { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },
+  #     { text: "Edit #{@script_subscriber.try_friendly_name}", active: true }
+  #   )
+  # end
 
   def edit
     @script_subscriber = ScriptSubscriber.find(params[:id])
@@ -43,6 +43,7 @@ class ScriptSubscribersController < LoggedInController
   def update
     @script_subscriber = ScriptSubscriber.find(params[:id])
     permitted_to_view?(@script_subscriber, raise_error: true)
+    params[:script_subscriber][:friendly_name] = params[:script_subscriber][:friendly_name].empty? ? nil : params[:script_subscriber][:friendly_name]
     if @script_subscriber.update(script_subscriber_params)
       display_toast_message("Successfully updated #{@script_subscriber.try_friendly_name}")
     else
@@ -54,6 +55,6 @@ class ScriptSubscribersController < LoggedInController
   private
 
   def script_subscriber_params
-    params.require(:script_subscriber).permit(:friendly_name, :monitor_changes, :is_third_party_tag, :allowed_third_party_tag)
+    params.require(:script_subscriber).permit(:friendly_name, :monitor_changes, :is_third_party_tag, :allowed_third_party_tag, :image)
   end
 end

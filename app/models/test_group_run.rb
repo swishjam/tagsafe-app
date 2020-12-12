@@ -9,7 +9,7 @@ class TestGroupRun < ApplicationRecord
   # scope :by_domain, -> (domain) { joins(test_subscriber: [:script_subscriber]).where(test_subscriber: { script_subscriber: { domain: domain }}) }
   scope :failed, -> { where(passed: false) }
   scope :passed, -> { where(passed: true) }
-  scope :script_change_runs, -> { where(execution_reason: ExecutionReason.SCRIPT_CHANGE) }
+  scope :script_change_runs, -> { where(execution_reason: ExecutionReason.TAG_CHANGE) }
   scope :manual_runs, -> { where(execution_reason: [ExecutionReason.TEST, ExecutionReason.MANUAL]) }
 
   def completed!

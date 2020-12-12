@@ -1,9 +1,11 @@
 <div class="row">
   <% @logs.each do |log| %>
     <div class="col-6">
-      <h5 class="text-center audit-type-title"><%= log.performance_audit.is_a?(PerformanceAuditWithTag) ? 'Results With' : 'Results Without' %> <%= @script_subscriber.try_friendly_name %></h5>
-      <div class="log-container">
-        <%= log.logs.html_safe %>
+      <div class="tag-safe-container">
+        <h5 class="text-center audit-type-title"><%= log.performance_audit.is_a?(PerformanceAuditWithTag) ? 'Results With' : 'Results Without' %> <%= @script_subscriber.try_friendly_name %></h5>
+        <div class="log-container">
+          <%= log.logs.html_safe %>
+        </div>
       </div>
     </div>
   <% end %>

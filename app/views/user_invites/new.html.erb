@@ -9,5 +9,5 @@
 </div>
 
 <% @organization_users.each do |ou| %>
-  <h5><%= ou.user.email %> <%= link_to 'X', organization_user_path(ou), method: :delete %>
+  <h5><%= ou.user.email %> <%= link_to 'X', organization_user_path(ou), method: :delete, data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
 <% end %>

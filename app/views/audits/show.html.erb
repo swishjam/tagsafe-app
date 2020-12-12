@@ -1,47 +1,52 @@
-<div class="top-items row" style="padding: 0px 15px 0px 15px">
-  <div class="col-6">
-    <% if @audit.is_primary? %>
-      <%= link_to script_subscriber_script_change_audits_path(@script_subscriber, @script_change) do %>
-        <h4>
-          <span data-toggle="tooltip"
-                data-placement="right"
-                title="This tag version of <%=@script_subscriber.try_friendly_name%> has <%=@count_of_audits_for_script_change%> Lighthouse Audit performed on it. This is the primary audit, 
-                which is used in comparisons and calculations between tag versions. Click this badge to edit the primary lighthouse audit."
-                class="badge badge-info">
-            <i class="far fa-star"></i>
-          </span>
-        </h4>
-      <% end %>
-    <% end %>
-  </div>
-  <div class="col-6 text-right buttons">
-    <%= link_to run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'btn btn-outline-primary' do %>
-      <i class="fas fa-redo"></i> Manually Re-Run Audit
-    <% end %>
-    <%= link_to 'View Logs', script_subscriber_script_change_audit_performance_audit_logs_path(@script_subscriber, @script_change, @audit), target: '_blank' %>
-  </div>
-</div>
 <div class="text-center">
-  <h5>Audit results on <%= @script_change.created_at.formatted_short %> change to the <%= @script_subscriber.try_friendly_name %>.</h5>
-  <h6>It was run due to a 
-    <span style="font-style: italic;"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="An audit can be performed for the following reasons: Script Change, Manual Execution, Reactivated Script.">
-      <%= @audit.execution_reason.name %>
-    </span> 
-    on <%= @audit.performance_audit_enqueued_at.formatted %>.</h6>
-  <% if @count_of_audits_for_script_change > 1 %>
-    <h6>This is one of <%= @count_of_audits_for_script_change %> audits perfomed on the version of this tag. <%= link_to 'View all', script_subscriber_script_change_audits_path(@script_subscriber, @script_change) %></h6>
-  <% else %>
-    <h6>This is the only audit that was performed on the version of this tag.</h6>
-  <% end %>
-
+  <h5 class="page-title with-sub-title">Audit Results</h5>
+  <h6 class="page-sub-title"><%= @script_subscriber.try_friendly_name %></h6>
   <div class="row lighthouse-performance-results">
     <div class="col-10 offset-1 metrics-container tag-safe-container">
-      <h5>Impact on Metrics</h5>
       <div class="row">
-        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+        <div class="col-12">
+          <% if @audit.is_primary? %>
+            <%= link_to script_subscriber_script_change_audits_path(@script_subscriber, @script_change) do %>
+              <span data-toggle="tooltip"
+                    data-placement="right"
+                    title="This tag version of <%=@script_subscriber.try_friendly_name%> has <%=@count_of_audits_for_script_change%> Lighthouse Audit performed on it. This is the primary audit, 
+                    which is used in comparisons and calculations between tag versions. Click this badge to edit the primary lighthouse audit."
+                    class="badge badge-info"
+                    style="float: left;">
+                <i class="far fa-star"></i>
+              </span>
+            <% end %>
+          <% end %>
+          <span style="float: right;" data-toggle="tooltip" data-placement="top" title="TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric is affected by <%=@script_subscriber.try_friendly_name%>."><i class="far fa-question-circle"></i></span>
+          <br/>
+          <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">
+            <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-ellipsis-h"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <%= link_to 'View Tag Change Content', script_subscriber_script_change_path(@script_subscriber, @script_change), class: 'dropdown-item', target: '_blank' %>
+              <%= link_to 'View Audit Logs', script_subscriber_script_change_audit_performance_audit_logs_path(@script_subscriber, @script_change, @audit), class: 'dropdown-item', target: '_blank' %>
+              <div class="dropdown-divider"></div>
+              <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'dropdown-item', data: { confirm: "Run audit on #{@script_subscriber.try_friendly_name}?" } %>
+            </div>
+          </div>
+          <h5>Impact on Metrics</h5>
+          <h6>It was run due to a 
+            <span style="font-style: italic;"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  title="An audit can be performed for the following reasons: Script Change, Manual Execution, Reactivated Script.">
+              <%= @audit.execution_reason.name %>
+            </span> 
+            on <%= @audit.performance_audit_enqueued_at.formatted %>.
+          </h6>
+          <% if @count_of_audits_for_script_change > 1 %>
+            <h6>This is one of <%= @count_of_audits_for_script_change %> audits perfomed on this version of the tag. <%= link_to 'View all', script_subscriber_script_change_audits_path(@script_subscriber, @script_change) %></h6>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <%= render partial: 'partials/performance_audit_metric_row', locals: {
           script_subscriber: @script_subscriber, 
           metric_title: 'DOM Complete',
           impact_result: @audit.delta_performance_audit.metric_result('DOMComplete'),
@@ -49,7 +54,7 @@
           unit: 'ms',
           previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
         } %>
-        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+        <%= render partial: 'partials/performance_audit_metric_row', locals: {
           script_subscriber: @script_subscriber,
           metric_title: 'DOM Interactive',
           impact_result: @audit.delta_performance_audit.metric_result('DOMInteractive'),
@@ -59,7 +64,7 @@
         } %>
       </div>
       <div class="row">
-        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+        <%= render partial: 'partials/performance_audit_metric_row', locals: {
           script_subscriber: @script_subscriber, 
           metric_title: 'First Contentful Paint',
           impact_result: @audit.delta_performance_audit.metric_result('FirstContentfulPaint'),
@@ -67,7 +72,7 @@
           unit: 'ms',
           previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
         } %>
-        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+        <%= render partial: 'partials/performance_audit_metric_row', locals: {
           script_subscriber: @script_subscriber, 
           metric_title: 'Task Duration Time',
           impact_result: @audit.delta_performance_audit.metric_result('TaskDuration'),
@@ -77,7 +82,7 @@
         } %>
       </div>
       <div class="row">
-        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+        <%= render partial: 'partials/performance_audit_metric_row', locals: {
           script_subscriber: @script_subscriber, 
           metric_title: 'Script Duration',
           impact_result: @audit.delta_performance_audit.metric_result('ScriptDuration'),
@@ -85,7 +90,7 @@
           unit: 'ms',
           previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
         } %>
-        <%= render partial: 'partials/lighthouse_metric_row', locals: {
+        <%= render partial: 'partials/performance_audit_metric_row', locals: {
           script_subscriber: @script_subscriber, 
           metric_title: 'Layout Duration',
           impact_result: @audit.delta_performance_audit.metric_result('LayoutDuration'),

@@ -7,9 +7,8 @@ class ScriptChangedJob < ApplicationJob
         change_subscriber.send_email!(script_change)
       end
     end
-    execution_reason = script_change.first_change? ? ExecutionReason.FIRST_AUDIT : ExecutionReason.SCRIPT_CHANGE
     script_change.script.script_subscribers.active.still_on_site.each do |script_subscriber|
-      script_subscriber.run_audit!(script_change, execution_reason)
+      script_subscriber.run_audit!(script_change, ExecutionReason.TAG_CHANGE)
     end
   end
 end

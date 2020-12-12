@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_234308) do
+ActiveRecord::Schema.define(version: 2020_12_12_013234) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -44,7 +44,8 @@ ActiveRecord::Schema.define(version: 2020_12_10_234308) do
     t.timestamp "test_suite_completed_at"
     t.string "performance_audit_url"
     t.timestamp "created_at"
-    t.string "performance_audit_error_message"
+    t.text "performance_audit_error_message"
+    t.boolean "is_baseline"
   end
 
   create_table "domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

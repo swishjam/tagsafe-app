@@ -8,6 +8,7 @@ class GeppettoModerator::Sender
   def send!
     Rails.logger.info "Sending Geppetto Request to #{@endpoint} with #{merged_request_options}"
     response = send_geppetto_request
+    Rails.logger.info "Result: #{response.code} - #{response.response.body}"
     # geppetto_job.complete! unless response.code == 200 # never enqueued in Geppetto
   end
 
