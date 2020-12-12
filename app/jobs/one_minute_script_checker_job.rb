@@ -8,6 +8,6 @@ class OneMinuteScriptCheckerJob < ApplicationJob
             .one_minute_interval_checks
             .with_active_subscribers
             .still_on_site.each { |script| script.evaluate_script_content }
-    Rails.logger.info "OneMinuteScriptCheckerJob Completed in #{Time.new - start} seconds."
+    Resque.logger.info "OneMinuteScriptCheckerJob Completed in #{Time.new - start} seconds."
   end
 end

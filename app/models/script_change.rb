@@ -35,7 +35,7 @@ class ScriptChange < ApplicationRecord
   end
 
   def js_file_url
-    rails_blob_url(js_file.attachment, host: ENV['HOST'])
+    rails_blob_url(js_file.attachment, host: ENV['CURRENT_HOST'])
   end
 
   def primary_audit

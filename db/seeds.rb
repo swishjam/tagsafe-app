@@ -9,7 +9,7 @@ script_test_types.each do |name|
 end 
 
 puts "Creating Execution Reasons."
-execution_reasons =  ['Manual Execution', 'Scheduled Execution', 'Tagript Change', 'Reactivated Tag', 'Test', 'Initial Audit']
+execution_reasons =  ['Manual Execution', 'Scheduled Execution', 'Tag Change', 'Reactivated Tag', 'Test', 'Initial Audit']
 execution_reasons.each do |name|
   unless ExecutionReason.find_by(name: name)
     ExecutionReason.create(name: name)
