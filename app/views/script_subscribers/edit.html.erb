@@ -13,12 +13,6 @@
         <div class="custom-file">
           <%= f.file_field :image, class: 'custom-file-input' %>
           <%= f.label :image, class: 'custom-file-label' %>
-          <%
-=begin%>
- <input name="[script_subscriber][image]" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-          <label class="custom-file-label" for="inputGroupFile01">Choose file</label> 
-<%
-=end%>
         </div>
       </div>
       <div class="form-group">
@@ -37,6 +31,15 @@
         <p style="color: #e74d4d"><%= flash[:local_error] %></p>
       <% end %>
       <%= f.submit 'Update', class: 'tag-safe-button' %>
+    <% end %>
+    
+    <% if @script_subscriber.allowed_performance_audit_tags.any? %>
+      <h5>Third party tags to not block on performance audits:</h5>
+      <ul>
+        <% @script_subscriber.allowed_performance_audit_tags.each do |allowed_tag| %>
+          <li><%= allowed_tag.allowed_script_subscriber.script.url %>
+        <% end %>
+      </ul>
     <% end %>
   </div>
 </div>

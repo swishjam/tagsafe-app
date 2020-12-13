@@ -31,7 +31,11 @@
                     <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
                   </span>
                 <% else %>
-                  <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
+                  <span data-toggle="tooltip"
+                        data-placement="top"
+                        title="<%= script.url %>.">
+                    <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
+                  </span>
                 <% end %>
               </td>
               <td>

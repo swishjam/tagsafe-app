@@ -52,4 +52,8 @@ class AuditRunner
     )
     @existing_audit
   end
+
+  def allowed_third_party_tags
+    @script_subscriber.domain.allowed_third_party_tag_urls.concat(@script_subscriber.performance_audit_allowed_third_party_tag_urls)
+  end
 end

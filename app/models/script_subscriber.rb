@@ -6,6 +6,7 @@ class ScriptSubscriber < ApplicationRecord
   belongs_to :domain
   belongs_to :script
   belongs_to :first_script_change, class_name: 'ScriptChange'
+  has_many :allowed_performance_audit_tags, class_name: 'ScriptSubscriberAllowedPerformanceAuditTag', foreign_key: :performance_audit_script_subscriber_id
 
   has_many :notification_subscribers, dependent: :destroy
   has_many :script_change_notification_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
@@ -74,6 +75,14 @@ class ScriptSubscriber < ApplicationRecord
 
   def try_image_url
     image.attached? ? rails_blob_path(image, only_path: true) : script.try_image_url
+  end
+
+  def allow_tag_on_performance_audits!(script_subscriber)
+    allowed_performance_audit_tags.create(allowed_script_subscriber: script_subscriber)
+  end
+
+  def performance_audit_allowed_third_party_tag_urls
+    allowed_performance_audit_tags.collect{ |ss| ss.allowed_script_subscriber.script.url }
   end
 
   def should_retry_audits_on_errors?(num_attempts)

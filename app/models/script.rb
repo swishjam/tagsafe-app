@@ -13,6 +13,8 @@ class Script < ApplicationRecord
   
   has_one_attached :image
 
+  after_create :try_to_apply_script_image
+
   validates :url, presence: true, uniqueness: true
   # validate :valid_url
 
