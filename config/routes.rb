@@ -22,9 +22,7 @@ Rails.application.routes.draw do
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
-    # member do 
-    #   get :with_without
-    # end
+    resources :script_subscriber_allowed_performance_audit_tags, only: [:create, :destroy]
     resources :script_changes, only: [:show, :index] do
       member do
         post :run_audit

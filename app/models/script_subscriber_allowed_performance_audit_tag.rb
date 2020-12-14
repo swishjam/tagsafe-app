@@ -1,6 +1,6 @@
 class ScriptSubscriberAllowedPerformanceAuditTag < ApplicationRecord
-  belongs_to :performance_audit_script_subscriber, class_name: 'ScriptSubscriber'
-  belongs_to :allowed_script_subscriber, class_name: 'ScriptSubscriber'
+  belongs_to :performance_audit_script_subscriber, class_name: 'ScriptSubscriber', optional: false
+  belongs_to :allowed_script_subscriber, class_name: 'ScriptSubscriber', optional: false
 
   validate :valid_allowed_tag
 

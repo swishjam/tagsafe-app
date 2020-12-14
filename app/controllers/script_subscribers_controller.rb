@@ -20,19 +20,11 @@ class ScriptSubscribersController < LoggedInController
     )
   end
 
-  # def with_without
-  #   @script_subscriber = ScriptSubscriber.find(params[:id])
-  #   permitted_to_view?(@script_subscriber)
-  #   render_breadcrumbs(
-  #     { text: 'Monitor Center', url: scripts_path }, 
-  #     { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },
-  #     { text: "Edit #{@script_subscriber.try_friendly_name}", active: true }
-  #   )
-  # end
-
   def edit
     @script_subscriber = ScriptSubscriber.find(params[:id])
     permitted_to_view?(@script_subscriber)
+    already_allowed_script_subscriber_ids = @script_subscriber.allowed_performance_audit_tags.collect{ |allowed| allowed.allowed_script_subscriber.id }
+    @selectable_allowed_third_party_tags = @script_subscriber.domain.script_subscriptions.where.not(id: [@script_subscriber.id].concat(already_allowed_script_subscriber_ids))
     render_breadcrumbs(
       { text: 'Monitor Center', url: scripts_path }, 
       { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },

@@ -1,6 +1,6 @@
 
-<div class="text-center">
-  <h4>Edit <%= @script_subscriber.try_friendly_name %> <%= @script_subscriber.friendly_name ? "(#{@script_subscriber.script.url})" : nil %></h4>
+<div class="text-center tag-safe-container">
+  <h4><%= @script_subscriber.try_friendly_name %> <%= @script_subscriber.friendly_name ? "(#{@script_subscriber.script.url})" : nil %></h4>
   <%= image_tag @script_subscriber.try_image_url, class: 'img-thumbnail script-logo', style: 'height: 250px; width: 250px' %>
 
   <div class="col-8 offset-2">
@@ -16,11 +16,19 @@
         </div>
       </div>
       <div class="form-group">
-        <%= f.label :is_third_party_tag %>
+        <span data-toggle="tooltip"
+                    data-placement="top"
+                    title="Select this option to no longer consider this a third party tag, turn this off. It will no longer be monitored, and it will not be blocked in audits.">
+          <%= f.label :is_third_party_tag %>
+        </span>
         <%= f.check_box :is_third_party_tag, checked: @script_subscriber.is_third_party_tag %>
       </div>
       <div class="form-group">
-        <%= f.label :allowed_third_party_tag %>
+      <span data-toggle="tooltip"
+                    data-placement="top"
+                    title="Select this option to allow .">
+          <%= f.label :allowed_third_party_tag %>
+        </span>
         <%= f.check_box :allowed_third_party_tag, checked: @script_subscriber.allowed_third_party_tag %>
       </div>
       <div class="form-group">
@@ -32,14 +40,23 @@
       <% end %>
       <%= f.submit 'Update', class: 'tag-safe-button' %>
     <% end %>
-    
-    <% if @script_subscriber.allowed_performance_audit_tags.any? %>
-      <h5>Third party tags to not block on performance audits:</h5>
-      <ul>
-        <% @script_subscriber.allowed_performance_audit_tags.each do |allowed_tag| %>
-          <li><%= allowed_tag.allowed_script_subscriber.script.url %>
-        <% end %>
-      </ul>
-    <% end %>
   </div>
+</div>
+
+<div class="text-center tag-safe-container" style="margin-top: 15px;">
+  <h6>Third party tags to not block during <%= @script_subscriber.try_friendly_name %> audits:</h6>
+  <%= form_for ScriptSubscriberAllowedPerformanceAuditTag.new, url: script_subscriber_script_subscriber_allowed_performance_audit_tags_path(@script_subscriber) do |f| %>
+    <%= f.hidden_field :performance_audit_script_subscriber_id, value: @script_subscriber.id %>
+    <%= f.label :allowed_script_subscriber_id %>
+    <%= f.select :allowed_script_subscriber_id, options_from_collection_for_select(@selectable_allowed_third_party_tags, :id, :try_friendly_name), {}, { 'class' => 'selectpicker', 'data-live-search' => "true" } %>
+    <%= f.submit 'Add' %>
+  <% end %>
+  <ul class="list-group">
+    <% @script_subscriber.allowed_performance_audit_tags.each do |allowed| %>
+      <li class="list-group-item">
+        <span class="allowed-script-subscriber-name"><%= allowed.allowed_script_subscriber.try_friendly_name %></span>
+        <span class="delete-allowed-script-subscriber" style="float: right;"><%= button_to 'X', script_subscriber_script_subscriber_allowed_performance_audit_tag_path(@script_subscriber, allowed), method: :delete %></span>
+      </li>
+    <% end %>
+  </ul>
 </div>

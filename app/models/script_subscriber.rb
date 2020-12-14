@@ -21,8 +21,6 @@ class ScriptSubscriber < ApplicationRecord
   validate :within_maximum_active_script_subscriptions
 
   after_update :after_update
-  after_create :add_defaults
-  after_create :run_baseline_audit!
 
   scope :monitor_changes, -> { where(monitor_changes: true) }
   scope :do_not_monitor_changes, -> { where(monitor_changes: false) }
