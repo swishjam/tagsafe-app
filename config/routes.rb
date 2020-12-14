@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
     resources :script_subscriber_allowed_performance_audit_tags, only: [:create, :destroy]
+    resources :performance_audit_preferences, only: :update
     resources :script_changes, only: [:show, :index] do
       member do
         post :run_audit

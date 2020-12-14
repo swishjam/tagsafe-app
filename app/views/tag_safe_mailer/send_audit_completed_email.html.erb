@@ -2,6 +2,57 @@
   The audit for <%= @script_subscriber.try_friendly_name %> has completed! The audit was run due to a <%= @audit.execution_reason.name %>.
 </p>
 
-<p>
-  I'll tell you about the rest later.
-</p>
+<div class="row">
+  <%= render partial: 'partials/performance_audit_metric_row', locals: {
+    script_subscriber: @script_subscriber, 
+    metric_title: 'DOM Complete',
+    impact_result: @audit.delta_performance_audit.metric_result('DOMComplete'),
+    previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('FirstContentfulPaint') : nil,
+    unit: 'ms',
+    previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
+  } %>
+  <%= render partial: 'partials/performance_audit_metric_row', locals: {
+    script_subscriber: @script_subscriber,
+    metric_title: 'DOM Interactive',
+    impact_result: @audit.delta_performance_audit.metric_result('DOMInteractive'),
+    previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('DOMInteractive') : nil,
+    unit: 'ms',
+    previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
+  } %>
+</div>
+<div class="row">
+  <%= render partial: 'partials/performance_audit_metric_row', locals: {
+    script_subscriber: @script_subscriber, 
+    metric_title: 'First Contentful Paint',
+    impact_result: @audit.delta_performance_audit.metric_result('FirstContentfulPaint'),
+    previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('FirstContentfulPaint') : nil,
+    unit: 'ms',
+    previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
+  } %>
+  <%= render partial: 'partials/performance_audit_metric_row', locals: {
+    script_subscriber: @script_subscriber, 
+    metric_title: 'Task Duration Time',
+    impact_result: @audit.delta_performance_audit.metric_result('TaskDuration'),
+    previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('TaskDuration') : nil,
+    unit: 'ms',
+    previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
+  } %>
+</div>
+<div class="row">
+  <%= render partial: 'partials/performance_audit_metric_row', locals: {
+    script_subscriber: @script_subscriber, 
+    metric_title: 'Script Duration',
+    impact_result: @audit.delta_performance_audit.metric_result('ScriptDuration'),
+    previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('ScriptDuration') : nil,
+    unit: 'ms',
+    previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
+  } %>
+  <%= render partial: 'partials/performance_audit_metric_row', locals: {
+    script_subscriber: @script_subscriber, 
+    metric_title: 'Layout Duration',
+    impact_result: @audit.delta_performance_audit.metric_result('LayoutDuration'),
+    previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('LayoutDuration') : nil,
+    unit: 'ms',
+    previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
+  } %>
+</div>

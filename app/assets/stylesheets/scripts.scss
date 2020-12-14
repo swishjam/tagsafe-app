@@ -20,6 +20,12 @@ body.scripts {
       box-shadow: 0 10px 20px 3px rgba(170,170,170,.35);
       transition: transform .25s ease-in-out, box-shadow .25s ease-in-out, border .25s ease-in-out;
   
+      .dropdown {
+        margin-right: 10px;
+        i {
+          color: grey;
+        }
+      }
       .card-title {
         white-space: nowrap;
         overflow: hidden;
@@ -37,7 +43,11 @@ body.scripts {
       &:hover {
         transform: matrix(1.05,0,0,1.04999995231628,0,0);
         box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
-        border: 1px solid #716d6d;;
+        border: 1px solid #716d6d;
+        .dropdown-menu {
+          color: red;
+          z-index: 10000000;
+        }
       }
   
       &.inactive {

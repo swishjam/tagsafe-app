@@ -66,20 +66,22 @@
   </div>
 </div>
 
-<script>
-  var updateContainer = document.querySelector('.update-primary-audit-container');
-  var radios = document.querySelectorAll('input[name="primary_lighthouse_audit"]');
-  var submitButton = updateContainer.querySelector('a');
-  for(i=0; i<radios.length; i++) {
-    radios[i].addEventListener('change', function(e) {
-      var radioButton = e.target;
-      if(radioButton.value !== "<%= @primary_audit.id %>") {
-        updateContainer.classList.remove('hidden');
-        submitButton.href = "/script_subscribers/<%=@script_subscriber.id%>/script_changes/<%=@script_change.id%>/audits/"+radioButton.value+"/make_primary";
-      } else {
-        updateContainer.classList.add('hidden');
-        submitButton.href = "#";
-      }
-    })
-  }
-</script>
+<% unless @primary_audit.nil? %>
+  <script>
+    var updateContainer = document.querySelector('.update-primary-audit-container');
+    var radios = document.querySelectorAll('input[name="primary_lighthouse_audit"]');
+    var submitButton = updateContainer.querySelector('a');
+    for(i=0; i<radios.length; i++) {
+      radios[i].addEventListener('change', function(e) {
+        var radioButton = e.target;
+        if(radioButton.value !== "<%= @primary_audit.id %>") {
+          updateContainer.classList.remove('hidden');
+          submitButton.href = "/script_subscribers/<%=@script_subscriber.id%>/script_changes/<%=@script_change.id%>/audits/"+radioButton.value+"/make_primary";
+        } else {
+          updateContainer.classList.add('hidden');
+          submitButton.href = "#";
+        }
+      })
+    }
+  </script>
+<% end %>

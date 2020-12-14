@@ -4,7 +4,9 @@
   <% if current_domain.nil? %>
     <h5>You have not defined your domain(s) to monitor.</h5>
   <% else %>
-    <div class="generic-metrics-container">
+    <%
+=begin%>
+ <div class="generic-metrics-container">
       <div class="row">
         <div class="col-4">
           <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
@@ -25,7 +27,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> 
+<%
+=end%>
     <div class="global-scripts-chart-container tag-safe-container">
       <% if @active_tag_count > 0 %>
         <h5>Tag Impact</h5>
@@ -63,6 +67,14 @@
           <% group.each do |script_subscription| %>
             <div class="col-sm-12 col-md-6 col-lg-4 tag-safe-card-container">
               <div class="card tag-safe-card script-subscription <%= script_subscription.inactive? ? 'inactive' : nil %> <%= script_subscription.removed_from_site? ? 'removed-from-site' : nil %>">
+                <div class="dropdown show ellipsis-dropdown text-right">
+                  <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <%= link_to 'Edit', edit_script_subscriber_path(script_subscription), class: 'dropdown-item' %>
+                  </div>
+                </div>
                 <%= link_to script_subscriber_path(script_subscription) do %>
                   <div class="col-12 logo-container">
                     <%= image_tag script_subscription.try_image_url, class: 'img-fluid script-logo' %>

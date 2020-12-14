@@ -1,5 +1,5 @@
 class ScriptManager::Fetcher
-  attr_accessor :url, :response_time_ms, :response, :response_code, :success
+  attr_accessor :url, :response_time_ms, :response, :response_code
   def initialize(url)
     @url = url
   end
@@ -9,6 +9,10 @@ class ScriptManager::Fetcher
     response
   end
 
+  def success
+    response_code > 199 && response_code < 300
+  end
+
   private
 
   def fetch_with_meta_data
@@ -16,7 +20,6 @@ class ScriptManager::Fetcher
     @response = safe_fetch
     @response_time_ms = (Time.now - start_seconds)*1000
     @response_code = @response.code
-    @success = @repsonse_code == 200
   end
 
   def safe_fetch
