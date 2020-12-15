@@ -1,6 +1,5 @@
 class AfterScriptSubscriberCreationJob < ApplicationJob
   def perform(script_subscriber, first_scan = false)
-    script_subscriber.add_defaults
     if ENV['RUN_BASELINE_AUDITS'] == 'true'
       script_subscriber.run_baseline_audit!
     else

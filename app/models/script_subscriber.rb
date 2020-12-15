@@ -20,6 +20,7 @@ class ScriptSubscriber < ApplicationRecord
   validates_uniqueness_of :script_id, scope: :domain_id
   validate :within_maximum_active_script_subscriptions
 
+  after_create :add_defaults
   after_update :after_update
 
   scope :monitor_changes, -> { where(monitor_changes: true) }
