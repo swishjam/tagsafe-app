@@ -1,4 +1,22 @@
 .script_subscribers {
+  .settings-sub-nav {
+    border-bottom: 2px solid navy;
+    margin-bottom: 15px;
+    width: fit-content;
+    background: white;
+    .sub-nav-link {
+      font-size: 16px;
+      margin: 5px;
+      color: darkgrey;
+      &.current, &:hover {
+        transition: 500ms all;
+        color: navy;
+        font-weight: bold;
+        font-size: 18px;
+        text-decoration: underline;
+      }
+    }
+  }
   .script-subscriber-chart-container {
     background: white;
     border: 1px solid grey;

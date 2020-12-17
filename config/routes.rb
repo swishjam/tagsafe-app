@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
+    get '/general' => 'script_subscribers#edit' 
+    get '/performance_audit_settings' => 'script_subscribers#performance_audit_settings'
+
     resources :script_subscriber_allowed_performance_audit_tags, only: [:create, :destroy]
     resources :performance_audit_preferences, only: :update
     resources :script_changes, only: [:show, :index] do
@@ -29,6 +32,7 @@ Rails.application.routes.draw do
         post :run_audit
         get :content
       end
+      resources :lint_results, only: :index
       resources :audits, only: [:index, :show] do
         member do
           post :make_primary  
@@ -57,6 +61,10 @@ Rails.application.routes.draw do
       resources :script_image_domain_lookup_patterns, only: [:create, :destroy]
     end
   end
+
+  resources :lint_rule_subscribers, only: [:create, :destroy]
+
+  get '/settings/linting_rules' => 'settings#linting_rules'
 
   namespace :api do
     post '/test_subscriptions/:id/toggle' => 'test_subscriptions#toggle'

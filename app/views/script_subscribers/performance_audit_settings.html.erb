@@ -1,0 +1,42 @@
+<h5 class="page-title" style="margin-bottom: 0;">Tag Settings</h5>
+<h6 class="page-sub-title"><%= @script_subscriber.try_friendly_name %></h6>
+
+<%= render partial: 'edit_script_subscriber_nav', locals: { script_subscriber: @script_subscriber } %>
+
+<div class="text-center tag-safe-container">
+  <div class="col-8 offset-2">
+    <h5>Tag's Performance Audit settings</h5>
+    <%= form_for @script_subscriber.performance_audit_preferences, url: script_subscriber_performance_audit_preference_path(@script_subscriber, @script_subscriber.performance_audit_preferences) do |f| %>
+      <div class="form-group">
+        <%= f.label :url_to_audit %>
+        <%= f.text_field :url_to_audit, value: @script_subscriber.performance_audit_preferences.url_to_audit, class: "form-control form-control-lg" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :num_test_iterations %>
+        <%= f.number_field :num_test_iterations, value: @script_subscriber.performance_audit_preferences.num_test_iterations, class: "form-control form-control-lg col-4 offset-4" %>
+      </div>
+      <div class="form-group">
+        <%= f.submit "Update Performance Audit Settings", class: 'tag-safe-button' %>
+      </div>
+    <% end %>
+    <span data-toggle="tooltip"
+            data-placement="top"
+            title="By default, TagSafe blocks all other third party tags from running during performance audits. Define any tags you do not want to block during <%=@script_subscriber.try_friendly_name%> performance audits.">
+      <h6>Third party tags to not block during performance audits:</h6>
+    </span>
+    <%= form_for ScriptSubscriberAllowedPerformanceAuditTag.new, url: script_subscriber_script_subscriber_allowed_performance_audit_tags_path(@script_subscriber) do |f| %>
+      <%= f.hidden_field :performance_audit_script_subscriber_id, value: @script_subscriber.id %>
+      <%= f.label :allowed_tag %>
+      <%= f.select :allowed_script_subscriber_id, options_from_collection_for_select(@selectable_allowed_third_party_tags, :id, :try_friendly_name, 'Allowed Tag'), {}, { 'class' => 'selectpicker', 'data-live-search' => "true" } %>
+      <%= f.submit 'Add Allowed Tag', class: 'tag-safe-button' %>
+    <% end %>
+    <ul class="list-group">
+      <% @script_subscriber.allowed_performance_audit_tags.each do |allowed| %>
+        <li class="list-group-item">
+          <span class="allowed-script-subscriber-name"><%= allowed.allowed_script_subscriber.try_friendly_name %></span>
+          <span class="delete-allowed-script-subscriber" style="float: right;"><%= button_to 'X', script_subscriber_script_subscriber_allowed_performance_audit_tag_path(@script_subscriber, allowed), method: :delete %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

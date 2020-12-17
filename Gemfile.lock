@@ -50,12 +50,9 @@ GEM
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
-    ast (2.4.1)
     autoprefixer-rails (9.8.6.1)
       execjs
-    backport (1.1.2)
     bcrypt (3.1.15)
-    benchmark (0.1.0)
     better_errors (2.7.1)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -106,8 +103,11 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    e2mmap (0.1.0)
     erubi (1.9.0)
+    eslintrb (2.1.0)
+      execjs
+      multi_json (>= 1.3)
+      rake
     et-orbi (1.2.4)
       tzinfo
     execjs (2.7.0)
@@ -161,7 +161,6 @@ GEM
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     io-like (0.3.1)
-    jaro_winkler (1.5.4)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jquery-rails (4.4.0)
@@ -192,7 +191,6 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
-    maruku (0.7.3)
     memoist (0.16.2)
     method_source (1.0.0)
     mime-types (3.3.1)
@@ -215,9 +213,6 @@ GEM
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     os (1.1.1)
-    parallel (1.19.2)
-    parser (2.7.1.4)
-      ast (~> 2.4.1)
     popper_js (1.16.0)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -256,7 +251,6 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rainbow (3.0.0)
     rake (13.0.1)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
@@ -281,9 +275,6 @@ GEM
       resque (>= 1.26)
       rufus-scheduler (~> 3.2)
     retriable (3.1.2)
-    reverse_markdown (2.0.0)
-      nokogiri
-    rexml (3.2.4)
     rspec-core (3.9.3)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.3)
@@ -301,18 +292,6 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.9.4)
-    rubocop (0.89.1)
-      parallel (~> 1.10)
-      parser (>= 2.7.1.1)
-      rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.7)
-      rexml
-      rubocop-ast (>= 0.3.0, < 1.0)
-      ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (0.3.0)
-      parser (>= 2.7.1.4)
-    ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
@@ -350,20 +329,6 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.8.1)
       tilt (~> 2.0)
-    solargraph (0.39.13)
-      backport (~> 1.1)
-      benchmark
-      bundler (>= 1.17.2)
-      e2mmap
-      jaro_winkler (~> 1.5)
-      maruku (~> 0.7, >= 0.7.3)
-      nokogiri (~> 1.9, >= 1.9.1)
-      parser (~> 2.3)
-      reverse_markdown (>= 1.0.5, < 3)
-      rubocop (~> 0.52)
-      thor (~> 1.0)
-      tilt (~> 2.0)
-      yard (~> 0.9, >= 0.9.24)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -383,7 +348,6 @@ GEM
     uber (0.1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    unicode-display_width (1.7.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
     web-console (3.7.0)
@@ -396,7 +360,6 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.25)
 
 PLATFORMS
   ruby
@@ -416,6 +379,7 @@ DEPENDENCIES
   database_cleaner
   diffy
   dotenv-rails
+  eslintrb
   factory_bot_rails
   font-awesome-sass (~> 5.15.1)
   google-cloud-storage (~> 1.11)
@@ -435,7 +399,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   selenium-webdriver
-  solargraph
   spring
   spring-watcher-listen (~> 2.0.0)
   uglifier (>= 1.3.0)

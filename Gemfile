@@ -48,12 +48,13 @@ gem 'resque'
 gem 'resque-scheduler'
 gem 'active_scheduler'
 
-# gem 'groupdate' haven't needed yet for groupings...
 gem "chartkick"
 
 gem 'diffy'
 
-gem 'solargraph'
+gem 'eslintrb'
+
+# gem 'solargraph'
 
 gem "google-cloud-storage", "~> 1.11", require: false
 

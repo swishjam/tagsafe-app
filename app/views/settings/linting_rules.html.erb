@@ -1,0 +1,34 @@
+<h5 class="page-title" style="margin-bottom: 0;">JS Linting Rules</h5>
+
+<div class="text-center tag-safe-container">
+  <%= form_for LintRuleSubscriber.new, url: lint_rule_subscribers_path do |f| %>
+    <%= f.hidden_field :subscriber_id, value: current_organization.id %>
+    <%= f.hidden_field :subscriber_type, value: 'Organization' %>
+    <div class="form-group">
+      <%= f.label :lint_rule %>
+      <%= f.select :lint_rule_id, options_from_collection_for_select(@selectable_lint_rules, :id, :rule), {}, { 'class' => 'selectpicker', 'data-live-search' => "true" } %>
+    </div>
+    <div class="form-group col-4 offset-4">
+      <%= f.select :severity, options_for_select([ ['Severity'], ['Warn', 1], ['Error', 2] ], selected: 'Severity', disabled: 'Severity'), {}, { class: 'custom-select', required: true } %>
+    </div>
+    <div class="form-group">
+      <%= f.submit 'Add Rule', class: 'tag-safe-button' %>
+    </div>
+  <% end %>
+  <% if current_organization.lint_rule_subscriptions.any? %>
+    <hr/>
+    <h6>JS lint rules for all tags on <%= current_domain.url %></h6>
+    <div class="col-12">
+      <% current_organization.lint_rule_subscriptions.each do |lint_rule_sub| %>
+        <span class="badge removable badge-<%= lint_rule_sub.severity == 2 ? 'danger' : 'warning' %>" data-toggle="tooltip" data-placement="top" title="<%=lint_rule_sub.lint_rule.description%>">
+          <span class="content"><%= lint_rule_sub.lint_rule.rule %></span>
+          <%= link_to lint_rule_subscriber_path(lint_rule_sub), method: :delete do %>
+            <span class="remove-btn">X</span>
+          <% end %>
+        </span>
+      <% end %>
+    </div>
+  <% else %>
+    <span>No lint rules defined.</span>
+  <% end %>
+</div>

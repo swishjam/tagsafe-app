@@ -2,11 +2,14 @@ class ScriptSubscriber < ApplicationRecord
   include Rails.application.routes.url_helpers
   # has_many :test_subscriptions, class_name: 'TestSubscriber', dependent: :destroy
 
+  # RELATIONS
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
   belongs_to :domain
   belongs_to :script
   belongs_to :first_script_change, class_name: 'ScriptChange'
   has_many :allowed_performance_audit_tags, class_name: 'ScriptSubscriberAllowedPerformanceAuditTag', foreign_key: :performance_audit_script_subscriber_id
+  has_many :script_subscriber_lint_results
+  has_many :lint_results, through: :script_subscriber_lint_results
 
   has_many :notification_subscribers, dependent: :destroy
   has_many :script_change_notification_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
@@ -17,20 +20,31 @@ class ScriptSubscriber < ApplicationRecord
 
   has_one_attached :image
 
+  # VALIDATIONS
   validates_uniqueness_of :script_id, scope: :domain_id
   validate :within_maximum_active_script_subscriptions
 
+  # CALLBACKS
   after_create :add_defaults
   after_update :after_update
 
+  # SCOPES
   scope :monitor_changes, -> { where(monitor_changes: true) }
   scope :do_not_monitor_changes, -> { where(monitor_changes: false) }
+  
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :no_longer_on_site, -> { where.not(removed_from_site_at: nil) }
+  
   scope :is_third_party_tag, -> { where(is_third_party_tag: true) }
-  scope :third_party_tags_that_shouldnt_be_blocked, -> { where(is_third_party_tag: false).or(where(allowed_third_party_tag: true)) }
+  scope :is_not_third_party_tag, -> { where(is_third_party_tag: false) }
+
+  scope :allowed_third_party_tag, -> { where(allowed_third_party_tag: true) }
+  scope :not_allowed_third_party_tag, -> { where(allowed_third_party_tag: false) }
+
+  scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
 
   def add_defaults
     create_performance_audit_preferences
@@ -75,6 +89,10 @@ class ScriptSubscriber < ApplicationRecord
   def try_image_url
     image.attached? ? rails_blob_path(image, only_path: true) : script.try_image_url
   end
+
+  ############
+  ## AUDITS ##
+  ############
 
   def allow_tag_on_performance_audits!(script_subscriber)
     allowed_performance_audit_tags.create(allowed_script_subscriber: script_subscriber)
@@ -139,6 +157,22 @@ class ScriptSubscriber < ApplicationRecord
   def send_audit_complete_notifications!(audit)
     audit_complete_notification_subscribers.each{ |notification_subscriber| notification_subscriber.send_email!(audit) }
   end
+
+  ###########
+  ## LINTS ##
+  ###########
+
+  def lint_results_for_script_change(script_change)
+    lint_results.by_script_change(script_change)
+  end
+
+  def has_lint_results_for_script_change?(script_change)
+    lint_results_for_script_change(script_change).any?
+  end
+
+  ###########
+  ## TESTS ##
+  ###########
 
   def add_default_tests
     Test.default_tests.each{ |test| subscribe_to_test(test, test.default_expected_test_result) }

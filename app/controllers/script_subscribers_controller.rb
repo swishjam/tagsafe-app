@@ -12,7 +12,7 @@ class ScriptSubscribersController < LoggedInController
 
   def show
     @script_subscriber = current_domain.script_subscriptions.includes(:script).find(params[:id])
-    @script_changes = @script_subscriber.script_changes
+    @script_changes = @script_subscriber.script_changes.page(params[:page] || 1).per(params[:per_page] || 10)
     permitted_to_view?(@script_subscriber)
     render_breadcrumbs(
       { text: 'Monitor Center', url: scripts_path }, 
@@ -23,8 +23,21 @@ class ScriptSubscribersController < LoggedInController
   def edit
     @script_subscriber = ScriptSubscriber.find(params[:id])
     permitted_to_view?(@script_subscriber)
+    render_breadcrumbs(
+      { text: 'Monitor Center', url: scripts_path }, 
+      { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },
+      { text: "Edit #{@script_subscriber.try_friendly_name}", active: true }
+    )
+  end
+
+  def performance_audit_settings
+    @script_subscriber = ScriptSubscriber.joins(:performance_audit_preferences).find(params[:script_subscriber_id])
+    permitted_to_view?(@script_subscriber)
     already_allowed_script_subscriber_ids = @script_subscriber.allowed_performance_audit_tags.collect{ |allowed| allowed.allowed_script_subscriber.id }
-    @selectable_allowed_third_party_tags = @script_subscriber.domain.script_subscriptions.where.not(id: [@script_subscriber.id].concat(already_allowed_script_subscriber_ids))
+    @selectable_allowed_third_party_tags = @script_subscriber.domain.script_subscriptions
+                                                                      .not_allowed_third_party_tag
+                                                                      .is_third_party_tag
+                                                                      .where.not(id: [@script_subscriber.id].concat(already_allowed_script_subscriber_ids))
     render_breadcrumbs(
       { text: 'Monitor Center', url: scripts_path }, 
       { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },

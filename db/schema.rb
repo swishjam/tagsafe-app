@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_13_000611) do
+ActiveRecord::Schema.define(version: 2020_12_15_172308) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -67,10 +67,32 @@ ActiveRecord::Schema.define(version: 2020_12_13_000611) do
     t.string "data_type"
   end
 
+  create_table "lint_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_change_id"
+    t.string "rule_id"
+    t.string "message"
+    t.integer "line"
+    t.integer "column"
+    t.string "node_type"
+    t.boolean "fatal"
+    t.integer "lint_rule_id"
+  end
+
+  create_table "lint_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "rule"
+    t.string "description"
+  end
+
   create_table "notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "type"
     t.integer "user_id"
     t.integer "script_subscriber_id"
+  end
+
+  create_table "organization_lint_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "lint_rule_id"
+    t.integer "severity"
+    t.integer "organization_id"
   end
 
   create_table "organization_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -161,6 +183,11 @@ ActiveRecord::Schema.define(version: 2020_12_13_000611) do
   create_table "script_subscriber_allowed_performance_audit_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "performance_audit_script_subscriber_id"
     t.integer "allowed_script_subscriber_id"
+  end
+
+  create_table "script_subscriber_lint_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_subscriber_id"
+    t.integer "lint_result_id"
   end
 
   create_table "script_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

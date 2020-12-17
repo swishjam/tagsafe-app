@@ -5,6 +5,10 @@ class Organization < ApplicationRecord
   has_many :created_tests, class_name: 'Test'
   has_many :script_subscriptions, through: :domains
   has_many :scripts, through: :domains
+  has_many :organization_lint_rules, dependent: :destroy
+  has_many :lint_rules, through: :organization_lint_rules
+
+  after_create :add_default_linting_rules
 
   accepts_nested_attributes_for :domains, :organization_users
 
@@ -20,5 +24,9 @@ class Organization < ApplicationRecord
     if ou = organization_users.find_by(user_id: user.id)
       ou.destroy!
     end
+  end
+
+  def add_default_linting_rules
+    organization_lint_rules.create(LintRule.DEFAULTS.collect{ |rule| { lint_rule_id: rule.id }})
   end
 end

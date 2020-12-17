@@ -3,6 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   scope :older_than, -> (timestamp) { where("created_at < ?", timestamp).order('created_at DESC') }
   scope :older_than_or_equal_to, -> (timestamp) { where("created_at <= ?", timestamp).order('created_at DESC') }
+ 
   scope :newer_than, -> (timestamp) { where("created_at > ?", timestamp).order('created_at DESC') }
   scope :newer_than_or_equal_to, -> (timestamp) { where("created_at >= ?", timestamp).order('created_at DESC') }
 

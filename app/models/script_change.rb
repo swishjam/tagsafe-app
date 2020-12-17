@@ -3,6 +3,7 @@ class ScriptChange < ApplicationRecord
 
   belongs_to :script
   has_many :audits, dependent: :destroy
+  has_many :lint_results, dependent: :destroy
   has_one_attached :js_file
   
   scope :most_recent, -> { where(most_recent: true) }
@@ -53,6 +54,13 @@ class ScriptChange < ApplicationRecord
 
   def content
     @content ||= js_file.download
+  end
+
+  def lint!(force = false)
+    JsLinter::Evaluator.new(self).evaluate! if !lint_results.any? || force
+  rescue => e
+    Rails.logger.error "Error encountered in lint: #{e}"
+    Resque.logger.error "Erro encountered in lint: #{e}"
   end
 
   def set_script_content_changed_at_timestamp

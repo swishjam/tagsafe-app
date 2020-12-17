@@ -1,4 +1,16 @@
-<div class="script-subscriber-chart-container">
+<div class="script-subscriber-chart-container" style="padding-top: 5px;">
+  <div class="row" style="margin-bottom: 5px;">
+    <div class="col-12">
+      <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">
+        <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to "Edit #{@script_subscriber.try_friendly_name}", edit_script_subscriber_path(@script_subscriber), class: 'dropdown-item' %>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-6">
       <div class="form-check form-check-inline">

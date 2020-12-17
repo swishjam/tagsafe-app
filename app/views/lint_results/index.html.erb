@@ -1,0 +1,28 @@
+<h5 class="page-title with-sub-title">JS Violations</h5>
+<h6 class="page-sub-title" style="margin-bottom: 0;"><%= @script_subscriber.try_friendly_name%></h6>
+<h6 class="page-sub-title"><%= @script_change.created_at.formatted %></h6>
+<div class="tag-safe-container">
+  <% if @lints.any? %>
+    <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th scope="col" style='width: 33%'>Line #</th>
+          <th scope="col" style='width: 33%'>Error</th>
+          <th scope="col" style='width: 33%'>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lints.each do |lint| %>
+          <tr>
+            <td scope="row"><%= lint.line %>:<%= lint.column %></td>
+            <td scope="row"><%= lint.message %></td>
+            <td scope="row"><%= lint.rule_id %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <span>No JS Violations.</span>
+  <% end %>
+</div>
+<%= paginate @lints %>

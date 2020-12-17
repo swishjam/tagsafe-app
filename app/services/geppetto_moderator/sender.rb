@@ -9,7 +9,6 @@ class GeppettoModerator::Sender
     Rails.logger.info "Sending Geppetto Request to #{@endpoint} with #{merged_request_options}"
     response = send_geppetto_request
     Rails.logger.info "Result: #{response.code} - #{response.response.body}"
-    # geppetto_job.complete! unless response.code == 200 # never enqueued in Geppetto
   end
 
   private
@@ -19,6 +18,7 @@ class GeppettoModerator::Sender
   rescue => e
     Rails.logger.error "Could not connect to Geppetto Service. #{e}"
     err = Struct.new(:code, :response)
+    # this doesn't work, needs to respond to response.response.body
     err.new(500, { message: "An error occurred: #{e}" })
   end
   
