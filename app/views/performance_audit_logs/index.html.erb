@@ -10,3 +10,14 @@
     </div>
   <% end %>
 </div>
+
+<script>
+  $('[data-request-url]').hover(function(e) {
+    var url = e.target.getAttribute('data-request-url');
+    $('[data-request-url="'+url+'"]').addClass('hovered');
+  })
+  $('[data-request-url]').mouseout(function(e) {
+    var url = e.target.getAttribute('data-request-url');
+    $('[data-request-url="'+url+'"]').removeClass('hovered');
+  });
+</script>

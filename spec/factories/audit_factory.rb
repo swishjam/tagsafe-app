@@ -4,18 +4,18 @@ FactoryBot.define do
     association :script_subscriber
     association :execution_reason
     primary { true }
-    lighthouse_audit_enqueued_at { DateTime.yesterday }
-    lighthouse_audit_completed_at { DateTime.now }
+    performance_audit_enqueued_at { DateTime.yesterday }
+    performance_audit_completed_at { DateTime.now }
     test_suite_enqueued_at { DateTime.yesterday }
     test_suite_completed_at { DateTime.now }
   end
 
-  factory :audit_with_pending_lighthouse, parent: :audit do
-    lighthouse_audit_completed_at { nil }
+  factory :audit_with_pending_performance_audit, parent: :audit do
+    performance_audit_completed_at { nil }
   end
 
-  factory :audit_with_failed_lighthouse, parent: :audit do
-    lighthouse_error_message { 'Oops! An error occurred!' }
+  factory :audit_with_failed_performance_audit, parent: :audit do
+    performance_audit_error_message { 'Oops! An error occurred!' }
   end
 end
 

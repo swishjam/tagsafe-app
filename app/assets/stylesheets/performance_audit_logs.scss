@@ -16,7 +16,8 @@ body.performance_audit_logs {
     .allowed-request {
       color: green;
     }
-    .blocked-request:hover, .allowed-request:hover, .overwritten-url:hover {
+    .blocked-request:hover, .allowed-request:hover, .overwritten-url:hover,
+    .blocked-request.hovered, .allowed-request.hovered, .overwritten-url.hovered {
       background: lightgrey;
     }
   }

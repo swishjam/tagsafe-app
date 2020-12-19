@@ -28,12 +28,4 @@ class ExecutionReason < ApplicationRecord
   def self.RETRY
     @retry ||= find_by!(name: 'Retry')
   end
-
-  # def self.INITIAL_TEST
-  #   @initial_test ||= find_by!(name: 'Initial Test')
-  # end
-
-  # def self.TEST
-  #   @test ||= find_by!(name: 'Test')
-  # end
 end

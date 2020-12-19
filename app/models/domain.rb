@@ -1,5 +1,6 @@
 class Domain < ApplicationRecord
   belongs_to :organization
+  has_many :domain_scans
   has_many :script_subscriptions, class_name: 'ScriptSubscriber', dependent: :destroy
   has_many :scripts, through: :script_subscriptions
   has_many :lint_rule_subscriptions, class_name: 'LintRuleSubscriber', as: :subscriber

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_172308) do
+ActiveRecord::Schema.define(version: 2020_12_18_221529) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,19 @@ ActiveRecord::Schema.define(version: 2020_12_15_172308) do
     t.boolean "is_baseline"
   end
 
+  create_table "chart_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "timestamp"
+    t.integer "audit_id"
+    t.boolean "due_to_script_change"
+  end
+
+  create_table "domain_scans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "domain_id"
+    t.datetime "scan_enqueued_at"
+    t.datetime "scan_completed_at"
+    t.text "error_message"
+  end
+
   create_table "domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "organization_id"
     t.string "url"
@@ -75,7 +88,7 @@ ActiveRecord::Schema.define(version: 2020_12_15_172308) do
     t.integer "column"
     t.string "node_type"
     t.boolean "fatal"
-    t.integer "lint_rule_id"
+    t.string "source"
   end
 
   create_table "lint_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

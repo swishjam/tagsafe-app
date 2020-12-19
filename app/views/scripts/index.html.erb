@@ -45,16 +45,17 @@
         </select>
         <div id="scripts-chart-container">
           <%=
-            line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key), 
+            line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key),
               download: true, 
               title: "#{@filtered_performance_audit_metric_type.title} Impact",
               ytitle: "#{@filtered_performance_audit_metric_type.title} (#{@filtered_performance_audit_metric_type.unit})",
               xtitle: 'Tag Changes',
-              curve: false,
+              code: true,
               messages: { empty: "No Audits Run." },
               curve: false, 
-              legend: "bottom"
-          %> 
+              legend: "bottom",
+              library: { hAxis: { format: 'MM-DD-YYYY' }}
+          %>
         </div>
       <% else %>
         <span>You are not monitoring any tags. <%= link_to 'Activate tags here', script_subscribers_path %>.</span>
@@ -89,13 +90,13 @@
                       <span data-toggle="tooltip"
                           data-placement="top"
                           title="The <%= script_subscription.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= script_subscription.removed_from_site_at.formatted %>.">
-                        <p><i class="fas fa-exclamation-circle"></i> Removed</p>
+                        <span class="script-removed-from-site-notice"><i class="fas fa-exclamation-circle"></i> Removed</span>
                       </span>
                     <% elsif script_subscription.inactive? %>
                       <span data-toggle="tooltip"
                         data-placement="top"
                         title="Tag monitoring is off for <%= script_subscription.try_friendly_name %>. Visit your tag management settings to monitor.">
-                        <p><i class="fas fa-exclamation-circle"></i> Inactive</p>
+                        <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Inactive</span>
                       </span>
                     <% else %>
                       <% if !script_subscription.script.most_recent_script_change.first_change? %>

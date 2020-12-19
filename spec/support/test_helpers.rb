@@ -21,12 +21,12 @@ def stub_evaluate_script_job
 end
 
 def create_execution_reasons
+  create(:initial_audit_execution)
   create(:manual_execution)
-  create(:reactivated_script_execution)
+  create(:reactivated_tag_execution)
   create(:scheduled_execution)
-  create(:script_change_execution)
-  create(:initial_test_execution)
-  create(:test_execution)
+  create(:tag_change_execution)
+  create(:retry_execution)
 end
 
 def create_lint_rules

@@ -25,66 +25,68 @@
         <% @script_changes.each_with_index  do |script_change, i| %>
           <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_performance_audits: true) %>
           <% previous_audit = @script_subscriber.primary_audit_by_script_change(@script_changes[i+1]) %>
-          <tr>
-            <td scope="row"><%= script_change.created_at.formatted_short %></td>
-            <td scope="row">
-              <% if !audit %>
-                <span>
-                  No performance audits run
-                </span>
-              <% elsif audit.performance_audit_pending? %>
-                <span>
-                  Performance audit currently running.
-                </span>
-              <% elsif audit.performance_audit_failed? %>
-                <span>
-                  Audit failure: <%= audit.performance_audit_error_message %>
-                </span>
-              <% else %>
-                <span>
-                  <%= number_with_delimiter(audit.delta_performance_audit.metric_result('DOMComplete')) %> ms
-                </span>
-              <% end %>
-            </td>
-            <td scope="row">
-              <% if !audit.nil? && !audit.performance_audit_pending? && !audit.performance_audit_failed? && 
-                    !previous_audit.nil? && !previous_audit.performance_audit_pending? && !previous_audit.performance_audit_failed? %>
-                <% dom_complete = audit.delta_performance_audit.metric_result('DOMComplete') %>
-                <% previous_dom_complete = previous_audit.delta_performance_audit.metric_result('DOMComplete') %>
-                <% diff_in_metric = (dom_complete - previous_dom_complete).round(2) %>
-                <% percent_change = ((diff_in_metric/previous_dom_complete)*100).round(2) %>
-                <% icon_class = diff_in_metric.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
-                <span class="<%=diff_in_metric.positive? ? 'negative' : 'positive' %>">
-                  <i class="fas <%=icon_class%>"></i>
-                  <%= number_with_delimiter(diff_in_metric) %> ms (<%= number_with_delimiter(percent_change) %>%)
-                </span>
-              <% else %>
-                --
-              <% end %>
-            </td>
-            <td scope="row">
-              <% js_violations_count = @script_subscriber.lint_results_for_script_change(script_change).count %>
-              <span class="badge badge-<%=js_violations_count.zero? ? 'success' : 'danger'%>"><%=js_violations_count%> JS Violations</span>
-            </td>
-            <td scope="row">
-              <div class="dropdown dropleft show ellipsis-dropdown">
-                <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <% unless audit.nil? %>
-                    <%= link_to 'View Audit', script_subscriber_script_change_audit_path(@script_subscriber, script_change, audit), class: 'dropdown-item' %> 
-                  <% end %>
-                  <% unless js_violations_count.zero? %>
-                    <%= link_to "View JS Violations", script_subscriber_script_change_lint_results_path(@script_subscriber, script_change), class: 'dropdown-item' %>
-                  <% end %>
-                  <%= link_to 'View Changes', script_subscriber_script_change_path(@script_subscriber, script_change), class: 'dropdown-item' %> 
-                  <div class="dropdown-divider"></div>
-                  <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, script_change), class: 'dropdown-item', method: :post, data: { confirm: "Run audit on #{@script_subscriber.try_friendly_name}?" } %> 
+          <%= link_to audit.nil? ? '#' : script_subscriber_script_change_audit_path(@script_subscriber, script_change, audit) do %> 
+            <tr class="script-change-row">
+              <td scope="row"><%= script_change.created_at.formatted_short %></td>
+              <td scope="row">
+                <% if !audit %>
+                  <span>
+                    No performance audits run
+                  </span>
+                <% elsif audit.performance_audit_pending? %>
+                  <span>
+                    Performance audit currently running.
+                  </span>
+                <% elsif audit.performance_audit_failed? %>
+                  <span>
+                    Audit failure: <%= audit.performance_audit_error_message %>
+                  </span>
+                <% else %>
+                  <span>
+                    <%= number_with_delimiter(audit.delta_performance_audit.metric_result('DOMComplete')) %> ms
+                  </span>
+                <% end %>
+              </td>
+              <td scope="row">
+                <% if !audit.nil? && !audit.performance_audit_pending? && !audit.performance_audit_failed? && 
+                      !previous_audit.nil? && !previous_audit.performance_audit_pending? && !previous_audit.performance_audit_failed? %>
+                  <% dom_complete = audit.delta_performance_audit.metric_result('DOMComplete') %>
+                  <% previous_dom_complete = previous_audit.delta_performance_audit.metric_result('DOMComplete') %>
+                  <% diff_in_metric = (dom_complete - previous_dom_complete).round(2) %>
+                  <% percent_change = ((diff_in_metric/previous_dom_complete)*100).round(2) %>
+                  <% icon_class = diff_in_metric.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+                  <span class="<%=diff_in_metric.positive? ? 'negative' : 'positive' %>">
+                    <i class="fas <%=icon_class%>"></i>
+                    <%= number_with_delimiter(diff_in_metric) %> ms (<%= number_with_delimiter(percent_change) %>%)
+                  </span>
+                <% else %>
+                  --
+                <% end %>
+              </td>
+              <td scope="row">
+                <% js_violations_count = @script_subscriber.lint_results_for_script_change(script_change).count %>
+                <span class="badge badge-<%=js_violations_count.zero? ? 'success' : 'danger'%>"><%=js_violations_count%> JS Violations</span>
+              </td>
+              <td scope="row">
+                <div class="dropdown dropleft show ellipsis-dropdown">
+                  <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <% unless audit.nil? %>
+                      <%= link_to 'View Audit', script_subscriber_script_change_audit_path(@script_subscriber, script_change, audit), class: 'dropdown-item' %> 
+                    <% end %>
+                    <% unless js_violations_count.zero? %>
+                      <%= link_to "View JS Violations", script_subscriber_script_change_lint_results_path(@script_subscriber, script_change), class: 'dropdown-item' %>
+                    <% end %>
+                    <%= link_to 'View Changes', script_subscriber_script_change_path(@script_subscriber, script_change), class: 'dropdown-item' %> 
+                    <div class="dropdown-divider"></div>
+                    <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, script_change), class: 'dropdown-item', method: :post, data: { confirm: "Run audit on #{@script_subscriber.try_friendly_name}?" } %> 
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       <% else %>
         <tr>

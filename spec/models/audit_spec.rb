@@ -1,4 +1,4 @@
 require 'rails_helper'
 
-RSpec.describe ScriptChange, type: :model do
+RSpec.describe Audit, type: :model do
 end

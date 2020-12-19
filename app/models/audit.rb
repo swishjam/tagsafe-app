@@ -2,6 +2,7 @@ require 'memoist'
 
 class Audit < ApplicationRecord
   class InvalidRetry < StandardError; end;
+  class InvalidPrimaryAudit < StandardError; end;
   extend Memoist
 
   belongs_to :script_change
@@ -34,7 +35,6 @@ class Audit < ApplicationRecord
   scope :completed, -> { where.not(test_suite_completed_at: nil, performance_audit_completed_at: nil) }
 
   def completed_performance_audit!
-    make_primary! unless primary?
     touch(:performance_audit_completed_at)
     check_after_completion
   end
@@ -46,13 +46,13 @@ class Audit < ApplicationRecord
   end
 
   def completed_test_suite!
-    make_primary! unless primary?
     touch(:test_suite_completed_at)
     check_after_completion
   end
 
   def check_after_completion
     if complete?
+      make_primary! unless primary? || performance_audit_failed?
       AuditCompletedJob.perform_later(self)
     end
   end
@@ -107,15 +107,15 @@ class Audit < ApplicationRecord
   end
   alias is_primary? primary?
 
-  def make_primary!
-    if previous_primary_audit = script_subscriber.primary_audit_by_script_change(script_change)
-      previous_primary_audit.update!(primary: false)
-    end
+  def make_primary!(manually_updated = false)
+    raise InvalidPrimaryAudit if performance_audit_failed?
+    previous_primary_audit = script_subscriber.primary_audit_by_script_change(script_change)
+    previous_primary_audit.update!(primary: false) unless previous_primary_audit.nil?
     update!(primary: true)
+    ChartData.update_new_primary_audit(new_primary_audit: self, previous_primary_audit: previous_primary_audit) if manually_updated
   end
 
   def previous_primary_audit
-    # leveraging audits has_many scope to enforce order
     script_subscriber.audits.primary.older_than(enqueued_at).limit(1).first
   end
   memoize :previous_primary_audit

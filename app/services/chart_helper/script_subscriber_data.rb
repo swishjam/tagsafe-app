@@ -1,5 +1,6 @@
 module ChartHelper
   class ScriptSubscriberData
+    # TODO: need to change logic to leverage ChartData
     def initialize(script_subscriber, chart_type, metric_keys)
       @script_subscriber = script_subscriber
       @chart_type = chart_type
@@ -19,6 +20,10 @@ module ChartHelper
     end
 
     private
+
+    # def chart_data
+    #   @chart_data ||= ChartData.by_script_subscriber_id(@script_subscriber.id)
+    # end
 
     def grouped_performance_audit_metrics
       PerformanceAuditMetric.includes(performance_audit: [audit: [:script_change]])
@@ -49,23 +54,3 @@ module ChartHelper
     end
   end
 end
-
-#   if chart_type == 'impact'
-    
-#   else
-#     PerformanceAuditMetric.includes(performance_audit: [audit: [:script_change]])
-#                           .by_script_subscriber(@script_subscriber)
-#                           .by_audit_type(['PerformanceAuditWithTag', 'PerformanceAuditWithoutTag'])
-#                           .primary_audits
-#                           .by_key(keys)
-#                           .group_by{ |metric| 
-#                             [metric.performance_audit.type, metric.title].join(' - ') 
-#                           }.each do |metric_obj|
-#       metric_data = { name: metric_obj[0], data: {} }
-#       metric_obj[1].each do |metric|
-#         metric_data[:data][metric.performance_audit.audit.script_change.created_at] = metric.result
-#       end
-#       chart_data << metric_data
-#     end
-#   end
-# end
