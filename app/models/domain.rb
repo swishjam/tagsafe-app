@@ -3,8 +3,6 @@ class Domain < ApplicationRecord
   has_many :domain_scans
   has_many :script_subscriptions, class_name: 'ScriptSubscriber', dependent: :destroy
   has_many :scripts, through: :script_subscriptions
-  has_many :lint_rule_subscriptions, class_name: 'LintRuleSubscriber', as: :subscriber
-  has_many :lint_rules, through: :lint_rule_subscriptions
 
   validates :url, presence: true, uniqueness: true
 

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     get '/performance_audit_settings' => 'script_subscribers#performance_audit_settings'
     get '/notification_settings' => 'script_subscribers#notification_settings'
 
-    resources :slack_notifications, only: [:create, :destroy]
+    resources :slack_notification_subscribers, only: [:create, :destroy]
     resources :script_subscriber_allowed_performance_audit_tags, only: [:create, :destroy]
     resources :performance_audit_preferences, only: :update
     resources :script_changes, only: [:show, :index] do
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :lint_rule_subscribers, only: [:create, :destroy]
+  resources :organization_lint_rules, only: [:create, :destroy]
 
   get '/settings/tags' => 'settings#tags'
   get '/settings/linting_rules' => 'settings#linting_rules'

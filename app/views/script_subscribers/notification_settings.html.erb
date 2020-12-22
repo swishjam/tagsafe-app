@@ -27,23 +27,31 @@
   <hr/>
   <h5>Slack Notifications</h5>
   <% if current_organization.completed_slack_setup? %>
-    <%= form_for SlackNotification.new, url: script_subscriber_slack_notifications_path(@script_subscriber), html: { class: 'form-inline' } do |f| %>
+    <%= form_for SlackNotificationSubscriber.new, url: script_subscriber_slack_notification_subscribers_path(@script_subscriber), html: { class: 'form-inline', style: 'width: fit-content; margin: 0 auto' } do |f| %>
       <%= f.hidden_field :script_subscriber_id, value: @script_subscriber.id %>
       <div class="form-group">
-        <%= f.label 'Notification Type' %>
-        <%= f.select :type, options_for_select([ ['Notification Type'], ['Script Changed', 'ScriptChangedSlackNotification'], ['Audit Completed', 'AuditCompletedSlackNotification'], ['New Tag Added', 'NewTagSlackNotification'] ], selected: 'Notification Type', disabled: 'Notification Type'), {}, { class: 'custom-select', required: true } %>
+        <select name="slack_notification_subscriber[type]" class='custom-select' required>
+          <option disabled selected>Notification Type</option>
+          <option value='ScriptChangedSlackNotification'>Script Changed</option>
+          <option value='AuditCompletedSlackNotification'>Audit Completed</option>
+          <option value='NewTagSlackNotification'>New Tag</option>
+        </select>
       </div>
       <div class="form-group">
-        <%= f.label 'Slack Channel' %>
-        <%= f.select :channel, options_for_select(@slack_channels_options), {}, { class: 'custom-select', required: true } %>
+        <select name='slack_notification_subscriber[channel]' class='custom-select' required>
+          <option selected disabled>Slack Channel</option>
+          <% @slack_channels_options.each do |channel| %>
+            <option value="<%=channel%>"><%=channel%></option>
+          <% end %>
+        </select>
       </div>
       <%= f.submit 'Add Slack Notification', class: 'btn btn-primary' %>
     <% end %>
     <ul class="list-group">
-      <% @script_subscriber.slack_notifications.each do |slack_notification| %>
+      <% @script_subscriber.slack_notification_subscribers.each do |slack_notification| %>
         <li class="list-group-item">
-          <%= slack_notification.friendly_name %> send a message to the <%= slack_notification.channel %> channel.
-          <%= link_to 'X', script_subscriber_slack_notification_path(@script_subscriber, slack_notification), method: :delete, style: 'float: right;' %>
+          <span style='text-decoration: underline; font-style: italic'><%= slack_notification.friendly_name %></span> send a message to the <span style='text-decoration: underline; font-style: italic'><%= slack_notification.channel %></span> channel.
+          <%= link_to 'X', script_subscriber_slack_notification_subscriber_path(@script_subscriber, slack_notification), method: :delete, style: 'float: right;' %>
         </li>
       <% end %>
     </ul>

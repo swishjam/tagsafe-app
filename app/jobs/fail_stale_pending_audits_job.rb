@@ -2,7 +2,7 @@ class FailStalePendingAuditsJob < ApplicationJob
   def perform
     Audit.pending_performance_audit.older_than(Time.now - fail_period).each do |audit|
       Resque.logger.info "Purging audit ID #{audit.id} that exceeds fail period."
-      audit.performance_audit_error!("Audit timeout after #{fail_period}", Float::INFINITY) # never retry these
+      audit.performance_audit_error!("Audit timeout after #{fail_period} seconds.", Float::INFINITY) # never retry these
     end
   end
 

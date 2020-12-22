@@ -1,6 +1,6 @@
-class LintRuleSubscribersController < LoggedInController
+class OrganizationLintRulesController < LoggedInController
   def create
-    subscription = LintRuleSubscriber.create(lint_rule_subscriber_params)
+    subscription = OrganizationLintRule.create(lint_rule_subscriber_params)
     if subscription
       display_toast_message("Added #{subscription.lint_rule.rule} to JS linting rule.")
     else
@@ -10,7 +10,7 @@ class LintRuleSubscribersController < LoggedInController
   end
 
   def destroy
-    lint_rule_subscriber = LintRuleSubscriber.find(params[:id])
+    lint_rule_subscriber = OrganizationLintRule.find(params[:id])
     lint_rule_subscriber.destroy
     display_toast_message("Removed #{lint_rule_subscriber.lint_rule.rule} from JS violation rules.")
     redirect_to request.referrer
@@ -18,6 +18,6 @@ class LintRuleSubscribersController < LoggedInController
 
   private
   def lint_rule_subscriber_params
-    params.require(:lint_rule_subscriber).permit(:subscriber_id, :subscriber_type, :lint_rule_id, :severity)
+    params.require(:organization_lint_rule).permit(:organization_id, :lint_rule_id, :severity)
   end
 end

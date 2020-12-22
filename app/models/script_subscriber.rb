@@ -11,7 +11,7 @@ class ScriptSubscriber < ApplicationRecord
   has_many :script_subscriber_lint_results
   has_many :lint_results, through: :script_subscriber_lint_results
 
-  has_many :slack_notifications, dependent: :destroy
+  has_many :slack_notification_subscribers, dependent: :destroy
   has_many :new_tag_slack_notifications
   has_many :script_changed_slack_notifications
   has_many :audit_completed_slack_notifications

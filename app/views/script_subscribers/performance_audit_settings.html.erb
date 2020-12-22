@@ -19,11 +19,14 @@
         <%= f.submit "Update Performance Audit Settings", class: 'tag-safe-button' %>
       </div>
     <% end %>
-    <span data-toggle="tooltip"
-            data-placement="top"
-            title="By default, TagSafe blocks all other third party tags from running during performance audits. Define any tags you do not want to block during <%=@script_subscriber.try_friendly_name%> performance audits.">
-      <h6>Third party tags to not block during performance audits:</h6>
-    </span>
+    <h6>
+      Third party tags to not block during performance audits:
+      <span data-toggle="tooltip"
+              data-placement="top"
+              title="By default, TagSafe blocks all other third party tags from running during performance audits. Define any tags you do not want to block during <%=@script_subscriber.try_friendly_name%> performance audits. ie: if a tag manager adds this tag to the page, you must add the third party tag to allowed tag list.">
+              <i class="far fa-question-circle"></i>
+      </span>
+    </h6>
     <%= form_for ScriptSubscriberAllowedPerformanceAuditTag.new, url: script_subscriber_script_subscriber_allowed_performance_audit_tags_path(@script_subscriber) do |f| %>
       <%= f.hidden_field :performance_audit_script_subscriber_id, value: @script_subscriber.id %>
       <%= f.label :allowed_tag %>

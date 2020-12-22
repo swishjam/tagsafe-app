@@ -24,11 +24,13 @@
         { path: change_log_path, text: "Change Log", icon_class: "fas fa-stream" },
         { path: script_subscribers_path, text: "Manage Scripts", icon_class: "fas fa-tasks" },
         { path: notification_preferences_path, text: "Manage Notifications", icon_class: "fas fa-paper-plane" },
-        { path: new_user_invite_path, text: "Manage Users", icon_class: "fas fa-users" }
+        { path: new_user_invite_path, text: "Manage Users", icon_class: "fas fa-users" },
+        { path: settings_tags_path, text: 'Settings', icon_class: 'fas fa-cogs', partial_match: '/settings/' }
       ]
     %>
     <% nav_items.each do |nav| %>
       <li>
+        
         <% klass = request.path == nav[:path] ? 'current nav-link' : 'nav-link' %>
         <%= link_to nav[:path], class: klass do %>
           <i class="<%= nav[:icon_class] %>"></i> <%= nav[:text] %>

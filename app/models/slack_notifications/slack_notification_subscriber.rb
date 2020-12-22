@@ -6,6 +6,8 @@ class SlackNotificationSubscriber < ApplicationRecord
   scope :monitor_changes, -> { joins(:script_subscriber).where(script_subscribers: { monitor_changes: true }) }
   scope :should_receive_notifications, -> { monitor_changes.still_on_site.active }
 
+  validates_presence_of :type, :channel
+
   def notify!
     raise 'Child class must define.'
   end
