@@ -109,14 +109,14 @@ class Audit < ApplicationRecord
 
   def make_primary!(manually_updated = false)
     raise InvalidPrimaryAudit if performance_audit_failed?
-    previous_primary_audit = script_subscriber.primary_audit_by_script_change(script_change)
-    previous_primary_audit.update!(primary: false) unless previous_primary_audit.nil?
+    primary_audit_from_before = script_subscriber.primary_audit_by_script_change(script_change)
+    primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
-    ChartData.update_new_primary_audit(new_primary_audit: self, previous_primary_audit: previous_primary_audit) if manually_updated
+    ChartData.update_new_primary_audit(new_primary_audit: self, previous_primary_audit: primary_audit_from_before) if manually_updated
   end
 
   def previous_primary_audit
-    script_subscriber.audits.primary.older_than(enqueued_at).limit(1).first
+    script_subscriber.audits.primary.older_than(created_at).limit(1).first
   end
   memoize :previous_primary_audit
 

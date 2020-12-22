@@ -54,7 +54,9 @@ gem 'diffy'
 
 gem 'eslintrb'
 
-# gem 'solargraph'
+gem 'slack-ruby-client'
+# gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
+gem 'async-websocket', '~> 0.8.0'
 
 gem "google-cloud-storage", "~> 1.11", require: false
 

@@ -7,6 +7,7 @@ module Api
         domain_id: params[:domain_id],
         domain_scan_id: params[:domain_scan_id],
         error_message: params[:error],
+        initial_scan: params[:initial_scan],
         scripts: JSON.parse(params[:scripts])
       )
     end

@@ -54,7 +54,12 @@
               messages: { empty: "No Audits Run." },
               curve: false, 
               legend: "bottom",
-              library: { hAxis: { format: 'MM-DD-YYYY' }}
+              library: {
+                rangeSelector: true,
+                hAxis: { 
+                  # format: 'MM-DD-YYYY' 
+                  }
+              }
           %>
         </div>
       <% else %>
@@ -103,6 +108,8 @@
                         <p>
                           Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
                         </p>
+                      <% else %>
+                        <span>No changes recorded yet.</span>
                       <% end %>
                       <%= render partial: 'partials/card_audit_stats', locals: {
                         script_subscriber: script_subscription,

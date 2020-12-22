@@ -45,6 +45,19 @@ class ScriptSubscribersController < LoggedInController
     )
   end
 
+  def notification_settings
+    @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
+    permitted_to_view?(@script_subscriber)
+    if current_organization.completed_slack_setup?
+      @slack_channels_options = current_organization.slack_client.get_channels['channels'].map { |channel| channel['name'] }
+    end
+    render_breadcrumbs(
+      { text: 'Monitor Center', url: scripts_path }, 
+      { text: "#{@script_subscriber.try_friendly_name} Details", url: script_subscriber_path(@script_subscriber) },
+      { text: "Edit #{@script_subscriber.try_friendly_name}", active: true }
+    )
+  end
+
   def update
     @script_subscriber = ScriptSubscriber.find(params[:id])
     permitted_to_view?(@script_subscriber, raise_error: true)

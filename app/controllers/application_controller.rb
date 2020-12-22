@@ -47,7 +47,8 @@ class ApplicationController < ActionController::Base
 
   def authorize!
     if current_user.nil?
-      flash[:banner_error] = "Please login."
+      display_toast_error("Please login.")
+      session[:redirect_url] = request.original_url
       redirect_to login_path 
     end
   end

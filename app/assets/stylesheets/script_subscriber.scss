@@ -3,7 +3,7 @@
     border-bottom: 2px solid navy;
     margin-bottom: 15px;
     width: fit-content;
-    background: white;
+    margin-left: 50px;
     .sub-nav-link {
       font-size: 16px;
       margin: 5px;
@@ -11,8 +11,6 @@
       &.current, &:hover {
         transition: 500ms all;
         color: navy;
-        font-weight: bold;
-        font-size: 18px;
         text-decoration: underline;
       }
     }

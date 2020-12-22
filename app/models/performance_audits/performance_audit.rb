@@ -6,4 +6,19 @@ class PerformanceAudit < ApplicationRecord
   def metric_result(metric_key)
     performance_audit_metrics.by_key(metric_key).first.result.round(2)
   end
+
+  def previous_metric_result(metric_key)
+    return nil if audit.previous_primary_audit.nil?
+    audit.previous_primary_audit.performance_audits.find_by(type: type).metric_result(metric_key)
+  end
+
+  def difference_in_metric(metric_key)
+    return nil if audit.previous_primary_audit.nil?
+    metric_result(metric_key) - previous_metric_result(metric_key)
+  end
+
+  def percent_difference_in_metric(metric_key)
+    return nil if audit.previous_primary_audit.nil?
+    (difference_in_metric(metric_key)/previous_metric_result(metric_key))*100
+  end
 end

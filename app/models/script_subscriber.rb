@@ -11,6 +11,11 @@ class ScriptSubscriber < ApplicationRecord
   has_many :script_subscriber_lint_results
   has_many :lint_results, through: :script_subscriber_lint_results
 
+  has_many :slack_notifications, dependent: :destroy
+  has_many :new_tag_slack_notifications
+  has_many :script_changed_slack_notifications
+  has_many :audit_completed_slack_notifications
+
   has_many :notification_subscribers, dependent: :destroy
   has_many :script_change_notification_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
   has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
@@ -87,7 +92,8 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def try_image_url
-    image.attached? ? rails_blob_path(image, only_path: true) : script.try_image_url
+    image.attached? ? rails_blob_url(image, host: ENV['CURRENT_HOST']) : script.try_image_url
+    # image.attached? ? rails_blob_path(image, only_path: only_path) : script.try_image_url
   end
 
   ############
@@ -152,10 +158,6 @@ class ScriptSubscriber < ApplicationRecord
       existing_audit: existing_audit,
       num_attempts: num_attempts
     ).run!
-  end
-
-  def send_audit_complete_notifications!(audit)
-    audit_complete_notification_subscribers.each{ |notification_subscriber| notification_subscriber.send_email!(audit) }
   end
 
   ###########

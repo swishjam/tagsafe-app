@@ -12,7 +12,7 @@ class Domain < ApplicationRecord
     scan_and_capture_domains_scripts unless Domain.skip_callbacks
   end
 
-  def subscribe!(script, first_script_change:, first_scan: false, active: false, monitor_changes: true, allowed_third_party_tag: false, is_third_party_tag: true)
+  def subscribe!(script, first_script_change:, initial_scan: false, active: false, monitor_changes: true, allowed_third_party_tag: false, is_third_party_tag: true)
     ss = script_subscriptions.create!(
       script: script,
       first_script_change: first_script_change,
@@ -21,7 +21,7 @@ class Domain < ApplicationRecord
       allowed_third_party_tag: allowed_third_party_tag,
       is_third_party_tag: is_third_party_tag
     )
-    AfterScriptSubscriberCreationJob.perform_later(ss, first_scan)
+    AfterScriptSubscriberCreationJob.perform_later(ss, initial_scan)
   end
 
   def subscribed_to_script?(script)
@@ -41,7 +41,7 @@ class Domain < ApplicationRecord
   end
 
   def scan_and_capture_domains_scripts
-    GeppettoModerator::Senders::ScanDomain.new(self).send!
+    GeppettoModerator::Senders::ScanDomain.new(self, initial_scan: true).send!
   end
 
   def run_test_suite!

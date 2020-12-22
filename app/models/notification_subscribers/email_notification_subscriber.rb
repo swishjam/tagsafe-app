@@ -1,4 +1,4 @@
-class NotificationSubscriber < ApplicationRecord
+class EmailNotificationSubscriber < ApplicationRecord
   belongs_to :script_subscriber
   belongs_to :user
 

@@ -6,6 +6,9 @@ class ScriptChangedJob < ApplicationJob
       script_change.script.script_change_notification_subscribers.should_receive_notifications.each do |change_subscriber|
         change_subscriber.send_email!(script_change)
       end
+      script_change.script.script_changed_slack_notifications.should_receive_notifications.each do |slack_notification|
+        slack_notification.notify!(script_change)
+      end
     end
     script_change.script.script_subscribers.active.still_on_site.monitor_changes.each do |script_subscriber|
       script_change.lint!(script_subscriber)

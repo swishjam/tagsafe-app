@@ -4,7 +4,8 @@ class ChartsController < ApplicationController
     metric = params[:metric] || 'DOMComplete'
     if params[:script_subscriber_ids]
       script_subscriber_ids = params[:script_subscriber_ids].is_a?(Array) ? params[:script_subscriber_ids] : JSON.parse(params[:script_subscriber_ids])
-      chart_data_getter = ChartHelper::ScriptSubscribersData.new(script_subscriber_ids)
+      script_subscribers = ScriptSubscriber.where(id: script_subscriber_ids)
+      chart_data_getter = ChartHelper::ScriptSubscribersData.new(script_subscribers)
       render json: chart_data_getter.get_metric_data!(metric)
     else
       render json: []

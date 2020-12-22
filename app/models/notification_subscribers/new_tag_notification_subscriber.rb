@@ -1,0 +1,2 @@
+class NewTagNotificationSubscriber < EmailNotificationSubscriber
+end

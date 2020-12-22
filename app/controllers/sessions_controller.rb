@@ -6,8 +6,10 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:login][:password])
       session[:user_id] = user.id.to_s
-      flash[:message] = "Welcome, #{user.email}."
-      redirect_to scripts_path
+      display_toast_message("Welcome, #{user.email}.")
+      url_to_go_to = session[:redirect_url] || scripts_path
+      session.delete(:redirect_url)
+      redirect_to url_to_go_to
     else
       flash[:local_error] = "Incorrect email or password, try again."
       render :new

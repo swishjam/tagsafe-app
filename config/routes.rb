@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
     get '/general' => 'script_subscribers#edit' 
     get '/performance_audit_settings' => 'script_subscribers#performance_audit_settings'
+    get '/notification_settings' => 'script_subscribers#notification_settings'
 
+    resources :slack_notifications, only: [:create, :destroy]
     resources :script_subscriber_allowed_performance_audit_tags, only: [:create, :destroy]
     resources :performance_audit_preferences, only: :update
     resources :script_changes, only: [:show, :index] do
@@ -64,7 +66,10 @@ Rails.application.routes.draw do
 
   resources :lint_rule_subscribers, only: [:create, :destroy]
 
+  get '/settings/tags' => 'settings#tags'
   get '/settings/linting_rules' => 'settings#linting_rules'
+  # get '/settings/integrations/slack' => 'slack_settings#index'
+  get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do
     post '/test_subscriptions/:id/toggle' => 'test_subscriptions#toggle'

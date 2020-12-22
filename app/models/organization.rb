@@ -8,6 +8,8 @@ class Organization < ApplicationRecord
   has_many :organization_lint_rules, dependent: :destroy
   has_many :lint_rules, through: :organization_lint_rules
 
+  has_one :slack_settings, class_name: 'SlackSetting'
+
   after_create :add_default_linting_rules
 
   accepts_nested_attributes_for :domains, :organization_users
@@ -28,5 +30,13 @@ class Organization < ApplicationRecord
 
   def add_default_linting_rules
     organization_lint_rules.create(LintRule.DEFAULTS.collect{ |rule| { lint_rule_id: rule.id }})
+  end
+
+  def completed_slack_setup?
+    !slack_settings.nil?
+  end
+
+  def slack_client
+    @slack_client ||= SlackModerator::Client.new(slack_settings) if completed_slack_setup?
   end
 end

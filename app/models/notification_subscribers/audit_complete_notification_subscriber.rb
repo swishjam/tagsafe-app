@@ -1,4 +1,4 @@
-class AuditCompleteNotificationSubscriber < NotificationSubscriber
+class AuditCompleteNotificationSubscriber < EmailNotificationSubscriber
   def self.friendly_name
     'audit completed'
   end

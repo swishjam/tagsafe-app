@@ -10,6 +10,11 @@ class Script < ApplicationRecord
   has_many :script_change_notification_subscribers, through: :script_subscribers
   has_many :test_failed_notification_subscribers, through: :script_subscribers
   has_many :audit_complete_notification_subscribers, through: :script_subscribers
+
+  has_many :script_changed_slack_notifications, through: :script_subscribers
+  has_many :audit_completed_slack_notifications, through: :script_subscribers
+  has_many :audit_complete_notification_subscribers, through: :script_subscribers
+  has_many :new_tag_slack_notifications, through: :script_subscribers
   
   has_one_attached :image
 
@@ -70,7 +75,8 @@ class Script < ApplicationRecord
   end
 
   def try_image_url
-    script_image ? rails_blob_path(script_image.image, only_path: true) : default_image_url
+    script_image ? rails_blob_url(script_image.image, host: ENV['CURRENT_HOST']) : default_image_url
+    # script_image ? rails_blob_path(script_image.image, only_path: only_path) : default_image_url
   end
 
   def default_image_url

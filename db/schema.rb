@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_18_221529) do
+ActiveRecord::Schema.define(version: 2020_12_22_013004) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -70,6 +70,12 @@ ActiveRecord::Schema.define(version: 2020_12_18_221529) do
     t.index ["url"], name: "index_domains_on_url"
   end
 
+  create_table "email_notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "type"
+    t.integer "user_id"
+    t.integer "script_subscriber_id"
+  end
+
   create_table "execution_reasons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
   end
@@ -94,12 +100,6 @@ ActiveRecord::Schema.define(version: 2020_12_18_221529) do
   create_table "lint_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "rule"
     t.string "description"
-  end
-
-  create_table "notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "type"
-    t.integer "user_id"
-    t.integer "script_subscriber_id"
   end
 
   create_table "organization_lint_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -230,6 +230,20 @@ ActiveRecord::Schema.define(version: 2020_12_18_221529) do
     t.timestamp "content_changed_at"
     t.boolean "should_log_script_checks"
     t.integer "script_image_id"
+  end
+
+  create_table "slack_notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "script_subscriber_id"
+    t.string "type"
+    t.string "channel"
+  end
+
+  create_table "slack_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "organization_id"
+    t.string "access_token"
+    t.string "app_id"
+    t.string "team_id"
+    t.string "team_name"
   end
 
   create_table "test_group_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

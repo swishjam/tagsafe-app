@@ -1,9 +1,9 @@
 module ScriptManager
   class EvaluateDomainScripts
-    def initialize(domain, new_script_urls)
+    def initialize(domain, new_script_urls, initial_scan)
       @domain = domain
       @new_script_urls = new_script_urls
-      @first_scan = @domain.scripts.count.zero?
+      @initial_scan = initial_scan
     end
 
     def evaluate!
@@ -27,14 +27,14 @@ module ScriptManager
 
     def subscribe_domain_to_existing_script(script)
       unless @domain.subscribed_to_script? script
-        @domain.subscribe!(script, first_script_change: script.most_recent_change, first_scan: @first_scan)
+        @domain.subscribe!(script, first_script_change: script.most_recent_change, initial_scan: @initial_scan)
       end
     end
 
     def subscribe_domain_to_new_script(url)
       script = Script.create(url: url, should_log_script_checks: false)
       evaluator = script.evaluate_script_content
-      @domain.subscribe!(script, first_script_change: evaluator.script_change, first_scan: @first_scan)
+      @domain.subscribe!(script, first_script_change: evaluator.script_change, initial_scan: @initial_scan)
     end
 
     def remove_scripts_no_longer_on_domain
