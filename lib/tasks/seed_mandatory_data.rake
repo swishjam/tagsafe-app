@@ -116,6 +116,11 @@ namespace :seed do
         key: 'LayoutDuration',
         unit: 'milliseconds',
         title: 'Layout Duration'
+      }, 
+      {
+        key: 'TagSafeScore',
+        title: 'Tag Safe Score',
+        description: "Propietary TagSafe calculation for scoring a tag's performance."
       }
     ]
 

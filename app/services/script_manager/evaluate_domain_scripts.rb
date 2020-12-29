@@ -32,7 +32,7 @@ module ScriptManager
     end
 
     def subscribe_domain_to_new_script(url)
-      script = Script.create(url: url, should_log_script_checks: false)
+      script = Script.create(url: url, should_log_script_checks: true)
       evaluator = script.evaluate_script_content
       @domain.subscribe!(script, first_script_change: evaluator.script_change, initial_scan: @initial_scan)
     end

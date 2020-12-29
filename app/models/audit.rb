@@ -53,7 +53,7 @@ class Audit < ApplicationRecord
   def check_after_completion
     if complete?
       make_primary! unless primary? || performance_audit_failed?
-      AuditCompletedJob.perform_later(self)
+      AuditCompletedJob.perform_later(self) unless execution_reason == ExecutionReason.INITIAL_AUDIT
     end
   end
 

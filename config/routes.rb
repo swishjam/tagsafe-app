@@ -18,7 +18,9 @@ Rails.application.routes.draw do
 
   resources :scripts, only: :index
   get '/change_log' => 'script_changes#index'
+  get '/uptime' => 'script_checks#index'
 
+  resources :domains, only: :create
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do
@@ -91,4 +93,5 @@ Rails.application.routes.draw do
   
   get '/charts/domain/:domain_id' => 'charts#script_subscribers', as: :domain_script_subscribers_chart
   get '/charts/script_subscriber/:script_subscriber_id' => 'charts#script_subscriber', as: :script_subscriber_chart
+  get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime
 end

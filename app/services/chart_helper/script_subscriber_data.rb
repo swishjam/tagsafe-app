@@ -1,6 +1,5 @@
 module ChartHelper
   class ScriptSubscriberData
-    # TODO: need to change logic to leverage ChartData
     def initialize(script_subscriber, chart_type, metric_keys)
       @script_subscriber = script_subscriber
       @chart_type = chart_type

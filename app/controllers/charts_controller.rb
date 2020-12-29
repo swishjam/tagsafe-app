@@ -21,4 +21,10 @@ class ChartsController < ApplicationController
     data = chart_data_getter.get_metric_data!
     render json: data
   end
+
+  def tag_uptime
+    script_subscribers = ScriptSubscriber.where(id: params[:script_subscriber_ids])
+    chart_data_getter = ChartHelper::TagUptimeData.new(script_subscribers)
+    render json: chart_data_getter.get_response_time_data!
+  end
 end

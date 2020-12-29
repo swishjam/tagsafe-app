@@ -7,8 +7,8 @@ class ApplicationRecord < ActiveRecord::Base
   scope :newer_than, -> (timestamp) { where("created_at > ?", timestamp).order('created_at DESC') }
   scope :newer_than_or_equal_to, -> (timestamp) { where("created_at >= ?", timestamp).order('created_at DESC') }
 
-  scope :most_recent_first, -> (timestamp_column = 'created_at') { order("#{timestamp_column} DESC") }
-  scope :most_recent_last, -> (timestamp_column = 'created_at') { order("#{timestamp_column} ASC") }
+  scope :most_recent_first, -> (timestamp_column = :created_at) { order("#{timestamp_column} DESC") }
+  scope :most_recent_last, -> (timestamp_column = :created_at) { order("#{timestamp_column} ASC") }
   
   def toggle_boolean_column(column)
     attrs = {}

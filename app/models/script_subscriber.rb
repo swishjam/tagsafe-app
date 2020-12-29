@@ -16,7 +16,7 @@ class ScriptSubscriber < ApplicationRecord
   has_many :script_changed_slack_notifications
   has_many :audit_completed_slack_notifications
 
-  has_many :notification_subscribers, dependent: :destroy
+  has_many :email_notification_subscribers, dependent: :destroy
   has_many :script_change_notification_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
   has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber'

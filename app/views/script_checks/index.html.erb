@@ -1,0 +1,21 @@
+<h5 class='page-title'>Uptime</h5>
+
+<div class="tag-safe-container">
+  <%=
+    line_chart tags_uptime_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id)),
+      download: true, 
+      title: "Tag Uptime",
+      ytitle: "Response Time (ms)",
+      # xtitle: 'Checks',
+      code: true,
+      messages: { empty: "No checks." },
+      curve: false, 
+      legend: "bottom",
+      library: {
+        rangeSelector: true,
+        hAxis: { 
+          # format: 'MM-DD-YYYY' 
+          }
+      }
+  %>
+</div>

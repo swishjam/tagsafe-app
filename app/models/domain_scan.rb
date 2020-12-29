@@ -6,8 +6,12 @@ class DomainScan < ApplicationRecord
   scope :failed, -> { where.not(error_message: nil) }
   scope :successful, -> { completed.where(error_message: nil ) }
 
+  def self.most_recent
+    most_recent_first(:scan_enqueued_at).limit(1).first
+  end
+
   def pending?
-    scan_completed_at.nill?
+    scan_completed_at.nil?
   end
 
   def completed?
@@ -28,5 +32,6 @@ class DomainScan < ApplicationRecord
 
   def errored!(error_msg)
     update(error_message: error_msg)
+    touch(:scan_completed_at)
   end
 end
