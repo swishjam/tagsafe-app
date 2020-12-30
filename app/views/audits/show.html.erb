@@ -32,18 +32,8 @@
               <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'dropdown-item', data: { confirm: "Run audit on #{@script_subscriber.try_friendly_name}?" } %>
             </div>
           </div>
-          <h5>Impact on Metrics</h5>
-          <h6>It was run due to a 
-            <span style="font-style: italic;"
-                  data-toggle="tooltip"
-                  data-placement="bottom"
-                  title="An audit can be performed for the following reasons: Script Change, Manual Execution, Reactivated Script.">
-              <%= @audit.execution_reason.name %>
-            </span> 
-            on <%= @audit.performance_audit_enqueued_at.formatted %>.
-          </h6>
           <% if @count_of_audits_for_script_change > 1 %>
-            <h6>This is one of <%= @count_of_audits_for_script_change %> audits perfomed on this version of the tag. <%= link_to 'View all', script_subscriber_script_change_audits_path(@script_subscriber, @script_change) %></h6>
+            <span>This is one of <%= @count_of_audits_for_script_change %> audits perfomed on this version of the tag. <%= link_to 'View all', script_subscriber_script_change_audits_path(@script_subscriber, @script_change) %></span>
           <% end %>
         </div>
       </div>
@@ -52,13 +42,13 @@
       <% elsif @audit.performance_audit_failed? %>
         <span>Performance audit failed:</span>
         <span><%= @audit.performance_audit_error_message %></span>
-
-         <%
-=begin%>
- <%= link_to 'View Logs.', script_subscriber_script_change_audit_performance_audit_logs_path(@script_subscriber, @script_change, @audit), target: '_blank' %> 
-<%
-=end%>
       <% else %>
+        <div class="row">
+          <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
+            <h4>TagSafe Score</h4>
+            <%= render partial: 'partials/progress_ring', locals: { score: @audit.delta_performance_audit.metric_result('TagSafeScore'), change_in_score: @audit.delta_performance_audit.change_in_metric('TagSafeScore') } %>
+          </div>
+        </div>
         <div class="row">
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber, 

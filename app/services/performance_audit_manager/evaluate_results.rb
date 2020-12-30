@@ -16,17 +16,18 @@ module PerformanceAuditManager
       else
         capture_results(PerformanceAuditWithTag, @results_with_tag, @with_tag_logs)
         capture_results(PerformanceAuditWithoutTag, @results_without_tag, @without_tag_logs)
-        capture_results(DeltaPerformanceAudit, delta_results)
+        capture_delta_performance_audit!
         @audit.completed_performance_audit!
       end
     end
 
     private
 
-    def capture_results(performane_audit_type_klass, results, logs = nil)
-      perf_audit = performane_audit_type_klass.create(audit: @audit)
+    def capture_results(performance_audit_type_klass, results, logs = nil)
+      perf_audit = performance_audit_type_klass.create(audit: @audit)
       PerformanceAuditLog.create(logs: logs, performance_audit: perf_audit) unless logs.nil?
       results.each{ |metric_key, result| capture_result_metric(perf_audit, metric_key, result) }
+      perf_audit
     end
 
     def capture_result_metric(performance_audit, metric_key, result)
@@ -36,6 +37,11 @@ module PerformanceAuditManager
       else
         Resque.logger.error "No PerformanceAuditMetricType with key #{metric_key}"
       end
+    end
+
+    def capture_delta_performance_audit!
+      delta_performance_audit = capture_results(DeltaPerformanceAudit, delta_results)
+      TagSafeScorer.new(delta_performance_audit).record_score!
     end
 
     def delta_results

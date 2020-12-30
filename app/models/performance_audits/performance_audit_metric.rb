@@ -7,6 +7,8 @@ class PerformanceAuditMetric < ApplicationRecord
   scope :primary_audits, -> { includes(performance_audit: [:audit]).where(performance_audits: { audits: { primary: true }}) }
   scope :by_audit_type, -> (performance_audit_type) { includes(:performance_audit).where(performance_audits: { type: performance_audit_type} ) }
 
+  validates_uniqueness_of :performance_audit_metric_type_id, scope: :performance_audit_id
+
   def title
     performance_audit_metric_type.title
   end

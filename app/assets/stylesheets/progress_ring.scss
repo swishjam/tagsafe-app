@@ -1,0 +1,73 @@
+.progress-ring-container {
+  display: flex;
+  flex-direction: row;
+  .progress-ring {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
+    &.good {
+      circle {
+        fill: #64fb5e3b;
+        &.circle-outline {
+          stroke: green;
+        }
+      }
+      .score {
+        color: green;
+      }
+    }
+    &.warn {
+      circle {
+        fill: #fb9c5e26;
+        &.circle-outline {
+          stroke: orange;
+        }
+      }
+      .score {
+        color: orange;
+      }
+    }
+    &.danger {
+      circle {
+        fill: #fb5e5e29;
+        &.circle-outline {
+          stroke: red;
+        }
+      }
+      .score {
+        color: red;
+      }
+    }
+    svg {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  circle {
+    position: absolute;
+    stroke-width: 10;
+    transform: translate(10px, 10px);
+    stroke-dasharray: 440;
+    stroke-linecap: round;
+  }
+
+  // circle.outter-circle {
+  //   stroke-dashoffset: 0;
+  // }
+
+  .progress-ring circle.circle-outline {
+    animation: progress 1s linear;
+  }
+
+  .score {
+    position: relative;
+    bottom: 100px;
+  }
+
+  @keyframes progress {
+    0% {
+      stroke-dashoffset: 0;
+    }
+  }
+}

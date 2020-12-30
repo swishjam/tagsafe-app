@@ -30,10 +30,9 @@
       ]
     %>
     <% nav_items.each do |nav| %>
-      <li>
-        
-        <% klass = request.path == nav[:path] ? 'current nav-link' : 'nav-link' %>
-        <%= link_to nav[:path], class: klass do %>
+      <% additional_klass = request.path == nav[:path] ? 'current' : nil %>
+      <li class='nav-item <%= additional_klass %>'>
+        <%= link_to nav[:path], class: "nav-link #{additional_klass}" do %>
           <i class="<%= nav[:icon_class] %>"></i> <%= nav[:text] %>
         <% end %>
       </li>

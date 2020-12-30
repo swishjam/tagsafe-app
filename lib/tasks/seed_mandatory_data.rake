@@ -120,7 +120,8 @@ namespace :seed do
       {
         key: 'TagSafeScore',
         title: 'Tag Safe Score',
-        description: "Propietary TagSafe calculation for scoring a tag's performance."
+        description: "Propietary TagSafe calculation for scoring a tag's performance.",
+        unit: 'points'
       }
     ]
 

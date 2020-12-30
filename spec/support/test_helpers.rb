@@ -20,6 +20,16 @@ def stub_evaluate_script_job
   expect(ScriptManager::Evaluator).to receive(:new).at_least(:once).and_return(OpenStruct.new(evaluate!: "foo"))
 end
 
+def create_performance_audit_metric_types
+  create(:performance_audit_metric_type, key: 'DOMInteractive')
+  create(:performance_audit_metric_type, key: 'DOMComplete')
+  create(:performance_audit_metric_type, key: 'FirstContentfulPaint')
+  create(:performance_audit_metric_type, key: 'ScriptDuration')
+  create(:performance_audit_metric_type, key: 'LayoutDuration')
+  create(:performance_audit_metric_type, key: 'TaskDuration')
+  create(:performance_audit_metric_type, key: 'TagSafeScore')
+end
+
 def create_execution_reasons
   create(:initial_audit_execution)
   create(:manual_execution)

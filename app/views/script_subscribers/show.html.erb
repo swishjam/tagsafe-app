@@ -14,8 +14,8 @@
     <thead>
       <tr>
         <th scope="col" style='width: 22.5%'>Date of Change</th>
-        <th scope="col" style='width: 22.5%'>DOM Complete Impact</th>
-        <th scope="col" style='width: 22.5%'>Change in DOM Complete Impact</th>
+        <th scope="col" style='width: 22.5%'>TagSafe Score</th>
+        <th scope="col" style='width: 22.5%'>Change in TagSafe Score</th>
         <th scope="col" style='width: 22.5%'>JS Violations</th>
         <th scope="col" style='width: 10%'></th>
       </tr>
@@ -43,21 +43,18 @@
                   </span>
                 <% else %>
                   <span>
-                    <%= number_with_delimiter(audit.delta_performance_audit.metric_result('DOMComplete')) %> ms
+                    <%= number_with_delimiter(audit.delta_performance_audit.metric_result('TagSafeScore')) %>
                   </span>
                 <% end %>
               </td>
               <td scope="row">
                 <% if !audit.nil? && !audit.performance_audit_pending? && !audit.performance_audit_failed? && 
                       !previous_audit.nil? && !previous_audit.performance_audit_pending? && !previous_audit.performance_audit_failed? %>
-                  <% dom_complete = audit.delta_performance_audit.metric_result('DOMComplete') %>
-                  <% previous_dom_complete = previous_audit.delta_performance_audit.metric_result('DOMComplete') %>
-                  <% diff_in_metric = (dom_complete - previous_dom_complete).round(2) %>
-                  <% percent_change = ((diff_in_metric/previous_dom_complete)*100).round(2) %>
-                  <% icon_class = diff_in_metric.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
-                  <span class="<%=diff_in_metric.positive? ? 'negative' : 'positive' %>">
+                  <% change_in_score = audit.delta_performance_audit.change_in_metric('TagSafeScore') %>
+                  <% icon_class = change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+                  <span class="<%=change_in_score.positive? ? 'positive' : 'negative' %>">
                     <i class="fas <%=icon_class%>"></i>
-                    <%= number_with_delimiter(diff_in_metric) %> ms (<%= number_with_delimiter(percent_change) %>%)
+                    <%= number_with_delimiter(change_in_score) %>
                   </span>
                 <% else %>
                   --

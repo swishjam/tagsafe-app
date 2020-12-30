@@ -27,7 +27,7 @@
         <% PerformanceAuditMetricType.all.each do |metric_type| %>
           <option value="<%= metric_type.key %>" 
                   data-metric-unit="<%=metric_type.unit%>" 
-                  <%= metric_type.key === 'DOMComplete' ? 'selected' : nil %>>
+                  <%= metric_type.key === 'TagSafeScore' ? 'selected' : nil %>>
                     <%= metric_type.title %>
           </option>
         <% end %>
@@ -38,8 +38,8 @@
     <%= 
       line_chart script_subscriber_chart_path(script_subscriber),
         download: true, 
-        title: 'DOM Complete Impact Over Time',
-        ytitle: 'DOM Complete Impact (ms)',
+        title: 'TagSafe Score',
+        ytitle: 'TagSafe Score',
         xtitle: 'Script Change',
         curve: false,
         messages: { empty: "No Audits Ran." } 

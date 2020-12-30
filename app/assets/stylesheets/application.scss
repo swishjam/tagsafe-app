@@ -91,20 +91,19 @@ body.logged-in {
     }
     a.nav-link {
       color: white;
-      &.current {
-        background: dodgerblue;
-      }
-      &:hover {
-        background: dodgerblue;
-      }
     }
     .dropdown-item {
       color: blue;
     }
-    li {
+    li.nav-item {
+      border-radius: 20px;
       text-decoration: none;
       &:hover {
         text-decoration: underline;
+        background: dodgerblue;
+      }
+      &.current {
+        background: dodgerblue;
       }
     }
     .logo-container {

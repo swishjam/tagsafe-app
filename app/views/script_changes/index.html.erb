@@ -6,7 +6,7 @@
         <tr>
           <th scope="col" class="col-8" style='width: 20%'>Change Date</th>
           <th scope="col" class="col-2" style='width: 40%'>Tag</th>
-          <th scope="col" class="col-2" style='width: 30%'>Dom Complete Impact</th>
+          <th scope="col" class="col-2" style='width: 30%'>Tag Safe Score</th>
           <th scope="col" class="col-2" style='width: 10%'></th>
         </tr>
       </thead>
@@ -21,8 +21,7 @@
               <% elsif audit.performance_audit_failed? %>
                 --
               <% else %>
-                <% metric = audit.delta_performance_audit.metric_result('DOMComplete') %>
-                <%= metric > 0 ? '+' : nil %> <%= metric %> ms
+                <%= audit.delta_performance_audit.metric_result('TagSafeScore') %>
               <% end %>
             </td>
             <td scope="row"><%= link_to "View Results", script_subscriber_script_change_audit_path(audit.script_subscriber, audit.script_change, audit) %></td>

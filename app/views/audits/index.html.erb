@@ -28,7 +28,7 @@
           </span>
         </th>
         <th scope="col" style='width: 22.5%'>Date of Audit</th>
-        <th scope="col" style='width: 22.5%'>Impact on DOM Complete</th>
+        <th scope="col" style='width: 22.5%'>TagSafe Score</th>
         <th scope="col" style='width: 22.5%'>
           <span data-toggle="tooltip" data-placement="top" title="An audit can be executed for the following reasons: Initial Audit, Reactivated Tag, Tag Change, Manual Audit, Scheduled Audit, or a Retry.">
             Execution Reason
@@ -52,7 +52,7 @@
             <% elsif audit.performance_audit_pending? %>
               <span class="badge badge-primary">Pending completion</span>
             <% else %>
-              <%= number_to_human(audit.delta_performance_audit.metric_result('DOMComplete'), units: { unit: 'ms', thousand: 'seconds' }) %>
+              <%= audit.delta_performance_audit.metric_result('TagSafeScore') %>
             <% end %>
           </td>
           <td scope="row"><%= audit.execution_reason.name %></td>

@@ -8,7 +8,11 @@ module PerformanceAuditManager
 
     def calculate!
       metric_keys = @results_with_tag.keys
-      metric_keys.each{ |key| @delta_results[key] = @results_with_tag[key] - @results_without_tag[key] }
+      metric_keys.each do |key|
+        delta = @results_with_tag[key] - @results_without_tag[key]
+        delta = delta < 0 ? 0 : delta
+        @delta_results[key] = delta
+      end
       @delta_results
     end
   end

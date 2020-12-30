@@ -13,7 +13,7 @@ function setChartMetricListener() {
       getChartData(function(chartData) {
         chart.updateData(chartData);
         document.querySelector('.highcharts-title tspan').innerHTML = metricTitle+' Impact Over Time';
-        document.querySelector('.highcharts-yaxis tspan').innerHTML = metricTitle +' ('+metricUnit+')';
+        document.querySelector('.highcharts-yaxis tspan').innerHTML = metricTitle + (metricUnit ? ' ('+metricUnit+')' : '');
       }, { metric: selectedMetric.value });
     })
   }
@@ -23,7 +23,7 @@ function getChartData(callback, options) {
   options = options || {};
   var metric = options.metric || 'psi';
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/charts/domain/'+window.currentDomainId+'?metric='+metric+'&script_subscriber_ids='+window.scriptSubscribersIds, true);
+  xhr.open('GET', '/charts/domain/'+window.currentDomainId+'?metric_type='+metric+'&script_subscriber_ids='+window.scriptSubscribersIds, true);
   xhr.send();
   xhr.onreadystatechange = function() {
     if (xhr.readyState == XMLHttpRequest.DONE) {

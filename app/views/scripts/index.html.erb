@@ -59,8 +59,8 @@
           <%=
             line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key),
               download: true, 
-              title: "#{@filtered_performance_audit_metric_type.title} Impact",
-              ytitle: "#{@filtered_performance_audit_metric_type.title} (#{@filtered_performance_audit_metric_type.unit})",
+              title: "#{@filtered_performance_audit_metric_type.title}",
+              ytitle: "#{@filtered_performance_audit_metric_type.title} #{@filtered_performance_audit_metric_type.unit ? "(#{@filtered_performance_audit_metric_type.unit}>)" : nil }",
               xtitle: 'Tag Changes',
               code: true,
               messages: { empty: "No Audits Run." },
@@ -75,13 +75,20 @@
           %>
         </div>
       <% else %>
-        <% if current_domain.domain_scans&.most_recent&.pending? %>
+        <% if @most_recent_domain_scan_pending %>
           <span>Currently scanning <%= current_domain.url %> for third party tags</span>
+        <% elsif @most_recent_domain_scan_failed %>
+          <p>There was an error scanning <%= current_domain.url %>, is this the correct URL?</p>
+          <p><%= current_domain.domain_scans.most_recent.error_message %></p>
         <% else %>
           <span>You are not monitoring any tags. <%= link_to 'Activate tags here', script_subscribers_path %>.</span>
         <% end %>
       <% end %>
     </div>
+
+    <% if @most_recent_domain_scan_failed %>
+      Form goes here
+    <% end %>
 
     <div class="script-subscriptions">
       <% @script_subscriptions.in_groups_of(3, false).each do |group| %>
@@ -128,12 +135,11 @@
                       <% else %>
                         <span>No changes recorded yet.</span>
                       <% end %>
-                      <%= render partial: 'partials/card_audit_stats', locals: {
-                        script_subscriber: script_subscription,
-                        audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true),
-                        previous_audit: script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change&.previous_change),
-                        performance_audit_metric_type: @filtered_performance_audit_metric_type
-                      } %> 
+                      <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true) %>
+                      <%= render partial: 'partials/progress_ring', locals: { 
+                        score: audit.delta_performance_audit.metric_result('TagSafeScore'), 
+                        change_in_score: audit.delta_performance_audit.change_in_metric('TagSafeScore')
+                      } %>
                     <% end %>
                   </div>
                 <% end %>

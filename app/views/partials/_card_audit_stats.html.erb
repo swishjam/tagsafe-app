@@ -9,7 +9,7 @@
       <%= audit.performance_audit_error_message %>
     <% else %>
       <h6>
-        <%= performance_audit_metric_type.title %> Impact:
+        <%= performance_audit_metric_type.title %>
         <% if script_subscriber.has_pending_performance_audits_by_script_change?(script_subscriber.script.most_recent_change) %>
           <span data-toggle="tooltip"
                 data-placement="top"
@@ -18,8 +18,9 @@
           </span>
         <% end %>
       </h6>
+      <%= render partial: 'partials/progress_ring', locals: { score: @audit.delta_performance_audit.metric_result('TagSafeScore'), change_in_score: @audit.delta_performance_audit.change_in_metric('TagSafeScore') } %>
       <% impact = audit.delta_performance_audit.metric_result(performance_audit_metric_type.key) %>
-      <h4><%= number_to_human(impact, units: { unit: 'ms', thousand: 'seconds' }) %></h4>
+      <h4><%= number_to_human(impact) %></h4>
       <% unless previous_audit.nil? %>
         <% previous_impact = previous_audit.delta_performance_audit.metric_result(performance_audit_metric_type.key) %>
         <% diff_in_impact = (impact - previous_impact).round(2) %>
@@ -27,10 +28,10 @@
         <% icon_class = diff_in_impact.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
         <span data-toggle="tooltip"
               data-placement="top"
-              title="The previous version of <%= script_subscriber.try_friendly_name %> had a <%= number_to_human(previous_impact, units: { unit: 'ms', thousand: 'seconds' }) %> impact on <%= performance_audit_metric_type.title %>; <%= diff_in_impact.positive? ? 'an increase' : 'a decrease'%> of <%=diff_in_impact.abs%> <%=performance_audit_metric_type.unit%>." 
-              class="<%=diff_in_impact.positive? ? 'negative' : 'positive'%>">
+              title="The previous version of <%= script_subscriber.try_friendly_name %> had a <%= number_to_human(previous_impact) %> <%= performance_audit_metric_type.title %>; <%= diff_in_impact.positive? ? 'an increase' : 'a decrease'%> of <%=diff_in_impact.abs%> <%=performance_audit_metric_type.unit%>." 
+              class="<%=diff_in_impact.positive? ? 'positive' : 'negative' %>">
           <i class="fas <%=icon_class%>"></i>
-          <%= number_to_human(diff_in_impact, units: { unit: 'ms', thousand: 'seconds' }) %> (<%= number_with_delimiter(percent_change) %>%)
+          <%= number_to_human(diff_in_impact) %> points (<%= number_with_delimiter(percent_change) %>%)
         </span>
       <% else %>
         <span>--</span>

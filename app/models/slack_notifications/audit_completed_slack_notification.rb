@@ -46,9 +46,9 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
   def performance_metric_fields(audit, title, metric_key)
     metric = PerformanceAuditMetricType.find_by(key: metric_key)
     impact = audit.delta_performance_audit.metric_result(metric_key)
-    difference = audit.delta_performance_audit.difference_in_metric(metric_key)
-    percent_difference = audit.delta_performance_audit.percent_difference_in_metric(metric_key)
-    impact_text = impact.positive? ? ":heavy_plus_sign: #{number_to_human(impact, units: { unit: 'ms', thousand: 'seconds' })}\n" : 'No Impact\n'
+    difference = audit.delta_performance_audit.change_in_metric(metric_key)
+    percent_difference = audit.delta_performance_audit.percent_change_in_metric(metric_key)
+    impact_text = impact.positive? ? ":heavy_plus_sign: #{number_to_human(impact, units: { unit: 'ms', thousand: 'seconds' })}\n" : "No Impact\n"
     change_text = case
                   when difference.zero?
                     then 'No Change'

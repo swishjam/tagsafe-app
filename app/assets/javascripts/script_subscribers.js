@@ -1,6 +1,6 @@
 window.addEventListener('load', function() {
   var stateKeeper = {
-    metricKeys: ['DOMComplete'],
+    metricKeys: ['TagSafeScore'],
     chartType: 'impact'
   }
   setScriptSubscriberToggleListeners();
@@ -23,7 +23,7 @@ function setScriptSubscriberChartMetricListener(stateKeeper) {
     for(i=0; i<selectedMetrics.length; i++) {
       metricKeys.push(selectedMetrics[i].value);
     }
-    if(metricKeys.length === 0) metricKeys.push('DOMComplete');
+    if(metricKeys.length === 0) metricKeys.push('TagSafeScore');
     stateKeeper.metricKeys = metricKeys;
     updateChartData(stateKeeper.chartType, stateKeeper.metricKeys);
   })

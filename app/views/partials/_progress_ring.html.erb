@@ -1,0 +1,17 @@
+<div class="progress-ring-container">
+  <div class="progress-ring <%= score > 89 ? 'good' : score > 79 ? 'warn' : 'danger'%>">
+      <svg>
+        <circle class='inner-circle' cx="70" cy="70" r="70"></circle>
+        <circle class='circle-outline' cx="70" cy="70" r="70" style='stroke-dashoffset: <%= 440 - (440*score) / 100 %>'></circle>
+      </svg>
+      <div class="score">
+        <h2><%= score %></h2>
+        <% icon_class = change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+        <% if change_in_score %>
+          <span data-toggle="tooltip" data-placement="top" title="The previous version had a TagSafe score of <%= score - change_in_score %>.">
+            <span><i class="fa fa-xs <%=icon_class%>"></i> <%= change_in_score %></span>
+          </span>
+        <% end %>
+      </div>
+  </div>
+</div>
