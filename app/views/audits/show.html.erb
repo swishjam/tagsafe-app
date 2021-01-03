@@ -54,7 +54,7 @@
             script_subscriber: @script_subscriber, 
             metric_title: 'DOM Complete',
             impact_result: @audit.delta_performance_audit.metric_result('DOMComplete'),
-            previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('FirstContentfulPaint') : nil,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('DOMComplete'),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -62,7 +62,7 @@
             script_subscriber: @script_subscriber,
             metric_title: 'DOM Interactive',
             impact_result: @audit.delta_performance_audit.metric_result('DOMInteractive'),
-            previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('DOMInteractive') : nil,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('DOMInteractive'),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -72,7 +72,7 @@
             script_subscriber: @script_subscriber, 
             metric_title: 'First Contentful Paint',
             impact_result: @audit.delta_performance_audit.metric_result('FirstContentfulPaint'),
-            previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('FirstContentfulPaint') : nil,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('FirstContentfulPaint'),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -80,7 +80,7 @@
             script_subscriber: @script_subscriber, 
             metric_title: 'Task Duration Time',
             impact_result: @audit.delta_performance_audit.metric_result('TaskDuration'),
-            previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('TaskDuration') : nil,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('TaskDuration'),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -90,7 +90,7 @@
             script_subscriber: @script_subscriber, 
             metric_title: 'Script Duration',
             impact_result: @audit.delta_performance_audit.metric_result('ScriptDuration'),
-            previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('ScriptDuration') : nil,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('ScriptDuration'),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -98,7 +98,7 @@
             script_subscriber: @script_subscriber, 
             metric_title: 'Layout Duration',
             impact_result: @audit.delta_performance_audit.metric_result('LayoutDuration'),
-            previous_impact_result: @previous_audit ? @previous_audit.delta_performance_audit.metric_result('LayoutDuration') : nil,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('LayoutDuration'),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>

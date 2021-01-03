@@ -10,13 +10,6 @@
         <thead>
           <tr>
             <th scope="col" class="col-8" style='width: 60%'>Script URL</th>
-            <th scope="col" class="col-2" style='width: 20%'>
-              <span data-toggle="tooltip"
-                    data-placement="top"
-                    title="Select which tags TagSafe should monitor and audit.">
-                Monitor
-              </span>
-            </th>
             <th scope="col" class="col-2" style='width: 20%'></th>
           </tr>
         </thead>
@@ -37,20 +30,6 @@
                     <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
                   </span>
                 <% end %>
-              </td>
-              <td>
-                <div class="custom-control custom-switch" style='cursor: pointer'>
-                  <% if script_subscription.removed_from_site? %>
-                    <span data-toggle="tooltip"
-                          data-placement="top"
-                          title="The <%= script_subscription.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= script_subscription.removed_from_site_at.formatted %>.">
-                    <input style="cursor: pointer" type="checkbox" class="script-subscriber-active-toggle custom-control-input" data-script-subscriber="<%=script_subscription.id%>" id="active-<%=script_subscription.id%>" disabled>
-                    <label class="custom-control-label" for="active-<%=script_subscription.id%>" style='cursor: pointer;'>Active</label>
-                  <% else %>
-                    <input style="cursor: pointer" type="checkbox" class="script-subscriber-active-toggle custom-control-input" data-script-subscriber="<%=script_subscription.id%>" id="active-<%=script_subscription.id%>" <%= script_subscription.active? ? 'checked' : nil %>>
-                    <label class="custom-control-label" for="active-<%=script_subscription.id%>" style='cursor: pointer;'>Active</label>
-                  <% end %>
-                </div>
               </td>
               <td>
                 <%= link_to 'Edit', edit_script_subscriber_path(script_subscription) %>

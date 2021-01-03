@@ -10,14 +10,15 @@ class Domain < ApplicationRecord
     scan_and_capture_domains_scripts unless Domain.skip_callbacks
   end
 
-  def subscribe!(script, first_script_change:, initial_scan: false, active: false, monitor_changes: true, allowed_third_party_tag: false, is_third_party_tag: true)
+  def subscribe!(script, first_script_change:, initial_scan: false, monitor_changes: true, should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', allowed_third_party_tag: false, is_third_party_tag: true)
     ss = script_subscriptions.create!(
       script: script,
       first_script_change: first_script_change,
       active: active, 
       monitor_changes: monitor_changes,
       allowed_third_party_tag: allowed_third_party_tag,
-      is_third_party_tag: is_third_party_tag
+      is_third_party_tag: is_third_party_tag,
+      should_run_audit: should_run_audit
     )
     AfterScriptSubscriberCreationJob.perform_later(ss, initial_scan)
   end

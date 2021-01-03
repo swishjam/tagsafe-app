@@ -2,7 +2,7 @@
 
 <div class="tag-safe-container">
   <%=
-    line_chart tags_uptime_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id)),
+    line_chart tags_uptime_path(current_domain, script_subscriber_ids: @script_subscriptions.is_third_party_tag.still_on_site.collect(&:id)),
       download: true, 
       title: "Tag Uptime",
       ytitle: "Response Time (ms)",

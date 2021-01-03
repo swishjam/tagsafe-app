@@ -15,7 +15,7 @@ class ScriptManager::ChangeProcessor
     {
       hashed_content: @hashed_content || ScriptManager::Hasher.hash!(@content),
       bytes: @content.bytesize,
-      js_file: { io: File.open(js_file), filename: "#{Time.current.to_i}.js" }
+      js_file: { io: File.open(js_file), filename: filename }
     }
   end
 
@@ -30,6 +30,10 @@ class ScriptManager::ChangeProcessor
       @js_file.close
     end
     @js_file
+  end
+
+  def filename
+    "#{@script.url.gsub('/', '-').gsub('.', '_')}-#{Time.current.to_i}.js"
   end
 
   def written_file_location

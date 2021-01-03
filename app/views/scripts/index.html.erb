@@ -44,36 +44,11 @@
 =end%>
     <div class="global-scripts-chart-container tag-safe-container">
       <% if @active_tag_count > 0 %>
-        <h5>Tag Impact</h5>
-        <label for="metric-dropdown">Select Chart Metric</label>
-        <select class="selectpicker" id="metric-dropdown" data-max-options="1" data-live-search="true">
-          <% PerformanceAuditMetricType.all.each do |metric_type| %>
-            <% if metric_type == @filtered_performance_audit_metric_type %>
-              <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>" selected><%= metric_type.title %></option>
-            <% else %>
-              <option value="<%= metric_type.key %>" data-metric-unit="<%=metric_type.unit%>"><%= metric_type.title %></option>
-            <% end %>
-          <% end %> 
-        </select>
-        <div id="scripts-chart-container">
-          <%=
-            line_chart domain_script_subscribers_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.active.still_on_site.collect(&:id), metric_type: @filtered_performance_audit_metric_type.key),
-              download: true, 
-              title: "#{@filtered_performance_audit_metric_type.title}",
-              ytitle: "#{@filtered_performance_audit_metric_type.title} #{@filtered_performance_audit_metric_type.unit ? "(#{@filtered_performance_audit_metric_type.unit}>)" : nil }",
-              xtitle: 'Tag Changes',
-              code: true,
-              messages: { empty: "No Audits Run." },
-              curve: false, 
-              legend: "bottom",
-              library: {
-                rangeSelector: true,
-                hAxis: { 
-                  # format: 'MM-DD-YYYY' 
-                  }
-              }
-          %>
-        </div>
+        <%= render partial: 'partials/script_subscribers_chart', locals: { 
+          script_subscriber_ids: @script_subscriptions.is_third_party_tag.still_on_site.collect(&:id),
+          include_metric_select: false,
+          default_metric_type: @filtered_performance_audit_metric_type
+        } %>
       <% else %>
         <% if @most_recent_domain_scan_pending %>
           <span>Currently scanning <%= current_domain.url %> for third party tags</span>
@@ -133,7 +108,7 @@
                           Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
                         </p>
                       <% else %>
-                        <span>No changes recorded yet.</span>
+                        <p>No changes recorded yet.</p>
                       <% end %>
                       <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true) %>
                       <%= render partial: 'partials/progress_ring', locals: { 

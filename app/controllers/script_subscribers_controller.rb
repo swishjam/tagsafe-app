@@ -6,7 +6,6 @@ class ScriptSubscribersController < LoggedInController
       @script_subscriptions = current_domain.script_subscriptions
                                               .includes(:script)
                                               .order('script_subscribers.removed_from_site_at ASC')
-                                              .order('script_subscribers.active DESC')
     end
   end
 
@@ -73,6 +72,6 @@ class ScriptSubscribersController < LoggedInController
   private
 
   def script_subscriber_params
-    params.require(:script_subscriber).permit(:friendly_name, :monitor_changes, :is_third_party_tag, :allowed_third_party_tag, :image)
+    params.require(:script_subscriber).permit(:friendly_name, :monitor_changes, :is_third_party_tag, :allowed_third_party_tag, :should_run_audit, :image)
   end
 end

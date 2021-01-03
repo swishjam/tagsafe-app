@@ -10,9 +10,9 @@ class ScriptChangedJob < ApplicationJob
         slack_notification.notify!(script_change)
       end
     end
-    script_change.script.script_subscribers.active.still_on_site.monitor_changes.each do |script_subscriber|
+    script_change.script.script_subscribers.should_run_audits.each do |script_subscriber|
       script_change.lint!(script_subscriber)
-      script_subscriber.run_audit!(script_change, ExecutionReason.TAG_CHANGE)
+      script_subscriber.run_audit!(script_change, script_change.first_change? ? ExecutionReason.INITIAL_AUDIT : ExecutionReason.TAG_CHANGE)
     end
   end
 end

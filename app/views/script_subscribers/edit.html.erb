@@ -22,22 +22,38 @@
       <div class="form-group">
         <span data-toggle="tooltip"
                 data-placement="top"
-                title="Select this option to no longer consider this a third party tag, turn this off. It will no longer be monitored, and it will not be blocked in audits.">
+                title="Un-select this option to no longer consider this a third party tag. It will no longer be monitored, and it will not be blocked in audits.">
           <%= f.label :is_third_party_tag %>
         </span>
         <%= f.check_box :is_third_party_tag, checked: @script_subscriber.is_third_party_tag %>
       </div>
-      <div class="form-group">
-      <span data-toggle="tooltip"
+      <%
+=begin%>
+ <div class="form-group">
+        <span data-toggle="tooltip"
                     data-placement="top"
                     title="Select this option to allow .">
           <%= f.label :allowed_third_party_tag %>
         </span>
         <%= f.check_box :allowed_third_party_tag, checked: @script_subscriber.allowed_third_party_tag %>
+      </div> 
+<%
+=end%>
+      <div class="form-group">
+        <span data-toggle="tooltip"
+                data-placement="top"
+                title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when changes are made to the tag.">
+          <%= f.label :monitor_changes %>
+        </span>
+        <%= f.check_box :monitor_changes, checked: @script_subscriber.monitor_changes %>
       </div>
       <div class="form-group">
-        <%= f.label :monitor_changes %>
-        <%= f.check_box :monitor_changes, checked: @script_subscriber.monitor_changes %>
+        <span data-toggle="tooltip"
+                data-placement="top"
+                title="Un-select this option to no longer run audits on this third party tag. TagSafe will no longer automatically run an audit on each tag change.">
+          <%= f.label :should_run_audit %>
+        </span>
+        <%= f.check_box :should_run_audit, checked: @script_subscriber.should_run_audit %>
       </div>
       <% if flash[:local_error] %>
         <p style="color: #e74d4d"><%= flash[:local_error] %></p>

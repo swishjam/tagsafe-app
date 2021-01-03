@@ -22,7 +22,7 @@ class AuditRunner
       num_test_iterations: @script_subscriber.performance_audit_preferences.num_test_iterations,
       # third_party_tag_to_audit: @script_subscriber.script.url,
       third_party_tags_to_allow: allowed_third_party_tags,
-      third_party_tags_to_overwrite: [{ request_url: @script_subscriber.script.url, overwrite_url: content_script_subscriber_script_change_url(@script_subscriber, @script_change, host: ENV['CURRENT_HOST']) }],
+      third_party_tags_to_overwrite: [{ request_url: @script_subscriber.script.url, overwrite_url: @script_change.google_cloud_js_file_url }],
       num_attempts: @num_attempts
     )
   end

@@ -8,7 +8,7 @@ class ScriptChange < ApplicationRecord
   
   scope :most_recent, -> { where(most_recent: true) }
 
-  # very hacky to allow us to seed DB without resulting background jobs,
+  # very hacky to allow us to seed DB without resulting background jobs
   after_create do
     after_creation unless ScriptChange.skip_callbacks
   end
@@ -29,6 +29,12 @@ class ScriptChange < ApplicationRecord
   def make_most_recent!
     script.most_recent_change.update!(most_recent: false) unless first_change? || script.most_recent_change.nil?
     update!(most_recent: true)
+  end
+
+  def google_cloud_js_file_url
+    url = URI.parse(js_file.service_url)
+    url.fragment = url.query = nil
+    url.to_s
   end
 
   def js_file_path(only_path = true)

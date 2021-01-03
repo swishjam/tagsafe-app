@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   resources :scripts, only: :index
   get '/change_log' => 'script_changes#index'
   get '/uptime' => 'script_checks#index'
+  get '/performance' => 'performance#index'
 
   resources :domains, only: :create
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain

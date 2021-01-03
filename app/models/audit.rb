@@ -116,7 +116,7 @@ class Audit < ApplicationRecord
   end
 
   def previous_primary_audit
-    script_subscriber.audits.primary.older_than(created_at).limit(1).first
+    script_subscriber.audits.joins(:script_change).primary.where('script_changes.created_at < ?', script_change.created_at).limit(1).first
   end
   memoize :previous_primary_audit
 

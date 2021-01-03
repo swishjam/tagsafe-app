@@ -49,6 +49,9 @@ class ScriptSubscriber < ApplicationRecord
   scope :allowed_third_party_tag, -> { where(allowed_third_party_tag: true) }
   scope :not_allowed_third_party_tag, -> { where(allowed_third_party_tag: false) }
 
+  scope :should_run_audits, -> { where(should_run_audit: true) }
+  scope :should_not_run_audits, -> { where(should_run_audit: false) }
+
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
 
   def add_defaults
@@ -85,6 +88,14 @@ class ScriptSubscriber < ApplicationRecord
 
   def still_on_site?
     !removed_from_site?
+  end
+
+  def should_run_audit?
+    should_run_audit
+  end
+
+  def should_not_run_audit?
+    !should_run_audit?
   end
 
   def try_friendly_name
@@ -212,11 +223,12 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def within_maximum_active_script_subscriptions
-    if (changed? && active_was === false && active === true) || (new_record? && active === true)
-      if !domain.organization.maximum_active_script_subscriptions.nil? &&
-         domain.organization.script_subscriptions.active.count + 1 > domain.organization.maximum_active_script_subscriptions
-        errors.add(:base, "Cannot activate tag. Your plan only allows for #{domain.organization.maximum_active_script_subscriptions} active monitored tags.")
-      end
-    end
+    # TODO add logic for maximum monitor_changes and should_run_audits
+    # if (changed? && active_was === false && active === true) || (new_record? && active === true)
+    #   if !domain.organization.maximum_active_script_subscriptions.nil? &&
+    #      domain.organization.script_subscriptions.active.count + 1 > domain.organization.maximum_active_script_subscriptions
+    #     errors.add(:base, "Cannot activate tag. Your plan only allows for #{domain.organization.maximum_active_script_subscriptions} active monitored tags.")
+    #   end
+    # end
   end
 end

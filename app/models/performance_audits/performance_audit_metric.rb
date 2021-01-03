@@ -20,4 +20,8 @@ class PerformanceAuditMetric < ApplicationRecord
   def unit
     performance_audit_metric_type.unit
   end
+
+  def unit_abbrev
+    performance_audit_metric_type.unit_abbrev
+  end
 end
