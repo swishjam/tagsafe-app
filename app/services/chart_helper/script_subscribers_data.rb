@@ -14,7 +14,7 @@ module ChartHelper
             script_change_data << [script_change.created_at, primary_audit.delta_performance_audit.performance_audit_metrics.by_key(metric_key).first.result]
           end
         end
-        script_change_data << [Time.now, script_change_data.first[1]]
+        script_change_data << [Time.now, script_change_data.first[1]] unless script_change_data.empty?
         chart_data << { name: script_subscriber.try_friendly_name, data: script_change_data }	
       end
       chart_data

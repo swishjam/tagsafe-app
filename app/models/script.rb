@@ -26,7 +26,7 @@ class Script < ApplicationRecord
   scope :one_minute_interval_checks, -> { self.all }
   scope :five_minute_interval_checks, -> { self.all }
   # etc...
-  scope :with_active_subscribers, -> { includes(:script_subscribers).where(script_subscribers: { active: true }) }
+  scope :with_active_subscribers, -> { includes(:script_subscribers).where(script_subscribers: { monitor_changes: true }) }
   scope :still_on_site, -> { includes(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
   scope :monitor_changes, -> { includes(:script_subscribers).where(script_subscribers: { monitor_changes: true }) }
   scope :should_run_audit, -> { includes(script_subscribers: [:performance_audit_preferences]).where(script_subscribers: { performance_audit_preferences: { should_run_audit: true }} ) }

@@ -1,7 +1,4 @@
 <div class="text-center">
-  <% if @script_subscriber.inactive? %>
-    <h6><i class="fas fa-exclamation-circle"></i> This tag is inactive and not being monitored. Would you like to <%= link_to 'activate it?', script_subscribers_path %></h6>
-  <% end %>
   <h5 class="page-title with-sub-title">Tag Details</h6>
   <h6 class="page-sub-title"><%= @script_subscriber.try_friendly_name %></h6>
 </div>

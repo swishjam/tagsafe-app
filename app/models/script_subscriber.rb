@@ -74,12 +74,21 @@ class ScriptSubscriber < ApplicationRecord
     script.script_changes.newer_than_or_equal_to(first_script_change.created_at).most_recent_first
   end
 
-  def active?
-    active
-  end
+  # def active?
+  #   active
+  # end
 
-  def inactive?
-    !active
+  # def inactive?
+  #   !active
+  # end
+
+  def monitor_changes?
+    monitor_changes
+  end
+  alias monitoring_changes? monitor_changes?
+
+  def not_monitoring_changes?
+    !monitoring_changes?
   end
 
   def removed_from_site?

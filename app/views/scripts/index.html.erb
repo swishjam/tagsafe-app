@@ -70,7 +70,7 @@
         <div class="row row-no-side-margins">
           <% group.each do |script_subscription| %>
             <div class="col-sm-12 col-md-6 col-lg-4 tag-safe-card-container">
-              <div class="card tag-safe-card script-subscription <%= script_subscription.inactive? ? 'inactive' : nil %> <%= script_subscription.removed_from_site? ? 'removed-from-site' : nil %>">
+              <div class="card tag-safe-card script-subscription <%= script_subscription.removed_from_site? ? 'removed-from-site' : nil %>">
                 <div class="dropdown show ellipsis-dropdown text-right">
                   <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-h"></i>
@@ -96,21 +96,30 @@
                           title="The <%= script_subscription.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= script_subscription.removed_from_site_at.formatted %>.">
                         <span class="script-removed-from-site-notice"><i class="fas fa-exclamation-circle"></i> Removed</span>
                       </span>
-                    <% elsif script_subscription.inactive? %>
+                    <% end %>
+                    <% if script_subscription.not_monitoring_changes? %>
                       <span data-toggle="tooltip"
                         data-placement="top"
                         title="Tag monitoring is off for <%= script_subscription.try_friendly_name %>. Visit your tag management settings to monitor.">
-                        <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Inactive</span>
+                        <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Not Monitoring Changes</span>
                       </span>
+                    <% end %>
+                    <% if script_subscription.should_not_run_audit? %>
+                      <span data-toggle="tooltip"
+                        data-placement="top"
+                        title="Tag monitoring is off for <%= script_subscription.try_friendly_name %>. Visit your tag management settings to monitor.">
+                        <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Auditing is Turned Off</span>
+                      </span>
+                    <% end %>
+                    <% if !script_subscription.script.most_recent_script_change.first_change? %>
+                      <p>
+                        Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
+                      </p>
                     <% else %>
-                      <% if !script_subscription.script.most_recent_script_change.first_change? %>
-                        <p>
-                          Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
-                        </p>
-                      <% else %>
-                        <p>No changes recorded yet.</p>
-                      <% end %>
-                      <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true) %>
+                      <p>No changes recorded yet.</p>
+                    <% end %>
+                    <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true) %>
+                    <% unless audit&.delta_performance_audit.nil? %>
                       <%= render partial: 'partials/progress_ring', locals: { 
                         score: audit.delta_performance_audit.metric_result('TagSafeScore'), 
                         change_in_score: audit.delta_performance_audit.change_in_metric('TagSafeScore')

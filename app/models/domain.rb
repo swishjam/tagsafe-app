@@ -14,7 +14,6 @@ class Domain < ApplicationRecord
     ss = script_subscriptions.create!(
       script: script,
       first_script_change: first_script_change,
-      active: active, 
       monitor_changes: monitor_changes,
       allowed_third_party_tag: allowed_third_party_tag,
       is_third_party_tag: is_third_party_tag,
