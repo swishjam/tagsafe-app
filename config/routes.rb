@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do
+    get '/domain_scans/:id' => 'domain_scans#show'
     post '/test_subscriptions/:id/toggle' => 'test_subscriptions#toggle'
 
     post '/script_subscribers/:id/toggle_active' => 'script_subscribers#toggle_active'

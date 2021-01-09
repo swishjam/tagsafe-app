@@ -9,8 +9,7 @@ class ScriptsController < LoggedInController
                                             .page(params[:page] || 1).per(params[:per_page] || 9)
       @filtered_performance_audit_metric_type = PerformanceAuditMetricType.find_by(key: params[:metric_type] || 'TagSafeScore')
       @active_tag_count = current_domain.script_subscriptions.is_third_party_tag.still_on_site.count
-      @most_recent_domain_scan_pending = current_domain.domain_scans&.most_recent&.pending?
-      @most_recent_domain_scan_failed = current_domain.domain_scans&.most_recent&.failed?
+      @domain_scan = current_domain.domain_scans&.most_recent
     end
   end
 end

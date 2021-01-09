@@ -50,20 +50,9 @@
           default_metric_type: @filtered_performance_audit_metric_type
         } %>
       <% else %>
-        <% if @most_recent_domain_scan_pending %>
-          <span>Currently scanning <%= current_domain.url %> for third party tags</span>
-        <% elsif @most_recent_domain_scan_failed %>
-          <p>There was an error scanning <%= current_domain.url %>, is this the correct URL?</p>
-          <p><%= current_domain.domain_scans.most_recent.error_message %></p>
-        <% else %>
-          <span>You are not monitoring any tags. <%= link_to 'Activate tags here', script_subscribers_path %>.</span>
-        <% end %>
+        <%= render partial: 'partials/domain_scan_not_complete', locals: { domain_scan: @domain_scan } %>
       <% end %>
     </div>
-
-    <% if @most_recent_domain_scan_failed %>
-      Form goes here
-    <% end %>
 
     <div class="script-subscriptions">
       <% @script_subscriptions.in_groups_of(3, false).each do |group| %>
@@ -115,8 +104,6 @@
                       <p>
                         Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
                       </p>
-                    <% else %>
-                      <p>No changes recorded yet.</p>
                     <% end %>
                     <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true) %>
                     <% unless audit&.delta_performance_audit.nil? %>

@@ -8,12 +8,11 @@ class GeppettoModerator::Receivers::DomainScanned
   end
 
   def receive!
-    domain_scan.completed!
     domain = Domain.find(@domain_id)
     if @error_message
       domain_scan.errored!(@error_message)
     else
-      UpdateDomainsScriptsJob.perform_later(domain, @scripts, @initial_scan)
+      UpdateDomainsScriptsJob.perform_later(domain, @scripts, domain_scan, @initial_scan)
     end
   end
 

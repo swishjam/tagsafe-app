@@ -32,6 +32,6 @@ class DomainScan < ApplicationRecord
 
   def errored!(error_msg)
     update(error_message: error_msg)
-    touch(:scan_completed_at)
+    completed!
   end
 end

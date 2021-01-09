@@ -38,6 +38,10 @@ class Domain < ApplicationRecord
     TestGroupRun.by_domain(self)
   end
 
+  def enqueue_scan_and_capture_domain_scripts_job
+    # ScanAndCaptureDomainScriptsJob.perform_later()
+  end
+
   def scan_and_capture_domains_scripts
     GeppettoModerator::Senders::ScanDomain.new(self, initial_scan: true).send!
   end

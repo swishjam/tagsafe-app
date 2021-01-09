@@ -1,7 +1,5 @@
 module Api
   class GeppettoReceiverController < BaseController
-    before_action :check_api_token
-
     def domain_scan_complete
       receive!('DomainScanned',
         domain_id: params[:domain_id],
@@ -48,10 +46,6 @@ module Api
       check_api_token
       GeppettoModerator::Receiver.new(class_string, data).receive!
       head :ok
-    end
-    
-    def check_api_token
-      # Rails.logger.info "Bypassing API token check for now."
     end
   end
 end
