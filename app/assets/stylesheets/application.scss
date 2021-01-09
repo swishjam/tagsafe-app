@@ -63,57 +63,15 @@ body.logged-in {
   .ellipsis-dropdown {
     a.dropdown-link {
       text-decoration: none;
-      color: black;
+      color: #5d5c5c;
       i {
         font-size: 26px;
       }
       &:hover {
         i {
-          transition: 500ms all;
-          font-size: 28px;
+          color: black;
         }
       }
-    }
-  }
-  .navigation {
-    width: 15%;
-    border: 1px solid black;
-    background-color: navy;
-    color: white;
-    float: left;
-    height: 100vh;
-    position: fixed;
-    padding: 10px;
-    font-size: 14px;
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    a.nav-link {
-      color: white;
-    }
-    .dropdown-item {
-      color: blue;
-    }
-    li.nav-item {
-      border-radius: 20px;
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
-        background: dodgerblue;
-      }
-      &.current {
-        background: dodgerblue;
-      }
-    }
-    .logo-container {
-      height: 150px;
-      border: 1px solid white;
-      text-align: center;
-    }
-    .logout-link-container {
-      position: absolute;
-      bottom: 10px;
     }
   }
   #content {

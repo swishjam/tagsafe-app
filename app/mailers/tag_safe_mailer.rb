@@ -27,6 +27,6 @@ class TagSafeMailer < ApplicationMailer
     @script_subscriber = script_subscriber
     @script = script_subscriber.script
     @domain = script_subscriber.domain
-    mail(to: user.email, from: 'changes@tagsafe.io', subject: "New tag detected on #{script_subscriber.domain.url}.")
+    mail(to: user.email, from: 'changes@tagsafe.io', subject: "New tag detected on #{@domain.url}.")
   end
 end

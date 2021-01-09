@@ -11,7 +11,7 @@ module NotificationModerator
 
     def notify_email_subscribers
       @script_subscriber.domain.organization.users.each do |user|
-        TagSafeMailer.send_new_tag_detected_email(user, script_subscriber)
+        TagSafeMailer.send_new_tag_detected_email(user, @script_subscriber)
       end
     end
 
