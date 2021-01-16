@@ -33,7 +33,7 @@ class ScriptManager::ChangeProcessor
   end
 
   def filename
-    "#{@script.url.gsub('/', '-').gsub('.', '_')}-#{Time.current.to_i}.js"
+    "#{@script.id}-#{Time.current.to_i}.js"
   end
 
   def written_file_location

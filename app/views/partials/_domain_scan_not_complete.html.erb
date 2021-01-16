@@ -18,7 +18,6 @@
       checkDomainScanStatus()
       if(attempts < 120) {
         setTimeout(function() {
-          debugger;
           pollDomainStatus(attempts+1)
         }, 5000);
       } else {

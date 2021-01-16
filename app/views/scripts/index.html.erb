@@ -100,17 +100,21 @@
                         <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Auditing is Turned Off</span>
                       </span>
                     <% end %>
-                    <% if !script_subscription.script.most_recent_script_change.first_change? %>
-                      <p>
-                        Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
-                      </p>
-                    <% end %>
-                    <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) || script_subscription.most_recent_audit_by_script_change(script_subscription.script.most_recent_change, include_pending_performance_audits: true) %>
+                    <p>
+                      Last change was <%= script_subscription.script.content_changed_at ? time_ago_in_words(script_subscription.script.content_changed_at) : 'unknown'%> ago.
+                    </p>
+                    <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) %>
                     <% unless audit&.delta_performance_audit.nil? %>
                       <%= render partial: 'partials/progress_ring', locals: { 
                         score: audit.delta_performance_audit.metric_result('TagSafeScore'), 
                         change_in_score: audit.delta_performance_audit.change_in_metric('TagSafeScore')
                       } %>
+                    <% else %>
+                      <% if script_subscription.has_pending_audits_for_script_change?(script_subscription.script.most_recent_change) %>
+                        <span class="badge badge-primary">Audit is running</span>
+                      <% else %>
+                        <span>No audits run for this tag version</span>
+                      <% end %>
                     <% end %>
                   </div>
                 <% end %>

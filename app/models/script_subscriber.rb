@@ -140,7 +140,7 @@ class ScriptSubscriber < ApplicationRecord
     RunAuditForScriptSubscriberJob.perform_later(self, script_change, execution_reason)
   end
 
-  def has_pending_audits_by_script_change?(script_change)
+  def has_pending_audits_for_script_change?(script_change)
     audits.pending_completion.where(script_change: script_change).any?
   end
 
