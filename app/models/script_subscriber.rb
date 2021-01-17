@@ -21,7 +21,7 @@ class ScriptSubscriber < ApplicationRecord
   has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber'
 
-  has_one :performance_audit_preferences, class_name: 'PerformanceAuditPreference'
+  has_one :performance_audit_preferences, class_name: 'PerformanceAuditPreference', dependent: :destroy
 
   has_one_attached :image
 
