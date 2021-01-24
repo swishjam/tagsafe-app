@@ -74,14 +74,6 @@ class ScriptSubscriber < ApplicationRecord
     script.script_changes.newer_than_or_equal_to(first_script_change.created_at).most_recent_first
   end
 
-  # def active?
-  #   active
-  # end
-
-  # def inactive?
-  #   !active
-  # end
-
   def monitor_changes?
     monitor_changes
   end
@@ -156,9 +148,13 @@ class ScriptSubscriber < ApplicationRecord
     audits.where(script_change: script_change).order('audits.created_at DESC')
   end
 
-  def most_recent_audit
+  def most_recent_audit(primary: true)
     # scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
-    audits.limit(1).first
+    if primary
+      audits.where(primary: true).limit(1).first
+    else
+      audits.limit(1).first
+    end
   end
 
   def primary_audit_by_script_change(script_change)
@@ -190,6 +186,26 @@ class ScriptSubscriber < ApplicationRecord
 
   def has_lint_results_for_script_change?(script_change)
     lint_results_for_script_change(script_change).any?
+  end
+
+  ################### 
+  ## SCRIPT CHECKS ##
+  ###################
+
+  def average_response_time(days_ago: 7)
+    script.script_checks.newer_than(days_ago.days.ago).average(:response_time_ms)
+  end
+
+  def max_response_time(days_ago: 7)
+    script.script_checks.newer_than(days_ago.days.ago).maximum(:response_time_ms)
+  end
+
+  def failed_requests(days_ago: 7, successful_codes: [200, 204])
+    script.script_checks.newer_than(days_ago.days.ago).where.not(response_code: successful_codes).count
+  end
+
+  def fail_rate(days_ago: 7, successful_codes: [200, 204])
+    failed_requests(days_ago: days_ago, successful_codes: successful_codes) / script.script_checks.newer_than(days_ago.days.ago).count
   end
 
   ###########

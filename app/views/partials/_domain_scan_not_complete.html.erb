@@ -31,4 +31,16 @@
 <% elsif domain_scan&.failed? %>
   <p>There was an error scanning <%= current_domain.url %>, is this the correct URL?</p>
   <p><%= current_domain.domain_scans.most_recent.error_message %></p>
+  <%= form_for current_domain do |f| %>
+    <div class='input-group form-group'>
+      <div class="input-group-prepend">
+        <select name='domain[protocol]' class='custom-select' required>
+          <option class='dropdown-item' value='https://' selected>https://</option>
+          <option class='dropdown-item' value='http://'>http://</option>
+        </select>
+      </div>
+      <input type="text" class="form-control" name="domain[url]" placeholder="Domain URL">
+    </div>
+    <%= f.submit 'Enter Your Domain to Monitor', class: 'btn btn-outline-primary' %>
+  <% end %>
 <% end %>

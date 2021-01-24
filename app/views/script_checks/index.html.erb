@@ -2,7 +2,7 @@
 
 <div class="tag-safe-container">
   <%=
-    line_chart tags_uptime_path(current_domain, script_subscriber_ids: @script_subscriptions.is_third_party_tag.still_on_site.collect(&:id)),
+    line_chart tags_uptime_path(current_domain, script_subscriber_ids: @script_subscriptions.collect(&:id), days_ago: @days_ago),
       download: true, 
       title: "Tag Uptime",
       ytitle: "Response Time (ms)",
@@ -19,3 +19,41 @@
       }
   %>
 </div>
+
+<div class="tag-safe-container" style='margin-top: 15px'>
+  <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" style='width: 40%'>Tag</th>
+        <th scope="col" style='width: 12.5%'>Average Response Time</th>
+        <th scope="col" style='width: 12.5%'>Max Response Time</th>
+        <th scope="col" style='width: 12.5%'># Failed Requests</th>
+        <th scope="col" style='width: 12.5%'>Fail Rate</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @script_subscriptions.each do |script_subscriber| %>
+        <tr>
+          <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
+          <td><%= script_subscriber.average_response_time(days_ago: @days_ago).round(2) %> ms</td>
+          <td><%= script_subscriber.max_response_time(days_ago: @days_ago).round(2) %> ms</td>
+          <td><%= script_subscriber.failed_requests(days_ago: @days_ago) %></td>
+          <td><%= script_subscriber.fail_rate(days_ago: @days_ago) %>%</td>
+          <td>
+            <div class="dropdown dropleft show ellipsis-dropdown">
+              <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <%= link_to 'View Tag Details', script_subscriber_path(script_subscriber), class: 'dropdown-item' %> 
+              </div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @script_subscriptions %>

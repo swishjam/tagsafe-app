@@ -24,11 +24,11 @@
       </tr>
     </thead>
     <tbody>
-      <% @primary_delta_performance_audits.each do |performance_audit| %>
+      <% @script_subscriptions.each do |script_subscriber| %>
         <tr>
-          <td data-toggle="tooltip" data-placement="top" title="<%= performance_audit.audit.script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= performance_audit.audit.script_subscriber.try_friendly_name %></td>
+          <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
           <% %w[DOMComplete DOMInteractive FirstContentfulPaint ScriptDuration LayoutDuration TaskDuration TagSafeScore].each do |metric| %>
-            <td scope="row"><%= performance_audit.metric_result(metric, include_units: true) %></td>
+            <td scope="row"><%= script_subscriber.most_recent_audit&.delta_performance_audit&.metric_result(metric, include_units: true) %></td>
           <% end %>
           <td scope="row">
             <div class="dropdown dropleft show ellipsis-dropdown">
@@ -36,7 +36,7 @@
                 <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <%= link_to 'View Tag Details', script_subscriber_path(performance_audit.audit.script_subscriber), class: 'dropdown-item' %> 
+                <%= link_to 'View Tag Details', script_subscriber_path(script_subscriber), class: 'dropdown-item' %> 
               </div>
             </div>
           </td>
@@ -45,3 +45,5 @@
     </tbody>
   </table>
 </div>
+
+<%= paginate @script_subscriptions %>

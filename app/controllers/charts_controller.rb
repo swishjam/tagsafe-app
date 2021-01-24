@@ -23,7 +23,7 @@ class ChartsController < ApplicationController
   end
 
   def tag_uptime
-    script_subscribers = ScriptSubscriber.where(id: params[:script_subscriber_ids])
+    script_subscribers = ScriptSubscriber.where(id: params[:script_subscriber_ids]).newer_than(params[:days_ago].to_i.day.ago)
     chart_data_getter = ChartHelper::TagUptimeData.new(script_subscribers)
     render json: chart_data_getter.get_response_time_data!
   end
