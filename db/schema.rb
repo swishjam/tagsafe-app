@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_03_194017) do
+ActiveRecord::Schema.define(version: 2021_01_26_004527) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -46,12 +46,6 @@ ActiveRecord::Schema.define(version: 2021_01_03_194017) do
     t.timestamp "created_at"
     t.text "performance_audit_error_message"
     t.boolean "is_baseline"
-  end
-
-  create_table "chart_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "timestamp"
-    t.integer "audit_id"
-    t.boolean "due_to_script_change"
   end
 
   create_table "domain_scans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -125,19 +119,6 @@ ActiveRecord::Schema.define(version: 2021_01_03_194017) do
     t.text "logs", limit: 4294967295
   end
 
-  create_table "performance_audit_metric_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title"
-    t.string "key"
-    t.text "description"
-    t.string "unit"
-  end
-
-  create_table "performance_audit_metrics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "performance_audit_id"
-    t.integer "performance_audit_metric_type_id"
-    t.float "result"
-  end
-
   create_table "performance_audit_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "script_subscriber_id"
     t.boolean "should_run_audit"
@@ -150,6 +131,13 @@ ActiveRecord::Schema.define(version: 2021_01_03_194017) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "dom_complete"
+    t.float "dom_interactive"
+    t.float "first_contentful_paint"
+    t.float "script_duration"
+    t.float "layout_duration"
+    t.float "task_duration"
+    t.float "tagsafe_score"
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -196,6 +184,19 @@ ActiveRecord::Schema.define(version: 2021_01_03_194017) do
   create_table "script_subscriber_allowed_performance_audit_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "performance_audit_script_subscriber_id"
     t.integer "allowed_script_subscriber_id"
+  end
+
+  create_table "script_subscriber_audits_chart_data", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "timestamp"
+    t.integer "script_subscriber_id"
+    t.integer "script_change_id"
+    t.float "task_duration"
+    t.float "dom_complete"
+    t.float "dom_interactive"
+    t.float "first_contentful_paint"
+    t.float "script_duration"
+    t.float "layout_duration"
+    t.float "tagsafe_score"
   end
 
   create_table "script_subscriber_lint_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -9,7 +9,7 @@ class ScriptManager::Evaluator
   def evaluate!
     @response = fetcher.fetch!
     log_script_check!
-    if fetcher.response_code == 200
+    if fetcher.success
       @hashed_content = ScriptManager::Hasher.hash!(@response.body)
 
       try_script_change!

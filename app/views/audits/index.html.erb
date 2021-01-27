@@ -52,7 +52,7 @@
             <% elsif audit.performance_audit_pending? %>
               <span class="badge badge-primary">Pending completion</span>
             <% else %>
-              <%= audit.delta_performance_audit.metric_result('TagSafeScore') %>
+              <%= audit.delta_performance_audit.tagsafe_score.round(2) %>
             <% end %>
           </td>
           <td scope="row"><%= audit.execution_reason.name %></td>

@@ -31,7 +31,7 @@ class AuditsController < LoggedInController
   def make_primary
     audit = Audit.find(params[:id])
     permitted_to_view?(audit)
-    audit.make_primary!(true)
+    audit.make_primary!
     flash[:banner_message] = "Successfully updated primary audit."
     redirect_to request.referrer
   end

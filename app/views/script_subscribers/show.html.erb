@@ -40,14 +40,14 @@
                   </span>
                 <% else %>
                   <span>
-                    <%= number_with_delimiter(audit.delta_performance_audit.metric_result('TagSafeScore')) %>
+                    <%= number_with_delimiter(audit.delta_performance_audit.tagsafe_score.round(2)) %>
                   </span>
                 <% end %>
               </td>
               <td scope="row">
                 <% if !audit.nil? && !audit.performance_audit_pending? && !audit.performance_audit_failed? && 
                       !previous_audit.nil? && !previous_audit.performance_audit_pending? && !previous_audit.performance_audit_failed? %>
-                  <% change_in_score = audit.delta_performance_audit.change_in_metric('TagSafeScore') %>
+                  <% change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score) %>
                   <% icon_class = change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
                   <span class="<%=change_in_score.positive? ? 'positive' : 'negative' %>">
                     <i class="fas <%=icon_class%>"></i>

@@ -107,12 +107,11 @@ class Audit < ApplicationRecord
   end
   alias is_primary? primary?
 
-  def make_primary!(manually_updated = false)
-    raise InvalidPrimaryAudit if performance_audit_failed?
+  def make_primary!
+    raise InvalidPrimaryAudit if performance_audit_failed? || performance_audit_pending?
     primary_audit_from_before = script_subscriber.primary_audit_by_script_change(script_change)
     primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
-    ChartData.update_new_primary_audit(new_primary_audit: self, previous_primary_audit: primary_audit_from_before) if manually_updated
   end
 
   def previous_primary_audit

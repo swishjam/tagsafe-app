@@ -24,19 +24,17 @@ module PerformanceAuditManager
     private
 
     def capture_results(performance_audit_type_klass, results, logs = nil)
-      perf_audit = performance_audit_type_klass.create(audit: @audit)
+      perf_audit = performance_audit_type_klass.create(
+        audit: @audit,
+        dom_complete: results['DOMComplete'],
+        dom_interactive: results['DOMInteractive'],
+        first_contentful_paint: results['FirstContentfulPaint'],
+        layout_duration: results['LayoutDuration'],
+        script_duration: results['ScriptDuration'],
+        task_duration: results['TaskDuration']
+      )
       PerformanceAuditLog.create(logs: logs, performance_audit: perf_audit) unless logs.nil?
-      results.each{ |metric_key, result| capture_result_metric(perf_audit, metric_key, result) }
       perf_audit
-    end
-
-    def capture_result_metric(performance_audit, metric_key, result)
-      metric_type = PerformanceAuditMetricType.find_by(key: metric_key)
-      if metric_type
-        performance_audit.performance_audit_metrics.create(result: result, performance_audit_metric_type: metric_type)
-      else
-        Resque.logger.error "No PerformanceAuditMetricType with key #{metric_key}"
-      end
     end
 
     def capture_delta_performance_audit!

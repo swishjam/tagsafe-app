@@ -106,8 +106,8 @@
                     <% audit = script_subscription.primary_audit_by_script_change(script_subscription.script.most_recent_change) %>
                     <% unless audit&.delta_performance_audit.nil? %>
                       <%= render partial: 'partials/progress_ring', locals: { 
-                        score: audit.delta_performance_audit.metric_result('TagSafeScore'), 
-                        change_in_score: audit.delta_performance_audit.change_in_metric('TagSafeScore')
+                        score: audit.delta_performance_audit.tagsafe_score, 
+                        change_in_score: audit.delta_performance_audit.change_in_metric(:tagsafe_score)
                       } %>
                     <% else %>
                       <% if script_subscription.has_pending_audits_for_script_change?(script_subscription.script.most_recent_change) %>

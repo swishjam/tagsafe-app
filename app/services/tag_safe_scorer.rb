@@ -1,22 +1,22 @@
 class TagSafeScorer
   class InvalidPerformanceAudit < StandardError; end;
   DEFAULT_WEIGHTS = {
-    'DOMComplete' => 0.3,
-    'DOMInteractive' => 0.3,
-    'FirstContentfulPaint' => 0.3,
+    dom_complete: 0.4,
+    dom_interactive: 0.4,
+    first_contentful_paint: 0.2,
     # 'LayoutDuration' => 0.1,
     # 'ScriptDuration' => 0.1,
     # 'TaskDuration' => 0.1,
-    'Bytes' => 0.1
+    bytes: 0.1
   }
 
   # deduct 1 point of 100 for each metric: Impact Score / METRIC_SCORE_INCREMENTS
   # a DOMComplete impact of 100ms would be a deduction of 2 points
   METRIC_SCORE_INCREMENTS = {
-    'DOMComplete' => 50,
-    'DOMInteractive' => 50,
-    'FirstContentfulPaint' => 50,
-    'Bytes' => 10_000
+    dom_complete: 25,
+    dom_interactive: 12.5,
+    first_contentful_paint: 25,
+    bytes: 10_000
   }
 
   def initialize(delta_performance_audit)
@@ -26,11 +26,7 @@ class TagSafeScorer
 
   def record_score!
     raise InvalidPerformanceAudit unless @delta_performance_audit.is_a?(DeltaPerformanceAudit)
-    PerformanceAuditMetric.create(
-      result: score!, 
-      performance_audit: @delta_performance_audit, 
-      performance_audit_metric_type: tagsafe_score_metric_type
-    )
+    @delta_performance_audit.update!(tagsafe_score: score!)
   end
 
   private
@@ -40,39 +36,24 @@ class TagSafeScorer
   end
 
   def dom_complete_deduction
-    performance_metric_deduction('DOMComplete')
+    performance_metric_deduction(:dom_complete)
   end
 
   def dom_interactive_deduction
-    performance_metric_deduction('DOMInteractive')
+    performance_metric_deduction(:dom_interactive)
   end
 
   def first_contentful_paint_deduction
-    performance_metric_deduction('FirstContentfulPaint')
+    performance_metric_deduction(:first_contentful_paint)
   end
 
   def performance_metric_deduction(metric_key)
-    (@delta_performance_audit.metric_result(metric_key)/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
+    deduction = (@delta_performance_audit[metric_key]/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
+    deduction > DEFAULT_WEIGHTS[metric_key]*100 ? DEFAULT_WEIGHTS[metric_key]*100 : deduction
   end
 
   def byte_size_deduction
-    (@delta_performance_audit.audit.script_change.bytes/METRIC_SCORE_INCREMENTS['Bytes']) * DEFAULT_WEIGHTS['Bytes']
-  end
-
-  def tagsafe_score_metric_type
-    @tagsafe_score_metric_type ||= PerformanceAuditMetricType.find_by!(key: 'TagSafeScore')
+    deduction = (@delta_performance_audit.audit.script_change.bytes/METRIC_SCORE_INCREMENTS[:bytes]) * DEFAULT_WEIGHTS[:bytes]
+    deduction > DEFAULT_WEIGHTS[:bytes]*100 ? DEFAULT_WEIGHTS[:bytes]*100 : deduction
   end
 end
-
-# DOM Complete
-# + 5.02 seconds
-# DOM Interactive
-# + 526 ms
-# First Contentful Paint
-# + 540 ms
-# Task Duration Time
-# + 4.41 ms
-# Script Duration
-# + 4.37 ms
-# Layout Duration
-# 0 ms

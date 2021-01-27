@@ -6,20 +6,19 @@ module ChartHelper
     end
 
     def get_response_time_data!
-      chart_data = []
-      @script_subscribers.each do |script_subscriber|
-        chart_data << { 
+      @script_subscribers.map do |script_subscriber|
+        { 
           name: script_subscriber.try_friendly_name,
           data: script_check_data(script_subscriber)
         }
       end
-      chart_data
     end
 
     def script_check_data(script_subscriber)
       ScriptCheck.where(script_id: script_subscriber.script_id)
-                  .newer_than(oldest_check_timestamp(script_subscriber))
                   .collect{ |check| [check.created_at, check.response_time_ms] }
+                  # .newer_than(oldest_check_timestamp(script_subscriber))
+
     end
 
     def oldest_check_timestamp(script_subscriber)

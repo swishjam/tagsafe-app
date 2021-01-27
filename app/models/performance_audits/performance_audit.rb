@@ -6,24 +6,51 @@ class PerformanceAudit < ApplicationRecord
   scope :most_recent, -> { joins(audit: :script_change).where(script_changes: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }
   scope :by_script_subscriber_ids, -> (script_subscriber_ids) { joins(:audit).where(audits: { script_subscriber_id: script_subscriber_ids })}
+  scope :with_script_subscribers, -> (script_subscriber_ids) { includes(audit: :script_subscriber).where(audits: { script_subscriber_id: script_subscriber_ids }) }
 
-  def metric_result(metric_key, include_units: false)
-    metric = performance_audit_metrics.by_key(metric_key).first
-    include_units ? "#{metric&.result&.round(2)} #{metric.unit_abbrev}": metric&.result&.round(2)
+  CHARTABLE_COLUMNS = [
+    {
+      title: 'DOM Complete',
+      column: :dom_complete
+    },
+    {
+      title: 'DOM Interactive',
+      column: :dom_interactive
+    },
+    {
+      title: 'First Contentful Paint',
+      column: :first_contentful_paint
+    },
+    {
+      title: 'Script Duration',
+      column: :script_duration
+    },
+    {
+      title: 'Layout Duration',
+      column: :layout_duration
+    },
+    {
+      title: 'Task Duration',
+      column: :task_duration
+    },
+    {
+      title: 'TagSafe Score',
+      column: :tagsafe_score
+    }
+  ].freeze
+
+  def previous_metric_result(metric_column)
+    return nil if audit.previous_primary_audit.nil?
+    audit.previous_primary_audit.performance_audits.find_by(type: type)[metric_column].round(2)
   end
 
-  def previous_metric_result(metric_key)
+  def change_in_metric(metric_column)
     return nil if audit.previous_primary_audit.nil?
-    audit.previous_primary_audit.performance_audits.find_by(type: type).metric_result(metric_key).round(2)
+    (send(metric_column) - previous_metric_result(metric_column)).round(2)
   end
 
-  def change_in_metric(metric_key)
+  def percent_change_in_metric(metric_column)
     return nil if audit.previous_primary_audit.nil?
-    (metric_result(metric_key) - previous_metric_result(metric_key)).round(2)
-  end
-
-  def percent_change_in_metric(metric_key)
-    return nil if audit.previous_primary_audit.nil?
-    ((change_in_metric(metric_key)/previous_metric_result(metric_key))*100).round(2)
+    ((change_in_metric(metric_column)/previous_metric_result(metric_column))*100).round(2)
   end
 end

@@ -1,28 +1,37 @@
 module ChartHelper
   class ScriptSubscribersData
-    def initialize(script_subscribers)
+    def initialize(script_subscribers:, start_time:, metric_key:)
       @script_subscribers = script_subscribers
+      @start_time = start_time
+      @metric_key = metric_key
     end
-
-    def get_metric_data!(metric_key)
-      chart_data = []
-      @script_subscribers.each do |script_subscriber|
-        script_change_data = []
-        script_subscriber.script.script_changes.most_recent_last.each do |script_change|
-          primary_audit = script_subscriber.primary_audit_by_script_change(script_change)
-          unless primary_audit.nil?
-            script_change_data << [script_change.created_at, primary_audit.delta_performance_audit.performance_audit_metrics.by_key(metric_key).first.result]
-          end
-        end
-        script_change_data << [Time.now, script_change_data.first[1]] unless script_change_data.empty?
-        chart_data << { name: script_subscriber.try_friendly_name, data: script_change_data }	
-      end
+    
+    def get_metric_data!
+      add_current_timestamp_to_chart_data
       chart_data
     end
 
-    def data_points_for_script_subscribers_chart_data(chart_datas, metric_key)
-      data_points = chart_datas.map{ |data| [data.timestamp, data.performance_audit_metric_result(metric_key)] }
-      data_points << [Time.now, chart_datas.first.performance_audit_metric_result(metric_key)]
+    def add_current_timestamp_to_chart_data
+      chart_data.each do |script_subscriber_data|
+        unless script_subscriber_data[:data].empty?
+          script_subscriber_data[:data] << [Time.now, script_subscriber_data[:data][script_subscriber_data[:data].length-1][1]]
+        end
+      end
+    end
+
+    def chart_data
+      @chart_data ||= script_subscribers_primary_delta_performance_audits.map do |friendly_name, delta_performance_audits|
+        {
+          name: friendly_name,
+          data: delta_performance_audits.collect{ |dpa| [dpa.audit.script_change.created_at, dpa[@metric_key]] }
+        }
+      end
+    end
+
+    def script_subscribers_primary_delta_performance_audits
+      @performance_audits ||= DeltaPerformanceAudit.includes(audit: [:script_subscriber, :script_change])
+                                                    .where(audits: { script_subscriber_id: @script_subscribers.collect(&:id), primary: true })
+                                                    .group_by{ |dpa| dpa.audit.script_subscriber.try_friendly_name }
     end
   end
 end

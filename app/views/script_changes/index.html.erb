@@ -21,7 +21,7 @@
               <% elsif audit.performance_audit_failed? %>
                 --
               <% else %>
-                <%= audit.delta_performance_audit.metric_result('TagSafeScore') %>
+                <%= audit.delta_performance_audit.tagsafe_score %>
               <% end %>
             </td>
             <td scope="row"><%= link_to "View Results", script_subscriber_script_change_audit_path(audit.script_subscriber, audit.script_change, audit) %></td>

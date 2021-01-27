@@ -12,23 +12,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-6">
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="chart-type" id="impact" value="impact" checked>
-        <label class="form-check-label" for="impact">Tag Impact</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="chart-type" id="compare" value="compare">
-        <label class="form-check-label" for="compare">With vs Without Tag</label>
-      </div>
-    </div>
-    <div class="col-6 text-right">
+    <div class="col-6 offset-6 text-right">
       <select class="selectpicker" id="chart-metrics-dropdown" multiple data-live-search="true">
-        <% PerformanceAuditMetricType.all.each do |metric_type| %>
-          <option value="<%= metric_type.key %>" 
-                  data-metric-unit="<%=metric_type.unit%>" 
-                  <%= metric_type.key === 'TagSafeScore' ? 'selected' : nil %>>
-                    <%= metric_type.title %>
+        <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
+          <option value="<%= metric_type[:column] %>" 
+            <%= metric_type[:column] === :tagsafe_score ? 'selected' : nil %>>
+              <%= metric_type[:title] %>
           </option>
         <% end %>
       </select>

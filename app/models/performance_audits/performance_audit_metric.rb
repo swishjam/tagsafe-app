@@ -3,8 +3,15 @@ class PerformanceAuditMetric < ApplicationRecord
   belongs_to :performance_audit_metric_type
 
   scope :by_key, -> (key) { includes(:performance_audit_metric_type).where(performance_audit_metric_types: { key: key })}
-  scope :by_script_subscriber, -> (script_subscriber) { includes(performance_audit: [:audit]).where(performance_audits: { audits: { script_subscriber_id: script_subscriber.id}}) }
-  scope :primary_audits, -> { includes(performance_audit: [:audit]).where(performance_audits: { audits: { primary: true }}) }
+  scope :by_script_subscriber, -> (script_subscriber_or_subscribers) do
+    includes(performance_audit: :audit)
+    .where(performance_audits: { 
+      audits: { 
+        script_subscriber_id: script_subscriber_or_subscribers.is_a?(ActiveRecord::Relation) ? script_subscriber_or_subscribers.collect(&:id) : script_subscriber_or_subscribers.id 
+      }
+    })
+  end
+  scope :primary_audits, -> { includes(performance_audit: :audit).where(performance_audits: { audits: { primary: true }}) }
   scope :by_audit_type, -> (performance_audit_type) { includes(:performance_audit).where(performance_audits: { type: performance_audit_type} ) }
 
   validates_uniqueness_of :performance_audit_metric_type_id, scope: :performance_audit_id

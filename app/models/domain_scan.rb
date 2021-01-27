@@ -7,7 +7,7 @@ class DomainScan < ApplicationRecord
   scope :successful, -> { completed.where(error_message: nil ) }
 
   def self.most_recent
-    most_recent_first(:scan_enqueued_at).limit(1).first
+    most_recent_first(timestamp_column: :scan_enqueued_at).limit(1).first
   end
 
   def pending?

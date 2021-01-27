@@ -46,23 +46,23 @@
         <div class="row">
           <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
             <h4>TagSafe Score</h4>
-            <%= render partial: 'partials/progress_ring', locals: { score: @audit.delta_performance_audit.metric_result('TagSafeScore'), change_in_score: @audit.delta_performance_audit.change_in_metric('TagSafeScore') } %>
+            <%= render partial: 'partials/progress_ring', locals: { score: @audit.delta_performance_audit.tagsafe_score, change_in_score: @audit.delta_performance_audit.change_in_metric(:tagsafe_score) } %>
           </div>
         </div>
         <div class="row">
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber, 
             metric_title: 'DOM Complete',
-            impact_result: @audit.delta_performance_audit.metric_result('DOMComplete'),
-            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('DOMComplete'),
+            impact_result: @audit.delta_performance_audit.dom_complete,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:dom_complete),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber,
             metric_title: 'DOM Interactive',
-            impact_result: @audit.delta_performance_audit.metric_result('DOMInteractive'),
-            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('DOMInteractive'),
+            impact_result: @audit.delta_performance_audit.dom_interactive,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:dom_interactive),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -71,16 +71,16 @@
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber, 
             metric_title: 'First Contentful Paint',
-            impact_result: @audit.delta_performance_audit.metric_result('FirstContentfulPaint'),
-            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('FirstContentfulPaint'),
+            impact_result: @audit.delta_performance_audit.first_contentful_paint,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:first_contentful_paint),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber, 
             metric_title: 'Task Duration Time',
-            impact_result: @audit.delta_performance_audit.metric_result('TaskDuration'),
-            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('TaskDuration'),
+            impact_result: @audit.delta_performance_audit.task_duration,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:task_duration),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -89,16 +89,16 @@
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber, 
             metric_title: 'Script Duration',
-            impact_result: @audit.delta_performance_audit.metric_result('ScriptDuration'),
-            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('ScriptDuration'),
+            impact_result: @audit.delta_performance_audit.script_duration,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:script_duration),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
           <%= render partial: 'partials/performance_audit_metric_row', locals: {
             script_subscriber: @script_subscriber, 
             metric_title: 'Layout Duration',
-            impact_result: @audit.delta_performance_audit.metric_result('LayoutDuration'),
-            previous_impact_result: @audit.delta_performance_audit.previous_metric_result('LayoutDuration'),
+            impact_result: @audit.delta_performance_audit.layout_duration,
+            previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:layout_duration),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>

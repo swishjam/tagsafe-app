@@ -4,7 +4,7 @@
   <%= render partial: 'partials/script_subscribers_chart', locals: { 
     script_subscriber_ids: @script_subscriptions.collect(&:id),
     include_metric_select: true,
-    default_metric_type: PerformanceAuditMetricType.by_key('TagSafeScore').first
+    default_metric_type: :tagsafe_score
   } %>
 </div>
 
@@ -25,22 +25,29 @@
     </thead>
     <tbody>
       <% @script_subscriptions.each do |script_subscriber| %>
-        <tr>
-          <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
-          <% %w[DOMComplete DOMInteractive FirstContentfulPaint ScriptDuration LayoutDuration TaskDuration TagSafeScore].each do |metric| %>
-            <td scope="row"><%= script_subscriber.most_recent_audit&.delta_performance_audit&.metric_result(metric, include_units: true) %></td>
-          <% end %>
-          <td scope="row">
-            <div class="dropdown dropleft show ellipsis-dropdown">
-              <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <%= link_to 'View Tag Details', script_subscriber_path(script_subscriber), class: 'dropdown-item' %> 
+        <% most_recent_dpa = script_subscriber&.most_recent_audit&.delta_performance_audit %>
+        <% if most_recent_dpa %>
+          <tr>
+            <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
+            <td scope="row"><%= most_recent_dpa.dom_complete.round(2) %></td>
+            <td scope="row"><%= most_recent_dpa.dom_interactive.round(2) %></td>
+            <td scope="row"><%= most_recent_dpa.first_contentful_paint.round(2) %></td>
+            <td scope="row"><%= most_recent_dpa.script_duration.round(2) %></td>
+            <td scope="row"><%= most_recent_dpa.layout_duration.round(2) %></td>
+            <td scope="row"><%= most_recent_dpa.task_duration.round(2) %></td>
+            <td scope="row"><%= most_recent_dpa.tagsafe_score.round(2) %></td>
+            <td scope="row">
+              <div class="dropdown dropleft show ellipsis-dropdown">
+                <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <%= link_to 'View Tag Details', script_subscriber_path(script_subscriber), class: 'dropdown-item' %> 
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
