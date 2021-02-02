@@ -41,7 +41,7 @@ class PerformanceAudit < ApplicationRecord
 
   def previous_metric_result(metric_column)
     return nil if audit.previous_primary_audit.nil?
-    audit.previous_primary_audit.performance_audits.find_by(type: type)[metric_column].round(2)
+    audit.previous_primary_audit.performance_audits.find_by(type: type).send(metric_column).round(2)
   end
 
   def change_in_metric(metric_column)

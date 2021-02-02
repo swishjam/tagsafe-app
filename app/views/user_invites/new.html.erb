@@ -2,12 +2,23 @@
   <h5>Invite users to <%= current_organization.name %></h5>
   <%= form_for @user_invite do |f| %>
     <div class="form-group">
-      <%= f.text_field :email %>
+      <%= f.text_field :email, placeholder: 'Email' %>
     </div>
     <%= f.submit 'Invite', class: 'tag-safe-button' %>
   <% end %>
 </div>
 
-<% @organization_users.each do |ou| %>
-  <h5><%= ou.user.email %> <%= link_to 'X', organization_user_path(ou), method: :delete, data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
-<% end %>
+<div class='tag-safe-container' style='margin-top: 15px;'>
+  <% if @organization_users.any? %>
+    <% @organization_users.each do |ou| %>
+      <span class="badge badge-primary removable" style='font-size: 14px'>
+        <%= ou.user.email %> 
+        <%= link_to 'X', organization_user_path(ou), method: :delete, style: 'color: white;', data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
+      </span>
+    <% end %>
+  <% else %>
+    <div class='text-center'>
+      <span class='empty-message'>You are the only TagSafe user in <%= current_organization.name %>! Add teammates here.</span>
+    </div>
+  <% end %>
+</div>

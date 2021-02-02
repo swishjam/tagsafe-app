@@ -5,6 +5,10 @@ class ExecutionReason < ApplicationRecord
     ['Manual Execution', 'Scheduled Execution', 'Script Change', 'Test']
   end
 
+  def self.BILLABLE
+    [self.INITIAL_AUDIT, self.MANUAL, self.TAG_CHANGE, self.SCHEDULED, self.REACTIVATED_TAG]
+  end
+
   def self.INITIAL_AUDIT
     @initial_audit ||= find_by!(name: 'Initial Audit')
   end

@@ -16,7 +16,8 @@ class UserInvite < ApplicationRecord
     )
   end
 
-  def redeem!
+  def redeem!(new_user)
+    new_user.organizations << organization
     touch(:redeemed_at)
   end
 

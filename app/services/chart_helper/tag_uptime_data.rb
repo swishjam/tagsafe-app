@@ -17,7 +17,7 @@ module ChartHelper
     def script_check_data(script_subscriber)
       ScriptCheck.where(script_id: script_subscriber.script_id)
                   .collect{ |check| [check.created_at, check.response_time_ms] }
-                  # .newer_than(oldest_check_timestamp(script_subscriber))
+                  # .more_recent_than(oldest_check_timestamp(script_subscriber))
 
     end
 

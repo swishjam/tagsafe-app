@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
 
   resources :registrations, only: [:new, :create]
+  resources :organizations, only: [:new, :create]
   
   resources :organization_users, only: [:destroy]
   resources :user_invites, only: [:new, :create]
@@ -52,8 +53,6 @@ Rails.application.routes.draw do
       post '/enqueue_test_suite_for_script/:domain_id/:script_id' => 'test_subscribers#enqueue_test_suite_for_script', as: :enqueue_test_suite_for_script
     end
   end
-
-  get '/notification_preferences' => 'notification_preferences#index'
 
   namespace :admin do
     resources :script_images do

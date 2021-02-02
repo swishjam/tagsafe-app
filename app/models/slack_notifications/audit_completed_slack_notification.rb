@@ -31,12 +31,12 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
   end
 
   def add_metrics_to_block(audit, block)
-    add_metric_to_block(audit, block, 'DOMComplete', 'DOM Complete')
-    add_metric_to_block(audit, block, 'DOMInteractive', 'DOM Interactive')
-    add_metric_to_block(audit, block, 'FirstContentfulPaint', 'First Contentful Paint')
-    add_metric_to_block(audit, block, 'ScriptDuration', 'Script Duration')
-    add_metric_to_block(audit, block, 'LayoutDuration', 'Layout Duration')
-    add_metric_to_block(audit, block, 'TaskDuration', 'Task Duration')
+    add_metric_to_block(audit, block, :com_complete, 'DOM Complete')
+    add_metric_to_block(audit, block, :dom_interactive, 'DOM Interactive')
+    add_metric_to_block(audit, block, :first_contentful_paint, 'First Contentful Paint')
+    add_metric_to_block(audit, block, :script_duration, 'Script Duration')
+    add_metric_to_block(audit, block, :layout_duration, 'Layout Duration')
+    add_metric_to_block(audit, block, :task_duration, 'Task Duration')
   end
 
   def add_metric_to_block(audit, block, key, title)
@@ -44,8 +44,7 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
   end
 
   def performance_metric_fields(audit, title, metric_key)
-    metric = PerformanceAuditMetricType.find_by(key: metric_key)
-    impact = audit.delta_performance_audit.metric_result(metric_key)
+    impact = audit.delta_performance_audit.send(metric_key)
     difference = audit.delta_performance_audit.change_in_metric(metric_key)
     percent_difference = audit.delta_performance_audit.percent_change_in_metric(metric_key)
     impact_text = impact.positive? ? ":heavy_plus_sign: #{number_to_human(impact, units: { unit: 'ms', thousand: 'seconds' })}\n" : "No Impact\n"

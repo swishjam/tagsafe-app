@@ -50,7 +50,7 @@ class ScriptChange < ApplicationRecord
   end
 
   def is_most_recent_change?
-    !script.script_changes.newer_than(created_at).any?
+    !script.script_changes.more_recent_than(created_at).any?
   end
 
   def previous_change

@@ -25,7 +25,7 @@
   </div>
   <div class="row">
     <%= 
-      line_chart script_subscriber_chart_path(script_subscriber),
+      line_chart script_subscriber_chart_path(script_subscriber, start_time: chart_start_time, end_time: chart_end_time),
         download: true, 
         title: 'TagSafe Score',
         ytitle: 'TagSafe Score',

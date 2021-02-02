@@ -4,7 +4,7 @@ class UserInvitesController < ApplicationController
 
   def new
     @user_invite = UserInvite.new
-    @organization_users = OrganizationUser.where(organization_id: current_organization.id)
+    @organization_users = OrganizationUser.includes(:user).where(organization_id: current_organization.id).where.not(user_id: current_user.id)
   end
 
   def create
@@ -29,10 +29,9 @@ class UserInvitesController < ApplicationController
   def redeem
     invite = UserInvite.find_by(token: params[:token])
     if invite.reedemable?
-      params[:user][:organization_id] = invite.organization_id
       user = User.create(user_params)
       if user.valid?
-        invite.redeem!
+        invite.redeem!(user)
         display_toast_message("Invite accepted successfully. Welcome to TagSafe!")
         redirect_to scripts_path
       else
@@ -48,6 +47,6 @@ class UserInvitesController < ApplicationController
   private 
 
   def user_params
-    params.require(:user).permit(:email, :password, :organization_id)
+    params.require(:user).permit(:email, :password, :first_name, :last_name)
   end
 end

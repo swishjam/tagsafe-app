@@ -1,15 +1,24 @@
 class RegistrationsController < LoggedOutController
+  skip_before_action :verify_authenticity_token
+
   def new
-    @organization = Organization.new
+    @user = User.new
   end
 
   def create
-    Organization.create(organization_params)
+    user = User.new(user_params)
+    if user.save
+      log_user_in(user)
+      redirect_to new_organization_path
+    else
+      display_inline_errors(user.errors.full_messages)
+      redirect_to new_registration_path
+    end
   end
 
   private
 
-  def organization_params
-    params.require(:organization).permit(:name, users_attributes: [:email, :password_digest])
+  def user_params
+    params.require(:user).permit(:email, :first_name, :last_name, :password)
   end
 end

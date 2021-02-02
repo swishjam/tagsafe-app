@@ -3,7 +3,11 @@
   <h6 class="page-sub-title"><%= @script_subscriber.try_friendly_name %></h6>
 </div>
 
-<%= render partial: 'partials/script_subscriber_chart', locals: { script_subscriber: @script_subscriber } %>
+<%= render partial: 'partials/script_subscriber_chart', locals: { 
+  script_subscriber: @script_subscriber,
+  chart_start_time: @script_changes.first.created_at,
+  chart_end_time: params[:page] == '1' || nil ? Time.now : @script_changes.last.created_at
+} %>
 
 <div class="script-changes-container">
   <h5 class="text-center">Tag Change Log</h5>

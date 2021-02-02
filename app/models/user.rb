@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :tests
-  has_many :organization_users
+  has_many :organization_users, dependent: :destroy
   has_many :organizations, through: :organization_users
   has_and_belongs_to_many :roles
 

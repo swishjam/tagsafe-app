@@ -1,26 +1,23 @@
-<div class="col-md-4 offset-md-4 card login-card text-center">
+<div class="col-md-4 offset-md-4 card tag-safe-container text-center">
   <h3>Register</h3>
-  <%= form_for Organization.new, url: registrations_path do |f| %>
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
+  <%= form_for @user, url: registrations_path do |f| %>
+    <div class='form-group'>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
     </div>
-    <%= f.fields_for :domains do |ff| %>
-      <div class="form-group">
-        <%= ff.label :url %>
-        <%= ff.text_field :url %>
-      </div>
-    <% end %>
-    <%= f.fields_for :users do |ff| %>
-      <div class="form-group">
-        <%= ff.label :email %>
-        <%= ff.text_field :email %>
-      </div>
-      <div class="form-group">
-        <%= ff.label :password %>
-        <%= ff.password_field :password %>
-      </div>
-    <% end %>
-    <%= f.submit 'Register', class: 'tag-safe-button' %>
+    <div class='form-group'>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+    </div>
+    <div class='form-group'>
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </div>
+    <div class='form-group'>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+    <%= render partial: 'partials/inline_errors' %>
+    <%= f.submit 'Get Started', class: 'btn btn-outline-primary' %>
   <% end %>
 </div>

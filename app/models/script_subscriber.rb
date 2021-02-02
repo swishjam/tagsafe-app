@@ -71,7 +71,7 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def script_changes
-    script.script_changes.newer_than_or_equal_to(first_script_change.created_at).most_recent_first
+    script.script_changes.more_recent_than_or_equal_to(first_script_change.created_at).most_recent_first
   end
 
   def monitor_changes?
@@ -193,19 +193,19 @@ class ScriptSubscriber < ApplicationRecord
   ###################
 
   def average_response_time(days_ago: 7)
-    script.script_checks.newer_than(days_ago.days.ago).average(:response_time_ms)
+    script.script_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms)
   end
 
   def max_response_time(days_ago: 7)
-    script.script_checks.newer_than(days_ago.days.ago).maximum(:response_time_ms)
+    script.script_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
   end
 
   def failed_requests(days_ago: 7, successful_codes: [200, 204])
-    script.script_checks.newer_than(days_ago.days.ago).where.not(response_code: successful_codes).count
+    script.script_checks.more_recent_than(days_ago.days.ago).where.not(response_code: successful_codes).count
   end
 
   def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    failed_requests(days_ago: days_ago, successful_codes: successful_codes) / script.script_checks.newer_than(days_ago.days.ago).count
+    failed_requests(days_ago: days_ago, successful_codes: successful_codes) / script.script_checks.more_recent_than(days_ago.days.ago).count
   end
 
   ###########

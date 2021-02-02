@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     @current_organization ||= session[:current_organization_id] ? Organization.find(session[:current_organization_id]) : current_user && current_user.organizations.first
   end
 
+  def log_user_in(user)
+    session[:user_id] = user.id
+  end
+
   def permitted_to_view?(*models, raise_error: false)
     models.each do |model|
       case model.class.to_s
@@ -45,30 +49,27 @@ class ApplicationController < ActionController::Base
     redirect_to scripts_path
   end
 
-  def authorize!
-    if current_user.nil?
-      display_toast_error("Please login.")
-      session[:redirect_url] = request.original_url
-      redirect_to login_path 
-    end
+  def display_toast_message(message)
+    display_toast_messages([message])
   end
 
-  def ensure_logged_out
-    redirect_to scripts_path unless current_user.nil?
-  end
-
-  def display_toast_message(*messages)
+  def display_toast_messages(messages)
     flash[:toast_messages] = messages
   end
-  alias display_toast_messages display_toast_message
 
-  def display_toast_error(*messages)
+  def display_toast_error(message)
+    display_toast_errors([message])
+  end
+
+  def display_toast_errors(messages)
     flash[:toast_errors] = messages
   end
-  alias display_toast_errors display_toast_error
 
-  def display_inline_errors(*messages)
+  def display_inline_error(message)
+    display_inline_errors([message])
+  end
+
+  def display_inline_errors(messages)
     flash[:inline_errors] = messages
   end
-  alias display_inline_error display_inline_errors
 end

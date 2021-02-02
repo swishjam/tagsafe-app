@@ -1,6 +1,6 @@
 module ChartHelper
   class ScriptSubscribersData
-    def initialize(script_subscribers:, start_time:, metric_key:)
+    def initialize(script_subscribers:, start_time:, end_time:, metric_key:)
       @script_subscribers = script_subscribers
       @start_time = start_time
       @metric_key = metric_key

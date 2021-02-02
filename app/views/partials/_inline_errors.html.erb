@@ -1,0 +1,7 @@
+<% if flash[:inline_errors] %>
+  <% flash[:inline_errors].each do |err| %>
+    <div class="error-container">
+      <%= err %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,5 +1,5 @@
 class Organization < ApplicationRecord
-  has_many :organization_users
+  has_many :organization_users, dependent: :destroy
   has_many :users, through: :organization_users
   has_many :domains, dependent: :destroy
   has_many :created_tests, class_name: 'Test'
@@ -12,7 +12,7 @@ class Organization < ApplicationRecord
 
   after_create :add_default_linting_rules
 
-  accepts_nested_attributes_for :domains, :organization_users
+  accepts_nested_attributes_for :domains
 
   def has_multiple_domains?
     domains.count > 1
@@ -26,6 +26,12 @@ class Organization < ApplicationRecord
     if ou = organization_users.find_by(user_id: user.id)
       ou.destroy!
     end
+  end
+
+  def number_of_billed_audits(start_time: Time.now.beginning_of_month, end_time: Time.now.end_of_month)
+    Audit.joins(:script_subscriber).where(created_at: start_time..end_time, 
+                                          execution_reason: ExecutionReason.BILLABLE, 
+                                          script_subscribers: { domain_id: domains.collect(&:id) }).count
   end
 
   def add_default_linting_rules

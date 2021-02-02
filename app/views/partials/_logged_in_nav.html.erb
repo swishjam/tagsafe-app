@@ -25,8 +25,7 @@
         { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
         { path: performance_path, text: 'Performance', icon_class: 'fas fa-running' },
         { path: script_subscribers_path, text: "Manage Scripts", icon_class: "fas fa-tasks" },
-        { path: notification_preferences_path, text: "Manage Notifications", icon_class: "fas fa-paper-plane" },
-        { path: new_user_invite_path, text: "Manage Users", icon_class: "fas fa-users" },
+        { path: new_user_invite_path, text: "Team Management", icon_class: "fas fa-users" },
         { path: settings_tags_path, text: 'Settings', icon_class: 'fas fa-cogs', partial_match: '/settings/' }
       ]
     %>
@@ -39,7 +38,9 @@
       </li>
     <% end %>
   </ul>
-  <div class="logout-link-container">
-    <a class="logout-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  <ul class="logout-link-container">
+    <li class='nav-item'>
+      <a class="nav-link logout-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </li>
   </div>
 </div>

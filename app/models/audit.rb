@@ -120,6 +120,6 @@ class Audit < ApplicationRecord
   memoize :previous_primary_audit
 
   def result_metric_percent_impact(metric_key)
-    ((delta_performance_audit.metric_result(metric_key)/performance_audit_with_tag.metric_result(metric_key))*100).round(2)
+    ((delta_performance_audit.send(metric_key)/performance_audit_with_tag.send(metric_key))*100).round(2)
   end
 end

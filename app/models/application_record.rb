@@ -4,8 +4,8 @@ class ApplicationRecord < ActiveRecord::Base
   scope :older_than, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} < ?", timestamp).order('created_at DESC') }
   scope :older_than_or_equal_to, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} <= ?", timestamp).order('created_at DESC') }
  
-  scope :newer_than, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} > ?", timestamp).order('created_at DESC') }
-  scope :newer_than_or_equal_to, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} >= ?", timestamp).order('created_at DESC') }
+  scope :more_recent_than, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} > ?", timestamp).order('created_at DESC') }
+  scope :more_recent_than_or_equal_to, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} >= ?", timestamp).order('created_at DESC') }
 
   scope :most_recent_first, -> (timestamp_column: :created_at) { order("#{timestamp_column} DESC") }
   scope :most_recent_last, -> (timestamp_column: :created_at) { order("#{timestamp_column} ASC") }

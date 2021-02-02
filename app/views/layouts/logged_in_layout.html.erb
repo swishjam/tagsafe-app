@@ -26,7 +26,9 @@
   <body class="logged-in <%=controller_name%>">
     <div class="container-fluid">
       <%= render partial: 'partials/toasts' %>
-      <%= render partial: 'partials/logged_in_nav' %>
+      <% unless @hide_navigation %>
+        <%= render partial: 'partials/logged_in_nav' %>
+      <% end %>
       <div id="content">
         <%= render partial: 'partials/breadcrumbs' %>
         <div id="inner-content" class="col-12">
