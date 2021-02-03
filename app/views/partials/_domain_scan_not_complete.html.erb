@@ -39,7 +39,7 @@
           <option class='dropdown-item' value='http://'>http://</option>
         </select>
       </div>
-      <input type="text" class="form-control" name="domain[url]" value="<%= current_domain.url.gsub(/https?:\/\//, "")) %>">
+      <input type="text" class="form-control" name="domain[url]" value="<%= current_domain.url.gsub(/https?:\/\//, "") %>">
     </div>
     <%= f.submit 'Enter Your Domain to Monitor', class: 'btn btn-outline-primary' %>
   <% end %>
