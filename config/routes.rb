@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get '/uptime' => 'script_checks#index'
   get '/performance' => 'performance#index'
 
-  resources :domains, only: :create
+  resources :domains, only: [:create, :update]
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :script_subscribers, only: [:index, :show, :edit, :update] do

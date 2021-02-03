@@ -12,7 +12,6 @@ class DomainsController < ApplicationController
   end
 
   def update
-    params[:domain][:organization_id] = current_organization.id
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
     domain = Domain.find(params[:id])
     if domain.update(domain_params)
