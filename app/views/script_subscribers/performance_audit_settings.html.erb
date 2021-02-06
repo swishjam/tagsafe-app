@@ -28,15 +28,19 @@
       </span>
     </h6>
     <%= form_for ScriptSubscriberAllowedPerformanceAuditTag.new, url: script_subscriber_script_subscriber_allowed_performance_audit_tags_path(@script_subscriber) do |f| %>
-      <%= f.hidden_field :performance_audit_script_subscriber_id, value: @script_subscriber.id %>
+      <%
+=begin%>
+ <%= f.hidden_field :performance_audit_script_subscriber_id, value: @script_subscriber.id %> 
+<%
+=end%>
       <%= f.label :allowed_tag %>
-      <%= f.select :allowed_script_subscriber_id, options_from_collection_for_select(@selectable_allowed_third_party_tags, :id, :try_friendly_name, 'Allowed Tag'), {}, { 'class' => 'selectpicker', 'data-live-search' => "true" } %>
+      <%= f.text_field :url_pattern %>
       <%= f.submit 'Add Allowed Tag', class: 'tag-safe-button' %>
     <% end %>
     <ul class="list-group">
       <% @script_subscriber.allowed_performance_audit_tags.each do |allowed| %>
         <li class="list-group-item">
-          <span class="allowed-script-subscriber-name"><%= allowed.allowed_script_subscriber.try_friendly_name %></span>
+          <span class="allowed-script-subscriber-name"><%= allowed.url_pattern %></span>
           <span class="delete-allowed-script-subscriber" style="float: right;"><%= button_to 'X', script_subscriber_script_subscriber_allowed_performance_audit_tag_path(@script_subscriber, allowed), method: :delete %></span>
         </li>
       <% end %>

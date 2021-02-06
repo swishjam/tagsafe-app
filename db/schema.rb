@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_27_034205) do
+ActiveRecord::Schema.define(version: 2021_02_04_175745) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -182,8 +182,8 @@ ActiveRecord::Schema.define(version: 2021_01_27_034205) do
   end
 
   create_table "script_subscriber_allowed_performance_audit_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "performance_audit_script_subscriber_id"
-    t.integer "allowed_script_subscriber_id"
+    t.integer "script_subscriber_id"
+    t.string "url_pattern"
   end
 
   create_table "script_subscriber_lint_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

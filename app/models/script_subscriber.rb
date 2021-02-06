@@ -7,7 +7,7 @@ class ScriptSubscriber < ApplicationRecord
   belongs_to :domain
   belongs_to :script
   belongs_to :first_script_change, class_name: 'ScriptChange'
-  has_many :allowed_performance_audit_tags, class_name: 'ScriptSubscriberAllowedPerformanceAuditTag', foreign_key: :performance_audit_script_subscriber_id
+  has_many :allowed_performance_audit_tags, class_name: 'ScriptSubscriberAllowedPerformanceAuditTag'
   has_many :script_subscriber_lint_results
   has_many :lint_results, through: :script_subscriber_lint_results
 
@@ -114,10 +114,6 @@ class ScriptSubscriber < ApplicationRecord
 
   def allow_tag_on_performance_audits!(script_subscriber)
     allowed_performance_audit_tags.create(allowed_script_subscriber: script_subscriber)
-  end
-
-  def performance_audit_allowed_third_party_tag_urls
-    allowed_performance_audit_tags.collect{ |ss| ss.allowed_script_subscriber.script.url }
   end
 
   def should_retry_audits_on_errors?(num_attempts)

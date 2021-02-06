@@ -21,7 +21,7 @@ class AuditRunner
       audit_url: @script_subscriber.performance_audit_preferences.url_to_audit,
       num_test_iterations: @script_subscriber.performance_audit_preferences.num_test_iterations,
       # third_party_tag_to_audit: @script_subscriber.script.url,
-      third_party_tags_to_allow: allowed_third_party_tags,
+      third_party_tag_url_patterns_to_allow: allowed_third_party_tags,
       third_party_tags_to_overwrite: [{ request_url: @script_subscriber.script.url, overwrite_url: @script_change.google_cloud_js_file_url }],
       num_attempts: @num_attempts
     )
@@ -54,6 +54,6 @@ class AuditRunner
   end
 
   def allowed_third_party_tags
-    @script_subscriber.domain.allowed_third_party_tag_urls.concat(@script_subscriber.performance_audit_allowed_third_party_tag_urls)
+    @script_subscriber.domain.allowed_third_party_tag_urls.concat(@script_subscriber.allowed_performance_audit_tags.collect(&:url_pattern))
   end
 end
