@@ -7,7 +7,7 @@ class Script < ApplicationRecord
   has_many :script_changes, -> { order('created_at DESC') }, dependent: :destroy
   has_many :script_checks, dependent: :destroy
   
-  has_many :script_change_notification_subscribers, through: :script_subscribers
+  has_many :script_change_email_subscribers, through: :script_subscribers
   has_many :test_failed_notification_subscribers, through: :script_subscribers
   has_many :audit_complete_notification_subscribers, through: :script_subscribers
 

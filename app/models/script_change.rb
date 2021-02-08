@@ -69,11 +69,11 @@ class ScriptChange < ApplicationRecord
   end
 
   def notify_script_change!
-    script_change.script.script_change_notification_subscribers.should_receive_notifications.each do |change_subscriber|
-      change_subscriber.send_email!(script_change)
+    script.script_change_email_subscribers.should_receive_notifications.each do |email_subscriber|
+      email_subscriber.send_email!(self) unless email_subscriber.script_subscriber.first_script_change == self
     end
-    script_change.script.script_changed_slack_notifications.should_receive_notifications.each do |slack_notification|
-      slack_notification.notify!(script_change)
+    script.script_changed_slack_notifications.should_receive_notifications.each do |slack_notification|
+      slack_notification.notify!(self) unless slack_notification.script_subscriber.first_script_change == self
     end
   end
 

@@ -1,4 +1,4 @@
-class ScriptChangeNotificationSubscriber < EmailNotificationSubscriber
+class ScriptChangeEmailSubscriber < EmailNotificationSubscriber
   def self.friendly_name
     'script changed'
   end
