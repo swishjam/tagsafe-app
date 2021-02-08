@@ -70,7 +70,7 @@ Rails.application.routes.draw do
 
   get '/settings/tags' => 'settings#tags'
   get '/settings/linting_rules' => 'settings#linting_rules'
-  # get '/settings/integrations/slack' => 'slack_settings#index'
+  get '/settings/volatility' => 'settings#volatility'
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do

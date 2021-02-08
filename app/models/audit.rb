@@ -34,6 +34,9 @@ class Audit < ApplicationRecord
   scope :pending_completion, -> { where(test_suite_completed_at: nil).or(where(performance_audit_completed_at: nil)) }
   scope :completed, -> { where.not(test_suite_completed_at: nil, performance_audit_completed_at: nil) }
 
+  scope :throttled, -> { where(throttled: true) }
+  scope :not_throttled, -> { where(throttled: false) }
+
   def completed_performance_audit!
     touch(:performance_audit_completed_at)
     check_after_completion

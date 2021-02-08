@@ -2,7 +2,8 @@
   <% 
     nav_items = [
       { path: settings_tags_path, text: 'Tag Management' },
-      { path: settings_linting_rules_path, text: 'JS Linting Rules' }
+      { path: settings_linting_rules_path, text: 'JS Linting Rules' },
+      { path: settings_volatility_path, text: 'Tag Volatility' }
     ].each do |nav| 
   %>
     <% klass = request.path == nav[:path] ? 'current sub-nav-link' : 'sub-nav-link' %>

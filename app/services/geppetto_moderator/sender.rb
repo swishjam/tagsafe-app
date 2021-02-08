@@ -7,10 +7,8 @@ class GeppettoModerator::Sender
 
   def send!
     Rails.logger.info "Sending Geppetto Request to #{@endpoint} with #{merged_request_options}"
-    Resque.logger.info "Sending Geppetto Request to #{@endpoint} with #{merged_request_options}"
     response = send_geppetto_request
     Rails.logger.info "Result: #{response.code} - #{response.response.body}"
-    Resque.logger.info "Result: #{response.code} - #{response.response.body}"
   end
 
   private
@@ -19,7 +17,6 @@ class GeppettoModerator::Sender
     HTTParty.post(@endpoint, merged_request_options)
   rescue => e
     Rails.logger.error "Could not connect to Geppetto Service. #{e}"
-    Resque.logger.error "Could not connect to Geppetto Service. #{e}"
     err = Struct.new(:code, :response)
     resp = Struct.new(:body)
     err.new(500, resp.new("An error occurred: #{e}"))

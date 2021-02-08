@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_175745) do
+ActiveRecord::Schema.define(version: 2021_02_06_203758) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_175745) do
     t.timestamp "created_at"
     t.text "performance_audit_error_message"
     t.boolean "is_baseline"
+    t.boolean "throttled", default: false
   end
 
   create_table "domain_scans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -203,6 +204,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_175745) do
     t.timestamp "created_at"
     t.integer "first_script_change_id"
     t.boolean "should_run_audit"
+    t.integer "throttle_minute_threshold"
     t.index ["domain_id"], name: "index_script_subscribers_on_domain_id"
     t.index ["script_id"], name: "index_script_subscribers_on_script_id"
   end

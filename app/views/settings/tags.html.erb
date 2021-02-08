@@ -9,10 +9,17 @@
       <h4><%= current_domain.url %> Tags</h4>
 
       <table class="table table-hover col-12" style="table-layout: fixed">
+        <thead>
+          <tr>
+            <th scope="col" style='width: 75%'>Tag</th>
+            <th scope="col" style='width: 15%'>Changes / Day (volatility)</th>
+            <th scope="col" style='width: 10%'></th>
+          </tr>
+        </thead>
         <tbody>
           <% @script_subscriptions.each do |script_subscription| %>
             <tr class="<%= script_subscription.removed_from_site? ? 'removed-from-site' : nil %>">
-              <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 90%;'>
+              <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 75%;'>
                 <% if script_subscription.removed_from_site? %>
                   <span data-toggle="tooltip"
                         data-placement="top"
@@ -26,6 +33,9 @@
                     <%= script_subscription.script.url %> <b><%= script_subscription.friendly_name ? "(#{script_subscription.friendly_name})" : nil %></b>
                   </span>
                 <% end %>
+              </td>
+              <td style="width: 15%">
+                <%= script_subscription.tag_changes_per_day %>
               </td>
               <td style="width: 10%">
                 <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">

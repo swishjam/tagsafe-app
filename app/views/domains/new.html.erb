@@ -3,7 +3,7 @@
   <%= form_for @domain do |f| %>
     <div class="form-group row">
       <%= f.text_field :url, class: "form-control form-control-lg col-12 col-sm-10", placeholder: 'Domain To Monitor' %>
-      <%= f.submit 'Monitor', class: 'form-control-lg col-10 col-offset-1 col-sm-2 tag-safe-button' %>
+      <%= f.submit 'Monitor', class: 'form-control-lg col-10 col-offset-1 col-sm-2 btn btn-outline-primary' %>
     </div>
   <% end %>
   <% if flash[:local_error] %>

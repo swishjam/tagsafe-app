@@ -67,6 +67,6 @@ class ScriptSubscribersController < LoggedInController
   private
 
   def script_subscriber_params
-    params.require(:script_subscriber).permit(:friendly_name, :monitor_changes, :is_third_party_tag, :allowed_third_party_tag, :should_run_audit, :image)
+    params.require(:script_subscriber).permit(:friendly_name, :throttle_minute_threshold, :monitor_changes, :is_third_party_tag, :allowed_third_party_tag, :should_run_audit, :image)
   end
 end

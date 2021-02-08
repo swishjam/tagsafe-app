@@ -12,11 +12,19 @@
         <%= f.text_field :url_to_audit, value: @script_subscriber.performance_audit_preferences.url_to_audit, class: "form-control form-control-lg" %>
       </div>
       <div class="form-group">
+        <%= f.label :throttle_minute_threshold %>
+        <%= f.text_field :throttle_minute_threshold, value: @script_subscriber.throttle_minute_threshold, placeholder: 'Change audit throttle minutes' %>
+      </div>
+      <%      
+=begin%>
+ <div class="form-group">
         <%= f.label :num_test_iterations %>
         <%= f.number_field :num_test_iterations, value: @script_subscriber.performance_audit_preferences.num_test_iterations, class: "form-control form-control-lg col-4 offset-4" %>
-      </div>
+      </div> 
+<%
+=end%>
       <div class="form-group">
-        <%= f.submit "Update Performance Audit Settings", class: 'tag-safe-button' %>
+        <%= f.submit "Update Performance Audit Settings", class: 'btn btn-outline-primary' %>
       </div>
     <% end %>
     <h6>
@@ -33,9 +41,8 @@
  <%= f.hidden_field :performance_audit_script_subscriber_id, value: @script_subscriber.id %> 
 <%
 =end%>
-      <%= f.label :allowed_tag %>
-      <%= f.text_field :url_pattern %>
-      <%= f.submit 'Add Allowed Tag', class: 'tag-safe-button' %>
+      <%= f.text_field :url_pattern, placeholder: 'URL Pattern' %>
+      <%= f.submit 'Add Allowed Tag', class: 'btn btn-outline-primary' %>
     <% end %>
     <ul class="list-group">
       <% @script_subscriber.allowed_performance_audit_tags.each do |allowed| %>

@@ -66,7 +66,15 @@ class ScriptChange < ApplicationRecord
     JsLinter::Evaluator.new(self).evaluate! if !lint_results.any? || force
   rescue => e
     Rails.logger.error "Error encountered in lint: #{e}"
-    Resque.logger.error "Erro encountered in lint: #{e}"
+  end
+
+  def notify_script_change!
+    script_change.script.script_change_notification_subscribers.should_receive_notifications.each do |change_subscriber|
+      change_subscriber.send_email!(script_change)
+    end
+    script_change.script.script_changed_slack_notifications.should_receive_notifications.each do |slack_notification|
+      slack_notification.notify!(script_change)
+    end
   end
 
   def set_script_content_changed_at_timestamp

@@ -172,6 +172,26 @@ class ScriptSubscriber < ApplicationRecord
     ).run!
   end
 
+  ################
+  ## THROTTLING ##
+  ################
+
+  def tag_changes_per_day
+    (script_changes.count / ((Time.now - first_script_change.created_at) / 86_400)).round(2)
+  end
+
+  def should_throttle_audit?(script_change)
+    throttler.should_throttle?(script_change)
+  end
+
+  def throttle_audit!(script_change)
+    throttler.throttle!(script_change)
+  end
+
+  def throttler
+    @throttler ||= AuditThrottler::Evaluator.new(script_subscriber)
+  end
+
   ###########
   ## LINTS ##
   ###########

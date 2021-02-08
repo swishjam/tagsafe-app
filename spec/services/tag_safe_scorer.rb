@@ -4,7 +4,6 @@ RSpec.describe TagSafeScorer do
   before(:each) do
     stub_geppetto_communication
     create_execution_reasons
-    create_performance_audit_metric_types
     script = create(:script)
     domain = create(:domain)
     script_change = create(:script_change, script: script, bytes: 100_000)

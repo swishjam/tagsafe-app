@@ -33,7 +33,7 @@ module ChartHelper
 
     def script_subscribers_primary_delta_performance_audits
       @performance_audits ||= DeltaPerformanceAudit.includes(audit: :script_change)
-                              .where(audits: { script_subscriber_id: @script_subscriber.id, primary: true })
+                              .where(audits: { script_subscriber_id: @script_subscriber.id, primary: true, throttled: false })
     end
   end
 end
