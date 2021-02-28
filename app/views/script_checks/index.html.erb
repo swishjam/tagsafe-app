@@ -36,8 +36,8 @@
       <% @script_subscriptions.each do |script_subscriber| %>
         <tr>
           <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
-          <td><%= script_subscriber.average_response_time(days_ago: @days_ago).round(2) %> ms</td>
-          <td><%= script_subscriber.max_response_time(days_ago: @days_ago).round(2) %> ms</td>
+          <td><%= number_to_human(script_subscriber.average_response_time(days_ago: @days_ago), units: { unit: 'ms', thousand: 'seconds' }) %></td>
+          <td><%= number_to_human(script_subscriber.max_response_time(days_ago: @days_ago), units: { unit: 'ms', thousand: 'seconds' }) %></td>
           <td><%= script_subscriber.failed_requests(days_ago: @days_ago) %></td>
           <td><%= script_subscriber.fail_rate(days_ago: @days_ago) %>%</td>
           <td>

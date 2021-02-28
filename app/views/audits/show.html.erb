@@ -55,6 +55,7 @@
             metric_title: 'DOM Complete',
             impact_result: @audit.delta_performance_audit.dom_complete,
             previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:dom_complete),
+            score_impact: @audit.delta_performance_audit.score_impact(:dom_complete),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -63,6 +64,7 @@
             metric_title: 'DOM Interactive',
             impact_result: @audit.delta_performance_audit.dom_interactive,
             previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:dom_interactive),
+            score_impact: @audit.delta_performance_audit.score_impact(:dom_interactive),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -73,6 +75,7 @@
             metric_title: 'First Contentful Paint',
             impact_result: @audit.delta_performance_audit.first_contentful_paint,
             previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:first_contentful_paint),
+            score_impact: @audit.delta_performance_audit.score_impact(:first_contentful_paint),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -81,6 +84,7 @@
             metric_title: 'Task Duration Time',
             impact_result: @audit.delta_performance_audit.task_duration,
             previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:task_duration),
+            score_impact: @audit.delta_performance_audit.score_impact(:task_duration),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -91,6 +95,7 @@
             metric_title: 'Script Duration',
             impact_result: @audit.delta_performance_audit.script_duration,
             previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:script_duration),
+            score_impact: @audit.delta_performance_audit.score_impact(:script_duration),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>
@@ -99,6 +104,7 @@
             metric_title: 'Layout Duration',
             impact_result: @audit.delta_performance_audit.layout_duration,
             previous_impact_result: @audit.delta_performance_audit.previous_metric_result(:layout_duration),
+            score_impact: @audit.delta_performance_audit.score_impact(:layout_duration),
             unit: 'ms',
             previous_timestamp: @previous_audit ? @previous_audit.performance_audit_enqueued_at : nil
           } %>

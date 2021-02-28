@@ -9,7 +9,7 @@ class ScriptChangedJob < ApplicationJob
       if script_subscriber.should_throttle_audit?(script_change)
         script_subscriber.throttle_audit!(script_change)
       else
-        script_change.lint!(script_subscriber)
+        # script_change.lint!(script_subscriber)
         script_subscriber.run_audit!(script_change, script_change.first_change? ? ExecutionReason.INITIAL_AUDIT : ExecutionReason.TAG_CHANGE)
       end
     end

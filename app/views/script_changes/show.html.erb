@@ -1,19 +1,37 @@
 <style><%= Diffy::CSS %></style>
 <div class="row git-diff-container">
-  <div class="col-6">
-    <div style="word-break: break-all; margin: 15px; border-radius: 15px; border: 1px solid grey; background: white; padding: 15px;">
-      <h6 class="text-center"><%= @script_change.created_at.formatted %></h6>
-      <%= @git_diff_script_change %>
+  <div class='tag-changes-container col-12'>
+    <div class='tag-details-tab col-12'>
+      <div class='row'>
+        <div class='col-8'>
+          <span><%= @script_subscriber.script.url %></span>
+        </div>
+        <div class='col-4 text-right'>
+          <span><%= @script_change.version %></span>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="col-6">
-    <div style="word-break: break-all; margin: 15px; border-radius: 15px; border: 1px solid grey; background: white; padding: 15px;">
-      <% if @previous_script_change.nil? %>
-        <h6 class="text-center">This was the first time the tag has been captured by TagSafe. No previous changes to compare to.</h6>
-      <% else %>
-        <h6 class="text-center"><%= @previous_script_change.created_at.formatted %></h6>
-        <%= @git_diff_previous_script_change %>
-      <% end %>
+    <div class='tag-change-content col-12'>
+      <div class='top-of-content col-12'>
+        <span class='show-all' data-toggle="tooltip" data-placement="top" title="Show all content of the JS."><i class="fas fa-expand-alt"></i></span>
+        <span class='show-less hidden' data-toggle="tooltip" data-placement="top" title="Show only JS content that changed."><i class="fas fa-compress-alt"></i></span>
+      </div>
+      <div class='row'>
+        <div class="col-6 new-content content">
+          <%= @git_diff_script_change %>
+        </div>
+        <div class="col-6 previous-content content">
+          <% if @previous_script_change.nil? %>
+            <h6 class="text-center">This was the first time the tag has been captured by TagSafe. No previous changes to compare to.</h6>
+          <% else %>
+            <%= @git_diff_previous_script_change %>
+          <% end %>
+        </div>
+      </div>
+      <div class='bottom-of-content col-12'>
+        <span class='show-all' data-toggle="tooltip" data-placement="top" title="Show all content of the JS."><i class="fas fa-expand-alt"></i></span>
+        <span class='show-less hidden' data-toggle="tooltip" data-placement="top" title="Show only JS content that changed."><i class="fas fa-compress-alt"></i></span>
+      </div>
     </div>
   </div>
 </div>

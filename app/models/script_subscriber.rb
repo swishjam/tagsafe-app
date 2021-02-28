@@ -17,7 +17,7 @@ class ScriptSubscriber < ApplicationRecord
   has_many :audit_completed_slack_notifications
 
   has_many :email_notification_subscribers, dependent: :destroy
-  has_many :script_change_email_subscribers, class_name: 'ScriptChangeNotificationSubscriber'
+  has_many :script_change_email_subscribers, class_name: 'ScriptChangeEmailSubscriber'
   has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber'
 
@@ -65,7 +65,7 @@ class ScriptSubscriber < ApplicationRecord
 
   def after_update
     # if became active
-    if saved_changes['active'] && saved_changes['active'][0] == false && saved_changes['active'][1] == true
+    if saved_changes['should_run_audit'] && saved_changes['should_run_audit'][0] == false && saved_changes['should_run_audit'][1] == true
       AfterScriptSubscriberActivationJob.perform_later(self)
     end
   end

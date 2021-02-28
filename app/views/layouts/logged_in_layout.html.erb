@@ -29,7 +29,7 @@
       <% unless @hide_navigation %>
         <%= render partial: 'partials/logged_in_nav' %>
       <% end %>
-      <div id="content">
+      <div id="content" class="<%= @hide_navigation ? 'full-width' : 'with-navigation' %>">
         <%= render partial: 'partials/breadcrumbs' %>
         <div id="inner-content" class="col-12">
           <%= yield %>

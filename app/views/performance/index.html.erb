@@ -29,12 +29,12 @@
         <% if most_recent_dpa %>
           <tr>
             <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
-            <td scope="row"><%= most_recent_dpa.dom_complete.round(2) %></td>
-            <td scope="row"><%= most_recent_dpa.dom_interactive.round(2) %></td>
-            <td scope="row"><%= most_recent_dpa.first_contentful_paint.round(2) %></td>
-            <td scope="row"><%= most_recent_dpa.script_duration.round(2) %></td>
-            <td scope="row"><%= most_recent_dpa.layout_duration.round(2) %></td>
-            <td scope="row"><%= most_recent_dpa.task_duration.round(2) %></td>
+            <td scope="row"><%= number_to_human(most_recent_dpa.dom_complete, units: { unit: 'ms', thousand: 'seconds' }) %></td>
+            <td scope="row"><%= number_to_human(most_recent_dpa.dom_interactive, units: { unit: 'ms', thousand: 'seconds' }) %></td>
+            <td scope="row"><%= number_to_human(most_recent_dpa.first_contentful_paint, units: { unit: 'ms', thousand: 'seconds' }) %></td>
+            <td scope="row"><%= number_to_human(most_recent_dpa.script_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
+            <td scope="row"><%= number_to_human(most_recent_dpa.layout_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
+            <td scope="row"><%= number_to_human(most_recent_dpa.task_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= most_recent_dpa.tagsafe_score.round(2) %></td>
             <td scope="row">
               <div class="dropdown dropleft show ellipsis-dropdown">

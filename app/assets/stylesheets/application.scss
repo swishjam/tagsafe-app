@@ -17,14 +17,8 @@
 @import "font-awesome";
 @import "*";
 
-// // Small devices (landscape phones, 576px and up)
-// @media (min-width: 576px) { ... }
-// // Medium devices (tablets, 768px and up)
-// @media (min-width: 768px) { ... }
-// // Large devices (desktops, 992px and up)
-// @media (min-width: 992px) { ... }
-// // Extra large devices (large desktops, 1200px and up)
-// @media (min-width: 1200px) { ... }
+// $brand-blue: #95d1ff;
+
 .tag-safe-font {
   font-family: 'Open Sans Condensed', sans-serif;
 }
@@ -34,6 +28,16 @@ body.logged-in {
     margin: 0;
     background-color: #eeeeee;
     min-height: 100vh;
+    &:not(.full-width) {
+      width: 85%;
+      float: right;
+    }
+    // &.full-width {
+    //   width: 100%
+    // }
+    #inner-content {
+      padding: 30px 15px 30px 15px;
+    }
   }
   .breadcrumb {
     background: white;
@@ -67,13 +71,6 @@ body.logged-in {
           color: black;
         }
       }
-    }
-  }
-  #content {
-    width: 85%;
-    float: right;
-    #inner-content {
-      padding: 30px 15px 30px 15px;
     }
   }
 }
@@ -175,43 +172,3 @@ ul.pagination {
     background: rgb(248, 138, 138);
   }
 }
-
-////////////////
-// SVG CIRCLE //
-////////////////
-
-
-// #svg circle {
-//   stroke-dashoffset: 0;
-//   transition: stroke-dashoffset 1s linear;
-//   stroke: #666;
-//   stroke-width: 1em;
-// }
-// #svg #bar {
-//   stroke: #FF9F1E;
-// }
-// #cont {
-//   display: block;
-//   height: 200px;
-//   width: 200px;
-//   margin: 2em auto;
-//   box-shadow: 0 0 1em black;
-//   border-radius: 100%;
-//   position: relative;
-// }
-// #cont:after {
-//   position: absolute;
-//   display: block;
-//   height: 160px;
-//   width: 160px;
-//   left: 50%;
-//   top: 50%;
-//   box-shadow: inset 0 0 1em black;
-//   content: attr(data-pct)"%";
-//   margin-top: -80px;
-//   margin-left: -80px;
-//   border-radius: 100%;
-//   line-height: 160px;
-//   font-size: 2em;
-//   text-shadow: 0 0 0.5em black;
-// }

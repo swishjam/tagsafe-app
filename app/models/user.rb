@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :roles
 
   has_many :notification_subscriptions, class_name: 'NotificationSubscriber'
-  has_many :script_change_notification_subscriptions, class_name: 'ScriptChangeNotificationSubscriber'
+  has_many :script_change_notification_subscriptions, class_name: 'ScriptChangeEmailSubscriber'
   has_many :test_failed_notification_subscriptions, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscriptions, class_name: 'AuditCompleteNotificationSubscriber'
 

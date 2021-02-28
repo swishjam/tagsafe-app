@@ -59,7 +59,7 @@
         <div class="row row-no-side-margins">
           <% group.each do |script_subscription| %>
             <div class="col-sm-12 col-md-6 col-lg-4 tag-safe-card-container">
-              <div class="card tag-safe-card script-subscription <%= script_subscription.removed_from_site? ? 'removed-from-site' : nil %>">
+              <div class="card tag-safe-card script-subscription <%= script_subscription.removed_from_site? || script_subscription.should_not_run_audit? ? 'removed-from-site' : nil %>">
                 <div class="dropdown show ellipsis-dropdown text-right">
                   <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-h"></i>

@@ -7,12 +7,14 @@ class ScriptChangesController < LoggedInController
     permitted_to_view?(@script_change)
     @previous_script_change = @script_change.previous_change
     @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
+    @hide_navigation = true
 
     diff = Diffy::SplitDiff.new(
       @previous_script_change&.content&.force_encoding('UTF-8'), 
       @script_change.content.force_encoding('UTF-8'), 
       format: :html, 
       include_plus_and_minus_in_html: true
+      # include_diff_info: true
     )
 
     @git_diff_script_change = diff.right.html_safe

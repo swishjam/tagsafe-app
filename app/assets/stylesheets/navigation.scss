@@ -1,6 +1,5 @@
 .navigation {
   width: 15%;
-  // border: 1px solid black;
   background-color: white;
   color: #5d5c5c;
   float: left;
@@ -8,6 +7,7 @@
   position: fixed;
   padding: 10px;
   font-size: 14px;
+
   ul {
     list-style: none;
     padding-left: 0;
@@ -30,9 +30,14 @@
     }
   }
   .logo-container {
-    height: 150px;
-    border: 1px solid white;
+    margin: 25px;
     text-align: center;
+    .logo-img {
+      transition: 500ms all;
+      &:hover {
+        transform: scale(1.02, 1.02);
+      }
+    }
   }
   .logout-link-container {
     position: absolute;

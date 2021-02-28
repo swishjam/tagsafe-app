@@ -10,7 +10,7 @@ module Api
     end
 
     def toggle_script_change_notification
-      toggle_notification_type!(ScriptChangeNotificationSubscriber)
+      toggle_notification_type!(ScriptChangeEmailSubscriber)
     end
 
     private

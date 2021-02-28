@@ -1,4 +1,9 @@
 class TagSafeMailer < ApplicationMailer
+  def send_welcome_email(user)
+    @user = user
+    mail(to: user.email, from: 'welcome@tagsafe.io', subject: "Welcome to TagSafe!")
+  end
+
   def send_user_invite_email(user_invite)
     @invited_by_user = user_invite.invited_by_user
     @organization = user_invite.organization
