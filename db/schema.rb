@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_06_203758) do
+ActiveRecord::Schema.define(version: 2021_03_01_171751) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 2021_02_06_203758) do
   create_table "performance_audit_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "performance_audit_id"
     t.text "logs", limit: 4294967295
+    t.index ["performance_audit_id"], name: "index_performance_audit_logs_on_performance_audit_id"
   end
 
   create_table "performance_audit_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
