@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_171751) do
+ActiveRecord::Schema.define(version: 2021_03_01_184808) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -47,6 +47,9 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.text "performance_audit_error_message"
     t.boolean "is_baseline"
     t.boolean "throttled", default: false
+    t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
+    t.index ["script_change_id"], name: "index_audits_on_script_change_id"
+    t.index ["script_subscriber_id"], name: "index_audits_on_script_subscriber_id"
   end
 
   create_table "domain_scans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -54,6 +57,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.datetime "scan_enqueued_at"
     t.datetime "scan_completed_at"
     t.text "error_message"
+    t.index ["domain_id"], name: "index_domain_scans_on_domain_id"
   end
 
   create_table "domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -69,6 +73,8 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.string "type"
     t.integer "user_id"
     t.integer "script_subscriber_id"
+    t.index ["script_subscriber_id"], name: "index_email_notification_subscribers_on_script_subscriber_id"
+    t.index ["user_id"], name: "index_email_notification_subscribers_on_user_id"
   end
 
   create_table "execution_reasons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -90,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.string "node_type"
     t.boolean "fatal"
     t.string "source"
+    t.index ["script_change_id"], name: "index_lint_results_on_script_change_id"
   end
 
   create_table "lint_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -101,11 +108,15 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.integer "lint_rule_id"
     t.integer "severity"
     t.integer "organization_id"
+    t.index ["lint_rule_id"], name: "index_organization_lint_rules_on_lint_rule_id"
+    t.index ["organization_id"], name: "index_organization_lint_rules_on_organization_id"
   end
 
   create_table "organization_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
+    t.index ["organization_id"], name: "index_organization_users_on_organization_id"
+    t.index ["user_id"], name: "index_organization_users_on_user_id"
   end
 
   create_table "organizations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -126,6 +137,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.boolean "should_run_audit"
     t.string "url_to_audit"
     t.integer "num_test_iterations"
+    t.index ["script_subscriber_id"], name: "index_performance_audit_preferences_on_script_subscriber_id"
   end
 
   create_table "performance_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -140,6 +152,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.float "layout_duration"
     t.float "task_duration"
     t.float "tagsafe_score"
+    t.index ["audit_id"], name: "index_performance_audits_on_audit_id"
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -149,6 +162,8 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
   create_table "roles_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
+    t.index ["role_id"], name: "index_roles_users_on_role_id"
+    t.index ["user_id"], name: "index_roles_users_on_user_id"
   end
 
   create_table "script_changes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -171,11 +186,13 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.float "response_time_ms"
     t.integer "response_code"
     t.timestamp "created_at"
+    t.index ["script_id"], name: "index_script_checks_on_script_id"
   end
 
   create_table "script_image_domain_lookup_patterns", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "script_image_id"
     t.string "url_pattern"
+    t.index ["script_image_id"], name: "index_script_image_domain_lookup_patterns_on_script_image_id"
   end
 
   create_table "script_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -186,11 +203,14 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
   create_table "script_subscriber_allowed_performance_audit_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "script_subscriber_id"
     t.string "url_pattern"
+    t.index ["script_subscriber_id"], name: "index_allowed_performance_audit_tags_on_script_subscriber_id"
   end
 
   create_table "script_subscriber_lint_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "script_subscriber_id"
     t.integer "lint_result_id"
+    t.index ["lint_result_id"], name: "index_script_subscriber_lint_results_on_lint_result_id"
+    t.index ["script_subscriber_id"], name: "index_script_subscriber_lint_results_on_script_subscriber_id"
   end
 
   create_table "script_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -222,12 +242,14 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.timestamp "content_changed_at"
     t.boolean "should_log_script_checks"
     t.integer "script_image_id"
+    t.index ["script_image_id"], name: "index_scripts_on_script_image_id"
   end
 
   create_table "slack_notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "script_subscriber_id"
     t.string "type"
     t.string "channel"
+    t.index ["script_subscriber_id"], name: "index_slack_notification_subscribers_on_script_subscriber_id"
   end
 
   create_table "slack_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -236,6 +258,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.string "app_id"
     t.string "team_id"
     t.string "team_name"
+    t.index ["organization_id"], name: "index_slack_settings_on_organization_id"
   end
 
   create_table "test_group_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -294,6 +317,8 @@ ActiveRecord::Schema.define(version: 2021_03_01_171751) do
     t.timestamp "created_at"
     t.integer "invited_by_user_id"
     t.timestamp "redeemed_at"
+    t.index ["invited_by_user_id"], name: "index_user_invites_on_invited_by_user_id"
+    t.index ["organization_id"], name: "index_user_invites_on_organization_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
