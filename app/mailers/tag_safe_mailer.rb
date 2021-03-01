@@ -31,8 +31,7 @@ class TagSafeMailer < SendgridTemplateMailer
       @from_email = 'changes@tagsafe.io'
       @template_name = :tag_changed
       @variable_json = {
-        tag_name: script_subscriber.try_friendly_name,
-        "#{ENV['CURRENT_HOST']}"
+        tag_name: script_subscriber.try_friendly_name
       }.to_json
       send!
       # mail(to: @user.email, from: 'changes@tagsafe.io', subject: "#{@script_subscriber.try_friendly_name} changed.")
