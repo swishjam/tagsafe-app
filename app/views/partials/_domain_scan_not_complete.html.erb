@@ -1,5 +1,5 @@
 <% if domain_scan&.pending? %>
-  <span>Currently scanning <%= current_domain.url %> for third party tags</span>
+  <span>Currently scanning <%= current_domain.url %> for third party tags. The page will update upon completion.</span>
   <script>
     function checkDomainScanStatus() {
       var xhr = new XMLHttpRequest();

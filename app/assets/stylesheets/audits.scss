@@ -5,4 +5,7 @@ body.audits {
     float: right;
     clear: right;
   }
+  .metric-title, .metric-value {
+    border-top: 1px solid black;
+  }
 }

@@ -14,8 +14,14 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
+  after_create :send_welcome_email
+
   def is_admin?
     roles.include? Role.ADMIN
+  end
+
+  def send_welcome_email
+    TagSafeMailer.send_welcome_email(self)
   end
 
   def can_remove_user_from_organization?(organization)

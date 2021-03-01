@@ -27,7 +27,12 @@ module ScriptManager
 
     def subscribe_domain_to_existing_script(script)
       unless @domain.subscribed_to_script? script
-        @domain.subscribe!(script, first_script_change: script.most_recent_change, initial_scan: @initial_scan)
+        if script.most_recent_change.nil?
+          evaluator = script.evaluate_script_content
+          @domain.subscribe!(script, first_script_change: evaluator.script_change, initial_scan: @initial_scan)    
+        else
+          @domain.subscribe!(script, first_script_change: script.most_recent_change, initial_scan: @initial_scan)
+        end
       end
     end
 

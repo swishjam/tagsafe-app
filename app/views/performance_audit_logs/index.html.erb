@@ -1,14 +1,20 @@
 <div class="row">
-  <% @logs.each do |log| %>
-    <div class="col-6">
-      <div class="tag-safe-container">
-        <h5 class="text-center audit-type-title"><%= log.performance_audit.is_a?(PerformanceAuditWithTag) ? 'Results With' : 'Results Without' %> <%= @script_subscriber.try_friendly_name %></h5>
-        <div class="log-container">
-          <%= log.logs.html_safe %>
-        </div>
+  <div class="col-6">
+    <div class="tag-safe-container">
+      <h5 class="text-center audit-type-title">Results With <%= @script_subscriber.try_friendly_name %></h5>
+      <div class="log-container">
+        <%= @with_tag_log.logs.html_safe %>
       </div>
     </div>
-  <% end %>
+  </div>
+  <div class="col-6">
+    <div class="tag-safe-container">
+      <h5 class="text-center audit-type-title">Results Without <%= @script_subscriber.try_friendly_name %></h5>
+      <div class="log-container">
+        <%= @without_tag_log.logs.html_safe %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

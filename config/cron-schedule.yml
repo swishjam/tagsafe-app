@@ -16,3 +16,4 @@ fail_stale_pending_audits:
 clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every day at midnight
+  queue: "default"

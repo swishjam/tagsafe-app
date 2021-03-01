@@ -23,7 +23,7 @@
     <tbody>
       <% if @script_changes.any? %>
         <% @script_changes.each_with_index  do |script_change, i| %>
-          <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_performance_audits: true) %>
+          <% audit = @script_subscriber.primary_audit_by_script_change(script_change) || @script_subscriber.most_recent_audit_by_script_change(script_change, include_pending_performance_audits: true, include_failed_performance_audits: true) %>
           <% previous_audit = @script_subscriber.primary_audit_by_script_change(@script_changes[i+1]) %>
           <%= link_to audit.nil? ? '#' : script_subscriber_script_change_audit_path(@script_subscriber, script_change, audit) do %> 
             <tr class="script-change-row">
@@ -39,7 +39,7 @@
                   </span>
                 <% elsif audit.performance_audit_failed? %>
                   <span>
-                    Audit failure: <%= audit.performance_audit_error_message %>
+                    Performance Audit failed.
                   </span>
                 <% else %>
                   <span>
@@ -48,7 +48,11 @@
                 <% end %>
               </td>
               <td scope="row">
-                <% unless audit.nil? %>
+                <% if audit.nil? || audit.performance_audit_failed? %>
+                  <span>--</span>
+                <% elsif audit.performance_audit_pending? %>
+                  <span>Performance Audit Running</span>
+                <% else %>
                   <% change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score) %>
                   <% unless change_in_score.nil? %>
                     <% icon_class = change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
@@ -56,8 +60,6 @@
                       <i class="fas <%=icon_class%>"></i>
                       <%= number_with_delimiter(change_in_score) %>
                     </span>
-                  <% else %>
-                    --
                   <% end %>
                 <% end %>
               </td>

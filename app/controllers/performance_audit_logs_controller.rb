@@ -1,8 +1,9 @@
 class PerformanceAuditLogsController < LoggedInController
   def index
-    @logs = PerformanceAuditLog.includes(performance_audit: [:audit]).where(performance_audits: { audit_id: params[:audit_id] })
-    @audit = @logs.first.performance_audit.audit
+    @audit = Audit.find(params[:audit_id])
     permitted_to_view?(@audit)
+    @with_tag_log = @audit.performance_audit_with_tag.performance_audit_logs
+    @without_tag_log = @audit.performance_audit_without_tag.performance_audit_logs
     @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
     @script_change = ScriptChange.find(params[:script_change_id])
     render_breadcrumbs(
