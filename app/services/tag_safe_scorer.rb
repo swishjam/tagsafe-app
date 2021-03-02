@@ -22,33 +22,34 @@ class TagSafeScorer
     bytes: 10_000
   }
 
-  def initialize(delta_performance_audit)
-    @delta_performance_audit = delta_performance_audit
+  def initialize(dom_complete:, dom_interactive:, first_contentful_paint:, task_duration:, script_duration:, layout_duration:, byte_size:)
+    @dom_complete = dom_complete
+    @dom_interactive = dom_interactive
+    @first_contentful_paint = first_contentful_paint
+    @task_duration = task_duration
+    @script_duration = script_duration
+    @layout_duration = layout_duration
+    @byte_size = byte_size
   end
 
-  def record_score!
-    raise InvalidPerformanceAudit unless @delta_performance_audit.is_a?(DeltaPerformanceAudit)
-    @delta_performance_audit.update!(tagsafe_score: score)
-  end
-
-  def score
+  def score!
     100 - 
-      performance_metric_deduction(:dom_complete) - 
-      performance_metric_deduction(:dom_interactive) - 
-      performance_metric_deduction(:first_contentful_paint) - 
-      performance_metric_deduction(:task_duration) -
-      performance_metric_deduction(:script_duration) -
-      performance_metric_deduction(:layout_duration) -
+      performance_metric_deduction(@dom_complete, :dom_complete) - 
+      performance_metric_deduction(@dom_interactive, :dom_interactive) - 
+      performance_metric_deduction(@first_contentful_paint, :first_contentful_paint) - 
+      performance_metric_deduction(@task_duration, :task_duration) -
+      performance_metric_deduction(@script_duration, :script_duration) -
+      performance_metric_deduction(@layout_duration, :layout_duration) -
       byte_size_deduction
   end
 
-  def performance_metric_deduction(metric_key)
-    deduction = (@delta_performance_audit[metric_key]/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
+  def performance_metric_deduction(metric_value, metric_key)
+    deduction = (metric_value/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
     deduction > DEFAULT_WEIGHTS[metric_key]*100 ? DEFAULT_WEIGHTS[metric_key]*100 : deduction
   end
 
   def byte_size_deduction
-    deduction = (@delta_performance_audit.audit.script_change.bytes/METRIC_SCORE_INCREMENTS[:bytes]) * DEFAULT_WEIGHTS[:bytes]
+    deduction = (@byte_size/METRIC_SCORE_INCREMENTS[:bytes]) * DEFAULT_WEIGHTS[:bytes]
     deduction > DEFAULT_WEIGHTS[:bytes]*100 ? DEFAULT_WEIGHTS[:bytes]*100 : deduction
   end
 end

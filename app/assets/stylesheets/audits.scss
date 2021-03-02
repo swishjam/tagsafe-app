@@ -1,11 +1,21 @@
 body.audits {
-  .buttons a {
-    display: block;
-    margin-bottom: 10px;
-    float: right;
-    clear: right;
+  .performance-metrics-container.minimized .additional-details {
+    display: none;
   }
-  .metric-title, .metric-value {
-    border-top: 1px solid black;
+  .metric-row .metric {
+    margin-top: 5px;
+    border-top: 1px solid lightgrey;
+    padding-top: 5px;
+  }
+  .minimize-audit-details, .expand-audit-details {
+    border: 1px solid lightgrey;
+    &:not(.selected) {
+      background: grey;
+      color: white;
+    }
+    &.selected {
+      background: #95d1ff;
+      color: white;
+    }
   }
 }
