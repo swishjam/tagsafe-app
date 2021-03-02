@@ -26,7 +26,8 @@ module AuditThrottler
 
     def minutes_between_last_tag_change_audit(script_change)
       return 0 if last_tag_change_audit.nil?
-      (script_change.created_at - last_tag_change_audit.script_change.created_at) / 60
+      seconds_since = script_change.created_at - last_tag_change_audit.script_change.created_at
+      seconds_since / 60.0
     end
 
     def last_tag_change_audit

@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   resources :domains, only: [:create, :update]
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
-  resources :script_subscribers, only: [:index, :show, :edit, :update] do
+  resources :script_subscribers, only: [:show, :edit, :update] do
     get '/general' => 'script_subscribers#edit' 
     get '/performance_audit_settings' => 'script_subscribers#performance_audit_settings'
     get '/notification_settings' => 'script_subscribers#notification_settings'

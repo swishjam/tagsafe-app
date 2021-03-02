@@ -1,14 +1,6 @@
 class ScriptSubscribersController < LoggedInController
   before_action :authorize!
 
-  def index
-    unless current_domain.nil?
-      @script_subscriptions = current_domain.script_subscriptions
-                                              .includes(:script)
-                                              .order('script_subscribers.removed_from_site_at ASC')
-    end
-  end
-
   def show
     @script_subscriber = current_domain.script_subscriptions.includes(:script).find(params[:id])
     @script_changes = @script_subscriber.script_changes.page(params[:page] || 1).per(params[:per_page] || 10)

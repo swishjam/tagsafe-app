@@ -37,9 +37,6 @@ class ScriptSubscriber < ApplicationRecord
   scope :monitor_changes, -> { where(monitor_changes: true) }
   scope :do_not_monitor_changes, -> { where(monitor_changes: false) }
   
-  scope :active, -> { where(active: true) }
-  scope :inactive, -> { where(active: false) }
-  
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :no_longer_on_site, -> { where.not(removed_from_site_at: nil) }
   
@@ -52,7 +49,9 @@ class ScriptSubscriber < ApplicationRecord
   scope :should_run_audits, -> { where(should_run_audit: true) }
   scope :should_not_run_audits, -> { where(should_run_audit: false) }
 
+  scope :is_capturing_script_checks, -> { joins(:script).where(scripts: { should_log_script_checks: true }) }
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
+  scope :available_for_uptime, -> { is_capturing_script_checks.is_third_party_tag.still_on_site.monitor_changes }
 
   def add_defaults
     create_performance_audit_preferences

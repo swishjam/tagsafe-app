@@ -4,6 +4,6 @@ class ScriptChangeEmailSubscriber < EmailNotificationSubscriber
   end
 
   def send_email!(script_change)
-    TagSafeMailer.send_script_changed_email(user, script_subscriber, script_change).deliver
+    TagSafeMailer.send_script_changed_email(user, script_subscriber, script_change)
   end
 end

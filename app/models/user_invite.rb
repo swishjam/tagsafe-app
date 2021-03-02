@@ -30,7 +30,7 @@ class UserInvite < ApplicationRecord
   end
   
   def send_invite!
-    TagSafeMailer.send_user_invite_email(self).deliver
+    TagSafeMailer.send_user_invite_email(self)
   end
 
   private
