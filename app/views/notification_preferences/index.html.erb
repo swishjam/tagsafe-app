@@ -7,10 +7,9 @@
       <thead>
         <tr>
           <th scope="col" class="col-8" style='width: 40%'>Tag</th>
-          <th scope="col" class="col-2" style='width: 15%'>On tag changes.</th>
-          <th scope="col" class="col-2" style='width: 15%'>On each completed audit.</th>
-          <th scope="col" class="col-2" style='width: 15%'>When performance thresholds are exceeded.</th>
-          <th scope="col" class="col-2" style='width: 15%'>On failed tests.</th>
+          <th scope="col" class="col-2" style='width: 20%'>On tag changes.</th>
+          <th scope="col" class="col-2" style='width: 20%'>On each completed audit.</th>
+          <th scope="col" class="col-2" style='width: 20%'>When performance thresholds are exceeded.</th>
         </tr>
       </thead>
       <tbody>
@@ -29,10 +28,6 @@
             {
               toggle_endpoint_suffix: "toggle_lighthouse_audit_exceeded_threshold_notification",
               klass: PerformanceAuditExceededThresholdNotificationSubscriber
-            },
-            {
-              toggle_endpoint_suffix: "toggle_test_failed_notification",
-              klass: FailedTestNotificationSubscriber
             }].each do |preference_obj|
             %>
               <td>

@@ -1,6 +1,5 @@
 class ScriptSubscriber < ApplicationRecord
   include Rails.application.routes.url_helpers
-  # has_many :test_subscriptions, class_name: 'TestSubscriber', dependent: :destroy
 
   # RELATIONS
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
@@ -18,7 +17,6 @@ class ScriptSubscriber < ApplicationRecord
 
   has_many :email_notification_subscribers, dependent: :destroy
   has_many :script_change_email_subscribers, class_name: 'ScriptChangeEmailSubscriber'
-  has_many :test_failed_notification_subscribers, class_name: 'TestFailedNotificationSubscriber'
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber'
 
   has_one :performance_audit_preferences, class_name: 'PerformanceAuditPreference', dependent: :destroy
@@ -55,7 +53,6 @@ class ScriptSubscriber < ApplicationRecord
 
   def add_defaults
     create_performance_audit_preferences
-    add_default_tests
   end
 
   def run_baseline_audit!
@@ -128,10 +125,7 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def has_pending_audits_for_script_change?(script_change)
-    audits.pending_completion.where(script_change: script_change).any?
-  end
-
-  def has_pending_performance_audits_by_script_change?(script_change)
+    audits.pending_performance_audit.where(script_change: script_change).any?
   end
 
   def most_recent_audit_is_pending?
@@ -139,12 +133,10 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   def audits_by_script_change(script_change)
-    # scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
     audits.where(script_change: script_change).order('audits.created_at DESC')
   end
 
   def most_recent_audit(primary: true)
-    # scopes = determine_audit_scopes(include_pending_lighthouse_audits: include_pending_lighthouse_audits, include_pending_test_suites: include_pending_test_suites, include_failed_lighthouse_audits: include_failed_lighthouse_audits)
     if primary
       audits.where(primary: true).limit(1).first
     else
@@ -161,12 +153,11 @@ class ScriptSubscriber < ApplicationRecord
     audits.chain_scopes(scopes).where(script_change: script_change).limit(1).first
   end
 
-  def run_audit!(script_change, execution_reason, existing_audit: nil, num_attempts: 0)
+  def run_audit!(script_change, execution_reason, num_attempts: 0)
     AuditRunner.new(
       script_subscriber: self, 
       script_change: script_change, 
       execution_reason: execution_reason,
-      existing_audit: existing_audit,
       num_attempts: num_attempts
     ).run!
   end
@@ -224,16 +215,8 @@ class ScriptSubscriber < ApplicationRecord
   end
 
   ###########
-  ## TESTS ##
+  # HELPERS #
   ###########
-
-  def add_default_tests
-    Test.default_tests.each{ |test| subscribe_to_test(test, test.default_expected_test_result) }
-  end
-
-  def subscribe_to_test(test, expected_test_result)
-    test_subscriptions.create(test: test, expected_test_result: expected_test_result, active: true)
-  end
 
   def removed_from_site!
     touch(:removed_from_site_at)
@@ -257,7 +240,6 @@ class ScriptSubscriber < ApplicationRecord
   def determine_audit_scopes(include_pending_performance_audits:, include_failed_performance_audits:)
     [
       include_pending_performance_audits ? nil : :completed_performance_audit,
-      # include_pending_test_suites ? nil : :completed_test_suite,
       include_failed_performance_audits ? nil : :successful_performance_audit
     ].compact || []
   end

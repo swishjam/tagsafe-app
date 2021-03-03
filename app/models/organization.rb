@@ -2,7 +2,6 @@ class Organization < ApplicationRecord
   has_many :organization_users, dependent: :destroy
   has_many :users, through: :organization_users
   has_many :domains, dependent: :destroy
-  has_many :created_tests, class_name: 'Test'
   has_many :script_subscriptions, through: :domains
   has_many :scripts, through: :domains
   has_many :organization_lint_rules, dependent: :destroy

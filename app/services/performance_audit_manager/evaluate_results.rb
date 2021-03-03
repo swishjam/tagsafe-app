@@ -10,27 +10,33 @@ module PerformanceAuditManager
 
     def evaluate!
       if @error || !validity_checker.valid?
-        invalid_performance_audit!
+        capture_invalid_performance_audit!
       else
-        valid_performance_audit!
+        capture_valid_performance_audit!
       end
     end
 
     private
 
-    def invalid_performance_audit!
+    def capture_invalid_performance_audit!
       @audit.performance_audit_error!(@error || validity_checker.invalid_reason, @num_attempts)
       capture_logs_for_failed_audit(PerformanceAuditWithTag, @results_with_tag['logs'])
       capture_logs_for_failed_audit(PerformanceAuditWithoutTag, @results_without_tag['logs'])
     end
 
-    def valid_performance_audit!
-      @median_results_with_tag = get_median_result(@results_with_tag['performance_results'])
-      @median_results_without_tag = get_median_result(@results_without_tag['performance_results'])
-      capture_results(PerformanceAuditWithTag, @median_results_with_tag, @results_with_tag['logs'])
-      capture_results(PerformanceAuditWithoutTag, @median_results_without_tag, @results_without_tag['logs'])
+    def capture_valid_performance_audit!
+      capture_results(PerformanceAuditWithTag, median_results_with_tag, @results_with_tag['logs'])
+      capture_results(PerformanceAuditWithoutTag, median_results_without_tag, @results_without_tag['logs'])
       capture_delta_performance_audit!
       @audit.completed_performance_audit!
+    end
+
+    def median_results_with_tag
+      @median_results_with_tag ||= get_median_result(@results_with_tag['performance_results'])
+    end
+
+    def median_results_without_tag
+      @median_results_without_tag ||= get_median_result(@results_without_tag['performance_results'])
     end
 
     def validity_checker
@@ -104,8 +110,8 @@ module PerformanceAuditManager
 
     def delta_results
       @delta_results ||= PerformanceAuditManager::DeltaCalculator.new(
-        results_with_tag: @median_results_with_tag, 
-        results_without_tag: @median_results_without_tag
+        results_with_tag: median_results_with_tag, 
+        results_without_tag: median_results_without_tag
       ).calculate!
     end
   end

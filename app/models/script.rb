@@ -8,7 +8,6 @@ class Script < ApplicationRecord
   has_many :script_checks, dependent: :destroy
   
   has_many :script_change_email_subscribers, through: :script_subscribers
-  has_many :test_failed_notification_subscribers, through: :script_subscribers
   has_many :audit_complete_notification_subscribers, through: :script_subscribers
 
   has_many :script_changed_slack_notifications, through: :script_subscribers
@@ -30,19 +29,6 @@ class Script < ApplicationRecord
   scope :still_on_site, -> { includes(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
   scope :monitor_changes, -> { includes(:script_subscribers).where(script_subscribers: { monitor_changes: true }) }
   scope :should_run_audit, -> { includes(script_subscribers: [:performance_audit_preferences]).where(script_subscribers: { performance_audit_preferences: { should_run_audit: true }} ) }
-
-  def current_test_status(domain)
-    most_recent_result.test_results_status(domain)
-  end
-
-  def test_subscriptions_by_domain(domain)
-    test_subscriptions.by_domain(domain)
-  end
-
-  def has_tests_run?
-    # this doesn't work, need to include domain scope on test runs
-    most_recent_result.present?
-  end
 
   def most_recent_result
     script_changes.where(most_recent: true).limit(1).first

@@ -80,9 +80,7 @@ RSpec.describe AuditRunner do
         script_subscriber: @script_subscriber,
         execution_reason: @execution_reason,
         performance_audit_url: @script_subscriber.performance_audit_preferences.url_to_audit,
-        performance_audit_enqueued_at: DateTime.now,
-        test_suite_enqueued_at: DateTime.now,
-        test_suite_completed_at: DateTime.now
+        performance_audit_enqueued_at: DateTime.now
       ).and_call_original
       audit1 = @runner.send(:audit)
       audit2 = @runner.send(:audit)

@@ -22,34 +22,23 @@ class Audit < ApplicationRecord
   scope :basline, -> { where(is_basline: true) }
   scope :not_basline, -> { where(is_basline: false) }
 
-  scope :pending_test_suite, -> { where(test_suite_completed_at: nil) }
-  scope :completed_test_suite, -> { where.not(test_suite_completed_at: nil) }
-
   scope :pending_performance_audit, -> { where(seconds_to_complete_performance_audit: nil) }
   scope :completed_performance_audit, -> { where.not(seconds_to_complete_performance_audit: nil) }
 
   scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
   scope :successful_performance_audit, -> { where(performance_audit_error_message: nil) }
 
-  scope :pending_completion, -> { where(test_suite_completed_at: nil).or(where(seconds_to_complete_performance_audit: nil)) }
-  scope :completed, -> { where.not(test_suite_completed_at: nil, seconds_to_complete_performance_audit: nil) }
-
   scope :throttled, -> { where(throttled: true) }
   scope :not_throttled, -> { where(throttled: false) }
 
   def completed_performance_audit!
-    update(seconds_to_complete_performance_audit: (Time.now - performance_audit_enqueued_at)/60)
+    update(seconds_to_complete_performance_audit: Time.now - performance_audit_enqueued_at)
     check_after_completion
   end
 
   def performance_audit_error!(err_msg, num_attempts)
-    update(performance_audit_error_message: err_msg, seconds_to_complete_performance_audit: (Time.now - performance_audit_enqueued_at)/60)
+    update(performance_audit_error_message: err_msg, seconds_to_complete_performance_audit: Time.now - performance_audit_enqueued_at)
     after_performance_audit_error(num_attempts)
-  end
-
-  def completed_test_suite!
-    touch(:test_suite_completed_at)
-    check_after_completion
   end
 
   def check_after_completion
@@ -72,11 +61,6 @@ class Audit < ApplicationRecord
     script_subscriber.run_audit!(script_change, reason, num_attempts: num_attempts)
   end
 
-  def retry_pending_audit!
-    raise InvalidRetry unless performance_audit_pending? || test_suite_pending?
-    script_subscriber.run_audit!(script_change, execution_reason, existing_audit: self)
-  end
-
   def performance_audit_failed?
     !performance_audit_error_message.nil?
   end
@@ -89,20 +73,7 @@ class Audit < ApplicationRecord
     !performance_audit_pending?
   end
   alias performance_audit_completed? performance_audit_complete?
-
-  def test_suite_pending?
-    test_suite_completed_at.nil?
-  end
-
-  def test_suite_complete?
-    !test_suite_pending?
-  end
-  alias test_suite_completed? test_suite_complete?
-
-  def complete?
-    performance_audit_complete? && test_suite_complete?
-  end
-  alias completed? complete?
+  alias complete? performance_audit_complete?
 
   def primary?
     primary

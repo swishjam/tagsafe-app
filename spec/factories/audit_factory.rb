@@ -6,8 +6,6 @@ FactoryBot.define do
     primary { true }
     performance_audit_enqueued_at { DateTime.yesterday }
     performance_audit_completed_at { DateTime.now }
-    test_suite_enqueued_at { DateTime.yesterday }
-    test_suite_completed_at { DateTime.now }
   end
 
   factory :audit_with_pending_performance_audit, parent: :audit do

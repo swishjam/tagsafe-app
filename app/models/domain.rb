@@ -30,23 +30,7 @@ class Domain < ApplicationRecord
     script_subscriptions.third_party_tags_that_shouldnt_be_blocked.collect{ |ss| ss.script.url }
   end
 
-  def test_subscriptions
-    TestSubscriber.by_domain(self)
-  end
-
-  def test_group_runs
-    TestGroupRun.by_domain(self)
-  end
-
-  def enqueue_scan_and_capture_domain_scripts_job
-    # ScanAndCaptureDomainScriptsJob.perform_later()
-  end
-
   def scan_and_capture_domains_scripts
     GeppettoModerator::Senders::ScanDomain.new(self, initial_scan: true).send!
-  end
-
-  def run_test_suite!
-    GeppettoModerator::Senders::RunTestSuiteForDomain.new(domain).send!
   end
 end

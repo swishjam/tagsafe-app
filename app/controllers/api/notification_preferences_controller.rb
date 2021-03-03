@@ -5,10 +5,6 @@ module Api
       toggle_notification_type!(AuditCompleteNotificationSubscriber)
     end
 
-    def toggle_test_failed_notification
-      toggle_notification_type!(FailedTestNotificationSubscriber)
-    end
-
     def toggle_script_change_notification
       toggle_notification_type!(ScriptChangeEmailSubscriber)
     end

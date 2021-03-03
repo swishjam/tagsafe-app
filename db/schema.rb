@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_03_024244) do
+ActiveRecord::Schema.define(version: 2021_03_03_155840) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -39,8 +39,6 @@ ActiveRecord::Schema.define(version: 2021_03_03_024244) do
     t.integer "execution_reason_id"
     t.boolean "primary"
     t.timestamp "performance_audit_enqueued_at"
-    t.timestamp "test_suite_enqueued_at"
-    t.timestamp "test_suite_completed_at"
     t.string "performance_audit_url"
     t.timestamp "created_at"
     t.text "performance_audit_error_message"
@@ -79,12 +77,6 @@ ActiveRecord::Schema.define(version: 2021_03_03_024244) do
 
   create_table "execution_reasons", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
-  end
-
-  create_table "expected_test_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "expected_result"
-    t.string "operator"
-    t.string "data_type"
   end
 
   create_table "lint_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -261,26 +253,6 @@ ActiveRecord::Schema.define(version: 2021_03_03_024244) do
     t.index ["organization_id"], name: "index_slack_settings_on_organization_id"
   end
 
-  create_table "test_group_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "test_subscriber_id"
-    t.bigint "script_change_id"
-    t.boolean "passed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "execution_reason_id"
-    t.timestamp "enqueued_at"
-    t.timestamp "completed_at"
-    t.index ["script_change_id"], name: "index_test_group_runs_on_script_change_id"
-    t.index ["test_subscriber_id"], name: "index_test_group_runs_on_test_subscriber_id"
-  end
-
-  create_table "test_result_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "test_id"
-    t.index ["test_id"], name: "index_test_result_subscribers_on_test_id"
-    t.index ["user_id"], name: "index_test_result_subscribers_on_user_id"
-  end
-
   create_table "test_runs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "passed"
     t.text "results", limit: 16777215
@@ -290,23 +262,6 @@ ActiveRecord::Schema.define(version: 2021_03_03_024244) do
     t.integer "script_change_id"
     t.integer "test_group_run_id"
     t.integer "standalone_test_run_domain_id"
-  end
-
-  create_table "test_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "test_id"
-    t.integer "script_subscriber_id"
-    t.integer "expected_test_result_id"
-    t.boolean "active"
-    t.index ["test_id"], name: "index_test_subscribers_on_test_id"
-  end
-
-  create_table "tests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "test_script", limit: 16777215
-    t.boolean "default_test", default: false
-    t.integer "created_by_organization_id"
-    t.string "title"
-    t.string "description"
-    t.integer "created_by_user_id"
   end
 
   create_table "user_invites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

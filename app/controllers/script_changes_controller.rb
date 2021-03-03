@@ -27,6 +27,10 @@ class ScriptChangesController < LoggedInController
   end
 
   def index
+    # @script_changes = ScriptChange.joins(script: :script_subscribers)
+    #                                  .where(script: current_domain.script_subscriptions.collect(&:script_id))
+    #                                   .most_recent_first
+    #                                   .page(params[:page] || 1).per(params[:per_page] || 10)
     @audits = Audit.joins(:script_subscriber, :script_change)
                     .where(primary: true, execution_reason: ExecutionReason.TAG_CHANGE, script_subscriber: current_domain.script_subscriptions)
                     .most_recent_first

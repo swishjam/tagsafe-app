@@ -47,12 +47,6 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :tests
-  resources :test_subscribers do
-    collection do
-      post '/enqueue_test_suite_for_script/:domain_id/:script_id' => 'test_subscribers#enqueue_test_suite_for_script', as: :enqueue_test_suite_for_script
-    end
-  end
 
   namespace :admin do
     resources :script_images do
@@ -75,7 +69,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     get '/domain_scans/:id' => 'domain_scans#show'
-    post '/test_subscriptions/:id/toggle' => 'test_subscriptions#toggle'
 
     post '/script_subscribers/:id/toggle_active' => 'script_subscribers#toggle_active'
     post '/script_subscribers/:id/toggle_lighthouse' => 'script_subscribers#toggle_lighthouse'
@@ -83,11 +76,8 @@ Rails.application.routes.draw do
     post '/notification_preferences/:script_subscriber_id/toggle_script_change_notification' => 'notification_preferences#toggle_script_change_notification'
     post '/notification_preferences/:script_subscriber_id/toggle_audit_complete_notification' => 'notification_preferences#toggle_audit_complete_notification'
     post '/notification_preferences/:script_subscriber_id/toggle_lighthouse_audit_exceeded_threshold_notification' => 'notification_preferences#toggle_lighthouse_audit_exceeded_threshold_notification'
-    post '/notification_preferences/:script_subscriber_id/toggle_test_failed_notification' => 'notification_preferences#toggle_test_failed_notification'
   
     post 'geppetto_receiver/domain_scan_complete' => 'geppetto_receiver#domain_scan_complete'
-    post 'geppetto_receiver/standalone_test_complete' => 'geppetto_receiver#standalone_test_complete'
-    post 'geppetto_receiver/test_group_complete' => 'geppetto_receiver#test_group_complete'
     post 'geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
   end
 

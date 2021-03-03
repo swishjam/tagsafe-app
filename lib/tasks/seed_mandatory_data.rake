@@ -1,15 +1,6 @@
 namespace :seed do
   task :mandatory_data => :environment do
     puts "Beginning seed."
-
-    puts "Creating Script Test Types."
-    script_test_types = ['Current Tag', 'Previous Tag', 'Without Tag']
-    script_test_types.each do |name|
-      unless ScriptTestType.find_by(name: name)
-        ScriptTestType.create(name: name)
-      end
-    end 
-
     puts "Creating Execution Reasons."
     execution_reasons =  ['Manual Execution', 'Scheduled Execution', 'Tag Change', 'Reactivated Tag', 'Test', 'Initial Audit', 'Retry']
     execution_reasons.each do |name|

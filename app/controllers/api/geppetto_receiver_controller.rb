@@ -20,24 +20,6 @@ module Api
       )
     end
 
-    # def test_group_complete
-    #   receive!('TestGroupCompleted',
-    #     test_group_run_id: params[:test_group_run_id],
-    #     audit_id: params[:audit_id],
-    #     test_results_with_current_tag: JSON.parse(params[:test_results_with_current_tag]),
-    #     test_results_with_previous_tag: JSON.parse(params[:test_results_with_previous_tag]),
-    #     test_results_without_tag: JSON.parse(params[:test_results_without_tag])
-    #   )
-    # end
-
-    # def standalone_test_complete
-    #   receive!('StandaloneTestCompleted',
-    #     test_id: params[:test_id],
-    #     domain_id: params[:domain_id],
-    #     test_result: JSON.parse(params[:results])
-    #   )
-    # end
-
     private
 
     def receive!(class_string, data = {})

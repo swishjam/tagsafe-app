@@ -1,6 +1,4 @@
 class ExecutionReason < ApplicationRecord
-  has_many :test_group_runs
-
   def self.REASON_TYPES
     ['Manual Execution', 'Scheduled Execution', 'Script Change', 'Test']
   end

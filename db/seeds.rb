@@ -59,8 +59,6 @@ def create_audit(script_change, script_subscriber, execution_reason: ExecutionRe
     script_subscriber: script_subscriber,
     execution_reason: execution_reason,
     lighthouse_audit_enqueued_at: execution_reason == ExecutionReason.TAG_CHANGE ? script_change.created_at : script_change.created_at + 1.hour,
-    test_suite_enqueued_at: script_change.created_at,
-    test_suite_completed_at: script_change.created_at,
     lighthouse_audit_url: script_subscriber.reload.lighthouse_preferences.url_to_audit
   )
 end
