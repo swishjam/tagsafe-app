@@ -36,4 +36,9 @@ class ChartsController < ApplicationController
     chart_data_getter = ChartHelper::TagUptimeData.new(script_subscribers)
     render json: chart_data_getter.get_response_time_data!
   end
+
+  def admin_audit_performance
+    chart_data_getter = ChartHelper::AdminAuditPerformanceData.new
+    render json: chart_data_getter.get_performance_data
+  end
 end

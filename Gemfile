@@ -49,6 +49,7 @@ gem 'resque-scheduler'
 gem 'active_scheduler'
 
 gem "chartkick"
+gem "groupdate"
 
 gem 'diffy'
 

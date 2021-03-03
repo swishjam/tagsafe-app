@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get '/performance' => 'performance#index'
     resources :script_images do
       member do
         post :apply_to_scripts
@@ -84,5 +85,6 @@ Rails.application.routes.draw do
   
   get '/charts/domain/:domain_id' => 'charts#script_subscribers', as: :domain_script_subscribers_chart
   get '/charts/script_subscriber/:script_subscriber_id' => 'charts#script_subscriber', as: :script_subscriber_chart
-  get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime
+  get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime_chart
+  get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
 end

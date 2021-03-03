@@ -1,0 +1,11 @@
+
+<%=
+  line_chart admin_audit_performance_chart_path,
+    download: true, 
+    title: 'Audit Performance',
+    ytitle: 'Average Completion in Seconds',
+    xtitle: 'Tag Changes',
+    messages: { empty: "No Audits Run." },
+    curve: false, 
+    legend: "bottom"
+%>

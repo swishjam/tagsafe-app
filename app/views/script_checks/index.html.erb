@@ -2,12 +2,10 @@
 
 <div class="tag-safe-container">
   <%=
-    line_chart tags_uptime_path(current_domain, script_subscriber_ids: @script_subscriptions.collect(&:id), days_ago: @days_ago),
+    line_chart tags_uptime_chart_path(current_domain, script_subscriber_ids: @script_subscriptions.collect(&:id), days_ago: @days_ago),
       download: true, 
       title: "Tag Uptime",
       ytitle: "Response Time (ms)",
-      # xtitle: 'Checks',
-      code: true,
       messages: { empty: "No checks." },
       curve: false, 
       legend: "bottom",

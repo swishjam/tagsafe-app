@@ -2,15 +2,10 @@ module Admin
   class ScriptImagesController < BaseController
     def index
       @script_images = ScriptImage.all
-      render_breadcrumbs(text: 'Admin Script Images', active: true)
     end
 
     def show
       @script_image = ScriptImage.find(params[:id])
-      render_breadcrumbs(
-        { url: admin_script_images_path, text: 'Admin Script Images' },
-        { text: 'Admin Script Image', active: true }
-      )
     end
   
     def create

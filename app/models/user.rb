@@ -14,8 +14,12 @@ class User < ApplicationRecord
 
   after_create :send_welcome_email
 
-  def is_admin?
-    roles.include? Role.ADMIN
+  def is_user_admin?
+    roles.include? Role.USER_ADMIN
+  end
+
+  def is_tagsafe_admin?
+    roles.include? Role.TAGSAFE_ADMIN
   end
 
   def send_welcome_email
