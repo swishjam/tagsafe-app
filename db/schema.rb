@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_184808) do
+ActiveRecord::Schema.define(version: 2021_03_03_024244) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 2021_03_01_184808) do
     t.integer "execution_reason_id"
     t.boolean "primary"
     t.timestamp "performance_audit_enqueued_at"
-    t.timestamp "performance_audit_completed_at"
     t.timestamp "test_suite_enqueued_at"
     t.timestamp "test_suite_completed_at"
     t.string "performance_audit_url"
@@ -47,6 +46,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_184808) do
     t.text "performance_audit_error_message"
     t.boolean "is_baseline"
     t.boolean "throttled", default: false
+    t.float "seconds_to_complete_performance_audit"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["script_change_id"], name: "index_audits_on_script_change_id"
     t.index ["script_subscriber_id"], name: "index_audits_on_script_subscriber_id"

@@ -25,26 +25,25 @@ class Audit < ApplicationRecord
   scope :pending_test_suite, -> { where(test_suite_completed_at: nil) }
   scope :completed_test_suite, -> { where.not(test_suite_completed_at: nil) }
 
-  scope :pending_performance_audit, -> { where(performance_audit_completed_at: nil) }
-  scope :completed_performance_audit, -> { where.not(performance_audit_completed_at: nil) }
+  scope :pending_performance_audit, -> { where(seconds_to_complete_performance_audit: nil) }
+  scope :completed_performance_audit, -> { where.not(seconds_to_complete_performance_audit: nil) }
 
   scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
   scope :successful_performance_audit, -> { where(performance_audit_error_message: nil) }
 
-  scope :pending_completion, -> { where(test_suite_completed_at: nil).or(where(performance_audit_completed_at: nil)) }
-  scope :completed, -> { where.not(test_suite_completed_at: nil, performance_audit_completed_at: nil) }
+  scope :pending_completion, -> { where(test_suite_completed_at: nil).or(where(seconds_to_complete_performance_audit: nil)) }
+  scope :completed, -> { where.not(test_suite_completed_at: nil, seconds_to_complete_performance_audit: nil) }
 
   scope :throttled, -> { where(throttled: true) }
   scope :not_throttled, -> { where(throttled: false) }
 
   def completed_performance_audit!
-    touch(:performance_audit_completed_at)
+    update(seconds_to_complete_performance_audit: (Time.now - performance_audit_enqueued_at)/60)
     check_after_completion
   end
 
   def performance_audit_error!(err_msg, num_attempts)
-    update(performance_audit_error_message: err_msg)
-    touch(:performance_audit_completed_at)
+    update(performance_audit_error_message: err_msg, seconds_to_complete_performance_audit: (Time.now - performance_audit_enqueued_at)/60)
     after_performance_audit_error(num_attempts)
   end
 
@@ -83,7 +82,7 @@ class Audit < ApplicationRecord
   end
 
   def performance_audit_pending?
-    performance_audit_completed_at.nil?
+    seconds_to_complete_performance_audit.nil?
   end
 
   def performance_audit_complete?

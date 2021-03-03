@@ -16,7 +16,7 @@ module AuditThrottler
         execution_reason: ExecutionReason.TAG_CHANGE,
         primary: true,
         performance_audit_enqueued_at: Time.now,
-        performance_audit_completed_at: Time.now,
+        seconds_to_complete_performance_audit: 0,
         test_suite_enqueued_at: Time.now,
         test_suite_completed_at: Time.now
       )

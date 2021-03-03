@@ -1,38 +1,51 @@
 module PerformanceAuditManager
   class EvaluateResults
-    def initialize(error:, results_with_tag:, results_without_tag:, audit_id:, with_tag_logs:, without_tag_logs:, num_attempts: 1)
-      @audit = Audit.includes(:script_change).find(audit_id)
+    def initialize(error:, results_with_tag:, results_without_tag:, audit_id:, num_attempts: 1)
+      @audit = Audit.includes(script_change: :script).find(audit_id)
       @error = error
       @results_with_tag = results_with_tag
       @results_without_tag = results_without_tag
-      @with_tag_logs = with_tag_logs
-      @without_tag_logs = without_tag_logs
       @num_attempts = num_attempts
-      # @aggregation_method = :median will this ever be dynamic? I don't think so
     end
 
     def evaluate!
-      if @error
-        @audit.performance_audit_error!(@error, @num_attempts)
-        capture_logs_for_failed_audit(PerformanceAuditWithTag, @with_tag_logs)
-        capture_logs_for_failed_audit(PerformanceAuditWithoutTag, @without_tag_logs)
+      if @error || !validity_checker.valid?
+        invalid_performance_audit!
       else
-        @median_results_with_tag = get_median_result(@results_with_tag)
-        @median_results_without_tag = get_median_result(@results_without_tag)
-        capture_results(PerformanceAuditWithTag, @median_results_with_tag, @with_tag_logs)
-        capture_results(PerformanceAuditWithoutTag, @median_results_without_tag, @without_tag_logs)
-        capture_delta_performance_audit!
-        @audit.completed_performance_audit!
+        valid_performance_audit!
       end
     end
 
     private
 
+    def invalid_performance_audit!
+      @audit.performance_audit_error!(@error || validity_checker.invalid_reason, @num_attempts)
+      capture_logs_for_failed_audit(PerformanceAuditWithTag, @results_with_tag['logs'])
+      capture_logs_for_failed_audit(PerformanceAuditWithoutTag, @results_without_tag['logs'])
+    end
+
+    def valid_performance_audit!
+      @median_results_with_tag = get_median_result(@results_with_tag['performance_results'])
+      @median_results_without_tag = get_median_result(@results_without_tag['performance_results'])
+      capture_results(PerformanceAuditWithTag, @median_results_with_tag, @results_with_tag['logs'])
+      capture_results(PerformanceAuditWithoutTag, @median_results_without_tag, @results_without_tag['logs'])
+      capture_delta_performance_audit!
+      @audit.completed_performance_audit!
+    end
+
+    def validity_checker
+      @validity_checker ||= PerformanceAuditManager::ValidityChecker.new(
+        audited_tag_url: @audit.script_change.script.url,
+        results_with_tag: @results_with_tag, 
+        results_without_tag: @results_without_tag
+      )
+    end
+
     def get_median_result(result_set)
       score_dictionary = {}
       scores = []
       result_set.each do |result|
-        score = get_tagsafe_score_for_result_set(result)
+        score = calculate_tagsafe_score_for_result_set(result)
         scores << score
         score_dictionary[score] = result
       end
@@ -59,7 +72,7 @@ module PerformanceAuditManager
     end
 
     def capture_delta_performance_audit!
-      delta_results['TagSafeScore'] = get_tagsafe_score_for_result_set(delta_results)
+      delta_results['TagSafeScore'] = calculate_tagsafe_score_for_result_set(delta_results)
       capture_results(DeltaPerformanceAudit, delta_results)
     end
 
@@ -77,7 +90,7 @@ module PerformanceAuditManager
       PerformanceAuditLog.create(logs: logs, performance_audit: performance_audit)
     end
 
-    def get_tagsafe_score_for_result_set(result)
+    def calculate_tagsafe_score_for_result_set(result)
       TagSafeScorer.new(
         dom_complete: result['DOMComplete'],
         dom_interactive: result['DOMInteractive'],
