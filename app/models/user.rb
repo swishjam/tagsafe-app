@@ -14,6 +14,10 @@ class User < ApplicationRecord
 
   after_create :send_welcome_email
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   def is_user_admin?
     roles.include? Role.USER_ADMIN
   end
@@ -30,7 +34,7 @@ class User < ApplicationRecord
     organizations.include? organization
   end
 
-  def invite_user_to_organization!(email_to_invite)
+  def invite_user_to_organization!(email_to_invite, organization)
     UserInvite.invite!(email_to_invite, organization, self)
   end
 

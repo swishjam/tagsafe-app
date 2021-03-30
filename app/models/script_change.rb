@@ -68,15 +68,6 @@ class ScriptChange < ApplicationRecord
     Rails.logger.error "Error encountered in lint: #{e}"
   end
 
-  def notify_script_change!
-    script.script_change_email_subscribers.should_receive_notifications.each do |email_subscriber|
-      email_subscriber.send_email!(self) unless email_subscriber.script_subscriber.first_script_change == self
-    end
-    script.script_changed_slack_notifications.should_receive_notifications.each do |slack_notification|
-      slack_notification.notify!(self) unless slack_notification.script_subscriber.first_script_change == self
-    end
-  end
-
   def set_script_content_changed_at_timestamp
     script.update(content_changed_at: created_at)
   end

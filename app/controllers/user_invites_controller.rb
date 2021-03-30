@@ -8,7 +8,7 @@ class UserInvitesController < ApplicationController
   end
 
   def create
-    invite = current_user.invite_user_to_organization!(params[:user_invite][:email])
+    invite = current_user.invite_user_to_organization!(params[:user_invite][:email], current_organization)
     if invite.valid?
       display_toast_message("Invite sent to #{params[:user_invite][:email]}")
     else

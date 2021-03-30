@@ -1,9 +1,15 @@
-// body.settings {
-//   .badge.removable {
-//     a:hover {
-//       transform: rotate(90deg);
-//       transition: 500ms all;
-//       background: green;
-//     }
-//   }
-// }
+body.settings {
+  table {
+    tr.removed-from-site {
+      background: rgb(226, 226, 226);
+    }
+    tr.not-monitoring, tr.not-auditing {
+      background: lightgrey;
+    }
+    td.script-name-column {
+      overflow: hidden; 
+      text-overflow: ellipsis; 
+      white-space: nowrap;
+    }
+  }
+}

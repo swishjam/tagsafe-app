@@ -27,6 +27,10 @@ class Organization < ApplicationRecord
     end
   end
 
+  def should_log_script_checks
+    true
+  end
+
   def number_of_billed_audits(start_time: Time.now.beginning_of_month, end_time: Time.now.end_of_month)
     Audit.joins(:script_subscriber).where(created_at: start_time..end_time, 
                                           execution_reason: ExecutionReason.BILLABLE, 

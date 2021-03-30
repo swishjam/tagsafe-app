@@ -29,6 +29,7 @@ class Script < ApplicationRecord
   scope :still_on_site, -> { includes(:script_subscribers).where(script_subscribers: { removed_from_site_at: nil }) }
   scope :monitor_changes, -> { includes(:script_subscribers).where(script_subscribers: { monitor_changes: true }) }
   scope :should_run_audit, -> { includes(script_subscribers: [:performance_audit_preferences]).where(script_subscribers: { performance_audit_preferences: { should_run_audit: true }} ) }
+  scope :should_log_script_checks, -> { where(should_log_script_checks: true) }
 
   def most_recent_result
     script_changes.where(most_recent: true).limit(1).first
@@ -45,7 +46,7 @@ class Script < ApplicationRecord
   end
 
   # do we want this in an after_create callback? or trust the UpdateDomainsScriptsJob to be the only place to create scripts
-  def evaluate_script_content
+  def capture_script_content
     # make sure to return the evaluator so we can read the results afterwards
     evaluator = ScriptManager::Evaluator.new(self)
     evaluator.evaluate!
@@ -56,9 +57,9 @@ class Script < ApplicationRecord
     ScriptImageDomainLookupPattern.find_and_apply_image_to_script(self)
   end
 
-  def remove_script_image
-    update(script_image_id: nil)
-  end
+  # def remove_script_image
+  #   update(script_image_id: nil)
+  # end
 
   def try_image_url
     script_image ? rails_blob_url(script_image.image, host: ENV['CURRENT_HOST']) : default_image_url
@@ -70,7 +71,7 @@ class Script < ApplicationRecord
   end
 
   def friendly_name
-    name || url
+    name || full_url
   end
 
   def change_in_bytes
@@ -81,13 +82,8 @@ class Script < ApplicationRecord
     most_recent_change.created_at.strftime("%A, %B%e @%l:%M %p (%Z)")
   end
 
-  def short_name
-    parsed = URI.parse(url)
-    (parsed.path === "/" || parsed.path === "") ? parsed.host : parsed.path
-  end
-
-  def domain_name
-    URI.parse(url).host
+  def url
+    full_url
   end
 
   ###############

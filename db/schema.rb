@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_03_155840) do
+ActiveRecord::Schema.define(version: 2021_03_29_145858) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -218,6 +218,9 @@ ActiveRecord::Schema.define(version: 2021_03_03_155840) do
     t.integer "first_script_change_id"
     t.boolean "should_run_audit"
     t.integer "throttle_minute_threshold"
+    t.integer "script_change_retention_count"
+    t.integer "script_check_retention_count"
+    t.boolean "consider_query_param_changes_new_tag"
     t.index ["domain_id"], name: "index_script_subscribers_on_domain_id"
     t.index ["script_id"], name: "index_script_subscribers_on_script_id"
   end
@@ -227,14 +230,19 @@ ActiveRecord::Schema.define(version: 2021_03_03_155840) do
   end
 
   create_table "scripts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "url"
+    t.text "full_url"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.timestamp "content_changed_at"
     t.boolean "should_log_script_checks"
     t.integer "script_image_id"
+    t.string "url_domain"
+    t.string "url_path"
+    t.text "url_query_param"
     t.index ["script_image_id"], name: "index_scripts_on_script_image_id"
+    t.index ["url_domain"], name: "index_scripts_on_url_domain"
+    t.index ["url_path"], name: "index_scripts_on_url_path"
   end
 
   create_table "slack_notification_subscribers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

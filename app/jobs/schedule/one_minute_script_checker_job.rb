@@ -11,7 +11,7 @@ module Schedule
               .with_active_subscribers
               .still_on_site.each do |script| 
                 count += 1
-                script.evaluate_script_content
+                script.capture_script_content
       end
       Resque.logger.info "OneMinuteScriptCheckerJob evaluated #{count} tags in #{Time.new - start} seconds."
     end

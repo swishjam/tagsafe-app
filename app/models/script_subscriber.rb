@@ -51,6 +51,14 @@ class ScriptSubscriber < ApplicationRecord
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
   scope :available_for_uptime, -> { is_capturing_script_checks.is_third_party_tag.still_on_site.monitor_changes }
 
+  def self.find_by_full_url(full_url)
+    joins(:script).where(scripts: { full_url: full_url }).limit(1).first
+  end
+
+  def self.find_by_domain_and_path(domain, path)
+    joins(:script).where(scripts: { domain: domain, path: path }).limit(1).first
+  end
+
   def add_defaults
     create_performance_audit_preferences
   end
@@ -167,7 +175,9 @@ class ScriptSubscriber < ApplicationRecord
   ################
 
   def tag_changes_per_day
-    (script_changes.count / ((Time.now - first_script_change.created_at) / 86_400)).round(2)
+    unless script_changes.count === 1
+      (script_changes.count / ((Time.now - first_script_change.created_at) / 86_400)).round(2)
+    end
   end
 
   def should_throttle_audit?(script_change)

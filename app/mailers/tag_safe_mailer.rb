@@ -1,11 +1,9 @@
-require 'sendgrid-ruby'
 class TagSafeMailer < SendgridTemplateMailer
-  include SendGrid
   class << self
     def send_welcome_email(user)
       @to_email = user.email
       @from_email = 'collin@tagsafe.io'
-      @variable_json = { friendly_name: "#{user.first_name}" }.to_json
+      @variable_json = { friendly_name: "#{user.first_name}" }
       @template_name = :welcome
       send!
     end
@@ -16,48 +14,50 @@ class TagSafeMailer < SendgridTemplateMailer
       @template_name = :user_invite
       @variable_json = {
         organization_name: user_invite.organization.name,
-        invitation_url: "#{ENV['CURRENT_HOST']}/invite/#{user_invite.token}/accept",
-        invited_by_user: user_invite.invited_by_user
+        accept_invite_url: "#{ENV['CURRENT_HOST']}/invite/#{user_invite.token}/accept",
+        inviter_name: user_invite.invited_by_user.full_name
       }
       send!
     end
   
     def send_script_changed_email(user, script_subscriber, script_change)
-      # @user = user
-      # @script_change = script_change
-      # @script_subscriber = script_subscriber
-      # @script = script_change.script
       @to_email = user.email
       @from_email = 'changes@tagsafe.io'
       @template_name = :tag_changed
-      @variable_json = {
-        tag_name: script_subscriber.try_friendly_name
-      }.to_json
+      @variable_json = { 
+        tag_name: script_subscriber.try_friendly_name,
+        script_susbcriber_url: "#{ENV['CURRENT_HOST']}/script_subscribers/#{script_subscriber.id}"
+      }
       send!
-      # mail(to: @user.email, from: 'changes@tagsafe.io', subject: "#{@script_subscriber.try_friendly_name} changed.")
     end
   
     def send_audit_completed_email(audit, user)
-      # @audit = audit
-      # @script_subscriber = @audit.script_subscriber
-      # @previous_audit = @script_subscriber.primary_audit_by_script_change(@script_subscriber.script.most_recent_change&.previous_change)
       @to_email = user.email
       @from_email = 'changes@tagsafe.io'
       @template_name = :audit_completed
+      change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score)
+      @variable_json = {
+        tag_name: audit.script_subscriber.try_friendly_name,
+        tagsafe_score: audit.delta_performance_audit.tagsafe_score
+      }
+      if change_in_score
+        @variable_json[:change_in_score_description] = <<~DESCRIPTION
+          This is a#{change_in_score.positive? ? 'n increase' : ' decrease'} from the previous TagSafe score of #{audit.delta_performance_audit.previous_metric_result(:tagsafe_score)}
+        DESCRIPTION
+      end
       send!
-      # mail(to: user.email, from: 'changes@tagsafe.io', subject: "Audit for #{@script_subscriber.try_friendly_name} completed.")
     end
   
     def send_new_tag_detected_email(user, script_subscriber)
-      # @user = user
-      # @script_subscriber = script_subscriber
-      # @script = script_subscriber.script
-      # @domain = script_subscriber.domain
       @to_email = user.email
       @from_email = 'changes@tagsafe.io'
       @template_name = :new_tag
+      @variable_json = {
+        new_tag_url: script_subscriber.script.url,
+        site_url: script_subscriber.domain.url,
+        new_tag_tagsafe_url: "#{ENV['CURRENT_HOST']}/script_subscribers/#{script_subscriber.id}/edit"
+      }
       send!
-      # mail(to: user.email, from: 'changes@tagsafe.io', subject: "New tag detected on #{@domain.url}.")
     end
   end
 end

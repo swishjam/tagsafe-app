@@ -15,7 +15,7 @@ class DomainsController < ApplicationController
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
     domain = Domain.find(params[:id])
     if domain.update(domain_params)
-      domain.scan_and_capture_domains_scripts
+      domain.scan_and_capture_domains_scripts(true)
       display_toast_message("Scanning #{domain.url} for third party tags.")
     else
       display_toast_error(domain.errors.full_messages.join(' '))
@@ -30,12 +30,12 @@ class DomainsController < ApplicationController
     redirect_to scripts_path
   end
 
-  def scan
-    domain = Domain.find(params[:id])
-    domain.scan_and_capture_domains_scripts
-    flash[:banner_message] = "Scan in process for #{domain.url}."
-    redirect_to domain_path(domain.id)
-  end
+  # def scan
+  #   domain = Domain.find(params[:id])
+  #   domain.scan_and_capture_domains_scripts
+  #   flash[:banner_message] = "Scan in process for #{domain.url}."
+  #   redirect_to domain_path(domain.id)
+  # end
 
   private
 

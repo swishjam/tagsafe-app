@@ -2,7 +2,7 @@ class ChangePerformanceAuditCompletedAtToSecondsToCompletePerformanceAudit < Act
   def change
     ActiveRecord::Base.transaction do
       add_column :audits, :seconds_to_complete_performance_audit, :float
-      completed_audits = Audit.completed
+      completed_audits = Audit.where.not(performance_audit_completed_at: nil)
       puts "Updating #{completed_audits.count} audits."
       completed_audits.each do |audit|
         puts "."

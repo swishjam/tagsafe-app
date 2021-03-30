@@ -12,16 +12,6 @@
     border-radius: 15px;
     padding: 15px;
     margin: 15px;
-    table {
-      tr.removed-from-site {
-        background: rgb(226, 226, 226);
-      }
-      td.script-name-column {
-        overflow: hidden; 
-        text-overflow: ellipsis; 
-        white-space: nowrap;
-      }
-    }
   }
 }
 .settings-sub-nav {

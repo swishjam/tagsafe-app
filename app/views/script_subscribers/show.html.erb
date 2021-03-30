@@ -34,13 +34,9 @@
                     No performance audits run
                   </span>
                 <% elsif audit.performance_audit_pending? %>
-                  <span>
-                    Performance audit currently running.
-                  </span>
+                  <span class='badge badge-primary'>Performance audit currently running.</span>
                 <% elsif audit.performance_audit_failed? %>
-                  <span>
-                    Performance Audit failed.
-                  </span>
+                  <span class='badge badge-danger'>Performance Audit failed.</span>
                 <% else %>
                   <span>
                     <%= number_with_delimiter(audit.delta_performance_audit.tagsafe_score.round(2)) %>
@@ -48,10 +44,8 @@
                 <% end %>
               </td>
               <td scope="row">
-                <% if audit.nil? || audit.performance_audit_failed? %>
+                <% if audit.nil? || audit.performance_audit_failed? || audit.performance_audit_pending? %>
                   <span>--</span>
-                <% elsif audit.performance_audit_pending? %>
-                  <span>Performance Audit Running</span>
                 <% else %>
                   <% change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score) %>
                   <% unless change_in_score.nil? %>

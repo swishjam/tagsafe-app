@@ -14,10 +14,10 @@ module ScriptManager
 
     def evaluate_provided_scripts
       @new_script_urls.each do |url|
-        remove_url_from_existing_urls(url)
-        existing_script = Script.find_by(url: url)
-        if existing_script
-          subscribe_domain_to_existing_script(existing_script)
+        remove_url_from_already_subscribed_urls(url)
+        existing_script_full_url = Script.find_by(full_url: url)
+        if existing_script_full_url
+          subscribe_domain_to_existing_script(existing_script_full_url)
         else
           subscribe_domain_to_new_script(url)
         end
@@ -26,9 +26,9 @@ module ScriptManager
     end
 
     def subscribe_domain_to_existing_script(script)
-      unless @domain.subscribed_to_script? script
+      unless @domain.subscribed_to_script?(script)
         if script.most_recent_change.nil?
-          evaluator = script.evaluate_script_content
+          evaluator = script.capture_script_content
           @domain.subscribe!(script, first_script_change: evaluator.script_change, initial_scan: @initial_scan)    
         else
           @domain.subscribe!(script, first_script_change: script.most_recent_change, initial_scan: @initial_scan)
@@ -37,24 +37,39 @@ module ScriptManager
     end
 
     def subscribe_domain_to_new_script(url)
-      script = Script.create(url: url, should_log_script_checks: true)
-      evaluator = script.evaluate_script_content
-      @domain.subscribe!(script, first_script_change: evaluator.script_change, initial_scan: @initial_scan)
+      parsed_url = URI.parse(url)
+      # create the new script regardless of whether it was just a query param change...?
+      script = Script.create(
+        full_url: url, 
+        url_domain: parsed_url.host, 
+        url_path: parsed_url.path, 
+        url_query_params: parsed_url.query, 
+        should_log_script_checks: @domain.organization.should_log_script_checks
+      )
+      evaluator = script.capture_script_content
+
+      # there can be many scripts with the same domain/path, which should we be finding....?
+      existing_script_without_query_params = Script.most_recent_first.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
+      if existing_script_without_query_params
+        @domain.script_subscribers.find_by_domain_and_path(parsed_url.host, parsed_url.path)
+      else
+        @domain.subscribe!(script, first_script_change: evaluator.script_change, initial_scan: @initial_scan)
+      end
     end
 
     def remove_scripts_no_longer_on_domain
-      existing_script_urls.each do |url|
-        script_subscriber = @domain.script_subscriptions.joins(:script).find_by(scripts: { url: url })
+      already_subscribed_script_urls.each do |url|
+        script_subscriber = @domain.script_subscriptions.joins(:script).find_by(scripts: { full_url: url })
         script_subscriber.removed_from_site!
       end
     end
 
-    def remove_url_from_existing_urls(url)
-      existing_script_urls.delete(url)
+    def remove_url_from_already_subscribed_urls(url)
+      already_subscribed_script_urls.delete(url)
     end
 
-    def existing_script_urls
-      @existing_script_urls ||= @domain.scripts.collect(&:url)
+    def already_subscribed_script_urls
+      @already_subscribed_script_urls ||= @domain.scripts.collect(&:url)
     end
   end
 end

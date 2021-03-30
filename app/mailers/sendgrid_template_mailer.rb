@@ -1,3 +1,6 @@
+require 'sendgrid-ruby'
+include SendGrid
+
 class SendgridTemplateMailer
   class << self
     TEMPLATE_ID_DICTIONARY = {
@@ -25,7 +28,8 @@ class SendgridTemplateMailer
         },
         "template_id": "#{TEMPLATE_ID_DICTIONARY[@template_name]}"
       }
-      sg_api.client.mail._("send").post(request_body: data)
+      resp = sg_api.client.mail._("send").post(request_body: data)
+      Rails.logger.error "Sendgrid Post err: #{resp.status_code} - #{resp.body}" unless resp.status_code.to_i < 300
     end
 
     def sg_api
