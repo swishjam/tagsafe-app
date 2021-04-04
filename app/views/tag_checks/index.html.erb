@@ -1,0 +1,57 @@
+<h5 class='page-title'>Uptime</h5>
+
+<div class="tag-safe-container">
+  <%=
+    line_chart tags_uptime_chart_path(current_domain, tag_ids: @tags.collect(&:id), days_ago: @days_ago),
+      download: true, 
+      title: "Tag Uptime",
+      ytitle: "Response Time (ms)",
+      messages: { empty: "No checks." },
+      curve: false, 
+      legend: "bottom",
+      library: {
+        rangeSelector: true,
+        hAxis: { 
+          # format: 'MM-DD-YYYY' 
+          }
+      }
+  %>
+</div>
+
+<div class="tag-safe-container" style='margin-top: 15px'>
+  <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" style='width: 40%'>Tag</th>
+        <th scope="col" style='width: 12.5%'>Average Response Time</th>
+        <th scope="col" style='width: 12.5%'>Max Response Time</th>
+        <th scope="col" style='width: 12.5%'># Failed Requests</th>
+        <th scope="col" style='width: 12.5%'>Fail Rate</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tags.each do |tag| %>
+        <tr>
+          <td data-toggle="tooltip" data-placement="top" title="<%= tag.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag.try_friendly_name %></td>
+          <td><%= number_to_human(tag.average_response_time(days_ago: @days_ago), units: { unit: 'ms', thousand: 'seconds' }) %></td>
+          <td><%= number_to_human(tag.max_response_time(days_ago: @days_ago), units: { unit: 'ms', thousand: 'seconds' }) %></td>
+          <td><%= tag.failed_requests(days_ago: @days_ago) %></td>
+          <td><%= tag.fail_rate(days_ago: @days_ago) %>%</td>
+          <td>
+            <div class="dropdown dropleft show ellipsis-dropdown">
+              <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <%= link_to 'View Tag Details', tag_path(tag), class: 'dropdown-item' %> 
+              </div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @tags %>

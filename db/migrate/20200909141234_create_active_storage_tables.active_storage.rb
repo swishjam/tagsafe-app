@@ -1,10 +1,10 @@
 # This migration comes from active_storage (originally 20170806125915)
 class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
   def change
-    remove_column :script_changes, :js_file_file_name
-    remove_column :script_changes, :js_file_content_type
-    remove_column :script_changes, :js_file_file_size
-    remove_column :script_changes, :js_file_updated_at
+    remove_column :tag_versions, :js_file_file_name
+    remove_column :tag_versions, :js_file_content_type
+    remove_column :tag_versions, :js_file_file_size
+    remove_column :tag_versions, :js_file_updated_at
 
     create_table :active_storage_blobs do |t|
       t.string   :key,        null: false

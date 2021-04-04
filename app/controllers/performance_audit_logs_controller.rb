@@ -4,13 +4,13 @@ class PerformanceAuditLogsController < LoggedInController
     permitted_to_view?(@audit)
     @with_tag_log = @audit.performance_audit_with_tag.performance_audit_logs
     @without_tag_log = @audit.performance_audit_without_tag.performance_audit_logs
-    @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
-    @script_change = ScriptChange.find(params[:script_change_id])
+    @tag = Tag.find(params[:tag_id])
+    @tag_version = TagVersion.find(params[:tag_version_id])
     render_breadcrumbs(
-      { url: scripts_path, text: "Monitor Center" },
-      { url: script_subscriber_path(@script_subscriber), text: "#{@script_subscriber.try_friendly_name} Details" },
-      { url: script_subscriber_script_change_audits_path(@script_subscriber, @script_change), text: "#{@script_change.created_at.formatted_short} Change Audits" },
-      { url: script_subscriber_script_change_audit_path(@script_subscriber, @script_change, @audit), text: "#{@audit.created_at.formatted_short} Audit" },
+      { url: tags_path, text: "Monitor Center" },
+      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
+      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.created_at.formatted_short} Change Audits" },
+      { url: tag_tag_version_audit_path(@tag, @tag_version, @audit), text: "#{@audit.created_at.formatted_short} Audit" },
       { text: "Performance Audit Logs", active: true }
     )
   end

@@ -1,5 +1,5 @@
-class AddRemovedFromSiteAtToScriptSubscribers < ActiveRecord::Migration[5.2]
+class AddRemovedFromSiteAtToTags < ActiveRecord::Migration[5.2]
   def change
-    add_column :script_subscribers, :removed_from_site_at, :timestamp
+    add_column :tags, :removed_from_site_at, :timestamp
   end
 end

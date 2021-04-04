@@ -1,9 +1,9 @@
-class AddJsFileToScriptChange < ActiveRecord::Migration[5.2]
+class AddJsFileToTagVersion < ActiveRecord::Migration[5.2]
   # def up
-  #   add_attachment :script_changes, :js_file
+  #   add_attachment :tag_versions, :js_file
   # end
 
   # def down
-  #   remove_attachment :script_changes, :js_file
+  #   remove_attachment :tag_versions, :js_file
   # end
 end

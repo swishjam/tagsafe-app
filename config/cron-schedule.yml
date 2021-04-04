@@ -1,5 +1,5 @@
 one_minute_check_scripts:
-  class: Schedule::OneMinuteScriptCheckerJob
+  class: Schedule::OneMinuteTagCheckerJob
   cron: "*/1 * * * *" # every 1 minute
   description: "Checks all scripts to check if they've been changed."
   queue: "clean_data_queue"

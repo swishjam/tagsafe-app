@@ -1,0 +1,37 @@
+<div class="script-subscriber-chart-container" style="padding-top: 5px;">
+  <div class="row" style="margin-bottom: 5px;">
+    <div class="col-12">
+      <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">
+        <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to "Edit #{@tag.try_friendly_name}", edit_tag_path(@tag), class: 'dropdown-item' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 offset-6 text-right">
+      <select class="selectpicker" id="chart-metrics-dropdown" multiple data-live-search="true">
+        <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
+          <option value="<%= metric_type[:column] %>" 
+            <%= metric_type[:column] === :tagsafe_score ? 'selected' : nil %>>
+              <%= metric_type[:title] %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <%= 
+      line_chart tag_chart_path(tag, start_time: chart_start_time, end_time: chart_end_time),
+        download: true, 
+        title: 'TagSafe Score',
+        ytitle: 'TagSafe Score',
+        xtitle: 'Tag Change',
+        curve: false,
+        messages: { empty: "No Audits Ran." } 
+    %>
+  </div>
+</div>

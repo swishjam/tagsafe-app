@@ -1,7 +1,7 @@
 class AddPerformanceAudits < ActiveRecord::Migration[5.2]
   def change
-    add_column :script_subscribers, :allowed_third_party_tag, :boolean, default: false
-    add_column :script_subscribers, :is_third_party_tag, :boolean, default: true
+    add_column :tags, :allowed_third_party_tag, :boolean, default: false
+    add_column :tags, :is_third_party_tag, :boolean, default: true
 
     create_table :performance_audits do |t|
       t.integer :audit_id

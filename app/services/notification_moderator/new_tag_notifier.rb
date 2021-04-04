@@ -1,7 +1,7 @@
 module NotificationModerator
   class NewTagNotifier
-    def initialize(script_subscriber)
-      @script_subscriber = script_subscriber
+    def initialize(tag)
+      @tag = tag
     end
 
     def notify!
@@ -10,14 +10,14 @@ module NotificationModerator
     end
 
     def notify_email_subscribers
-      @script_subscriber.domain.organization.users.each do |user|
-        TagSafeMailer.send_new_tag_detected_email(user, @script_subscriber)
+      @tag.domain.organization.users.each do |user|
+        TagSafeMailer.send_new_tag_detected_email(user, @tag)
       end
     end
 
     def notify_slack_subscribers
-      @script_subscriber.new_tag_slack_notifications.should_receive_notifications.each do |slack_notifier|
-        slack_notifier.notify!(@script_subscriber)
+      @tag.new_tag_slack_notifications.should_receive_notifications.each do |slack_notifier|
+        slack_notifier.notify!(@tag)
       end
     end
   end

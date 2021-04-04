@@ -1,5 +1,5 @@
-class AddTimestampstoScriptSubscriber < ActiveRecord::Migration[5.2]
+class AddTimestampstoTag < ActiveRecord::Migration[5.2]
   def change
-    add_column :script_subscribers, :created_at, :timestamp, default: 'CURRENT_TIMESTAMP'
+    add_column :tags, :created_at, :timestamp, default: 'CURRENT_TIMESTAMP'
   end
 end

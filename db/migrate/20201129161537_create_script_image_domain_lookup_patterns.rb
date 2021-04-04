@@ -1,4 +1,4 @@
-class CreateScriptImageDomainLookupPatterns < ActiveRecord::Migration[5.2]
+class CreateTagImageDomainLookupPatterns < ActiveRecord::Migration[5.2]
   def change
     drop_table :script_domain_images
     add_column :scripts, :script_image_id, :integer

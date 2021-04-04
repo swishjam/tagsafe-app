@@ -1,0 +1,139 @@
+<div class="text-center">
+  <h1 class="page-title">Monitor Center</h1>
+
+  <% if current_domain.nil? %>
+    <h5>You have not defined your domain(s) to monitor.</h5>
+    <%= form_for Domain.new do |f| %>
+      <div class='input-group form-group'>
+        <div class="input-group-prepend">
+          <select name='domain[protocol]' class='custom-select' required>
+            <option class='dropdown-item' value='https://' selected>https://</option>
+            <option class='dropdown-item' value='http://'>http://</option>
+          </select>
+        </div>
+        <input type="text" class="form-control" name="domain[url]" placeholder="Domain URL">
+      </div>
+      <%= f.submit 'Enter Your Domain to Monitor', class: 'btn btn-outline-primary' %>
+    <% end %>
+  <% else %>
+    <%
+=begin%>
+ <div class="generic-metrics-container">
+      <div class="row">
+        <div class="col-4">
+          <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
+            <h5 class="generic-metric-card-title"r># Third Party Tags</h5>
+            <h4 class="generic-metric-card-value"><%= @active_tag_count %></h5>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
+            <h5 class="generic-metric-card-title"># Tag Changes Today</h5>
+            <h4 class="generic-metric-card-value"><%= @tag_change_count %></h5>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="generic-metric-card tag-safe-container" style="border: 1px solid black; background: white; padding: 15px;">
+            <h5 class="generic-metric-card-title"># Active Third Party Tags</h5>
+            <h4 class="generic-metric-card-value"><%= @tags.count %></h5>
+          </div>
+        </div>
+      </div>
+    </div> 
+<%
+=end%>
+    <div class="global-scripts-chart-container tag-safe-container">
+      <% if @active_tag_count > 0 %>
+        <%= render partial: 'partials/tags_chart', locals: { 
+          tag_ids: @tags.is_third_party_tag.still_on_site.collect(&:id),
+          include_metric_select: false,
+          default_metric_type: @filtered_performance_audit_metric_type
+        } %>
+      <% else %>
+        <%= render partial: 'partials/domain_scan_not_complete', locals: { domain_scan: @domain_scan } %>
+      <% end %>
+    </div>
+
+    <div class="tags">
+      <% @tags.in_groups_of(3, false).each do |group| %>
+        <div class="row row-no-side-margins">
+          <% group.each do |tag| %>
+            <div class="col-sm-12 col-md-6 col-lg-4 tag-safe-card-container">
+              <div class="card tag-safe-card tag <%= tag.removed_from_site? || tag.should_not_run_audit? ? 'removed-from-site' : nil %>">
+                <div class="dropdown show ellipsis-dropdown text-right">
+                  <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <%= link_to 'View', tag_path(tag), class: 'dropdown-item' %>
+                    <%= link_to 'Edit', edit_tag_path(tag), class: 'dropdown-item' %>
+                  </div>
+                </div>
+                <%= link_to tag_path(tag) do %>
+                  <div class="col-12 logo-container">
+                    <%= image_tag tag.try_image_url, class: 'img-fluid script-logo' %>
+                    <span data-toggle="tooltip"
+                      data-placement="top"
+                      title="<%= tag.try_friendly_name%>">
+                      <h5 class="card-title"><%= tag.try_friendly_name %></h5>
+                    </span>
+                  </div>
+                  <div class="card-body text-center col-12">
+                    <% if tag.removed_from_site? %>
+                      <p>
+                        <span data-toggle="tooltip"
+                            data-placement="top"
+                            title="The <%= tag.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= tag.removed_from_site_at.formatted %>.">
+                          <span class="script-removed-from-site-notice"><i class="fas fa-exclamation-circle"></i> Removed</span>
+                        </span>
+                      </p>
+                    <% end %>
+                    <% if tag.not_monitoring_changes? %>
+                      <p>
+                        <span data-toggle="tooltip"
+                          data-placement="top"
+                          title="Tag monitoring is off for <%= tag.try_friendly_name %>. Visit your tag management settings to monitor.">
+                          <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Not Monitoring Changes</span>
+                        </span>
+                      </p>
+                    <% else %>
+                      <p>
+                        Last change was <%= tag.content_changed_at ? time_ago_in_words(tag.content_changed_at) : 'unknown'%> ago.
+                      </p>
+                    <% end %>
+                    <% if tag.should_not_run_audit? %>
+                      <p>
+                        <span data-toggle="tooltip"
+                          data-placement="top"
+                          title="Tag auditing is off for <%= tag.try_friendly_name %>. Visit your tag management settings to monitor.">
+                          <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Auditing is Turned Off</span>
+                        </span>
+                      </p>
+                    <% end %>
+                    <% audit = tag.most_recent_version&.primary_audit %>
+                    <% unless audit&.delta_performance_audit.nil? %>
+                      <%= render partial: 'partials/progress_ring', locals: { 
+                        score: audit.delta_performance_audit.tagsafe_score, 
+                        change_in_score: audit.delta_performance_audit.change_in_metric(:tagsafe_score)
+                      } %>
+                    <% else %>
+                      <% audit = tag.most_recent_audit_by_tag_version(tag.most_recent_version, include_pending_performance_audits: true, include_failed_performance_audits: true) %>
+                      <% if audit.nil? %>
+                        <span>No audits run for this tag version</span>
+                      <% else %>
+                        <span class="badge badge-<%= audit.state == 'pending' ? 'primary' : 'danger' %>">Audit <%= audit.state %></span>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="pagination-container text-center">
+      <%= paginate @tags %>
+    </div>
+  <% end %>
+</div>

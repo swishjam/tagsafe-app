@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:login][:password])
       log_user_in(user)
       display_toast_message("Welcome, #{user.email}.")
-      url_to_go_to = session[:redirect_url] || scripts_path
+      url_to_go_to = session[:redirect_url] || tags_path
       session.delete(:redirect_url)
       redirect_to url_to_go_to
     else

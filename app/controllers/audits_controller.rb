@@ -1,29 +1,29 @@
 class AuditsController < LoggedInController
   def index
-    @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
-    permitted_to_view?(@script_subscriber)
-    @script_change = ScriptChange.find(params[:script_change_id])
-    @audits = @script_subscriber.audits_by_script_change(@script_change)
-    @primary_audit = @script_subscriber.primary_audit_by_script_change(@script_change)
+    @tag = Tag.find(params[:tag_id])
+    permitted_to_view?(@tag)
+    @tag_version = TagVersion.find(params[:tag_version_id])
+    @audits = @tag_version.audits.most_recent_first
+    @primary_audit = @tag_version.primary_audit
     render_breadcrumbs(
-      { url: scripts_path, text: "Monitor Center" },
-      { url: script_subscriber_path(@script_subscriber), text: "#{@script_subscriber.try_friendly_name} Details" },
-      { text: "#{@script_change.created_at.formatted_short} Audits", active: true }
+      { url: tags_path, text: "Monitor Center" },
+      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
+      { text: "#{@tag_version.created_at.formatted_short} Audits", active: true }
     )
   end
 
   def show
-    @script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
-    permitted_to_view?(@script_subscriber)
-    @script_change = ScriptChange.find(params[:script_change_id])
+    @tag = Tag.find(params[:tag_id])
+    permitted_to_view?(@tag)
+    @tag_version = TagVersion.find(params[:tag_version_id])
     @audit = Audit.find(params[:id])
-    @previous_audit = @script_subscriber.primary_audit_by_script_change(@script_change.previous_change)
-    @count_of_audits_for_script_change = @script_subscriber.audits_by_script_change(@script_change).count
+    @previous_audit = @tag_version.previous_version&.primary_audit
+    @count_of_audits_for_tag_version = @tag_version.audits.count
     @metric_types = PerformanceAuditMetricType.all
     render_breadcrumbs(
-      { url: scripts_path, text: "Monitor Center" },
-      { url: script_subscriber_path(@script_subscriber), text: "#{@script_subscriber.try_friendly_name} Details" },
-      { url: script_subscriber_script_change_audits_path(@script_subscriber, @script_change), text: "#{@script_change.created_at.formatted_short} Change Audits" },
+      { url: tags_path, text: "Monitor Center" },
+      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
+      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.created_at.formatted_short} Change Audits" },
       { text: "#{@audit.created_at.formatted_short} Audit", active: true }
     )
   end

@@ -1,0 +1,61 @@
+<h5 class="page-title" style="margin-bottom: 0;">Notification Settings</h5>
+<h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
+
+<%= render partial: 'edit_tag_nav', locals: { tag: @tag } %>
+
+<div class='tag-safe-container text-center'>
+  <h5>Email Settings</h5>
+  <% 
+    [{
+    toggle_endpoint_suffix: "toggle_tag_version_notification",
+    klass: NewTagVersionEmailSubscriber,
+    text: 'Receive emails upon each tag change.'
+  },
+  {
+    toggle_endpoint_suffix: "toggle_audit_complete_notification",
+    klass: AuditCompleteNotificationSubscriber,
+    text: 'Receive emails upon each audit completed.'
+  }].each do |preference_obj|
+  %>
+    <td>
+      <div class="custom-control custom-switch" style='cursor: pointer; display: inline-block;'>
+        <input style="cursor: pointer" type="checkbox" class="custom-control-input" id="<%=preference_obj[:toggle_endpoint_suffix]%>-<%=@tag.id%>" <%= current_user.subscribed_to_notification?(preference_obj[:klass], @tag) ? 'checked' : nil %> onclick="var xhr = new XMLHttpRequest();xhr.open('POST', '/api/notification_preferences/<%= @tag.id %>/<%= preference_obj[:toggle_endpoint_suffix] %>', true);xhr.send();">
+        <label class="custom-control-label" for="<%=preference_obj[:toggle_endpoint_suffix]%>-<%=@tag.id%>" style='cursor: pointer;'><%=preference_obj[:text]%></label>
+      </div>
+    </td>
+  <% end %>
+  <hr/>
+  <h5>Slack Notifications</h5>
+  <% if current_organization.completed_slack_setup? %>
+    <%= form_for SlackNotificationSubscriber.new, url: tag_slack_notification_subscribers_path(@tag), html: { class: 'form-inline', style: 'width: fit-content; margin: 0 auto' } do |f| %>
+      <%= f.hidden_field :tag_id, value: @tag.id %>
+      <div class="form-group">
+        <select name="slack_notification_subscriber[type]" class='custom-select' required>
+          <option disabled selected>Notification Type</option>
+          <option value='TagVersiondSlackNotification'>Tag Changed</option>
+          <option value='AuditCompletedSlackNotification'>Audit Completed</option>
+          <option value='NewTagSlackNotification'>New Tag</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select name='slack_notification_subscriber[channel]' class='custom-select' required>
+          <option selected disabled>Slack Channel</option>
+          <% @slack_channels_options.each do |channel| %>
+            <option value="<%=channel%>"><%=channel%></option>
+          <% end %>
+        </select>
+      </div>
+      <%= f.submit 'Add Slack Notification', class: 'btn btn-primary' %>
+    <% end %>
+    <ul class="list-group">
+      <% @tag.slack_notification_subscribers.each do |slack_notification| %>
+        <li class="list-group-item">
+          <span style='text-decoration: underline; font-style: italic'><%= slack_notification.friendly_name %></span> send a message to the <span style='text-decoration: underline; font-style: italic'><%= slack_notification.channel %></span> channel.
+          <%= link_to 'X', tag_slack_notification_subscriber_path(@tag, slack_notification), method: :delete, style: 'float: right;' %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <%= render partial: 'partials/add_to_slack_button' %>
+  <% end %>
+</div>

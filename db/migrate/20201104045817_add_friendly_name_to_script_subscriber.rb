@@ -1,5 +1,5 @@
-class AddFriendlyNameToScriptSubscriber < ActiveRecord::Migration[5.2]
+class AddFriendlyNameToTag < ActiveRecord::Migration[5.2]
   def change
-    add_column :script_subscribers, :friendly_name, :string
+    add_column :tags, :friendly_name, :string
   end
 end

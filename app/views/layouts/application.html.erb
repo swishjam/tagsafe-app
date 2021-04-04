@@ -22,8 +22,8 @@
     <script>
       window.currentUser = "<%= current_user&.email %>"
       window.currentDomainId = "<%= current_domain&.id %>"
-      window.scriptSubscriberId = "<%= @script_subscriber&.id %>"
-      window.scriptSubscribersIds = "<%= @script_subscriptions&.collect(&:id) %>"
+      window.scriptSubscriberId = "<%= @tag&.id %>"
+      window.scriptSubscribersIds = "<%= @tags&.collect(&:id) %>"
     </script>
   </head>
 

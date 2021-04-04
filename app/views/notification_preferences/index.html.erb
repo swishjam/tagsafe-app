@@ -13,13 +13,13 @@
         </tr>
       </thead>
       <tbody>
-        <% @script_subscriptions.each do |script_subscription| %>
+        <% @tags.each do |script_subscription| %>
           <tr>
             <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscription.try_friendly_name %></td>
             <% 
               [{
-              toggle_endpoint_suffix: "toggle_script_change_notification",
-              klass: ScriptChangeEmailSubscriber
+              toggle_endpoint_suffix: "toggle_tag_version_notification",
+              klass: NewTagVersionEmailSubscriber
             },
             {
               toggle_endpoint_suffix: "toggle_audit_complete_notification",

@@ -1,6 +1,6 @@
-class AddScriptChangeAndScriptCheckRetention < ActiveRecord::Migration[5.2]
+class AddTagVersionAndTagCheckRetention < ActiveRecord::Migration[5.2]
   def change
-    add_column :script_subscribers, :script_change_retention_count, :integer
-    add_column :script_subscribers, :script_check_retention_count, :integer
+    add_column :tags, :tag_version_retention_count, :integer
+    add_column :tags, :script_check_retention_count, :integer
   end
 end

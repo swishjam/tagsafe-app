@@ -1,0 +1,23 @@
+<h4 class="page-title with-sub-title">Settings</h4>
+<h5 class='page-sub-title'>Tag Settings</h5>
+<%= render partial: 'settings_nav' %>
+<div class="tag-safe-container text-center">
+  <%= form_for NonThirdPartyUrlPattern.new, url: domain_non_third_party_url_patterns_path(current_domain) do |f| %>
+    <div class='form-group'>
+      <span data-toggle="tooltip" data-placement="top" title="URL patterns that you do not want TagSafe to consider third party tags.">
+        <i class="far fa-question-circle"></i>
+      </span>
+      <%= f.label 'Non-Third Party Tag URL Pattern' %>
+      <%= f.text_field :pattern, placeholder: 'www.google.com' %>
+    </div>
+    <%= f.submit 'Add URL Pattern', class: 'btn btn-outline-primary' %>
+  <% end %>
+  <div class='row'>
+    <% @non_third_party_url_patterns.each do |url_pattern| %>
+      <li class="list-group-item">
+          <span class="allowed-script-subscriber-name"><%= url_pattern.pattern %></span>
+          <span class="delete-allowed-script-subscriber" style="float: right;"><%= button_to 'X', domain_non_third_party_url_pattern_path(current_domain, url_pattern), method: :delete %></span>
+        </li>
+    <% end %>
+  </div>
+</div>

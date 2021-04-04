@@ -1,8 +1,8 @@
 <h5 class="page-title with-sub-title">Audits</h5>
 <h6 class="page-sub-title">
-  <%= @script_subscriber.try_friendly_name %>
+  <%= @tag.try_friendly_name %>
   <br/>
-  <%= @script_change.created_at.formatted_short %> tag change
+  <%= @tag_version.created_at.formatted_short %> tag change
 </h6>
 <div class="tag-safe-container text-center">
   <div class="col-12">
@@ -13,9 +13,9 @@
         <i class="fas fa-ellipsis-h"></i>
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <%= link_to 'View Tag Change Content', script_subscriber_script_change_path(@script_subscriber, @script_change), class: 'dropdown-item', target: '_blank' %>
+        <%= link_to 'View Tag Change Content', tag_tag_version_path(@tag, @tag_version), class: 'dropdown-item', target: '_blank' %>
         <div class="dropdown-divider"></div>
-        <%= link_to 'Re-Run Audit', run_audit_script_subscriber_script_change_path(@script_subscriber, @script_change), method: :post, class: 'dropdown-item', data: { confirm: "Run audit on #{@script_subscriber.try_friendly_name}?" } %>
+        <%= link_to 'Re-Run Audit', run_audit_tag_tag_version_path(@tag, @tag_version), method: :post, class: 'dropdown-item', data: { confirm: "Run audit on #{@tag.try_friendly_name}?" } %>
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
             <% end %>
           </td>
           <td scope="row"><%= audit.execution_reason.name %></td>
-          <td scope="row"><%= link_to 'View Audit', script_subscriber_script_change_audit_path(@script_subscriber, @script_change, audit) %></td>
+          <td scope="row"><%= link_to 'View Audit', tag_tag_version_audit_path(@tag, @tag_version, audit) %></td>
         </tr>
       <% end %>
     </tbody>
@@ -76,7 +76,7 @@
         var radioButton = e.target;
         if(radioButton.value !== "<%= @primary_audit.id %>") {
           updateContainer.classList.remove('hidden');
-          submitButton.href = "/script_subscribers/<%=@script_subscriber.id%>/script_changes/<%=@script_change.id%>/audits/"+radioButton.value+"/make_primary";
+          submitButton.href = "/tags/<%=@tag.id%>/tag_versions/<%=@tag_version.id%>/audits/"+radioButton.value+"/make_primary";
         } else {
           updateContainer.classList.add('hidden');
           submitButton.href = "#";

@@ -23,7 +23,7 @@ function getChartData(callback, options) {
   options = options || {};
   var metric = options.metric || 'psi';
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/charts/domain/'+window.currentDomainId+'?metric_type='+metric+'&script_subscriber_ids='+window.scriptSubscribersIds, true);
+  xhr.open('GET', '/charts/domain/'+window.currentDomainId+'?metric_type='+metric+'&tag_ids='+window.scriptSubscribersIds, true);
   xhr.send();
   xhr.onreadystatechange = function() {
     if (xhr.readyState == XMLHttpRequest.DONE) {

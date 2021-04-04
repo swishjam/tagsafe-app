@@ -1,4 +1,5 @@
 class GeppettoModerator::Sender
+  class GeppettoConnectionError < StandardError; end;
   def initialize(path_endpoint, domain, request_body)
     @endpoint = "#{ENV['GEPPETTO_DOMAIN']}#{path_endpoint}"
     @domain = domain
@@ -17,9 +18,7 @@ class GeppettoModerator::Sender
     HTTParty.post(@endpoint, merged_request_options)
   rescue => e
     Rails.logger.error "Could not connect to Geppetto Service. #{e}"
-    err = Struct.new(:code, :response)
-    resp = Struct.new(:body)
-    err.new(500, resp.new("An error occurred: #{e}"))
+    raise GeppettoConnectionError, "Could not connect to Geppetto Service. #{e}"
   end
   
   def merged_request_options

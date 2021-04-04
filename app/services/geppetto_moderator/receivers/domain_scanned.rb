@@ -1,6 +1,6 @@
 class GeppettoModerator::Receivers::DomainScanned
-  def initialize(scripts:, domain_id:, domain_scan_id:, error_message:, initial_scan:)
-    @scripts = scripts
+  def initialize(tag_urls:, domain_id:, domain_scan_id:, error_message:, initial_scan:)
+    @tag_urls = tag_urls
     @domain_id = domain_id
     @domain_scan_id = domain_scan_id
     @error_message = error_message
@@ -12,7 +12,12 @@ class GeppettoModerator::Receivers::DomainScanned
     if @error_message
       domain_scan.errored!(@error_message)
     else
-      UpdateDomainsScriptsJob.perform_later(domain, @scripts, domain_scan, @initial_scan)
+      UpdateDomainsTagsJob.perform_later(
+        domain: domain, 
+        tag_urls: @tag_urls, 
+        domain_scan: domain_scan, 
+        initial_scan: @initial_scan
+      )
     end
   end
 

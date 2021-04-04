@@ -1,7 +1,7 @@
 class FreshDb < ActiveRecord::Migration[5.2]
   def up
     # drop_table :monitored_scripts
-    # drop_table :script_changes
+    # drop_table :tag_versions
     # drop_table :monitored_scripts_organizations
     # drop_table :notification_subscribers
 
@@ -25,7 +25,7 @@ class FreshDb < ActiveRecord::Migration[5.2]
       t.index [:domain_id, :script_id]
     end
 
-    create_table :script_changes do |t|
+    create_table :tag_versions do |t|
       t.references :script
       # t.has_attached_file :js_file
       t.integer :bytes
@@ -34,7 +34,7 @@ class FreshDb < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    create_table :script_change_subcribers do |t|
+    create_table :tag_version_subcribers do |t|
       t.references :script
       t.references :user
     end
@@ -53,7 +53,7 @@ class FreshDb < ActiveRecord::Migration[5.2]
 
     create_table :test_results do |t|
       t.references :test
-      t.references :script_change
+      t.references :tag_version
       t.boolean :passed
       t.string :result
     end

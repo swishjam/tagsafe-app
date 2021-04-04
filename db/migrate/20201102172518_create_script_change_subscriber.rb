@@ -1,8 +1,8 @@
-class CreateScriptChangeSubscriber < ActiveRecord::Migration[5.2]
+class CreateTagVersionSubscriber < ActiveRecord::Migration[5.2]
   def change
-    create_table :script_change_subscribers do |t|
+    create_table :tag_version_subscribers do |t|
       t.references :user
-      t.references :script_subscriber
+      t.references :tag
     end
   end
 end

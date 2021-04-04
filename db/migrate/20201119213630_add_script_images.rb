@@ -1,4 +1,4 @@
-class AddScriptImages < ActiveRecord::Migration[5.2]
+class AddTagImages < ActiveRecord::Migration[5.2]
   def change
     create_table :script_domain_images do |t|
       t.integer :script_image_id

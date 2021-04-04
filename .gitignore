@@ -28,4 +28,4 @@
 .env
 
 /public/lighthouse_reports/*
-/public/script_changes/*
+/public/tag_versions/*

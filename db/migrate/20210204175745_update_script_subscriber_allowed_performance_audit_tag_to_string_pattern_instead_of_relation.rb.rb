@@ -1,7 +1,7 @@
-class UpdateScriptSubscriberAllowedPerformanceAuditTagToStringPatternInsteadOfRelation < ActiveRecord::Migration[5.2]
+class UpdateTagAllowedPerformanceAuditTagToStringPatternInsteadOfRelation < ActiveRecord::Migration[5.2]
   def change
-    remove_column :script_subscriber_allowed_performance_audit_tags, :allowed_script_subscriber_id
-    add_column :script_subscriber_allowed_performance_audit_tags, :url_pattern, :string
-    rename_column :script_subscriber_allowed_performance_audit_tags, :performance_audit_script_subscriber_id, :script_subscriber_id
+    remove_column :tag_allowed_performance_audit_third_party_urls, :allowed_tag_id
+    add_column :tag_allowed_performance_audit_third_party_urls, :url_pattern, :string
+    rename_column :tag_allowed_performance_audit_third_party_urls, :performance_audit_tag_id, :tag_id
   end
 end

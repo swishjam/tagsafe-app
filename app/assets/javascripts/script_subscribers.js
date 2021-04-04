@@ -3,12 +3,12 @@ window.addEventListener('load', function() {
     metricKeys: ['TagSafeScore'],
     chartType: 'impact'
   }
-  setScriptSubscriberToggleListeners();
-  setScriptSubscriberChartMetricListener(stateKeeper);
-  setScriptSubscriberChartTypeToggleListener(stateKeeper);
+  setTagToggleListeners();
+  setTagChartMetricListener(stateKeeper);
+  setTagChartTypeToggleListener(stateKeeper);
 });
 
-function setScriptSubscriberChartTypeToggleListener(stateKeeper) {
+function setTagChartTypeToggleListener(stateKeeper) {
   $('input[name="chart-type"]').on('change', function(e) {
     var chartType = e.currentTarget.value;
     stateKeeper.chartType = chartType;
@@ -16,7 +16,7 @@ function setScriptSubscriberChartTypeToggleListener(stateKeeper) {
   })
 }
 
-function setScriptSubscriberChartMetricListener(stateKeeper) {
+function setTagChartMetricListener(stateKeeper) {
   $('#chart-metrics-dropdown').on('hide.bs.select', function(event) {
     var metricKeys = [];
     var selectedMetrics = event.currentTarget.selectedOptions;
@@ -32,7 +32,7 @@ function setScriptSubscriberChartMetricListener(stateKeeper) {
 function updateChartData(chartType, metricKeys) {
   var chart = Chartkick.charts["chart-1"];
   var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/charts/script_subscriber/'+window.scriptSubscriberId+'?chart_type='+chartType+'&metric_keys='+JSON.stringify(metricKeys), true);
+    xhr.open('GET', '/charts/tag/'+window.scriptSubscriberId+'?chart_type='+chartType+'&metric_keys='+JSON.stringify(metricKeys), true);
     xhr.send();
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -44,7 +44,7 @@ function updateChartData(chartType, metricKeys) {
     }
 }
 
-function setScriptSubscriberToggleListeners() {
+function setTagToggleListeners() {
   var scriptToggles = document.querySelectorAll('.script-subscriber-active-toggle');
   for(i=0; i<scriptToggles.length; i++) {
     var toggle = scriptToggles[i];
@@ -52,7 +52,7 @@ function setScriptSubscriberToggleListeners() {
       var scriptSubscriberId = e.currentTarget.getAttribute('data-script-subscriber');
       if(scriptSubscriberId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/script_subscribers/'+scriptSubscriberId+'/toggle_active', true);
+        xhr.open('POST', '/api/tags/'+scriptSubscriberId+'/toggle_active', true);
         xhr.send();
         xhr.onreadystatechange = function() {
           if(xhr.readyState == XMLHttpRequest.DONE) {

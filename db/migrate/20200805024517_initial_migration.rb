@@ -15,7 +15,7 @@ class InitialMigration < ActiveRecord::Migration[5.2]
       t.string :url
     end
 
-    create_table :script_changes do |t|
+    create_table :tag_versions do |t|
       t.integer :monitored_script_id
       
       t.string :hashed_content
@@ -25,7 +25,7 @@ class InitialMigration < ActiveRecord::Migration[5.2]
 
   def down
     drop_table :users
-    drop_table :script_changes
+    drop_table :tag_versions
     drop_table :monitored_scripts
     drop_table :organizations
   end

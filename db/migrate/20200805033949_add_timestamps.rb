@@ -3,8 +3,8 @@ class AddTimestamps < ActiveRecord::Migration[5.2]
     add_column :users, :created_at, :datetime, null: false
     add_column :users, :updated_at, :datetime, null: false
 
-    add_column :script_changes, :created_at, :datetime, null: false
-    add_column :script_changes, :updated_at, :datetime, null: false
+    add_column :tag_versions, :created_at, :datetime, null: false
+    add_column :tag_versions, :updated_at, :datetime, null: false
 
     add_column :monitored_scripts, :created_at, :datetime, null: false
     add_column :monitored_scripts, :updated_at, :datetime, null: false
@@ -17,8 +17,8 @@ class AddTimestamps < ActiveRecord::Migration[5.2]
     remove_column :users, :created_at
     remove_column :users, :updated_at
 
-    remove_column :script_changes, :created_at
-    remove_column :script_changes, :updated_at
+    remove_column :tag_versions, :created_at
+    remove_column :tag_versions, :updated_at
 
     remove_column :monitored_scripts, :created_at
     remove_column :monitored_scripts, :updated_at

@@ -16,11 +16,11 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "*#{audit.script_subscriber.try_friendly_name} audit has completed.*"
+          "text": "*#{audit.tag.try_friendly_name} audit has completed.*"
         },
         "accessory": {
           "type": "image",
-          "image_url": "#{audit.script_subscriber.try_image_url}",
+          "image_url": "#{audit.tag.try_image_url}",
           "alt_text": "Tag image"
         }
       }
@@ -82,7 +82,7 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
             "emoji": true,
             "text": "View Audit"
           },
-          "url": "#{script_subscriber_script_change_audit_url(audit.script_subscriber, audit.script_change, audit, host: ENV['CURRENT_HOST'])}",
+          "url": "#{tag_tag_version_audit_url(audit.tag, audit.tag_version, audit, host: ENV['CURRENT_HOST'])}",
           "style": "primary",
           "value": "view_audit"
         },
@@ -93,7 +93,7 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
             "emoji": true,
             "text": "Tag Details"
           },
-          "url": "#{script_subscriber_url(audit.script_subscriber, audit, host: ENV['CURRENT_HOST'])}",
+          "url": "#{tag_url(audit.tag, audit, host: ENV['CURRENT_HOST'])}",
           "value": "view_tag_details"
         },
         {

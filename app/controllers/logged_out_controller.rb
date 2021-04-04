@@ -4,6 +4,6 @@ class LoggedOutController < ApplicationController
   layout 'logged_out_layout'
 
   def ensure_logged_out
-    redirect_to scripts_path unless current_user.nil?
+    redirect_to tags_path unless current_user.nil?
   end
 end

@@ -1,8 +1,8 @@
 <h5 class='page-title'>Performance</h5>
 
 <div class='tag-safe-container' style='margin-bottom: 15px;'>
-  <%= render partial: 'partials/script_subscribers_chart', locals: { 
-    script_subscriber_ids: @script_subscriptions.collect(&:id),
+  <%= render partial: 'partials/tags_chart', locals: { 
+    tag_ids: @tags.collect(&:id),
     include_metric_select: true,
     default_metric_type: :tagsafe_score
   } %>
@@ -12,23 +12,24 @@
   <table class="table table-hover col-12 text-center" style="table-layout: fixed">
     <thead>
       <tr>
-        <th scope="col" style='width: 23%'>Tag</th>
-        <th scope="col" style='width: 10.5%'>DOM Complete Impact</th>
-        <th scope="col" style='width: 10.5%'>DOM Interactive Impact</th>
-        <th scope="col" style='width: 10.5%'>First Contentful Paint Impact</th>
-        <th scope="col" style='width: 10.5%'>Script Duration Impact</th>
-        <th scope="col" style='width: 10.5%'>Layout Duration Impact</th>
-        <th scope="col" style='width: 10.5%'>Task Duration Impact</th>
-        <th scope="col" style='width: 10.5%'>TagSafe Score</th>
+        <th scope="col" style='width: 20%'>Tag</th>
+        <th scope="col" style='width: 9.8%'>DOM Complete Impact</th>
+        <th scope="col" style='width: 9.8%'>DOM Interactive Impact</th>
+        <th scope="col" style='width: 9.8%'>First Contentful Paint Impact</th>
+        <th scope="col" style='width: 9.8%'>Script Duration Impact</th>
+        <th scope="col" style='width: 9.8%'>Layout Duration Impact</th>
+        <th scope="col" style='width: 9.8%'>Task Duration Impact</th>
+        <th scope="col" style='width: 9.8%'>TagSafe Score</th>
+        <th scope="col" style='width: 9.8%'>Audited Date</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <% @script_subscriptions.each do |script_subscriber| %>
-        <% most_recent_dpa = script_subscriber&.most_recent_audit&.delta_performance_audit %>
-        <% if most_recent_dpa %>
-          <tr>
-            <td data-toggle="tooltip" data-placement="top" title="<%= script_subscriber.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= script_subscriber.try_friendly_name %></td>
+      <% @tags.each do |tag| %>
+        <tr>
+          <td data-toggle="tooltip" data-placement="top" title="<%= tag.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag.try_friendly_name %></td>
+          <% most_recent_dpa = tag.most_recent_version&.primary_audit&.delta_performance_audit %>
+          <% if most_recent_dpa %>
             <td scope="row"><%= number_to_human(most_recent_dpa.dom_complete, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= number_to_human(most_recent_dpa.dom_interactive, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= number_to_human(most_recent_dpa.first_contentful_paint, units: { unit: 'ms', thousand: 'seconds' }) %></td>
@@ -36,21 +37,31 @@
             <td scope="row"><%= number_to_human(most_recent_dpa.layout_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= number_to_human(most_recent_dpa.task_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= most_recent_dpa.tagsafe_score.round(2) %></td>
-            <td scope="row">
-              <div class="dropdown dropleft show ellipsis-dropdown">
-                <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <%= link_to 'View Tag Details', script_subscriber_path(script_subscriber), class: 'dropdown-item' %> 
-                </div>
+            <td scope="row"><%= most_recent_dpa.audit.performance_audit_enqueued_at.formatted_short %></td>
+          <% else %>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+            <td scope="row">-</td>
+          <% end %>
+          <td scope="row">
+            <div class="dropdown dropleft show ellipsis-dropdown">
+              <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <%= link_to 'View Tag Details', tag_path(tag), class: 'dropdown-item' %> 
               </div>
-            </td>
-          </tr>
-        <% end %>
+            </div>
+          </td>
+        </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<%= paginate @script_subscriptions %>
+<%= paginate @tags %>

@@ -6,9 +6,9 @@ RSpec.describe TagSafeScorer do
     create_execution_reasons
     script = create(:script)
     domain = create(:domain)
-    script_change = create(:script_change, script: script, bytes: 100_000)
-    script_subscriber = create(:script_subscriber, script: script, domain: domain, first_script_change: script_change)
-    audit = create(:audit, script_change: script_change, script_subscriber: script_subscriber, execution_reason: ExecutionReason.MANUAL)
+    tag_version = create(:tag_version, script: script, bytes: 100_000)
+    tag = create(:tag, script: script, domain: domain, first_tag_version: tag_version)
+    audit = create(:audit, tag_version: tag_version, tag: tag, execution_reason: ExecutionReason.MANUAL)
     @delta_performance_audit = create(:delta_performance_audit, audit: audit)
     @performance_audit_with_tag = create(:performance_audit_with_tag, audit: audit)
     dom_complete_metric = create(:performance_audit_metric, 

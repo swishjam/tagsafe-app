@@ -8,7 +8,7 @@ class CreateLighthouseAuditResults < ActiveRecord::Migration[5.2]
     create_table :lighthouse_audits do |t|
       t.integer :domain_id
       t.integer :script_id
-      t.integer :script_change_id
+      t.integer :tag_version_id
       t.boolean :passed
       t.timestamps
     end

@@ -3,7 +3,7 @@ class CreateTestSuiteRunsAndTestRunsTables < ActiveRecord::Migration[5.2]
     create_table :test_suite_runs do |t|
       t.references :test_execution_reason
       t.references :domain
-      t.references :script_change
+      t.references :tag_version
       t.boolean :passed
       t.timestamp :created_at
     end

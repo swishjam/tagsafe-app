@@ -1,0 +1,28 @@
+<div class="text-center">
+  <div class="col-12 text-right">
+    <%= button_to "Sync Images With Tags", apply_all_to_scripts_admin_script_images_path %>
+  </div>
+  <%= form_for TagImage.new, url: '/admin/script_images' do |f| %>
+    <div class="form-group">
+      <%= f.file_field :image %>
+    </div>
+    <%= f.submit 'Upload Image', class: 'btn btn-outline-primary' %>
+  <% end %>
+
+
+  <% @script_images.in_groups_of(3, false).each do |group| %>
+    <div class="row">
+      <% group.each do |script_image| %>
+        <div class="col-4" style="border: 1px solid black">
+          <%= link_to admin_script_image_path(script_image) do %>
+            <%= image_tag url_for(script_image.image), class: 'img-fluid' %>
+            <div class="col-12 text-center">
+              <span class="badge badge-primary"><%= script_image.scripts.count %> Tags</span>
+              <span class="badge badge-primary"><%= script_image.lookup_patterns.count %> URL Patterns</span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

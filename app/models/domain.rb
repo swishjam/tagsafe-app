@@ -1,48 +1,56 @@
 class Domain < ApplicationRecord
   belongs_to :organization
-  has_many :domain_scans
-  has_many :script_subscriptions, class_name: 'ScriptSubscriber', dependent: :destroy
-  has_many :scripts, through: :script_subscriptions
+  has_many :domain_scans, dependent: :destroy
+  has_many :tags, dependent: :destroy
+  has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true
 
   after_create_commit do
-    scan_and_capture_domains_scripts(true) unless Domain.skip_callbacks
+    scan_and_capture_domains_scripts(true)
   end
 
-  def subscribe!(
-    script, 
-    first_script_change:, 
-    initial_scan: false, 
-    monitor_changes: ENV['SHOULD_MONITOR_CHANGES_BY_DEFAULT'] == 'true', 
-    should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', 
-    allowed_third_party_tag: false, 
-    is_third_party_tag: true,
-    script_change_retention_count: (ENV['DEFAULT_SCRIPT_CHANGE_RETENTION_COUNT'] || '500').to_i,
-    script_check_retention_count: (ENV['DEFAULT_SCRIPT_CHECK_RETENTION_COUNT'] || '14400').to_i # 10 days worth when checking every minute
+  def add_tag!(
+      tag_url,
+      monitor_changes: ENV['SHOULD_MONITOR_CHANGES_BY_DEFAULT'] == 'true', 
+      should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', 
+      is_allowed_third_party_tag: false, 
+      is_third_party_tag: true,
+      initial_scan: false,
+      should_log_tag_checks: true,
+      consider_query_param_changes_new_tag: false
     )
-    ss = script_subscriptions.create!(
-      script: script,
-      first_script_change: first_script_change,
+    parsed_url = URI.parse(tag_url)
+    tag = tags.create!(
+      full_url: tag_url,
+      url_domain: parsed_url.host,
+      url_path: parsed_url.path,
+      url_query_param: parsed_url.query,
       monitor_changes: monitor_changes,
-      allowed_third_party_tag: allowed_third_party_tag,
+      is_allowed_third_party_tag: is_allowed_third_party_tag,
       is_third_party_tag: is_third_party_tag,
       should_run_audit: should_run_audit,
-      script_check_retention_count: script_check_retention_count,
-      script_change_retention_count: script_change_retention_count
+      should_log_tag_checks: should_log_tag_checks,
+      consider_query_param_changes_new_tag: consider_query_param_changes_new_tag
     )
-    AfterScriptSubscriberCreationJob.perform_later(ss) unless initial_scan
+    # if it's the first time scanning the domain for tags, don't run the job
+    # we may eventually move this unless statement into the job itself, but for now let's just not bother enqueuing
+    AfterTagCreationJob.perform_later(tag) unless initial_scan
   end
 
-  def subscribed_to_script?(script)
-    scripts.include? script
+  def has_tag?(tag)
+    tags.include? tag
   end
 
   def allowed_third_party_tag_urls
-    script_subscriptions.third_party_tags_that_shouldnt_be_blocked.collect{ |ss| ss.script.url }
+    tags.third_party_tags_that_shouldnt_be_blocked.collect(&:full_url)
   end
 
   def scan_and_capture_domains_scripts(initial_scan = false)
     GeppettoModerator::Senders::ScanDomain.new(self, initial_scan: initial_scan).send!
+  end
+
+  def should_capture_tag?(url)
+    non_third_party_url_patterns.none?{ |url_pattern| url.include?(url_pattern.pattern) } 
   end
 end

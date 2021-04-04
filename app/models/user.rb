@@ -6,8 +6,8 @@ class User < ApplicationRecord
   has_many :organizations, through: :organization_users
   has_and_belongs_to_many :roles
 
-  has_many :notification_subscriptions, class_name: 'NotificationSubscriber'
-  has_many :script_change_notification_subscriptions, class_name: 'ScriptChangeEmailSubscriber'
+  has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
+  has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'
   has_many :audit_complete_notification_subscriptions, class_name: 'AuditCompleteNotificationSubscriber'
 
   validates :email, presence: true, uniqueness: true
@@ -38,15 +38,15 @@ class User < ApplicationRecord
     UserInvite.invite!(email_to_invite, organization, self)
   end
 
-  def subscribed_to_notification?(notification_class, script_subscriber)
-    !notification_class.find_by(script_subscriber: script_subscriber, user: self).nil?
+  def subscribed_to_notification?(notification_class, tag)
+    !notification_class.find_by(tag: tag, user: self).nil?
   end
 
-  def subscribe_to_notification!(notification_class, script_subscriber)
-    notification_class.create!(script_subscriber: script_subscriber, user: self)
+  def subscribe_to_notification!(notification_class, tag)
+    notification_class.create!(tag: tag, user: self)
   end
 
-  def unsubscribe_to_notification!(notification_class, script_subscriber)
-    notification_class.find_by(script_subscriber: script_subscriber, user: self).destroy!
+  def unsubscribe_to_notification!(notification_class, tag)
+    notification_class.find_by(tag: tag, user: self).destroy!
   end
 end

@@ -2,7 +2,7 @@ class PerformanceAuditPreferencesController < LoggedInController
   def update
     preferences = PerformanceAuditPreference.find(params[:id])
     preferences.update(preferences_params)
-    display_toast_message("Updated performance audit preferences for #{preferences.script_subscriber.try_friendly_name}")
+    display_toast_message("Updated performance audit preferences for #{preferences.tag.try_friendly_name}")
     redirect_to request.referrer
   end
 

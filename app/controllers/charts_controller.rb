@@ -1,12 +1,12 @@
 class ChartsController < ApplicationController
-  def script_subscribers
+  def tags
     domain = Domain.find(params[:domain_id])
     metric = params[:metric_type] || :tagsafe_score
-    if params[:script_subscriber_ids]
-      script_subscriber_ids = params[:script_subscriber_ids].is_a?(Array) ? params[:script_subscriber_ids] : JSON.parse(params[:script_subscriber_ids])
-      script_subscribers = current_domain.script_subscriptions.where(id: script_subscriber_ids)
-      chart_data_getter = ChartHelper::ScriptSubscribersData.new(
-        script_subscribers: script_subscribers, 
+    if params[:tag_ids]
+      tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
+      tags = current_domain.tags.where(id: tag_ids)
+      chart_data_getter = ChartHelper::TagsData.new(
+        tags: tags, 
         start_time: params[:start_time] || 24.hours.ago,
         end_time: params[:end_time] || Time.now,
         metric_key: metric
@@ -17,12 +17,12 @@ class ChartsController < ApplicationController
     end
   end
 
-  def script_subscriber
-    script_subscriber = ScriptSubscriber.find(params[:script_subscriber_id])
-    permitted_to_view?(script_subscriber, raise_error: true)
+  def tag
+    tag = Tag.find(params[:tag_id])
+    permitted_to_view?(tag, raise_error: true)
     metric_keys = JSON.parse(params[:metric_keys] || "[\"tagsafe_score\"]")
-    chart_data_getter = ChartHelper::ScriptSubscriberData.new(
-      script_subscriber: script_subscriber, 
+    chart_data_getter = ChartHelper::TagData.new(
+      tag: tag, 
       metric_keys: metric_keys,
       start_time: params[:start_time] || 24.hours.ago,
       end_time: params[:end_time] || Time.now
@@ -32,8 +32,8 @@ class ChartsController < ApplicationController
   end
 
   def tag_uptime
-    script_subscribers = ScriptSubscriber.where(id: params[:script_subscriber_ids]).more_recent_than(params[:days_ago].to_i.day.ago)
-    chart_data_getter = ChartHelper::TagUptimeData.new(script_subscribers)
+    tags = Tag.where(id: params[:tag_ids]).more_recent_than(params[:days_ago].to_i.day.ago)
+    chart_data_getter = ChartHelper::TagUptimeData.new(tags)
     render json: chart_data_getter.get_response_time_data!
   end
 

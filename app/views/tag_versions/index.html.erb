@@ -1,0 +1,40 @@
+<h3 class="page-title">Change Log</h3>
+<div class="tag-safe-container text-center">
+  <% if @tag_versions.any? %>
+    <table class="table table-hover col-12" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th scope="col" class="col-8" style='width: 20%'>Change Date</th>
+          <th scope="col" class="col-2" style='width: 40%'>Tag</th>
+          <th scope="col" class="col-2" style='width: 30%'>Tag Safe Score</th>
+          <th scope="col" class="col-2" style='width: 10%'></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tag_versions.each do |tag_version| %>
+          <tr>
+            <td scope="row"><%= tag_version.created_at.formatted %></td>
+            <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag_version.tag.try_friendly_name %></td>
+            <td scope="row">
+              <% if tag_version.primary_audit.nil? %>
+                --
+              <% else %>
+                <%= tag_version.primary_audit.delta_performance_audit.tagsafe_score %>
+              <% end %>
+            </td>
+            <% unless tag_version.primary_audit.nil? %>
+              <td scope="row"><%= link_to "View Results", tag_tag_version_audit_path(tag_version.tag, tag_version, tag_version.primary_audit) %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No tag changes recorded yet</p>
+    <span>You are monitoring <%= @number_of_tags %> tags. <%= link_to 'Manage them here', tags_path %>.</span>
+  <% end %>
+</div>
+
+<div class="pagination-container text-center">
+  <%= paginate @tag_versions %>
+</div>

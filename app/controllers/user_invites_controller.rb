@@ -33,7 +33,7 @@ class UserInvitesController < ApplicationController
       if user.valid?
         invite.redeem!(user)
         display_toast_message("Invite accepted successfully. Welcome to TagSafe!")
-        redirect_to scripts_path
+        redirect_to tags_path
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer

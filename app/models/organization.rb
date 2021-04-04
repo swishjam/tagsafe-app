@@ -2,14 +2,10 @@ class Organization < ApplicationRecord
   has_many :organization_users, dependent: :destroy
   has_many :users, through: :organization_users
   has_many :domains, dependent: :destroy
-  has_many :script_subscriptions, through: :domains
+  has_many :tags, through: :domains
   has_many :scripts, through: :domains
-  has_many :organization_lint_rules, dependent: :destroy
-  has_many :lint_rules, through: :organization_lint_rules
 
   has_one :slack_settings, class_name: 'SlackSetting'
-
-  after_create :add_default_linting_rules
 
   accepts_nested_attributes_for :domains
 
@@ -32,13 +28,9 @@ class Organization < ApplicationRecord
   end
 
   def number_of_billed_audits(start_time: Time.now.beginning_of_month, end_time: Time.now.end_of_month)
-    Audit.joins(:script_subscriber).where(created_at: start_time..end_time, 
+    Audit.joins(:tag).where(created_at: start_time..end_time, 
                                           execution_reason: ExecutionReason.BILLABLE, 
-                                          script_subscribers: { domain_id: domains.collect(&:id) }).count
-  end
-
-  def add_default_linting_rules
-    organization_lint_rules.create(LintRule.DEFAULTS.collect{ |rule| { lint_rule_id: rule.id }})
+                                          tags: { domain_id: domains.collect(&:id) }).count
   end
 
   def completed_slack_setup?

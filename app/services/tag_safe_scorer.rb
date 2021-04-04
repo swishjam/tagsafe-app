@@ -7,7 +7,7 @@ class TagSafeScorer
     layout_duration: 0.1,
     task_duration: 0.1,
     script_duration: 0.1,
-    bytes: 0.1
+    byte_size: 0.1
   }
 
   # deduct n points of 100 for each metric: Impact Score / METRIC_SCORE_INCREMENTS
@@ -19,7 +19,7 @@ class TagSafeScorer
     task_duration: 0.005,
     layout_duration: 0.005,
     script_duration: 0.005,
-    bytes: 10_000
+    byte_size: 10_000
   }
 
   def initialize(dom_complete:, dom_interactive:, first_contentful_paint:, task_duration:, script_duration:, layout_duration:, byte_size:)
@@ -34,22 +34,17 @@ class TagSafeScorer
 
   def score!
     100 - 
-      performance_metric_deduction(@dom_complete, :dom_complete) - 
-      performance_metric_deduction(@dom_interactive, :dom_interactive) - 
-      performance_metric_deduction(@first_contentful_paint, :first_contentful_paint) - 
-      performance_metric_deduction(@task_duration, :task_duration) -
-      performance_metric_deduction(@script_duration, :script_duration) -
-      performance_metric_deduction(@layout_duration, :layout_duration) -
-      byte_size_deduction
+      performance_metric_deduction(:dom_complete) - 
+      performance_metric_deduction(:dom_interactive) - 
+      performance_metric_deduction(:first_contentful_paint) - 
+      performance_metric_deduction(:task_duration) -
+      performance_metric_deduction(:script_duration) -
+      performance_metric_deduction(:layout_duration) -
+      performance_metric_deduction(:byte_size)
   end
 
-  def performance_metric_deduction(metric_value, metric_key)
-    deduction = (metric_value/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
+  def performance_metric_deduction(metric_key)
+    deduction = (instance_variable_get("@#{metric_key.to_s}")/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
     deduction > DEFAULT_WEIGHTS[metric_key]*100 ? DEFAULT_WEIGHTS[metric_key]*100 : deduction
-  end
-
-  def byte_size_deduction
-    deduction = (@byte_size/METRIC_SCORE_INCREMENTS[:bytes]) * DEFAULT_WEIGHTS[:bytes]
-    deduction > DEFAULT_WEIGHTS[:bytes]*100 ? DEFAULT_WEIGHTS[:bytes]*100 : deduction
   end
 end

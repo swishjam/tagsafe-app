@@ -1,5 +1,5 @@
 def stub_script_valid_url_validation
-  # expect_any_instance_of(Script).to receive(:valid_url).at_least(:once).and_return(true)
+  # expect_any_instance_of(Tag).to receive(:valid_url).at_least(:once).and_return(true)
 end
 
 def stub_domain_scan
@@ -12,13 +12,13 @@ def stub_geppetto_communication
   # expect_any_instance_of(GeppettoModerator::Sender).to receive(:send!).at_least(:once).and_return('STUBBED')
 end
 
-def stub_script_changed_job
-  expect(ScriptChangedJob).to receive(:perform_later).at_least(:once).and_return('STUBBED')
+def stub_tag_version_job
+  expect(NewTagVersionJob).to receive(:perform_later).at_least(:once).and_return('STUBBED')
 end
 
-def stub_evaluate_script_job
-  expect(ScriptManager::Evaluator).to receive(:new).at_least(:once).and_return(OpenStruct.new(evaluate!: "foo"))
-end
+# def stub_evaluate_script_job
+#   expect(TagManager::Evaluator).to receive(:new).at_least(:once).and_return(OpenStruct.new(evaluate!: "foo"))
+# end
 
 def create_execution_reasons
   create(:initial_audit_execution)

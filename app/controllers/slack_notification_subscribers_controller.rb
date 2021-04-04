@@ -17,6 +17,6 @@ class SlackNotificationSubscribersController < LoggedInController
 
   private
   def slack_notification_subscriber_params
-    params.require(:slack_notification_subscriber).permit(:script_subscriber_id, :type, :channel)
+    params.require(:slack_notification_subscriber).permit(:tag_id, :type, :channel)
   end
 end

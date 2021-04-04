@@ -1,12 +1,11 @@
 class PerformanceAudit < ApplicationRecord
   belongs_to :audit
-  has_many :performance_audit_metrics
-  has_one :performance_audit_logs, class_name: 'PerformanceAuditLog'
+  has_one :performance_audit_logs, class_name: 'PerformanceAuditLog', dependent: :destroy
 
-  scope :most_recent, -> { joins(audit: :script_change).where(script_changes: { most_recent: true })}
+  scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }
-  scope :by_script_subscriber_ids, -> (script_subscriber_ids) { joins(:audit).where(audits: { script_subscriber_id: script_subscriber_ids })}
-  scope :with_script_subscribers, -> (script_subscriber_ids) { includes(audit: :script_subscriber).where(audits: { script_subscriber_id: script_subscriber_ids }) }
+  scope :by_tag_ids, -> (tag_ids) { joins(:audit).where(audits: { tag_id: tag_ids })}
+  scope :with_tags, -> (tag_ids) { includes(audit: :tag).where(audits: { tag_id: tag_ids }) }
 
   CHARTABLE_COLUMNS = [
     {

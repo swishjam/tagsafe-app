@@ -1,8 +1,8 @@
 class ChangeLighthouseAuditResultsToPolymorphic < ActiveRecord::Migration[5.2]
   def up
     create_table :audits do |t|
-      t.integer :script_change_id
-      t.integer :script_subscriber_id
+      t.integer :tag_version_id
+      t.integer :tag_id
       t.integer :execution_reason_id
       t.boolean :primary
       t.string :lighthouse_audit_url
@@ -18,8 +18,8 @@ class ChangeLighthouseAuditResultsToPolymorphic < ActiveRecord::Migration[5.2]
     remove_column :lighthouse_audits, :completed_at
     remove_column :lighthouse_audits, :audited_url
     remove_column :lighthouse_audits, :primary
-    remove_column :lighthouse_audits, :script_change_id
-    remove_column :lighthouse_audits, :script_subscriber_id
+    remove_column :lighthouse_audits, :tag_version_id
+    remove_column :lighthouse_audits, :tag_id
     remove_column :lighthouse_audits, :execution_reason_id
     remove_column :lighthouse_audits, :passed
     add_column :lighthouse_audits, :performance_score, :float

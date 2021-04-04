@@ -1,0 +1,64 @@
+<h5 class="page-title" style="margin-bottom: 0;">Tag Settings</h5>
+<h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
+
+<%= render partial: 'edit_tag_nav', locals: { tag: @tag } %>
+
+<div class="text-center tag-safe-container">
+  <h4><%= @tag.try_friendly_name %> <%= @tag.friendly_name ? "(#{@tag.script.url})" : nil %></h4>
+  <%= image_tag @tag.try_image_url, class: 'img-thumbnail script-logo', style: 'height: 250px; width: 250px' %>
+
+  <div class="col-8 offset-2">
+    <%= form_for @tag do |f| %>
+      <div class="form-group">
+        <%= f.label :friendly_name %>
+        <%= f.text_field :friendly_name, class: "form-control form-control-lg", placeholder: 'Nickname (Google Analytics Tag)', value: @tag.friendly_name %>
+      </div>
+      <div class="input-group mb-3 col-8 offset-2">
+        <div class="custom-file">
+          <%= f.file_field :image, class: 'custom-file-input' %>
+          <%= f.label :image, class: 'custom-file-label' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <span data-toggle="tooltip"
+                data-placement="top"
+                title="Un-select this option to no longer consider this a third party tag. It will no longer be monitored, and it will not be blocked in audits.">
+          <%= f.label :is_third_party_tag %>
+        </span>
+        <%= f.check_box :is_third_party_tag, checked: @tag.is_third_party_tag %>
+      </div>
+      <%
+=begin%>
+ <div class="form-group">
+        <span data-toggle="tooltip"
+                    data-placement="top"
+                    title="Select this option to allow .">
+          <%= f.label :allowed_third_party_tag %>
+        </span>
+        <%= f.check_box :allowed_third_party_tag, checked: @tag.allowed_third_party_tag %>
+      </div> 
+<%
+=end%>
+      <div class="form-group">
+        <span data-toggle="tooltip"
+                data-placement="top"
+                title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when changes are made to the tag.">
+          <%= f.label :monitor_changes %>
+        </span>
+        <%= f.check_box :monitor_changes, checked: @tag.monitor_changes %>
+      </div>
+      <div class="form-group">
+        <span data-toggle="tooltip"
+                data-placement="top"
+                title="Un-select this option to no longer run audits on this third party tag. TagSafe will no longer automatically run an audit on each tag change.">
+          <%= f.label :should_run_audit %>
+        </span>
+        <%= f.check_box :should_run_audit, checked: @tag.should_run_audit %>
+      </div>
+      <% if flash[:local_error] %>
+        <p style="color: #e74d4d"><%= flash[:local_error] %></p>
+      <% end %>
+      <%= f.submit 'Update Tag Settings', class: 'btn btn-outline-primary' %>
+    <% end %>
+  </div>
+</div>

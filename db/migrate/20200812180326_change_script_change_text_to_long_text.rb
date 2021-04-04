@@ -1,5 +1,5 @@
-class ChangeScriptChangeTextToLongText < ActiveRecord::Migration[5.2]
+class ChangeTagVersionTextToLongText < ActiveRecord::Migration[5.2]
   def change
-    change_column :script_changes, :content, :mediumtext
+    change_column :tag_versions, :content, :mediumtext
   end
 end

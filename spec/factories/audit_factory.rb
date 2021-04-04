@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :audit, aliases: [:completed_audit] do
-    association :script_change
-    association :script_subscriber
+    association :tag_version
+    association :tag
     association :execution_reason
     primary { true }
     performance_audit_enqueued_at { DateTime.yesterday }

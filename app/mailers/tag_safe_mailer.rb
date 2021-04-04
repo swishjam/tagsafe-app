@@ -20,13 +20,13 @@ class TagSafeMailer < SendgridTemplateMailer
       send!
     end
   
-    def send_script_changed_email(user, script_subscriber, script_change)
+    def send_new_tag_version_email(user, tag, tag_version)
       @to_email = user.email
       @from_email = 'changes@tagsafe.io'
       @template_name = :tag_changed
       @variable_json = { 
-        tag_name: script_subscriber.try_friendly_name,
-        script_susbcriber_url: "#{ENV['CURRENT_HOST']}/script_subscribers/#{script_subscriber.id}"
+        tag_name: tag.try_friendly_name,
+        script_susbcriber_url: "#{ENV['CURRENT_HOST']}/tags/#{tag.id}"
       }
       send!
     end
@@ -37,7 +37,7 @@ class TagSafeMailer < SendgridTemplateMailer
       @template_name = :audit_completed
       change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score)
       @variable_json = {
-        tag_name: audit.script_subscriber.try_friendly_name,
+        tag_name: audit.tag.try_friendly_name,
         tagsafe_score: audit.delta_performance_audit.tagsafe_score
       }
       if change_in_score
@@ -48,14 +48,14 @@ class TagSafeMailer < SendgridTemplateMailer
       send!
     end
   
-    def send_new_tag_detected_email(user, script_subscriber)
+    def send_new_tag_detected_email(user, tag)
       @to_email = user.email
       @from_email = 'changes@tagsafe.io'
       @template_name = :new_tag
       @variable_json = {
-        new_tag_url: script_subscriber.script.url,
-        site_url: script_subscriber.domain.url,
-        new_tag_tagsafe_url: "#{ENV['CURRENT_HOST']}/script_subscribers/#{script_subscriber.id}/edit"
+        new_tag_url: tag.full_url,
+        site_url: tag.domain.url,
+        new_tag_tagsafe_url: "#{ENV['CURRENT_HOST']}/tags/#{tag.id}/edit"
       }
       send!
     end

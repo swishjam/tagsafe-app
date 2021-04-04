@@ -1,35 +1,36 @@
 module AuditThrottler
   class Evaluator
-    def initialize(script_subscriber)
-      @script_subscriber = script_subscriber
+    def initialize(tag_version)
+      @tag_version = tag_version
+      @tag = tag_version.tag
     end
 
-    def should_throttle?(script_change)
-      return false if @script_subscriber.throttle_minute_threshold.nil?
-      @script_subscriber.throttle_minute_threshold < minutes_between_last_tag_change_audit(script_change)
+    def should_throttle?
+      return false if @tag.throttle_minute_threshold.nil?
+      @tag.throttle_minute_threshold < minutes_between_last_tag_change_audit
     end
 
-    def throttle!(script_change)
-      @script_subscriber.audits.create(
+    def throttle!
+      @tag.audits.create(
         throttled: true,
-        script_change: script_change,
+        tag_version: @tag_version,
         execution_reason: ExecutionReason.TAG_CHANGE,
         primary: true,
-        performance_audit_enqueued_at: Time.now,
-        seconds_to_complete_performance_audit: 0
+        performance_audit_enqueued_at: DateTime.now
+        # seconds_to_complete_performance_audit: 0
       )
     end
 
     private
 
-    def minutes_between_last_tag_change_audit(script_change)
-      return 0 if last_tag_change_audit.nil?
-      seconds_since = script_change.created_at - last_tag_change_audit.script_change.created_at
+    def minutes_between_last_tag_change_audit
+      return 0 if most_recent_tag_change_audit.nil?
+      seconds_since = @tag_version.created_at - most_recent_tag_change_audit.tag_version.created_at
       seconds_since / 60.0
     end
 
-    def last_tag_change_audit
-      @script_subscriber.audits.not_throttled.where(execution_reason: ExecutionReason.TAG_CHANGE).most_recent_first.limit(1).first
+    def most_recent_tag_change_audit
+      @last_tag_change_audit ||= @tag.audits.not_throttled.where(execution_reason: ExecutionReason.TAG_CHANGE).most_recent_first.limit(1).first
     end
   end
 end

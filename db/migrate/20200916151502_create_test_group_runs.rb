@@ -2,7 +2,7 @@ class CreateTestGroupRuns < ActiveRecord::Migration[5.2]
   def change
     create_table :test_group_runs do |t|
       t.references :test_subscriber
-      t.references :script_change
+      t.references :tag_version
       t.boolean :passed
       t.timestamps
     end

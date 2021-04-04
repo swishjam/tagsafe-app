@@ -3,11 +3,11 @@ class PerformanceAuditMetric < ApplicationRecord
   belongs_to :performance_audit_metric_type
 
   scope :by_key, -> (key) { includes(:performance_audit_metric_type).where(performance_audit_metric_types: { key: key })}
-  scope :by_script_subscriber, -> (script_subscriber_or_subscribers) do
+  scope :by_tag, -> (tag_or_subscribers) do
     includes(performance_audit: :audit)
     .where(performance_audits: { 
       audits: { 
-        script_subscriber_id: script_subscriber_or_subscribers.is_a?(ActiveRecord::Relation) ? script_subscriber_or_subscribers.collect(&:id) : script_subscriber_or_subscribers.id 
+        tag_id: tag_or_subscribers.is_a?(ActiveRecord::Relation) ? tag_or_subscribers.collect(&:id) : tag_or_subscribers.id 
       }
     })
   end

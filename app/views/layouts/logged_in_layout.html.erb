@@ -20,8 +20,8 @@
     <script>
       window.currentUser = "<%= current_user&.email %>"
       window.currentDomainId = "<%= current_domain&.id %>"
-      window.scriptSubscriberId = "<%= @script_subscriber&.id %>"
-      window.scriptSubscribersIds = "<%= @script_subscriptions&.is_third_party_tag&.still_on_site&.collect(&:id) %>"
+      window.scriptSubscriberId = "<%= @tag&.id %>"
+      window.scriptSubscribersIds = "<%= @tags&.is_third_party_tag&.still_on_site&.collect(&:id) %>"
     </script>
   </head>
   <body class="logged-in <%=controller_name%>">

@@ -1,6 +1,6 @@
 class TagQueryParamConsideration < ActiveRecord::Migration[5.2]
   def change
-    add_column :script_subscribers, :consider_query_param_changes_new_tag, :boolean
+    add_column :tags, :consider_query_param_changes_new_tag, :boolean
     rename_column :scripts, :url, :full_url
     add_column :scripts, :url_domain, :string
     add_column :scripts, :url_path, :string

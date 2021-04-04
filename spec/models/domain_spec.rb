@@ -18,28 +18,28 @@ RSpec.describe Domain, type: :model do
     end
   end
 
-  describe '#subscribe!' do
+  describe '#add_tag!' do
     it 'creates a script_subscription for the domain' do
-      @domain.subscribe!(@script)
-      expect(@domain.script_subscriptions.count).to eq(1)
+      @domain.add_tag!(@script)
+      expect(@domain.tags.count).to eq(1)
     end
 
     it 'defaults to active = false' do
-      subscription = @domain.subscribe!(@script)
+      subscription = @domain.add_tag!(@script)
       expect(subscription.active).to eq(false)
     end
 
     it 'sets active = true when passed as an argument' do
-      subscription = @domain.subscribe!(@script, true)
+      subscription = @domain.add_tag!(@script, true)
       expect(subscription.active).to eq(true)
     end
   end
 
-  describe '#subscribed_to_script?' do
+  describe '#has_tag?' do
     it 'returns false if the domain is not yet subscribed' do
-      expect(@domain.subscribed_to_script?(@script)).to eq(false)
-      @domain.subscribe!(@script)
-      expect(@domain.subscribed_to_script?(@script)).to eq(true)
+      expect(@domain.has_tag?(@script)).to eq(false)
+      @domain.add_tag!(@script)
+      expect(@domain.has_tag?(@script)).to eq(true)
     end
   end
 end

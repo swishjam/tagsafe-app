@@ -3,7 +3,7 @@ class AddNotificationSubscriptions < ActiveRecord::Migration[5.2]
     create_table :notification_subscribers do |t|
       t.string :type
       t.integer :user_id
-      t.integer :script_subscriber_id
+      t.integer :tag_id
     end
   end
 

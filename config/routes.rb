@@ -17,28 +17,28 @@ Rails.application.routes.draw do
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
 
-  resources :scripts, only: :index
-  get '/change_log' => 'script_changes#index'
-  get '/uptime' => 'script_checks#index'
+  get '/change_log' => 'tag_versions#index'
+  get '/uptime' => 'tag_checks#index'
   get '/performance' => 'performance#index'
 
-  resources :domains, only: [:create, :update]
+  resources :domains, only: [:create, :update] do
+    resources :non_third_party_url_patterns, only: [:create, :destroy]
+  end
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
-  resources :script_subscribers, only: [:show, :edit, :update] do
-    get '/general' => 'script_subscribers#edit' 
-    get '/performance_audit_settings' => 'script_subscribers#performance_audit_settings'
-    get '/notification_settings' => 'script_subscribers#notification_settings'
+  resources :tags do
+    get '/general' => 'tags#edit' 
+    get '/performance_audit_settings' => 'tags#performance_audit_settings'
+    get '/notification_settings' => 'tags#notification_settings'
 
     resources :slack_notification_subscribers, only: [:create, :destroy]
-    resources :script_subscriber_allowed_performance_audit_tags, only: [:create, :destroy]
+    resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
     resources :performance_audit_preferences, only: :update
-    resources :script_changes, only: [:show, :index] do
+    resources :tag_versions, only: [:show, :index] do
       member do
         post :run_audit
         get :content
       end
-      resources :lint_results, only: :index
       resources :audits, only: [:index, :show] do
         member do
           post :make_primary  
@@ -50,41 +50,38 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/performance' => 'performance#index'
-    resources :script_images do
+    resources :tag_images do
       member do
-        post :apply_to_scripts
+        post :apply_to_tags
       end
       collection do
-        post :apply_all_to_scripts
+        post :apply_all_to_tags
       end
-      resources :script_image_domain_lookup_patterns, only: [:create, :destroy]
+      resources :tag_image_domain_lookup_patterns, only: [:create, :destroy]
     end
   end
 
-  resources :organization_lint_rules, only: [:create, :destroy]
-
-  get '/settings/tags' => 'settings#tags'
-  get '/settings/linting_rules' => 'settings#linting_rules'
-  get '/settings/volatility' => 'settings#volatility'
+  get '/settings/tag_management' => 'settings#tag_management'
+  get '/settings/tag_settings' => 'settings#tag_settings'
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do
     get '/domain_scans/:id' => 'domain_scans#show'
 
-    post '/script_subscribers/:id/toggle_active' => 'script_subscribers#toggle_active'
-    post '/script_subscribers/:id/toggle_lighthouse' => 'script_subscribers#toggle_lighthouse'
+    post '/tags/:id/toggle_active' => 'tags#toggle_active'
+    post '/tags/:id/toggle_lighthouse' => 'tags#toggle_lighthouse'
 
-    post '/notification_preferences/:script_subscriber_id/toggle_script_change_notification' => 'notification_preferences#toggle_script_change_notification'
-    post '/notification_preferences/:script_subscriber_id/toggle_audit_complete_notification' => 'notification_preferences#toggle_audit_complete_notification'
-    post '/notification_preferences/:script_subscriber_id/toggle_lighthouse_audit_exceeded_threshold_notification' => 'notification_preferences#toggle_lighthouse_audit_exceeded_threshold_notification'
+    post '/notification_preferences/:tag_id/toggle_tag_version_notification' => 'notification_preferences#toggle_tag_version_notification'
+    post '/notification_preferences/:tag_id/toggle_audit_complete_notification' => 'notification_preferences#toggle_audit_complete_notification'
+    post '/notification_preferences/:tag_id/toggle_lighthouse_audit_exceeded_threshold_notification' => 'notification_preferences#toggle_lighthouse_audit_exceeded_threshold_notification'
   
     post 'geppetto_receiver/domain_scan_complete' => 'geppetto_receiver#domain_scan_complete'
     post 'geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
   end
 
   
-  get '/charts/domain/:domain_id' => 'charts#script_subscribers', as: :domain_script_subscribers_chart
-  get '/charts/script_subscriber/:script_subscriber_id' => 'charts#script_subscriber', as: :script_subscriber_chart
+  get '/charts/domain/:domain_id' => 'charts#tags', as: :domain_tags_chart
+  get '/charts/tag/:tag_id' => 'charts#tag', as: :tag_chart
   get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime_chart
   get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
 end

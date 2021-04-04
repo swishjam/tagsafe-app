@@ -1,12 +1,12 @@
 class PerformanceAuditPreference < ApplicationRecord
-  belongs_to :script_subscriber
+  belongs_to :tag
 
-  def self.create_default(script_subscriber)
+  def self.create_default(tag)
     create(
-      script_subscriber: script_subscriber,
+      tag: tag,
       num_test_iterations: 3,
       should_run_audit: true,
-      url_to_audit: script_subscriber.domain.url
+      url_to_audit: tag.domain.url
     )
   end
 end

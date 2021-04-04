@@ -1,7 +1,7 @@
 module PerformanceAuditManager
   class EvaluateResults
     def initialize(error:, results_with_tag:, results_without_tag:, audit_id:, num_attempts: 1)
-      @audit = Audit.includes(script_change: :script).find(audit_id)
+      @audit = Audit.includes(tag_version: :tag).find(audit_id)
       @error = error
       @results_with_tag = results_with_tag
       @results_without_tag = results_without_tag
@@ -41,7 +41,7 @@ module PerformanceAuditManager
 
     def validity_checker
       @validity_checker ||= PerformanceAuditManager::ValidityChecker.new(
-        audited_tag_url: @audit.script_change.script.url,
+        audited_tag_url: @audit.tag.full_url,
         results_with_tag: @results_with_tag, 
         results_without_tag: @results_without_tag
       )
@@ -104,7 +104,7 @@ module PerformanceAuditManager
         layout_duration: result['LayoutDuration'],
         script_duration: result['ScriptDuration'],
         task_duration: result['TaskDuration'],
-        byte_size: @audit.script_change.bytes
+        byte_size: @audit.tag_version.bytes
       ).score!
     end
 

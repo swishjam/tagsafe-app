@@ -25,14 +25,12 @@ class ApplicationController < ActionController::Base
   def permitted_to_view?(*models, raise_error: false)
     models.each do |model|
       case model.class.to_s
-      when 'Script'
-        no_access!(raise_error) unless current_domain.subscribed_to_script? model
-      when 'ScriptSubscriber'
-        no_access!(raise_error) unless current_domain.script_subscriptions.include? model
-      when 'ScriptChange'
-        no_access!(raise_error) unless current_domain.subscribed_to_script? model.script
+      when 'Tag'
+        no_access!(raise_error) unless current_domain.tags.include? model
+      when 'TagVersion'
+        no_access!(raise_error) unless current_domain.tags.include? model.tag
       when 'Audit'
-        no_access!(raise_error) unless current_domain.script_subscriptions.include? model.script_subscriber
+        no_access!(raise_error) unless current_domain.tags.include? model.tag
       else
         raise "Invalid model provided to permitted_to_view?: #{model.class}"
       end
@@ -46,7 +44,7 @@ class ApplicationController < ActionController::Base
   def no_access!(raise_error)
     raise NoAccessError if raise_error
     flash[:banner_error] = "No access."
-    redirect_to scripts_path
+    redirect_to tags_path
   end
 
   def display_toast_message(message)

@@ -7,6 +7,6 @@ class SlackSettingsController < LoggedInController
     else
       display_toast_error(authorizer.error)
     end
-    redirect_to scripts_path
+    redirect_to tags_path
   end
 end

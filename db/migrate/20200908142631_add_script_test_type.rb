@@ -1,4 +1,4 @@
-class AddScriptTestType < ActiveRecord::Migration[5.2]
+class AddTagTestType < ActiveRecord::Migration[5.2]
   def change
     create_table :script_test_types do |t|
       t.string :name
