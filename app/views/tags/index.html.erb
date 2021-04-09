@@ -59,7 +59,7 @@
         <div class="row row-no-side-margins">
           <% group.each do |tag| %>
             <div class="col-sm-12 col-md-6 col-lg-4 tag-safe-card-container">
-              <div class="card tag-safe-card tag <%= tag.removed_from_site? || tag.should_not_run_audit? ? 'removed-from-site' : nil %>">
+              <div class="card tag-safe-card tag <%= tag.removed_from_site? || tag.tag_preferences.should_run_audit ? 'removed-from-site' : nil %>">
                 <div class="dropdown show ellipsis-dropdown text-right">
                   <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-h"></i>
@@ -88,7 +88,7 @@
                         </span>
                       </p>
                     <% end %>
-                    <% if tag.not_monitoring_changes? %>
+                    <% if !tag.tag_preferences.monitor_changes %>
                       <p>
                         <span data-toggle="tooltip"
                           data-placement="top"
@@ -101,7 +101,7 @@
                         Last change was <%= tag.content_changed_at ? time_ago_in_words(tag.content_changed_at) : 'unknown'%> ago.
                       </p>
                     <% end %>
-                    <% if tag.should_not_run_audit? %>
+                    <% if !tag.tag_preferences.should_run_audit %>
                       <p>
                         <span data-toggle="tooltip"
                           data-placement="top"

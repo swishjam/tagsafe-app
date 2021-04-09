@@ -20,8 +20,8 @@
           <% @tags.each do |tag| %>
             <% klass =
               tag.removed_from_site? ? 'removed-from-site' : 
-                !tag.monitor_changes? ? 'not-monitoring' : 
-                  !tag.should_run_audit? ? 'not-auditing' : nil %>
+                !tag.tag_preferences.monitor_changes ? 'not-monitoring' : 
+                  !tag.tag_preferences.should_run_audit ? 'not-auditing' : nil %>
             <tr class=<%=klass%>>
               <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 75%;'>
                 <% if tag.removed_from_site? %>

@@ -1,7 +1,7 @@
 class SettingsController < LoggedInController
   def tag_management
-    @tags = current_domain.tags
-                          .order('should_run_audit DESC')
+    @tags = current_domain.tags.joins(:tag_preferences)
+                          .order('tag_preferences.should_run_audit DESC')
                           .order('removed_from_site_at ASC')
                           .order('content_changed_at DESC')
   end

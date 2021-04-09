@@ -19,42 +19,32 @@
           <%= f.label :image, class: 'custom-file-label' %>
         </div>
       </div>
-      <div class="form-group">
-        <span data-toggle="tooltip"
-                data-placement="top"
-                title="Un-select this option to no longer consider this a third party tag. It will no longer be monitored, and it will not be blocked in audits.">
-          <%= f.label :is_third_party_tag %>
-        </span>
-        <%= f.check_box :is_third_party_tag, checked: @tag.is_third_party_tag %>
-      </div>
-      <%
-=begin%>
- <div class="form-group">
-        <span data-toggle="tooltip"
-                    data-placement="top"
-                    title="Select this option to allow .">
-          <%= f.label :allowed_third_party_tag %>
-        </span>
-        <%= f.check_box :allowed_third_party_tag, checked: @tag.allowed_third_party_tag %>
-      </div> 
-<%
-=end%>
-      <div class="form-group">
-        <span data-toggle="tooltip"
-                data-placement="top"
-                title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when changes are made to the tag.">
-          <%= f.label :monitor_changes %>
-        </span>
-        <%= f.check_box :monitor_changes, checked: @tag.monitor_changes %>
-      </div>
-      <div class="form-group">
-        <span data-toggle="tooltip"
-                data-placement="top"
-                title="Un-select this option to no longer run audits on this third party tag. TagSafe will no longer automatically run an audit on each tag change.">
-          <%= f.label :should_run_audit %>
-        </span>
-        <%= f.check_box :should_run_audit, checked: @tag.should_run_audit %>
-      </div>
+      <%= f.fields_for :tag_preferences_attributes, @tag.tag_preferences do |ff| %>
+        <div class="form-group">
+          <span data-toggle="tooltip"
+                  data-placement="top"
+                  title="Un-select this option to no longer consider this a third party tag. It will no longer be monitored, and it will not be blocked in audits.">
+            <%= ff.label :is_third_party_tag %>
+          </span>
+          <%= ff.check_box :is_third_party_tag, checked: @tag.tag_preferences.is_third_party_tag %>
+        </div>
+        <div class="form-group">
+          <span data-toggle="tooltip"
+                  data-placement="top"
+                  title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when changes are made to the tag.">
+            <%= ff.label :monitor_changes %>
+          </span>
+          <%= ff.check_box :monitor_changes, checked: @tag.tag_preferences.monitor_changes %>
+        </div>
+        <div class="form-group">
+          <span data-toggle="tooltip"
+                  data-placement="top"
+                  title="Un-select this option to no longer run audits on this third party tag. TagSafe will no longer automatically run an audit on each tag change.">
+            <%= ff.label :should_run_audit %>
+          </span>
+          <%= ff.check_box :should_run_audit, checked: @tag.tag_preferences.should_run_audit %>
+        </div>
+      <% end %>
       <% if flash[:local_error] %>
         <p style="color: #e74d4d"><%= flash[:local_error] %></p>
       <% end %>

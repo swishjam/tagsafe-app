@@ -18,7 +18,8 @@ class Tag < ApplicationRecord
   has_many :new_tag_version_email_subscribers, class_name: 'NewTagVersionEmailSubscriber', dependent: :destroy
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber', dependent: :destroy
 
-  has_one :performance_audit_preferences, class_name: 'PerformanceAuditPreference', dependent: :destroy
+  has_one :tag_preferences, class_name: 'TagPreference', dependent: :destroy
+  accepts_nested_attributes_for :tag_preferences
 
   has_one_attached :image
 
@@ -30,24 +31,26 @@ class Tag < ApplicationRecord
   after_update :after_update
 
   # SCOPES
-  scope :has_completed_audits, -> { joins(:audits).where.not(audits: { id: nil, seconds_to_complete_performance_audit: nil }).where(audits: { performance_audit_error_message: nil  }) }
-  scope :monitor_changes, -> { where(monitor_changes: true) }
-  scope :do_not_monitor_changes, -> { where(monitor_changes: false) }
+  scope :monitor_changes, -> { where_tag_preferences({ monitor_changes: true }) }
+  scope :do_not_monitor_changes, -> { where_tag_preferences({ monitor_changes: false }) }
   
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :removed, -> { where.not(removed_from_site_at: nil) }
   
-  scope :is_third_party_tag, -> { where(is_third_party_tag: true) }
-  scope :is_not_third_party_tag, -> { where(is_third_party_tag: false) }
+  scope :is_third_party_tag, -> { where_tag_preferences({ is_third_party_tag: true }) }
+  scope :is_not_third_party_tag, -> { where_tag_preferences({ is_third_party_tag: false }) }
 
-  scope :allowed_third_party_tag, -> { where(is_allowed_third_party_tag: true) }
-  scope :not_allowed_third_party_tag, -> { where(is_allowed_third_party_tag: false) }
+  scope :allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: true }) }
+  scope :not_allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
 
-  scope :should_run_audits, -> { where(should_run_audit: true) }
-  scope :should_not_run_audits, -> { where(should_run_audit: false) }
+  scope :should_run_audits, -> { where_tag_preferences({ should_run_audit: true }) }
+  scope :should_not_run_audits, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
 
-  scope :should_log_tag_checks, -> { where(should_log_tag_checks: true) }
-  scope :should_not_log_tag_checks, -> { where(should_log_tag_checks: false) }
+  scope :should_log_tag_checks, -> { where_tag_preferences({ should_log_tag_checks: true }) }
+  scope :should_not_log_tag_checks, -> { where_tag_preferences({ should_log_tag_checks: false }) }
+
+  scope :should_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: true }) }
+  scope :should_not_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: false }) }
 
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
   scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.monitor_changes }
@@ -56,12 +59,16 @@ class Tag < ApplicationRecord
   scope :one_minute_interval_checks, -> { all }
   # etc...
 
+  def self.where_tag_preferences(where_clause)
+    joins(:tag_preferences).where(tag_preferences: where_clause)
+  end
+
   def self.find_without_query_params(url, include_removed_tags: false)
     parsed_url = URI.parse(url)
     if include_removed_tags
-      find_by(url_domain: parsed_url.host, url_path: parsed_url.path, consider_query_param_changes_new_tag: false)
+      should_not_consider_query_param_changes_new_tag.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
     else
-      still_on_site.find_by(url_domain: parsed_url.host, url_path: parsed_url.path, consider_query_param_changes_new_tag: false)
+      still_on_site.should_not_consider_query_param_changes_new_tag.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
     end
   end
 
@@ -99,29 +106,8 @@ class Tag < ApplicationRecord
     evaluator
   end
 
-  def monitor_changes?
-    monitor_changes
-  end
-  alias monitoring_changes? monitor_changes?
-
-  def not_monitoring_changes?
-    !monitoring_changes?
-  end
-
   def removed_from_site?
     !removed_from_site_at.nil?
-  end
-
-  def still_on_site?
-    !removed_from_site?
-  end
-
-  def should_run_audit?
-    should_run_audit
-  end
-
-  def should_not_run_audit?
-    !should_run_audit?
   end
 
   def try_friendly_name
@@ -149,7 +135,7 @@ class Tag < ApplicationRecord
   end
 
   def create_performance_audit_preferences
-    PerformanceAuditPreference.create_default(self)
+    # PerformanceAuditPreference.create_default(self)
   end
 
   def has_pending_audits_for_tag_version?(tag_version)

@@ -1,4 +1,4 @@
-class PerformanceAuditPreference < ApplicationRecord
+class TagPreference < ApplicationRecord
   belongs_to :tag
 
   def self.create_default(tag)

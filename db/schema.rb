@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_01_201504) do
+ActiveRecord::Schema.define(version: 2021_04_04_171704) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -106,14 +106,6 @@ ActiveRecord::Schema.define(version: 2021_04_01_201504) do
     t.index ["performance_audit_id"], name: "index_performance_audit_logs_on_performance_audit_id"
   end
 
-  create_table "performance_audit_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.boolean "should_run_audit"
-    t.string "url_to_audit"
-    t.integer "num_test_iterations"
-    t.bigint "tag_id"
-    t.index ["tag_id"], name: "index_performance_audit_preferences_on_tag_id"
-  end
-
   create_table "performance_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "audit_id"
     t.string "type"
@@ -187,6 +179,20 @@ ActiveRecord::Schema.define(version: 2021_04_01_201504) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tag_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.boolean "should_run_audit"
+    t.string "url_to_audit"
+    t.integer "num_test_iterations"
+    t.bigint "tag_id"
+    t.boolean "monitor_changes"
+    t.boolean "is_allowed_third_party_tag"
+    t.boolean "is_third_party_tag"
+    t.boolean "should_log_tag_checks"
+    t.boolean "consider_query_param_changes_new_tag"
+    t.integer "throttle_minute_threshold"
+    t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
+  end
+
   create_table "tag_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "bytes"
     t.string "hashed_content"
@@ -201,18 +207,11 @@ ActiveRecord::Schema.define(version: 2021_04_01_201504) do
     t.bigint "domain_id"
     t.string "friendly_name"
     t.timestamp "removed_from_site_at"
-    t.boolean "monitor_changes"
-    t.boolean "is_allowed_third_party_tag", default: false
-    t.boolean "is_third_party_tag", default: true
     t.timestamp "created_at"
-    t.boolean "should_run_audit"
-    t.integer "throttle_minute_threshold"
-    t.boolean "consider_query_param_changes_new_tag"
     t.text "full_url"
     t.string "url_domain"
     t.string "url_path"
     t.text "url_query_param"
-    t.boolean "should_log_tag_checks"
     t.timestamp "content_changed_at"
     t.bigint "tag_image_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"

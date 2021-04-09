@@ -18,7 +18,9 @@ class Domain < ApplicationRecord
       is_third_party_tag: true,
       initial_scan: false,
       should_log_tag_checks: true,
-      consider_query_param_changes_new_tag: false
+      consider_query_param_changes_new_tag: false,
+      url_to_audit: url,
+      num_test_iterations: 3
     )
     parsed_url = URI.parse(tag_url)
     tag = tags.create!(
@@ -26,16 +28,21 @@ class Domain < ApplicationRecord
       url_domain: parsed_url.host,
       url_path: parsed_url.path,
       url_query_param: parsed_url.query,
-      monitor_changes: monitor_changes,
-      is_allowed_third_party_tag: is_allowed_third_party_tag,
-      is_third_party_tag: is_third_party_tag,
-      should_run_audit: should_run_audit,
-      should_log_tag_checks: should_log_tag_checks,
-      consider_query_param_changes_new_tag: consider_query_param_changes_new_tag
+      tag_preferences_attributes: {
+        monitor_changes: monitor_changes,
+        is_allowed_third_party_tag: is_allowed_third_party_tag,
+        is_third_party_tag: is_third_party_tag,
+        should_run_audit: should_run_audit,
+        should_log_tag_checks: should_log_tag_checks,
+        consider_query_param_changes_new_tag: consider_query_param_changes_new_tag,
+        url_to_audit: url_to_audit,
+        num_test_iterations: num_test_iterations
+      }
     )
     # if it's the first time scanning the domain for tags, don't run the job
     # we may eventually move this unless statement into the job itself, but for now let's just not bother enqueuing
     AfterTagCreationJob.perform_later(tag) unless initial_scan
+    tag
   end
 
   def has_tag?(tag)
