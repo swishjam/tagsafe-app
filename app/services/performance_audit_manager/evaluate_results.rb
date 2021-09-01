@@ -25,18 +25,19 @@ module PerformanceAuditManager
     end
 
     def capture_valid_performance_audit!
-      capture_results(PerformanceAuditWithTag, median_results_with_tag, @results_with_tag['logs'])
-      capture_results(PerformanceAuditWithoutTag, median_results_without_tag, @results_without_tag['logs'])
-      capture_delta_performance_audit!
+      inject_tagsafe_score_for_performance_audits
+      create_performance_audit_with_tag!
+      create_performance_audit_without_tag!
+      create_delta_performance_audit!
       @audit.completed_performance_audit!
     end
 
     def median_results_with_tag
-      @median_results_with_tag ||= get_median_result(@results_with_tag['performance_results'])
+      @median_results_with_tag ||= get_median_performance_audit(@results_with_tag['performance_results'], with_tag: true)
     end
 
     def median_results_without_tag
-      @median_results_without_tag ||= get_median_result(@results_without_tag['performance_results'])
+      @median_results_without_tag ||= get_median_performance_audit(@results_without_tag['performance_results'], with_tag: false)
     end
 
     def validity_checker
@@ -47,39 +48,65 @@ module PerformanceAuditManager
       )
     end
 
-    def get_median_result(result_set)
-      score_dictionary = {}
-      scores = []
-      result_set.each do |result|
-        score = calculate_tagsafe_score_for_result_set(result)
-        scores << score
-        score_dictionary[score] = result
+    def inject_tagsafe_score_for_performance_audits
+      @results_with_tag['performance_results'].each{ |result| result['TagSafeScore'] = calculate_tagsafe_score_for_performance_audit(result) }
+      @results_without_tag['performance_results'].each{ |result| result['TagSafeScore'] = calculate_tagsafe_score_for_performance_audit(result) }
+    end
+
+    def get_median_performance_audit(performance_audits, with_tag:)
+      tagsafe_score_results_map = {}
+      tagsafe_scores = []
+      performance_audits.each do |audit_result|
+        create_performance_audit(
+          performance_audit_class: with_tag ? IndividualPerformanceAuditWithTag : IndividualPerformanceAuditWithoutTag, 
+          performance_audit_results: audit_result
+        ) if @audit.capture_individual_performance_audits?
+        tagsafe_scores << audit_result['TagSafeScore']
+        tagsafe_score_results_map[audit_result['TagSafeScore']] = audit_result
       end
-      sorted_scores = scores.sort
-      num_of_results = sorted_scores.count
+      sorted_tagsafe_scores = tagsafe_scores.sort
+      num_of_performance_audits = sorted_tagsafe_scores.count
       # when the num of results are even, take the lowest score of the two median values. Is there a better way to do find the most accurate of the two scores?
-      median_score = num_of_results % 2 == 0 ? sorted_scores[(num_of_results/2).floor-1] : sorted_scores[(num_of_results/2).floor]
-      score_dictionary[median_score]
+      median_tagsafe_score = num_of_performance_audits % 2 == 0 ? sorted_tagsafe_scores[(num_of_performance_audits/2).floor-1] : sorted_tagsafe_scores[(num_of_performance_audits/2).floor]
+      tagsafe_score_results_map[median_tagsafe_score]
     end
 
-    def capture_results(performance_audit_type_klass, results, logs = nil)
-      perf_audit = performance_audit_type_klass.create(
+    def create_performance_audit(performance_audit_class:, performance_audit_results:, std_dev: nil, logs: nil)
+      perf_audit = performance_audit_class.create(
         audit: @audit,
-        dom_complete: results['DOMComplete'],
-        dom_interactive: results['DOMInteractive'],
-        first_contentful_paint: results['FirstContentfulPaint'],
-        layout_duration: results['LayoutDuration'],
-        script_duration: results['ScriptDuration'],
-        task_duration: results['TaskDuration'],
-        tagsafe_score: results['TagSafeScore']
+        dom_complete: performance_audit_results['DOMComplete'],
+        dom_interactive: performance_audit_results['DOMInteractive'],
+        first_contentful_paint: performance_audit_results['FirstContentfulPaint'],
+        layout_duration: performance_audit_results['LayoutDuration'],
+        script_duration: performance_audit_results['ScriptDuration'],
+        task_duration: performance_audit_results['TaskDuration'],
+        tagsafe_score: performance_audit_results['TagSafeScore'],
+        tagsafe_score_standard_deviation: std_dev,
+        performance_audit_logs_attributes: { logs: logs }
       )
-      PerformanceAuditLog.create(logs: logs, performance_audit: perf_audit) unless logs.nil?
-      perf_audit
     end
 
-    def capture_delta_performance_audit!
-      delta_results['TagSafeScore'] = calculate_tagsafe_score_for_result_set(delta_results)
-      capture_results(DeltaPerformanceAudit, delta_results)
+    def create_performance_audit_with_tag!
+      create_performance_audit(
+        performance_audit_class: PerformanceAuditWithTag, 
+        performance_audit_results: median_results_with_tag, 
+        std_dev: Statistics.std_dev(@results_with_tag['performance_results'].collect{ |performance_audit_result| performance_audit_result['TagSafeScore'] }),
+        logs: @results_with_tag['logs']
+      )
+    end
+
+    def create_performance_audit_without_tag!
+      create_performance_audit(
+        performance_audit_class: PerformanceAuditWithoutTag, 
+        performance_audit_results: median_results_without_tag, 
+        std_dev: Statistics.std_dev(@results_without_tag['performance_results'].collect{ |performance_audit_result| performance_audit_result['TagSafeScore'] }),
+        logs: @results_without_tag['logs']
+      )
+    end
+
+    def create_delta_performance_audit!
+      delta_results['TagSafeScore'] = calculate_tagsafe_score_for_performance_audit(delta_results)
+      create_performance_audit(performance_audit_class: DeltaPerformanceAudit, performance_audit_results: delta_results)
     end
 
     def capture_logs_for_failed_audit(performance_audit_klass, logs)
@@ -91,12 +118,12 @@ module PerformanceAuditManager
         script_duration: -1,
         layout_duration: -1,
         task_duration: -1,
-        tagsafe_score: -1
+        tagsafe_score: -1,
+        performance_audit_logs_attributes: { logs: logs }
       )
-      PerformanceAuditLog.create(logs: logs, performance_audit: performance_audit)
     end
 
-    def calculate_tagsafe_score_for_result_set(result)
+    def calculate_tagsafe_score_for_performance_audit(result)
       TagSafeScorer.new(
         dom_complete: result['DOMComplete'],
         dom_interactive: result['DOMInteractive'],

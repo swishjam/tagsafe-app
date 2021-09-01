@@ -1,0 +1,41 @@
+<tr id="<%=dom_id(tag_version)%>">
+  <% audit = tag_version.primary_audit %>
+  <% previous_audit = tag_version.previous_version&.primary_audit %>
+  <% most_recent_audit = audit.nil? ? tag_version.audits.limit(1)&.first : nil %>
+  <td scope="row"><%= tag_version.created_at.formatted_short %></td>
+  <td scope="row">
+    <% if audit %>
+      <%= number_with_delimiter(audit.delta_performance_audit.tagsafe_score.round(2)) %>
+    <% else %>
+      <% if most_recent_audit.nil? %>
+          No performance audits run
+      <% elsif most_recent_audit.performance_audit_pending? %>
+        <span class='tagsafe-pill tagsafe-blue placeholder-wave'>Performance audit currently running.</span>
+      <% elsif most_recent_audit.performance_audit_failed? %>
+        <span class='tagsafe-pill red'>Performance Audit failed.</span>
+      <% end %>
+    <% end %>
+  </td>
+  <td scope="row change-in-score">
+    <% if audit.nil? || 
+            previous_audit.nil? || 
+            audit.performance_audit_failed? || 
+            previous_audit.performance_audit_failed? || 
+            audit.performance_audit_pending? || 
+            previous_audit.performance_audit_pending? %>
+      <span>--</span>
+    <% else %>
+      <% change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score) %>
+      <% unless change_in_score.nil? %>
+        <% icon_class = change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
+        <span class="<%=change_in_score.positive? ? 'positive' : 'negative' %>">
+          <i class="fas <%=icon_class%>"></i>
+          <%= number_with_delimiter(change_in_score) %>
+        </span>
+      <% end %>
+    <% end %>
+  </td>
+  <td scope="row">
+    <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, additional_menu_items: [{ text: 'View Audit', url: tag_tag_version_audit_path(tag, tag_version, audit) }] %>
+  </td>
+</tr>

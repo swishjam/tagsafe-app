@@ -1,5 +1,6 @@
 require 'active_scheduler'
 require 'resque/server'
+Dir[Rails.root.join('app', 'jobs', 'schedule', 'tag_check_jobs', '*.rb')].each { |file| require file }
 
 Resque::Server.use(Rack::Auth::Basic) do |user, password|
   password === ENV['RESQUE_PASSWORD']

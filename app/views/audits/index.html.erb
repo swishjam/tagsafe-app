@@ -4,84 +4,32 @@
   <br/>
   <%= @tag_version.created_at.formatted_short %> tag change
 </h6>
-<div class="tag-safe-container text-center">
+<div class="tagsafe-container text-center">
   <div class="col-12">
-    <span style="float: right;" data-toggle="tooltip" data-placement="top" title="A tag version can have many audits run against it. This tag version has <%= @audits.count %>."><i class="far fa-question-circle"></i></span>
+    <span style="float: right;" data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="A tag version can have many audits run against it. This tag version has <%= @audits.count %>."><i class="far fa-question-circle"></i></span>
     <br/>
-    <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">
-      <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-ellipsis-h"></i>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <%= link_to 'View Tag Change Content', tag_tag_version_path(@tag, @tag_version), class: 'dropdown-item', target: '_blank' %>
-        <div class="dropdown-divider"></div>
-        <%= link_to 'Re-Run Audit', run_audit_tag_tag_version_path(@tag, @tag_version), method: :post, class: 'dropdown-item', data: { confirm: "Run audit on #{@tag.try_friendly_name}?" } %>
-      </div>
-    </div>
+    <%= render 'tag_versions/dropdown', tag: @tag, tag_version: @tag_version %>
   </div>
-  <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+  <table class="table table-hover col-12 text-start" style="table-layout: fixed">
     <thead>
       <tr>
-        <th scope="col" style="width: 10%">
-          <span data-toggle="tooltip" data-placement="top" title="A tag version must have one audit that is the 'primary audit'. The primary audit is used in the calculations between tag versions. For this reason you must select the most accurate audit.">
+        <th scope="col" style="width: 15%">
+          <span data-controller="tooltip" data-bs-toggle="tooltip" data-placement="top" title="A tag version must have one audit that is the 'primary audit'. The primary audit is used in the calculations between tag versions. For this reason you must select the most accurate audit.">
             Primary Audit
           </span>
         </th>
-        <th scope="col" style='width: 22.5%'>Date of Audit</th>
+        <th scope="col" style='width: 30%'>Date of Audit</th>
         <th scope="col" style='width: 22.5%'>TagSafe Score</th>
         <th scope="col" style='width: 22.5%'>
-          <span data-toggle="tooltip" data-placement="top" title="An audit can be executed for the following reasons: Initial Audit, Reactivated Tag, Tag Change, Manual Audit, Scheduled Audit, or a Retry.">
-            Execution Reason
-          </span>
+          Execution Reason
+          <%= render 'partials/utils/help_tooltip', message: "An audit can be executed for the following reasons: Initial Audit, Reactivated Tag, Tag Change, Manual Audit, Scheduled Audit, or a Retry." %>
         </th>
-        <th scope="col" style='width: 22.5%'></th>
+        <th scope="col" style='width: 10%'></th>
       </tr>
     </thead>
-    <tbody>
-      <% @audits.each do |audit| %>
-        <tr>
-          <td scope="row">
-            <% unless audit.performance_audit_pending? || audit.performance_audit_failed? %>
-              <input type="radio" name="primary_lighthouse_audit" <%=audit.is_primary? ? 'checked' : nil %> value="<%=audit.id%>"/>
-            <% end %>
-          </td>
-          <td scope="row"><%= audit.created_at.formatted %></td>
-          <td scope="row">
-            <% if audit.performance_audit_failed? %>
-              <span class="badge badge-danger">Failed</span>
-            <% elsif audit.performance_audit_pending? %>
-              <span class="badge badge-primary">Pending completion</span>
-            <% else %>
-              <%= audit.delta_performance_audit.tagsafe_score.round(2) %>
-            <% end %>
-          </td>
-          <td scope="row"><%= audit.execution_reason.name %></td>
-          <td scope="row"><%= link_to 'View Audit', tag_tag_version_audit_path(@tag, @tag_version, audit) %></td>
-        </tr>
-      <% end %>
+    <%= turbo_stream_from "#{@tag_version.id}_tag_version_audits" %>
+    <tbody id="<%= @tag_version.id %>_tag_version_audits">
+      <%= render partial: 'audit', collection: @audits, as: :audit %>
     </tbody>
   </table>
-  <div class="update-primary-audit-container text-center hidden">
-    <%= link_to 'Update Primary Audit', '#', method: :post, class: 'btn btn-primary' %>
-  </div>
 </div>
-
-<% unless @primary_audit.nil? %>
-  <script>
-    var updateContainer = document.querySelector('.update-primary-audit-container');
-    var radios = document.querySelectorAll('input[name="primary_lighthouse_audit"]');
-    var submitButton = updateContainer.querySelector('a');
-    for(i=0; i<radios.length; i++) {
-      radios[i].addEventListener('change', function(e) {
-        var radioButton = e.target;
-        if(radioButton.value !== "<%= @primary_audit.id %>") {
-          updateContainer.classList.remove('hidden');
-          submitButton.href = "/tags/<%=@tag.id%>/tag_versions/<%=@tag_version.id%>/audits/"+radioButton.value+"/make_primary";
-        } else {
-          updateContainer.classList.add('hidden');
-          submitButton.href = "#";
-        }
-      })
-    }
-  </script>
-<% end %>

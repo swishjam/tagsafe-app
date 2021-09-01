@@ -1,0 +1,31 @@
+<%= turbo_frame_tag dom_id(tag_preference) do %>
+  <%= form_for tag_preference, url: tag_tag_preference_path(tag, tag_preference) do |f| %>
+    <%= f.hidden_field :num_test_iterations, value: tag_preference.num_test_iterations %>
+    <%= f.hidden_field :is_allowed_third_party_tag, value: tag_preference.is_allowed_third_party_tag %>
+    <%= f.hidden_field :should_log_tag_checks, value: tag_preference.should_log_tag_checks %>
+    <%= f.hidden_field :consider_query_param_changes_new_tag, value: tag_preference.consider_query_param_changes_new_tag %>
+    <div class="form-floating d-flex m-3">
+      <%= f.text_field :url_to_audit, value: tag_preference.url_to_audit, class: "form-control" %>
+      <%= f.label :url_to_audit %>
+      <button type='submit' class='tagsafe-btn square'>Update</button>
+    </div>
+    <% if ENV['AUDIT_THROTTLING_ENABLED'] == 'true' %>
+      <div data-controller='toggle-visibility'>
+        <div class="form-check form-switch w-fit m-auto">
+          <input type='checkbox' class='form-check-input' id='throttle-toggle' data-toggle-visibility-target='toggler' checked="<%= !tag_preference.throttle_minute_threshold.nil? || tag_preference.throttle_minute_threshold.zero? %>">
+          <label for='throttle-toggle'>Throttle Audits</label>
+        </div>
+        <div class="form-floating d-flex m-3" data-toggle-visibility-target='elToToggle'>
+          <%= f.text_field :throttle_minute_threshold, value: tag_preference.throttle_minute_threshold, class: 'form-control' %>
+          <%= f.label :throttle_minute_threshold %>
+          <button type='submit' class='tagsafe-btn square'>Update</button>
+        </div>
+      </div>
+    <% end %>
+    <!-- 
+    <div class="form-group">
+      <#%= f.submit "Update Performance Audit Settings", class: 'btn btn-outline-primary' %>
+    </div>
+    !-->
+  <% end %>
+<% end %>

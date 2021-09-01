@@ -1,0 +1,18 @@
+<div class='notification' data-controller='notification'>
+  <div class='p-2'>
+    <div style='border-bottom: 1px solid lightgrey;'>
+      <span class='exit tagsafe-circular-btn' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
+      <% if local_assigns[:title] %>
+        <span class='notification-title'><%= title %></span>
+      <% end %>
+    </div>
+  </div>
+  <div class='col-12'>
+    <div class='notification-content'>
+      <% if local_assigns[:image] %>
+        <%= image_tag image, class: 'tag-thumbnail' %>
+      <% end %>
+      <span class='notification-message'><%= message %></span>
+    </div>
+  </div>
+</div>

@@ -1,14 +1,18 @@
 <h5 class='page-title'>Performance</h5>
 
-<div class='tag-safe-container' style='margin-bottom: 15px;'>
-  <%= render partial: 'partials/tags_chart', locals: { 
-    tag_ids: @tags.collect(&:id),
-    include_metric_select: true,
-    default_metric_type: :tagsafe_score
-  } %>
+<div class='tagsafe-container' style='margin-bottom: 15px;'>
+  <% if @tags.any? %>
+    <%= turbo_frame_tag "#{current_domain.id}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: @tags.collect(&:id)) do %>
+      <%= render 'partials/utils/spinner' %>
+    <% end %>
+  <% else %>
+    <div class='text-center'>
+      <span>No tags present.</span>
+    </div>
+  <% end %>
 </div>
 
-<div class='tag-safe-container'>
+<div class='tagsafe-container'>
   <table class="table table-hover col-12 text-center" style="table-layout: fixed">
     <thead>
       <tr>
@@ -27,7 +31,7 @@
     <tbody>
       <% @tags.each do |tag| %>
         <tr>
-          <td data-toggle="tooltip" data-placement="top" title="<%= tag.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag.try_friendly_name %></td>
+          <td data-bs-toggle="tooltip" data-placement="top" title="<%= tag.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag.try_friendly_name %></td>
           <% most_recent_dpa = tag.most_recent_version&.primary_audit&.delta_performance_audit %>
           <% if most_recent_dpa %>
             <td scope="row"><%= number_to_human(most_recent_dpa.dom_complete, units: { unit: 'ms', thousand: 'seconds' }) %></td>
@@ -49,8 +53,8 @@
             <td scope="row">-</td>
           <% end %>
           <td scope="row">
-            <div class="dropdown dropleft show ellipsis-dropdown">
-              <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn">
+              <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

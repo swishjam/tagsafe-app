@@ -4,20 +4,13 @@ module ChartHelper
       @tags = tags
       @start_time = start_time
       @metric_key = metric_key
+      add_current_timestamp_to_chart_data
     end
     
-    def get_metric_data!
-      add_current_timestamp_to_chart_data
-      chart_data
-    end
-
-    def add_current_timestamp_to_chart_data
-      chart_data.each do |tag_data|
-        unless tag_data[:data].empty?
-          tag_data[:data] << [Time.now, tag_data[:data][tag_data[:data].length-1][1]]
-        end
-      end
-    end
+    # def get_metric_data!
+    #   add_current_timestamp_to_chart_data
+    #   chart_data
+    # end
 
     def chart_data
       @chart_data ||= tags_primary_delta_performance_audits.map do |friendly_name, delta_performance_audits|
@@ -25,6 +18,16 @@ module ChartHelper
           name: friendly_name,
           data: delta_performance_audits.collect{ |dpa| [dpa.audit.tag_version.created_at, dpa[@metric_key]] }
         }
+      end
+    end
+
+    private
+
+    def add_current_timestamp_to_chart_data
+      chart_data.each do |tag_data|
+        unless tag_data[:data].empty?
+          tag_data[:data] << [Time.now, tag_data[:data][tag_data[:data].length-1][1]]
+        end
       end
     end
 

@@ -15,7 +15,9 @@ body.tags {
       padding: 15px;
     }
     .tag-safe-card {
+      background: white;
       height: 550px;
+      padding: 10px;
       border-radius: 10px;
       box-shadow: 0 10px 20px 3px rgba(170,170,170,.35);
       transition: transform .25s ease-in-out, box-shadow .25s ease-in-out, border .25s ease-in-out;
@@ -39,17 +41,12 @@ body.tags {
         margin-bottom: 15px;
       }
   
-      &:hover {
+      &:not(.inactive):hover {
         transform: matrix(1.05,0,0,1.04999995231628,0,0);
         box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
         border: 1px solid #716d6d;
-        .dropdown-menu {
-          color: red;
-          z-index: 10000000;
-        }
       }
-      &.removed-from-site {
-        border-color: grey;
+      &.inactive {
         .card-body, .card-title {
           color: grey;
         }

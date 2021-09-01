@@ -1,0 +1,34 @@
+<%= turbo_frame_tag "#{tag_version.id}_diff" do %>
+  <div class='col-12 mb-3'>
+    <div class='row'>
+      <div class='col-8'>
+        <h5>There were <span class='fw-bold'><i id='additions-count'></i> additions</span> and <span class='fw-bold'><i id='deletions-count'></i> deletions</span> in this version.</h5>
+      </div>
+      <div class='col-4 text-end'>
+          <button class='tagsafe-btn square'>Split</button>
+          <%= link_to 'Unified', diff_server_loadable_partials_tag_tag_version_path(tag, tag_version, diff_type: 'unified'), class: 'tagsafe-btn outline square' %>
+      </div>
+    </div>
+  </div>
+  <div class='tag-change-content col-12'>
+    <div class='expand-container'>
+      <span class='expand top' data-controller='tooltip tag_version_diff_displayer' data-action='click->tag_version_diff_displayer#showLinesAbove' data-bs-toggle="tooltip" data-placement="top" title="Show more."><i class="fas fa-expand-alt"></i></span>
+    </div>
+    <div class='row'>
+      <div class="col-6 content" data-controller='tag_version_diff' data-diff-type='additions'>
+        <%= additions %>
+      </div>
+      <div class="col-6 content" data-controller='tag_version_diff' data-diff-type='deletions'>
+        <% if deletions.nil? %>
+          <h6 class='text-center'>No deletions.</h6>
+          <%# <h6 class="text-center">This was the first time the tag has been captured by TagSafe. No previous changes to compare to.</h6> %>
+        <% else %>
+          <%= deletions %>
+        <% end %>
+      </div>
+    </div>
+    <div class='expand-container'>
+      <span class='expand bottom' data-controller='tooltip tag_version_diff_displayer' data-action='click->tag_version_diff_displayer#showLinesBelow' data-bs-toggle="tooltip" data-placement="top" title="Show more."><i class="fas fa-expand-alt"></i></span>
+    </div>
+  </div>
+<% end %>

@@ -11,16 +11,25 @@
  * It is generally better to create a new file per style scope.
  *
  */
-@import "bootstrap";
-@import "bootstrap-select";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "*";
 
-// $brand-blue: #95d1ff;
+$tagsafe-blue: #95d1ff;
+$dark-tagsafe-blue: #49b0ff;
+$darker-tagsafe-blue: #0a95ff;
+$tagsafe-font-family:'Open Sans Condensed', sans-serif;
 
 .tag-safe-font {
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: $tagsafe-font-family;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 body.logged-in {
@@ -75,11 +84,77 @@ body.logged-in {
   }
 }
 
-.tag-safe-container {
+.tagsafe-container {
   border: 1px solid grey;
   border-radius: 15px;
   background: white;
   padding: 15px;
+}
+
+.tagsafe-circular-btn {
+  display: inline-flex;
+  border-radius: 50%;
+  cursor: pointer;
+  width: fit-content;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  &:hover, &.active {
+    background: rgb(195, 240, 255);
+  }
+}
+
+.tagsafe-btn {
+  border: none;
+  background: $dark-tagsafe-blue;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: 200ms all;
+  cursor: pointer;
+  border-radius: 999px;
+  text-decoration: none !important;
+  &:hover {
+    background: $darker-tagsafe-blue;
+  }
+  &.square {
+    border-radius: 0px;
+  }
+  &.outline {
+    background: white;
+    border: 1px solid $dark-tagsafe-blue;
+    color: $dark-tagsafe-blue;
+    &:hover {
+      background: $dark-tagsafe-blue;
+      color: white;
+    }
+  }
+}
+
+.tagsafe-spinner {
+  color: $tagsafe-blue;
+  &.small {
+    width: 30px;
+    height: 30px;
+  }
+  &.medium {
+    width: 50px;
+    height: 50px;
+  }
+  &.large {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.tag-thumbnail {
+  height: 50px; 
+  width: 50px; 
+  border-radius: 50%; 
+  border: 1px solid grey;
 }
 
 .viewport-height {
@@ -103,11 +178,6 @@ body.logged-in {
   flex-wrap: wrap;
 }
 
-.toast {
-  background: #def3f9;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-}
-
 ul.pagination {
   width: fit-content;
   margin: 0 auto;
@@ -119,6 +189,46 @@ ul.pagination {
 
 .failed, .negative {
   color: red;
+}
+
+.tagsafe-pill {
+  width: fit-content;
+  display: inline-block;
+  padding: 5px;
+  border-radius: 999px;
+  cursor: default;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  text-align: center;
+  &.tagsafe-blue {
+    background: $tagsafe-blue;
+    color: $darker-tagsafe-blue;
+    border: 1px solid $darker-tagsafe-blue;
+  }
+  &.active, &.green {
+    background: rgb(200, 255, 200);
+    color: green;
+    border: 1px solid green;
+  }
+  &.not-auditing, &.orange {
+    background: rgb(255, 240, 213);
+    color: orange;
+    border: 1px solid orange;
+  }
+  &.not-monitoring, &.red {
+    background: rgb(255, 212, 212);
+    color: red;
+    border: 1px solid red;
+  }
+  &.removed-from-site, &.grey {
+    background: rgb(235, 235, 235);
+    color: grey;
+    border: 1px solid grey;
+  }
+  .remove-btn {
+    cursor: pointer;
+  }
 }
 
 .badge.removable {

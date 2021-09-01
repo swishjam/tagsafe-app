@@ -1,0 +1,28 @@
+<tr id="<%= dom_id(audit) %>" class='<%= audit.is_primary? ? 'primary' : nil %>'>
+  <td scope="row">
+    <% unless audit.performance_audit_pending? || audit.performance_audit_failed? %>
+      <% if audit.is_primary? %>
+        <button class='tagsafe-btn' style='font-size: 12px'>Primary Audit</button>
+      <% else %>
+        <%= form_with url: make_primary_tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), method: :post, data: { manage_primary_audit_target: 'form' } do |f| %>
+          <%= f.submit 'Make Primary', class: 'tagsafe-btn outline', style: 'font-size: 12px' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </td>
+  <td scope="row"><%= audit.created_at.formatted %></td>
+  <td scope="row">
+    <% if audit.performance_audit_failed? %>
+      <span class="tagsafe-pill red">Failed</span>
+    <% elsif audit.performance_audit_pending? %>
+      <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
+    <% else %>
+      <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
+      <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
+        <%= score %>
+      </div>
+    <% end %>
+  </td>
+  <td scope="row"><%= audit.execution_reason.name %></td>
+  <td scope="row"><%= link_to 'View Audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %></td>
+</tr>

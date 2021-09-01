@@ -6,8 +6,8 @@ module AuditThrottler
     end
 
     def should_throttle?
-      return false if @tag.throttle_minute_threshold.nil?
-      @tag.throttle_minute_threshold < minutes_between_last_tag_change_audit
+      return false if @tag.tag_preferences.throttle_minute_threshold.nil?
+      @tag.tag_preferences.throttle_minute_threshold < minutes_between_last_tag_change_audit
     end
 
     def throttle!

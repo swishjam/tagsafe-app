@@ -1,0 +1,77 @@
+<%= turbo_frame_tag dom_id(tag), class: 'col-sm-12 col-md-6 col-lg-4 tag-safe-card-container' do %>
+  <div class="tag-safe-card tag <%= tag.removed_from_site? || !tag.tag_preferences.should_run_audit ? 'inactive' : nil %>">
+    <!-- Removing dropdown for now...
+    <div class="dropdown show ellipsis-dropdown text-right">
+      <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-h"></i>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <#%= link_to 'View', tag_path(tag), class: 'dropdown-item' %>
+        <#%= link_to 'Edit', edit_tag_path(tag), class: 'dropdown-item' %>
+      </div>
+    </div>
+    !-->
+    <%= link_to tag_path(tag), target: '_top' do %>
+      <div class="col-12 logo-container">
+        <%= image_tag tag.try_image_url, class: 'img-fluid script-logo' %>
+        <span data-controller='tooltip'
+          data-bs-toggle="tooltip"
+          data-placement="top"
+          title="<%= tag.try_friendly_name%>">
+          <h5 class="card-title"><%= tag.try_friendly_name %></h5>
+        </span>
+      </div>
+      <div class="card-body text-center col-12">
+        <% if tag.removed_from_site? %>
+          <p>
+            <span data-controller='tooltip'
+              data-bs-toggle="tooltip"
+              data-placement="top"
+              title="The <%= tag.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= tag.removed_from_site_at.formatted %>.">
+              <span class="script-removed-from-site-notice"><i class="fas fa-exclamation-circle"></i> Removed from site</span>
+            </span>
+          </p>
+        <% end %>
+        <% if !tag.tag_preferences.monitor_changes %>
+          <p>
+            <span data-controller='tooltip'
+              data-bs-toggle="tooltip"
+              data-placement="top"
+              title="Tag monitoring is off for <%= tag.try_friendly_name %>. Visit your tag management settings to monitor.">
+              <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Not Monitoring Changes</span>
+            </span>
+          </p>
+        <% else %>
+          <p>
+            Last change was <%= tag.content_changed_at ? time_ago_in_words(tag.content_changed_at) : 'unknown'%> ago.
+          </p>
+        <% end %>
+        <% if !tag.tag_preferences.should_run_audit %>
+          <p>
+            <span data-controller='tooltip' 
+                  data-bs-toggle="tooltip"
+                  data-placement="top"
+                  title="Tag auditing is off for <%= tag.try_friendly_name %>. Visit your tag management settings to monitor.">
+              <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Auditing is Turned Off</span>
+            </span>
+          </p>
+        <% end %>
+        <% audit = tag.current_version&.primary_audit %>
+        <% unless audit&.delta_performance_audit.nil? %>
+          <%= render partial: 'partials/progress_ring', locals: { 
+            score: audit.delta_performance_audit.tagsafe_score, 
+            change_in_score: audit.delta_performance_audit.change_in_metric(:tagsafe_score)
+          } %>
+        <% else %>
+          <!-- if there isn't a primary audit, just grab the first/only audit !-->
+          <% audit = tag.current_version&.audits&.limit(1)&.first %>
+          <% if audit.nil? %>
+            <span>No audits run for this tag version</span>
+          <% else %>
+            <span class="badge bg-<%= audit.state == 'pending' ? 'primary' : 'danger' %>">Audit <%= audit.state %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,7 +1,7 @@
 class ChartsController < ApplicationController
   def tags
-    domain = Domain.find(params[:domain_id])
-    metric = params[:metric_type] || :tagsafe_score
+    # domain = Domain.find(params[:domain_id])
+    @displayed_metric = params[:metric_type] || :tagsafe_score
     if params[:tag_ids]
       tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
       tags = current_domain.tags.where(id: tag_ids)
@@ -9,26 +9,26 @@ class ChartsController < ApplicationController
         tags: tags, 
         start_time: params[:start_time] || 24.hours.ago,
         end_time: params[:end_time] || Time.now,
-        metric_key: metric
+        metric_key: @displayed_metric
       )
-      render json: chart_data_getter.get_metric_data!
+      @include_metric_select = true
+      @chart_data = chart_data_getter.chart_data
     else
-      render json: []
+      @chart_data = []
     end
   end
 
   def tag
-    tag = Tag.find(params[:tag_id])
-    permitted_to_view?(tag, raise_error: true)
-    metric_keys = JSON.parse(params[:metric_keys] || "[\"tagsafe_score\"]")
+    @tag = Tag.find(params[:tag_id])
+    permitted_to_view?(@tag, raise_error: true)
+    @chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
     chart_data_getter = ChartHelper::TagData.new(
-      tag: tag, 
-      metric_keys: metric_keys,
+      tag: @tag, 
+      metric: @chart_metric,
       start_time: params[:start_time] || 24.hours.ago,
       end_time: params[:end_time] || Time.now
     )
-    data = chart_data_getter.get_metric_data!
-    render json: data
+    @chart_data = chart_data_getter.chart_data
   end
 
   def tag_uptime

@@ -1,18 +1,24 @@
-<div class="col-md-4 offset-md-4 card tag-safe-container text-center">
+<div class="col-md-4 offset-md-4 card tagsafe-container text-center">
   <h3>Register</h3>
-  <%= form_for @organization do |f| %>
+  <%= form_for @organization, class: 'col-12' do |f| %>
     <div class='form-group'>
       <%= f.label 'Organization Name' %>
       <%= f.text_field :name %>
     </div>
-    <div class='form-group'>
+    <div class='form-group row'>
       <%= f.fields_for :domains, @organization.domains.new do |ff| %>
         <%= ff.label 'Domain URL' %>
-        <select name='domain[protocol]' class='custom-select' required>
-          <option class='dropdown-item' value='https://' selected>https://</option>
-          <option class='dropdown-item' value='http://'>http://</option>
-        </select>
-        <%= ff.text_field :url %>
+        <div class='row'>
+          <div class='col-3 p-0'>
+            <select name='domain[protocol]' class='form-select' required>
+              <option class='dropdown-item' value='https://' selected>https://</option>
+              <option class='dropdown-item' value='http://'>http://</option>
+            </select>
+          </div>
+          <div class='col-9 p-0'>
+            <%= ff.text_field :url, placeholder: 'www.example.com', class: 'form-control' %>
+          </div>
+        </div>
       <% end %>
     </div>
     <%= render partial: 'partials/inline_errors' %>

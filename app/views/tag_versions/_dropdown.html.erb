@@ -1,0 +1,25 @@
+<div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
+  <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-ellipsis-h"></i>
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <% if local_assigns[:additional_menu_items] %>
+      <% additional_menu_items.each do |menu_item| %>
+        <%= link_to menu_item[:text], menu_item[:url], class: 'dropdown-item', target: '_top' %>
+      <% end %>
+    <% end %>
+    <%= link_to 'View Version Control', diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' %>
+    <% if !local_assigns[:audit].nil? && !audit.performance_audit_pending? %>
+      <%= link_to 'View Audit Logs', tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' %>
+    <% end %>
+    <% if !local_assigns[:audit].nil? && audit.capture_individual_performance_audits? %>
+      <%= link_to "View Individual Performance Audits (#{audit.performance_audit_iterations})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
+    <% end %>
+    <div class="dropdown-divider"></div>
+    <div class='dropdown-item'>
+      <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'confirmable_form', confirmation_text: "Run audit for #{tag.try_friendly_name} [#{tag_version.sha} - #{tag_version.created_at.formatted_short}]?", confirmation_title: 'Perform audit?' } do |f| %>
+        <%= f.submit 'Run Audit', class: 'dropdown-item p-0' %>
+      <% end %>
+    </div>
+  </div>
+</div>

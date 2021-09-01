@@ -18,14 +18,13 @@
 
   <body class="<%=controller_name%>">
     <div class="container-fluid admin-container">
-      <%= render partial: 'partials/toasts' %>
-      <%= render partial: 'partials/breadcrumbs' %>
-      <%= render partial: 'partials/admin_nav' %>
+      <%= render 'partials/notification_containers' %>
+      <%= render 'partials/breadcrumbs' %>
+      <%= render 'partials/admin_nav' %>
       <div id="content">
         <%= yield %>
       </div>
     </div>
-    <%= javascript_include_tag "https://cdn.quantummetric.com/qscripts/quantum-collin.js", async: true %> 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GSZ6G0R2K4"></script>
     <script>

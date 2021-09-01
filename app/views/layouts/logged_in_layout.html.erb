@@ -5,28 +5,34 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= turbo_include_tags %>
+    <%= stimulus_include_tags %>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <!-- Bootstrap Select Picker !-->
+    <!--
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    !-->
+
     <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
+    <script src='/chartkick.js'></script>
+    <script src='/highcharts.js'></script>
     <%= favicon_link_tag asset_path('TagSafe-lock.png') %>
-    <!-- Bootstrap Select: -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta/dist/css/bootstrap-select.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta/dist/js/bootstrap-select.min.js"></script>
     <!-- Fonts: -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
 
+    <%= yield :head %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="slack-app-id" content="A01HGPB713N">
-    <script>
-      window.currentUser = "<%= current_user&.email %>"
-      window.currentDomainId = "<%= current_domain&.id %>"
-      window.scriptSubscriberId = "<%= @tag&.id %>"
-      window.scriptSubscribersIds = "<%= @tags&.is_third_party_tag&.still_on_site&.collect(&:id) %>"
-    </script>
   </head>
   <body class="logged-in <%=controller_name%>">
     <div class="container-fluid">
-      <%= render partial: 'partials/toasts' %>
+      <%= render 'partials/notification_containers' %>
+      <%= render 'partials/confirmation_modal' %>
       <% unless @hide_navigation %>
         <%= render partial: 'partials/logged_in_nav' %>
       <% end %>
@@ -37,11 +43,6 @@
         </div>
       </div>
     </div>
-    <%
-=begin%>
- <%= javascript_include_tag "https://cdn.quantummetric.com/qscripts/quantum-collin.js", async: true %> 
-<%
-=end%>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GSZ6G0R2K4"></script>
     <script>

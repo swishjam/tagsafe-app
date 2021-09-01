@@ -1,8 +1,8 @@
 one_minute_check_scripts:
-  class: Schedule::OneMinuteTagCheckerJob
+  class: Schedule::TagCheckJobs::OneMinuteInterval
   cron: "*/1 * * * *" # every 1 minute
-  description: "Checks all scripts to check if they've been changed."
-  queue: "clean_data_queue"
+  description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
+  queue: "tag_checker_queue"
 re_scan_domains:
   class: Schedule::ScanDomainsJob
   cron: "0 */1 * * *" # every 1 hour

@@ -1,4 +1,4 @@
-require 'memoist'
+# require 'memoist'
 
 class Audit < ApplicationRecord
   class InvalidRetry < StandardError; end;
@@ -10,9 +10,22 @@ class Audit < ApplicationRecord
   belongs_to :execution_reason
 
   has_many :performance_audits, dependent: :destroy
+  has_many :individual_performance_audit_with_tags
+  has_many :individual_performance_audit_without_tags
   has_one :performance_audit_with_tag
   has_one :performance_audit_without_tag
   has_one :delta_performance_audit
+
+  #############
+  # CALLBACKS #
+  #############
+
+  # column_update_listener :primary
+  after_create_commit { broadcast_prepend_to "#{tag_version_id}_tag_version_audits", target: "#{tag_version_id}_tag_version_audits" }
+  after_update_commit :update_audit_content
+  # after_update_commit { tag.update_tag_content }
+  # after_primary_updated_to true, -> { tag_version.update_tag_version_content }
+  after_update_commit :check_for_new_primary_audit
 
   ##########
   # SCOPES #
@@ -66,6 +79,20 @@ class Audit < ApplicationRecord
     tag_version.run_audit!(reason, num_attempts: num_attempts)
   end
 
+  def capture_individual_performance_audits?
+    ENV['CAPTURE_INDIVIDUAL_PERFORMANCE_AUDITS'] == 'true'
+  end
+
+  def update_audit_content
+    broadcast_replace_to "#{tag_version_id}_tag_version_audits"
+    broadcast_replace_to self, partial: 'audits/show', locals: { tag: tag, tag_version: tag_version, audit: self, previous_audit: tag_version.previous_version&.primary_audit }
+  end
+
+  # def performance_audit_certainty
+  #   return if performance_audit_failed? || performance_audit_pending?
+  #   performanceU
+  # end
+
   def performance_audit_failed?
     !performance_audit_error_message.nil?
   end
@@ -90,6 +117,14 @@ class Audit < ApplicationRecord
     primary_audit_from_before = tag_version.primary_audit
     primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
+  end
+
+  def check_for_new_primary_audit
+    if saved_changes['primary'] && saved_changes['primary'][1] == true
+      tag.update_tag_content
+      # update chart...
+      # broadcast_replace_later_to 
+    end
   end
 
   def previous_primary_audit

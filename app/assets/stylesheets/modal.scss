@@ -1,0 +1,44 @@
+.tagsafe-modal-container {
+  display: none;
+  &.show {
+    display: flex;
+  }
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  text-align: center;
+  .tagsafe-modal-backdrop {
+    background-color: black;
+    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+  }
+  .tagsafe-modal {
+    background: white;
+    border-radius: 10px;
+    position: absolute;
+    max-width: 80%;
+    .tagsafe-modal-header {
+      .close {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+      }
+      .tagsafe-modal-title {
+        margin: 15px 0px 15px 60px;
+      }
+    }
+    .tagsafe-modal-header-divider {
+      border-bottom: 1px solid lightgrey;
+      margin: 0px 15px 0px 15px;
+    }
+    .tagsafe-modal-content {
+      padding: 15px;
+    }
+  }
+}

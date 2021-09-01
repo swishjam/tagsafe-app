@@ -4,7 +4,7 @@ end
 
 def stub_domain_scan
   expect_any_instance_of(GeppettoModerator::Senders::ScanDomain).to receive(:send!)
-  # expect_any_instance_of(Domain).to receive(:scan_and_capture_domains_scripts)
+  # expect_any_instance_of(Domain).to receive(:scan_and_capture_domains_tags)
 end
 
 def stub_geppetto_communication

@@ -3,84 +3,28 @@
   <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 </div>
 
-<%= render partial: 'partials/tag_chart', locals: { 
-  tag: @tag,
-  chart_start_time: @tag_versions.first&.created_at,
-  chart_end_time: params[:page] == '1' || nil ? Time.now : @tag_versions.last&.created_at
-} %>
-
-<div class="script-changes-container">
-  <h5 class="text-center">Tag Change Log</h5>
-  <table class="script-changes-table table table-hover col-12 text-center" style="table-layout: fixed">
-    <thead>
-      <tr>
-        <th scope="col" style='width: 33.33%'>Date of Change</th>
-        <th scope="col" style='width: 33.33%'>TagSafe Score</th>
-        <th scope="col" style='width: 33.33%'>Change in TagSafe Score</th>
-        <th scope="col" style='width: 10%'></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @tag_versions.any? %>
-        <% @tag_versions.each_with_index  do |tag_version, i| %>
-          <% audit = tag_version.primary_audit || @tag.most_recent_audit_by_tag_version(tag_version, include_pending_performance_audits: true, include_failed_performance_audits: true) %>
-          <% previous_audit = @tag_versions[i+1]&.primary_audit %>
-          <%= link_to audit.nil? ? '#' : tag_tag_version_audit_path(@tag, tag_version, audit) do %> 
-            <tr class="script-change-row">
-              <td scope="row"><%= tag_version.created_at.formatted_short %></td>
-              <td scope="row">
-                <% if !audit %>
-                  <span>
-                    No performance audits run
-                  </span>
-                <% elsif audit.performance_audit_pending? %>
-                  <span class='badge badge-primary'>Performance audit currently running.</span>
-                <% elsif audit.performance_audit_failed? %>
-                  <span class='badge badge-danger'>Performance Audit failed.</span>
-                <% else %>
-                  <span>
-                    <%= number_with_delimiter(audit.delta_performance_audit.tagsafe_score.round(2)) %>
-                  </span>
-                <% end %>
-              </td>
-              <td scope="row">
-                <% if audit.nil? || audit.performance_audit_failed? || audit.performance_audit_pending? %>
-                  <span>--</span>
-                <% else %>
-                  <% change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score) %>
-                  <% unless change_in_score.nil? %>
-                    <% icon_class = change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down" %>
-                    <span class="<%=change_in_score.positive? ? 'positive' : 'negative' %>">
-                      <i class="fas <%=icon_class%>"></i>
-                      <%= number_with_delimiter(change_in_score) %>
-                    </span>
-                  <% end %>
-                <% end %>
-              </td>
-              <td scope="row">
-                <div class="dropdown dropleft show ellipsis-dropdown">
-                  <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <% unless audit.nil? %>
-                      <%= link_to 'View Audit', tag_tag_version_audit_path(@tag, tag_version, audit), class: 'dropdown-item' %> 
-                    <% end %>
-                    <%= link_to 'View Changes', tag_tag_version_path(@tag, tag_version), class: 'dropdown-item' %> 
-                    <div class="dropdown-divider"></div>
-                    <%= link_to 'Re-Run Audit', run_audit_tag_tag_version_path(@tag, tag_version), class: 'dropdown-item', method: :post, data: { confirm: "Run audit on #{@tag.try_friendly_name}?" } %> 
-                  </div>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      <% else %>
-        <tr>
-          <h6>No changes recorded yet for <%= @tag.try_friendly_name %>.
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div class="tag-chart-container" style="padding-top: 5px;">
+  <div class="row" style="margin-bottom: 5px;">
+    <div class="col-12">
+      <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
+        <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to "Edit #{@tag.try_friendly_name}", edit_tag_path(@tag), class: 'dropdown-item', target: '_top' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= turbo_frame_tag "#{@tag.id}_tag_chart", src: tag_chart_path(@tag) do %>
+    Loading chart...
+  <% end %>
 </div>
-<%= paginate @tag_versions %>
+
+<div class="tag-versions-container">
+  <h5 class="text-center">Tag Change Log</h5>
+  <%= turbo_stream_from "#{@tag.id}_tag_tag_versions" %>
+  <%= turbo_frame_tag "#{@tag.id}_tag_tag_versions", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
+    Loading...
+  <% end %>
+</div>

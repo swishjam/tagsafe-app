@@ -14,28 +14,5 @@
 //= require jquery_ujs
 //= require activestorage
 //= require_tree .
-//= require chartkick
-//= require highcharts
-//= require popper
-//= require bootstrap-sprockets
 
-window.addEventListener('load', function() {
-  $('[data-toggle="tooltip"]').tooltip();
-  $('.selectpicker').selectpicker();
-  $('.toast').toast({ 
-    animation: false,
-    delay: 12000
-  });
-  $('.toast:not(.js-toast)').toast('show');
-  $('.custom-file-input').on('change',function(){
-    //get the file name
-    var fileName = $(this).val();
-    //replace the "Choose a file" label
-    $(this).next('.custom-file-label').html(fileName);
-  })
-});
-
-function showToastMessage(msg) {
-  $('.js-toast .toast-body').text(msg);
-  $('.js-toast').toast('show');
-}
+console.log('hello from applicaiton.js.....')

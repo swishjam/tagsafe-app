@@ -1,0 +1,42 @@
+<div class="metric-row col-6">
+  <div class='metric col-12'>
+    <div class='row'>
+      <div class="col-6 metric-title">
+        <%= metric_title %>
+      </div>
+      <div class="col-6 metric-value">
+        <% if impact_result.zero? %>
+          <span>No Impact</span>
+        <% else %>
+          <span data-controller='tooltip'
+                data-bs-toggle='tooltip'
+                title="When <%= tag.try_friendly_name %> is present, <%= metric_title %> is <%= impact_result.round(2) %> <%= unit %> <%= impact_result > 0 ? 'slower' : nil %>"
+                class="current-value">
+            <%= impact_result > 0 ? 'Adds' : nil %> <%= number_to_human(impact_result.round(2), units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
+          </span>
+        <% end %>
+        <div class='additional-details'>
+          <span><%= score_impact.round(2) %> Score Impact</span>
+          <br/>
+          <% unless previous_impact_result.nil? %>
+            <% diff_in_metric = impact_result - previous_impact_result %>
+            <% if diff_in_metric.zero? %>
+              (No Change)
+            <% else %>
+              <% if diff_in_metric.zero? %>
+              <% else %>
+                <span data-bs-toggle="tooltip"
+                      data-placement="top"
+                      title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on <%= metric_title %>' was <%=number_to_human(previous_impact_result, units: { unit: unit, thousand: unit ? 'seconds' : nil })%> (<%= previous_timestamp.formatted_short %>)." 
+                      class="<%= diff_in_metric.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
+                  <%= diff_in_metric.positive? ? 'Adds' : nil %><%= number_to_human(diff_in_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
+                  (<%= number_with_delimiter(((diff_in_metric/previous_impact_result)*100).round(2)) %>%)
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

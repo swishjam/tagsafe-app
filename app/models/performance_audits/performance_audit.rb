@@ -1,6 +1,7 @@
 class PerformanceAudit < ApplicationRecord
   belongs_to :audit
   has_one :performance_audit_logs, class_name: 'PerformanceAuditLog', dependent: :destroy
+  accepts_nested_attributes_for :performance_audit_logs
 
   scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }

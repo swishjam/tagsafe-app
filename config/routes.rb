@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
 
+  get '/demo' => 'demo#index'
+
   resources :registrations, only: [:new, :create]
   resources :organizations, only: [:new, :create]
   
@@ -21,28 +23,37 @@ Rails.application.routes.draw do
   get '/uptime' => 'tag_checks#index'
   get '/performance' => 'performance#index'
 
-  resources :domains, only: [:create, :update] do
+  resources :domains, only: [:create, :update, :new] do
+    member do
+      patch :scan
+    end
+    resources :urls_to_scans, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :tags do
     get '/general' => 'tags#edit' 
-    get '/performance_audit_settings' => 'tags#performance_audit_settings'
+    get '/preferences' => 'tags#preferences'
     get '/notification_settings' => 'tags#notification_settings'
 
     resources :slack_notification_subscribers, only: [:create, :destroy]
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
-    resources :performance_audit_preferences, only: :update
+    # resources :performance_audit_preferences, only: :update
+    resources :tag_preferences, only: [:edit, :update]
     resources :tag_versions, only: [:show, :index] do
       member do
         post :run_audit
         get :content
+        get :diff
+        get :js
+        get '/js.js' => 'tag_versions#js'
       end
       resources :audits, only: [:index, :show] do
         member do
           post :make_primary  
         end
+        resources :individual_performance_audits, only: [:index]
         resources :performance_audit_logs, only: [:index]
       end
     end
@@ -58,6 +69,16 @@ Rails.application.routes.draw do
         post :apply_all_to_tags
       end
       resources :tag_image_domain_lookup_patterns, only: [:create, :destroy]
+    end
+  end
+
+  namespace :server_loadable_partials do
+    resources :tags, only: :index do
+      resources :tag_versions, only: :index do
+        member do
+          get :diff
+        end
+      end
     end
   end
 

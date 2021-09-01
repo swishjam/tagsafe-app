@@ -5,17 +5,15 @@
     </div>
   <% end %>
   <% if current_organization.has_multiple_domains? %>
-    <div class="dropdown show">
-      <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <%= current_domain.url %>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <%= form_with url: '/update_current_domain', method: :post, data: { controller: 'submit_form_changes' } do |f| %>
+      <select name='id' class="form-control">
         <% current_organization.domains.each do |domain| %>
           <% klass = current_domain === domain ? 'dropdown-item active' : 'dropdown-item' %>
-          <%= link_to domain.url, update_current_domain_path(domain.id), method: :post, class: klass %>
+          <option value='<%=domain.id%>' class='<%= klass %>'><%= domain.url %></option>
+          <!-- <#%= link_to domain.url, update_current_domain_path(domain.id), method: :post, class: klass %> !-->
         <% end %>
-      </div>
-    </div>
+      </select>
+    <% end %>
   <% end %>
   <ul>
     <% 
@@ -42,5 +40,5 @@
     <li class='nav-item'>
       <a class="nav-link logout-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </li>
-  </div>
+  </ul>
 </div>

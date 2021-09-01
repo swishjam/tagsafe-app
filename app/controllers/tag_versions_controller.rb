@@ -1,28 +1,18 @@
 class TagVersionsController < LoggedInController
   skip_before_action :authorize!, only: :content
   protect_from_forgery except: :content
+  hide_navigation_on :diff
 
-  def show
+  def diff
     @tag_version = TagVersion.find(params[:id])
     permitted_to_view?(@tag_version)
-    @previous_tag_version = @tag_version.previous_version
     @tag = @tag_version.tag
-    @hide_navigation = true
 
-    diff = Diffy::SplitDiff.new(
-      @previous_tag_version&.content&.force_encoding('UTF-8'), 
-      @tag_version.content.force_encoding('UTF-8'), 
-      format: :html, 
-      include_plus_and_minus_in_html: true
-      # include_diff_info: true
-    )
-
-    @git_diff_tag_version = diff.right.html_safe
-    @git_diff_previous_tag_version = diff.left.html_safe
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
-      { text: "#{@tag_version.created_at.formatted} Tag Change", active: true}
+      { text: @tag_version.sha, active: true}
+      # { text: "#{@tag_version.created_at.formatted} Tag Change", active: true}
     )
   end
 
@@ -43,5 +33,10 @@ class TagVersionsController < LoggedInController
     tag_version.run_audit!(ExecutionReason.MANUAL)
     display_toast_message("Performing audit on #{tag_version.tag.try_friendly_name}")
     redirect_to request.referrer
+  end
+
+  def js
+    tag_version = TagVersion.find(params[:id])
+    render plain: tag_version.content
   end
 end

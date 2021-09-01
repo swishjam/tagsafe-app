@@ -1,0 +1,33 @@
+<%= turbo_frame_tag "#{current_domain.id}_domain_tags_chart" do %>
+  <% if @include_metric_select %>
+    <div style='float: right;'>
+      <select class="selectpicker" id="metric-dropdown" data-max-options="1" data-live-search="true">
+        <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
+          <% if metric_type[:column] == @displayed_metric %>
+            <option value="<%= metric_type[:column] %>" selected><%= metric_type[:title] %></option>
+          <% else %>
+            <option value="<%= metric_type[:column] %>"><%= metric_type[:title] %></option>
+          <% end %>
+        <% end %> 
+      </select>
+    </div>
+  <% end %>
+  <div id="scripts-chart-container">
+    <%=
+      line_chart @chart_data,
+        download: true, 
+        title: "#{@displayed_metric.to_s.gsub('_', ' ')}",
+        ytitle: "#{@displayed_metric.to_s.gsub('_', ' ')}",
+        xtitle: 'Tag Changes',
+        messages: { empty: "No Audits Run." },
+        curve: false, 
+        legend: "bottom",
+        library: {
+          rangeSelector: true,
+          hAxis: { 
+            # format: 'MM-DD-YYYY' 
+            }
+        }
+    %>
+  </div>
+<% end %>

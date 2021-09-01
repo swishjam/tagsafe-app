@@ -1,4 +1,13 @@
 class DeltaPerformanceAudit < PerformanceAudit
+  TAGSAFE_SCORE_THRESHOLDS = {
+    good: 90,
+    warn: 80
+  }
+  after_create_commit { audit.tag_version.update_tag_version_content }
+  after_update_commit { audit.tag_version.update_tag_version_content }
+  after_create_commit { audit.tag.update_tag_content }
+  after_update_commit { audit.tag.update_tag_content }
+
   def score_impact(metric_key)
     scorer.performance_metric_deduction(metric_key)
   end

@@ -1,29 +1,14 @@
-<div class="row">
-  <div class="col-6">
-    <div class="tag-safe-container">
-      <h5 class="text-center audit-type-title">Results With <%= @tag.try_friendly_name %></h5>
-      <div class="log-container">
-        <%= @with_tag_log.logs.html_safe %>
-      </div>
+<div class="row" data-controller='audit_logs'>
+  <div class="col-6 tagsafe-logs-container">
+    <h5 class="text-center audit-type-title">Results With <%= @tag.try_friendly_name %></h5>
+    <div class="log-container">
+      <%= @with_tag_log.logs.html_safe %>
     </div>
   </div>
-  <div class="col-6">
-    <div class="tag-safe-container">
-      <h5 class="text-center audit-type-title">Results Without <%= @tag.try_friendly_name %></h5>
-      <div class="log-container">
-        <%= @without_tag_log.logs.html_safe %>
-      </div>
+  <div class="col-6 tagsafe-logs-container">
+    <h5 class="text-center audit-type-title">Results Without <%= @tag.try_friendly_name %></h5>
+    <div class="log-container">
+      <%= @without_tag_log.logs.html_safe %>
     </div>
   </div>
 </div>
-
-<script>
-  $('[data-hilight-key]').hover(function(e) {
-    var url = e.target.getAttribute('data-hilight-key');
-    $('[data-hilight-key="'+url+'"]').addClass('hovered');
-  })
-  $('[data-hilight-key]').mouseout(function(e) {
-    var url = e.target.getAttribute('data-hilight-key');
-    $('[data-hilight-key="'+url+'"]').removeClass('hovered');
-  });
-</script>

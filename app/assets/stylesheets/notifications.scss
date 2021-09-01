@@ -1,0 +1,33 @@
+.notifications-container {
+  position: fixed;
+  top: 5px;
+  right: 15px;
+  z-index: 10;
+  .notification {
+    border: 1px solid black; 
+    border-radius: 10px;
+    background: white;
+    margin: 15px 5px 5px 5px;
+    transform: matrix(1.05,0,0,1.04999995231628,0,0);
+    box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
+    width: 30vw;
+    position: relative;
+    left: 35vw;
+    transition: 1s;
+    &.animate {
+      left: 0;
+    }
+    .exit {
+      vertical-align: top;
+      margin-bottom: 5px;
+    }
+    .notification-content {
+      padding: 0px 10px 10px 10px;
+      display: flex;
+      align-items: center;
+      .tag-thumbnail {
+        margin-right: 10px;
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
-<div class="script-subscriber-chart-container" style="padding-top: 5px;">
+<div class="tag-chart-container" style="padding-top: 5px;">
   <div class="row" style="margin-bottom: 5px;">
     <div class="col-12">
-      <div class="dropdown dropleft show ellipsis-dropdown" style="float: right;">
-        <a class="dropdown-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
+        <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -25,7 +25,8 @@
   </div>
   <div class="row">
     <%= 
-      line_chart tag_chart_path(tag, start_time: chart_start_time, end_time: chart_end_time),
+      # line_chart tag_chart_path(tag, start_time: chart_start_time, end_time: chart_end_time),
+      line_chart tag_chart_path(tag),
         download: true, 
         title: 'TagSafe Score',
         ytitle: 'TagSafe Score',

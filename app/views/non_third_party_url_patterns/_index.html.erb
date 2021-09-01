@@ -1,0 +1,26 @@
+<%= turbo_frame_tag "#{domain.id}_non_third_party_url_patterns" do %>
+  <div class='col-6 offset-3'>
+    <%= form_for NonThirdPartyUrlPattern.new, url: domain_non_third_party_url_patterns_path(current_domain) do |f| %>
+      <div class='form-floating d-flex mb-3'>
+        <%= f.text_field :pattern, class: 'form-control' %>
+        <%= f.label 'Non-Third Party Tag URL Pattern' %>
+        <button type='submit' class='tagsafe-btn square'>Add Pattern</button>
+      </div>
+    <% end %>
+  </div>
+
+  <div class='row'>
+    <ul>
+      <% domain.non_third_party_url_patterns.each do |url_pattern| %>
+        <%= turbo_frame_tag dom_id(url_pattern) do %>
+          <div class='tagsafe-pill grey removable m-1'>
+            <%= url_pattern.pattern %>
+            <%= form_with url: domain_non_third_party_url_pattern_path(domain, url_pattern), method: :delete, class: 'd-inline' do |f| %>
+              <span class='remove-btn pointer p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

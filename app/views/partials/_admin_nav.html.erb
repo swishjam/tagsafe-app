@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <a class="navbar-brand" href="/"><%= image_tag 'TagSafe-full.png', style: 'height: 40px' %></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -10,7 +10,7 @@
         <%= link_to 'Performance', admin_performance_path, class: 'nav-link' %>
       </li>
       <li class="nav-item">
-        <%= link_to 'Tag Images', admin_script_images_path, class: 'nav-link' %>
+        <%= link_to 'Tag Images', admin_tag_images_path, class: 'nav-link' %>
       </li>
     </ul>
   </div>

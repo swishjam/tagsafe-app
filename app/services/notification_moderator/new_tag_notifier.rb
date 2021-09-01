@@ -16,9 +16,9 @@ module NotificationModerator
     end
 
     def notify_slack_subscribers
-      @tag.new_tag_slack_notifications.should_receive_notifications.each do |slack_notifier|
-        slack_notifier.notify!(@tag)
-      end
+      # @tag.new_tag_slack_notifications.should_receive_notifications.each do |slack_notifier|
+      #   slack_notifier.notify!(@tag)
+      # end
     end
   end
 end

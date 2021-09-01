@@ -2,7 +2,7 @@
   <% 
     nav_items = [
       { path: settings_tag_management_path, text: 'Tag Management' },
-      { path: settings_tag_settings_path, text: 'Tag Settings' }
+      { path: settings_tag_settings_path, text: 'Audit Settings' }
     ].each do |nav| 
   %>
     <% klass = request.path == nav[:path] ? 'current sub-nav-link' : 'sub-nav-link' %>

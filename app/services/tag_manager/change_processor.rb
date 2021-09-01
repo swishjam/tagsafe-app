@@ -12,6 +12,11 @@ module TagManager
       remove_temp_file unless @keep_file_on_disk
     end
 
+    def update_tag_version!(tag_version)
+      tag_version.update!(formatted_data)
+      remove_temp_file unless @keep_file_on_disk
+    end
+
     private
 
     def formatted_data

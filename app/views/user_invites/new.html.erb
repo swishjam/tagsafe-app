@@ -1,4 +1,4 @@
-<div class="col-md-4 offset-md-4 card tag-safe-container text-center">
+<div class="col-md-4 offset-md-4 card tagsafe-container text-center">
   <h5>Invite users to <%= current_organization.name %></h5>
   <%= form_for @user_invite do |f| %>
     <div class="form-group">
@@ -8,10 +8,10 @@
   <% end %>
 </div>
 
-<div class='tag-safe-container' style='margin-top: 15px;'>
+<div class='tagsafe-container' style='margin-top: 15px;'>
   <% if @organization_users.any? %>
     <% @organization_users.each do |ou| %>
-      <span class="badge badge-primary removable" style='font-size: 14px'>
+      <span class="badge bg-primary removable" style='font-size: 14px'>
         <%= ou.user.email %> 
         <%= link_to 'X', organization_user_path(ou), method: :delete, style: 'color: white;', data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
       </span>

@@ -1,0 +1,11 @@
+<div class='notifications-container d-flex flex-column'>
+  <%= turbo_stream_from "#{current_domain.id}_domain_notifications_container" %>
+  <!-- <#%= turbo_frame_tag "#{current_domain.id}_domain_notifications_container", class: 'notifications-container d-flex flex-column' do %> !-->
+  <%= turbo_frame_tag "#{current_domain.id}_domain_notifications_container" do %>
+  <% end %>
+
+  <%= turbo_stream_from "#{current_user.id}_user_notifications_container" %>
+  <!-- <#%= turbo_frame_tag "#{current_user.id}_user_notifications_container", class: 'notifications-container d-flex flex-column' do %> !-->
+  <%= turbo_frame_tag "#{current_user.id}_user_notifications_container" do %>
+  <% end %>
+</div>

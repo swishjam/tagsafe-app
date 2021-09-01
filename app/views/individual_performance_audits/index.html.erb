@@ -1,0 +1,22 @@
+<div class="text-center">
+  <h5 class="page-title with-sub-title">Individual Performance Audit Results</h5>
+  <h6 class="page-sub-title mb-0"><%= @tag.try_friendly_name %></h6>
+  <h6 class="page-sub-title"><%= @audit.created_at.formatted_short %> Audit</h6>
+
+  <div class='tagsafe-container'>
+    <% if @audits_with_tag.empty? %>
+      <h4>Individual performance audits not captured for this audit.</h4>
+    <% else %>
+      <div class='row'>
+        <div class='col-6'>
+          <h5>Performance audits with tag</h5>
+          <%= render partial: 'individual_performance_audit', collection: @audits_with_tag, as: :individual_performance_audit %>
+        </div>
+        <div class='col-6'>
+          <h5>Performance audits without tag</h5>
+          <%= render partial: 'individual_performance_audit', collection: @audits_without_tag, as: :individual_performance_audit %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

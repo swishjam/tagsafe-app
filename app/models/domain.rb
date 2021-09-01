@@ -2,16 +2,16 @@ class Domain < ApplicationRecord
   belongs_to :organization
   has_many :domain_scans, dependent: :destroy
   has_many :tags, dependent: :destroy
+  has_many :urls_to_scans, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true
 
-  after_create_commit do
-    scan_and_capture_domains_scripts(true)
-  end
+  after_create_commit :add_default_url_to_scan
 
   def add_tag!(
       tag_url,
+      found_on_url,
       monitor_changes: ENV['SHOULD_MONITOR_CHANGES_BY_DEFAULT'] == 'true', 
       should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', 
       is_allowed_third_party_tag: false, 
@@ -20,7 +20,7 @@ class Domain < ApplicationRecord
       should_log_tag_checks: true,
       consider_query_param_changes_new_tag: false,
       url_to_audit: url,
-      num_test_iterations: 3
+      num_test_iterations: (ENV['DEFAULT_NUM_TEST_ITERATIONS'] || '5').to_i
     )
     parsed_url = URI.parse(tag_url)
     tag = tags.create!(
@@ -35,14 +35,23 @@ class Domain < ApplicationRecord
         should_run_audit: should_run_audit,
         should_log_tag_checks: should_log_tag_checks,
         consider_query_param_changes_new_tag: consider_query_param_changes_new_tag,
-        url_to_audit: url_to_audit,
+        url_to_audit: found_on_url,
         num_test_iterations: num_test_iterations
       }
     )
     # if it's the first time scanning the domain for tags, don't run the job
-    # we may eventually move this unless statement into the job itself, but for now let's just not bother enqueuing
+    # we may eventually move this into the job itself, but for now let's just not bother enqueuing
     AfterTagCreationJob.perform_later(tag) unless initial_scan
     tag
+  end
+
+  def add_default_url_to_scan
+    # response = HTTParty.get(url)
+    urls_to_scans.create(url: url)
+  end
+
+  def disable_third_party_tags_during_audits
+    ENV['DISABLE_ALL_THIRD_PARTY_TAGS_IN_AUDITS'] === 'true'
   end
 
   def has_tag?(tag)
@@ -53,11 +62,20 @@ class Domain < ApplicationRecord
     tags.third_party_tags_that_shouldnt_be_blocked.collect(&:full_url)
   end
 
-  def scan_and_capture_domains_scripts(initial_scan = false)
-    GeppettoModerator::Senders::ScanDomain.new(self, initial_scan: initial_scan).send!
+  def scan_and_capture_domains_tags(scan_urls: urls_to_scans, initial_scan: false)
+    GeppettoModerator::Senders::ScanDomain.new(self, scan_urls: scan_urls, initial_scan: initial_scan).send!
   end
 
   def should_capture_tag?(url)
     non_third_party_url_patterns.none?{ |url_pattern| url.include?(url_pattern.pattern) } 
+  end
+
+  def scan_in_progress?
+    domain_scans.pending.any?
+  end
+
+  def user_can_initiate_scan?(user)
+    return false if user.nil?
+    organization.users.include?(user)
   end
 end

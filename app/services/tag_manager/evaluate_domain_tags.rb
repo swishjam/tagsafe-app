@@ -1,15 +1,16 @@
 module TagManager
   class EvaluateDomainTags
-    def initialize(domain:, tag_urls:, initial_scan:, should_remove_tags: ENV['SHOULD_AUTO_REMOVE_TAGS'] == 'true')
+    def initialize(domain:, tag_urls:, url_scanned:, initial_scan:, should_remove_tags: ENV['SHOULD_AUTO_REMOVE_TAGS'] == 'true')
       @domain = domain
       @tag_urls = tag_urls
+      @url_scanned = url_scanned
       @initial_scan = initial_scan
       @pre_existing_tag_urls = @domain.tags.still_on_site.collect(&:full_url)
       @should_remove_tags = should_remove_tags
     end
 
     def evaluate!
-      @tag_urls.each{ |url| add_tag_to_domain_if_necessary(url) }
+      @tag_urls.each{ |tag_url| add_tag_to_domain_if_necessary(tag_url) }
       remove_tags_removed_from_site if @should_remove_tags
     end
 
@@ -40,7 +41,7 @@ module TagManager
         tag_query_parameter_changed!(previously_removed_tag_without_query_params, url)
       else
         # new tag
-        @domain.add_tag!(url, initial_scan: @initial_scan)
+        @domain.add_tag!(url, @url_scanned, initial_scan: @initial_scan)
       end
     end
 

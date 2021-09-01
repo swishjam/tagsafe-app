@@ -1,12 +1,15 @@
 class TagPreference < ApplicationRecord
   belongs_to :tag
 
-  def self.create_default(tag)
-    create(
-      tag: tag,
-      num_test_iterations: 3,
-      should_run_audit: true,
-      url_to_audit: tag.domain.url
-    )
+  column_update_listener :should_run_audit
+  after_update :check_to_run_audit
+  # after_should_run_audit_updated_to true, -> { AfterTagShouldRunAuditActivationJob.perform_later(tag) }
+
+  # validates :url_to_audit, presence: true
+
+  def check_to_run_audit
+    if column_changed_to('should_run_audit', true)
+      AfterTagShouldRunAuditActivationJob.perform_later(tag)
+    end
   end
 end

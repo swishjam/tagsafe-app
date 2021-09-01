@@ -18,7 +18,7 @@ module Admin
       script_image = TagImage.find(params[:id])
       script_image.destroy
       display_toast_message('Successfully deleted Tag Image')
-      redirect_to admin_script_images_path
+      redirect_to admin_tag_images_path
     end
 
     def apply_to_scripts
@@ -32,7 +32,7 @@ module Admin
       applied_scripts = 0
       TagImage.apply_all_to_scripts
       display_toast_message("Applied images to #{applied_scripts} scripts.")
-      redirect_to admin_script_images_path
+      redirect_to admin_tag_images_path
     end
   
     private
