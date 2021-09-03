@@ -10,11 +10,15 @@
       <div class='row'>
         <div class='col-6'>
           <h5>Performance audits with tag</h5>
-          <%= render partial: 'individual_performance_audit', collection: @audits_with_tag, as: :individual_performance_audit %>
+          <% @audits_with_tag.each_with_index do |audit, i| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: audit %>
+          <% end %>
         </div>
         <div class='col-6'>
           <h5>Performance audits without tag</h5>
-          <%= render partial: 'individual_performance_audit', collection: @audits_without_tag, as: :individual_performance_audit %>
+          <% @audits_without_tag.each_with_index do |audit, i| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: audit %>
+          <% end %>
         </div>
       </div>
     <% end %>

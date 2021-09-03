@@ -11,6 +11,8 @@ class GeppettoModerator::Senders::RunPerformanceAudit < GeppettoModerator::Sende
     @disable_third_party_tags = disable_third_party_tags
   end
 
+  private
+
   def request_body
     {
       audit_id: @audit.id,

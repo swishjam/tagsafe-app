@@ -1,5 +1,6 @@
 class GeppettoModerator::Sender
   class GeppettoConnectionError < StandardError; end;
+
   def initialize(path_endpoint, domain, request_body)
     @endpoint = "#{ENV['GEPPETTO_DOMAIN']}#{path_endpoint}"
     @domain = domain
@@ -9,7 +10,7 @@ class GeppettoModerator::Sender
   def send!
     Rails.logger.info "Sending Geppetto Request to #{@endpoint} with #{merged_request_options}"
     response = send_geppetto_request
-    Rails.logger.info "Result: #{response.code} - #{response.response.body}"
+    Rails.logger.info "Result: #{response.code} - #{response.response.body}" if response
   end
 
   private

@@ -1,59 +1,55 @@
 <%= turbo_frame_tag "#{tag.id}_edit_general_settings" do %>
-  <%= form_for tag, data: { controller: 'submit_form_changes' } do |f| %>
+  <%= form_with model: tag, data: { controller: 'submit_form_changes' } do |f| %>
     <h4><%= tag.try_friendly_name %> <%= tag.friendly_name ? "(#{tag.domain_and_path})" : nil %></h4>
     <%= image_tag tag.try_image_url, class: 'img-thumbnail script-logo', style: 'height: 250px; width: 250px' %>
 
     <div class="col-8 offset-2">
-      <div class="form-floating d-flex">
-        <%= f.text_field :friendly_name, class: "form-control form-control-lg", value: tag.friendly_name, data: { ignore_changes: true } %>
-        <!-- <#%= f.label :friendly_name %> !-->
-        <label for='friendly_name'>Tag Nickname (ie: Google Analytics)</label>
-        <button type='submit' class='tagsafe-btn square'>Update</button>
-      </div>
       <div class="input-group mb-3 col-8 offset-2">
         <div class="custom-file">
           <%= f.file_field :image, class: 'custom-file-input' %>
           <%= f.label :image, class: 'custom-file-label' %>
         </div>
       </div>
+      <div class="form-floating d-flex">
+        <%= f.text_field :friendly_name, class: "form-control form-control-lg", value: tag.friendly_name, data: { ignore_changes: true } %>
+        <!-- <#%= f.label :friendly_name %> !-->
+        <label for='friendly_name'>Tag Nickname (ie: Google Analytics)</label>
+        <button type='submit' class='tagsafe-btn square'>Update</button>
+      </div>
       <%= f.fields_for :tag_preferences_attributes, tag.tag_preferences do |ff| %>
-        <%= ff.hidden_field :url_to_audit, value: tag.tag_preferences.url_to_audit %>
-        <%= ff.hidden_field :num_test_iterations, value: tag.tag_preferences.num_test_iterations %>
-        <%= ff.hidden_field :is_allowed_third_party_tag, value: tag.tag_preferences.is_allowed_third_party_tag %>
-        <%= ff.hidden_field :throttle_minute_threshold, value: tag.tag_preferences.throttle_minute_threshold %>
-        <%= ff.hidden_field :should_log_tag_checks, value: tag.tag_preferences.should_log_tag_checks %>
-        <%= ff.hidden_field :consider_query_param_changes_new_tag, value: tag.tag_preferences.consider_query_param_changes_new_tag %>
-        <div class="form-check form-switch w-fit m-auto">
-          <%= ff.label :is_third_party_tag, class: 'form-check-label' %>
-          <i data-controller='tooltip'
-              data-bs-toggle="tooltip"
-              data-placement="top"
-              title="Un-select this option to no longer consider this a third party tag. It will no longer be monitored, and it will not be blocked in audits."
-              class="far fa-question-circle fw-light"></i>
-          <%= ff.check_box :is_third_party_tag, checked: tag.tag_preferences.is_third_party_tag, class: 'form-check-input' %>
+        <div class="form-floating d-flex mt-3 mb-3">
+          <%= ff.text_field :url_to_audit, value: tag.tag_preferences.url_to_audit, class: "form-control", data: { ignore_changes: true } %>
+          <label for='url_to_audit'>URL to audit</label>
+          <button type='submit' class='tagsafe-btn square'>Update</button>
         </div>
         <div class="form-check form-switch w-fit m-auto">
           <%= ff.label :monitor_changes, class: 'form-check-label' %>
           <i data-controller='tooltip' 
               data-bs-toggle="tooltip"
               data-placement="top"
-              title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when changes are made to the tag." 
+              title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when new versions of this tag are released." 
               class="far fa-question-circle"></i>
           <%= ff.check_box :monitor_changes, checked: tag.tag_preferences.monitor_changes, class: 'form-check-input' %>
         </div>
         <div class="form-check form-switch w-fit m-auto">
-          <%= ff.label :should_run_audit, class: 'form-check-label' %>
+          <%= ff.label 'Run audit on new versions', class: 'form-check-label' %>
           <i data-controller='tooltip'
               data-bs-toggle="tooltip"
               data-placement="top"
-              title="Un-select this option to no longer run audits on this third party tag. TagSafe will no longer automatically run an audit on each tag change."
+              title="Un-select this option to no longer run audits automatically on each new version."
               class="far fa-question-circle"></i>
           <%= ff.check_box :should_run_audit, checked: tag.tag_preferences.should_run_audit, class: 'form-check-input' %>
         </div>
+        <div class="form-check form-switch w-fit m-auto">
+          <%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
+          <i data-controller='tooltip'
+              data-bs-toggle="tooltip"
+              data-placement="top"
+              title="Select this option to consider each time the query params change a new tag has been added to <%= current_domain.url %>."
+              class="far fa-question-circle"></i>
+          <%= ff.check_box :consider_query_param_changes_new_tag, checked: tag.tag_preferences.consider_query_param_changes_new_tag, class: 'form-check-input' %>
+        </div>
       </div>
-    <% end %>
-    <% if flash[:local_error] %>
-      <p style="color: #e74d4d"><%= flash[:local_error] %></p>
     <% end %>
   <% end %>
 <% end %>
