@@ -5,6 +5,7 @@ ruby '2.6.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.4'
+gem "hotwire-rails"
 
 gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 # Use mysql as the database for Active Record
@@ -40,37 +41,26 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem "hotwire-rails"
-
 gem 'jquery-rails'
 # gem 'bootstrap'
 # gem 'bootstrap-select-rails'
 
 gem 'httparty'
-
 gem 'resque'
 gem 'resque-scheduler'
 gem 'active_scheduler'
 
 gem "chartkick"
 gem "groupdate"
-
 gem 'diffy'
-
-gem 'eslintrb'
-
+# gem 'eslintrb'
 gem 'slack-ruby-client'
 # gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 gem 'async-websocket', '~> 0.8.0'
-
 gem "google-cloud-storage", "~> 1.11", require: false
-
 gem 'kaminari'
-
 gem 'memoist'
-
 gem 'font-awesome-sass', '~> 5.15.1'
-
 gem 'sendgrid-ruby'
 
 group :development, :test do

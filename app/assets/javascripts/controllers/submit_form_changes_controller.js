@@ -19,7 +19,7 @@ export default class extends Controller {
   }
 
   _setInputListeners() {
-    this.element.querySelectorAll('input:not([data-ignore-changes]), select:not([data-ignore-changes]), input:not([type="hidden"])').forEach((e) => { this._listenToInput(e) });
+    this.element.querySelectorAll('input:not([data-ignore-changes]), select:not([data-ignore-changes])').forEach((e) => { this._listenToInput(e) });
   }
 
   _listenToInput(el) {

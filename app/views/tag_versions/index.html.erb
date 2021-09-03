@@ -4,15 +4,17 @@
     <table class="table table-hover col-12" style="table-layout: fixed">
       <thead>
         <tr>
+          <th scope="col" class="col-8" style='width: 10%'></th>
           <th scope="col" class="col-8" style='width: 20%'>Change Date</th>
-          <th scope="col" class="col-2" style='width: 40%'>Tag</th>
-          <th scope="col" class="col-2" style='width: 30%'>Tag Safe Score</th>
+          <th scope="col" class="col-2" style='width: 35%'>Tag</th>
+          <th scope="col" class="col-2" style='width: 25%'>Tag Safe Score</th>
           <th scope="col" class="col-2" style='width: 10%'></th>
         </tr>
       </thead>
       <tbody>
         <% @tag_versions.each do |tag_version| %>
           <tr>
+            <td scope='row'><%= image_tag tag_version.image_url, class: 'tag-thumbnail' %></td>
             <td scope="row"><%= tag_version.created_at.formatted %></td>
             <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag_version.tag.try_friendly_name %></td>
             <td scope="row">

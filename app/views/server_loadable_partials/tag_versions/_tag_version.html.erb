@@ -36,6 +36,7 @@
     <% end %>
   </td>
   <td scope="row">
-    <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, additional_menu_items: [{ text: 'View Audit', url: tag_tag_version_audit_path(tag, tag_version, audit) }] %>
+    <% audit_menu_item = audit.nil? && most_recent_audit.nil? ? [{}] : [{ text: 'View Audit', url: tag_tag_version_audit_path(tag, tag_version, audit || most_recent_audit) }] %>
+    <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, additional_menu_items: audit_menu_item %>
   </td>
 </tr>
