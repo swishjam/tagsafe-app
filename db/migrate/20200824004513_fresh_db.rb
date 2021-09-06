@@ -1,9 +1,9 @@
 class FreshDb < ActiveRecord::Migration[5.2]
   def up
-    # drop_table :monitored_scripts
-    # drop_table :tag_versions
-    # drop_table :monitored_scripts_organizations
-    # drop_table :notification_subscribers
+    drop_table :monitored_scripts
+    drop_table :tag_versions
+    drop_table :monitored_scripts_organizations
+    drop_table :notification_subscribers
 
     create_table :domains do |t|
       t.references :organization
@@ -27,7 +27,7 @@ class FreshDb < ActiveRecord::Migration[5.2]
 
     create_table :tag_versions do |t|
       t.references :script
-      # t.has_attached_file :js_file
+      t.has_attached_file :js_file
       t.integer :bytes
       t.string :hashed_content
 

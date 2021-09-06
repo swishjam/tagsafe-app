@@ -4,6 +4,7 @@ class OrganizationsController < LoggedInController
   skip_before_action :ensure_domain
 
   def new
+    redirect_to new_domain_path if current_organization
     @organization = Organization.new
   end
 
@@ -14,7 +15,8 @@ class OrganizationsController < LoggedInController
     @organization = Organization.new(organization_params)
     if @organization.save
       @organization.add_user(current_user)
-      display_toast_message("Welcome to TagSafe")
+      set_current_organization(@organization)
+      # display_toast_message("Welcome to TagSafe")
       redirect_to tags_path
     else
       display_inline_errors(@organization.errors.full_messages)

@@ -8,7 +8,6 @@ class GeppettoModerator::Receivers::DomainScanned
   end
 
   def receive!
-    domain = Domain.find(@domain_id)
     if @error_message
       domain_scan.errored!(@error_message)
     else

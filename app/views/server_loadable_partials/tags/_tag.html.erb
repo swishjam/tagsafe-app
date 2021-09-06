@@ -68,7 +68,7 @@
           <% if audit.nil? %>
             <span>No audits run for this tag version</span>
           <% else %>
-            <span class="badge bg-<%= audit.state == 'pending' ? 'primary' : 'danger' %>">Audit <%= audit.state %></span>
+            <span class="tagsafe-pill <%= audit.state == 'pending' ? 'tagsafe-blue' : 'red' %>">Audit <%= audit.state %></span>
           <% end %>
         <% end %>
       </div>

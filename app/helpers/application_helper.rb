@@ -11,8 +11,16 @@ module ApplicationHelper
     @current_domain ||= session[:current_domain_id] ? current_organization&.domains&.find(session[:current_domain_id]) : current_organization&.domains&.first
   end
 
+  def set_current_domain(domain)
+    session[:current_domain_id] = domain.id
+  end
+
   def current_organization
     @current_organization ||= session[:current_organization_id] ? Organization.find(session[:current_organization_id]) : current_user && current_user.organizations.first
+  end
+
+  def set_current_organization(organization)
+    session[:current_organization_id] = organization.id
   end
 
   def log_user_in(user)

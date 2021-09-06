@@ -16,9 +16,9 @@ class TagSafeScorer
     dom_complete: 15,
     dom_interactive: 15,
     first_contentful_paint: 15,
-    task_duration: 0.005,
-    layout_duration: 0.005,
-    script_duration: 0.005,
+    task_duration: 5,
+    layout_duration: 5,
+    script_duration: 5,
     byte_size: 10_000
   }
 
