@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_01_015343) do
+ActiveRecord::Schema.define(version: 2021_09_07_143522) do
 
-  create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", charset: "utf8", force: :cascade do |t|
+  create_table "active_storage_blobs", charset: "utf8mb3", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -34,13 +34,13 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", charset: "utf8", force: :cascade do |t|
+  create_table "active_storage_variant_records", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "audits", charset: "utf8", force: :cascade do |t|
+  create_table "audits", charset: "utf8mb3", force: :cascade do |t|
     t.integer "execution_reason_id"
     t.boolean "primary"
     t.timestamp "performance_audit_enqueued_at"
@@ -58,16 +58,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
   end
 
-  create_table "domain_scans", charset: "utf8", force: :cascade do |t|
-    t.integer "domain_id"
-    t.datetime "scan_enqueued_at"
-    t.datetime "scan_completed_at"
-    t.text "error_message"
-    t.string "url"
-    t.index ["domain_id"], name: "index_domain_scans_on_domain_id"
-  end
-
-  create_table "domains", charset: "utf8", force: :cascade do |t|
+  create_table "domains", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "organization_id"
     t.string "url"
     t.datetime "created_at", null: false
@@ -76,7 +67,13 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["url"], name: "index_domains_on_url"
   end
 
-  create_table "email_notification_subscribers", charset: "utf8", force: :cascade do |t|
+  create_table "domains_scripts", id: false, charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "domain_id", null: false
+    t.bigint "script_id", null: false
+    t.index ["domain_id", "script_id"], name: "index_domains_scripts_on_domain_id_and_script_id"
+  end
+
+  create_table "email_notification_subscribers", charset: "utf8mb3", force: :cascade do |t|
     t.string "type"
     t.integer "user_id"
     t.bigint "tag_id"
@@ -84,24 +81,44 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["user_id"], name: "index_email_notification_subscribers_on_user_id"
   end
 
-  create_table "execution_reasons", charset: "utf8", force: :cascade do |t|
+  create_table "execution_reasons", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "non_third_party_url_patterns", charset: "utf8", force: :cascade do |t|
+  create_table "monitored_scripts", charset: "utf8mb3", force: :cascade do |t|
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.timestamp "script_last_updated_at"
+  end
+
+  create_table "monitored_scripts_organizations", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "monitored_script_id"
+  end
+
+  create_table "non_third_party_url_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "domain_id"
     t.string "pattern"
     t.index ["domain_id"], name: "index_non_third_party_url_patterns_on_domain_id"
   end
 
-  create_table "organization_users", charset: "utf8", force: :cascade do |t|
+  create_table "notification_subscribers", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "monitored_script_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "organization_users", charset: "utf8mb3", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
     t.index ["organization_id"], name: "index_organization_users_on_organization_id"
     t.index ["user_id"], name: "index_organization_users_on_user_id"
   end
 
-  create_table "organizations", charset: "utf8", force: :cascade do |t|
+  create_table "organizations", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -109,13 +126,13 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.integer "tag_check_retention_count"
   end
 
-  create_table "performance_audit_logs", charset: "utf8", force: :cascade do |t|
+  create_table "performance_audit_logs", charset: "utf8mb3", force: :cascade do |t|
     t.integer "performance_audit_id"
     t.text "logs", size: :long
     t.index ["performance_audit_id"], name: "index_performance_audit_logs_on_performance_audit_id"
   end
 
-  create_table "performance_audits", charset: "utf8", force: :cascade do |t|
+  create_table "performance_audits", charset: "utf8mb3", force: :cascade do |t|
     t.integer "audit_id"
     t.string "type"
     t.datetime "created_at", null: false
@@ -131,25 +148,33 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
   end
 
-  create_table "roles", charset: "utf8", force: :cascade do |t|
+  create_table "roles", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "roles_users", charset: "utf8", force: :cascade do |t|
+  create_table "roles_users", charset: "utf8mb3", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
     t.index ["role_id"], name: "index_roles_users_on_role_id"
     t.index ["user_id"], name: "index_roles_users_on_user_id"
   end
 
-  create_table "slack_notification_subscribers", charset: "utf8", force: :cascade do |t|
+  create_table "scripts", charset: "utf8mb3", force: :cascade do |t|
+    t.string "url"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["url"], name: "index_scripts_on_url"
+  end
+
+  create_table "slack_notification_subscribers", charset: "utf8mb3", force: :cascade do |t|
     t.string "type"
     t.string "channel"
     t.bigint "tag_id"
     t.index ["tag_id"], name: "index_slack_notification_subscribers_on_tag_id"
   end
 
-  create_table "slack_settings", charset: "utf8", force: :cascade do |t|
+  create_table "slack_settings", charset: "utf8mb3", force: :cascade do |t|
     t.integer "organization_id"
     t.string "access_token"
     t.string "app_id"
@@ -158,17 +183,17 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["organization_id"], name: "index_slack_settings_on_organization_id"
   end
 
-  create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8", force: :cascade do |t|
+  create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8mb3", force: :cascade do |t|
     t.string "url_pattern"
     t.bigint "tag_id"
     t.index ["tag_id"], name: "index_tag_allowed_performance_audit_third_party_urls_on_tag_id"
   end
 
-  create_table "tag_check_region", charset: "utf8", force: :cascade do |t|
+  create_table "tag_check_region", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "tag_checks", charset: "utf8", force: :cascade do |t|
+  create_table "tag_checks", charset: "utf8mb3", force: :cascade do |t|
     t.float "response_time_ms"
     t.integer "response_code"
     t.timestamp "created_at"
@@ -178,18 +203,18 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["tag_id"], name: "index_tag_checks_on_tag_id"
   end
 
-  create_table "tag_image_domain_lookup_patterns", charset: "utf8", force: :cascade do |t|
+  create_table "tag_image_domain_lookup_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.string "url_pattern"
     t.bigint "tag_id"
     t.index ["tag_id"], name: "index_tag_image_domain_lookup_patterns_on_tag_id"
   end
 
-  create_table "tag_images", charset: "utf8", force: :cascade do |t|
+  create_table "tag_images", charset: "utf8mb3", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "tag_preferences", charset: "utf8", force: :cascade do |t|
+  create_table "tag_preferences", charset: "utf8mb3", force: :cascade do |t|
     t.boolean "should_run_audit"
     t.string "url_to_audit"
     t.integer "num_test_iterations"
@@ -203,7 +228,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
   end
 
-  create_table "tag_versions", charset: "utf8", force: :cascade do |t|
+  create_table "tag_versions", charset: "utf8mb3", force: :cascade do |t|
     t.integer "bytes"
     t.string "hashed_content"
     t.datetime "created_at", null: false
@@ -213,7 +238,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
   end
 
-  create_table "tags", charset: "utf8", force: :cascade do |t|
+  create_table "tags", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "domain_id"
     t.string "friendly_name"
     t.timestamp "removed_from_site_at"
@@ -228,7 +253,16 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
   end
 
-  create_table "urls_to_audits", charset: "utf8", force: :cascade do |t|
+  create_table "url_crawls", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "domain_id"
+    t.datetime "scan_enqueued_at"
+    t.datetime "scan_completed_at"
+    t.text "error_message"
+    t.string "url"
+    t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
+  end
+
+  create_table "urls_to_audits", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "tags_id"
     t.string "url"
     t.datetime "created_at", precision: 6, null: false
@@ -236,15 +270,15 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["tags_id"], name: "index_urls_to_audits_on_tags_id"
   end
 
-  create_table "urls_to_scans", charset: "utf8", force: :cascade do |t|
+  create_table "urls_to_crawl", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "domain_id"
     t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["domain_id"], name: "index_urls_to_scans_on_domain_id"
+    t.index ["domain_id"], name: "index_urls_to_crawl_on_domain_id"
   end
 
-  create_table "user_invites", charset: "utf8", force: :cascade do |t|
+  create_table "user_invites", charset: "utf8mb3", force: :cascade do |t|
     t.integer "organization_id"
     t.string "email"
     t.string "token"
@@ -256,7 +290,12 @@ ActiveRecord::Schema.define(version: 2021_09_01_015343) do
     t.index ["organization_id"], name: "index_user_invites_on_organization_id"
   end
 
-  create_table "users", charset: "utf8", force: :cascade do |t|
+  create_table "user_roles", charset: "utf8mb3", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
     t.datetime "created_at", null: false

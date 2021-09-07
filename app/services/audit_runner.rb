@@ -14,16 +14,24 @@ class AuditRunner
 
   private
 
-  def performance_audit_runner
-    @performance_audit_runner ||= GeppettoModerator::Senders::RunPerformanceAudit.new(
+  def run_performance_audit
+    @tag.tag_preferences.num_test_iterations.times do
+      performance_audit_runner_with_tag.send!
+      performance_audit_runner_without_tag.send!
+    end
+  end
+
+  def performance_audit_runner_with_tag
+    @performance_audit_runner ||= GeppettoModerator::LambdaSenders::PerformanceAuditer::WithTag.new(
       audit: audit,
-      audit_url: @tag.tag_preferences.url_to_audit,
-      auditing_tag_url: @tag.url_based_on_preferences,
-      num_test_iterations: @tag.tag_preferences.num_test_iterations,
-      third_party_tag_url_patterns_to_allow: allowed_third_party_tags,
-      third_party_tags_to_overwrite: [{ request_url: @tag.full_url, overwrite_url: @tag_version.google_cloud_js_file_url }],
-      num_attempts: @num_attempts,
-      disable_third_party_tags: @tag.domain.disable_third_party_tags_during_audits
+      tag_version: @tag_version
+    )
+  end
+
+  def performance_audit_runner_without_tag
+    GeppettoModerator::LambdaSenders::PerformanceAuditer::WithoutTag.new(
+      audit: audit,
+      tag_version: @tag_version
     )
   end
 
@@ -35,14 +43,6 @@ class AuditRunner
       performance_audit_url: @tag.tag_preferences.url_to_audit,
       performance_audit_enqueued_at: DateTime.now,
       performance_audit_iterations: @tag.tag_preferences.num_test_iterations,
-    )
-  end
-
-  def allowed_third_party_tags
-    @tag.domain.allowed_third_party_tag_urls.concat(
-      @tag.tag_allowed_performance_audit_third_party_urls.collect(&:url_pattern)
-    ).concat(
-      @tag.domain.non_third_party_url_patterns.collect(&:pattern)
     )
   end
 end

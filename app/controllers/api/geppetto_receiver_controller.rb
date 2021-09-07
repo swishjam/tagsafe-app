@@ -1,9 +1,9 @@
 module Api
   class GeppettoReceiverController < BaseController
-    def domain_scan_complete
-      receive!('DomainScanned',
+    def url_crawl_complete
+      receive!('UrlCrawled',
         domain_id: params[:domain_id],
-        domain_scan_id: params[:domain_scan_id],
+        url_crawl_id: params[:url_crawl_id],
         error_message: params[:error],
         initial_scan: params[:initial_scan],
         tag_urls: JSON.parse(params[:tag_urls])

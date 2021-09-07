@@ -4,7 +4,7 @@ one_minute_check_scripts:
   description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
   queue: "tag_checker_queue"
 re_scan_domains:
-  class: Schedule::ScanDomainsJob
+  class: Schedule::CrawlUrlsJob
   cron: "0 */1 * * *" # every 1 hour
   description: "Scans each domain for any new third party tags."
   queue: "scan_domain_queue"

@@ -2,9 +2,9 @@ def stub_script_valid_url_validation
   # expect_any_instance_of(Tag).to receive(:valid_url).at_least(:once).and_return(true)
 end
 
-def stub_domain_scan
-  expect_any_instance_of(GeppettoModerator::Senders::ScanDomain).to receive(:send!)
-  # expect_any_instance_of(Domain).to receive(:scan_and_capture_domains_tags)
+def stub_url_crawl
+  expect_any_instance_of(GeppettoModerator::LambdaSenders::ScanDomain).to receive(:send!)
+  # expect_any_instance_of(Domain).to receive(:crawl_and_capture_domains_tags)
 end
 
 def stub_geppetto_communication

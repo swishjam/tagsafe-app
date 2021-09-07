@@ -1,13 +1,13 @@
-class UpdateDomainsTagsJob < ApplicationJob
+class UpdateUrlsTagsJob < ApplicationJob
   @queue = :default
   
-  def perform(domain:, tag_urls:, domain_scan:, initial_scan:)
+  def perform(domain:, tag_urls:, url_crawl:, initial_scan:)
     TagManager::EvaluateDomainTags.new(
       domain: domain,
-      url_scanned: domain_scan.url,
+      url_scanned: url_crawl.url,
       tag_urls: tag_urls, 
       initial_scan: initial_scan
     ).evaluate!
-    domain_scan.completed!
+    url_crawl.completed!
   end
 end

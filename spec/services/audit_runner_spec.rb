@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AuditRunner do
   before(:each) do
     stub_script_valid_url_validation
-    stub_domain_scan
+    stub_url_crawl
     @domain = create(:domain)
     @script = create(:script)
     @tag =  create(:tag, domain: @domain, script: @script)
@@ -21,16 +21,16 @@ RSpec.describe AuditRunner do
   end
 
   describe '#run!' do
-    it 'calls .send! on GeppettoModerator::Senders::RunPerformanceAudit' do
-      expect_any_instance_of(GeppettoModerator::Senders::RunPerformanceAudit).to receive(:send!).exactly(:once).and_return(true)
+    it 'calls .send! on GeppettoModerator::LambdaSenders::RunPerformanceAudit' do
+      expect_any_instance_of(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:send!).exactly(:once).and_return(true)
       @runner.run!
     end
   end
 
   describe '#performance_audit_runner' do
-    it 'initializes a GeppettoModerator::Senders::RunPerformanceLighthouseAudit with the correct arguments and is memoized' do
+    it 'initializes a GeppettoModerator::LambdaSenders::RunPerformanceLighthouseAudit with the correct arguments and is memoized' do
       expect(Audit).to receive(:create).exactly(:once).and_return('STUBBED_AUDIT')
-      expect(GeppettoModerator::Senders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
+      expect(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
         audit: 'STUBBED_AUDIT',
         audit_url: @tag.performance_audit_preferences.url_to_audit,
         num_test_iterations: @tag.performance_audit_preferences.num_test_iterations,
@@ -47,7 +47,7 @@ RSpec.describe AuditRunner do
       create(:tag, domain: @domain, script: script, is_third_party_tag: false)
       
       expect(Audit).to receive(:create).exactly(:once).and_return('STUBBED_AUDIT')
-      expect(GeppettoModerator::Senders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
+      expect(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
         audit: 'STUBBED_AUDIT',
         audit_url: @tag.performance_audit_preferences.url_to_audit,
         num_test_iterations: @tag.performance_audit_preferences.num_test_iterations,
@@ -62,7 +62,7 @@ RSpec.describe AuditRunner do
       create(:tag, domain: @domain, script: script, is_third_party_tag: false)
       
       expect(Audit).to receive(:create).exactly(:once).and_return('STUBBED_AUDIT')
-      expect(GeppettoModerator::Senders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
+      expect(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
         audit: 'STUBBED_AUDIT',
         audit_url: @tag.performance_audit_preferences.url_to_audit,
         num_test_iterations: @tag.performance_audit_preferences.num_test_iterations,

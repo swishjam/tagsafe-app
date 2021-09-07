@@ -33,3 +33,12 @@ class GeppettoModerator::Sender
     }
   end
 end
+
+
+# aws_client = Aws::Lambda::Client.new({ region: 'us-east-1' })
+
+# resp = aws_client.invoke({
+#   function_name: 'url-crawler-production-crawl',
+#   invocation_type: 'Event',
+#   payload: JSON.generate({ url: 'https://www.canadiantire.ca' })
+# })

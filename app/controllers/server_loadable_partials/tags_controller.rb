@@ -6,7 +6,7 @@ module ServerLoadablePartials
                                   .order('removed_from_site_at ASC')
                                   .order('content_changed_at DESC')
                                   .page(params[:page] || 1).per(params[:per_page] || 9)
-      most_recent_scan = current_domain.domain_scans&.most_recent
+      most_recent_scan = current_domain.url_crawls&.most_recent
       render turbo_stream: turbo_stream.replace(
         "#{current_domain.id}_domain_tags",
         partial: 'server_loadable_partials/tags/index',

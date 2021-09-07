@@ -1,4 +1,4 @@
-class UrlsToScansController < LoggedInController
+class UrlsToCrawlController < LoggedInController
   def create
     url_to_scan = current_domain.urls_to_scans.new(url_to_scan_params)
     if url_to_scan.save
@@ -14,7 +14,7 @@ class UrlsToScansController < LoggedInController
   end
 
   def destroy
-    url_to_scan = UrlsToScan.find(params[:id])
+    url_to_scan = UrlToCrawl.find(params[:id])
     url_to_scan.destroy
     current_user.broadcast_notification("#{url_to_scan.url} removed from scan list.")
     render turbo_stream: turbo_stream.replace(

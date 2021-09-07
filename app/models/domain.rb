@@ -1,8 +1,8 @@
 class Domain < ApplicationRecord
   belongs_to :organization
-  has_many :domain_scans, dependent: :destroy
+  has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
-  has_many :urls_to_scans, dependent: :destroy
+  has_many :urls_to_crawl, dependent: :destroy, class_name: 'UrlToCrawl'
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true
@@ -46,12 +46,13 @@ class Domain < ApplicationRecord
   end
 
   def add_default_url_to_scan
-    # response = HTTParty.get(url)
+    # response = HTTParty.get(url) # validate url is accessible...?
     urls_to_scans.create(url: url)
   end
 
-  def disable_third_party_tags_during_audits
-    ENV['DISABLE_ALL_THIRD_PARTY_TAGS_IN_AUDITS'] === 'true'
+  def disable_all_third_party_tags_during_audits
+    # ENV['DISABLE_ALL_THIRD_PARTY_TAGS_IN_AUDITS'] === 'true'
+    false
   end
 
   def has_tag?(tag)
@@ -62,19 +63,19 @@ class Domain < ApplicationRecord
     tags.third_party_tags_that_shouldnt_be_blocked.collect(&:full_url)
   end
 
-  def scan_and_capture_domains_tags(scan_urls: urls_to_scans, initial_scan: false)
-    GeppettoModerator::Senders::ScanDomain.new(self, scan_urls: scan_urls, initial_scan: initial_scan).send!
+  def crawl_and_capture_domains_tags(initial_scan = false)
+    urls_to_crawl.each{ |url_to_crawl| url_to_crawl.crawl!(initial_scan) }
   end
 
   def should_capture_tag?(url)
     non_third_party_url_patterns.none?{ |url_pattern| url.include?(url_pattern.pattern) } 
   end
 
-  def scan_in_progress?
-    domain_scans.pending.any?
+  def crawl_in_progress?
+    url_crawls.pending.any?
   end
 
-  def user_can_initiate_scan?(user)
+  def user_can_initiate_crawl?(user)
     return false if user.nil?
     organization.users.include?(user)
   end

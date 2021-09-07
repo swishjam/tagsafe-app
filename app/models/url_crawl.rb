@@ -1,4 +1,4 @@
-class DomainScan < ApplicationRecord
+class UrlCrawl < ApplicationRecord
   belongs_to :domain
 
   scope :pending, -> { where(scan_completed_at: nil) }

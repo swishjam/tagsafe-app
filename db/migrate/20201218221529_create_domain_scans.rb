@@ -1,6 +1,6 @@
 class CreateDomainScans < ActiveRecord::Migration[5.2]
   def up
-    create_table :domain_scans do |t|
+    create_table :url_crawls do |t|
       t.integer :domain_id
       t.datetime :scan_enqueued_at
       t.datetime :scan_completed_at
@@ -9,6 +9,6 @@ class CreateDomainScans < ActiveRecord::Migration[5.2]
   end
 
   def down
-    drop_table :domain_scans
+    drop_table :url_crawls
   end
 end

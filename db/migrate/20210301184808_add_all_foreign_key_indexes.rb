@@ -3,7 +3,7 @@ class AddAllForeignKeyIndexes < ActiveRecord::Migration[5.2]
     add_index :audits, :tag_version_id
     add_index :audits, :tag_id
     add_index :audits, :execution_reason_id
-    add_index :domain_scans, :domain_id
+    add_index :url_crawls, :domain_id
     add_index :email_notification_subscribers, :user_id
     add_index :email_notification_subscribers, :tag_id
     add_index :lint_results, :tag_version_id

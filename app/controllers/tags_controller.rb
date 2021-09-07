@@ -7,7 +7,7 @@ class TagsController < LoggedInController
   #                             .order('content_changed_at DESC')
   #                             .page(params[:page] || 1).per(params[:per_page] || 9)
   #     @active_tag_count = current_domain.tags.is_third_party_tag.still_on_site.count
-  #     @domain_scan = current_domain.domain_scans&.most_recent
+  #     @url_crawl = current_domain.url_crawls&.most_recent
   #   end
   # end
 

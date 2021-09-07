@@ -1,11 +1,11 @@
 module Api
-  class DomainScansController < BaseController
+  class UrlCrawlsController < BaseController
     def show
-      domain_scan = DomainScan.find(params[:id])
+      url_crawl = UrlCrawl.find(params[:id])
       render json: {
-        error_message: domain_scan.error_message,
-        completed: domain_scan.completed?,
-        successful: domain_scan.successful?
+        error_message: url_crawl.error_message,
+        completed: url_crawl.completed?,
+        successful: url_crawl.successful?
       }
     end
   end

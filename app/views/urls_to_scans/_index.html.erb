@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "#{domain.id}_urls_to_scan" do %>
   <div class='col-6 offset-3'>
-    <%= form_with model: [domain, UrlsToScan.new] do |f| %>
+    <%= form_with model: [domain, UrlToCrawl.new] do |f| %>
       <div class='form-floating d-flex mb-3'>
         <%= f.text_field :url, class: 'form-control', value: "#{current_domain.url}/" %>
         <label for='url'>URL to scan for tags</label>

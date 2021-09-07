@@ -8,7 +8,7 @@
     <%= turbo_frame_tag dom_id(@tag_preference) do %>
       <%= render 'form', tag: tag, tag_preference: @tag_preference %>
     <% end %>
-    <% if current_domain.disable_third_party_tags_during_audits %>
+    <% if current_domain.disable_all_third_party_tags_during_audits %>
       <h6>
         Third party tags to not block during performance audits:
         <span data-bs-toggle="tooltip"

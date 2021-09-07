@@ -87,7 +87,7 @@ Rails.application.routes.draw do
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do
-    get '/domain_scans/:id' => 'domain_scans#show'
+    get '/url_crawls/:id' => 'url_crawls#show'
 
     post '/tags/:id/toggle_active' => 'tags#toggle_active'
     post '/tags/:id/toggle_lighthouse' => 'tags#toggle_lighthouse'
@@ -96,7 +96,7 @@ Rails.application.routes.draw do
     post '/notification_preferences/:tag_id/toggle_audit_complete_notification' => 'notification_preferences#toggle_audit_complete_notification'
     post '/notification_preferences/:tag_id/toggle_lighthouse_audit_exceeded_threshold_notification' => 'notification_preferences#toggle_lighthouse_audit_exceeded_threshold_notification'
   
-    post 'geppetto_receiver/domain_scan_complete' => 'geppetto_receiver#domain_scan_complete'
+    post 'geppetto_receiver/url_crawl_complete' => 'geppetto_receiver#url_crawl_complete'
     post 'geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
   end
 

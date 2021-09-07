@@ -15,6 +15,8 @@ Rails.application.configure do
 
   config.action_controller.default_url_options = { host: 'localhost:3000' }
 
+  config.hosts << "a6d2-2603-8000-7401-2792-b00c-aba5-486d-2199.ngrok.io"
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

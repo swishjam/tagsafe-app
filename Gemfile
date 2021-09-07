@@ -45,6 +45,8 @@ gem 'jquery-rails'
 # gem 'bootstrap'
 # gem 'bootstrap-select-rails'
 
+gem 'aws-sdk-lambda'
+
 gem 'httparty'
 gem 'resque'
 gem 'resque-scheduler'
