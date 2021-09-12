@@ -9,7 +9,7 @@ module ChartHelper
       [
         {
           name: 'Performance Audit Completion Time (s)',
-          data: Audit.completed_performance_audit.group_by_minute(:created_at, n: @grouped_by_minutes, range: @start_time..Time.now).average(:seconds_to_complete_performance_audit)
+          data: Audit.completed_performance_audit.group_by_minute(:created_at, n: @grouped_by_minutes, range: @start_time..Time.now).average(:seconds_to_complete)
         },
         {
           name: 'Total Performance Audits Conducted',

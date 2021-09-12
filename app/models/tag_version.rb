@@ -77,11 +77,11 @@ class TagVersion < ApplicationRecord
     url.to_s
   end
 
-  def run_audit!(execution_reason, num_attempts: 0)
+  def run_audit!(execution_reason, attempt_number: 1)
     AuditRunner.new(
       tag_version: self,
       execution_reason: execution_reason,
-      num_attempts: num_attempts
+      attempt_number: attempt_number
     ).run!
   end
 

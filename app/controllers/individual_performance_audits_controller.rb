@@ -3,10 +3,10 @@ class IndividualPerformanceAuditsController < LoggedInController
     @tag = Tag.find(params[:tag_id])
     permitted_to_view?(@tag)
     @tag_version = TagVersion.find(params[:tag_version_id])
-    @audit = Audit.includes(:individual_performance_audit_with_tags, :individual_performance_audit_without_tags)
+    @audit = Audit.includes(:individual_performance_audits_with_tag, :individual_performance_audits_without_tag)
                     .find(params[:audit_id])
-    @audits_with_tag = @audit.individual_performance_audit_with_tags.order(tagsafe_score: :DESC)
-    @audits_without_tag = @audit.individual_performance_audit_without_tags.order(tagsafe_score: :DESC)
+    @audits_with_tag = @audit.individual_performance_audits_with_tag.order(tagsafe_score: :DESC)
+    @audits_without_tag = @audit.individual_performance_audits_without_tag.order(tagsafe_score: :DESC)
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },

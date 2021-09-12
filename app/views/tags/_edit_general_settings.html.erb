@@ -18,8 +18,8 @@
       </div>
       <%= f.fields_for :tag_preferences_attributes, tag.tag_preferences do |ff| %>
         <div class="form-floating d-flex mt-3 mb-3">
-          <%= ff.text_field :url_to_audit, value: tag.tag_preferences.url_to_audit, class: "form-control", data: { ignore_changes: true } %>
-          <label for='url_to_audit'>URL to audit</label>
+          <%= ff.text_field :page_url_to_perform_audit_on, value: tag.tag_preferences.page_url_to_perform_audit_on, class: "form-control", data: { ignore_changes: true } %>
+          <label for='page_url_to_perform_audit_on'>URL to audit</label>
           <button type='submit' class='tagsafe-btn square'>Update</button>
         </div>
         <div class="form-check form-switch w-fit m-auto">

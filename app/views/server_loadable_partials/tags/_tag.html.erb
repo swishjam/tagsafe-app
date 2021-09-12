@@ -27,7 +27,7 @@
             <span data-controller='tooltip'
               data-bs-toggle="tooltip"
               data-placement="top"
-              title="The <%= tag.try_friendly_name %> tag was removed from <%= current_domain.url %> on <%= tag.removed_from_site_at.formatted %>.">
+              title="The <%= tag.try_friendly_name %> tag was removed from the site on <%= tag.removed_from_site_at.formatted %>.">
               <span class="script-removed-from-site-notice"><i class="fas fa-exclamation-circle"></i> Removed from site</span>
             </span>
           </p>
@@ -69,6 +69,9 @@
             <span>No audits run for this tag version</span>
           <% else %>
             <span class="tagsafe-pill <%= audit.state == 'pending' ? 'tagsafe-blue' : 'red' %>">Audit <%= audit.state %></span>
+            <% if audit.performance_audit_pending? %>
+              <%= render 'individual_performance_audits/completion_indicators', audit: audit %>
+            <% end %>
           <% end %>
         <% end %>
       </div>

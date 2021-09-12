@@ -41,7 +41,7 @@
             <td scope="row"><%= number_to_human(most_recent_dpa.layout_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= number_to_human(most_recent_dpa.task_duration, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= most_recent_dpa.tagsafe_score.round(2) %></td>
-            <td scope="row"><%= most_recent_dpa.audit.performance_audit_enqueued_at.formatted_short %></td>
+            <td scope="row"><%= most_recent_dpa.audit.enqueued_at.formatted_short %></td>
           <% else %>
             <td scope="row">-</td>
             <td scope="row">-</td>

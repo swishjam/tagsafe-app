@@ -23,7 +23,7 @@ class Organization < ApplicationRecord
     end
   end
 
-  def should_log_script_checks
+  def should_log_tag_checks
     true
   end
 

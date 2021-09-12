@@ -2,7 +2,7 @@ module DataRetention
   class TagChecks < Base
     def initialize(tag)
       @tag = tag
-      @purge_log_message = "Purging #{records_to_purge.count} script_checks based on the retention count of #{retention_count} for #{@tag.full_url}."
+      @purge_log_message = "Purging #{records_to_purge.count} tag_checks based on the retention count of #{retention_count} for #{@tag.full_url}."
     end
 
     def records_to_purge

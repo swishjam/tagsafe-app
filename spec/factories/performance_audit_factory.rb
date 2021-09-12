@@ -4,8 +4,13 @@ FactoryBot.define do
     type { 'DeltaPerformanceAudit' }
   end
 
-  factory :performance_audit_with_tag do
+  factory :individual_performance_audit_with_tag do
     association :audit
-    type { 'PerformanceAuditWithTag' }
+    type { 'IndividualPerformanceAuditWithTag' }
+  end
+
+  factory :individual_performance_audit_without_tag do
+    association :audit
+    type { 'IndividualPerformanceAuditWithoutTag' }
   end
 end

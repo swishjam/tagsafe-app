@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AuditThrottler::Evaluator do
   before(:each) do
-    stub_geppetto_communication
-    create_execution_reasons
+    prepare_test!
     domain_1 = create(:domain)
     domain_2 = create(:domain, url: 'www.google.com')
     domain_3 = create(:domain, url: 'www.facebook.com')

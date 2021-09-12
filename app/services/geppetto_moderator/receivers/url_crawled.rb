@@ -1,29 +1,23 @@
 module GeppettoModerator
   module Receivers
     class UrlCrawled
-      def initialize(tag_urls:, domain_id:, url_crawl_id:, error_message:, initial_scan:)
+      def initialize(tag_urls:, url_crawl_id:, error_message:, initial_crawl:)
         @tag_urls = tag_urls
-        @domain_id = domain_id
         @url_crawl_id = url_crawl_id
         @error_message = error_message
-        @initial_scan = initial_scan
+        @initial_crawl = initial_crawl
       end
     
       def receive!
         if @error_message
           url_crawl.errored!(@error_message)
         else
-          UpdateUrlsTagsJob.perform_later(
-            domain: domain, 
+          UrlCrawlCompletedJob.perform_later(
             tag_urls: @tag_urls, 
             url_crawl: url_crawl, 
-            initial_scan: @initial_scan
+            initial_crawl: @initial_crawl
           )
         end
-      end
-    
-      def domain
-        @domain ||= Domain.find(@domain_id)
       end
     
       def url_crawl

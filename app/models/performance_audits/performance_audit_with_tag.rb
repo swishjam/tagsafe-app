@@ -1,2 +1,0 @@
-class PerformanceAuditWithTag < PerformanceAudit
-end

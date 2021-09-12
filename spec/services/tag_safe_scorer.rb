@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe TagSafeScorer do
   before(:each) do
-    stub_geppetto_communication
     create_execution_reasons
     script = create(:script)
     domain = create(:domain)

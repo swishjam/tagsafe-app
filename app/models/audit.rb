@@ -1,20 +1,15 @@
-# require 'memoist'
-
 class Audit < ApplicationRecord
   class InvalidRetry < StandardError; end;
   class InvalidPrimaryAudit < StandardError; end;
-  extend Memoist
-
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason
 
   has_many :performance_audits, dependent: :destroy
-  has_many :individual_performance_audit_with_tags
-  has_many :individual_performance_audit_without_tags
-  has_one :performance_audit_with_tag
-  has_one :performance_audit_without_tag
-  has_one :delta_performance_audit
+  has_one :errored_individual_performance_audit, class_name: 'PerformanceAudit', dependent: :destroy
+  has_one :delta_performance_audit, dependent: :destroy
+  has_many :individual_performance_audits_with_tag, class_name: 'IndividualPerformanceAuditWithTag',  dependent: :destroy
+  has_many :individual_performance_audits_without_tag, class_name: 'IndividualPerformanceAuditWithoutTag',  dependent: :destroy
 
   #############
   # CALLBACKS #
@@ -32,14 +27,11 @@ class Audit < ApplicationRecord
   ##########
   scope :primary, -> { where(primary: true) }
 
-  scope :basline, -> { where(is_basline: true) }
-  scope :not_basline, -> { where(is_basline: false) }
+  scope :pending_performance_audit, -> { where(seconds_to_complete: nil) }
+  scope :completed_performance_audit, -> { where.not(seconds_to_complete: nil) }
 
-  scope :pending_performance_audit, -> { where(seconds_to_complete_performance_audit: nil) }
-  scope :completed_performance_audit, -> { where.not(seconds_to_complete_performance_audit: nil) }
-
-  scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
-  scope :successful_performance_audit, -> { where(performance_audit_error_message: nil) }
+  scope :failed_performance_audit, -> { where.not(errored_individual_performance_audit_id: nil) }
+  scope :successful_performance_audit, -> { where(errored_individual_performance_audit_id: nil) }
 
   scope :throttled, -> { where(throttled: true) }
   scope :not_throttled, -> { where(throttled: false) }
@@ -49,38 +41,50 @@ class Audit < ApplicationRecord
       performance_audit_failed? ? 'failed' : 'complete'
   end
 
-  def completed_performance_audit!
-    update(seconds_to_complete_performance_audit: Time.now - performance_audit_enqueued_at)
+  def performance_audit_error!(performance_audit, disable_retry: false)
+    update!(errored_individual_performance_audit_id: performance_audit.id)
+    completed!
+    attempt_retry unless disable_retry
+  end
+
+  # to prepare for when we have multiple types of audits, not just performance audits...
+  def delta_performance_audit_completed!
+    completed!
     check_after_completion
   end
 
-  def performance_audit_error!(err_msg, num_attempts)
-    update(performance_audit_error_message: err_msg, seconds_to_complete_performance_audit: Time.now - performance_audit_enqueued_at)
-    after_performance_audit_error(num_attempts)
+  def completed?
+    !completed_at.nil?
+  end
+
+  def completed!
+    touch(:completed_at)
+    update_column(:seconds_to_complete, completed_at - enqueued_at)
+  end
+
+  def create_delta_performance_audit!
+    raise StandardError, "Audit #{id} already has a DeltaPerformanceAudit" unless delta_performance_audit.nil?
+    PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
   end
 
   def check_after_completion
-    if complete?
+    if completed?
       make_primary! unless primary? || performance_audit_failed?
       AuditCompletedJob.perform_later(self) unless execution_reason == ExecutionReason.INITIAL_AUDIT
     end
   end
 
-  def after_performance_audit_error(num_attempts)
-    if tag.should_retry_audits_on_errors?(num_attempts)
-      Rails.logger.info "Retrying audit for tag #{tag.id}. Will be the #{num_attempts+1} attempt."
-      retry!(num_attempts) 
+  def attempt_retry
+    if ENV['AUDIT_ATTEMPT_NUMBER'] && attempt_number <= ENV['AUDIT_ATTEMPT_NUMBER'].to_i
+      Rails.logger.info "Retrying audit for tag #{tag.id}. Will be the #{attempt_number+1} attempt."
+      retry!
     else
-      Rails.logger.error "Reached max number of audit retry attempts: #{num_attempts}. Stopping retries."
+      Rails.logger.error "Reached max number of audit retry attempts: #{attempt_number}. Stopping retries."
     end
   end
 
-  def retry!(num_attempts, reason = ExecutionReason.RETRY)
-    tag_version.run_audit!(reason, num_attempts: num_attempts)
-  end
-
-  def capture_individual_performance_audits?
-    ENV['CAPTURE_INDIVIDUAL_PERFORMANCE_AUDITS'] == 'true'
+  def retry!
+    tag_version.run_audit!(ExecutionReason.RETRY, attempt_number: attempt_number+1)
   end
 
   def update_audit_content
@@ -88,24 +92,18 @@ class Audit < ApplicationRecord
     broadcast_replace_to self, partial: 'audits/show', locals: { tag: tag, tag_version: tag_version, audit: self, previous_audit: tag_version.previous_version&.primary_audit }
   end
 
-  # def performance_audit_certainty
-  #   return if performance_audit_failed? || performance_audit_pending?
-  #   performanceU
-  # end
-
   def performance_audit_failed?
-    !performance_audit_error_message.nil?
+    !errored_individual_performance_audit_id.nil?
   end
 
   def performance_audit_pending?
-    seconds_to_complete_performance_audit.nil?
+    seconds_to_complete.nil?
   end
 
-  def performance_audit_complete?
+  def performance_audit_completed?
     !performance_audit_pending?
   end
-  alias performance_audit_completed? performance_audit_complete?
-  alias complete? performance_audit_complete?
+  alias completed? performance_audit_completed?
 
   def primary?
     primary
@@ -127,12 +125,20 @@ class Audit < ApplicationRecord
     end
   end
 
-  def previous_primary_audit
-    tag.audits.joins(:tag_version).primary.where('tag_versions.created_at < ?', tag_version.created_at).limit(1).first
+  def previous_primary_audit(force = false)
+    return @previous_primary_audit if @previous_primary_audit && !force
+    @previous_primary_audit = tag.audits.joins(:tag_version).primary.where('tag_versions.created_at < ?', tag_version.created_at).limit(1).first
   end
-  memoize :previous_primary_audit
 
-  def result_metric_percent_impact(metric_key)
-    ((delta_performance_audit.send(metric_key)/performance_audit_with_tag.send(metric_key))*100).round(2)
+  def individual_performance_audits_remaining
+    (performance_audit_iterations * 2) - (individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count)
+  end
+
+  def all_individual_performance_audits_completed?
+    individual_performance_audits_remaining == 0
+  end
+
+  def individual_performance_audit_percent_complete
+    (individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count) / (performance_audit_iterations * 2)
   end
 end

@@ -1,0 +1,34 @@
+<h4 class="page-title with-sub-title">Crawls for third party tags</h4>
+<h5 class='page-sub-title'>Crawl Log</h5>
+<div class="tagsafe-container text-center">
+  <div class='col-12'>
+    <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 20%">Time of crawl</th>
+          <th scope="col" style="width: 50%">URL crawled</th>
+          <th scope="col" style='width: 10%'>New tags found</th>
+          <th scope="col" style='width: 20%'>Error?</th>
+          <th scope="col" style='width: 10%'></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @url_crawls.each do |crawl| %>
+          <tr>
+            <td style='word-break: break-word;'><%= crawl.enqueued_at.formatted_short %></td>
+            <td style='word-break: break-word;'><%= crawl.url %></td>
+            <td><%= crawl.found_tags.count %></td>
+            <td style='word-break: break-word;'>
+              <% if crawl.pending? %>
+                <div class='tagsafe-pill tagsafe-blue placeholder-wave'>Crawling...</div>
+              <% else %>
+                <%= crawl.error_message || 'Success' %>
+              <% end %>
+            </td>
+            <td><%= link_to 'View Details', domain_url_crawl_path(current_domain, crawl) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

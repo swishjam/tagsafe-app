@@ -16,11 +16,16 @@
       <span class="tagsafe-pill red">Failed</span>
     <% elsif audit.performance_audit_pending? %>
       <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
+      <%= render 'individual_performance_audits/completion_indicators', audit: audit %>
     <% else %>
-      <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
-      <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
-        <%= score %>
-      </div>
+      <% if audit.delta_performance_audit %>
+        <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
+        <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
+          <%= score %>
+        </div>
+      <% else %>
+        NO DELTA PERFORMANCE AUDIT. TODO: HOW DO WE GET HERE? RETURNS NIL IN THE `audit.update_audit_content` METHOD
+      <% end %>
     <% end %>
   </td>
   <td scope="row"><%= audit.execution_reason.name %></td>

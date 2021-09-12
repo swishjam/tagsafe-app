@@ -1,9 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe TagManager::EvaluateDomainTags do
+RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
   before(:each) do
-    stub_geppetto_communication
-    @domain = create(:domain)
+    prepare_test!
     create(:non_third_party_url_pattern, pattern: 'dontcaptureme', domain: @domain)
 
     tag_urls_already_on_site = %w[
@@ -23,7 +22,7 @@ RSpec.describe TagManager::EvaluateDomainTags do
       https://www.dontcaptureme.com/script.js
     ]
     tag_urls_to_consider_query_param_changes_new_tag = %w[
-      https://www.queryparameter.com/script.js?an_old_query_param_that_is_about_to_change=hi
+      https://www.queryparameter.com/script.js?an_old_query_param_that_is_about_to_change=hievaluate_individual_results_spec.rb
     ]
     tag_urls_that_are_already_removed_from_site = %w[
       https://www.removed.com/js
@@ -83,7 +82,7 @@ RSpec.describe TagManager::EvaluateDomainTags do
       )
     end
 
-    @evaluator = TagManager::EvaluateDomainTags.new(domain: @domain, tag_urls: tag_urls_received, initial_scan: true, should_remove_tags: true)
+    @evaluator = TagManager::EvaluateUrlCrawlFoundTags.new(domain: @domain, tag_urls: tag_urls_received, initial_crawl: true, should_remove_tags: true)
     @evaluator.evaluate!
     
     @tag_urls_on_site = @domain.tags.still_on_site.collect(&:full_url)

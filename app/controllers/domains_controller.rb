@@ -36,14 +36,16 @@ class DomainsController < LoggedInController
     redirect_to tags_path
   end
 
-  def scan
+  def crawl
     domain = Domain.find(params[:id])
     raise StandardError, 'No permission' unless domain.user_can_initiate_crawl?(current_user)
-    domain.crawl_and_capture_domains_tags
-    current_user.broadcast_notification('Domain scan in progress')
+    if domain.urls_to_crawl.any?
+      domain.crawl_and_capture_domains_tags
+      current_user.broadcast_notification('Crawling for third party tags...')
+    else
+      current_user.broadcast_notification('No URLs to crawl defined', error: true)
+    end
     head :no_content
-    # render turbo_stream: turbo_stream
-    # redirect_to request.referrer
   end
 
   private

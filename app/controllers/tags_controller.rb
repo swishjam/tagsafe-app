@@ -51,10 +51,10 @@ class TagsController < LoggedInController
     params[:tag][:tag_preferences_attributes][:id] = tag.tag_preferences.id
     if tag.update(tag_params)
       # if tag.saved_changes.any?
-        current_user.broadcast_notification("#{tag.try_friendly_name} updated.", tag.try_image_url)
+        current_user.broadcast_notification("#{tag.try_friendly_name} updated.", image: tag.try_image_url)
       # end
     else
-      current_user.broadcast_notification(tag.errors.full_sentences.join('\n'), tag.try_image_url)
+      current_user.broadcast_notification(tag.errors.full_sentences.join('\n'), image: tag.try_image_url)
     end
     render turbo_stream: turbo_stream.replace(
       "#{tag.id}_edit_general_settings",
@@ -68,7 +68,7 @@ class TagsController < LoggedInController
   def tag_params
     params.require(:tag).permit(:friendly_name, :image, 
                                 tag_preferences_attributes: %i[
-                                  id should_run_audit monitor_changes consider_query_param_changes_new_tag url_to_audit
+                                  id should_run_audit monitor_changes consider_query_param_changes_new_tag page_url_to_perform_audit_on
                                 ])
   end
 end

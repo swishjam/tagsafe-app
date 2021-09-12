@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_07_143522) do
+ActiveRecord::Schema.define(version: 2021_09_12_011316) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -43,16 +43,18 @@ ActiveRecord::Schema.define(version: 2021_09_07_143522) do
   create_table "audits", charset: "utf8mb3", force: :cascade do |t|
     t.integer "execution_reason_id"
     t.boolean "primary"
-    t.timestamp "performance_audit_enqueued_at"
-    t.string "performance_audit_url"
+    t.timestamp "enqueued_at"
+    t.string "page_url_performance_audit_performed_on"
     t.timestamp "created_at"
-    t.text "performance_audit_error_message"
-    t.boolean "is_baseline"
     t.boolean "throttled", default: false
-    t.float "seconds_to_complete_performance_audit"
+    t.float "seconds_to_complete"
     t.bigint "tag_version_id"
     t.bigint "tag_id"
     t.integer "performance_audit_iterations"
+    t.timestamp "completed_at"
+    t.bigint "errored_individual_performance_audit_id"
+    t.integer "attempt_number"
+    t.index ["errored_individual_performance_audit_id"], name: "index_audits_on_errored_individual_performance_audit_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
@@ -145,6 +147,10 @@ ActiveRecord::Schema.define(version: 2021_09_07_143522) do
     t.float "task_duration"
     t.float "tagsafe_score"
     t.float "tagsafe_score_standard_deviation"
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
+    t.text "error_message"
+    t.float "seconds_to_complete"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
   end
 
@@ -217,7 +223,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_143522) do
   create_table "tag_preferences", charset: "utf8mb3", force: :cascade do |t|
     t.boolean "should_run_audit"
     t.string "url_to_audit"
-    t.integer "num_test_iterations"
+    t.integer "performance_audit_iterations"
     t.bigint "tag_id"
     t.boolean "monitor_changes"
     t.boolean "is_allowed_third_party_tag"
@@ -225,6 +231,7 @@ ActiveRecord::Schema.define(version: 2021_09_07_143522) do
     t.boolean "should_log_tag_checks"
     t.boolean "consider_query_param_changes_new_tag"
     t.integer "throttle_minute_threshold"
+    t.string "page_url_to_perform_audit_on"
     t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
   end
 
@@ -249,16 +256,19 @@ ActiveRecord::Schema.define(version: 2021_09_07_143522) do
     t.text "url_query_param"
     t.timestamp "content_changed_at"
     t.bigint "tag_image_id"
+    t.bigint "url_crawl_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
+    t.index ["url_crawl_id"], name: "index_tags_on_url_crawl_id"
   end
 
   create_table "url_crawls", charset: "utf8mb3", force: :cascade do |t|
     t.integer "domain_id"
-    t.datetime "scan_enqueued_at"
-    t.datetime "scan_completed_at"
+    t.datetime "enqueued_at"
+    t.datetime "completed_at"
     t.text "error_message"
     t.string "url"
+    t.float "seconds_to_complete"
     t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
   end
 

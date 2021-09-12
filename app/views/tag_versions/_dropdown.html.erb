@@ -12,7 +12,7 @@
     <% if !local_assigns[:audit].nil? && !audit.performance_audit_pending? %>
       <%= link_to 'View Audit Logs', tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' %>
     <% end %>
-    <% if !local_assigns[:audit].nil? && audit.capture_individual_performance_audits? %>
+    <% if !local_assigns[:audit].nil? && audit.completed? %>
       <%= link_to "View Individual Performance Audits (#{audit.performance_audit_iterations})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
     <% end %>
     <div class="dropdown-divider"></div>

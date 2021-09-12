@@ -31,7 +31,7 @@ class TagVersionsController < LoggedInController
     tag_version = TagVersion.find(params[:id])
     permitted_to_view?(tag_version, raise_error: true)
     tag_version.run_audit!(ExecutionReason.MANUAL)
-    current_user.broadcast_notification("Performing audit on #{tag_version.tag.try_friendly_name}", tag_version.image_url)
+    current_user.broadcast_notification("Performing audit on #{tag_version.tag.try_friendly_name}", image: tag_version.image_url)
     redirect_to request.referrer
   rescue GeppettoModerator::Sender::GeppettoConnectionError => e
     current_user.broadcast_notification("Unable to perform audit: #{e.message}")

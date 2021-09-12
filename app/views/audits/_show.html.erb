@@ -6,7 +6,7 @@
           <span data-controller='tooltip'
                 data-bs-toggle="tooltip"
                 data-placement="right"
-                title="This tag version of <%=tag.try_friendly_name%> has <%=tag_version.audits.count%> Lighthouse Audit performed on it. This is the primary audit, 
+                title="This tag version of <%=tag.try_friendly_name%> has <%=tag_version.audits.count%> audits performed on it. This is the primary audit, 
                 which is used in comparisons and calculations between tag versions. Click this badge to edit the primary audit."
                 class="badge bg-info"
                 style="float: left;">
@@ -22,12 +22,13 @@
       <% end %>
     </div>
   </div>
-  <% if audit.performance_audit_pending? %>
-    <span>Performance audit is currently running.</span>
-  <% elsif audit.performance_audit_failed? %>
+  <% if audit.performance_audit_failed? %>
     <span>Performance audit failed:</span>
-    <span><%= audit.performance_audit_error_message %></span>
-  <% else %>
+    <span><%= audit.errored_individual_performance_audit.error_message %></span>
+  <% elsif audit.performance_audit_pending? %>
+    <span>Performance audit is currently running.</span>
+    <%= render 'individual_performance_audits/completion_indicators', audit: audit %>
+  <% elsif audit.delta_performance_audit %>
     <div data-controller='audit-results-expander'>
       <div class="row">
         <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
@@ -69,7 +70,7 @@
             previous_impact_result: audit.delta_performance_audit.previous_metric_result(:dom_complete),
             score_impact: audit.delta_performance_audit.score_impact(:dom_complete),
             unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.performance_audit_enqueued_at : nil
+            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
           <%= render partial: 'audits/performance_audit_metric_row', locals: {
             tag: tag,
@@ -78,7 +79,7 @@
             previous_impact_result: audit.delta_performance_audit.previous_metric_result(:dom_interactive),
             score_impact: audit.delta_performance_audit.score_impact(:dom_interactive),
             unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.performance_audit_enqueued_at : nil
+            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
         </div>
         <div class="row">
@@ -89,7 +90,7 @@
             previous_impact_result: audit.delta_performance_audit.previous_metric_result(:first_contentful_paint),
             score_impact: audit.delta_performance_audit.score_impact(:first_contentful_paint),
             unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.performance_audit_enqueued_at : nil
+            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
           <%= render partial: 'audits/performance_audit_metric_row', locals: {
             tag: tag, 
@@ -98,7 +99,7 @@
             previous_impact_result: audit.delta_performance_audit.previous_metric_result(:task_duration),
             score_impact: audit.delta_performance_audit.score_impact(:task_duration),
             unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.performance_audit_enqueued_at : nil
+            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
         </div>
         <div class="row">
@@ -109,7 +110,7 @@
             previous_impact_result: audit.delta_performance_audit.previous_metric_result(:script_duration),
             score_impact: audit.delta_performance_audit.score_impact(:script_duration),
             unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.performance_audit_enqueued_at : nil
+            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
           <%= render partial: 'audits/performance_audit_metric_row', locals: {
             tag: tag, 
@@ -118,7 +119,7 @@
             previous_impact_result: audit.delta_performance_audit.previous_metric_result(:layout_duration),
             score_impact: audit.delta_performance_audit.score_impact(:layout_duration),
             unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.performance_audit_enqueued_at : nil
+            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
         </div>
         <div class='row'>
@@ -140,7 +141,7 @@
                         <span data-controller='tooltip'
                               data-bs-toggle="tooltip"
                               data-placement="top"
-                              title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on File Size' was <%=number_to_human_size(tag_version.previous_version.bytes)%> (<%= previous_audit ? previous_audit.performance_audit_enqueued_at : nil %>)." 
+                              title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on File Size' was <%=number_to_human_size(tag_version.previous_version.bytes)%> (<%= previous_audit ? previous_audit.enqueued_at : nil %>)." 
                               class="<%= tag_version.change_in_bytes.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
                           <%= tag_version.change_in_bytes.positive? ? '+' : nil %><%= number_to_human_size(tag_version.change_in_bytes) %>
                           (<%= number_with_delimiter(((tag_version.change_in_bytes/tag_version.previous_version.bytes)*100).round(2)) %>%)

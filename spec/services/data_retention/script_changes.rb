@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DataRetention::TagVersions do
   before(:each) do
-    stub_geppetto_communication
-    create_execution_reasons
+    prepare_test!
 
     organization = create(:organization)
     script = create(:script)

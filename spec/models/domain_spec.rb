@@ -1,13 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Domain, type: :model do
-  # before(:all) do
-  #   @domain = create(:domain)
-  #   @script = create(:script)
-  # end
-
   before(:each) do
-    stub_script_valid_url_validation
     @domain = create(:domain)
     @script = create(:script)
   end

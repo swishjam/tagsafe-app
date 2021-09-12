@@ -7,6 +7,6 @@ class PerformanceAuditPreferencesController < LoggedInController
   end
 
   def preferences_params
-    params.require(:performance_audit_preference).permit(:num_test_iterations, :url_to_audit)
+    params.require(:performance_audit_preference).permit(:performance_audit_iterations, :page_url_to_perform_audit_on)
   end
 end

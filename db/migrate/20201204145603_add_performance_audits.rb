@@ -23,7 +23,7 @@ class AddPerformanceAudits < ActiveRecord::Migration[5.2]
       t.string :unit
     end
 
-    rename_column :audits, :lighthouse_audit_enqueued_at, :performance_audit_enqueued_at
+    rename_column :audits, :lighthouse_audit_enqueued_at, :enqueued_at
     rename_column :audits, :lighthouse_audit_completed_at, :performance_audit_completed_at
     rename_column :audits, :lighthouse_error_message, :performance_audit_error_message
     rename_column :audits, :lighthouse_audit_url, :performance_audit_url

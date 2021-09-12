@@ -59,7 +59,7 @@
 #     tag: tag,
 #     execution_reason: execution_reason,
 #     lighthouse_audit_enqueued_at: execution_reason == ExecutionReason.TAG_CHANGE ? tag_version.created_at : tag_version.created_at + 1.hour,
-#     lighthouse_audit_url: tag.reload.lighthouse_preferences.url_to_audit
+#     lighthouse_audit_url: tag.reload.lighthouse_preferences.page_url_to_perform_audit_on
 #   )
 # end
 

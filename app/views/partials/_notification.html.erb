@@ -1,6 +1,6 @@
-<div class='notification' data-controller='notification'>
+<div class='notification <%= local_assigns[:error] ? 'error' : nil %>' data-controller='notification'>
   <div class='p-2'>
-    <div style='border-bottom: 1px solid lightgrey;'>
+    <div class='notification-header'>
       <span class='exit tagsafe-circular-btn' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
       <% if local_assigns[:title] %>
         <span class='notification-title'><%= title %></span>

@@ -3,9 +3,6 @@
   top: 5px;
   right: 15px;
   z-index: 10;
-  // max-height: 100vh;
-  // overflow-y: scroll;
-  // width: auto;
   .notification {
     border: 1px solid black; 
     border-radius: 10px;
@@ -19,6 +16,15 @@
     transition: 1s;
     &.animate {
       left: 0;
+    }
+    &.error {
+      border: 1px solid red;
+      .notification-header {
+        border-bottom: 1px solid red;
+      }
+    }
+    .notification-header {
+      border-bottom: 1px solid lightgrey;
     }
     .exit {
       vertical-align: top;

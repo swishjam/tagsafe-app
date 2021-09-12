@@ -1,0 +1,28 @@
+<h4 class="page-title with-sub-title"><%= @url_crawl.enqueued_at.formatted_long %> Crawl</h4>
+<h5 class='page-sub-title'><%= @url_crawl.url %></h5>
+<div class="tagsafe-container text-center">
+  <div class='col-12'>
+    <% if @url_crawl.failed? %>
+      <h4><%= @url_crawl.error_message %></h4>
+    <% else %>
+      <h4>Tags found:</h4>
+      <table class="table table-hover col-12 text-start" style="table-layout: fixed">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 80%">Tag found</th>
+            <th scope="col" style="width: 20%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @url_crawl.found_tags.each do |tag| %>
+            <tr>
+              <td style='word-break: break-word;'><%= tag.try_friendly_name %></td>
+              <td><%= link_to 'View Tag Details', tag_path(tag) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <table>
+    <% end %>
+  </div>
+</div>

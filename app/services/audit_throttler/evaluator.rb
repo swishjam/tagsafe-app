@@ -16,8 +16,8 @@ module AuditThrottler
         tag_version: @tag_version,
         execution_reason: ExecutionReason.TAG_CHANGE,
         primary: true,
-        performance_audit_enqueued_at: DateTime.now
-        # seconds_to_complete_performance_audit: 0
+        enqueued_at: DateTime.now
+        # seconds_to_complete: 0
       )
     end
 

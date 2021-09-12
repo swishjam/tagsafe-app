@@ -1,8 +1,8 @@
 <%= turbo_frame_tag dom_id(tag_preference) do %>
   <%= form_for tag_preference, url: tag_tag_preference_path(tag, tag_preference) do |f| %>
     <div class="form-floating d-flex m-3">
-      <%= f.text_field :url_to_audit, value: tag_preference.url_to_audit, class: "form-control" %>
-      <%= f.label :url_to_audit %>
+      <%= f.text_field :page_url_to_perform_audit_on, value: tag_preference.page_url_to_perform_audit_on, class: "form-control" %>
+      <%= f.label :page_url_to_perform_audit_on %>
       <button type='submit' class='tagsafe-btn square'>Update</button>
     </div>
     <% if ENV['AUDIT_THROTTLING_ENABLED'] == 'true' %>

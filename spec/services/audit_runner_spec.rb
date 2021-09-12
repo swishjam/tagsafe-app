@@ -2,89 +2,72 @@ require 'rails_helper'
 
 RSpec.describe AuditRunner do
   before(:each) do
-    stub_script_valid_url_validation
-    stub_url_crawl
-    @domain = create(:domain)
-    @script = create(:script)
-    @tag =  create(:tag, domain: @domain, script: @script)
-    @tag_version = create(:tag_version, script: @script)
-    @execution_reason = create(:tag_version_execution)
-    create(:performance_audit_preference, tag: @tag)
-    # have to reload in order for the lighthouse_preference to register? :\
-    @tag.reload
+    prepare_test!
+    @tag = create(:tag, domain: @domain)
+    @tag_version =  create(:tag_version, tag: @tag)
+    create(:tag_preference, performance_audit_iterations: 5, tag: @tag)
     
     @runner = AuditRunner.new(
-      tag: @tag, 
-      tag_version: @tag_version, 
-      execution_reason: @execution_reason
+      tag_version: @tag_version,
+      execution_reason: ExecutionReason.MANUAL
     )
   end
 
   describe '#run!' do
-    it 'calls .send! on GeppettoModerator::LambdaSenders::RunPerformanceAudit' do
-      expect_any_instance_of(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:send!).exactly(:once).and_return(true)
+    it 'calls run_performance_audit!' do
+      expect(@runner).to receive(:run_performance_audit!).exactly(:once)
       @runner.run!
     end
   end
 
-  describe '#performance_audit_runner' do
-    it 'initializes a GeppettoModerator::LambdaSenders::RunPerformanceLighthouseAudit with the correct arguments and is memoized' do
-      expect(Audit).to receive(:create).exactly(:once).and_return('STUBBED_AUDIT')
-      expect(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
-        audit: 'STUBBED_AUDIT',
-        audit_url: @tag.performance_audit_preferences.url_to_audit,
-        num_test_iterations: @tag.performance_audit_preferences.num_test_iterations,
-        third_party_tag_to_audit: @tag.script.url,
-        third_party_tags_to_allow: []
-      ).and_return(true)
-      performance_audit1 = @runner.send(:performance_audit_runner)
-      performance_audit2 = @runner.send(:performance_audit_runner)
-      expect(performance_audit1).to be(performance_audit2)
-    end
+  describe '#run_performance_audit!' do
+    it 'runs a performance audit with the tag and without the tag as many times as the tag_preferences performance_audit_iterations states' do
+      with_tag_audits_sent_count = 0
+      without_tag_audits_sent_count = 0
+      allow_any_instance_of(GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag).to receive(:send!) { with_tag_audits_sent_count += 1 }
+      allow_any_instance_of(GeppettoModerator::LambdaSenders::PerformanceAuditerWithoutTag).to receive(:send!) { without_tag_audits_sent_count += 1 }
+      @runner.send(:run_performance_audit!)
 
-    it 'it creates a performance audit with the correct allowed third party tags when the domain has script subscriptions that are marked as is_third_party_tag: false' do
-      script = create(:script, url: 'https://www.notathirdparty.com')
-      create(:tag, domain: @domain, script: script, is_third_party_tag: false)
-      
-      expect(Audit).to receive(:create).exactly(:once).and_return('STUBBED_AUDIT')
-      expect(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
-        audit: 'STUBBED_AUDIT',
-        audit_url: @tag.performance_audit_preferences.url_to_audit,
-        num_test_iterations: @tag.performance_audit_preferences.num_test_iterations,
-        third_party_tag_to_audit: @tag.script.url,
-        third_party_tags_to_allow: ['https://www.notathirdparty.com']
-      ).and_return(true)
-      @runner.send(:performance_audit_runner)
+      expect(with_tag_audits_sent_count).to be(5)
+      expect(without_tag_audits_sent_count).to be(5)
     end
+  end
 
-    it 'it creates a performance audit with the correct allowed third party tags when the domain has script subscriptions that are marked as allowed_third_party_tage: true' do
-      script = create(:script, url: 'https://www.tagmanagerthataddsalltheothertags.com')
-      create(:tag, domain: @domain, script: script, is_third_party_tag: false)
+  describe '#performance_audit_runner_with_tag' do
+    it 'initializes a GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag and memoizes it' do
+      expect(GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag).to receive(:new).with({
+        audit: @runner.send(:audit),
+        tag_version: @tag_version
+      }).exactly(:once).and_call_original
       
-      expect(Audit).to receive(:create).exactly(:once).and_return('STUBBED_AUDIT')
-      expect(GeppettoModerator::LambdaSenders::RunPerformanceAudit).to receive(:new).exactly(:once).with(
-        audit: 'STUBBED_AUDIT',
-        audit_url: @tag.performance_audit_preferences.url_to_audit,
-        num_test_iterations: @tag.performance_audit_preferences.num_test_iterations,
-        third_party_tag_to_audit: @tag.script.url,
-        third_party_tags_to_allow: ['https://www.tagmanagerthataddsalltheothertags.com']
-      ).and_return(true)
-      @runner.send(:performance_audit_runner)
+      @runner.send(:performance_audit_runner_with_tag)
+      @runner.send(:performance_audit_runner_with_tag)
+    end
+  end
+
+  describe '#performance_audit_runner_without_tag' do
+    it 'initializes a GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag and memoizes it' do
+      expect(GeppettoModerator::LambdaSenders::PerformanceAuditerWithoutTag).to receive(:new).with({
+        audit: @runner.send(:audit),
+        tag_version: @tag_version
+      }).exactly(:once).and_call_original
+      
+      @runner.send(:performance_audit_runner_without_tag)
+      @runner.send(:performance_audit_runner_without_tag)
     end
   end
 
   describe '#audit' do
-    it 'creates an audit with the correct arguments and is memoized' do
-      expect(Audit).to receive(:create).exactly(:once).with(
-        tag_version: @tag_version,
-        tag: @tag,
-        execution_reason: @execution_reason,
-        performance_audit_url: @tag.performance_audit_preferences.url_to_audit,
-        performance_audit_enqueued_at: DateTime.now
-      ).and_call_original
-      audit1 = @runner.send(:audit)
-      audit2 = @runner.send(:audit)
-      expect(audit1).to be(audit2)
+    it 'creates a new Audit and memoizes it' do
+      expect(Audit).to receive(:new).exactly(:once).and_call_original
+      @runner.send(:audit)
+      @runner.send(:audit)
+
+      expect(@runner.send(:audit).tag_version).to eq(@tag_version)
+      expect(@runner.send(:audit).tag).to eq(@tag)
+      expect(@runner.send(:audit).execution_reason).to eq(ExecutionReason.MANUAL)
+      expect(@runner.send(:audit).performance_audit_url).to eq('https://www.example.com')
+      expect(@runner.send(:audit).performance_audit_iterations).to eq(5)
     end
   end
 end

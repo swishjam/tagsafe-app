@@ -18,4 +18,23 @@ body.audits {
       color: white;
     }
   }
+  .performance-audits-completion-indicators {
+    .performance-audits-completion-indicator {
+      // border: 1px solid black;
+      display: inline-block;
+      margin: 1px;
+      border-radius: 50%;
+      height: 10px;
+      width: 10px;
+      &.completed {
+        background: rgb(157, 255, 157);
+      }
+      &.pending {
+        background: #95d1ff;
+      }
+      &.failed {
+        background: red;
+      }
+    }
+  }
 }

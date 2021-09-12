@@ -23,7 +23,7 @@
             <td>
               <div class='d-flex align-items-center'>
                 <%= image_tag tag.try_image_url, class: 'tag-thumbnail' %>
-                <div class='d-inline-block' style='width: calc(100% - 55px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-left: 15px;'>
+                <div class='d-inline-block' style='width: calc(100% - 55px); word-break: break-word; padding-left: 15px;'>
                   <span class='d-block'><b><%= tag.friendly_name || tag.domain_and_path %></b></span>
                   <span class='d-block'><%= tag.friendly_name ? tag.domain_and_path : nil %></span>
                 </div>

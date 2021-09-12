@@ -1,0 +1,28 @@
+<%= render 'urls_to_crawl/current_crawl', domain: current_domain %>
+
+<%= turbo_frame_tag "#{domain.id}_urls_to_crawl" do %>
+  <div class='col-6 offset-3'>
+    <!-- TODO: throwing error thinking this is a form to destroy??
+    <#%= form_with model: UrlToCrawl.new(domain: current_domain), url: domain_urls_to_crawl_path(current_domain), method: :create do |f| %>
+      <div class='form-floating d-flex mb-3'>
+        <#%= f.text_field :url, class: 'form-control', value: "#{current_domain.url}/" %>
+        <label for='url'>URL to scan for tags</label>
+        <#%= f.submit 'Add URL', class: 'tagsafe-btn square' %>
+      </div>
+    <#% end %>
+    !-->
+  </div>
+
+  <% if domain.urls_to_crawl.any? %>
+    <div class='mb-3'>
+      <% domain.urls_to_crawl.each do |url_to_crawl| %>
+        <div class='tagsafe-pill grey removable m-1'>
+          <%= url_to_crawl.url %>
+          <%= form_with model: [domain, url_to_crawl], url: domain_urls_to_crawl_path(domain, url_to_crawl), method: :delete, class: 'd-inline' do |f| %>
+            <span class='remove-btn pointer p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

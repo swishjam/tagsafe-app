@@ -3,14 +3,22 @@
 <%= render partial: 'settings_nav' %>
 <div class="tagsafe-container text-center">
   <div class='col-12 text-end'>
-    <%= form_for current_domain, url: scan_domain_path(current_domain) do |f| %>
-      <button type='submit' class='tagsafe-btn outline'>
-        <span>Scan for tags</span>
+    <div class="dropdown">
+      <button class="tagsafe-btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Actions
       </button>
-    <% end %>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li class='dropdown-item'><%= link_to 'View crawl log', domain_url_crawls_path(current_domain), class: 'no-decoration' %></li>
+        <li class='dropdown-item'>
+          <%= form_for current_domain, url: crawl_domain_path(current_domain) do |f| %>
+            <span data-controller='feaux_form_submit_button' class='pointer'>Initiate crawl for tags</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class='form-group'>
-    <%= render 'urls_to_scans/index', domain: current_domain %>
+    <%= render 'urls_to_crawl/index', domain: current_domain %>
     <%= render 'non_third_party_url_patterns/index', domain: current_domain %>
   </div>
 </div>

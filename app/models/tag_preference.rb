@@ -5,7 +5,7 @@ class TagPreference < ApplicationRecord
   after_update :check_to_run_audit
   # after_should_run_audit_updated_to true, -> { AfterTagShouldRunAuditActivationJob.perform_later(tag) }
 
-  # validates :url_to_audit, presence: true
+  # validates :page_url_to_perform_audit_on, presence: true
 
   def check_to_run_audit
     if column_changed_to('should_run_audit', true)

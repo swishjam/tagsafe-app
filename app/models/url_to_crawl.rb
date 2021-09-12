@@ -10,8 +10,8 @@ class UrlToCrawl < ApplicationRecord
 
   scope :should_crawl, -> { all }
   
-  def crawl!(initial_scan = false)
-    GeppettoModerator::LambdaSenders::UrlCrawler.new(self, initial_scan: initial_scan).send!
+  def crawl!(initial_crawl = false)
+    GeppettoModerator::LambdaSenders::UrlCrawler.new(self, initial_crawl: initial_crawl).send!
   end
 
   private

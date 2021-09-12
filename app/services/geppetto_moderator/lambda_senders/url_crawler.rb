@@ -4,28 +4,27 @@ module GeppettoModerator
       lambda_service 'url-crawler'
       lambda_function 'crawl'
 
-      def initialize(url_to_crawl, initial_scan: false)
+      def initialize(url_to_crawl, initial_crawl: false)
         @url_to_crawl = url_to_crawl
-        @initial_scan = initial_scan
+        @initial_crawl = initial_crawl
       end
     
       private
 
       def request_payload
         {
-          domain_id: @url_to_crawl.domain_id,
-          url: @url_to_crawl.url,
+          url: url_crawl.url,
           url_crawl_id: url_crawl.id,
-          initial_scan: @initial_scan
+          initial_crawl: @initial_crawl
         }
       end
 
       def url_crawl
-        @url_crawl ||= UrlCrawl.create(domain_id: @url_to_crawl.domain_id, url: @url_to_crawl.url, scan_enqueued_at: Time.now)
+        @url_crawl ||= UrlCrawl.create(domain_id: @url_to_crawl.domain_id, url: @url_to_crawl.url, enqueued_at: Time.now)
       end
 
       def required_payload_arguments
-        %i[domain_id url url_crawl_id initial_scan]
+        %i[url url_crawl_id initial_crawl]
       end
     end
   end

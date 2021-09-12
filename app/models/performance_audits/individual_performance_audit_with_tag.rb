@@ -1,2 +1,2 @@
-class IndividualPerformanceAuditWithTag < PerformanceAudit
+class IndividualPerformanceAuditWithTag < IndividualPerformanceAudit
 end

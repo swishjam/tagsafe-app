@@ -1,12 +1,17 @@
 class PerformanceAudit < ApplicationRecord
   belongs_to :audit
-  has_one :performance_audit_logs, class_name: 'PerformanceAuditLog', dependent: :destroy
-  accepts_nested_attributes_for :performance_audit_logs
+  has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
+  accepts_nested_attributes_for :performance_audit_log
 
   scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }
   scope :by_tag_ids, -> (tag_ids) { joins(:audit).where(audits: { tag_id: tag_ids })}
   scope :with_tags, -> (tag_ids) { includes(audit: :tag).where(audits: { tag_id: tag_ids }) }
+
+  scope :pending, -> { where(completed_at: nil) }
+  scope :completed, -> { where.not(completed_at: nil) }
+  scope :failed, -> { completed.where(dom_complete: -1) }
+  scope :success, -> { completed.where.not(dom_complete: -1) }
 
   CHARTABLE_COLUMNS = [
     {
@@ -52,5 +57,32 @@ class PerformanceAudit < ApplicationRecord
   def percent_change_in_metric(metric_column)
     return nil if audit.previous_primary_audit.nil?
     ((change_in_metric(metric_column)/previous_metric_result(metric_column))*100).round(2)
+  end
+
+  def completed!
+    touch(:completed_at)
+    update_column(:seconds_to_complete, completed_at - enqueued_at)
+  end
+
+  def error!(msg)
+    update!(error_message: msg)
+    audit.performance_audit_error!(self)
+    completed!
+  end
+
+  def completed?
+    !completed_at.nil?
+  end
+
+  def pending?
+    !completed?
+  end
+
+  def failed?
+    !error_message.nil?
+  end
+
+  def success?
+    completed? && !failed?
   end
 end

@@ -3,8 +3,8 @@ class PerformanceAuditLogsController < LoggedInController
     @audit = Audit.find(params[:audit_id])
     permitted_to_view?(@audit)
     @hide_navigation = true
-    @with_tag_log = @audit.performance_audit_with_tag.performance_audit_logs
-    @without_tag_log = @audit.performance_audit_without_tag.performance_audit_logs
+    @individual_performance_audits_with_tag = @audit.individual_performance_audits_with_tag.includes(:performance_audit_log)
+    @individual_performance_audits_without_tag = @audit.individual_performance_audits_without_tag.includes(:performance_audit_log)
     @tag = Tag.find(params[:tag_id])
     @tag_version = TagVersion.find(params[:tag_version_id])
     # render_breadcrumbs(

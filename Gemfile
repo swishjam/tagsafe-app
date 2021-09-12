@@ -61,7 +61,6 @@ gem 'slack-ruby-client'
 gem 'async-websocket', '~> 0.8.0'
 gem "google-cloud-storage", "~> 1.11", require: false
 gem 'kaminari'
-gem 'memoist'
 gem 'font-awesome-sass', '~> 5.15.1'
 gem 'sendgrid-ruby'
 

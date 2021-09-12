@@ -29,7 +29,12 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   broadcast_notification on: :create
-  after_create_commit { broadcast_append_later_to "#{domain_id}_domain_tags", target: "#{domain_id}_domain_tags", partial: 'server_loadable_partials/tags/tag' }
+  after_create_commit do
+    broadcast_append_later_to "#{domain_id}_domain_tags", 
+                                target: "#{domain_id}_domain_tags", 
+                                partial: 'server_loadable_partials/tags/tag', 
+                                locals: { tag: self, domain: domain } 
+  end
   # after_create_commit { broadcast_remove_to 'no_tags_message', target: 'no_tags_message' }
   after_update_commit { update_tag_content }
   after_destroy_commit { broadcast_remove_to "#{domain_id}_domain_tags", target: "#{domain_id}_domain_tags" }
@@ -86,7 +91,7 @@ class Tag < ApplicationRecord
   end
 
   def update_tag_content
-    broadcast_replace_later_to "#{domain_id}_domain_tags", partial: 'server_loadable_partials/tags/tag'
+    broadcast_replace_later_to "#{domain_id}_domain_tags", partial: 'server_loadable_partials/tags/tag', locals: { tag: self, domain: domain }
   end
 
   def after_create_notification_msg
@@ -158,10 +163,6 @@ class Tag < ApplicationRecord
   ############
   ## AUDITS ##
   ############
-
-  def should_retry_audits_on_errors?(num_attempts)
-    ENV['MAX_NUM_AUDIT_RETRIES'] && num_attempts < ENV['MAX_NUM_AUDIT_RETRIES'].to_i
-  end
 
   def has_pending_audits_for_tag_version?(tag_version)
     audits.pending_performance_audit.where(tag_version: tag_version).any?

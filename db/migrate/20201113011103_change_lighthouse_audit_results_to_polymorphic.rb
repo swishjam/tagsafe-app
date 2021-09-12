@@ -13,7 +13,7 @@ class ChangeLighthouseAuditResultsToPolymorphic < ActiveRecord::Migration[5.2]
       t.timestamp :created_at, null: false, default: "CURRENT_TIMESTAMP"
     end
 
-    remove_column :lighthouse_audits, :num_test_iterations
+    remove_column :lighthouse_audits, :performance_audit_iterations
     remove_column :lighthouse_audits, :enqueued_at
     remove_column :lighthouse_audits, :completed_at
     remove_column :lighthouse_audits, :audited_url

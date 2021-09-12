@@ -1,14 +1,18 @@
 <div class="row" data-controller='audit_logs'>
   <div class="col-6 tagsafe-logs-container">
     <h5 class="text-center audit-type-title">Results With <%= @tag.try_friendly_name %></h5>
-    <div class="log-container">
-      <%= @with_tag_log.logs.html_safe %>
-    </div>
+    <% @individual_performance_audits_with_tag.each do |audit| %>
+      <div class="log-container">
+        <%= audit.performance_audit_log&.logs&.html_safe %>
+      </div>
+    <% end %>
   </div>
   <div class="col-6 tagsafe-logs-container">
     <h5 class="text-center audit-type-title">Results Without <%= @tag.try_friendly_name %></h5>
-    <div class="log-container">
-      <%= @without_tag_log.logs.html_safe %>
-    </div>
+    <% @individual_performance_audits_without_tag.each do |audit| %>
+      <div class="log-container">
+        <%= audit.performance_audit_log&.logs&.html_safe %>
+      </div>
+    <% end %>
   </div>
 </div>

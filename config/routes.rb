@@ -25,9 +25,10 @@ Rails.application.routes.draw do
 
   resources :domains, only: [:create, :update, :new] do
     member do
-      patch :scan
+      patch :crawl
     end
-    resources :urls_to_scans, only: [:create, :destroy]
+    resources :url_crawls, only: [:index, :show]
+    resources :urls_to_crawl, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
   post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
@@ -87,8 +88,6 @@ Rails.application.routes.draw do
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do
-    get '/url_crawls/:id' => 'url_crawls#show'
-
     post '/tags/:id/toggle_active' => 'tags#toggle_active'
     post '/tags/:id/toggle_lighthouse' => 'tags#toggle_lighthouse'
 

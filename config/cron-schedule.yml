@@ -9,9 +9,9 @@ re_scan_domains:
   description: "Scans each domain for any new third party tags."
   queue: "scan_domain_queue"
 fail_stale_pending_audits:
-  class: Schedule::FailStalePendingAuditsJob
+  class: Schedule::FailStaleLambdaFunctionsJob
   cron: "0 */1 * * *" # every 1 hour
-  description: "Fails any audits that are stuck in pending."
+  description: "Fails any audits or URL crawls that are stuck in pending."
   queue: "default"
 clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
