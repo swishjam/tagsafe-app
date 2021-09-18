@@ -1,4 +1,5 @@
 class TagImageDomainLookupPattern < ApplicationRecord
+  
   belongs_to :tag_image
 
   def self.find_and_apply_image_to_tag(tag)

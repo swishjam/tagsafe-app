@@ -2,6 +2,8 @@ class Tag < ApplicationRecord
   class InvalidUnRemoval < StandardError; end;
   include Rails.application.routes.url_helpers
   include Notifier
+  # 
+  uid_prefix 'tag'
 
   # RELATIONS
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy

@@ -20,7 +20,7 @@ module GeppettoModerator
       end
 
       def url_crawl
-        @url_crawl ||= UrlCrawl.create(domain_id: @url_to_crawl.domain_id, url: @url_to_crawl.url, enqueued_at: Time.now)
+        @url_crawl ||= UrlCrawl.create!(domain_id: @url_to_crawl.domain_id, url: @url_to_crawl.url, enqueued_at: Time.now)
       end
 
       def required_payload_arguments

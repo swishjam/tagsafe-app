@@ -1,4 +1,6 @@
 class NewTagVersionSlackNotification < SlackNotificationSubscriber
+  # 
+
   def friendly_name
     'On Tag Changes'
   end

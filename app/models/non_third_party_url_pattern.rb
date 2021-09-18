@@ -1,4 +1,5 @@
 class NonThirdPartyUrlPattern < ApplicationRecord
+  
   belongs_to :domain
 
   after_create :disable_pre_existing_url_patterns

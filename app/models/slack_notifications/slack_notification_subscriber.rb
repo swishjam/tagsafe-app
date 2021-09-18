@@ -1,4 +1,6 @@
 class SlackNotificationSubscriber < ApplicationRecord
+  
+
   belongs_to :tag
 
   scope :still_on_site, -> { joins(:tag).where(tags: { removed_from_site_at: nil }) }

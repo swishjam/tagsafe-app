@@ -1,4 +1,6 @@
 class Domain < ApplicationRecord
+  uid_prefix 'dom'
+
   belongs_to :organization
   has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
@@ -10,7 +12,6 @@ class Domain < ApplicationRecord
   after_create_commit :add_default_url_to_crawl
 
   def add_default_url_to_crawl
-    # response = HTTParty.get(url) # validate url is accessible...?
     urls_to_crawl.create(url: url)
   end
 

@@ -1,4 +1,6 @@
 class PerformanceAudit < ApplicationRecord
+  # 
+
   belongs_to :audit
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
   accepts_nested_attributes_for :performance_audit_log

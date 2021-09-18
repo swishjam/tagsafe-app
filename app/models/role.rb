@@ -1,4 +1,7 @@
 class Role < ApplicationRecord
+  
+  uid_prefix 'role'
+
   has_and_belongs_to_many :users
 
   def self.USER_ADMIN

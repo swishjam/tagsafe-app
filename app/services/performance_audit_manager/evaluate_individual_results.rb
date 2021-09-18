@@ -11,13 +11,19 @@ module PerformanceAuditManager
 
     def evaluate!
       # if @error || !validity_checker.valid?
-      if @error
-        update_individual_performance_audits_results_for_failed_audit!
-        individual_performance_audit.error!(@error)
-      else
-        update_individual_performance_audits_results_for_successful_audit!
-        individual_performance_audit.completed!
+      unless already_processed?
+        if @error
+          update_individual_performance_audits_results_for_failed_audit!
+          individual_performance_audit.error!(@error)
+        else
+          update_individual_performance_audits_results_for_successful_audit!
+          individual_performance_audit.completed!
+        end
       end
+    end
+
+    def already_processed?
+      @individual_performance_audit.completed?
     end
 
     private

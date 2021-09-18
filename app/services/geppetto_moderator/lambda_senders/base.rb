@@ -15,9 +15,9 @@ module GeppettoModerator
       def send!
         Rails.logger.info "Invoking #{lambda_invoke_function_name} function with #{invoke_params}"
         response = lambda_client.invoke(invoke_params)
-        if response.status_code != 202
-          raise FailedLambdaInvocation, "#{lambda_invoke_function_name} invocation failed: \nstatus_code: #{response.status_code} \nfunction_error: #{response.function_error} \npayload: #{response.payload.read}"
-        end
+        # if response.status_code != 202
+        #   raise FailedLambdaInvocation, "#{lambda_invoke_function_name} invocation failed: \nstatus_code: #{response.status_code} \nfunction_error: #{response.function_error} \npayload: #{response.payload.read}"
+        # end
       end
 
       private

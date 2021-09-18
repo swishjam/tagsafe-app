@@ -5,16 +5,25 @@ module TagManager
       @domain = @url_crawl.domain
       @tag_urls = tag_urls
       @initial_crawl = initial_crawl
+      # TODO: need to scope to the url being crawled
       # @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.where().collect(&:full_url)
     end
 
     def evaluate!
-      @tag_urls.each{ |tag_url| add_tag_to_domain_if_necessary(tag_url) }
-      # remove_tags_removed_from_site
-      @url_crawl.completed!
+      if already_processed?
+        Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
+      else
+        @tag_urls.each{ |tag_url| add_tag_to_domain_if_necessary(tag_url) }
+        # remove_tags_removed_from_site
+        @url_crawl.completed!
+      end
     end
 
     private
+
+    def already_processed?
+      @url_crawl.completed?
+    end
 
     def add_tag_to_domain_if_necessary(tag_url)
       if @domain.should_capture_tag?(tag_url)

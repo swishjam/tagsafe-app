@@ -1,4 +1,5 @@
 class TagImage < ApplicationRecord
+  
   has_one_attached :image
   has_many :lookup_patterns, class_name: 'TagImageDomainLookupPattern'
   has_many :scripts

@@ -1,6 +1,7 @@
 class TagVersion < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Notifier
+  
 
   belongs_to :tag
   has_many :audits, dependent: :destroy

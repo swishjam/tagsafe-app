@@ -1,4 +1,5 @@
 class TagPreference < ApplicationRecord
+  
   belongs_to :tag
 
   column_update_listener :should_run_audit

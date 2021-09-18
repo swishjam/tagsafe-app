@@ -1,4 +1,6 @@
 class UrlCrawl < ApplicationRecord
+  
+
   belongs_to :domain
   has_many :found_tags, class_name: 'Tag'
 
@@ -7,8 +9,8 @@ class UrlCrawl < ApplicationRecord
   scope :failed, -> { where.not(error_message: nil) }
   scope :successful, -> { completed.where(error_message: nil ) }
 
-  after_create_commit { broadcast_replace_later_to "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }}
-  after_update_commit { broadcast_replace_later_to "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }}
+  after_create_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }}
+  after_update_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }}
 
   def self.most_recent
     most_recent_first(timestamp_column: :enqueued_at).limit(1).first

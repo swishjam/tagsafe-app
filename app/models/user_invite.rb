@@ -1,4 +1,6 @@
 class UserInvite < ApplicationRecord
+  
+  
   belongs_to :organization
   belongs_to :invited_by_user, class_name: 'User'
 

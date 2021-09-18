@@ -1,4 +1,5 @@
 class ApplicationRecord < ActiveRecord::Base
+  include ContextualUid
   self.abstract_class = true
 
   scope :older_than, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} < ?", timestamp).order("#{timestamp_column.to_s} DESC") }

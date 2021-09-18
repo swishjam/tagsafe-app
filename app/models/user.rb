@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   class InvalidSubscribeError < StandardError; end;
+  uid_prefix 'user'
   has_secure_password
 
   has_many :organization_users, dependent: :destroy

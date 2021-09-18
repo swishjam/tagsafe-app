@@ -4,6 +4,7 @@ RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
   before(:each) do
     prepare_test!
     create(:non_third_party_url_pattern, pattern: 'dontcaptureme', domain: @domain)
+    crawl = create(:pending_url_crawl, domain: @domain, url: "#{@domain.url}/crawl")
 
     tag_urls_already_on_site = %w[
       https://cdn.facebook.com/script.js 
@@ -40,7 +41,7 @@ RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
         url_path: parsed_url.path, 
         url_query_param: parsed_url.query,
         domain: @domain,
-        consider_query_param_changes_new_tag: false
+        # consider_query_param_changes_new_tag: false
       )
     end
 
@@ -52,7 +53,7 @@ RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
         url_path: parsed_url.path, 
         url_query_param: parsed_url.query,
         domain: @domain,
-        consider_query_param_changes_new_tag: true
+        # consider_query_param_changes_new_tag: true
       )
     end
 
@@ -64,7 +65,7 @@ RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
         url_path: parsed_url.path,
         url_query_param: parsed_url.query,
         domain: @domain,
-        consider_query_param_changes_new_tag: false,
+        # consider_query_param_changes_new_tag: false,
         removed_from_site_at: DateTime.yesterday
       )
     end
@@ -77,12 +78,12 @@ RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
         url_path: parsed_url.path,
         url_query_param: parsed_url.query,
         domain: @domain,
-        consider_query_param_changes_new_tag: true,
+        # consider_query_param_changes_new_tag: true,
         removed_from_site_at: DateTime.yesterday
       )
     end
 
-    @evaluator = TagManager::EvaluateUrlCrawlFoundTags.new(domain: @domain, tag_urls: tag_urls_received, initial_crawl: true, should_remove_tags: true)
+    @evaluator = TagManager::EvaluateUrlCrawlFoundTags.new(url_crawl: crawl, tag_urls: tag_urls_received, initial_crawl: true)
     @evaluator.evaluate!
     
     @tag_urls_on_site = @domain.tags.still_on_site.collect(&:full_url)

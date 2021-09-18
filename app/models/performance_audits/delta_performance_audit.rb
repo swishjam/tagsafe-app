@@ -1,4 +1,6 @@
 class DeltaPerformanceAudit < PerformanceAudit
+  
+
   TAGSAFE_SCORE_THRESHOLDS = {
     good: 90,
     warn: 80

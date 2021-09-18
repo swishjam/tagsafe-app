@@ -1,4 +1,5 @@
 class TagCheck < ApplicationRecord
+  
   belongs_to :tag
   belongs_to :tag_check_region, optional: true
 

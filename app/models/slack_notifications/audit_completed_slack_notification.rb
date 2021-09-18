@@ -1,6 +1,7 @@
 class AuditCompletedSlackNotification < SlackNotificationSubscriber
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::NumberHelper
+  # 
 
   def friendly_name
     'On Completed Audits'

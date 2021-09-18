@@ -1,4 +1,6 @@
 class Organization < ApplicationRecord
+  
+  uid_prefix 'org'
   has_many :organization_users, dependent: :destroy
   has_many :users, through: :organization_users
   has_many :domains, dependent: :destroy

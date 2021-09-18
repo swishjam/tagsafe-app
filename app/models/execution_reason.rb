@@ -1,4 +1,6 @@
 class ExecutionReason < ApplicationRecord
+  
+
   def self.REASON_TYPES
     ['Manual Execution', 'Scheduled Execution', 'Tag Change', 'Test']
   end

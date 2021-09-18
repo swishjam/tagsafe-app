@@ -1,6 +1,9 @@
 class Audit < ApplicationRecord
   class InvalidRetry < StandardError; end;
   class InvalidPrimaryAudit < StandardError; end;
+  
+  uid_prefix 'aud'
+
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason

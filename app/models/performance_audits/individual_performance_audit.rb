@@ -1,4 +1,6 @@
 class IndividualPerformanceAudit < PerformanceAudit
+  
+
   after_update_commit do
     broadcast_replace_to "#{id}_completion_indicator", 
                           target: "#{id}_completion_indicator", 
