@@ -45,12 +45,15 @@ gem 'jquery-rails'
 # gem 'bootstrap'
 # gem 'bootstrap-select-rails'
 
+gem 'aws-sdk-s3'
 gem 'aws-sdk-lambda'
+gem 'aws-sdk-cloudwatchlogs'
 
 gem 'httparty'
 gem 'resque'
 gem 'resque-scheduler'
 gem 'active_scheduler'
+gem 'acts_as_paranoid'
 
 gem "chartkick"
 gem "groupdate"
@@ -59,7 +62,6 @@ gem 'diffy'
 gem 'slack-ruby-client'
 # gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 gem 'async-websocket', '~> 0.8.0'
-gem "google-cloud-storage", "~> 1.11", require: false
 gem 'kaminari'
 gem 'font-awesome-sass', '~> 5.15.1'
 gem 'sendgrid-ruby'

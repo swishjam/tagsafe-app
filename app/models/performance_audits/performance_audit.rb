@@ -1,9 +1,12 @@
 class PerformanceAudit < ApplicationRecord
-  # 
-
+  acts_as_paranoid
+  
   belongs_to :audit
+  has_many :page_load_screenshots, foreign_key: :performance_audit_id, dependent: :destroy
+  has_one :page_load_trace, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
   accepts_nested_attributes_for :performance_audit_log
+  accepts_nested_attributes_for :page_load_trace
 
   scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }
@@ -68,7 +71,7 @@ class PerformanceAudit < ApplicationRecord
 
   def error!(msg)
     update!(error_message: msg)
-    audit.performance_audit_error!(self)
+    audit.performance_audit_error!(id)
     completed!
   end
 

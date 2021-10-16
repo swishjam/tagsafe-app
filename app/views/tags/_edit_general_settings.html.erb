@@ -17,10 +17,25 @@
         <button type='submit' class='tagsafe-btn square'>Update</button>
       </div>
       <%= f.fields_for :tag_preferences_attributes, tag.tag_preferences do |ff| %>
-        <div class="form-floating d-flex mt-3 mb-3">
-          <%= ff.text_field :page_url_to_perform_audit_on, value: tag.tag_preferences.page_url_to_perform_audit_on, class: "form-control", data: { ignore_changes: true } %>
-          <label for='page_url_to_perform_audit_on'>URL to audit</label>
-          <button type='submit' class='tagsafe-btn square'>Update</button>
+        <% if ENV['SHOULD_RUN_AUDIT_IS_TOGGLABLE'] %>
+          <div class="form-check form-switch w-fit m-auto">
+            <%= ff.label 'Run audit on new versions', class: 'form-check-label' %>
+            <i data-controller='tooltip'
+                data-bs-toggle="tooltip"
+                data-placement="top"
+                title="Un-select this option to no longer run audits automatically on each new version."
+                class="far fa-question-circle"></i>
+            <%= ff.check_box :should_run_audit, checked: tag.tag_preferences.should_run_audit, class: 'form-check-input' %>
+          </div>
+        <% end %>
+        <div class="form-check form-switch w-fit m-auto">
+          <%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
+          <i data-controller='tooltip'
+              data-bs-toggle="tooltip"
+              data-placement="top"
+              title="Select this option to consider each time the query params change a new tag has been added to <%= current_domain.url %>."
+              class="far fa-question-circle"></i>
+          <%= ff.check_box :consider_query_param_changes_new_tag, checked: tag.tag_preferences.consider_query_param_changes_new_tag, class: 'form-check-input' %>
         </div>
         <div class="form-check form-switch w-fit m-auto">
           <%= ff.label :monitor_changes, class: 'form-check-label' %>
@@ -30,24 +45,6 @@
               title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when new versions of this tag are released." 
               class="far fa-question-circle"></i>
           <%= ff.check_box :monitor_changes, checked: tag.tag_preferences.monitor_changes, class: 'form-check-input' %>
-        </div>
-        <div class="form-check form-switch w-fit m-auto">
-          <%= ff.label 'Run audit on new versions', class: 'form-check-label' %>
-          <i data-controller='tooltip'
-              data-bs-toggle="tooltip"
-              data-placement="top"
-              title="Un-select this option to no longer run audits automatically on each new version."
-              class="far fa-question-circle"></i>
-          <%= ff.check_box :should_run_audit, checked: tag.tag_preferences.should_run_audit, class: 'form-check-input' %>
-        </div>
-        <div class="form-check form-switch w-fit m-auto">
-          <%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
-          <i data-controller='tooltip'
-              data-bs-toggle="tooltip"
-              data-placement="top"
-              title="Select this option to consider each time the query params change a new tag has been added to <%= current_domain.url %>."
-              class="far fa-question-circle"></i>
-          <%= ff.check_box :consider_query_param_changes_new_tag, checked: tag.tag_preferences.consider_query_param_changes_new_tag, class: 'form-check-input' %>
         </div>
       </div>
     <% end %>

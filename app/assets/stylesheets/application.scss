@@ -13,12 +13,8 @@
  */
 @import "font-awesome-sprockets";
 @import "font-awesome";
+// @import "variables";
 @import "*";
-
-$tagsafe-blue: #95d1ff;
-$dark-tagsafe-blue: #49b0ff;
-$darker-tagsafe-blue: #0a95ff;
-$tagsafe-font-family:'Open Sans Condensed', sans-serif;
 
 .tag-safe-font {
   font-family: $tagsafe-font-family;
@@ -118,7 +114,7 @@ body.logged-in {
   border-radius: 999px;
   text-decoration: none !important;
   &:hover {
-    background: $darker-tagsafe-blue;
+    background: $darkest-tagsafe-blue;
   }
   &.square {
     border-radius: 0px;
@@ -136,6 +132,10 @@ body.logged-in {
 
 .tagsafe-spinner {
   color: $tagsafe-blue;
+  &.tiny {
+    width: 15px;
+    height: 15px;
+  }
   &.small {
     width: 30px;
     height: 30px;
@@ -147,6 +147,22 @@ body.logged-in {
   &.large {
     width: 70px;
     height: 70px;
+  }
+}
+
+turbo-frame.display-form-loading {
+  &:not([busy]) {
+    form .submit-loading {
+      display: none;
+    }
+  }
+  &[busy] {
+    form .submit-loading {
+      display: inline-block;
+    }
+    form [type=submit] {
+      display: none;
+    }
   }
 }
 
@@ -208,8 +224,8 @@ a.no-decoration {
   text-align: center;
   &.tagsafe-blue {
     background: #cce9ff;
-    color: $darker-tagsafe-blue;
-    border: 1px solid $darker-tagsafe-blue;
+    color: $darkest-tagsafe-blue;
+    border: 1px solid $darkest-tagsafe-blue;
   }
   &.active, &.green {
     background: rgb(200, 255, 200);

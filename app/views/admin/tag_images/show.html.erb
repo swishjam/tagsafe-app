@@ -1,7 +1,7 @@
 <div class="text-center">
   <div class="row text-right">
     <%= button_to 'Delete', admin_script_image_path(@script_image), method: :delete %>
-    <%= button_to 'Apply to Tags', apply_to_scripts_admin_script_image_path(@script_image) %>
+    <%= button_to 'Apply to Tags', apply_to_tags_admin_script_image_path(@script_image) %>
   </div>
   <%= image_tag url_for(@script_image.image), style: "width: 400px; height: 400px" %>
 

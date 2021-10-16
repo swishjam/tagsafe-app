@@ -1,36 +1,72 @@
-# Remember not to checkin your GCS keyfile to a repository
-google_dev:
-  service: GCS
-  project: TagSafe
-  credentials:
-    type: "service_account"
-    project_id: "tag-safe"
-    private_key_id: "a46dc22b7501fb9cd2c84155c222daf944d803b9"
-    private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDPdRuWXy9fZKTp\nXaLhvs7JJPBSZ1cs0wW2SM0GkLOWgcznh1cva0Z+BHV9GFW0rWnP7GxpfN1fz0Pi\nahqEt4nw9XeeBpFZMeLRmHJQjBsxKx+0Vqp/H/+louMErI+54WZF6dN4/ejHWNUx\nOcrd9wxvM+38g3oGnOtDkww+owM6aRR2R5+cPFMrPBoWqEQ3xfrQG3Jsxq2HqKDb\n7lWaC/ncSXi8natIXV8YPktr4eEZF3kxBM+x0OpCtNqeSWcUOspywUZzrOJjUiJ7\nC6TvZXgnDR7NJZkqigmspJq9EGESQOP1VspAnT90IDcgDV1Qjuj6wmAoqhaVdgZ/\ndzBFIPWpAgMBAAECggEAEaega6VZkXdt7ls03ZvAms8NMaIQQeUKdycOZajiU6Rj\ntO9oXMV3GAnWmsj7oDbiyppO5pJE/56Sox3O+GzrLQmivpzF+U58xEQCNHcb6E0I\nc28trshhF+46/h6WU6YKL1h1EfafvPlDGV+W81lPIlaLwgHJXG81uUg2Ek2KnImF\n5BZME/An6AU5LxyF5Eqk/p+B7jjaQFWxgunRqdwDBZQgu8td1U0BhlPLWCveBXC1\n+OiWY7gUGwZ493do20PKFw0r+kMPHBmBCyn/YgFqKT7G0FUhU2ikyYPh9HvRivl1\n0I5GNHqo29XXYgnw/tPNp0Eyp6q0civiU8xvjQ6DJQKBgQD6OJB4QJGNGovZsNEn\nweiy34DxaRY8tuqbh8BBNXKCXN2G3soZqa4PgdlUWESiLjS6BvhYC9cxmFrMh5EU\nelUjOpu1PREAFB1LGU3QAQUpEa5ipC+dzg3AAW3leKmLDgUuW6S+oRSqO53bi5sU\nPyNGdnIc6zOhyY9DjegKIxFwlQKBgQDUP7QYAUQrcL3Ia7qhLfKcml4M2hzziDur\nc0M5k2vzPfXW24Ps1wYeAsY+cUDoVabWupNypH8j09S8lVHqKz8hxSowvpOmldHK\n2sqZ+6OsD0GzN0ADNWEj0+t9VO+1+dBJ0Cz0plJS/HY6265VYUwIdbNyZdmwQU/X\nAVwjHYxHxQKBgQCfXhl9zbomgeriysBcLx/TlZDdsU3Ne78vMiYcIjt9lkIt3YYh\nFDZdgBl4pAOKvB0vArN3+Iql9uCV9h5MSaIiHvj/VRaX0zfZFhO+UHgF8VH9V49Q\nVeXiDcb96X0qqNJZ9VqXY6byyafAJkmueowwG86QZqlq+SJ7J03L7wvzhQKBgQCI\n4ujojnCDv7t2dhwwdWzCGUDM8yK24cbyBW12xaBaiTxzLLIB3o/AbTOj8/DTpuHq\nHPyZdIPW/Hh4g6kH6IpX4kwakd6yEm/yb3c5JjTh9BkAV4K+Tv/uVm/LLitHZu0x\nncRQqK/xe4dY4HOn9w9NaXOpNQzXgtfWJ7dfol/lrQKBgQCy+brM0PhchdP+JG+h\nzxkGtXtX7SuVSyx6PwGJPA3D2h7677juxsu0pYnTzuwuvaXk+x8YV0wTIJhCXH7z\nvS12qKcOhINqG6bwlVN2pJMDAhhp0rfPi0sl09sETMVqJFzTutbQ6zYNEhGdHYUe\n+jd71gp76kOldOPT/kXjTGOD3w==\n-----END PRIVATE KEY-----\n"
-    client_email: "tag-safe-program@tag-safe.iam.gserviceaccount.com"
-    client_id: "114622140938230924752"
-    auth_uri: "https://accounts.google.com/o/oauth2/auth"
-    token_uri: "https://oauth2.googleapis.com/token"
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/tag-safe-program%40tag-safe.iam.gserviceaccount.com"
-  bucket: tag-safe-js-files-development
+tag_version_s3:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-1
+  bucket: tagsafe-<%= Rails.env %>-tag-versions
+
+tag_image_s3:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-1
+  bucket: tagsafe-<%= Rails.env %>-tag-images
+
+# why does rspec throw an error when this isnt present....
+test:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: us-east-1
+  bucket: test-bucket-should-never-exist
+
+# aws_development:
+#   service: S3
+#   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+#   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+#   region: us-east-1
+#   bucket: tagsafe-development-tag-content
+
+# aws_production:
+#   service: S3
+#   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+#   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+#   region: us-east-1
+#   bucket: tagsafe-production-tag-content
 
 # Remember not to checkin your GCS keyfile to a repository
-google:
-  service: GCS
-  project: TagSafe
-  credentials:
-    type: "service_account"
-    project_id: "tag-safe"
-    private_key_id: "a46dc22b7501fb9cd2c84155c222daf944d803b9"
-    private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDPdRuWXy9fZKTp\nXaLhvs7JJPBSZ1cs0wW2SM0GkLOWgcznh1cva0Z+BHV9GFW0rWnP7GxpfN1fz0Pi\nahqEt4nw9XeeBpFZMeLRmHJQjBsxKx+0Vqp/H/+louMErI+54WZF6dN4/ejHWNUx\nOcrd9wxvM+38g3oGnOtDkww+owM6aRR2R5+cPFMrPBoWqEQ3xfrQG3Jsxq2HqKDb\n7lWaC/ncSXi8natIXV8YPktr4eEZF3kxBM+x0OpCtNqeSWcUOspywUZzrOJjUiJ7\nC6TvZXgnDR7NJZkqigmspJq9EGESQOP1VspAnT90IDcgDV1Qjuj6wmAoqhaVdgZ/\ndzBFIPWpAgMBAAECggEAEaega6VZkXdt7ls03ZvAms8NMaIQQeUKdycOZajiU6Rj\ntO9oXMV3GAnWmsj7oDbiyppO5pJE/56Sox3O+GzrLQmivpzF+U58xEQCNHcb6E0I\nc28trshhF+46/h6WU6YKL1h1EfafvPlDGV+W81lPIlaLwgHJXG81uUg2Ek2KnImF\n5BZME/An6AU5LxyF5Eqk/p+B7jjaQFWxgunRqdwDBZQgu8td1U0BhlPLWCveBXC1\n+OiWY7gUGwZ493do20PKFw0r+kMPHBmBCyn/YgFqKT7G0FUhU2ikyYPh9HvRivl1\n0I5GNHqo29XXYgnw/tPNp0Eyp6q0civiU8xvjQ6DJQKBgQD6OJB4QJGNGovZsNEn\nweiy34DxaRY8tuqbh8BBNXKCXN2G3soZqa4PgdlUWESiLjS6BvhYC9cxmFrMh5EU\nelUjOpu1PREAFB1LGU3QAQUpEa5ipC+dzg3AAW3leKmLDgUuW6S+oRSqO53bi5sU\nPyNGdnIc6zOhyY9DjegKIxFwlQKBgQDUP7QYAUQrcL3Ia7qhLfKcml4M2hzziDur\nc0M5k2vzPfXW24Ps1wYeAsY+cUDoVabWupNypH8j09S8lVHqKz8hxSowvpOmldHK\n2sqZ+6OsD0GzN0ADNWEj0+t9VO+1+dBJ0Cz0plJS/HY6265VYUwIdbNyZdmwQU/X\nAVwjHYxHxQKBgQCfXhl9zbomgeriysBcLx/TlZDdsU3Ne78vMiYcIjt9lkIt3YYh\nFDZdgBl4pAOKvB0vArN3+Iql9uCV9h5MSaIiHvj/VRaX0zfZFhO+UHgF8VH9V49Q\nVeXiDcb96X0qqNJZ9VqXY6byyafAJkmueowwG86QZqlq+SJ7J03L7wvzhQKBgQCI\n4ujojnCDv7t2dhwwdWzCGUDM8yK24cbyBW12xaBaiTxzLLIB3o/AbTOj8/DTpuHq\nHPyZdIPW/Hh4g6kH6IpX4kwakd6yEm/yb3c5JjTh9BkAV4K+Tv/uVm/LLitHZu0x\nncRQqK/xe4dY4HOn9w9NaXOpNQzXgtfWJ7dfol/lrQKBgQCy+brM0PhchdP+JG+h\nzxkGtXtX7SuVSyx6PwGJPA3D2h7677juxsu0pYnTzuwuvaXk+x8YV0wTIJhCXH7z\nvS12qKcOhINqG6bwlVN2pJMDAhhp0rfPi0sl09sETMVqJFzTutbQ6zYNEhGdHYUe\n+jd71gp76kOldOPT/kXjTGOD3w==\n-----END PRIVATE KEY-----\n"
-    client_email: "tag-safe-program@tag-safe.iam.gserviceaccount.com"
-    client_id: "114622140938230924752"
-    auth_uri: "https://accounts.google.com/o/oauth2/auth"
-    token_uri: "https://oauth2.googleapis.com/token"
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/tag-safe-program%40tag-safe.iam.gserviceaccount.com"
-  bucket: tag-safe-production
+# google_dev:
+#   service: GCS
+#   project: TagSafe
+#   credentials:
+#     type: "service_account"
+#     project_id: "tag-safe"
+#     private_key_id: "a46dc22b7501fb9cd2c84155c222daf944d803b9"
+#     private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDPdRuWXy9fZKTp\nXaLhvs7JJPBSZ1cs0wW2SM0GkLOWgcznh1cva0Z+BHV9GFW0rWnP7GxpfN1fz0Pi\nahqEt4nw9XeeBpFZMeLRmHJQjBsxKx+0Vqp/H/+louMErI+54WZF6dN4/ejHWNUx\nOcrd9wxvM+38g3oGnOtDkww+owM6aRR2R5+cPFMrPBoWqEQ3xfrQG3Jsxq2HqKDb\n7lWaC/ncSXi8natIXV8YPktr4eEZF3kxBM+x0OpCtNqeSWcUOspywUZzrOJjUiJ7\nC6TvZXgnDR7NJZkqigmspJq9EGESQOP1VspAnT90IDcgDV1Qjuj6wmAoqhaVdgZ/\ndzBFIPWpAgMBAAECggEAEaega6VZkXdt7ls03ZvAms8NMaIQQeUKdycOZajiU6Rj\ntO9oXMV3GAnWmsj7oDbiyppO5pJE/56Sox3O+GzrLQmivpzF+U58xEQCNHcb6E0I\nc28trshhF+46/h6WU6YKL1h1EfafvPlDGV+W81lPIlaLwgHJXG81uUg2Ek2KnImF\n5BZME/An6AU5LxyF5Eqk/p+B7jjaQFWxgunRqdwDBZQgu8td1U0BhlPLWCveBXC1\n+OiWY7gUGwZ493do20PKFw0r+kMPHBmBCyn/YgFqKT7G0FUhU2ikyYPh9HvRivl1\n0I5GNHqo29XXYgnw/tPNp0Eyp6q0civiU8xvjQ6DJQKBgQD6OJB4QJGNGovZsNEn\nweiy34DxaRY8tuqbh8BBNXKCXN2G3soZqa4PgdlUWESiLjS6BvhYC9cxmFrMh5EU\nelUjOpu1PREAFB1LGU3QAQUpEa5ipC+dzg3AAW3leKmLDgUuW6S+oRSqO53bi5sU\nPyNGdnIc6zOhyY9DjegKIxFwlQKBgQDUP7QYAUQrcL3Ia7qhLfKcml4M2hzziDur\nc0M5k2vzPfXW24Ps1wYeAsY+cUDoVabWupNypH8j09S8lVHqKz8hxSowvpOmldHK\n2sqZ+6OsD0GzN0ADNWEj0+t9VO+1+dBJ0Cz0plJS/HY6265VYUwIdbNyZdmwQU/X\nAVwjHYxHxQKBgQCfXhl9zbomgeriysBcLx/TlZDdsU3Ne78vMiYcIjt9lkIt3YYh\nFDZdgBl4pAOKvB0vArN3+Iql9uCV9h5MSaIiHvj/VRaX0zfZFhO+UHgF8VH9V49Q\nVeXiDcb96X0qqNJZ9VqXY6byyafAJkmueowwG86QZqlq+SJ7J03L7wvzhQKBgQCI\n4ujojnCDv7t2dhwwdWzCGUDM8yK24cbyBW12xaBaiTxzLLIB3o/AbTOj8/DTpuHq\nHPyZdIPW/Hh4g6kH6IpX4kwakd6yEm/yb3c5JjTh9BkAV4K+Tv/uVm/LLitHZu0x\nncRQqK/xe4dY4HOn9w9NaXOpNQzXgtfWJ7dfol/lrQKBgQCy+brM0PhchdP+JG+h\nzxkGtXtX7SuVSyx6PwGJPA3D2h7677juxsu0pYnTzuwuvaXk+x8YV0wTIJhCXH7z\nvS12qKcOhINqG6bwlVN2pJMDAhhp0rfPi0sl09sETMVqJFzTutbQ6zYNEhGdHYUe\n+jd71gp76kOldOPT/kXjTGOD3w==\n-----END PRIVATE KEY-----\n"
+#     client_email: "tag-safe-program@tag-safe.iam.gserviceaccount.com"
+#     client_id: "114622140938230924752"
+#     auth_uri: "https://accounts.google.com/o/oauth2/auth"
+#     token_uri: "https://oauth2.googleapis.com/token"
+#     auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+#     client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/tag-safe-program%40tag-safe.iam.gserviceaccount.com"
+#   bucket: tag-safe-js-files-development
+
+# # Remember not to checkin your GCS keyfile to a repository
+# google:
+#   service: GCS
+#   project: TagSafe
+#   credentials:
+#     type: "service_account"
+#     project_id: "tag-safe"
+#     private_key_id: "a46dc22b7501fb9cd2c84155c222daf944d803b9"
+#     private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDPdRuWXy9fZKTp\nXaLhvs7JJPBSZ1cs0wW2SM0GkLOWgcznh1cva0Z+BHV9GFW0rWnP7GxpfN1fz0Pi\nahqEt4nw9XeeBpFZMeLRmHJQjBsxKx+0Vqp/H/+louMErI+54WZF6dN4/ejHWNUx\nOcrd9wxvM+38g3oGnOtDkww+owM6aRR2R5+cPFMrPBoWqEQ3xfrQG3Jsxq2HqKDb\n7lWaC/ncSXi8natIXV8YPktr4eEZF3kxBM+x0OpCtNqeSWcUOspywUZzrOJjUiJ7\nC6TvZXgnDR7NJZkqigmspJq9EGESQOP1VspAnT90IDcgDV1Qjuj6wmAoqhaVdgZ/\ndzBFIPWpAgMBAAECggEAEaega6VZkXdt7ls03ZvAms8NMaIQQeUKdycOZajiU6Rj\ntO9oXMV3GAnWmsj7oDbiyppO5pJE/56Sox3O+GzrLQmivpzF+U58xEQCNHcb6E0I\nc28trshhF+46/h6WU6YKL1h1EfafvPlDGV+W81lPIlaLwgHJXG81uUg2Ek2KnImF\n5BZME/An6AU5LxyF5Eqk/p+B7jjaQFWxgunRqdwDBZQgu8td1U0BhlPLWCveBXC1\n+OiWY7gUGwZ493do20PKFw0r+kMPHBmBCyn/YgFqKT7G0FUhU2ikyYPh9HvRivl1\n0I5GNHqo29XXYgnw/tPNp0Eyp6q0civiU8xvjQ6DJQKBgQD6OJB4QJGNGovZsNEn\nweiy34DxaRY8tuqbh8BBNXKCXN2G3soZqa4PgdlUWESiLjS6BvhYC9cxmFrMh5EU\nelUjOpu1PREAFB1LGU3QAQUpEa5ipC+dzg3AAW3leKmLDgUuW6S+oRSqO53bi5sU\nPyNGdnIc6zOhyY9DjegKIxFwlQKBgQDUP7QYAUQrcL3Ia7qhLfKcml4M2hzziDur\nc0M5k2vzPfXW24Ps1wYeAsY+cUDoVabWupNypH8j09S8lVHqKz8hxSowvpOmldHK\n2sqZ+6OsD0GzN0ADNWEj0+t9VO+1+dBJ0Cz0plJS/HY6265VYUwIdbNyZdmwQU/X\nAVwjHYxHxQKBgQCfXhl9zbomgeriysBcLx/TlZDdsU3Ne78vMiYcIjt9lkIt3YYh\nFDZdgBl4pAOKvB0vArN3+Iql9uCV9h5MSaIiHvj/VRaX0zfZFhO+UHgF8VH9V49Q\nVeXiDcb96X0qqNJZ9VqXY6byyafAJkmueowwG86QZqlq+SJ7J03L7wvzhQKBgQCI\n4ujojnCDv7t2dhwwdWzCGUDM8yK24cbyBW12xaBaiTxzLLIB3o/AbTOj8/DTpuHq\nHPyZdIPW/Hh4g6kH6IpX4kwakd6yEm/yb3c5JjTh9BkAV4K+Tv/uVm/LLitHZu0x\nncRQqK/xe4dY4HOn9w9NaXOpNQzXgtfWJ7dfol/lrQKBgQCy+brM0PhchdP+JG+h\nzxkGtXtX7SuVSyx6PwGJPA3D2h7677juxsu0pYnTzuwuvaXk+x8YV0wTIJhCXH7z\nvS12qKcOhINqG6bwlVN2pJMDAhhp0rfPi0sl09sETMVqJFzTutbQ6zYNEhGdHYUe\n+jd71gp76kOldOPT/kXjTGOD3w==\n-----END PRIVATE KEY-----\n"
+#     client_email: "tag-safe-program@tag-safe.iam.gserviceaccount.com"
+#     client_id: "114622140938230924752"
+#     auth_uri: "https://accounts.google.com/o/oauth2/auth"
+#     token_uri: "https://oauth2.googleapis.com/token"
+#     auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+#     client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/tag-safe-program%40tag-safe.iam.gserviceaccount.com"
+#   bucket: tag-safe-production
 
 # test:
 #   service: Disk

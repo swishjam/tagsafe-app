@@ -2,8 +2,8 @@ class Tag < ApplicationRecord
   class InvalidUnRemoval < StandardError; end;
   include Rails.application.routes.url_helpers
   include Notifier
-  # 
   uid_prefix 'tag'
+  acts_as_paranoid
 
   # RELATIONS
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
@@ -11,6 +11,12 @@ class Tag < ApplicationRecord
   has_many :tag_versions, -> { order('created_at DESC') }, dependent: :destroy
   has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
   has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
+  has_many :urls_to_audit, class_name: 'UrlToAudit'
+  
+  has_many :tag_events, dependent: :destroy
+  has_many :added_to_site_events, class_name: 'AddedToSite'
+  has_many :removed_from_site_events, class_name: 'RemovedFromSite'
+  has_many :query_param_change_events, class_name: 'UrlQueryParamChanged'
   
   has_many :slack_notification_subscribers, dependent: :destroy
   has_many :new_tag_slack_notifications, dependent: :destroy
@@ -24,7 +30,7 @@ class Tag < ApplicationRecord
   has_one :tag_preferences, class_name: 'TagPreference', dependent: :destroy
   accepts_nested_attributes_for :tag_preferences
 
-  has_one_attached :image, dependent: :destroy
+  has_one_attached :image, service: :tag_image_s3
 
   # VALIDATIONS
   validates_uniqueness_of :full_url, scope: :domain_id
@@ -66,6 +72,8 @@ class Tag < ApplicationRecord
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
   scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.monitor_changes }
   scope :should_run_tag_checks, -> { monitor_changes.still_on_site.is_third_party_tag }
+
+  scope :present_on_page_url, -> (url) { where_tag_preferences(page_url_to_perform_audit_on: url) }
 
   scope :thirty_second_interval_checks, -> { all }
   scope :one_minute_interval_checks, -> { none }
@@ -208,20 +216,6 @@ class Tag < ApplicationRecord
   ###########
   # HELPERS #
   ###########
-
-  def remove_from_site!
-    touch(:removed_from_site_at)
-  end
-
-  def unremove_from_site!(send_new_tag_email = true)
-    raise InvalidUnRemoval unless removed_from_site?
-    unremove_from_site(send_new_tag_email)
-  end
-
-  def unremove_from_site(send_new_tag_email = true)
-    update!(removed_from_site_at: nil)
-    NotificationModerator::NewTagNotifier.new(self).notify! if send_new_tag_email
-  end
 
   def toggle_monitor_changes_flag!
     toggle_boolean_column(:monitor_changes)

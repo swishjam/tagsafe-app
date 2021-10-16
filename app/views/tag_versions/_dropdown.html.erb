@@ -1,7 +1,13 @@
-<div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
-  <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="fas fa-ellipsis-h"></i>
-  </a>
+<div class="dropdown dropleft show ellipsis-dropdown">
+  <% if local_assigns[:ellipsis_button] %>
+    <a class="dropdown-link tagsafe-circular-btn" data-controller='dropdown' href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="fas fa-ellipsis-h"></i>
+    </a>
+  <% else %>
+    <button class="tagsafe-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Actions
+    </button>
+  <% end %>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     <% if local_assigns[:additional_menu_items] %>
       <% additional_menu_items.each do |menu_item| %>
@@ -17,9 +23,10 @@
     <% end %>
     <div class="dropdown-divider"></div>
     <div class='dropdown-item'>
-      <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'confirmable_form', confirmation_text: "Run audit for #{tag.try_friendly_name} [#{tag_version.sha} - #{tag_version.created_at.formatted_short}]?", confirmation_title: 'Perform audit?' } do |f| %>
-        <%= f.submit 'Run Audit', class: 'dropdown-item p-0' %>
-      <% end %>
+      <%= link_to 'Run Audit', begin_audit_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal_content' } %>
+      <!-- <#%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'confirmable_form', confirmation_text: "Run audit for #{tag.try_friendly_name} [#{tag_version.sha} - #{tag_version.created_at.formatted_short}]?", confirmation_title: 'Perform audit?' } do |f| %>
+        <#%= f.submit 'Run Audit', class: 'dropdown-item p-0' %>
+      <#% end %> !-->
     </div>
   </div>
 </div>

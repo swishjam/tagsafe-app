@@ -3,7 +3,7 @@ class AuditsController < LoggedInController
     @tag = Tag.find(params[:tag_id])
     permitted_to_view?(@tag)
     @tag_version = TagVersion.find(params[:tag_version_id])
-    @audits = @tag_version.audits.most_recent_first.includes(:performance_audits)
+    @audits = @tag_version.audits.most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
@@ -33,6 +33,22 @@ class AuditsController < LoggedInController
     render turbo_stream: turbo_stream.replace(
       "#{audit.tag_id}_tag_version_audits",
       partial: 'audit', collection: audit.tag_version.audits.most_recent_first.includes(:performance_audits), as: :audit
+    )
+  end
+
+  def cloudwatch_logs
+    @hide_navigation = true
+    @tag = Tag.find(params[:tag_id])
+    @tag_version = TagVersion.find(params[:tag_version_id])
+    @audit = Audit.includes(:performance_audits).find(params[:audit_id])
+    @performance_audits_with_tag = @audit.individual_performance_audits_with_tag
+    @performance_audits_without_tag = @audit.individual_performance_audits_without_tag
+    render_breadcrumbs(
+      { url: tags_path, text: "Monitor Center" },
+      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
+      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.created_at.formatted_short} Change Audits" },
+      { url: tag_tag_version_audit_path(@tag, @tag_version, @audit),  text: "#{@audit.created_at.formatted_short} Audit" },
+      { text: "#{@audit.created_at.formatted_short} Audit Cloudwatch logs", active: true },
     )
   end
 end

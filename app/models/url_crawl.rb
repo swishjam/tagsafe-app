@@ -1,8 +1,14 @@
 class UrlCrawl < ApplicationRecord
+  acts_as_paranoid
   
-
   belongs_to :domain
   has_many :found_tags, class_name: 'Tag'
+  alias tags_found found_tags
+
+  has_many :tag_events, dependent: :destroy
+  has_many :added_to_site_tag_events, class_name: 'AddedToSite'
+  has_many :removed_from_site_tag_events, class_name: 'RemovedFromSite'
+  has_many :query_param_change_tag_events, class_name: 'UrlQueryParamChanged'
 
   scope :pending, -> { where(completed_at: nil) }
   scope :completed, -> { where.not(completed_at: nil) }
@@ -19,7 +25,8 @@ class UrlCrawl < ApplicationRecord
   def found_tag!(
     tag_url,
     monitor_changes: ENV['SHOULD_MONITOR_CHANGES_BY_DEFAULT'] == 'true', 
-    should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', 
+    # should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', 
+    should_run_audit: true,
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
     initial_crawl: false,
@@ -46,10 +53,30 @@ class UrlCrawl < ApplicationRecord
         performance_audit_iterations: performance_audit_iterations
       }
     )
+    added_to_site_tag_events.create!(tag: tag)
     # if it's the first time scanning the domain for tags, don't run the job
     # we may eventually move this into the job itself, but for now let's just not bother enqueuing
     AfterTagCreationJob.perform_later(tag) unless initial_crawl
     tag
+  end
+
+  def unremove_tag_from_site!(tag)
+    added_to_site_tag_events.create!(tag: tag)
+  end
+
+  def query_params_changed_for_tag!(tag, new_full_url)
+    parsed_new_url = URI.parse(new_full_url)
+    url_query_param_change_events.create!(
+      tag: tag, 
+      metadata: { 
+        removed_url_query_params: url_query_param, 
+        added_url_query_params: parsed_new_url.query 
+      }
+    )
+  end
+
+  def tag_removed_from_site!(tag)
+    removed_from_site_tag_events.create!(tag: tag)
   end
 
   def pending?

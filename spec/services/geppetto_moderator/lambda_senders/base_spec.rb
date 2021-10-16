@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe GeppettoModerator::LambdaSenders::Base do
-  module GeppettoModerator
-    module LambdaSenders
+RSpec.describe LambdaModerator::Senders::Base do
+  module LambdaModerator
+    module Senders
       class MockSender < Base
         lambda_service 'mock-service'
         lambda_function 'mockFunction'
@@ -13,13 +13,13 @@ RSpec.describe GeppettoModerator::LambdaSenders::Base do
 
   before(:each) do
     stub_lambda_calls
-    @mock_sender = GeppettoModerator::LambdaSenders::MockSender.new
+    @mock_sender = LambdaModerator::Senders::MockSender.new
   end
 
   describe 'class attr_accessors' do
     it 'defines lambda_service_name and lambda_function_name' do
-      expect(GeppettoModerator::LambdaSenders::MockSender.lambda_service_name).to eq('mock-service')
-      expect(GeppettoModerator::LambdaSenders::MockSender.lambda_function_name).to eq('mockFunction')
+      expect(LambdaModerator::Senders::MockSender.lambda_service_name).to eq('mock-service')
+      expect(LambdaModerator::Senders::MockSender.lambda_function_name).to eq('mockFunction')
     end
   end
 
@@ -56,28 +56,28 @@ RSpec.describe GeppettoModerator::LambdaSenders::Base do
 
   describe '#self.lambda_service' do
     it 'sets the lambda_service_name class variables' do
-      GeppettoModerator::LambdaSenders::Base.lambda_service 'test!'
-      expect(GeppettoModerator::LambdaSenders::Base.lambda_service_name).to eq('test!')
+      LambdaModerator::Senders::Base.lambda_service 'test!'
+      expect(LambdaModerator::Senders::Base.lambda_service_name).to eq('test!')
     end
   end
 
   describe '#self.lambda_function' do
     it 'sets the lambda_function_name class variables' do
-      GeppettoModerator::LambdaSenders::Base.lambda_function 'test!'
-      expect(GeppettoModerator::LambdaSenders::Base.lambda_function_name).to eq('test!')
+      LambdaModerator::Senders::Base.lambda_function 'test!'
+      expect(LambdaModerator::Senders::Base.lambda_function_name).to eq('test!')
     end
   end
 
   describe '#lambda_invoke_function_name' do
     it 'throws an error if lambda_function_name is not defined' do
       @mock_sender.class.lambda_function nil
-      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(GeppettoModerator::LambdaSenders::Base::InvalidLambdaFunction)
+      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaModerator::Senders::Base::InvalidLambdaFunction)
       @mock_sender.class.lambda_function 'mockFunction'
     end
 
     it 'throws an error if lambda_service_name is not defined' do
       @mock_sender.class.lambda_service nil
-      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(GeppettoModerator::LambdaSenders::Base::InvalidLambdaFunction)
+      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaModerator::Senders::Base::InvalidLambdaFunction)
       @mock_sender.class.lambda_service 'mock-service'
     end
 
@@ -105,7 +105,7 @@ RSpec.describe GeppettoModerator::LambdaSenders::Base do
 
     it 'raises an error if a required payload argument is missing' do
       allow(@mock_sender).to receive(:required_payload_arguments).and_return([:foo ,:missing_arg])
-      expect{ @mock_sender.send(:ensure_arguments!) }.to raise_error(GeppettoModerator::LambdaSenders::Base::InvalidLambdaFunctionArguments, "mock-service-test-mockFunction is missing missing_arg arguments")
+      expect{ @mock_sender.send(:ensure_arguments!) }.to raise_error(LambdaModerator::Senders::Base::InvalidLambdaFunctionArguments, "mock-service-test-mockFunction is missing missing_arg arguments")
     end
   end
 end

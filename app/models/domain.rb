@@ -1,5 +1,6 @@
 class Domain < ApplicationRecord
   uid_prefix 'dom'
+  acts_as_paranoid
 
   belongs_to :organization
   has_many :url_crawls, dependent: :destroy
@@ -17,11 +18,11 @@ class Domain < ApplicationRecord
 
   def disable_all_third_party_tags_during_audits
     # ENV['DISABLE_ALL_THIRD_PARTY_TAGS_IN_AUDITS'] === 'true'
-    false
+    true
   end
 
   def has_tag?(tag)
-    tags.include? tag
+    tags.include?(tag)
   end
 
   def allowed_third_party_tag_urls
@@ -29,7 +30,7 @@ class Domain < ApplicationRecord
   end
 
   def crawl_and_capture_domains_tags(initial_crawl = false)
-    urls_to_crawl.each{ |url_to_crawl| url_to_crawl.crawl!(initial_crawl) }
+    urls_to_crawl.each{ |url_to_crawl| url_to_crawl.crawl_later(initial_crawl) }
   end
 
   def should_capture_tag?(url)

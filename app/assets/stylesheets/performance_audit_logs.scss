@@ -41,3 +41,15 @@ body.performance_audit_logs #content {
     // }
   }
 }
+
+.cloudwatch-logs {
+  background-color: black !important;
+  color: white;
+  font-size: 14px;
+  .cloudwatch-log {
+    word-break: break-word;
+    &:hover {
+      background: rgb(128, 128, 128);
+    }
+  }
+}

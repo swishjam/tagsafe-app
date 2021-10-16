@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(tag), class: 'col-sm-12 col-md-6 col-lg-4 tag-safe-card-container' do %>
-  <div class="tag-safe-card tag <%= tag.removed_from_site? || !tag.tag_preferences.should_run_audit ? 'inactive' : nil %>">
+  <div class="tag-safe-card tag <%= tag.removed_from_site? || !tag.tag_preferences.monitor_changes ? 'inactive' : nil %>">
     <!-- Removing dropdown for now...
     <div class="dropdown show ellipsis-dropdown text-right">
       <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,22 +38,12 @@
               data-bs-toggle="tooltip"
               data-placement="top"
               title="Tag monitoring is off for <%= tag.try_friendly_name %>. Visit your tag management settings to monitor.">
-              <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Not Monitoring Changes</span>
+              <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Not Monitoring</span>
             </span>
           </p>
         <% else %>
           <p>
             Last change was <%= tag.content_changed_at ? time_ago_in_words(tag.content_changed_at) : 'unknown'%> ago.
-          </p>
-        <% end %>
-        <% if !tag.tag_preferences.should_run_audit %>
-          <p>
-            <span data-controller='tooltip' 
-                  data-bs-toggle="tooltip"
-                  data-placement="top"
-                  title="Tag auditing is off for <%= tag.try_friendly_name %>. Visit your tag management settings to monitor.">
-              <span class="script-inactive-notice"><i class="fas fa-exclamation-circle"></i> Auditing is Turned Off</span>
-            </span>
           </p>
         <% end %>
         <% audit = tag.current_version&.primary_audit %>
@@ -70,7 +60,8 @@
           <% else %>
             <span class="tagsafe-pill <%= audit.state == 'pending' ? 'tagsafe-blue' : 'red' %>">Audit <%= audit.state %></span>
             <% if audit.performance_audit_pending? %>
-              <%= render 'individual_performance_audits/completion_indicators', audit: audit %>
+              <%= render 'audits/completion_indicator', audit: audit %>
+              <!-- <#%= render 'individual_performance_audits/completion_indicators', audit: audit %> !-->
             <% end %>
           <% end %>
         <% end %>

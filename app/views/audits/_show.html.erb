@@ -14,9 +14,10 @@
           </span>
         <% end %>
       <% end %>
-      <%= render 'partials/utils/help_tooltip', klass: 'float-end', message: "TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %>
-      <br/>
-      <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, audit: audit %>
+      <div class='row text-end'>
+        <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, audit: audit %>
+        <!-- <#%= render 'partials/utils/help_tooltip', message: "TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
+      </div>
       <% if tag_version.audits.count > 1 %>
         <span>This is one of <%= tag_version.audits.count %> audits perfomed on this version of the tag. <%= link_to 'View all', tag_tag_version_audits_path(tag, tag_version), target: '_top' %></span>
       <% end %>
@@ -27,7 +28,9 @@
     <span><%= audit.errored_individual_performance_audit.error_message %></span>
   <% elsif audit.performance_audit_pending? %>
     <span>Performance audit is currently running.</span>
-    <%= render 'individual_performance_audits/completion_indicators', audit: audit %>
+    <div class='m-auto text-center w-fit'>
+      <%= render 'audits/completion_indicator', audit: audit %>
+    </div>
   <% elsif audit.delta_performance_audit %>
     <div data-controller='audit-results-expander'>
       <div class="row">

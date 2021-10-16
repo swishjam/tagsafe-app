@@ -1,4 +1,5 @@
 class TagPreference < ApplicationRecord
+  acts_as_paranoid
   
   belongs_to :tag
 
@@ -9,7 +10,7 @@ class TagPreference < ApplicationRecord
   # validates :page_url_to_perform_audit_on, presence: true
 
   def check_to_run_audit
-    if column_changed_to('should_run_audit', true)
+    if column_changed_to('monitor_changes', true)
       AfterTagShouldRunAuditActivationJob.perform_later(tag)
     end
   end

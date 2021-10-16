@@ -1,0 +1,17 @@
+<div id='server-loadable-modal-container' class='tagsafe-modal-container' data-controller='server-loadable-modal'>
+  <div class='tagsafe-modal-backdrop'>
+  </div>
+  <div id='server-loadable-modal' class='tagsafe-modal' >
+    <div class='tagsafe-modal-header text-start'>
+      <span class='tagsafe-circular-btn close' data-action='click->server-loadable-modal#hide'><i class='fa fa-times'></i></span>
+      <h4 class='tagsafe-modal-title' data-confirmation-modal-target='title'> </h4>
+    </div>
+    <div class='tagsafe-modal-header-divider'>
+    </div>
+    <div class='tagsafe-modal-content'>
+      <%= turbo_frame_tag 'server_loadable_modal_content' do %>
+        <%= render 'partials/utils/spinner' %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 .navigation {
   width: 15%;
   background-color: white;
-  color: #5d5c5c;
+  color: $dark-grey-text;
   float: left;
   height: 100vh;
   position: fixed;
@@ -39,8 +39,44 @@
       }
     }
   }
-  .logout-link-container {
+  .navigation-profile-container {
     position: absolute;
-    bottom: 10px;
+    bottom: 50px;
+    margin-left: 25%;
+    .navigation-profile-trigger {
+      &:hover {
+        background: $dark-tagsafe-blue;
+      }
+      border-radius: 50%;
+      background: $tagsafe-blue;
+      color: white;
+      font-size: 18px;
+      height: 50px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid lightgrey;
+      margin-left: 5%;
+    }
+    .navigation-profile-dropdown {
+      color: $dark-grey-text;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
+      .toggle-link {
+        margin: 10px 0px 10px 0px;
+        padding: 10px;
+        cursor: pointer;
+        a {
+          text-decoration: none;
+          color: $dark-grey-text;
+        }
+        &.selected, &:hover {
+          background: lightgrey;
+        }
+      }
+    }
   }
 }

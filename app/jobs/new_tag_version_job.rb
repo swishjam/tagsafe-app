@@ -6,7 +6,7 @@ class NewTagVersionJob < ApplicationJob
     if tag_version.should_throttle_audit?
       tag_version.throttle_audit!
     else
-      tag_version.run_audit!(tag_version.first_version? ? ExecutionReason.INITIAL_AUDIT : ExecutionReason.TAG_CHANGE)
+      tag_version.perform_audit_now_on_all_urls(tag_version.first_version? ? ExecutionReason.INITIAL_AUDIT : ExecutionReason.TAG_CHANGE)
     end
     DataRetention::TagVersions.new(tag_version).purge!
   end

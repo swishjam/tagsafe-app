@@ -5,25 +5,24 @@
   <%= @tag_version.created_at.formatted_short %> tag change
 </h6>
 <div class="tagsafe-container text-center">
-  <div class="col-12">
-    <span style="float: right;" data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="A tag version can have many audits run against it. This tag version has <%= @audits.count %>."><i class="far fa-question-circle"></i></span>
-    <br/>
+  <div class="col-12 text-end">
     <%= render 'tag_versions/dropdown', tag: @tag, tag_version: @tag_version %>
   </div>
   <table class="table table-hover col-12 text-start" style="table-layout: fixed">
     <thead>
       <tr>
-        <th scope="col" style="width: 15%">
+        <th scope="col" style="width: 10%">
           <span data-controller="tooltip" data-bs-toggle="tooltip" data-placement="top" title="A tag version must have one audit that is the 'primary audit'. The primary audit is used in the calculations between tag versions. For this reason you must select the most accurate audit.">
             Primary Audit
           </span>
         </th>
-        <th scope="col" style='width: 30%'>Date of Audit</th>
-        <th scope="col" style='width: 22.5%'>TagSafe Score</th>
-        <th scope="col" style='width: 22.5%'>
+        <th scope="col" style='width: 25%'>Date of Audit</th>
+        <th scope="col" style='width: 20%'>TagSafe Score</th>
+        <th scope="col" style='width: 15%'>
           Execution Reason
           <%= render 'partials/utils/help_tooltip', message: "An audit can be executed for the following reasons: Initial Audit, Reactivated Tag, Tag Change, Manual Audit, Scheduled Audit, or a Retry." %>
         </th>
+        <th scope="col" style='width: 20%'>Audited URL</th>
         <th scope="col" style='width: 10%'></th>
       </tr>
     </thead>

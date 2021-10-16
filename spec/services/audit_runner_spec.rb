@@ -24,8 +24,8 @@ RSpec.describe AuditRunner do
     it 'runs a performance audit with the tag and without the tag as many times as the tag_preferences performance_audit_iterations states' do
       with_tag_audits_sent_count = 0
       without_tag_audits_sent_count = 0
-      allow_any_instance_of(GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag).to receive(:send!) { with_tag_audits_sent_count += 1 }
-      allow_any_instance_of(GeppettoModerator::LambdaSenders::PerformanceAuditerWithoutTag).to receive(:send!) { without_tag_audits_sent_count += 1 }
+      allow_any_instance_of(LambdaModerator::Senders::PerformanceAuditerWithTag).to receive(:send!) { with_tag_audits_sent_count += 1 }
+      allow_any_instance_of(LambdaModerator::Senders::PerformanceAuditerWithoutTag).to receive(:send!) { without_tag_audits_sent_count += 1 }
       @runner.send(:run_performance_audit!)
 
       expect(with_tag_audits_sent_count).to be(5)
@@ -34,8 +34,8 @@ RSpec.describe AuditRunner do
   end
 
   describe '#performance_audit_runner_with_tag' do
-    it 'initializes a GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag and memoizes it' do
-      expect(GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag).to receive(:new).with({
+    it 'initializes a LambdaModerator::Senders::PerformanceAuditerWithTag and memoizes it' do
+      expect(LambdaModerator::Senders::PerformanceAuditerWithTag).to receive(:new).with({
         audit: @runner.send(:audit),
         tag_version: @tag_version
       }).exactly(:once).and_call_original
@@ -46,8 +46,8 @@ RSpec.describe AuditRunner do
   end
 
   describe '#performance_audit_runner_without_tag' do
-    it 'initializes a GeppettoModerator::LambdaSenders::PerformanceAuditerWithTag and memoizes it' do
-      expect(GeppettoModerator::LambdaSenders::PerformanceAuditerWithoutTag).to receive(:new).with({
+    it 'initializes a LambdaModerator::Senders::PerformanceAuditerWithTag and memoizes it' do
+      expect(LambdaModerator::Senders::PerformanceAuditerWithoutTag).to receive(:new).with({
         audit: @runner.send(:audit),
         tag_version: @tag_version
       }).exactly(:once).and_call_original

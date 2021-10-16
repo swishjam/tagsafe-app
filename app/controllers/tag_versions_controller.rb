@@ -27,18 +27,41 @@ class TagVersionsController < LoggedInController
     @number_of_tags = current_domain.tags.is_third_party_tag.monitor_changes.count
   end
 
+  def begin_audit
+    tag = current_domain.tags.find(params[:tag_id])
+    tag_version = tag.tag_versions.find(params[:id])
+    render turbo_stream: turbo_stream.replace(
+      'server_loadable_modal_content',
+      partial: 'begin_audit',
+      locals: { tag: tag, tag_version: tag_version }
+    )
+  end
+
   def run_audit
-    tag_version = TagVersion.find(params[:id])
+    tag = current_domain.tags.find(params[:tag_id])
+    tag_version = tag.tag_versions.find(params[:id])
     permitted_to_view?(tag_version, raise_error: true)
-    tag_version.run_audit!(ExecutionReason.MANUAL)
-    current_user.broadcast_notification("Performing audit on #{tag_version.tag.try_friendly_name}", image: tag_version.image_url)
-    redirect_to request.referrer
-  rescue GeppettoModerator::Sender::GeppettoConnectionError => e
-    current_user.broadcast_notification("Unable to perform audit: #{e.message}")
+    UrlToAudit.where(id: params[:urls_to_audit]).each do |url_to_audit|
+      # tag_version.perform_audit_later(execution_reason: ExecutionReason.MANUAL, url_to_audit: url_to_audit, enable_tracing: params[:enable_tracing] == 'true')
+    end
+    msg = "Performing #{params[:urls_to_audit].count} audit(s) on #{tag_version.tag.try_friendly_name}"
+    # current_user.broadcast_notification(msg, image: tag_version.image_url)
+    render turbo_stream: turbo_stream.replace(
+      'server_loadable_modal_content',
+      partial: 'begin_audit',
+      locals: { tag: tag, tag_version: tag_version, display_message: msg }
+    )
   end
 
   def js
-    tag_version = TagVersion.find(params[:id])
+    tag = current_domain.tags.find(params[:tag_id])
+    tag_version = tag.tag_versions.find(params[:id])
     render plain: tag_version.content
+  end
+
+  def tagsafe_instrumented_js
+    tag = current_domain.tags.find(params[:tag_id])
+    tag_version = tag.tag_versions.find(params[:id])
+    render plain: tag_version.tagsafe_instrumented_content
   end
 end

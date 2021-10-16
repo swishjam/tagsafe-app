@@ -30,9 +30,8 @@ class DomainsController < LoggedInController
   end
 
   def update_current_domain
-    domain = Domain.find(params[:id])
-    session[:current_domain_id] = domain.id
-    flash[:notice] = "Domain updated to #{domain.url}"
+    domain = Domain.find_by!(uid: params[:uid])
+    set_current_domain_for_user(current_user, domain)
     redirect_to tags_path
   end
 

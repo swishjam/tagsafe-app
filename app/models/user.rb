@@ -2,6 +2,7 @@ class User < ApplicationRecord
   class InvalidSubscribeError < StandardError; end;
   uid_prefix 'user'
   has_secure_password
+  acts_as_paranoid
 
   has_many :organization_users, dependent: :destroy
   has_many :organizations, through: :organization_users
@@ -19,12 +20,20 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def initials
+    first_name[0] + last_name[0]
+  end
+
   def is_user_admin?
     roles.include? Role.USER_ADMIN
   end
 
   def is_tagsafe_admin?
     roles.include? Role.TAGSAFE_ADMIN
+  end
+
+  def belongs_to_multiple_organizations?
+    organizations.count > 1
   end
 
   def send_welcome_email

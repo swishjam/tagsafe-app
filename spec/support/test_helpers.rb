@@ -6,7 +6,7 @@ def prepare_test!(options = {})
 end
 
 def stub_lambda_calls
-  allow_any_instance_of(Aws::Lambda::Client).to receive(:invoke).and_return(true)
+  allow_any_instance_of(Aws::Lambda::Client).to receive(:invoke).and_return(OpenStruct.new(status_code: 200))
 end
 
 def stub_tag_version_job

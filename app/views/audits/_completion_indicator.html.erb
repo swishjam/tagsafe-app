@@ -1,0 +1,12 @@
+<%= turbo_stream_from "#{audit.id}_completion_indicator" %>
+<%= turbo_frame_tag "#{audit.id}_completion_indicator" do %>
+  <div class='audit-completion-bar-container' 
+        style='border: 1px solid lightgrey; height: 20px; width: 200px; background: white;' 
+        data-controller='tooltip' 
+        data-bs-toggle="tooltip" 
+        data-placement="top" 
+        title="Audit is <%= audit.individual_performance_audit_percent_complete.to_i %>% complete.">
+    <div class='audit-completion-bar' style='width: <%= audit.individual_performance_audit_percent_complete %>%; height: 100%; background: lightblue;'>
+    </div>
+  </div>
+<% end %>

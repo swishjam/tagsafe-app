@@ -11,7 +11,8 @@ module ApplicationHelper
     @current_domain ||= session[:current_domain_id] ? current_organization&.domains&.find(session[:current_domain_id]) : current_organization&.domains&.first
   end
 
-  def set_current_domain(domain)
+  def set_current_domain_for_user(user, domain)
+    raise 'Cannot update domain to user that does not belong to it' unless user.organizations.collect{ |org| org.domains }.flatten!.include? domain
     session[:current_domain_id] = domain.id
   end
 
@@ -19,7 +20,8 @@ module ApplicationHelper
     @current_organization ||= session[:current_organization_id] ? Organization.find(session[:current_organization_id]) : current_user && current_user.organizations.first
   end
 
-  def set_current_organization(organization)
+  def set_current_organization_for_user(user, organization)
+    raise 'Cannot update organization to user that does not belong to it' unless user.organizations.include? organization
     session[:current_organization_id] = organization.id
   end
 

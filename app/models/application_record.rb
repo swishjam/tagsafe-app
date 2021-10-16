@@ -27,13 +27,11 @@ class ApplicationRecord < ActiveRecord::Base
         define_singleton_method(:"after_#{column}_updated_to") do |expected_value, callback_method|
           after_update do
             if saved_changes[column.to_s] && (saved_changes[column.to_s][1] == expected_value || expected_value == nil)
-              # binding.pry
               if block_given?
                 yield self
                 # self.class.instance_eval(&callback_block)
               elsif callback_method
                 if callback_method.is_a?(Proc)
-                  # binding.pry
                   self.instance_eval(&callback_method)
                   # callback_method.call(self)
                 elsif callback_method.is_a?(Symbol)

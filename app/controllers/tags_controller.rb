@@ -1,20 +1,7 @@
 class TagsController < LoggedInController
-  # def index
-  #   unless current_domain.nil?
-  #     @tags = current_domain.tags.joins(:tag_preferences)
-  #                             .order('tag_preferences.should_run_audit DESC')
-  #                             .order('removed_from_site_at ASC')
-  #                             .order('content_changed_at DESC')
-  #                             .page(params[:page] || 1).per(params[:per_page] || 9)
-  #     @active_tag_count = current_domain.tags.is_third_party_tag.still_on_site.count
-  #     @url_crawl = current_domain.url_crawls&.most_recent
-  #   end
-  # end
-
   def show
     @tag = current_domain.tags.find(params[:id])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
-    permitted_to_view?(@tag)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Details", active: true }
@@ -22,8 +9,16 @@ class TagsController < LoggedInController
   end
 
   def edit
-    @tag = Tag.find(params[:id])
-    permitted_to_view?(@tag)
+    @tag = current_domain.tags.find(params[:id])
+    render_breadcrumbs(
+      { text: 'Monitor Center', url: tags_path }, 
+      { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
+      { text: "Edit", active: true }
+    )
+  end
+
+  def audit_settings
+    @tag = current_domain.tags.find(params[:tag_id])
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
@@ -32,8 +27,7 @@ class TagsController < LoggedInController
   end
 
   def notification_settings
-    @tag = Tag.find(params[:tag_id])
-    permitted_to_view?(@tag)
+    @tag = current_domain.tags.find(params[:tag_id])
     if current_organization.completed_slack_setup?
       @slack_channels_options = current_organization.slack_client.get_channels['channels'].map { |channel| channel['name'] }
     end
@@ -66,9 +60,12 @@ class TagsController < LoggedInController
   private
 
   def tag_params
-    params.require(:tag).permit(:friendly_name, :image, 
-                                tag_preferences_attributes: %i[
-                                  id should_run_audit monitor_changes consider_query_param_changes_new_tag page_url_to_perform_audit_on
-                                ])
+    params.require(:tag).permit(:friendly_name, :image, tag_preferences_attributes: tag_preference_attributes)
+  end
+
+  def tag_preference_attributes
+    attrs = %i[id monitor_changes consider_query_param_changes_new_tag page_url_to_perform_audit_on]
+    attrs << should_run_audit if ENV['SHOULD_RUN_AUDIT_IS_TOGGLABLE'] == 'true'
+    attrs
   end
 end

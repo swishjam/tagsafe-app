@@ -1,6 +1,7 @@
-class Organization < ApplicationRecord
-  
+class Organization < ApplicationRecord  
   uid_prefix 'org'
+  acts_as_paranoid
+  
   has_many :organization_users, dependent: :destroy
   has_many :users, through: :organization_users
   has_many :domains, dependent: :destroy

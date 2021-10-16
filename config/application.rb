@@ -27,6 +27,9 @@ module TagSafe
     #     Dir.glob(File.join(Rails.root, 'app', dir, '**/*_decorator.rb')).each { |c| require_dependency(c) }       
     #   end
     # end
+    
+    # load nested models
+    # need to run bin/spring stop when adding new nested model to reset the cache
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{*/}')]
     
     config.active_storage.analyzers = []

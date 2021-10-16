@@ -26,5 +26,10 @@ export default class extends Controller {
   setForm(form) {
     this.form = form;
     this.confirmationFormContainerTarget.appendChild(form);
+    this.form.addEventListener('submit', () => { this._onFormSubmit() });
+  }
+
+  _onFormSubmit() {
+    this.hide();
   }
 }

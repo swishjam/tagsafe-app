@@ -1,22 +1,43 @@
 module PerformanceAuditManager
   class EvaluateIndividualResults
     attr_reader :individual_performance_audit
-    def initialize(individual_performance_audit_id:, results:, logs:, error:)
+    def initialize(
+      individual_performance_audit_id:, 
+      results:, 
+      blocked_tag_urls:, 
+      allowed_tag_urls:,
+      logs:,
+      aws_log_stream_name:,
+      aws_request_id:,
+      aws_trace_id:,
+      page_load_screenshot_urls:, 
+      page_load_trace_json_url:,
+      error:
+    )
       @results = results
-      @error = error
       @logs = logs
+      @blocked_tag_urls = blocked_tag_urls
+      @allowed_tag_urls = allowed_tag_urls
+      @aws_log_stream_name = aws_log_stream_name
+      @aws_request_id = aws_request_id
+      @aws_trace_id = aws_trace_id
+      @page_load_screenshot_urls = page_load_screenshot_urls
+      @page_load_trace_json_url = page_load_trace_json_url
+      @error = error
 
       @individual_performance_audit = PerformanceAudit.includes(audit: [:tag_version, :tag]).find(individual_performance_audit_id)
     end
 
     def evaluate!
-      # if @error || !validity_checker.valid?
       unless already_processed?
         if @error
           update_individual_performance_audits_results_for_failed_audit!
+          # TODO: look into dequeuing jobs that are still queued
+          add_page_load_results_to_peformance_audit!
           individual_performance_audit.error!(@error)
         else
           update_individual_performance_audits_results_for_successful_audit!
+          add_page_load_results_to_peformance_audit!
           individual_performance_audit.completed!
         end
       end
@@ -37,7 +58,11 @@ module PerformanceAuditManager
         script_duration: @results['ScriptDuration'],
         task_duration: @results['TaskDuration'],
         tagsafe_score: calculate_tagsafe_score_for_performance_audit,
-        performance_audit_log_attributes: { logs: @logs }
+        aws_log_stream_name: @aws_log_stream_name,
+        aws_request_id: @aws_request_id,
+        aws_trace_id: @aws_trace_id,
+        performance_audit_log_attributes: { logs: @logs },
+        page_load_trace_attributes: { s3_url: @page_load_trace_json_url }
       )
     end
 
@@ -50,8 +75,23 @@ module PerformanceAuditManager
         layout_duration: -1,
         task_duration: -1,
         tagsafe_score: -1,
-        performance_audit_log_attributes: { logs: @logs }
+        aws_log_stream_name: @aws_log_stream_name,
+        aws_request_id: @aws_request_id,
+        aws_trace_id: @aws_trace_id,
+        performance_audit_log_attributes: { logs: @logs },
+        page_load_trace_attributes: { s3_url: @page_load_trace_json_url }
       )
+    end
+
+    def add_page_load_results_to_peformance_audit!
+      @page_load_screenshot_urls.each_with_index do |url, i|
+        # TODO: dont trust order of array, need to expicitly pass sequence number
+        individual_performance_audit.page_load_screenshots.create!({
+          s3_url: url,
+          sequence: i
+          # timestamp_ms: url_and_timestamp['timestamp']
+        })
+      end
     end
 
     def calculate_tagsafe_score_for_performance_audit
@@ -69,13 +109,5 @@ module PerformanceAuditManager
     def audit
       @audit ||= individual_performance_audit.audit
     end
-
-    # def validity_checker
-    #   @validity_checker ||= PerformanceAuditManager::ValidityChecker.new(
-    #     audited_tag_url: @audit.tag.full_url,
-    #     results_with_tag: @results_with_tag, 
-    #     results_without_tag: @results_without_tag
-    #   )
-    # end
   end
 end

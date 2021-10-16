@@ -16,12 +16,18 @@ class OrganizationsController < LoggedInController
     @organization = Organization.new(organization_params)
     if @organization.save
       @organization.add_user(current_user)
-      set_current_organization(@organization)
+      set_current_organization_for_user(current_user, @organization)
       redirect_to tags_path
     else
       display_inline_errors(@organization.errors.full_messages)
       render :new
     end
+  end
+
+  def update_current_organization
+    org = current_user.organizations.find_by!(uid: params[:uid])
+    set_current_organization_for_user(current_user, org)
+    redirect_to tags_path
   end
 
   private

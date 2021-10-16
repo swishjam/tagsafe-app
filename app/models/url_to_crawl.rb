@@ -1,5 +1,6 @@
 class UrlToCrawl < ApplicationRecord
   self.table_name = :urls_to_crawl
+  acts_as_paranoid
 
   belongs_to :domain
 
@@ -9,15 +10,19 @@ class UrlToCrawl < ApplicationRecord
   validate :cannot_remove_last_record, on: :destroy
 
   scope :should_crawl, -> { all }
+
+  def crawl_later(initial_crawl = false)
+    CrawlUrlJob.perform_later(self, initial_crawl: initial_crawl)
+  end
   
-  def crawl!(initial_crawl = false)
-    GeppettoModerator::LambdaSenders::UrlCrawler.new(self, initial_crawl: initial_crawl).send!
+  def crawl_now(initial_crawl = false)
+    CrawlUrlJob.perform_now(self, initial_crawl: initial_crawl)
   end
 
   private
 
   def crawl_new_url
-    crawl!(domain.urls_to_crawl.count == 1)
+    crawl_now(domain.urls_to_crawl.count == 1)
   end
 
   def cannot_remove_last_record

@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:login][:email].downcase)
-
     if user && user.authenticate(params[:login][:password])
       log_user_in(user)
       display_toast_message("Welcome, #{user.email}.")

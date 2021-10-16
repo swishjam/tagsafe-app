@@ -1,7 +1,6 @@
 module Schedule
   module TagCheckJobs
     class Base < ApplicationJob
-      @queue = :tag_checker_queue
       queue_as :tag_checker_queue
   
       def perform(opts = {})

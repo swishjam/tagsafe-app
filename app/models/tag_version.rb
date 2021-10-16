@@ -1,11 +1,12 @@
 class TagVersion < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Notifier
+  acts_as_paranoid
   
-
   belongs_to :tag
   has_many :audits, dependent: :destroy
-  has_one_attached :js_file
+  has_one_attached :js_file, service: :tag_version_s3
+  has_one_attached :tagsafe_instrumented_js_file, service: :tag_version_s3
   
   scope :most_recent, -> { where(most_recent: true) }
 
@@ -25,7 +26,7 @@ class TagVersion < ApplicationRecord
   broadcast_notification on: :create
 
   after_create :after_creation
-  after_destroy :purge_js_file
+  # after_destroy :purge_js_file
 
   validate :only_one_most_recent
 
@@ -72,18 +73,42 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def google_cloud_js_file_url
-    url = URI.parse(js_file.service_url)
-    url.fragment = url.query = nil
-    url.to_s
+  def hosted_js_file_url
+    js_file.service_url
   end
 
-  def run_audit!(execution_reason, attempt_number: 1)
+  def hosted_tagsafe_instrumented_js_file_url
+    tagsafe_instrumented_js_file.service_url
+  end
+
+  def perform_audit_now(url_to_audit:, execution_reason:, enable_tracing: false, attempt_number: 1)
     AuditRunner.new(
+      audit: nil,
       tag_version: self,
+      url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
-      attempt_number: attempt_number
-    ).run!
+      attempt_number: attempt_number,
+      enable_tracing: enable_tracing
+    ).perform_now
+  end
+
+  def perform_audit_now_on_all_urls(execution_reason, enable_tracing: false)
+    tag.urls_to_audit.map{ |url_to_audit| perform_audit_now(url_to_audit: url_to_audit, execution_reason: execution_reason, enable_tracing: enable_tracing) }
+  end
+
+  def perform_audit_later(execution_reason:, url_to_audit:, enable_tracing: false, attempt_number: 1)
+    AuditRunner.new(
+      audit: nil,
+      tag_version: self,
+      url_to_audit_id: url_to_audit.id,
+      execution_reason: execution_reason,
+      attempt_number: attempt_number,
+      enable_tracing: enable_tracing
+    ).perform_later
+  end
+
+  def perform_audit_later_on_all_urls(execution_reason, enable_tracing: false)
+    tag.urls_to_audit.each{ |url_to_audit| perform_audit_later(url_to_audit: url_to_audit, execution_reason: execution_reason, enable_tracing: enable_tracing) }
   end
 
   def should_throttle_audit?
@@ -114,14 +139,13 @@ class TagVersion < ApplicationRecord
     @content ||= js_file.download
   end
 
+  def tagsafe_instrumented_content
+    @tagsafe_instrumented_content ||= tagsafe_instrumented_js_file.download
+  end
+
   def image_url
     tag.try_image_url
   end
-
-  # this is dangerous because it's fetching the current tag content and not the snapshot at the time of the tag version, we're SOL for retroactively getting tag content
-  # def __update_js_content!
-  #   TagManager::Evaluator.new(tag).update_tag_version!(self)
-  # end
 
   def set_script_content_changed_at_timestamp
     tag.update(content_changed_at: created_at)

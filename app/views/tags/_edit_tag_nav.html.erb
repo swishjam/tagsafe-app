@@ -1,7 +1,7 @@
 <div class="settings-sub-nav">
   <% [
     { text: "Tag Settings", path: "#{edit_tag_path(tag)}" },
-    # { text: "Audit Settings", path: "#{edit_tag_tag_preference_path(tag, tag.tag_preferences)}" },
+    { text: "Audit Settings", path: "#{tag_audit_settings_path(tag)}" },
     { text: 'Notification Settings', path: "#{tag_notification_settings_path(tag)}" }
   ].each do |nav_item| %>
     <% klass = request.path == nav_item[:path] ? 'current sub-nav-link' : 'sub-nav-link' %>

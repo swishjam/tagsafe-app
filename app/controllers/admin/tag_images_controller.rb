@@ -21,16 +21,16 @@ module Admin
       redirect_to admin_tag_images_path
     end
 
-    def apply_to_scripts
+    def apply_to_tags
       script_image = TagImage.find(params[:id])
-      scripts = script_image.apply_to_scripts
+      scripts = script_image.apply_to_tags
       display_toast_message("Applied image to #{scripts.count} scripts.")
       redirect_to request.referrer
     end
 
-    def apply_all_to_scripts
+    def apply_all_to_tags
       applied_scripts = 0
-      TagImage.apply_all_to_scripts
+      TagImage.apply_all_to_tags
       display_toast_message("Applied images to #{applied_scripts} scripts.")
       redirect_to admin_tag_images_path
     end

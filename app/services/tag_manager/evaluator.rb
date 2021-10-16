@@ -4,7 +4,6 @@ module TagManager
 
     def initialize(tag)
       @tag = tag
-      @tag_version = nil
       @tag_changed = false
     end
 
@@ -13,30 +12,15 @@ module TagManager
       capture_tag_check!
       if fetcher.success
         if @response.body.nil?
-          Rails.logger.error "Fetch for #{@tag.full_url} (id: #{@tag.id}) resulted in an empty response. Skipping tag version creation and test runs."
+          Rails.logger.error "Fetch for #{@tag.full_url} (uid: #{@tag.uid}) resulted in an empty response. Skipping tag version creation and test runs."
         else
           @hashed_content = TagManager::Hasher.hash!(@response.body)
           try_tag_change!
         end
       else
-        Rails.logger.error "Fetch for #{@tag.full_url} (id: #{@tag.id}) resulted in a #{@response.code} response code. Skipping tag version creation and test runs."
+        Rails.logger.error "Fetch for #{@tag.full_url} (uid: #{@tag.uid}) resulted in a #{@response.code} response code. Skipping tag version creation and test runs."
       end
     end
-
-    # def update_tag_version!(tag_version)
-    #   @response = fetcher.fetch!
-    #   capture_tag_check!
-    #   if fetcher.success
-    #     if @response.body.nil?
-    #       Rails.logger.error "Fetch for #{@tag.full_url} (id: #{@tag.id}) resulted in an empty response. Skipping tag version creation and test runs."
-    #     else
-    #       @hashed_content = TagManager::Hasher.hash!(@response.body)
-    #       @tag_version = TagManager::ChangeProcessor.new(@tag, @response.body, hashed_content: @hashed_content).update_tag_version!(tag_version)
-    #     end
-    #   else
-    #     Rails.logger.error "Fetch for #{@tag.full_url} (id: #{@tag.id}) resulted in a #{@response.code} response code. Skipping tag version creation and test runs."
-    #   end
-    # end
 
     def tag_changed?
       @tag_changed
@@ -62,7 +46,11 @@ module TagManager
       if should_capture_tag_change?
         Rails.logger.info "Capturing a change to tag #{@tag.full_url}."
         @tag_changed = true
-        @tag_version = TagManager::ChangeProcessor.new(@tag, @response.body, hashed_content: @hashed_content).process_change!
+        @tag_version = TagManager::ChangeProcessor.new(
+          @tag, 
+          @response.body, 
+          hashed_content: @hashed_content
+        ).process_change!
       end
     end
 

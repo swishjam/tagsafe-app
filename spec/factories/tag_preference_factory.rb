@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :tag_preference do
-    page_url_to_perform_audit_on { 'https://www.example.com' }
     is_third_party_tag { true }
     is_allowed_third_party_tag { false }
     monitor_changes { false }

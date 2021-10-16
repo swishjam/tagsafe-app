@@ -9,8 +9,10 @@
     <div class="form-group">
       <%= f.password_field :password, class: "form-control form-control-lg", placeholder: 'Password' %>
     </div>
-    <% if flash[:local_error] %>
-      <p style="color: #e74d4d"><%= flash[:local_error] %></p>
+    <% if flash[:inline_errors] %>
+      <% flash[:inline_errors].each do |err| %>
+        <p style="color: #e74d4d"><%= err %></p>
+      <% end %>
     <% end %>
     <%= f.submit 'Submit', class: 'btn btn-outline-primary' %>
   <% end %>

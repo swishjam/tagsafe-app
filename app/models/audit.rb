@@ -1,12 +1,13 @@
 class Audit < ApplicationRecord
   class InvalidRetry < StandardError; end;
   class InvalidPrimaryAudit < StandardError; end;
-  
   uid_prefix 'aud'
+  acts_as_paranoid
 
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason
+  belongs_to :audited_url, class_name: 'UrlToAudit'
 
   has_many :performance_audits, dependent: :destroy
   has_one :errored_individual_performance_audit, class_name: 'PerformanceAudit', dependent: :destroy
@@ -44,9 +45,10 @@ class Audit < ApplicationRecord
       performance_audit_failed? ? 'failed' : 'complete'
   end
 
-  def performance_audit_error!(performance_audit, disable_retry: false)
-    update!(errored_individual_performance_audit_id: performance_audit.id)
+  def performance_audit_error!(performance_audit_id, disable_retry: false)
+    update!(errored_individual_performance_audit_id: performance_audit_id)
     completed!
+    dequeue_pending_performance_audits!
     attempt_retry unless disable_retry
   end
 
@@ -77,6 +79,12 @@ class Audit < ApplicationRecord
     end
   end
 
+  def dequeue_pending_performance_audits!
+    dequeues = Resque::Job.destroy(:performance_audit_runner_queue, RunIndividualPerformanceAuditJob, {"_aj_globalid"=>"gid://tag-safe/Audit/#{id}"}, {"_aj_globalid"=>"gid://tag-safe/TagVersion/#{tag_version_id}"}, {"_aj_serialized"=>"ActiveJob::Serializers::SymbolSerializer", "value"=>"without_tag"})
+    dequeues += Resque::Job.destroy(:performance_audit_runner_queue, RunIndividualPerformanceAuditJob, {"_aj_globalid"=>"gid://tag-safe/Audit/#{id}"}, {"_aj_globalid"=>"gid://tag-safe/TagVersion/#{tag_version_id}"}, {"_aj_serialized"=>"ActiveJob::Serializers::SymbolSerializer", "value"=>"with_tag"})
+    dequeues
+  end
+
   def attempt_retry
     if ENV['AUDIT_ATTEMPT_NUMBER'] && attempt_number <= ENV['AUDIT_ATTEMPT_NUMBER'].to_i
       Rails.logger.info "Retrying audit for tag #{tag.id}. Will be the #{attempt_number+1} attempt."
@@ -87,7 +95,7 @@ class Audit < ApplicationRecord
   end
 
   def retry!
-    tag_version.run_audit!(ExecutionReason.RETRY, attempt_number: attempt_number+1)
+    tag_version.perform_audit_now(audit.audited_url, ExecutionReason.RETRY, attempt_number: attempt_number+1)
   end
 
   def update_audit_content
@@ -95,12 +103,16 @@ class Audit < ApplicationRecord
     broadcast_replace_to self, partial: 'audits/show', locals: { tag: tag, tag_version: tag_version, audit: self, previous_audit: tag_version.previous_version&.primary_audit }
   end
 
+  def performance_audit_successful?
+    !performance_audit_failed? && performance_audit_completed?
+  end
+
   def performance_audit_failed?
     !errored_individual_performance_audit_id.nil?
   end
 
   def performance_audit_pending?
-    seconds_to_complete.nil?
+    completed_at.nil?
   end
 
   def performance_audit_completed?
@@ -142,6 +154,7 @@ class Audit < ApplicationRecord
   end
 
   def individual_performance_audit_percent_complete
-    (individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count) / (performance_audit_iterations * 2)
+    ((individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count) / (performance_audit_iterations * 2.0))*100
+    # ((a.individual_performance_audits_with_tag.completed.count + a.individual_performance_audits_without_tag.completed.count) / (a.performance_audit_iterations * 2.0))
   end
 end

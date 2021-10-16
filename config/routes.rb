@@ -7,12 +7,13 @@ Rails.application.routes.draw do
   # TODO: make my routes more Rails-y
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
-  get '/logout' => 'sessions#destroy'
+  get '/logout' => 'sessions#destroy', as: :logout
 
   get '/demo' => 'demo#index'
 
   resources :registrations, only: [:new, :create]
   resources :organizations, only: [:new, :create]
+  put '/update_current_organization/:uid' => 'organizations#update_current_organization', as: :update_current_organization
   
   resources :organization_users, only: [:destroy]
   resources :user_invites, only: [:new, :create]
@@ -31,24 +32,29 @@ Rails.application.routes.draw do
     resources :urls_to_crawl, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
-  post '/update_current_domain/:id' => 'domains#update_current_domain', as: :update_current_domain
+  put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :tags do
     get '/general' => 'tags#edit' 
-    get '/preferences' => 'tags#preferences'
+    # get '/preferences' => 'tags#preferences'
+    get '/audit_settings' => 'tags#audit_settings'
     get '/notification_settings' => 'tags#notification_settings'
 
+    resources :urls_to_audit, only: [:create, :destroy]
     resources :slack_notification_subscribers, only: [:create, :destroy]
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
     # resources :performance_audit_preferences, only: :update
     resources :tag_preferences, only: [:edit, :update]
     resources :tag_versions, only: [:show, :index] do
       member do
+        get :begin_audit
         post :run_audit
         get :content
         get :diff
         get :js
         get '/js.js' => 'tag_versions#js'
+        get :tagsafe_instrumented_js
+        get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
       resources :audits, only: [:index, :show] do
         member do
@@ -56,6 +62,7 @@ Rails.application.routes.draw do
         end
         resources :individual_performance_audits, only: [:index]
         resources :performance_audit_logs, only: [:index]
+        get '/cloudwatch_logs' => 'audits#cloudwatch_logs'
       end
     end
   end
@@ -95,8 +102,8 @@ Rails.application.routes.draw do
     post '/geppetto_receiver/url_crawl_complete' => 'geppetto_receiver#url_crawl_complete'
     post '/geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
 
-    post '/api/lambda_event_receiver/success' => 'lambda_receiver#success_receiver'
-    post '/api/lambda_event_receiver/error' => 'lambda_receiver#error_receiver'
+    post '/lambda_event_receiver/success' => 'lambda_receiver#success_receiver'
+    post '/lambda_event_receiver/failed' => 'lambda_receiver#fail_receiver'
   end
 
   
