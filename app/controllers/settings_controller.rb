@@ -6,7 +6,7 @@ class SettingsController < LoggedInController
                           .order('content_changed_at DESC')
   end
 
-  def tag_settings
+  def audit_settings
     @non_third_party_url_patterns = NonThirdPartyUrlPattern.all
   end
 end

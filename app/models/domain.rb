@@ -12,7 +12,7 @@ class Domain < ApplicationRecord
 
   after_create_commit :add_default_url_to_crawl
 
-  def add_default_url_to_crawl
+  def add_default_url_to_crawl(create_mock_site = true)
     urls_to_crawl.create(url: url)
   end
 

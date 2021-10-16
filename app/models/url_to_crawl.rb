@@ -22,7 +22,7 @@ class UrlToCrawl < ApplicationRecord
   private
 
   def crawl_new_url
-    crawl_now(domain.urls_to_crawl.count == 1)
+    crawl_later(domain.urls_to_crawl.count == 1)
   end
 
   def cannot_remove_last_record

@@ -91,7 +91,7 @@ Rails.application.routes.draw do
   end
 
   get '/settings/tag_management' => 'settings#tag_management'
-  get '/settings/tag_settings' => 'settings#tag_settings'
+  get '/settings/audit_settings' => 'settings#audit_settings'
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :api do

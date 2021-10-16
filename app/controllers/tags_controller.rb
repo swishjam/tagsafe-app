@@ -64,7 +64,7 @@ class TagsController < LoggedInController
   end
 
   def tag_preference_attributes
-    attrs = %i[id monitor_changes consider_query_param_changes_new_tag page_url_to_perform_audit_on]
+    attrs = %i[id monitor_changes consider_query_param_changes_new_tag]
     attrs << should_run_audit if ENV['SHOULD_RUN_AUDIT_IS_TOGGLABLE'] == 'true'
     attrs
   end

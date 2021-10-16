@@ -27,6 +27,6 @@ class UrlsToCrawlController < LoggedInController
   private
 
   def url_to_crawl_params
-    params.require(:urls_to_crawl).permit(:url)
+    params.require(:url_to_crawl).permit(:url)
   end
 end

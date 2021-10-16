@@ -34,7 +34,7 @@ module LambdaModerator
       end
 
       def required_payload_arguments
-        %i[audit_id individual_performance_audit_id page_url_to_perform_audit_on third_party_tag_urls_and_rules_to_inject]
+        %i[audit_id individual_performance_audit_id third_party_tag_urls_and_rules_to_inject]
       end
     end
   end

@@ -73,8 +73,6 @@ class Tag < ApplicationRecord
   scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.monitor_changes }
   scope :should_run_tag_checks, -> { monitor_changes.still_on_site.is_third_party_tag }
 
-  scope :present_on_page_url, -> (url) { where_tag_preferences(page_url_to_perform_audit_on: url) }
-
   scope :thirty_second_interval_checks, -> { all }
   scope :one_minute_interval_checks, -> { none }
   # etc...

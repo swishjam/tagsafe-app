@@ -32,8 +32,7 @@ class UrlCrawl < ApplicationRecord
     initial_crawl: false,
     should_log_tag_checks: true,
     consider_query_param_changes_new_tag: false,
-    page_url_to_perform_audit_on: url,
-    performance_audit_iterations: (ENV['DEFAULT_performance_audit_iterations'] || '5').to_i
+    performance_audit_iterations: (ENV['DEFAULT_PERFORMANCE_AUDIT_ITERATIONS'] || '5').to_i
   )
     parsed_url = URI.parse(tag_url)
     tag = found_tags.create!(
@@ -49,10 +48,12 @@ class UrlCrawl < ApplicationRecord
         should_run_audit: should_run_audit,
         should_log_tag_checks: should_log_tag_checks,
         consider_query_param_changes_new_tag: consider_query_param_changes_new_tag,
-        page_url_to_perform_audit_on: url,
         performance_audit_iterations: performance_audit_iterations
       }
     )
+    tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
+    mock_url = MockWebsiteModerator.new(url).create_mock_website_for_url
+    tag.urls_to_audit.create(audit_url: mock_url, display_url: url, tagsafe_hosted: true, primary: true)
     added_to_site_tag_events.create!(tag: tag)
     # if it's the first time scanning the domain for tags, don't run the job
     # we may eventually move this into the job itself, but for now let's just not bother enqueuing

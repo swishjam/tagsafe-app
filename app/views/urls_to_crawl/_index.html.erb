@@ -1,16 +1,17 @@
-<%= render 'urls_to_crawl/current_crawl', domain: current_domain %>
+<%= render 'urls_to_crawl/current_crawl', domain: domain %>
 
 <%= turbo_frame_tag "#{domain.id}_urls_to_crawl" do %>
   <div class='col-6 offset-3'>
-    <!-- TODO: throwing error thinking this is a form to destroy??
-    <#%= form_with model: UrlToCrawl.new(domain: current_domain), url: domain_urls_to_crawl_path(current_domain), method: :create do |f| %>
+    <!-- TODO: throwing error thinking this is a form to destroy?? !-->
+    <%= form_with model: UrlToCrawl.new(domain_id: current_domain.id), url: domain_urls_to_crawl_index_path(current_domain.id) do |f| %>
+    <!-- <#%= form_for [current_domain, UrlToCrawl.new(domain_id: current_domain.id)], url: domain_urls_to_crawl_index_path(current_domain) do |f| %> !-->
       <div class='form-floating d-flex mb-3'>
-        <#%= f.text_field :url, class: 'form-control', value: "#{current_domain.url}/" %>
+        <%= f.text_field :url, class: 'form-control', value: "#{current_domain.url}/" %>
         <label for='url'>URL to scan for tags</label>
-        <#%= f.submit 'Add URL', class: 'tagsafe-btn square' %>
+        <%= f.submit 'Add URL', class: 'tagsafe-btn square' %>
       </div>
-    <#% end %>
-    !-->
+    <% end %>
+
   </div>
 
   <% if domain.urls_to_crawl.any? %>

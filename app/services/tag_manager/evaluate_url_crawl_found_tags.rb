@@ -5,7 +5,9 @@ module TagManager
       @domain = @url_crawl.domain
       @tag_urls = tag_urls
       @initial_crawl = initial_crawl
-      @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.present_on_page_url(@url_crawl.url).collect(&:full_url)
+      # @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.present_on_page_url(@url_crawl.url).collect(&:full_url)
+      # TODO: need to scope this to the url being crawled...
+      @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.collect(&:full_url)
     end
 
     def evaluate!
