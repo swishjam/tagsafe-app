@@ -11,7 +11,6 @@ module TagManager
     end
 
     def evaluate!
-      binding.pry
       if already_processed?
         Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
       else
