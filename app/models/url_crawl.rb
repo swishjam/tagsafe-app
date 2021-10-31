@@ -5,10 +5,10 @@ class UrlCrawl < ApplicationRecord
   has_many :found_tags, class_name: 'Tag'
   alias tags_found found_tags
 
-  has_many :tag_events, dependent: :destroy
-  has_many :added_to_site_tag_events, class_name: 'AddedToSite'
-  has_many :removed_from_site_tag_events, class_name: 'RemovedFromSite'
-  has_many :query_param_change_tag_events, class_name: 'UrlQueryParamChanged'
+  # has_many :events, dependent: :destroy, class_name: 'TagSafeEvent'
+  # has_many :tag_added_to_site_events, class_name: 'TagAddedToSiteEvent'
+  # has_many :tag_removed_from_site_events, class_name: 'TagRemovedFromSiteEvent'
+  # has_many :tag_url_query_param_change_events, class_name: 'TagUrlQueryParamChangedEvent'
 
   scope :pending, -> { where(completed_at: nil) }
   scope :completed, -> { where.not(completed_at: nil) }
@@ -51,34 +51,29 @@ class UrlCrawl < ApplicationRecord
         performance_audit_iterations: performance_audit_iterations
       }
     )
-    tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
-    mock_url = MockWebsiteModerator.new(url).create_mock_website_for_url
-    tag.urls_to_audit.create(audit_url: mock_url, display_url: url, tagsafe_hosted: true, primary: true)
-    added_to_site_tag_events.create!(tag: tag)
+    url_to_audit = tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
+    url_to_audit.generate_tagsafe_hosted_site_now!
     # if it's the first time scanning the domain for tags, don't run the job
     # we may eventually move this into the job itself, but for now let's just not bother enqueuing
     AfterTagCreationJob.perform_later(tag) unless initial_crawl
     tag
   end
 
-  def unremove_tag_from_site!(tag)
-    added_to_site_tag_events.create!(tag: tag)
-  end
+  # def unremove_tag_from_site!(tag)
+  #   TagRemovedFromSiteEvent.create!(triggerer: tag)
+  # end
 
-  def query_params_changed_for_tag!(tag, new_full_url)
-    parsed_new_url = URI.parse(new_full_url)
-    url_query_param_change_events.create!(
-      tag: tag, 
-      metadata: { 
-        removed_url_query_params: url_query_param, 
-        added_url_query_params: parsed_new_url.query 
-      }
-    )
-  end
+  # def query_params_changed_for_tag!(tag, new_full_url)
+  #   parsed_new_url = URI.parse(new_full_url)
+  #   TagUrlQueryParamsChangedEvent.create!(triggerer: tag, metadata: {
+  #     removed_url_query_params: url_query_param, 
+  #     added_url_query_params: parsed_new_url.query 
+  #   })
+  # end
 
-  def tag_removed_from_site!(tag)
-    removed_from_site_tag_events.create!(tag: tag)
-  end
+  # def tag_removed_from_site!(tag)
+  #   removed_from_site_tag_events.create!(tag: tag)
+  # end
 
   def pending?
     completed_at.nil?

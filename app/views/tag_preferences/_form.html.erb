@@ -7,7 +7,7 @@
           <label for='throttle-toggle'>Throttle Audits</label>
         </div>
         <div class="form-floating d-flex m-3" data-toggle-visibility-target='elToToggle'>
-          <%= f.text_field :throttle_minute_threshold, value: tag_preference.throttle_minute_threshold, class: 'form-control' %>
+          <%= f.text_field :throttle_minute_threshold, value: tag_preference.throttle_minute_threshold, placeholder: '5' class: 'form-control' %>
           <%= f.label :throttle_minute_threshold %>
           <button type='submit' class='tagsafe-btn square'>Update</button>
         </div>

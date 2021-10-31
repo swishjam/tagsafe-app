@@ -10,11 +10,12 @@ class DomainsController < LoggedInController
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
     domain = Domain.create(domain_params)
     if domain.valid?
-      display_toast_message("Scanning #{domain.url} for third party tags.")
+      current_user.broadcast_notification("Scanning #{domain.url} for third party tags.")
+      redirect_to tags_path
     else
-      display_toast_error(domain.errors.full_messages.join(' '))
+      display_inline_errors(domain.errors.full_messages)
+      redirect_to request.referrer
     end
-    redirect_to request.referrer
   end
 
   def update

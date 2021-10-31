@@ -1,20 +1,14 @@
 class ExecutionReason < ApplicationRecord
-  
-
-  def self.REASON_TYPES
-    ['Manual Execution', 'Scheduled Execution', 'Tag Change', 'Test']
-  end
-
   def self.BILLABLE
-    [self.INITIAL_AUDIT, self.MANUAL, self.TAG_CHANGE, self.SCHEDULED, self.REACTIVATED_TAG]
+    [self.INITIAL_AUDIT, self.MANUAL, self.NEW_TAG_VERSION, self.SCHEDULED, self.ACTIVATED_TAG]
   end
 
   def self.INITIAL_AUDIT
     @initial_audit ||= find_by!(name: 'Initial Audit')
   end
 
-  def self.REACTIVATED_TAG
-    @reactivated_tag ||= find_by!(name: 'Reactivated Tag')
+  def self.ACTIVATED_TAG
+    @reactivated_tag ||= find_by!(name: 'Activated Tag')
   end
 
   def self.MANUAL
@@ -25,7 +19,7 @@ class ExecutionReason < ApplicationRecord
     @scheduled ||= find_by!(name: 'Scheduled Execution')
   end
 
-  def self.TAG_CHANGE
+  def self.NEW_TAG_VERSION
     @tag_change ||= find_by!(name: 'Tag Change')
   end
 

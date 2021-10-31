@@ -73,8 +73,10 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def hosted_js_file_url
-    js_file.service_url
+  def hosted_js_file_url(include_query_params = false)
+    return js_file.service_url if include_query_params
+    parsed_url = URI.parse(js_file.service_url)
+    "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.pathname}"
   end
 
   def hosted_tagsafe_instrumented_js_file_url

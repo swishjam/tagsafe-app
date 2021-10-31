@@ -21,7 +21,7 @@ class TagVersionsController < LoggedInController
                                 .most_recent_first
                                 .page(params[:page] || 1).per(params[:per_page || 10])
     # @audits = Audit.joins(:tag, :tag_version)
-    #                 .where(primary: true, execution_reason: ExecutionReason.TAG_CHANGE, tag: current_domain.tags)
+    #                 .where(primary: true, execution_reason: ExecutionReason.NEW_TAG_VERSION, tag: current_domain.tags)
     #                 .most_recent_first
     #                 .page(params[:page] || 1).per(params[:per_page] || 10)
     @number_of_tags = current_domain.tags.is_third_party_tag.monitor_changes.count
@@ -42,7 +42,7 @@ class TagVersionsController < LoggedInController
     tag_version = tag.tag_versions.find(params[:id])
     permitted_to_view?(tag_version, raise_error: true)
     UrlToAudit.where(id: params[:urls_to_audit]).each do |url_to_audit|
-      # tag_version.perform_audit_later(execution_reason: ExecutionReason.MANUAL, url_to_audit: url_to_audit, enable_tracing: params[:enable_tracing] == 'true')
+      tag_version.perform_audit_later(execution_reason: ExecutionReason.MANUAL, url_to_audit: url_to_audit, enable_tracing: params[:enable_tracing] == 'true')
     end
     msg = "Performing #{params[:urls_to_audit].count} audit(s) on #{tag_version.tag.try_friendly_name}"
     # current_user.broadcast_notification(msg, image: tag_version.image_url)

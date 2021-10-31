@@ -52,13 +52,13 @@
 #   script.tag_versions
 # end
 
-# def create_audit(tag_version, tag, execution_reason: ExecutionReason.TAG_CHANGE)
+# def create_audit(tag_version, tag, execution_reason: ExecutionReason.NEW_TAG_VERSION)
 #   puts "Creating audit."
 #   Audit.create(
 #     tag_version: tag_version,
 #     tag: tag,
 #     execution_reason: execution_reason,
-#     lighthouse_audit_enqueued_at: execution_reason == ExecutionReason.TAG_CHANGE ? tag_version.created_at : tag_version.created_at + 1.hour,
+#     lighthouse_audit_enqueued_at: execution_reason == ExecutionReason.NEW_TAG_VERSION ? tag_version.created_at : tag_version.created_at + 1.hour,
 #     lighthouse_audit_url: tag.reload.lighthouse_preferences.page_url_to_perform_audit_on
 #   )
 # end

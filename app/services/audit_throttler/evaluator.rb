@@ -14,7 +14,7 @@ module AuditThrottler
       @tag.audits.create(
         throttled: true,
         tag_version: @tag_version,
-        execution_reason: ExecutionReason.TAG_CHANGE,
+        execution_reason: ExecutionReason.NEW_TAG_VERSION,
         primary: true,
         enqueued_at: DateTime.now
         # seconds_to_complete: 0
@@ -30,7 +30,7 @@ module AuditThrottler
     end
 
     def most_recent_tag_change_audit
-      @last_tag_change_audit ||= @tag.audits.not_throttled.where(execution_reason: ExecutionReason.TAG_CHANGE).most_recent_first.limit(1).first
+      @last_tag_change_audit ||= @tag.audits.not_throttled.where(execution_reason: ExecutionReason.NEW_TAG_VERSION).most_recent_first.limit(1).first
     end
   end
 end

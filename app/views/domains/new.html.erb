@@ -1,15 +1,23 @@
-<div class="col-sm-10 offset-sm-1 text-center monitor-script-form-container">
-<h3>Enter the domain to monitor</h3>
-  <%= form_for Domain.new do |f| %>
-    <%= f.label 'Domain URL' %>
-    <select name='domain[protocol]' class='custom-select' required>
-      <option class='dropdown-item' value='https://' selected>https://</option>
-      <option class='dropdown-item' value='http://'>http://</option>
-    </select>
-    <%= f.text_field :url %>
-    <%= f.submit 'Monitor', class: 'form-control-lg col-10 col-offset-1 col-sm-2 btn btn-outline-primary' %>
-  <% end %>
-  <% if flash[:local_error] %>
-    <p style="color: red"><%= flash[:local_error] %></p>
-  <% end %>
+<div class='fill-view d-flex align-items-center justify-content-center'>
+  <div class="col-sm-10 tagsafe-container p-5 d-flex align-items-center justify-content-center" style='height: 50vh'>
+    <div class='container text-center'>
+      <h3>Enter the domain of your site you would like TagSafe to monitor.</h3>
+      <%= form_for Domain.new do |f| %>
+        <div class='row mb-3 mt-3'>
+          <div class='col-2 p-0'>
+            <select name='domain[protocol]' class='form-select text-center col-2 h-100' required>
+              <option class='dropdown-item' value='https://' selected>https://</option>
+              <option class='dropdown-item' value='http://'>http://</option>
+            </select>
+          </div>
+          <div class="form-floating col-10 p-0">
+            <input id='url' name='domain[url]' type='text' class='form-control' placeholder='www.tagsafe.io'>
+            <label for='url'>Site URL to monitor</label>
+          </div>
+        </div>
+        <%= render 'partials/utils/inline_form_errors' %>
+        <%= f.submit 'Begin monitoring', class: 'tagsafe-btn outline large' %>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -11,6 +11,7 @@ module TagManager
     end
 
     def evaluate!
+      binding.pry
       if already_processed?
         Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
       else
@@ -40,32 +41,31 @@ module TagManager
     def evaluate_new_full_url(tag_url)
       if existing_tag_without_query_params = @domain.tags.find_without_query_params(tag_url)
         # already has this tag but the query params have changed
-        tag_query_parameter_changed!(existing_tag_without_query_params, tag_url)
-
+        TagUrlQueryParamsChangedEvent.create!(triggerer: existing_tag_without_query_params, metadata: {
+          removed_url_query_params: existing_tag_without_query_params.url_query_param, 
+          added_url_query_params: URI.parse(tag_url).query
+        })
+        remove_url_from_starting_tags_without_query_params(url_with_new_query_param)
       elsif previously_removed_tag = @domain.tags.find_removed_tag(tag_url)
         # the tag was removed previously, but has since been re-added
-        @url_crawl.unremove_tag_from_site!(previously_removed_tag)
-
+        TagAddedToSiteEvent.create!(triggerer: previously_removed_tag)
       elsif previously_removed_tag_without_query_params = @domain.tags.find_removed_tag_without_query_params(tag_url)
         # the tag was removed previously, but has since been re-added with new query parameters
-        @url_crawl.unremove_tag_from_site!(previously_removed_tag_without_query_params)
-        @url_crawl.query_params_changed_for_tag(previously_removed_tag_without_query_params, tag_url)
-
+        TagAddedToSiteEvent.create!(triggerer: previously_removed_tag_without_query_params)
+        TagUrlQueryParamsChangedEvent.create!(triggerer: previously_removed_tag_without_query_params, metadata: {
+          removed_url_query_params: previously_removed_tag_without_query_params.url_query_param, 
+          added_url_query_params: URI.parse(tag_url).query
+        })
       else
         # new tag
         @url_crawl.found_tag!(tag_url, initial_crawl: @initial_crawl)
       end
     end
 
-    def tag_query_parameter_changed!(tag, url_with_new_query_param)
-      @url_crawl.query_params_changed_for_tag!(tag, url_with_new_query_param)
-      remove_url_from_starting_tags_without_query_params(url_with_new_query_param)
-    end
-
     def remove_tags_removed_from_site
       @pre_existing_tag_urls_for_this_page.each do |tag_url|
         tag = @domain.tags.find_by(full_url: tag_url)
-        @url_crawl.tag_removed_from_site!(tag)
+        TagRemovedFromSiteEvent.create!(triggerer: tag)
       end
     end
 

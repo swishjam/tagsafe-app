@@ -16,9 +16,9 @@ RSpec.describe AuditThrottler::Evaluator do
     @fifteen_minute_throttle_tag = create(:tag, tag: tag, domain: domain_2, throttle_minute_threshold: 15, first_tag_version: @first_tag_version)
     @no_throttle_tag = create(:tag, tag: tag, domain: domain_3, first_tag_version: @first_tag_version)
 
-    create(:audit, tag_version: @previous_tag_version, tag: @five_minute_throttle_tag, execution_reason: ExecutionReason.TAG_CHANGE)
-    create(:audit, tag_version: @previous_tag_version, tag: @fifteen_minute_throttle_tag, execution_reason: ExecutionReason.TAG_CHANGE)
-    create(:audit, tag_version: @previous_tag_version, tag: @no_throttle_tag, execution_reason: ExecutionReason.TAG_CHANGE)
+    create(:audit, tag_version: @previous_tag_version, tag: @five_minute_throttle_tag, execution_reason: ExecutionReason.NEW_TAG_VERSION)
+    create(:audit, tag_version: @previous_tag_version, tag: @fifteen_minute_throttle_tag, execution_reason: ExecutionReason.NEW_TAG_VERSION)
+    create(:audit, tag_version: @previous_tag_version, tag: @no_throttle_tag, execution_reason: ExecutionReason.NEW_TAG_VERSION)
     
     @five_minute_throttler = AuditThrottler::Evaluator.new(@five_minute_throttle_tag)
     @fifteen_minute_throttler = AuditThrottler::Evaluator.new(@fifteen_minute_throttle_tag)

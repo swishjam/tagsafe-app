@@ -13,10 +13,10 @@ class Tag < ApplicationRecord
   has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
   has_many :urls_to_audit, class_name: 'UrlToAudit'
   
-  has_many :tag_events, dependent: :destroy
-  has_many :added_to_site_events, class_name: 'AddedToSite'
-  has_many :removed_from_site_events, class_name: 'RemovedFromSite'
-  has_many :query_param_change_events, class_name: 'UrlQueryParamChanged'
+  has_many :events, as: :triggerer, dependent: :destroy
+  has_many :added_to_site_events, class_name: 'TagAddedToSiteEvent'
+  has_many :removed_from_site_events, class_name: 'TagRemovedFromSiteEvent'
+  has_many :query_param_change_events, class_name: 'TagUrlQueryParamChangedEvent'
   
   has_many :slack_notification_subscribers, dependent: :destroy
   has_many :new_tag_slack_notifications, dependent: :destroy
@@ -46,6 +46,7 @@ class Tag < ApplicationRecord
   # after_create_commit { broadcast_remove_to 'no_tags_message', target: 'no_tags_message' }
   after_update_commit { update_tag_content }
   after_destroy_commit { broadcast_remove_to "#{domain_id}_domain_tags", target: "#{domain_id}_domain_tags" }
+  after_create { TagAddedToSiteEvent.create(triggerer: self) }
 
   # SCOPES
   scope :monitor_changes, -> { where_tag_preferences({ monitor_changes: true }) }
@@ -73,8 +74,7 @@ class Tag < ApplicationRecord
   scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.monitor_changes }
   scope :should_run_tag_checks, -> { monitor_changes.still_on_site.is_third_party_tag }
 
-  scope :thirty_second_interval_checks, -> { all }
-  scope :one_minute_interval_checks, -> { none }
+  scope :one_minute_interval_checks, -> { all }
   # etc...
 
   def self.where_tag_preferences(where_clause)

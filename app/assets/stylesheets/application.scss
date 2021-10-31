@@ -116,8 +116,18 @@ body.logged-in {
   &:hover {
     background: $darkest-tagsafe-blue;
   }
+  &.large {
+    font-size: 22px;
+    padding: 10px 20px 10px 20px;
+  }
   &.square {
     border-radius: 0px;
+  }
+  &.red {
+    background: rgb(255, 96, 96);
+    &:hover {
+      background: red;
+    }
   }
   &.outline {
     background: white;
@@ -127,7 +137,20 @@ body.logged-in {
       background: $dark-tagsafe-blue;
       color: white;
     }
+    &.red {
+      border: 1px solid red;
+      color: red;
+      &:hover {
+        background: red;
+        color: white;
+      }
+    }
   }
+}
+
+.form-check-input:checked {
+  background-color: $tagsafe-blue !important;
+  border-color: $tagsafe-blue !important;
 }
 
 .tagsafe-spinner {
@@ -175,6 +198,16 @@ turbo-frame.display-form-loading {
 
 .viewport-height {
   height: 100vh;
+}
+
+.viewport-width {
+  width: 100vw;
+}
+
+.fill-view {
+  // accounts for #inner-content padding
+  height: calc(100vh - 60px);
+  width: calc(100vw - 30px);
 }
 
 .hidden {

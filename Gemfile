@@ -44,6 +44,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'jquery-rails'
 # gem 'bootstrap'
 # gem 'bootstrap-select-rails'
+gem 'terser' # solves assets:precompile error: Uglifier::Error: Unexpected token: keyword (extends) 
 
 gem 'aws-sdk-s3'
 gem 'aws-sdk-lambda'

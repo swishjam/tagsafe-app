@@ -1,0 +1,2 @@
+class NewTagVersionEvent < Event
+end

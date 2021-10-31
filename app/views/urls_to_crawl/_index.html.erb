@@ -6,7 +6,7 @@
     <%= form_with model: UrlToCrawl.new(domain_id: current_domain.id), url: domain_urls_to_crawl_index_path(current_domain.id) do |f| %>
     <!-- <#%= form_for [current_domain, UrlToCrawl.new(domain_id: current_domain.id)], url: domain_urls_to_crawl_index_path(current_domain) do |f| %> !-->
       <div class='form-floating d-flex mb-3'>
-        <%= f.text_field :url, class: 'form-control', value: "#{current_domain.url}/" %>
+        <%= f.text_field :url, class: 'form-control', value: "#{current_domain.url}/", placeholder: "#{current_domain.url}/url_with_tags" %>
         <label for='url'>URL to scan for tags</label>
         <%= f.submit 'Add URL', class: 'tagsafe-btn square' %>
       </div>

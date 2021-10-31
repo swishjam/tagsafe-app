@@ -19,7 +19,7 @@
       </h6>
       <%= form_with model: TagAllowedPerformanceAuditThirdPartyUrl.new, url: tag_tag_allowed_performance_audit_third_party_urls_path(@tag) do |f| %>
         <div class="form-floating">
-          <%= f.text_field :url_pattern %>
+          <%= f.text_field :url_pattern, placeholder: 'www.tagsafe-cdn.io' %>
           <%= f.label :url_pattern %>
         </div>
         <%= f.submit 'Add Allowed Tag', class: 'btn btn-outline-primary' %>

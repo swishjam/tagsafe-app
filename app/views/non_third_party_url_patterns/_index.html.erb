@@ -2,7 +2,7 @@
   <div class='col-6 offset-3'>
     <%= form_for NonThirdPartyUrlPattern.new, url: domain_non_third_party_url_patterns_path(current_domain) do |f| %>
       <div class='form-floating d-flex mb-3'>
-        <%= f.text_field :pattern, class: 'form-control' %>
+        <%= f.text_field :pattern, class: 'form-control', placeholder: 'www.tagsafe-cdn.io' %>
         <%= f.label 'Non-Third Party Tag URL Pattern' %>
         <button type='submit' class='tagsafe-btn square'>Add Pattern</button>
       </div>

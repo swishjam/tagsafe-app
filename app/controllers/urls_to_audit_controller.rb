@@ -11,8 +11,8 @@ class UrlsToAuditController < LoggedInController
     
     if params[:url_to_audit][:tagsafe_hosted_version] == '1'
       params[:url_to_audit].delete(:tagsafe_hosted_version)
-      mock_site_moderator = MockWebsiteModerator.new(params[:url_to_audit][:display_url])
-      mock_site_moderator.create_mock_website_for_url
+      mock_site_moderator = TagSafeHostedSiteGenerator.new(params[:url_to_audit][:display_url])
+      mock_site_moderator.generate_tagsafe_hosted_site
       params[:url_to_audit][:audit_url] = mock_site_moderator.s3_website_url
       params[:url_to_audit][:tagsafe_hosted] = true
       tag.urls_to_audit.create(url_to_audit_params)

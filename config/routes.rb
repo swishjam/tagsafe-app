@@ -35,6 +35,10 @@ Rails.application.routes.draw do
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
 
   resources :tags do
+    member do
+      patch :disable
+      patch :enable
+    end
     get '/general' => 'tags#edit' 
     # get '/preferences' => 'tags#preferences'
     get '/audit_settings' => 'tags#audit_settings'

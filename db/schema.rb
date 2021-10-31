@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_14_160953) do
+ActiveRecord::Schema.define(version: 2021_10_30_211123) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -84,6 +84,17 @@ ActiveRecord::Schema.define(version: 2021_10_14_160953) do
     t.index ["tag_id"], name: "index_email_notification_subscribers_on_tag_id"
     t.index ["uid"], name: "index_email_notification_subscribers_on_uid"
     t.index ["user_id"], name: "index_email_notification_subscribers_on_user_id"
+  end
+
+  create_table "events", charset: "utf8mb3", force: :cascade do |t|
+    t.string "type", null: false
+    t.datetime "created_at", null: false
+    t.text "metadata"
+    t.string "uid"
+    t.datetime "deleted_at"
+    t.bigint "triggerer_id"
+    t.string "triggerer_type"
+    t.index ["triggerer_id"], name: "index_events_on_triggerer_id"
   end
 
   create_table "execution_reasons", charset: "utf8mb3", force: :cascade do |t|
@@ -251,18 +262,6 @@ ActiveRecord::Schema.define(version: 2021_10_14_160953) do
     t.index ["uid"], name: "index_tag_checks_on_uid"
   end
 
-  create_table "tag_events", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "tag_id"
-    t.string "type", null: false
-    t.datetime "created_at", null: false
-    t.text "metadata"
-    t.bigint "url_crawl_id"
-    t.string "uid"
-    t.datetime "deleted_at"
-    t.index ["tag_id"], name: "index_tag_events_on_tag_id"
-    t.index ["url_crawl_id"], name: "index_tag_events_on_url_crawl_id"
-  end
-
   create_table "tag_image_domain_lookup_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "url_pattern"
@@ -347,7 +346,7 @@ ActiveRecord::Schema.define(version: 2021_10_14_160953) do
 
   create_table "urls_to_audit", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "tag_id"
-    t.string "audit_url"
+    t.text "audit_url"
     t.boolean "primary"
     t.string "uid"
     t.string "display_url"

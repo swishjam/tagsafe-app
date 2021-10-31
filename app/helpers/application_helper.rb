@@ -54,22 +54,6 @@ module ApplicationHelper
     redirect_to tags_path
   end
 
-  def display_toast_message(message)
-    display_toast_messages([message])
-  end
-
-  def display_toast_messages(messages)
-    flash[:toast_messages] = messages
-  end
-
-  def display_toast_error(message)
-    display_toast_errors([message])
-  end
-
-  def display_toast_errors(messages)
-    flash[:toast_errors] = messages
-  end
-
   def display_inline_error(message)
     display_inline_errors([message])
   end

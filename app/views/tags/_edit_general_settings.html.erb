@@ -1,4 +1,11 @@
 <%= turbo_frame_tag "#{tag.id}_edit_general_settings" do %>
+  <div class='row'>
+    <% if !tag.monitor_changes? %>
+      <%= form_with model: tag, url: enable_tag_path(tag) do |f| %>
+        <%= f.submit 'Enable TagSafe Monitoring', class: 'tagsafe-btn square outline large float-end' %>
+      <% end %>
+    <% end %>
+  </div>
   <%= form_with model: tag, data: { controller: 'submit_form_changes' } do |f| %>
     <h4><%= tag.try_friendly_name %> <%= tag.friendly_name ? "(#{tag.domain_and_path})" : nil %></h4>
     <%= image_tag tag.try_image_url, class: 'img-thumbnail script-logo', style: 'height: 250px; width: 250px' %>
@@ -11,8 +18,7 @@
         </div>
       </div>
       <div class="form-floating d-flex">
-        <%= f.text_field :friendly_name, class: "form-control form-control-lg", value: tag.friendly_name, data: { ignore_changes: true } %>
-        <!-- <#%= f.label :friendly_name %> !-->
+        <%= f.text_field :friendly_name, class: "form-control form-control-lg", placeholder: 'Google Analytics', value: tag.friendly_name, data: { ignore_changes: true } %>
         <label for='friendly_name'>Tag Nickname (ie: Google Analytics)</label>
         <button type='submit' class='tagsafe-btn square'>Update</button>
       </div>
@@ -28,7 +34,7 @@
             <%= ff.check_box :should_run_audit, checked: tag.tag_preferences.should_run_audit, class: 'form-check-input' %>
           </div>
         <% end %>
-        <div class="form-check form-switch w-fit m-auto">
+        <div class="form-check form-switch w-fit m-auto mt-3">
           <%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
           <i data-controller='tooltip'
               data-bs-toggle="tooltip"
@@ -37,16 +43,12 @@
               class="far fa-question-circle"></i>
           <%= ff.check_box :consider_query_param_changes_new_tag, checked: tag.tag_preferences.consider_query_param_changes_new_tag, class: 'form-check-input' %>
         </div>
-        <div class="form-check form-switch w-fit m-auto">
-          <%= ff.label :monitor_changes, class: 'form-check-label' %>
-          <i data-controller='tooltip' 
-              data-bs-toggle="tooltip"
-              data-placement="top"
-              title="Un-select this option to no longer monitor changes to this third party tag. TagSafe will no longer notify you or record when new versions of this tag are released." 
-              class="far fa-question-circle"></i>
-          <%= ff.check_box :monitor_changes, checked: tag.tag_preferences.monitor_changes, class: 'form-check-input' %>
-        </div>
       </div>
+    <% end %>
+  <% end %>
+  <% if tag.monitor_changes? %>
+    <%= form_with model: tag, url: disable_tag_path(tag) do |f| %>
+      <%= f.submit 'Disable TagSafe Monitoring', class: 'tagsafe-btn square outline red large mt-3' %>
     <% end %>
   <% end %>
 <% end %>

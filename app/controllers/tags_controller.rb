@@ -39,8 +39,7 @@ class TagsController < LoggedInController
   end
 
   def update
-    tag = Tag.find(params[:id])
-    permitted_to_view?(tag, raise_error: true)
+    tag = current_domain.tags.find(params[:id])
     params[:tag][:friendly_name] = params[:tag][:friendly_name].empty? ? nil : params[:tag][:friendly_name]
     params[:tag][:tag_preferences_attributes][:id] = tag.tag_preferences.id
     if tag.update(tag_params)
@@ -50,6 +49,28 @@ class TagsController < LoggedInController
     else
       current_user.broadcast_notification(tag.errors.full_sentences.join('\n'), image: tag.try_image_url)
     end
+    render turbo_stream: turbo_stream.replace(
+      "#{tag.id}_edit_general_settings",
+      partial: 'edit_general_settings',
+      locals: { tag: tag }
+    )
+  end
+
+  def enable
+    tag = current_domain.tags.find(params[:id])
+    tag.tag_preferences.update!(monitor_changes: true)
+    current_user.broadcast_notification("Tag monitoring is now enabled for #{tag.try_friendly_name}", image: tag.try_image_url)
+    render turbo_stream: turbo_stream.replace(
+      "#{tag.id}_edit_general_settings",
+      partial: 'edit_general_settings',
+      locals: { tag: tag }
+    )
+  end
+
+  def disable
+    tag = current_domain.tags.find(params[:id])
+    tag.tag_preferences.update!(monitor_changes: false)
+    current_user.broadcast_notification("Tag monitoring is now disabled for #{tag.try_friendly_name}", image: tag.try_image_url)
     render turbo_stream: turbo_stream.replace(
       "#{tag.id}_edit_general_settings",
       partial: 'edit_general_settings',
