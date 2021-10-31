@@ -44,7 +44,7 @@ module TagManager
           removed_url_query_params: existing_tag_without_query_params.url_query_param, 
           added_url_query_params: URI.parse(tag_url).query
         })
-        remove_url_from_starting_tags_without_query_params(url_with_new_query_param)
+        remove_url_from_starting_tags_without_query_params(tag_url)
       elsif previously_removed_tag = @domain.tags.find_removed_tag(tag_url)
         # the tag was removed previously, but has since been re-added
         TagAddedToSiteEvent.create!(triggerer: previously_removed_tag)
