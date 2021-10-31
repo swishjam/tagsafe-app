@@ -3,7 +3,7 @@ module TagManager
     def initialize(url_crawl:, tag_urls:, initial_crawl:)
       @url_crawl = url_crawl
       @domain = @url_crawl.domain
-      @tag_urls = tag_urls
+      @tag_urls_and_load_types = tag_urls
       @initial_crawl = initial_crawl
       # @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.present_on_page_url(@url_crawl.url).collect(&:full_url)
       # TODO: need to scope this to the url being crawled...
@@ -14,7 +14,7 @@ module TagManager
       if already_processed?
         Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
       else
-        @tag_urls.each{ |tag_url| add_tag_to_domain_if_necessary(tag_url) }
+        @tag_urls_and_load_types.each{ |tag_url, _load_type| add_tag_to_domain_if_necessary(tag_url) }
         remove_tags_removed_from_site
         @url_crawl.completed!
       end
