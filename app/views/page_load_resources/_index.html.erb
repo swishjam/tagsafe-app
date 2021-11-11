@@ -1,0 +1,54 @@
+<%= turbo_frame_tag "page_load_resources_#{performance_audit_type}" do %>
+  <div class='page-load-resources-container' data-controller='page-load-resources'>
+    <div class='page-load-resource-name-container'>
+      <div class='page-load-resource-name placeholder'></div>
+      <% page_load_resources.each do |plr| %>
+        <% safe_resource_name = plr.name_without_query_string == audited_tag_version_url ? tag.url_based_on_preferences : plr.name %>
+        <div class='page-load-resource-name <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>' 
+              data-resource="<%= plr.name %>"
+              data-controller='tooltip'
+              daa-bs-toggle='tooltip'
+              data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
+              title="<%= safe_resource_name %>">
+          <span class='tagsafe-pill <%= {'img' => 'tagsafe-blue', 'css' => 'green', 'script' => 'red', 'xmlhttprequest' => 'orange', 'link' => 'grey'}[plr.initiator_type] %>' style='font-size: 9px; padding: 2px 5px 2px 5px;'><%= plr.initiator_type %></span>
+          <%= safe_resource_name %>
+        </div>
+      <% end %>
+    </div>
+    <div class='page-load-resource-marker-container'>
+      <div class='page-load-resource-markers' style='width: <%= last_timestamp %>px;'>
+        <div class='page-load-resource-markers-timeline page-load-resource-marker-row'>
+          <% current_timestamp = 50 %>
+          <% (last_timestamp / 50).to_i.times do %>
+            <div class='page-load-timeline-marker' style='margin-left: <%= current_timestamp - 50%>px;'>
+              <%= current_timestamp %> ms
+              <% current_timestamp += 50 %>
+            </div>
+          <% end %>
+          <% %i[dom_complete dom_interactive first_contentful_paint script_duration layout_duration task_duration].each do |performance_metric| %>
+            <div class='performance-metric-indicator <%= performance_metric %>' 
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="<%= performance_metric.to_s.gsub('_', ' ').capitalize %>: <%= number_to_human(performance_audit[performance_metric], units: { unit: 'ms', thousand: 'seconds' }) %>"
+                  style='margin-left: <%= performance_audit[performance_metric] %>px;'>
+            </div>
+          <% end %>
+        </div>
+        <% page_load_resources.each do |plr| %>
+          <div class='page-load-resource-marker-row d-flex align-items-center <%= plr.entry_type %> <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>'
+                data-resource="<%= plr.name %>" 
+                data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'>
+            <div class='page-load-resource-marker' 
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
+                  data-resource='<%= plr.name %>'
+                  title="Start: <%= plr.fetch_start %> ms. End: <%= plr.response_end %> ms. Duration: <%= plr.duration %> ms."
+                  style='width: <%= plr.duration %>px; margin-left: <%= plr.fetch_start %>px'>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

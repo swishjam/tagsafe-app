@@ -1,6 +1,5 @@
 module TagManager
   class ChangeProcessor
-    class CannotAttachTagVersionJsFile < StandardError; end;
     def initialize(tag, content, hashed_content: nil, keep_file_on_disk: ENV['KEEP_TAG_VERSIONS_ON_DISK'] == 'true')
       @tag = tag
       @content = content
@@ -10,8 +9,8 @@ module TagManager
 
     def process_change!
       tag_version = @tag.tag_versions.create!(tag_version_data)
-      raise CannotAttachTagVersionJsFile unless tag_version.js_file.attach(tag_version_js_file_data)
-      raise CannotAttachTagVersionJsFile unless tag_version.tagsafe_instrumented_js_file.attach(tagsafe_instrumented_js_file_data)
+      tag_version.js_file.attach(tag_version_js_file_data)
+      tag_version.tagsafe_instrumented_js_file.attach(tagsafe_instrumented_js_file_data)
       remove_temp_files unless @keep_file_on_disk
     end
 
@@ -82,7 +81,8 @@ module TagManager
         #{@content}
         (function(){ 
           window.performance.mark("tagsafeExecutionEnd"); 
-          window.performance.measure("tagsafeExecutionTime", "tagsafeExecutionStart", "tagsafeExecutionEnd"); 
+          window.performance.measure("tagsafeExecutionTime", "tagsafeExecutionStart", "tagsafeExecutionEnd");
+          console.log(`TagSafe execution time: ${window.performance.getEntriesByName('tagsafeExecutionTime')[0].duration} ms.`);
         })();
       JS
     end

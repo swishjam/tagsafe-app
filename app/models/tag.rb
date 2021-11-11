@@ -1,5 +1,4 @@
 class Tag < ApplicationRecord
-  class InvalidUnRemoval < StandardError; end;
   include Rails.application.routes.url_helpers
   include Notifier
   uid_prefix 'tag'
@@ -165,7 +164,7 @@ class Tag < ApplicationRecord
   alias image_url try_image_url
 
   def domain_and_path
-    url_domain + url_path
+    "#{URI.parse(full_url).scheme}://#{url_domain}#{url_path}"
   end
 
   ############

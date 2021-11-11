@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PerformanceAuditManager::EvaluateIndividualResults do
+RSpec.describe PerformanceAuditManager::ResultsCapturer do
   before(:each) do
     prepare_test!
     tag = create(:tag, domain: @domain)
@@ -10,14 +10,14 @@ RSpec.describe PerformanceAuditManager::EvaluateIndividualResults do
     @individual_performance_audit = create(:individual_performance_audit_with_tag, audit: audit)
     @individual_performance_audit_2 = create(:individual_performance_audit_with_tag, audit: audit)
     
-    @evaluator = PerformanceAuditManager::EvaluateIndividualResults.new(
+    @evaluator = PerformanceAuditManager::ResultsCapturer.new(
       individual_performance_audit_id: @individual_performance_audit.id, 
       results: { 'DOMComplete' => 100, 'DOMInteractive' => 100, 'FirstContentfulPaint' => 100, 'LayoutDuration' => 100, 'ScriptDuration' => 100, 'TaskDuration' => 100 },
       logs: 'Logz go here :)',
       error: nil,
     )
 
-    @failed_evaluator = PerformanceAuditManager::EvaluateIndividualResults.new(
+    @failed_evaluator = PerformanceAuditManager::ResultsCapturer.new(
       individual_performance_audit_id: @individual_performance_audit_2.id, 
       results: { 'DOMComplete' => 100, 'DOMInteractive' => 100, 'FirstContentfulPaint' => 100, 'LayoutDuration' => 100, 'ScriptDuration' => 100, 'TaskDuration' => 100 },
       logs: 'Logz go here :)',
@@ -25,11 +25,11 @@ RSpec.describe PerformanceAuditManager::EvaluateIndividualResults do
     )
   end
 
-  describe '#evaluate!' do
+  describe '#capture_results!' do
     it 'updates the IndividualPerformanceAudit with the audit results when an error is not present' do
       expect(@evaluator).to_not receive(:update_individual_performance_audits_results_for_failed_audit!)
       expect(@evaluator).to receive(:update_individual_performance_audits_results_for_successful_audit!).exactly(:once)
-      @evaluator.evaluate!
+      @evaluator.capture_results!
     end
 
     it 'fails the IndividualPerformanceAudit when an error is present' do
@@ -37,7 +37,7 @@ RSpec.describe PerformanceAuditManager::EvaluateIndividualResults do
       # expect(@individual_performance_audit_2).to receive(:error!).exactly(:once)
       expect(@failed_evaluator).to_not receive(:update_individual_performance_audits_results_for_successful_audit!)
 
-      @failed_evaluator.evaluate!
+      @failed_evaluator.capture_results!
     end
   end
 

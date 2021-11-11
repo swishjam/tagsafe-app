@@ -77,4 +77,8 @@ module ApplicationHelper
   def display_inline_errors(messages)
     flash[:inline_errors] = messages
   end
+
+  def pluralize_if_necessary(singular_term, list)
+    "#{singular_term}#{list.count > 1 ? 's' : nil}"
+  end
 end

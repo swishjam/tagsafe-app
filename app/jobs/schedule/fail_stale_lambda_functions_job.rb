@@ -10,7 +10,7 @@ module Schedule
       url_crawls_to_purge = UrlCrawl.pending.older_than(url_crawl_fail_minutes.minutes.ago, timestamp_column: :enqueued_at)
       Resque.logger.info "Purging #{url_crawls_to_purge.count} UrlCrawls that exceed #{url_crawl_fail_minutes} minute fail period"
       url_crawls_to_purge.each do |crawl|
-        crawl.errored!("Crawl stalled out.")
+        crawl.errored!("Crawl never completed after #{url_crawl_fail_minutes} minutes.")
       end
     end
 

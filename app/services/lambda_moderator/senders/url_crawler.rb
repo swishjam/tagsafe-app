@@ -4,10 +4,10 @@ module LambdaModerator
       lambda_service 'url-crawler'
       lambda_function 'crawl'
 
-      def initialize(url_to_crawl, initial_crawl: false, async: false)
+      def initialize(url_to_crawl, initial_crawl: false)
         @url_to_crawl = url_to_crawl
         @initial_crawl = initial_crawl
-        @run_syncronously = async == false
+        @executed_lambda_function_parent = url_crawl
       end
 
       def url_crawl

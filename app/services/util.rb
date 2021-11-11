@@ -5,8 +5,9 @@ class Util
       directories.join('/')
     end
 
-    def random_float(min, max)
-      rand * (max-min) + min
+    def domain_url_without_subdomain(url)
+      hostname = URI.parse(url).hostname
+      hostname
     end
   end
 end

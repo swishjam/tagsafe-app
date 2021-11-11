@@ -1,10 +1,5 @@
-class IndividualPerformanceAudit < PerformanceAudit
-  after_update_commit do
-    broadcast_replace_to "#{audit_id}_completion_indicator", 
-                          target: "#{audit_id}_completion_indicator", 
-                          partial: 'audits/completion_indicator', 
-                          locals: { audit: audit }
-  end
+class IndividualPerformanceAudit < PerformanceAudit  
+  after_update_commit { audit.update_completion_indicators }
 
   def state
     return 'completed' if success?

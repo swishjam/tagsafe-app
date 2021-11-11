@@ -2,7 +2,7 @@
   <div class='col-10 offset-1 mb-3'>
     <%= form_with model: url_to_audit, url: tag_urls_to_audit_index_path(tag), class: 'submit-loader-on-busy' do |f| %>
       <div class='row'>
-        <div class='col-9'>
+        <div class='<%= ENV['TAGSAFE_HOSTED_SITES_ENABLED'] ? 'col-9' : 'col-12' %>'>
           <div class="form-floating d-flex">
             <%= f.text_field :display_url, class: "form-control form-control-lg", value: current_domain.url, placeholder: current_domain.url %>
             <!-- <#%= f.label :friendly_name %> !-->
@@ -10,12 +10,14 @@
             <button type='submit' class='tagsafe-btn square'>Add</button>
           </div>
         </div>
-        <div class='col-3 text-start'>
-          <label for='url_to_audit_production_url_version'>Production URL version</label>
-          <%= f.check_box :production_url_version, checked: true %>
-          <label for='url_to_audit_tagsafe_hosted_version'>TagSafe-hosted URL version</label>
-          <%= f.check_box :tagsafe_hosted_version, checked: true %>
-        </div>
+        <% if ENV['TAGSAFE_HOSTED_SITES_ENABLED'] %>
+          <div class='col-3 text-start'>
+            <label for='url_to_audit_production_url_version'>Production URL version</label>
+            <%= f.check_box :production_url_version, checked: true %>
+            <label for='url_to_audit_tagsafe_hosted_version'>TagSafe-hosted URL version</label>
+            <%= f.check_box :tagsafe_hosted_version, checked: true %>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>

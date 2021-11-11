@@ -62,18 +62,18 @@ export default class extends Controller {
 
   _unHideSurroundingLines(el) {
     let lineAbove = el.previousElementSibling;
-    if(this._tryShowLine(lineAbove)) {
+    if(lineAbove && this._tryShowLine(lineAbove)) {
       this.topMostDisplayedLineEl = lineAbove;
     }
-    if(this._tryShowLine(lineAbove.previousElementSibling)) {
+    if(lineAbove && this._tryShowLine(lineAbove.previousElementSibling)) {
       this.topMostDisplayedLineEl = lineAbove.previousElementSibling;
     }
 
     let lineBelow = el.nextElementSibling;
-    if(this._tryShowLine(lineBelow)) {
+    if(lineBelow && this._tryShowLine(lineBelow)) {
       this.bottomMostDisplayedLineEl = lineBelow;
     }
-    if(this._tryShowLine(lineBelow.nextElementSibling)) {
+    if(lineBelow && this._tryShowLine(lineBelow.nextElementSibling)) {
       this.bottomMostDisplayedLineEl = lineBelow.nextElementSibling;
     }
   }
@@ -87,7 +87,7 @@ export default class extends Controller {
   }
 
   _tryShowLine(lineEl) {
-    if(lineEl.nodeName === 'LI' && lineEl.classList.contains('unchanged')) {
+    if(lineEl && lineEl.nodeName === 'LI' && lineEl.classList.contains('unchanged')) {
       lineEl.classList.add('display');
       return true;
     }

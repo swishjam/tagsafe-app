@@ -1,6 +1,4 @@
 class Audit < ApplicationRecord
-  class InvalidRetry < StandardError; end;
-  class InvalidPrimaryAudit < StandardError; end;
   uid_prefix 'aud'
   acts_as_paranoid
 
@@ -56,6 +54,14 @@ class Audit < ApplicationRecord
   def delta_performance_audit_completed!
     completed!
     check_after_completion
+  end
+
+  def performance_audit_with_tag_used_for_scoring
+    individual_performance_audits_with_tag.where(used_for_scoring: true).limit(1).first
+  end
+
+  def performance_audit_without_tag_used_for_scoring
+    individual_performance_audits_without_tag.where(used_for_scoring: true).limit(1).first
   end
 
   def completed?
@@ -126,7 +132,7 @@ class Audit < ApplicationRecord
   alias is_primary? primary?
 
   def make_primary!
-    raise InvalidPrimaryAudit if performance_audit_failed? || performance_audit_pending?
+    raise AuditError::InvalidPrimary if performance_audit_failed? || performance_audit_pending?
     primary_audit_from_before = tag_version.primary_audit
     primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
@@ -145,6 +151,10 @@ class Audit < ApplicationRecord
     @previous_primary_audit = tag.audits.joins(:tag_version).primary.where('tag_versions.created_at < ?', tag_version.created_at).limit(1).first
   end
 
+  def individual_performance_audits
+    performance_audits.where(type: %w[IndividualPerformanceAuditWithTag IndividualPerformanceAuditWithoutTag])
+  end
+
   def individual_performance_audits_remaining
     (performance_audit_iterations * 2) - (individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count)
   end
@@ -156,5 +166,12 @@ class Audit < ApplicationRecord
   def individual_performance_audit_percent_complete
     ((individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count) / (performance_audit_iterations * 2.0))*100
     # ((a.individual_performance_audits_with_tag.completed.count + a.individual_performance_audits_without_tag.completed.count) / (a.performance_audit_iterations * 2.0))
+  end
+
+  def update_completion_indicators
+    broadcast_replace_to "#{id}_completion_indicator", 
+                          target: "#{id}_completion_indicator", 
+                          partial: 'audits/completion_indicator', 
+                          locals: { audit: self }
   end
 end

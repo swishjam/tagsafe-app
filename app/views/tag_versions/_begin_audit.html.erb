@@ -1,6 +1,11 @@
 <%= turbo_frame_tag 'server_loadable_modal_content', class: 'display-form-loading', data: { modal_title: 'Run audit' } do %>
-  <% if local_assigns[:display_message] %>
-    <h3 class='inline-message'><%= display_message %></h3>
+  <% if local_assigns[:audits_enqueued] %>
+    <div class='mb-5'>
+      <h3 class='inline-message mt-5 mb-5'>Performing <%= audits_enqueued.count %> <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
+      <% audits_enqueued.each do |audit| %>
+        <%= link_to "View Audit being performed on #{audit.audited_url.formatted_display_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
+      <% end %>
+    </div>
   <% else %>
     <h3>Perform audit on <%= tag.try_friendly_name %></h3>
     <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version) do |f| %>
@@ -10,8 +15,8 @@
           <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
         </div>
       <% end %>
-      <% if ENV['ALLOW_ENABLING_PAGE_TRACING'] %>
-        <div class="form-check form-switch w-fit m-auto">
+      <% if ENV['ALLOW_ENABLING_PAGE_TRACING'] == 'true' %>
+        <div class="form-check form-switch w-fit m-auto">evaluate_individual_results
           <label class='form-check-label' for='enable_tracing'>Run with screenshots and profile tracing</label>
           <input name='enable_tracing' id="enable_tracing" type='checkbox' class='form-check-input' value='true'>
           <i data-controller='tooltip'

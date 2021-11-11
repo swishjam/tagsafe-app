@@ -64,8 +64,10 @@ Rails.application.routes.draw do
         member do
           post :make_primary  
         end
-        resources :individual_performance_audits, only: [:index]
-        resources :performance_audit_logs, only: [:index]
+        resources :individual_performance_audits, only: :index
+        resources :performance_audit_logs, only: :index
+        resources :executed_lambda_functions, only: :index
+        resources :page_load_resources, only: :index
         get '/cloudwatch_logs' => 'audits#cloudwatch_logs'
       end
     end

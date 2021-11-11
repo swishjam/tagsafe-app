@@ -1,33 +1,22 @@
 module LambdaModerator
   module Senders
     class Base
-      class PayloadNotProvided < StandardError; end;
-      class InvalidLambdaFunction < StandardError; end;
-      class InvalidLambdaFunctionArguments < StandardError; end;
-      class FailedLambdaInvocation < StandardError; end;
-
-      attr_accessor :endpoint, :request_body, :domain
+      attr_accessor :executed_lambda_function, :executed_lambda_function_parent
+      LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
       
       class << self
         attr_accessor :lambda_service_name, :lambda_function_name
       end
 
-      def send!(async = true)
-        start_time = Time.now
-        Rails.logger.info "Invoking #{lambda_invoke_function_name} Lambda function with #{invoke_params}"
-        Resque.logger.info "Invoking #{lambda_invoke_function_name} Lambda function with #{invoke_params}"
-        
+      def send!
+        create_executed_lambda_function!
         response = lambda_client.invoke(invoke_params)
-        
-        Rails.logger.info "Completed #{lambda_invoke_function_name} Lambda function in #{Time.now - start_time} seconds."
-        Resque.logger.info "Completed #{lambda_invoke_function_name} Lambda function in #{Time.now - start_time} seconds."
-
-        return response if response.status_code.between?(199, 300)
-        handle_lambda_error(response.function_error)
+        response_body = JSON.parse(response.payload.read)
+        update_executed_lambda_function_with_response(response.status_code, response_body)
+        successful = response.status_code.between?(199, 299) && response_body['errorMessage'].nil? && response_body['error'].nil?
+        OpenStruct.new(successful: successful, response_body: response_body, error: response_body['errorMessage'] || response_body['error'])
       rescue => e
-        Rails.logger.info "#{lambda_invoke_function_name} Lambda function threw an error after #{Time.now - start_time} seconds."
-        Resque.logger.info "#{lambda_invoke_function_name} Lambda function threw an error after #{Time.now - start_time} seconds."
-        handle_lambda_error(e.message)
+        OpenStruct.new(successful: false, error: e.message, response_body: {})
       end
 
       private
@@ -47,16 +36,10 @@ module LambdaModerator
         ensure_arguments!
         {
           function_name: lambda_invoke_function_name,
-          invocation_type: @run_syncronously ? 'RequestResponse' : 'Event',
+          invocation_type: 'RequestResponse',
           log_type: 'Tail',
           payload: JSON.generate(request_payload)
         }
-      end
-
-      def handle_lambda_error(err_msg)
-        Rails.logger.error "Error encountered in #{lambda_invoke_function_name} Lambda invocation: #{err_msg}"
-        payload_struct = OpenStruct.new(read: JSON.generate({ 'functionName' => lambda_invoke_function_name, 'requestPayload' => request_payload, 'errorMessage' => err_msg }))
-        OpenStruct.new(status_code: 500, payload: payload_struct)
       end
 
       def self.lambda_service(name)
@@ -68,17 +51,13 @@ module LambdaModerator
       end
 
       def lambda_invoke_function_name
-        raise InvalidLambdaFunction, "Subclass must specify a `lambda_service` and `lambda_function` class method" if self.class.lambda_service_name.nil? || self.class.lambda_function_name.nil?
-        [self.class.lambda_service_name, lambda_environment, self.class.lambda_function_name].join('-')
-      end
-
-      def lambda_environment
-        ENV['LAMBDA_ENVIRONMENT'] || Rails.env
+        raise LambdaFunctionError::InvalidInvocation, "Subclass must specify a `lambda_service` and `lambda_function` class method" if self.class.lambda_service_name.nil? || self.class.lambda_function_name.nil?
+        [self.class.lambda_service_name, LAMBDA_ENV, self.class.lambda_function_name].join('-')
       end
 
       def ensure_arguments!
         missing_args = required_payload_arguments.select{ |req_arg| request_payload[req_arg].nil? }
-        raise InvalidLambdaFunctionArguments, "#{lambda_invoke_function_name} is missing #{missing_args.join(', ')} arguments" if missing_args.any?
+        raise LambdaFunctionError::InvalidFunctionArguments, "#{lambda_invoke_function_name} is missing #{missing_args.join(', ')} arguments" if missing_args.any?
       end
 
       def required_payload_arguments
@@ -86,7 +65,21 @@ module LambdaModerator
       end
 
       def request_payload
-        raise PayloadNotProvided, 'Subclass must implement a `request_payload` method.'
+        raise LambdaFunctionError::PayloadNotProvided, 'Subclass must implement a `request_payload` method.'
+      end
+
+      def create_executed_lambda_function!
+        @executed_lambda_function ||= ExecutedLambdaFunction.create!(
+          parent: executed_lambda_function_parent,
+          function_name: lambda_invoke_function_name,
+          request_payload: request_payload
+        )
+      end
+
+      def update_executed_lambda_function_with_response(status_code, response_body)
+        executed_lambda_function.update!(response_code: status_code, response_payload: response_body)
+      # rescue Mysql2::Error => e
+      #   executed_lambda_function.update!(response_code: status_code, response_payload: 'TOO LONG')
       end
     end
   end

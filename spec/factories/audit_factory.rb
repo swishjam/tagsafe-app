@@ -3,6 +3,7 @@ FactoryBot.define do
     association :tag_version
     association :tag
     association :execution_reason
+    association :audited_url
     primary { true }
     performance_audit_iterations { 5 }
     enqueued_at { DateTime.yesterday }

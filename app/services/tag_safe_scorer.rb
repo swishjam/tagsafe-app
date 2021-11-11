@@ -1,5 +1,4 @@
 class TagSafeScorer
-  class InvalidPerformanceAudit < StandardError; end;
   DEFAULT_WEIGHTS = {
     dom_complete: 0.3,
     dom_interactive: 0.15,

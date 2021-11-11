@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  class NoAccessError < StandardError; end
   protect_from_forgery with: :exception
   include ApplicationHelper
 

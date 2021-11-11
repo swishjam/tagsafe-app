@@ -9,7 +9,7 @@ class UrlsToAuditController < LoggedInController
       tag.urls_to_audit.create(url_to_audit_params)
     end
     
-    if params[:url_to_audit][:tagsafe_hosted_version] == '1'
+    if ENV['TAGSAFE_HOSTED_SITES_ENABLED'] && params[:url_to_audit][:tagsafe_hosted_version] == '1'
       params[:url_to_audit].delete(:tagsafe_hosted_version)
       mock_site_moderator = TagSafeHostedSiteGenerator.new(params[:url_to_audit][:display_url])
       mock_site_moderator.generate_tagsafe_hosted_site
@@ -18,7 +18,7 @@ class UrlsToAuditController < LoggedInController
       tag.urls_to_audit.create(url_to_audit_params)
     end
 
-    current_user.broadcast_notification("Added new audit URL")
+    current_user.broadcast_notification("Added #{params[:url_to_audit][:audit_url]} to audit list.")
     
     render turbo_stream: turbo_stream.replace(
       'urls_to_audit',

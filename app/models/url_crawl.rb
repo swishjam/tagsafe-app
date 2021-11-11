@@ -2,6 +2,7 @@ class UrlCrawl < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :domain
+  has_one :executed_lambda_function
   has_many :found_tags, class_name: 'Tag'
   alias tags_found found_tags
 
@@ -52,7 +53,7 @@ class UrlCrawl < ApplicationRecord
       }
     )
     url_to_audit = tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
-    url_to_audit.generate_tagsafe_hosted_site_now!
+    url_to_audit.generate_tagsafe_hosted_site_now! if ENV['TAGSAFE_HOSTED_SITES_ENABLED']
     # if it's the first time scanning the domain for tags, don't run the job
     # we may eventually move this into the job itself, but for now let's just not bother enqueuing
     AfterTagCreationJob.perform_later(tag) unless initial_crawl

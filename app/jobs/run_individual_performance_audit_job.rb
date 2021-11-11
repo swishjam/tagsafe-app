@@ -1,27 +1,35 @@
 class RunIndividualPerformanceAuditJob < ApplicationJob
   queue_as :performance_audit_runner_queue
 
-  def perform(audit:, tag_version:, enable_tracing:, performance_audit_type:)
-    lambda_sender = lambda_sender_class(performance_audit_type).new(audit: audit, tag_version: tag_version, enable_tracing: enable_tracing)
+  def perform(audit:, tag_version:, enable_tracing:, lambda_sender_class:)
+    lambda_sender = lambda_sender_class.new(audit: audit, tag_version: tag_version, enable_tracing: enable_tracing)
     response = lambda_sender.send!
-    response_data = JSON.parse(response.payload.read)
-    Rails.logger.info "Performance audit Lambda function completed.\nAudit #{audit.id}\nPerformance Audit: #{lambda_sender.individual_performance_audit.id}\n Response: #{response_data}"
-    if response.status_code == 200 && response_data['errorMessage'].nil?
-      SuccessfulLambdaFunctionReceiverJob.perform_now(response_data)
+    if response.successful
+      capture_successful_response(response.response_body, audit)
     else
       # TODO: this is linking the error to a successful performance audit?
-      lambda_sender.individual_performance_audit.error!(response_data['errorMessage'] || response_data['error'])
+      lambda_sender.individual_performance_audit.error!(response.error)
     end
   end
 
-  def lambda_sender_class(performance_audit_type)
-    case performance_audit_type
-    when :with_tag
-      LambdaModerator::Senders::PerformanceAuditerWithTag
-    when :without_tag
-      LambdaModerator::Senders::PerformanceAuditerWithoutTag
-    else
-      raise StandardError, "Unrecognized `performance_audit_type` in RunIndividualPerformanceAuditJob: #{performance_audit_type}"
+  def capture_successful_response(response_data, audit)
+    PerformanceAuditManager::ResultsCapturer.new(
+      individual_performance_audit_id: response_data['individual_performance_audit_id'], 
+      results: response_data['results'], 
+      blocked_tag_urls: response_data['blocked_tag_urls'], 
+      allowed_tag_urls: response_data['allowed_tag_urls'],
+      logs: response_data['logs'],
+      aws_log_stream_name: response_data['aws_log_stream_name'],
+      aws_request_id: response_data['aws_request_id'],
+      aws_trace_id: response_data['aws_trace_id'],
+      page_load_screenshot_urls: response_data['page_load_screenshot_urls'], 
+      page_load_trace_json_url: response_data['page_load_trace_json_url'],
+      error: response_data['error']
+    ).capture_results!
+    all_individual_performance_audit_completed = !audit.performance_audit_failed? && audit.all_individual_performance_audits_completed?
+    if all_individual_performance_audit_completed
+      audit.create_delta_performance_audit!
+      audit.completed!
     end
   end
 end

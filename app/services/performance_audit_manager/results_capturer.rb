@@ -1,5 +1,5 @@
 module PerformanceAuditManager
-  class EvaluateIndividualResults
+  class ResultsCapturer
     attr_reader :individual_performance_audit
     def initialize(
       individual_performance_audit_id:, 
@@ -10,7 +10,7 @@ module PerformanceAuditManager
       aws_log_stream_name:,
       aws_request_id:,
       aws_trace_id:,
-      page_load_screenshot_urls:, 
+      page_load_screenshot_urls: [], 
       page_load_trace_json_url:,
       error:
     )
@@ -28,16 +28,18 @@ module PerformanceAuditManager
       @individual_performance_audit = PerformanceAudit.includes(audit: [:tag_version, :tag]).find(individual_performance_audit_id)
     end
 
-    def evaluate!
+    def capture_results!
       unless already_processed?
         if @error
           update_individual_performance_audits_results_for_failed_audit!
           # TODO: look into dequeuing jobs that are still queued
           add_page_load_results_to_peformance_audit!
+          add_page_load_resources_to_performance_audit!
           individual_performance_audit.error!(@error)
         else
           update_individual_performance_audits_results_for_successful_audit!
           add_page_load_results_to_peformance_audit!
+          add_page_load_resources_to_performance_audit!
           individual_performance_audit.completed!
         end
       end
@@ -84,12 +86,25 @@ module PerformanceAuditManager
     end
 
     def add_page_load_results_to_peformance_audit!
-      @page_load_screenshot_urls.each_with_index do |url, i|
-        # TODO: dont trust order of array, need to expicitly pass sequence number
-        individual_performance_audit.page_load_screenshots.create!({
-          s3_url: url,
-          sequence: i
-          # timestamp_ms: url_and_timestamp['timestamp']
+      # @page_load_screenshot_urls.each_with_index do |url, i|
+      #   # TODO: dont trust order of array, need to expicitly pass sequence number
+      #   individual_performance_audit.page_load_screenshots.create!({
+      #     s3_url: url,
+      #     sequence: i
+      #     # timestamp_ms: url_and_timestamp['timestamp']
+      #   })
+      # end
+    end
+
+    def add_page_load_resources_to_performance_audit!
+      (@results['page_load_resources'] || []).each do |resource|
+        individual_performance_audit.page_load_resources.create!({
+          name: resource['name'],
+          entry_type: resource['entryType'],
+          initiator_type: resource['initiatorType'],
+          fetch_start: resource['fetchStart'].to_f,
+          response_end: resource['responseEnd'].to_f,
+          duration: resource['duration'].to_f
         })
       end
     end

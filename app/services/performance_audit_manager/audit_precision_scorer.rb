@@ -1,6 +1,5 @@
 module PerformanceAuditManager
   class AuditPrecisionScorer
-    class InvalidAudit < StandardError; end;
     MEASURABLE_PERF_AUDIT_ATTRS = %i[dom_complete dom_interactive first_contentful_paint script_duration layout_duration task_duration]
     attr_accessor :with_tag_scores, :without_tag_scores
 

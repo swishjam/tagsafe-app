@@ -1,5 +1,4 @@
 class TagSafeHostedSiteGenerator
-  class TooManyRedirects < StandardError; end;
   BUCKET_NAME_PREFIX = "#{Rails.env.development? ? 'dev' : 'prod'}-tsh"
 
   attr_accessor :s3_website_url
@@ -43,7 +42,7 @@ class TagSafeHostedSiteGenerator
   end
 
   def get_content_from_url(url, attempt_number: 1)
-    raise TooManyRedirects, "#{url} request redirected the maximum 10 times." if attempt_number > 10
+    raise StandardError, "TagSafeHostedSiteGenerator error: #{url} request redirected the maximum 10 times." if attempt_number > 10
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == 'https'

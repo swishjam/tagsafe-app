@@ -1,5 +1,4 @@
 class AuditRunner
-  class InvalidAuditRun < StandardError; end;
   def initialize(audit:, tag_version:, url_to_audit_id:, execution_reason:, enable_tracing:, attempt_number:)
     @tag_version = tag_version
     @url_to_audit_id = url_to_audit_id
@@ -12,12 +11,12 @@ class AuditRunner
 
   def perform_later
     RunAuditOnTagVersionJob.perform_later(job_args)
-    @audit
+    audit
   end
 
   def perform_now
     RunAuditOnTagVersionJob.perform_now(job_args)
-    @audit
+    audit
   end
 
   def run!
@@ -28,7 +27,7 @@ class AuditRunner
 
   def job_args
     {
-      audit: @audit,
+      audit: audit,
       tag_version: @tag_version,
       url_to_audit_id: @url_to_audit_id,
       execution_reason: @execution_reason,
@@ -37,28 +36,20 @@ class AuditRunner
     }
   end
 
-  def create_audit
-    @audit ||= Audit.create!(
-      tag_version: @tag_version,
-      tag: @tag,
-      execution_reason: @execution_reason,
-      audited_url_id: @url_to_audit_id,
-      performance_audit_iterations: tag_preferences.performance_audit_iterations,
-      attempt_number: @attempt_number,
-      primary: false
-    )
-  end
-
   def run_performance_audit!
     audit.update(enqueued_at: DateTime.now)
-    number_of_performance_audits_to_run.times do
-      RunIndividualPerformanceAuditJob.perform_later(audit: @audit, tag_version: @tag_version, enable_tracing: @enable_tracing, performance_audit_type: :with_tag)
-      RunIndividualPerformanceAuditJob.perform_later(audit: @audit, tag_version: @tag_version, enable_tracing: @enable_tracing, performance_audit_type: :without_tag)
+    @tag.tag_preferences.performance_audit_iterations.times do
+      run_audit_with_tag!
+      run_audit_without_tag!
     end
   end
 
-  def number_of_performance_audits_to_run
-    @tag.tag_preferences.performance_audit_iterations
+  def run_audit_with_tag!
+    RunIndividualPerformanceAuditJob.perform_later(audit: @audit, tag_version: @tag_version, enable_tracing: @enable_tracing, lambda_sender_class: LambdaModerator::Senders::PerformanceAuditerWithTag)
+  end
+
+  def run_audit_without_tag!
+    RunIndividualPerformanceAuditJob.perform_later(audit: @audit, tag_version: @tag_version, enable_tracing: @enable_tracing, lambda_sender_class: LambdaModerator::Senders::PerformanceAuditerWithoutTag)
   end
 
   def audit
@@ -67,12 +58,13 @@ class AuditRunner
       tag: @tag,
       execution_reason: @execution_reason,
       audited_url_id: @url_to_audit_id,
-      enqueued_at: DateTime.now,
+      # enqueued_at: DateTime.now,
       performance_audit_iterations: tag_preferences.performance_audit_iterations,
       attempt_number: @attempt_number,
       primary: false
     )
   end
+  alias create_audit audit
   
   def tag_preferences
     @tag_preferences ||= @tag.tag_preferences

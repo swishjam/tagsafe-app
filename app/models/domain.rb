@@ -12,6 +12,15 @@ class Domain < ApplicationRecord
 
   after_create_commit :add_default_url_to_crawl
 
+  def parsed_domain_url
+    u = URI.parse(url)
+    "#{u.scheme}://#{u.hostname}"
+  end
+
+  def url_hostname
+    URI.parse(url).hostname
+  end
+
   def add_default_url_to_crawl(create_mock_site = true)
     urls_to_crawl.create(url: url)
   end

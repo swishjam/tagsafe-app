@@ -73,14 +73,16 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def hosted_js_file_url(include_query_params = false)
+  def hosted_js_file_url(include_query_params = true)
     return js_file.service_url if include_query_params
     parsed_url = URI.parse(js_file.service_url)
-    "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.pathname}"
+    "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
   end
 
-  def hosted_tagsafe_instrumented_js_file_url
-    tagsafe_instrumented_js_file.service_url
+  def hosted_tagsafe_instrumented_js_file_url(include_query_params = true)
+    return tagsafe_instrumented_js_file.service_url if include_query_params
+    parsed_url = URI.parse(tagsafe_instrumented_js_file.service_url)
+    "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
   end
 
   def perform_audit_now(url_to_audit:, execution_reason:, enable_tracing: false, attempt_number: 1)

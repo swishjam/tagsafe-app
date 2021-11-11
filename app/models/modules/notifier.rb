@@ -1,5 +1,4 @@
 module Notifier
-  class MissingArgumentError < StandardError; end;
   def self.included base
     base.extend ClassMethods
     base.include InstanceMethods

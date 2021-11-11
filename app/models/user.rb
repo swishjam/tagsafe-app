@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  class InvalidSubscribeError < StandardError; end;
   uid_prefix 'user'
   has_secure_password
   acts_as_paranoid

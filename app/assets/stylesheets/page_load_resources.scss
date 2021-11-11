@@ -1,0 +1,85 @@
+.page-load-resources-container {
+  background: white;
+  position: relative;
+  text-align: left;
+  max-height: 50vh;
+  overflow-y: scroll;
+  // margin: 10px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  .page-load-resource-row:hover {
+    background: lightgrey;
+  }
+  .page-load-resource-name-container {
+    border: 1px solid black;
+    width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow-x: scroll;
+    padding-left: 5px;
+  }
+  .page-load-resource-marker-container {
+    border: 1px solid black;
+    display: inline-block;
+    overflow-x: scroll;
+    width: calc(100% - 305px);
+  }
+  .performance-metric-indicator {
+    height: 100%;
+    position: absolute;
+    width: 3px;
+    &.dom_complete {
+      background-color: red;
+    }
+    &.dom_interactive {
+      background-color: blue;
+    }
+    &.first_contentful_paint {
+      background-color: green;
+    }
+    &.script_duration {
+      background-color: yellow;
+    }
+    &.layout_duration {
+      background-color: purple;
+    }
+    &.task_duration {
+      background-color: orange;
+    }
+  }
+  .page-load-timeline-marker {
+    display: inline-block; 
+    border: 1px solid #e5e4e4; 
+    width: 50px;
+    position: absolute;
+    height: 100%;
+    text-align: right;
+    font-size: 10px;
+  }
+  .page-load-resource-markers {
+    overflow-x: scroll;
+    position: relative;
+  }
+  .page-load-resource-name, .page-load-resource-marker-row {
+    height: 30px;
+    cursor: default;
+    &.highlight {
+      background: lightgrey;
+    }
+    &.audited-tag {
+      background: lightcoral;
+    }
+  }
+  .page-load-resource-marker {
+    background: $tagsafe-blue;
+    border-radius: 5px;
+    position: absolute;
+    text-align: left;
+    padding: 5px;
+    color: white;
+    border: 1px solid black;
+    height: 5px;
+  }
+}

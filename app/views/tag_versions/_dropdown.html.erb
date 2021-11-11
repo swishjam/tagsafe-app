@@ -14,7 +14,7 @@
         <%= link_to menu_item[:text], menu_item[:url], class: 'dropdown-item', target: '_top' %>
       <% end %>
     <% end %>
-    <%= link_to 'View Version Control', diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' %>
+    <%= link_to 'View changes in this tag version', diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' %>
     <% if !local_assigns[:audit].nil? && !audit.performance_audit_pending? %>
       <%= link_to 'View Audit Logs', tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' %>
     <% end %>

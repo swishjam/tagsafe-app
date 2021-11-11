@@ -1,10 +1,12 @@
 class PerformanceAudit < ApplicationRecord
   acts_as_paranoid
   
-  belongs_to :audit
+  belongs_to :audit, optional: false
+  has_many :page_load_resources, foreign_key: :performance_audit_id, dependent: :destroy
   has_many :page_load_screenshots, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :page_load_trace, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
+  has_one :executed_lambda_function
   accepts_nested_attributes_for :performance_audit_log
   accepts_nested_attributes_for :page_load_trace
 
