@@ -36,8 +36,8 @@ module PerformanceAuditManager
     end
 
     def set_performance_audits_used_for_scoring!
-      median_individual_audit_with_tag = get_median_perf_audit(@audit.individual_performance_audits_with_tag)
-      median_individual_audit_without_tag = get_median_perf_audit(@audit.individual_performance_audits_without_tag)
+      median_individual_audit_with_tag = get_median_perf_audit(@audit.individual_performance_audits_with_tag.completed_successfully)
+      median_individual_audit_without_tag = get_median_perf_audit(@audit.individual_performance_audits_without_tag.completed_successfully)
       median_individual_audit_with_tag.update!(used_for_scoring: true)
       median_individual_audit_without_tag.update!(used_for_scoring: true)
       @median_individual_audit_with_tag = median_individual_audit_with_tag

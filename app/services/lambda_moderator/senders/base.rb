@@ -13,7 +13,8 @@ module LambdaModerator
         response = lambda_client.invoke(invoke_params)
         response_body = JSON.parse(response.payload.read)
         update_executed_lambda_function_with_response(response.status_code, response_body)
-        successful = response.status_code.between?(199, 299) && response_body['errorMessage'].nil? && response_body['error'].nil?
+        successful = response.status_code.between?(199, 299)
+        # successful = response.status_code.between?(199, 299) && response_body['errorMessage'].nil? && response_body['error'].nil?
         OpenStruct.new(successful: successful, response_body: response_body, error: response_body['errorMessage'] || response_body['error'])
       rescue => e
         OpenStruct.new(successful: false, error: e.message, response_body: {})

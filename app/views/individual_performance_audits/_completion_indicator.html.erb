@@ -1,4 +1,7 @@
-<%= turbo_stream_from "#{individual_performance_audit.id}_completion_indicator" %>
+<%
+=begin%>
+TODO: MOST LIKELY GET RID OF IN FAVOR OF audits/completion_indicator
+ <%= turbo_stream_from "#{individual_performance_audit.id}_completion_indicator" %>
 <%= turbo_frame_tag "#{individual_performance_audit.id}_completion_indicator" do %>
   <% 
     tooltip_title = case individual_performance_audit.state
@@ -17,4 +20,6 @@
         data-placement="top" 
         title="<%= tooltip_title %>">
   </div>
-<% end %>
+<% end %> 
+<%
+=end%>

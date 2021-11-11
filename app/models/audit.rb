@@ -46,8 +46,7 @@ class Audit < ApplicationRecord
   def performance_audit_error!(performance_audit_id, disable_retry: false)
     update!(errored_individual_performance_audit_id: performance_audit_id)
     completed!
-    dequeue_pending_performance_audits!
-    attempt_retry unless disable_retry
+    # attempt_retry unless disable_retry
   end
 
   # to prepare for when we have multiple types of audits, not just performance audits...
@@ -85,23 +84,23 @@ class Audit < ApplicationRecord
     end
   end
 
-  def dequeue_pending_performance_audits!
-    dequeues = Resque::Job.destroy(:performance_audit_runner_queue, RunIndividualPerformanceAuditJob, {"_aj_globalid"=>"gid://tag-safe/Audit/#{id}"}, {"_aj_globalid"=>"gid://tag-safe/TagVersion/#{tag_version_id}"}, {"_aj_serialized"=>"ActiveJob::Serializers::SymbolSerializer", "value"=>"without_tag"})
-    dequeues += Resque::Job.destroy(:performance_audit_runner_queue, RunIndividualPerformanceAuditJob, {"_aj_globalid"=>"gid://tag-safe/Audit/#{id}"}, {"_aj_globalid"=>"gid://tag-safe/TagVersion/#{tag_version_id}"}, {"_aj_serialized"=>"ActiveJob::Serializers::SymbolSerializer", "value"=>"with_tag"})
-    dequeues
-  end
+  # def dequeue_pending_performance_audits!
+  #   dequeues = Resque::Job.destroy(:performance_audit_runner_queue, RunIndividualPerformanceAuditJob, {"_aj_globalid"=>"gid://tag-safe/Audit/#{id}"}, {"_aj_globalid"=>"gid://tag-safe/TagVersion/#{tag_version_id}"}, {"_aj_serialized"=>"ActiveJob::Serializers::SymbolSerializer", "value"=>"without_tag"})
+  #   dequeues += Resque::Job.destroy(:performance_audit_runner_queue, RunIndividualPerformanceAuditJob, {"_aj_globalid"=>"gid://tag-safe/Audit/#{id}"}, {"_aj_globalid"=>"gid://tag-safe/TagVersion/#{tag_version_id}"}, {"_aj_serialized"=>"ActiveJob::Serializers::SymbolSerializer", "value"=>"with_tag"})
+  #   dequeues
+  # end
 
-  def attempt_retry
-    if ENV['AUDIT_ATTEMPT_NUMBER'] && attempt_number <= ENV['AUDIT_ATTEMPT_NUMBER'].to_i
-      Rails.logger.info "Retrying audit for tag #{tag.id}. Will be the #{attempt_number+1} attempt."
-      retry!
-    else
-      Rails.logger.error "Reached max number of audit retry attempts: #{attempt_number}. Stopping retries."
-    end
-  end
+  # def attempt_retry
+  #   if ENV['AUDIT_ATTEMPT_NUMBER'] && attempt_number <= ENV['AUDIT_ATTEMPT_NUMBER'].to_i
+  #     Rails.logger.info "Retrying audit for tag #{tag.id}. Will be the #{attempt_number+1} attempt."
+  #     retry!
+  #   else
+  #     Rails.logger.error "Reached max number of audit retry attempts: #{attempt_number}. Stopping retries."
+  #   end
+  # end
 
   def retry!
-    tag_version.perform_audit_now(audit.audited_url, ExecutionReason.RETRY, attempt_number: attempt_number+1)
+    tag_version.perform_audit_now(audit.audited_url, ExecutionReason.RETRY)
   end
 
   def update_audit_content
@@ -153,10 +152,11 @@ class Audit < ApplicationRecord
 
   def individual_performance_audits
     performance_audits.where(type: %w[IndividualPerformanceAuditWithTag IndividualPerformanceAuditWithoutTag])
+    # individual_performance_audits_with_tag + individual_performance_audits_without_tag
   end
 
   def individual_performance_audits_remaining
-    (performance_audit_iterations * 2) - (individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count)
+    performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
   end
 
   def all_individual_performance_audits_completed?
@@ -164,8 +164,7 @@ class Audit < ApplicationRecord
   end
 
   def individual_performance_audit_percent_complete
-    ((individual_performance_audits_with_tag.completed.count + individual_performance_audits_without_tag.completed.count) / (performance_audit_iterations * 2.0))*100
-    # ((a.individual_performance_audits_with_tag.completed.count + a.individual_performance_audits_without_tag.completed.count) / (a.performance_audit_iterations * 2.0))
+    ((individual_performance_audits.completed_successfully.count) / (performance_audit_iterations * 2.0))*100
   end
 
   def update_completion_indicators

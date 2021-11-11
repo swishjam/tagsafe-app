@@ -32,7 +32,6 @@ module PerformanceAuditManager
       unless already_processed?
         if @error
           update_individual_performance_audits_results_for_failed_audit!
-          # TODO: look into dequeuing jobs that are still queued
           add_page_load_results_to_peformance_audit!
           add_page_load_resources_to_performance_audit!
           individual_performance_audit.error!(@error)

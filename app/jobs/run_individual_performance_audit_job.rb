@@ -1,8 +1,14 @@
 class RunIndividualPerformanceAuditJob < ApplicationJob
   queue_as :performance_audit_runner_queue
 
-  def perform(audit:, tag_version:, enable_tracing:, lambda_sender_class:)
-    lambda_sender = lambda_sender_class.new(audit: audit, tag_version: tag_version, enable_tracing: enable_tracing)
+  def perform(audit:, tag_version:, lambda_sender_class:, enable_tracing:, include_page_load_resources:, inline_injected_script_tags:)
+    lambda_sender = lambda_sender_class.new(
+      audit: audit, 
+      tag_version: tag_version, 
+      enable_tracing: enable_tracing, 
+      include_page_load_resources: include_page_load_resources,
+      inline_injected_script_tags: inline_injected_script_tags
+    )
     response = lambda_sender.send!
     if response.successful
       capture_successful_response(response.response_body, audit)

@@ -85,14 +85,15 @@ class TagVersion < ApplicationRecord
     "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
   end
 
-  def perform_audit_now(url_to_audit:, execution_reason:, enable_tracing: false, attempt_number: 1)
+  def perform_audit_now(url_to_audit:, execution_reason:, enable_tracing: false, inline_injected_script_tags: false, include_page_load_resources: true)
     AuditRunner.new(
       audit: nil,
       tag_version: self,
       url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
-      attempt_number: attempt_number,
-      enable_tracing: enable_tracing
+      enable_tracing: enable_tracing,
+      inline_injected_script_tags: inline_injected_script_tags, 
+      include_page_load_resources: include_page_load_resources
     ).perform_now
   end
 
@@ -100,14 +101,15 @@ class TagVersion < ApplicationRecord
     tag.urls_to_audit.map{ |url_to_audit| perform_audit_now(url_to_audit: url_to_audit, execution_reason: execution_reason, enable_tracing: enable_tracing) }
   end
 
-  def perform_audit_later(execution_reason:, url_to_audit:, enable_tracing: false, attempt_number: 1)
+  def perform_audit_later(execution_reason:, url_to_audit:, enable_tracing: false, include_page_load_resources: true, inline_injected_script_tags: false)
     AuditRunner.new(
       audit: nil,
       tag_version: self,
       url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
-      attempt_number: attempt_number,
-      enable_tracing: enable_tracing
+      enable_tracing: enable_tracing,
+      inline_injected_script_tags: inline_injected_script_tags,
+      include_page_load_resources: include_page_load_resources
     ).perform_later
   end
 

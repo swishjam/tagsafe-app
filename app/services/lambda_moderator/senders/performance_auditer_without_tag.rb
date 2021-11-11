@@ -4,13 +4,13 @@ module LambdaModerator
       lambda_service 'performance-auditer'
       lambda_function 'runPerformanceAudit'
 
-      def initialize(audit:, tag_version:, enable_tracing: false, include_page_load_resources: true, inline_injected_tags: true)
+      def initialize(audit:, tag_version:, enable_tracing: false, include_page_load_resources: true, inline_injected_script_tags: true)
         @audit = audit
         @tag_version = tag_version
         @page_load_tracing = enable_tracing
         @executed_lambda_function_parent = individual_performance_audit
         @include_page_load_resources = include_page_load_resources
-        @inline_injected_tags = inline_injected_tags
+        @inline_injected_script_tags = inline_injected_script_tags
       end
 
       def individual_performance_audit
@@ -30,7 +30,7 @@ module LambdaModerator
           puppeteer_page_timeout_ms: 0,
           enable_page_load_tracing: @page_load_tracing,
           include_page_load_resources: @include_page_load_resources,
-          inline_injected_script_tags: @inline_injected_tags
+          inline_injected_script_tags: @inline_injected_script_tags
         }
       end
 
