@@ -9,24 +9,30 @@
     </button>
   <% end %>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <% if local_assigns[:additional_menu_items] %>
-      <% additional_menu_items.each do |menu_item| %>
-        <%= link_to menu_item[:text], menu_item[:url], class: 'dropdown-item', target: '_top' %>
+    <%= link_to diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' do %>
+      <i class="fas fa-code-branch"></i> View changes made in this version
+    <% end %>
+    <% if !local_assigns[:audit].nil? && !audit.pending? %>
+      <%= link_to tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' do %>
+        <i class="far fa-file-alt"></i> View audit logs
       <% end %>
     <% end %>
-    <%= link_to 'View changes in this tag version', diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' %>
-    <% if !local_assigns[:audit].nil? && !audit.performance_audit_pending? %>
-      <%= link_to 'View Audit Logs', tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' %>
+    <% if !local_assigns[:audit].nil? && audit.performance_audits.any? %>
+      <%= link_to "View individual performance audits (#{audit.performance_audit_iterations})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
     <% end %>
-    <% if !local_assigns[:audit].nil? && audit.completed? %>
-      <%= link_to "View Individual Performance Audits (#{audit.performance_audit_iterations})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
+    <% if local_assigns[:additional_menu_items] %>
+      <% additional_menu_items.each do |menu_item| %>
+        <%= link_to menu_item[:url], class: 'dropdown-item', target: '_top' do %>
+          <% if menu_item[:icon_class] %>
+            <i class="<%=menu_item[:icon_class] %>"></i>
+          <% end %>
+          <%= menu_item[:text] %>
+        <% end %>
+      <% end %>
     <% end %>
     <div class="dropdown-divider"></div>
-    <div class='dropdown-item'>
-      <%= link_to 'Run Audit', begin_audit_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal_content' } %>
-      <!-- <#%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'confirmable_form', confirmation_text: "Run audit for #{tag.try_friendly_name} [#{tag_version.sha} - #{tag_version.created_at.formatted_short}]?", confirmation_title: 'Perform audit?' } do |f| %>
-        <#%= f.submit 'Run Audit', class: 'dropdown-item p-0' %>
-      <#% end %> !-->
-    </div>
+    <%= link_to begin_audit_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal_content' } do %>
+      <i class="fas fa-sync-alt"></i> Run audit
+    <% end %>
   </div>
 </div>

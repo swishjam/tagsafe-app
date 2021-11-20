@@ -1,10 +1,12 @@
 <div class='individual-audit mb-3'>
   <% if individual_performance_audit.failed? %>
     <span class='d-block'><%= individual_performance_audit.error_message %></span>
+  <% elsif individual_performance_audit.pending? %>
+    <span class='d-block'>Currently running</span>
+    <span class='d-block'>Began <%= time_ago_in_words(individual_performance_audit.enqueued_at) %> ago</span>
   <% else %>
     <span class='d-block fw-bold'>TagSafe Score: <%= individual_performance_audit.tagsafe_score %></span>
     <span class='d-block'>DOM Complete: <%= number_with_delimiter(individual_performance_audit.dom_complete) %> ms</span>
-    <span class='d-block'>DOM Interactive: <%= number_with_delimiter(individual_performance_audit.dom_interactive) %> ms</span>
     <span class='d-block'>DOM Interactive: <%= number_with_delimiter(individual_performance_audit.dom_interactive) %> ms</span>
     <span class='d-block'>First Contentful Paint: <%= number_with_delimiter(individual_performance_audit.first_contentful_paint) %> ms</span>
     <span class='d-block'>Script Duration: <%= number_with_delimiter(individual_performance_audit.script_duration) %> ms</span>

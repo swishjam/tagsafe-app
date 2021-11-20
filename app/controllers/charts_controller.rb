@@ -7,7 +7,8 @@ class ChartsController < ApplicationController
       tags = current_domain.tags.where(id: tag_ids)
       chart_data_getter = ChartHelper::TagsData.new(
         tags: tags, 
-        start_time: params[:start_time] || 24.hours.ago,
+        # start_time: params[:start_time] || 24.hours.ago,
+        start_time: params[:start_time] || 7.days.ago,
         end_time: params[:end_time] || Time.now,
         metric_key: @displayed_metric
       )
@@ -19,8 +20,7 @@ class ChartsController < ApplicationController
   end
 
   def tag
-    @tag = Tag.find(params[:tag_id])
-    permitted_to_view?(@tag, raise_error: true)
+    @tag = current_domain.tags.find(params[:tag_id])
     @chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
     chart_data_getter = ChartHelper::TagData.new(
       tag: @tag, 

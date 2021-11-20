@@ -1,5 +1,5 @@
 <% if @breadcrumbs && @breadcrumbs.any? %>
-  <nav aria-label="breadcrumb">
+  <!-- <nav aria-label="breadcrum"> !-->
     <ol class="breadcrumb">
       <% @breadcrumbs.each do |crumb| %>
         <li class="breadcrumb-item <%= crumb[:active] ? 'active' : nil %>">
@@ -11,5 +11,5 @@
         </li>
       <% end %>
     </ol>
-  </nav>
+  <!-- </nav> !-->
 <% end %>

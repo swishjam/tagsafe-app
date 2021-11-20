@@ -1,20 +1,10 @@
 class AuditRunner
-  def initialize(
-    audit:, 
-    tag_version:, 
-    url_to_audit_id:, 
-    execution_reason:, 
-    include_page_load_resources:, 
-    inline_injected_script_tags:, 
-    enable_tracing:
-  )
+  def initialize(audit:, tag_version:, url_to_audit_id:, execution_reason:, options: {})
     @tag_version = tag_version
     @url_to_audit_id = url_to_audit_id
     @tag = @tag_version.tag
     @execution_reason = execution_reason
-    @include_page_load_resources = include_page_load_resources
-    @inline_injected_script_tags = inline_injected_script_tags
-    @enable_tracing = enable_tracing
+    @options = options
     @audit = audit || create_audit
   end
 
@@ -39,37 +29,24 @@ class AuditRunner
       audit: audit,
       tag_version: @tag_version,
       url_to_audit_id: @url_to_audit_id,
-      execution_reason: @execution_reason,
-      enable_tracing: @enable_tracing,
-      include_page_load_resources: @include_page_load_resources,
-      inline_injected_script_tags: @inline_injected_script_tags
+      execution_reason: @execution_reason
     }
   end
 
   def run_performance_audit!
     audit.update(enqueued_at: DateTime.now)
     @tag.tag_preferences.performance_audit_iterations.times do
-      run_audit_with_tag!
-      run_audit_without_tag!
+      RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:with_tag))
+      RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:without_tag))
     end
   end
 
-  def run_audit_with_tag!
-    RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(LambdaModerator::Senders::PerformanceAuditerWithTag))
-  end
-
-  def run_audit_without_tag!
-    RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(LambdaModerator::Senders::PerformanceAuditerWithoutTag))
-  end
-
-  def perf_audit_job_args(lambda_sender_class)
+  def perf_audit_job_args(audit_type)
     {
+      type: audit_type,
       audit: @audit,
       tag_version: @tag_version,
-      enable_tracing: @enable_tracing,
-      include_page_load_resources: @include_page_load_resources,
-      inline_injected_script_tags: @inline_injected_script_tags,
-      lambda_sender_class: lambda_sender_class
+      options: @options
     }
   end
 
@@ -79,7 +56,6 @@ class AuditRunner
       tag: @tag,
       execution_reason: @execution_reason,
       audited_url_id: @url_to_audit_id,
-      # enqueued_at: DateTime.now,
       performance_audit_iterations: tag_preferences.performance_audit_iterations,
       primary: false
     )

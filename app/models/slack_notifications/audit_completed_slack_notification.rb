@@ -81,7 +81,7 @@ class AuditCompletedSlackNotification < SlackNotificationSubscriber
           "text": {
             "type": "plain_text",
             "emoji": true,
-            "text": "View Audit"
+            "text": "View audit"
           },
           "url": "#{tag_tag_version_audit_url(audit.tag, audit.tag_version, audit, host: ENV['CURRENT_HOST'])}",
           "style": "primary",

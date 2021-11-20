@@ -1,0 +1,33 @@
+<div class='col-10 offset-1 full-screenable tagsafe-container mt-3' data-controller='full-screen-expandable' data-full-screen-expandable-target='expandable'>
+  <div class='text-end col-12'>
+    <div class='tagsafe-circular-btn' 
+      data-full-screen-expandable-target='expandBtn' 
+      data-action='click->full-screen-expandable#expand' 
+      data-controller='tooltip' 
+      data-bs-toggle="tooltip" 
+      data-placement="top" 
+      title="Expand waterfall results.">
+    <i class="fas fa-expand-alt"></i>
+    </div>
+    <div class='tagsafe-circular-btn hidden' 
+          data-full-screen-expandable-target='collapseBtn' 
+          data-action='click->full-screen-expandable#collapse' 
+          data-controller='tooltip' 
+          data-bs-toggle="tooltip" 
+          data-placement="top" 
+          title="Collapse waterfall results.">
+      <i class="fas fa-compress-alt"></i>
+    </div>
+  </div>
+  <h3 class='text-center'>Page load waterfall breakdown</h3>
+  <div class='col-12 text-start'>
+    <%= turbo_frame_tag 'page_load_resources_with_tag', src: tag_tag_version_audit_page_load_resources_path(@tag, @tag_version, @audit, performance_audit_type: 'with_tag') do %>
+      <%= render 'partials/utils/spinner', size: :large %>
+    <% end %>
+  </div>
+  <div class='col-12 text-start mt-3'>
+    <%= turbo_frame_tag 'page_load_resources_without_tag', src: tag_tag_version_audit_page_load_resources_path(@tag, @tag_version, @audit, performance_audit_type: 'without_tag') do %>
+      <%= render 'partials/utils/spinner', size: :large %>
+    <% end %>
+  </div>
+</div>

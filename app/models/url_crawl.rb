@@ -6,11 +6,6 @@ class UrlCrawl < ApplicationRecord
   has_many :found_tags, class_name: 'Tag'
   alias tags_found found_tags
 
-  # has_many :events, dependent: :destroy, class_name: 'TagSafeEvent'
-  # has_many :tag_added_to_site_events, class_name: 'TagAddedToSiteEvent'
-  # has_many :tag_removed_from_site_events, class_name: 'TagRemovedFromSiteEvent'
-  # has_many :tag_url_query_param_change_events, class_name: 'TagUrlQueryParamChangedEvent'
-
   scope :pending, -> { where(completed_at: nil) }
   scope :completed, -> { where.not(completed_at: nil) }
   scope :failed, -> { where.not(error_message: nil) }
@@ -33,10 +28,10 @@ class UrlCrawl < ApplicationRecord
     initial_crawl: false,
     should_log_tag_checks: true,
     consider_query_param_changes_new_tag: false,
-    performance_audit_iterations: (ENV['DEFAULT_PERFORMANCE_AUDIT_ITERATIONS'] || '5').to_i
+    performance_audit_iterations: Flag.flag_value_for_objects(domain, domain.organization, slug: 'num_performance_audit_iterations').to_i
   )
     parsed_url = URI.parse(tag_url)
-    tag = found_tags.create!(
+    tag = found_tags.new(
       domain: domain,
       full_url: tag_url,
       url_domain: parsed_url.host,
@@ -52,12 +47,16 @@ class UrlCrawl < ApplicationRecord
         performance_audit_iterations: performance_audit_iterations
       }
     )
-    url_to_audit = tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
-    url_to_audit.generate_tagsafe_hosted_site_now! if ENV['TAGSAFE_HOSTED_SITES_ENABLED']
-    # if it's the first time scanning the domain for tags, don't run the job
-    # we may eventually move this into the job itself, but for now let's just not bother enqueuing
-    AfterTagCreationJob.perform_later(tag) unless initial_crawl
-    tag
+    if tag.save
+      url_to_audit = tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
+      url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
+      # if it's the first time scanning the domain for tags, don't run the job
+      # we may eventually move this into the job itself, but for now let's just not bother enqueuing
+      AfterTagCreationJob.perform_later(tag) unless initial_crawl
+      tag
+    else
+      Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
+    end
   end
 
   # def unremove_tag_from_site!(tag)

@@ -9,9 +9,9 @@
     <% else %>
       <% if most_recent_audit.nil? %>
           No performance audits run
-      <% elsif most_recent_audit.performance_audit_pending? %>
+      <% elsif most_recent_audit.pending? %>
         <span class='tagsafe-pill tagsafe-blue placeholder-wave'>Performance audit currently running.</span>
-      <% elsif most_recent_audit.performance_audit_failed? %>
+      <% elsif most_recent_audit.failed? %>
         <span class='tagsafe-pill red'>Performance Audit failed.</span>
       <% end %>
     <% end %>
@@ -19,10 +19,10 @@
   <td scope="row change-in-score">
     <% if audit.nil? || 
             previous_audit.nil? || 
-            audit.performance_audit_failed? || 
-            previous_audit.performance_audit_failed? || 
-            audit.performance_audit_pending? || 
-            previous_audit.performance_audit_pending? %>
+            audit.failed? || 
+            previous_audit.failed? || 
+            audit.pending? || 
+            previous_audit.pending? %>
       <span>--</span>
     <% else %>
       <% change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score) %>
@@ -36,7 +36,7 @@
     <% end %>
   </td>
   <td scope="row">
-    <% audit_menu_items = audit.nil? && most_recent_audit.nil? ? [] : [{ text: 'View Audit', url: tag_tag_version_audit_path(tag, tag_version, audit || most_recent_audit) }] %>
+    <% audit_menu_items = audit.nil? && most_recent_audit.nil? ? [] : [{ text: 'View audit', url: tag_tag_version_audit_path(tag, tag_version, audit || most_recent_audit) }] %>
     <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, additional_menu_items: audit_menu_items, ellipsis_button: true %>
   </td>
 </tr>

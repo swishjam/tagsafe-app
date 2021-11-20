@@ -3,7 +3,7 @@
     <h5 class="text-center audit-type-title">Results With <%= @tag.try_friendly_name %></h5>
     <% @performance_audits_with_tag.each do |ipa| %>
       <div class='cloudwatch-log'><%= ipa.uid %></div>
-      <% if ipa.aws_log_stream_name %>
+      <% if ipa.executed_lambda_function.aws_log_stream_name %>
         <%= render partial: 'cloudwatch_log', collection: ipa.cloudwatch_logs, as: :cloudwatch_log %>
       <% end %>
       <div class='cloudwatch-log-divider'></div>
@@ -13,7 +13,7 @@
     <h5 class="text-center audit-type-title">Results Without <%= @tag.try_friendly_name %></h5>
     <% @performance_audits_without_tag.each do |ipa| %>
       <div class='cloudwatch-log'><%= ipa.uid %></div>
-      <% if ipa.aws_log_stream_name %>
+      <% if ipa.executed_lambda_function.aws_log_stream_name %>
         <%= render partial: 'cloudwatch_log', collection: ipa.cloudwatch_logs, as: :cloudwatch_log %>
       <% end %>
       <div class='cloudwatch-log-divider'></div>

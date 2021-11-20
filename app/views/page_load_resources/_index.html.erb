@@ -1,11 +1,45 @@
 <%= turbo_frame_tag "page_load_resources_#{performance_audit_type}" do %>
+  <div class='row'>
+    <div class='col-6 text-start d-flex align-items-end'>
+      <h4><%= title %></h4>
+    </div>
+    <div class='col-6 text-end'>
+      <div class='page-load-resources-legend'>
+        <h5>Legend</h5>
+        <span class='legend-item'>
+          <div class='legend-indicator dom_complete'></div>
+          DOM Complete: <%= number_to_human(performance_audit.dom_complete, units: { unit: 'ms', thousand: 'seconds' }) %>
+        </span>
+        <span class='legend-item'>
+          <div class='legend-indicator dom_interactive'></div>
+          DOM Interactive: <%= number_to_human(performance_audit.dom_interactive, units: { unit: 'ms', thousand: 'seconds' }) %>
+        </span>
+        <span class='legend-item'>
+          <div class='legend-indicator first_contentful_paint'></div>
+          First Contentful Paint: <%= number_to_human(performance_audit.first_contentful_paint, units: { unit: 'ms', thousand: 'seconds' }) %>
+        </span>
+        <span class='legend-item'>
+          <div class='legend-indicator layout_duration'></div>
+          Layout Duration: <%= number_to_human(performance_audit.layout_duration, units: { unit: 'ms', thousand: 'seconds' }) %>
+        </span>
+        <span class='legend-item'>
+          <div class='legend-indicator script_duration'></div>
+          Script Duration: <%= number_to_human(performance_audit.script_duration, units: { unit: 'ms', thousand: 'seconds' }) %>
+        </span>
+        <span class='legend-item'>
+          <div class='legend-indicator task_duration'></div>
+          Task Duration: <%= number_to_human(performance_audit.task_duration, units: { unit: 'ms', thousand: 'seconds' }) %>
+        </span>
+      </div>
+    </div>
+  </div>
   <div class='page-load-resources-container' data-controller='page-load-resources'>
     <div class='page-load-resource-name-container'>
       <div class='page-load-resource-name placeholder'></div>
       <% page_load_resources.each do |plr| %>
         <% safe_resource_name = plr.name_without_query_string == audited_tag_version_url ? tag.url_based_on_preferences : plr.name %>
         <div class='page-load-resource-name <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>' 
-              data-resource="<%= plr.name %>"
+              data-resource="<%= plr.uid %>"
               data-controller='tooltip'
               daa-bs-toggle='tooltip'
               data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
@@ -14,14 +48,24 @@
           <%= safe_resource_name %>
         </div>
       <% end %>
+      <% if blocked_resources.any? %>
+        <div class='page-load-resource-name'>Blocked resources (<%= blocked_resources.count %>):</div>
+        <% blocked_resources.each do |resource| %>
+          <div class='page-load-resource-name blocked-resource'>
+            <span class='tagsafe-pill <%= {'img' => 'tagsafe-blue', 'css' => 'green', 'script' => 'red', 'xmlhttprequest' => 'orange', 'link' => 'grey'}[resource.resource_type] %>' style='font-size: 9px; padding: 2px 5px 2px 5px;'><%= resource.resource_type %></span>
+            <%= resource.url %>
+          </div>
+        <% end %>
+      <% end %>
     </div>
     <div class='page-load-resource-marker-container'>
-      <div class='page-load-resource-markers' style='width: <%= last_timestamp %>px;'>
+      <div class='page-load-resource-markers' style='width: <%= last_timestamp/2 %>px;'>
         <div class='page-load-resource-markers-timeline page-load-resource-marker-row'>
           <% current_timestamp = 50 %>
           <% (last_timestamp / 50).to_i.times do %>
-            <div class='page-load-timeline-marker' style='margin-left: <%= current_timestamp - 50%>px;'>
-              <%= current_timestamp %> ms
+            <% display_timestamp = current_timestamp % 100 == 0 %>
+            <div class='page-load-timeline-marker <%= display_timestamp ? 'timestamp-displayed' : nil %>' style='margin-left: <%= (current_timestamp/2) - 50%>px;'>
+              <%= display_timestamp ? "#{current_timestamp} ms" : nil %>
               <% current_timestamp += 50 %>
             </div>
           <% end %>
@@ -30,23 +74,31 @@
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
                   title="<%= performance_metric.to_s.gsub('_', ' ').capitalize %>: <%= number_to_human(performance_audit[performance_metric], units: { unit: 'ms', thousand: 'seconds' }) %>"
-                  style='margin-left: <%= performance_audit[performance_metric] %>px;'>
+                  style='margin-left: <%= performance_audit[performance_metric]/2 %>px;'>
             </div>
           <% end %>
         </div>
         <% page_load_resources.each do |plr| %>
           <div class='page-load-resource-marker-row d-flex align-items-center <%= plr.entry_type %> <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>'
-                data-resource="<%= plr.name %>" 
+                data-resource="<%= plr.uid %>" 
                 data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'>
             <div class='page-load-resource-marker' 
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
                   data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
-                  data-resource='<%= plr.name %>'
+                  data-resource='<%= plr.uid %>'
                   title="Start: <%= plr.fetch_start %> ms. End: <%= plr.response_end %> ms. Duration: <%= plr.duration %> ms."
-                  style='width: <%= plr.duration %>px; margin-left: <%= plr.fetch_start %>px'>
+                  style='width: <%= plr.duration/2 %>px; margin-left: <%= plr.fetch_start/2 %>px'>
             </div>
           </div>
+        <% end %>
+        <% if blocked_resources.any? %>
+          <div class='page-load-resource-marker-row placeholder-for-blocked-resources-title'>
+          </div>
+          <% blocked_resources.each do |resource| %>
+            <div class='page-load-resource-marker-row d-flex align-items-center placeholder-for-blocked-resource'>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

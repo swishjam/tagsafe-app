@@ -4,7 +4,7 @@ module Schedule
       audits_to_purge = Audit.pending_performance_audit.older_than(performance_audit_fail_minutes.minutes.ago)
       Resque.logger.info "Purging #{audits_to_purge.count} Audits that exceed #{performance_audit_fail_minutes} minute fail period."
       audits_to_purge.each do |audit|
-        audit.performance_audit_error!("Audit stalled out.", disable_retry: true) # never retry these
+        audit.error!("Audit never completed.", disable_retry: true) # never retry these
       end
       
       url_crawls_to_purge = UrlCrawl.pending.older_than(url_crawl_fail_minutes.minutes.ago, timestamp_column: :enqueued_at)

@@ -5,19 +5,15 @@
     <div class='col-12'>
       <div class='tagsafe-container'>
         <%= turbo_frame_tag "#{domain.id}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: tags.is_third_party_tag.collect(&:id)) do %>
-          Loading chart....
+          <%= render 'partials/utils/spinner' %>
         <% end %>
       </div>
     </div>
-    <% tags.each do |tag| %>
-      <%= render 'server_loadable_partials/tags/tag', tag: tag %>
-    <% end %>
-    <div class="pagination-container text-center">
-      <%= paginate tags %>
-    </div>
+  <% end %>
+  
+  <% if local_assigns[:card_format] %>
+    <%= render 'server_loadable_partials/tags/tag_cards', tags: tags %>
   <% else %>
-    <%= turbo_frame_tag 'no_tags_message' do %>
-      No tags...
-    <% end %>
+    <%= render 'server_loadable_partials/tags/tag_table', tags: tags %>
   <% end %>
 <% end %>

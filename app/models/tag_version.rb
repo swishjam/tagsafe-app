@@ -74,47 +74,59 @@ class TagVersion < ApplicationRecord
   end
 
   def hosted_js_file_url(include_query_params = true)
-    return js_file.service_url if include_query_params
-    parsed_url = URI.parse(js_file.service_url)
+    return js_file.url if include_query_params
+    parsed_url = URI.parse(js_file.url)
     "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
   end
 
   def hosted_tagsafe_instrumented_js_file_url(include_query_params = true)
-    return tagsafe_instrumented_js_file.service_url if include_query_params
-    parsed_url = URI.parse(tagsafe_instrumented_js_file.service_url)
+    return tagsafe_instrumented_js_file.url if include_query_params
+    parsed_url = URI.parse(tagsafe_instrumented_js_file.url)
     "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
   end
 
-  def perform_audit_now(url_to_audit:, execution_reason:, enable_tracing: false, inline_injected_script_tags: false, include_page_load_resources: true)
+  def perform_audit_now(url_to_audit:, execution_reason:, options: {})
     AuditRunner.new(
       audit: nil,
       tag_version: self,
       url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
-      enable_tracing: enable_tracing,
-      inline_injected_script_tags: inline_injected_script_tags, 
-      include_page_load_resources: include_page_load_resources
+      options: options
     ).perform_now
   end
 
-  def perform_audit_now_on_all_urls(execution_reason, enable_tracing: false)
-    tag.urls_to_audit.map{ |url_to_audit| perform_audit_now(url_to_audit: url_to_audit, execution_reason: execution_reason, enable_tracing: enable_tracing) }
+  def perform_audit_now_on_all_urls(execution_reason)
+    tag.urls_to_audit.map{ |url_to_audit| perform_audit_now(url_to_audit: url_to_audit, execution_reason: execution_reason) }
   end
 
-  def perform_audit_later(execution_reason:, url_to_audit:, enable_tracing: false, include_page_load_resources: true, inline_injected_script_tags: false)
+  def perform_audit_later(execution_reason:, url_to_audit:, options: {})
     AuditRunner.new(
       audit: nil,
       tag_version: self,
       url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
-      enable_tracing: enable_tracing,
-      inline_injected_script_tags: inline_injected_script_tags,
-      include_page_load_resources: include_page_load_resources
+      options: options
     ).perform_later
   end
 
-  def perform_audit_later_on_all_urls(execution_reason, enable_tracing: false)
-    tag.urls_to_audit.each{ |url_to_audit| perform_audit_later(url_to_audit: url_to_audit, execution_reason: execution_reason, enable_tracing: enable_tracing) }
+  def perform_audit_later_on_all_urls(execution_reason)
+    tag.urls_to_audit.each{ |url_to_audit| perform_audit_later(url_to_audit: url_to_audit, execution_reason: execution_reason) }
+  end
+
+  def audit_to_display
+    primary_audit || most_recent_pending_audit || most_recent_failed_audit
+  end
+
+  def most_recent_pending_audit
+    audits.pending.limit(1).first
+  end
+
+  def most_recent_failed_audit
+    audits.failed.limit(1).first
+  end
+
+  def has_pending_audit?
+    audits.pending.any?
   end
 
   def should_throttle_audit?
@@ -157,10 +169,6 @@ class TagVersion < ApplicationRecord
     tag.update(content_changed_at: created_at)
   end
 
-  def megabytes
-    bytes / (1024.0 * 1024.0)
-  end
-
   def first_version?
     previous_version.nil?
   end
@@ -171,13 +179,6 @@ class TagVersion < ApplicationRecord
 
   def change_in_bytes
     bytes - previous_version.bytes unless previous_version.nil?
-  end
-
-  def byte_change_operator
-    unless previous_version.nil?
-      return 'did not change' if change_in_bytes.zero?
-      change_in_bytes > 0 ? 'increased' : 'decreased'
-    end
   end
 
   ###############

@@ -41,7 +41,7 @@ class TagVersionsController < LoggedInController
     tag = current_domain.tags.find(params[:tag_id])
     tag_version = tag.tag_versions.find(params[:id])
     audits_enqueued = UrlToAudit.where(id: params[:urls_to_audit]).map do |url_to_audit|
-      tag_version.perform_audit_later(execution_reason: ExecutionReason.MANUAL, url_to_audit: url_to_audit, enable_tracing: params[:enable_tracing] == 'true')
+      tag_version.perform_audit_later(execution_reason: ExecutionReason.MANUAL, url_to_audit: url_to_audit, options: {})
     end
     render turbo_stream: turbo_stream.replace(
       'server_loadable_modal_content',

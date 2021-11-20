@@ -1,6 +1,4 @@
 class NewTagVersionJob < ApplicationJob
-  # queue_as :tag_versiond_notifier_job
-
   def perform(tag_version)
     NotificationModerator::NewTagVersionNotifier.new(tag_version).notify!
     if tag_version.should_throttle_audit?

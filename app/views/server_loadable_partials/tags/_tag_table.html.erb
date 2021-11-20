@@ -1,0 +1,23 @@
+<div class='col-12'>
+  <div class='tagsafe-container mt-3'>
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head'>
+        <tr class='tagsafe-table-row'>
+          <div class='tagsafe-table-header' style='width: 60%'>Tag</div>
+          <div class='tagsafe-table-header' style='width: 16%'>TagSafe Score</div>
+          <div class='tagsafe-table-header' style='width: 16%'>Last release</div>
+          <div class='tagsafe-table-header' style='width: 6%'></div>
+        </tr>
+      </div>
+      <div class='tagsafe-table-body'>
+        <% tags.each do |tag| %>
+          <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="pagination-container text-center">
+      <%= paginate tags %>
+    </div>
+  </div>
+</div>

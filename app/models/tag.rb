@@ -32,7 +32,8 @@ class Tag < ApplicationRecord
   has_one_attached :image, service: :tag_image_s3
 
   # VALIDATIONS
-  validates_uniqueness_of :full_url, scope: :domain_id
+  validates_presence_of :full_url
+  validates_uniqueness_of :full_url, scope: :domain_id, conditions: -> { where(deleted_at: nil) }
 
   # CALLBACKS
   broadcast_notification on: :create

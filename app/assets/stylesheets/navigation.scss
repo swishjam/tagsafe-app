@@ -1,4 +1,9 @@
 .navigation {
+  &.collapsed {
+    margin-left: -14%;
+    // cursor: pointer;
+  }
+  transition: 500ms margin-left;
   width: 15%;
   background-color: white;
   color: $dark-grey-text;
@@ -79,4 +84,18 @@
       }
     }
   }
+}
+
+.left-hand-navigation-toggle {
+  &.show-btn {
+    left: 1%;
+  }
+  &.hide-btn {
+    left: 15%;
+  }
+  top: 0;
+  position: absolute;
+  background: white;
+  padding: 5px;
+  cursor: pointer;
 }

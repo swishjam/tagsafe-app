@@ -14,6 +14,7 @@ module PerformanceAuditManager
     def calculate_and_format_delta_results
       delta_metrics = {
         dom_complete: delta_between(:dom_complete),
+        dom_content_loaded: delta_between(:dom_content_loaded),
         dom_interactive: delta_between(:dom_interactive),
         first_contentful_paint: delta_between(:first_contentful_paint),
         script_duration: delta_between(:script_duration),

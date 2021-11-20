@@ -59,7 +59,7 @@
             <span>No audits run for this tag version</span>
           <% else %>
             <span class="tagsafe-pill <%= audit.state == 'pending' ? 'tagsafe-blue' : 'red' %>">Audit <%= audit.state %></span>
-            <% if audit.performance_audit_pending? %>
+            <% if audit.pending? %>
               <%= render 'audits/completion_indicator', audit: audit %>
               <!-- <#%= render 'individual_performance_audits/completion_indicators', audit: audit %> !-->
             <% end %>

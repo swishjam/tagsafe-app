@@ -1,6 +1,6 @@
 <tr id="<%= dom_id(audit) %>" class='<%= audit.is_primary? ? 'primary' : nil %>'>
   <td scope="row">
-    <% unless audit.performance_audit_pending? || audit.performance_audit_failed? %>
+    <% unless audit.pending? || audit.failed? %>
       <% if audit.is_primary? %>
         <button class='tagsafe-btn' style='font-size: 12px'>Primary Audit</button>
       <% else %>
@@ -12,9 +12,9 @@
   </td>
   <td scope="row"><%= audit.created_at.formatted %></td>
   <td scope="row">
-    <% if audit.performance_audit_failed? %>
+    <% if audit.failed? %>
       <span class="tagsafe-pill red">Failed</span>
-    <% elsif audit.performance_audit_pending? %>
+    <% elsif audit.pending? %>
       <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
       <%= render 'audits/completion_indicator', audit: audit %>
     <% else %>
@@ -30,5 +30,5 @@
   </td>
   <td scope="row"><%= audit.execution_reason.name %></td>
   <td scope="row"><%= audit.audited_url.tagsafe_hosted ? 'TagSafe-hosted version of ' : nil %><%= audit.audited_url.display_url %></td>
-  <td scope="row"><%= link_to 'View Audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %></td>
+  <td scope="row"><%= link_to 'View audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %></td>
 </tr>

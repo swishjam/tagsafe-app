@@ -15,7 +15,18 @@
         <% end %>
       <% end %>
       <div class='row text-end'>
-        <%= render 'tag_versions/dropdown', tag: tag, tag_version: tag_version, audit: audit %>
+        <% additional_menu_items = audit.should_show_page_load_resources? ? [{ 
+            text: 'View Waterfall Load Chart', 
+            url: tag_tag_version_audit_waterfall_path(tag, tag_version, audit),
+            icon_class: 'fas fa-tasks'
+          }] : [] 
+        %>
+        <%= render 'tag_versions/dropdown', 
+                    tag: tag, 
+                    tag_version: tag_version, 
+                    audit: audit, 
+                    additional_menu_items: additional_menu_items
+        %>
         <!-- <#%= render 'partials/utils/help_tooltip', message: "TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
       </div>
       <% if tag_version.audits.count > 1 %>
@@ -23,10 +34,13 @@
       <% end %>
     </div>
   </div>
-  <% if audit.performance_audit_failed? %>
-    <span>Performance audit failed:</span>
-    <span><%= audit.errored_individual_performance_audit.error_message %></span>
-  <% elsif audit.performance_audit_pending? %>
+  <% if audit.failed? %>
+    <p>Performance audit failed:</p>
+    <p><%= audit.error_message %></p>
+    <% audit.individual_performance_audits.failed.each do |perf_audit| %>
+      <p><%= perf_audit.error_message %></p>
+    <% end %>
+  <% elsif audit.pending? %>
     <span>Performance audit is currently running.</span>
     <div class='m-auto text-center w-fit'>
       <%= render 'audits/completion_indicator', audit: audit %>
@@ -126,7 +140,20 @@
           } %>
         </div>
         <div class='row'>
-          <div class="metric-row col-6 offset-3">
+          <%
+=begin%>
+ <#%= render partial: 'audits/performance_audit_metric_row', locals: {
+              tag: tag, 
+              metric_title: 'DOM Content Loaded',
+              impact_result: audit.delta_performance_audit.dom_content_loaded,
+              previous_impact_result: audit.delta_performance_audit.previous_metric_result(:dom_content_loaded),
+              score_impact: audit.delta_performance_audit.score_impact(:dom_content_loaded),
+              unit: 'ms',
+              previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+            } %> 
+<%
+=end%>
+          <div class="metric-row col-6">
             <div class='metric col-12'>
               <div class='row'>
                 <div class="col-6 metric-title">

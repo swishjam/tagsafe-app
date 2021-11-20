@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_08_230532) do
+ActiveRecord::Schema.define(version: 2021_11_19_151659) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -52,16 +52,25 @@ ActiveRecord::Schema.define(version: 2021_11_08_230532) do
     t.integer "tag_id"
     t.integer "performance_audit_iterations"
     t.timestamp "completed_at"
-    t.integer "errored_individual_performance_audit_id"
     t.integer "attempt_number"
     t.bigint "audited_url_id"
     t.datetime "deleted_at"
+    t.string "error_message"
     t.index ["audited_url_id"], name: "index_audits_on_audited_url_id"
-    t.index ["errored_individual_performance_audit_id"], name: "index_audits_on_errored_individual_performance_audit_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
     t.index ["uid"], name: "index_audits_on_uid"
+  end
+
+  create_table "blocked_resources", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "performance_audit_id"
+    t.text "url"
+    t.string "resource_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["performance_audit_id"], name: "index_blocked_resources_on_performance_audit_id"
   end
 
   create_table "domains", charset: "utf8mb3", force: :cascade do |t|
@@ -107,6 +116,9 @@ ActiveRecord::Schema.define(version: 2021_11_08_230532) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "uid"
+    t.string "aws_log_stream_name"
+    t.string "aws_request_id"
+    t.string "aws_trace_id"
     t.index ["parent_type", "parent_id"], name: "index_executed_lambda_functions_on_parent"
   end
 
@@ -114,6 +126,16 @@ ActiveRecord::Schema.define(version: 2021_11_08_230532) do
     t.string "uid"
     t.string "name"
     t.index ["uid"], name: "index_execution_reasons_on_uid"
+  end
+
+  create_table "flags", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "name"
+    t.string "slug"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "default_value"
   end
 
   create_table "monitored_scripts", charset: "utf8mb3", force: :cascade do |t|
@@ -137,6 +159,18 @@ ActiveRecord::Schema.define(version: 2021_11_08_230532) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "object_flags", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "object_type"
+    t.bigint "object_id"
+    t.bigint "flag_id"
+    t.string "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["flag_id"], name: "index_object_flags_on_flag_id"
+    t.index ["object_type", "object_id"], name: "index_object_flags_on_object"
   end
 
   create_table "organization_users", charset: "utf8mb3", force: :cascade do |t|
@@ -214,11 +248,9 @@ ActiveRecord::Schema.define(version: 2021_11_08_230532) do
     t.timestamp "completed_at"
     t.text "error_message"
     t.float "seconds_to_complete"
-    t.string "aws_log_stream_name"
-    t.string "aws_request_id"
-    t.string "aws_trace_id"
     t.datetime "deleted_at"
     t.boolean "used_for_scoring", default: false
+    t.float "dom_content_loaded"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end
@@ -362,9 +394,6 @@ ActiveRecord::Schema.define(version: 2021_11_08_230532) do
     t.text "error_message"
     t.string "url"
     t.float "seconds_to_complete"
-    t.string "aws_log_stream_name"
-    t.string "aws_request_id"
-    t.string "aws_trace_id"
     t.datetime "deleted_at"
     t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
     t.index ["uid"], name: "index_url_crawls_on_uid"

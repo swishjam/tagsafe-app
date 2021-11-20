@@ -78,7 +78,7 @@ module TagManager
         parsed_existing_tag_url = URI.parse(existing_tag_url)
         # find the tag URL from there previous query params and remove it from the already subscribed list
         if parsed_existing_tag_url.host == parsed_new_tag_url.host && parsed_existing_tag_url.path == parsed_new_tag_url.path
-          remove_full_url_from_starting_tags(existing_url)
+          remove_full_url_from_starting_tags(existing_tag_url)
         end
       end
     end

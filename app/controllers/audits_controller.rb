@@ -7,7 +7,7 @@ class AuditsController < LoggedInController
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
-      { text: "#{@tag_version.created_at.formatted_short} Audits", active: true }
+      { text: "Version #{@tag_version.sha} audits", active: true }
     )
   end
 
@@ -19,9 +19,9 @@ class AuditsController < LoggedInController
     @previous_audit = @tag_version.previous_version&.primary_audit
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
-      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
-      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.created_at.formatted_short} Change Audits" },
-      { text: "#{@audit.created_at.formatted_short} Audit", active: true }
+      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} details" },
+      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "Version #{@tag_version.sha} audits" },
+      { text: "#{@audit.created_at.formatted_short} audit", active: true }
     )
   end
 

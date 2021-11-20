@@ -8,7 +8,7 @@ class Audit < ApplicationRecord
   belongs_to :audited_url, class_name: 'UrlToAudit'
 
   has_many :performance_audits, dependent: :destroy
-  has_one :errored_individual_performance_audit, class_name: 'PerformanceAudit', dependent: :destroy
+  has_many :blocked_resources, through: :performance_audits
   has_one :delta_performance_audit, dependent: :destroy
   has_many :individual_performance_audits_with_tag, class_name: 'IndividualPerformanceAuditWithTag',  dependent: :destroy
   has_many :individual_performance_audits_without_tag, class_name: 'IndividualPerformanceAuditWithoutTag',  dependent: :destroy
@@ -31,22 +31,27 @@ class Audit < ApplicationRecord
 
   scope :pending_performance_audit, -> { where(seconds_to_complete: nil) }
   scope :completed_performance_audit, -> { where.not(seconds_to_complete: nil) }
+  scope :failed_performance_audit, -> { where.not(error_message: nil) }
+  scope :successful_performance_audit, -> { completed.where(error_message: nil) }
 
-  scope :failed_performance_audit, -> { where.not(errored_individual_performance_audit_id: nil) }
-  scope :successful_performance_audit, -> { where(errored_individual_performance_audit_id: nil) }
+  scope :pending, -> { pending_performance_audit }
+  scope :completed, -> { completed_performance_audit }
+  scope :failed, -> { failed_performance_audit }
+  scope :successful, -> { successful_performance_audit }
 
   scope :throttled, -> { where(throttled: true) }
   scope :not_throttled, -> { where(throttled: false) }
 
   def state
-    performance_audit_pending? ? 'pending' :
-      performance_audit_failed? ? 'failed' : 'complete'
+    pending? ? 'pending' :
+      failed? ? 'failed' : 'complete'
   end
 
-  def performance_audit_error!(performance_audit_id, disable_retry: false)
-    update!(errored_individual_performance_audit_id: performance_audit_id)
+  def error!(msg)
+    Rails.logger.info msg
+    Resque.logger.info msg
+    update!(error_message: msg)
     completed!
-    # attempt_retry unless disable_retry
   end
 
   # to prepare for when we have multiple types of audits, not just performance audits...
@@ -79,7 +84,7 @@ class Audit < ApplicationRecord
 
   def check_after_completion
     if completed?
-      make_primary! unless primary? || performance_audit_failed?
+      make_primary! unless primary? || failed?
       AuditCompletedJob.perform_later(self) unless execution_reason == ExecutionReason.INITIAL_AUDIT
     end
   end
@@ -108,22 +113,21 @@ class Audit < ApplicationRecord
     broadcast_replace_to self, partial: 'audits/show', locals: { tag: tag, tag_version: tag_version, audit: self, previous_audit: tag_version.previous_version&.primary_audit }
   end
 
-  def performance_audit_successful?
-    !performance_audit_failed? && performance_audit_completed?
+  def successful?
+    !failed? && completed?
   end
 
-  def performance_audit_failed?
-    !errored_individual_performance_audit_id.nil?
+  def failed?
+    !error_message.nil?
   end
 
-  def performance_audit_pending?
+  def pending?
     completed_at.nil?
   end
 
-  def performance_audit_completed?
-    !performance_audit_pending?
+  def completed?
+    !pending?
   end
-  alias completed? performance_audit_completed?
 
   def primary?
     primary
@@ -131,7 +135,7 @@ class Audit < ApplicationRecord
   alias is_primary? primary?
 
   def make_primary!
-    raise AuditError::InvalidPrimary if performance_audit_failed? || performance_audit_pending?
+    raise AuditError::InvalidPrimary if failed? || pending?
     primary_audit_from_before = tag_version.primary_audit
     primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
@@ -165,6 +169,14 @@ class Audit < ApplicationRecord
 
   def individual_performance_audit_percent_complete
     ((individual_performance_audits.completed_successfully.count) / (performance_audit_iterations * 2.0))*100
+  end
+
+  def should_show_page_load_resources?
+    completed? && !failed? && blocked_resources.any?
+  end
+
+  def maximum_individual_performance_audit_attempts
+    Flag.flag_value_for_objects(tag, tag.domain, tag.domain.organization, slug: 'max_individual_performance_audit_retries').to_i
   end
 
   def update_completion_indicators

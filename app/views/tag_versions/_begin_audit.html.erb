@@ -3,7 +3,7 @@
     <div class='mb-5'>
       <h3 class='inline-message mt-5 mb-5'>Performing <%= audits_enqueued.count %> <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
       <% audits_enqueued.each do |audit| %>
-        <%= link_to "View Audit being performed on #{audit.audited_url.formatted_display_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
+        <%= link_to "View audit being performed on #{audit.audited_url.formatted_display_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
       <% end %>
     </div>
   <% else %>
@@ -15,20 +15,11 @@
           <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
         </div>
       <% end %>
-      <% if ENV['ALLOW_ENABLING_PAGE_TRACING'] == 'true' %>
-        <div class="form-check form-switch w-fit m-auto">evaluate_individual_results
-          <label class='form-check-label' for='enable_tracing'>Run with screenshots and profile tracing</label>
-          <input name='enable_tracing' id="enable_tracing" type='checkbox' class='form-check-input' value='true'>
-          <i data-controller='tooltip'
-              data-bs-toggle="tooltip"
-              data-placement="top"
-              title="Enable this option to instruct the audit to return screenshots of the page load and the Chrome Devtools trace. WARNRING: this can skew results."
-              class="far fa-question-circle"></i>
-        </div>
-      <% end %>
       <div class='mt-3'>
-        <button type='submit' class='tagsafe-btn'>Run Audit</button>
-        <div class='submit-loading'><%= render 'partials/utils/spinner', size: :small %></div>
+        <button type='submit' class='tagsafe-btn loading-submit-btn'>
+          <span class='submit-text'>Run audit</span>
+          <span class='submit-loading-icon'><%= render 'partials/utils/spinner', size: :tiny, color: :white %></span>
+        </button>
       </div>
     <% end %>
   <% end %>

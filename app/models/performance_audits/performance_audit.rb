@@ -2,6 +2,7 @@ class PerformanceAudit < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :audit, optional: false
+  has_many :blocked_resources
   has_many :page_load_resources, foreign_key: :performance_audit_id, dependent: :destroy
   has_many :page_load_screenshots, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :page_load_trace, foreign_key: :performance_audit_id, dependent: :destroy
@@ -78,7 +79,6 @@ class PerformanceAudit < ApplicationRecord
 
   def error!(msg)
     update!(error_message: msg)
-    # audit.performance_audit_error!(id)
     completed!
     try_retry!
   end
@@ -103,23 +103,18 @@ class PerformanceAudit < ApplicationRecord
     if should_retry? || force
       raise AuditError::InvalidRetry, "Cannot retry a PerformanceAudit of type #{type}" unless is_a?(IndividualPerformanceAuditWithTag) || is_a?(IndividualPerformanceAuditWithoutTag)
       Rails.logger.info "Retrying PerformanceAudit #{id} that failed because of #{error_message}"
-      lambda_sender_class = is_a?(IndividualPerformanceAuditWithTag) ? LambdaModerator::Senders::PerformanceAuditerWithTag :  LambdaModerator::Senders::PerformanceAuditerWithoutTag
+      audit_type = is_a?(IndividualPerformanceAuditWithTag) ? :with_tag :  :without_tag
       RunIndividualPerformanceAuditJob.perform_later(
+        type: audit_type,
         audit: audit, 
-        tag_version: audit.tag_version, 
-        enable_tracing: executed_lambda_function.request_payload['enable_page_load_tracing'],
-        include_page_load_resources: executed_lambda_function.request_payload['include_page_load_resources'],
-        inline_injected_script_tags: executed_lambda_function.request_payload['inline_injected_script_tags'],
-        lambda_sender_class: lambda_sender_class
+        tag_version: audit.tag_version
       )
     else
-      Rails.logger.info "Stopping PerformanceAudit retries on audit #{audit_id} due to exceeding max retry count of #{ENV['MAX_FAILED_INDIVIDUAL_PERFORMANCE_AUDITS']}"
-      Resque.logger.info "Stopping PerformanceAudit retries on audit #{audit_id} due to exceeding max retry count of #{ENV['MAX_FAILED_INDIVIDUAL_PERFORMANCE_AUDITS']}"
-      audit.performance_audit_error!(id)
+      audit.error!("Stopping PerformanceAudit retries on audit #{audit_id} due to exceeding max retry count of #{audit.maximum_individual_performance_audit_attempts}")
     end
   end
 
   def should_retry?
-    audit.individual_performance_audits.failed.count <= (ENV['MAX_FAILED_INDIVIDUAL_PERFORMANCE_AUDITS'] || 3).to_i
+    audit.individual_performance_audits.failed.count <= audit.maximum_individual_performance_audit_attempts
   end
 end

@@ -28,12 +28,17 @@
   cursor: pointer;
 }
 
+a.no-decoration {
+  text-decoration: none !important;
+}
+
 body.logged-in {
   #content {
     margin: 0;
     background-color: #eeeeee;
     min-height: 100vh;
     &:not(.full-width) {
+      transition: 500ms width;
       width: 85%;
       float: right;
     }
@@ -45,7 +50,7 @@ body.logged-in {
     }
   }
   .breadcrumb {
-    background: white;
+    padding: 40px 0px 0px 10px;
   }
   .page-title {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -155,6 +160,9 @@ body.logged-in {
 
 .tagsafe-spinner {
   color: $tagsafe-blue;
+  &.white {
+    color: white;
+  }
   &.tiny {
     width: 15px;
     height: 15px;
@@ -174,17 +182,26 @@ body.logged-in {
 }
 
 turbo-frame.display-form-loading {
+  input.loading-submit-btn, button.loading-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    .submit-loading-icon {
+      position: absolute;
+    }
+  }
+
   &:not([busy]) {
-    form .submit-loading {
+    form .submit-loading-icon {
       display: none;
     }
   }
   &[busy] {
-    form .submit-loading {
+    form .submit-loading-icon {
       display: inline-block;
     }
-    form [type=submit] {
-      display: none;
+    form .submit-text {
+      visibility: hidden;
     }
   }
 }
@@ -257,28 +274,38 @@ a.no-decoration {
   text-align: center;
   &.tagsafe-blue {
     background: #cce9ff;
-    color: $darkest-tagsafe-blue;
     border: 1px solid $darkest-tagsafe-blue;
   }
-  &.active, &.green {
+  &.tagsafe-blue, &.tagsafe-blue * {
+    color: $darkest-tagsafe-blue;
+  }
+  &.green {
     background: rgb(200, 255, 200);
-    color: green;
     border: 1px solid green;
   }
-  &.not-auditing, &.orange {
+  &.green, &.green * {
+    color: green;
+  }
+  &.orange {
     background: rgb(255, 240, 213);
-    color: orange;
     border: 1px solid orange;
   }
-  &.not-monitoring, &.red {
+  &.orange, &.orange * {
+    color: orange;
+  }
+  &.red {
     background: rgb(255, 212, 212);
-    color: red;
     border: 1px solid red;
   }
-  &.removed-from-site, &.grey {
+  &.red, &.red * {
+    color: red;
+  }
+  &.grey {
     background: rgb(235, 235, 235);
-    color: grey;
     border: 1px solid grey;
+  }
+  &.grey, &.grey * {
+    color: grey;
   }
   .remove-btn {
     cursor: pointer;

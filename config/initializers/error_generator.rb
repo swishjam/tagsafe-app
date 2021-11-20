@@ -7,6 +7,10 @@ class LambdaFunctionError
   class FailedLambdaInvocation < StandardError; end;
 end
 
+class PerformanceAuditError
+  class InvalidType < StandardError; end;
+end
+
 class AuditError
   class InvalidRetry < StandardError; end;
   class InvalidPrimary < StandardError; end;

@@ -6,12 +6,7 @@ module ChartHelper
       @metric_key = metric_key
       add_current_timestamp_to_chart_data
     end
-    
-    # def get_metric_data!
-    #   add_current_timestamp_to_chart_data
-    #   chart_data
-    # end
-
+  
     def chart_data
       @chart_data ||= tags_primary_delta_performance_audits.map do |friendly_name, delta_performance_audits|
         {

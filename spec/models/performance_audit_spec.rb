@@ -17,30 +17,30 @@ RSpec.describe PerformanceAudit, type: :model do
       expect(@performance_audit.completed_at).to_not be(nil)
     end
 
-    it 'does not call AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `performance_audit_failed?` returns true and `all_individual_performance_audits_completed?` returns true' do
-      allow(@audit).to receive(:performance_audit_failed?).and_return(true)
+    it 'does not call AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `failed?` returns true and `all_individual_performance_audits_completed?` returns true' do
+      allow(@audit).to receive(:failed?).and_return(true)
       allow(@audit).to receive(:all_individual_performance_audits_completed?).and_return(true)
       expect(AfterAuditsIndividualPerformanceAuditsCompletedJob).to_not receive(:perform_later)
       @performance_audit.completed!
     end
 
-    it 'does not call AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `performance_audit_failed?` returns false and `all_individual_performance_audits_completed?` returns false' do
-      allow(@audit).to receive(:performance_audit_failed?).and_return(false)
+    it 'does not call AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `failed?` returns false and `all_individual_performance_audits_completed?` returns false' do
+      allow(@audit).to receive(:failed?).and_return(false)
       allow(@audit).to receive(:all_individual_performance_audits_completed?).and_return(false)
       expect(AfterAuditsIndividualPerformanceAuditsCompletedJob).to_not receive(:perform_later)
       @performance_audit.completed!
     end
 
-    it 'does not call AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `performance_audit_failed?` returns true and `all_individual_performance_audits_completed?` returns false' do
-      allow(@audit).to receive(:performance_audit_failed?).and_return(true)
+    it 'does not call AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `failed?` returns true and `all_individual_performance_audits_completed?` returns false' do
+      allow(@audit).to receive(:failed?).and_return(true)
       allow(@audit).to receive(:all_individual_performance_audits_completed?).and_return(false)
       expect(AfterAuditsIndividualPerformanceAuditsCompletedJob).to_not receive(:perform_later)
       @performance_audit.completed!
     end
 
 
-    it 'calls AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `performance_audit_failed?` returns false and `all_individual_performance_audits_completed?` returns true' do
-      allow(@audit).to receive(:performance_audit_failed?).and_return(false)
+    it 'calls AfterAuditsIndividualPerformanceAuditsCompletedJob if Audit `failed?` returns false and `all_individual_performance_audits_completed?` returns true' do
+      allow(@audit).to receive(:failed?).and_return(false)
       allow(@audit).to receive(:all_individual_performance_audits_completed?).and_return(true)
       expect(AfterAuditsIndividualPerformanceAuditsCompletedJob).to receive(:perform_later).exactly(:once)
       @performance_audit.completed!

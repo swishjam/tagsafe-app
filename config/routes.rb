@@ -68,6 +68,7 @@ Rails.application.routes.draw do
         resources :performance_audit_logs, only: :index
         resources :executed_lambda_functions, only: :index
         resources :page_load_resources, only: :index
+        get '/waterfall' => 'page_load_resources#for_audit'
         get '/cloudwatch_logs' => 'audits#cloudwatch_logs'
       end
     end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LambdaModerator::Senders::Base do
+RSpec.describe LambdaModerator::Base do
   module LambdaModerator
     module Senders
       class MockSender < Base
@@ -13,13 +13,13 @@ RSpec.describe LambdaModerator::Senders::Base do
 
   before(:each) do
     stub_lambda_calls
-    @mock_sender = LambdaModerator::Senders::MockSender.new
+    @mock_sender = LambdaModerator::MockSender.new
   end
 
   describe 'class attr_accessors' do
     it 'defines lambda_service_name and lambda_function_name' do
-      expect(LambdaModerator::Senders::MockSender.lambda_service_name).to eq('mock-service')
-      expect(LambdaModerator::Senders::MockSender.lambda_function_name).to eq('mockFunction')
+      expect(LambdaModerator::MockSender.lambda_service_name).to eq('mock-service')
+      expect(LambdaModerator::MockSender.lambda_function_name).to eq('mockFunction')
     end
   end
 
@@ -56,28 +56,28 @@ RSpec.describe LambdaModerator::Senders::Base do
 
   describe '#self.lambda_service' do
     it 'sets the lambda_service_name class variables' do
-      LambdaModerator::Senders::Base.lambda_service 'test!'
-      expect(LambdaModerator::Senders::Base.lambda_service_name).to eq('test!')
+      LambdaModerator::Base.lambda_service 'test!'
+      expect(LambdaModerator::Base.lambda_service_name).to eq('test!')
     end
   end
 
   describe '#self.lambda_function' do
     it 'sets the lambda_function_name class variables' do
-      LambdaModerator::Senders::Base.lambda_function 'test!'
-      expect(LambdaModerator::Senders::Base.lambda_function_name).to eq('test!')
+      LambdaModerator::Base.lambda_function 'test!'
+      expect(LambdaModerator::Base.lambda_function_name).to eq('test!')
     end
   end
 
   describe '#lambda_invoke_function_name' do
     it 'throws an error if lambda_function_name is not defined' do
       @mock_sender.class.lambda_function nil
-      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaModerator::Senders::Base::InvalidLambdaFunction)
+      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaModerator::Base::InvalidLambdaFunction)
       @mock_sender.class.lambda_function 'mockFunction'
     end
 
     it 'throws an error if lambda_service_name is not defined' do
       @mock_sender.class.lambda_service nil
-      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaModerator::Senders::Base::InvalidLambdaFunction)
+      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaModerator::Base::InvalidLambdaFunction)
       @mock_sender.class.lambda_service 'mock-service'
     end
 
@@ -105,7 +105,7 @@ RSpec.describe LambdaModerator::Senders::Base do
 
     it 'raises an error if a required payload argument is missing' do
       allow(@mock_sender).to receive(:required_payload_arguments).and_return([:foo ,:missing_arg])
-      expect{ @mock_sender.send(:ensure_arguments!) }.to raise_error(LambdaModerator::Senders::Base::InvalidLambdaFunctionArguments, "mock-service-test-mockFunction is missing missing_arg arguments")
+      expect{ @mock_sender.send(:ensure_arguments!) }.to raise_error(LambdaModerator::Base::InvalidLambdaFunctionArguments, "mock-service-test-mockFunction is missing missing_arg arguments")
     end
   end
 end

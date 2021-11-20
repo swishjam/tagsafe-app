@@ -1,0 +1,37 @@
+.tagsafe-table {
+  text-align: left;
+  // border: 1px solid lightgrey;
+  .tagsafe-table-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    &:hover {
+      background: rgb(228, 228, 228);
+    }
+  }
+  .tagsafe-table-head {
+    background: lightgrey;
+    color: $dark-grey-text;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 10px;
+  }
+  .tagsafe-table-body {
+    border: 1px solid lightgrey;
+  }
+  .tagsafe-table-header, .tagsafe-table-data {
+    display: inline-flex;
+    align-items: center;
+    word-break: break-word;
+  }
+  .tagsafe-table-data {
+    padding: 5px;
+  }
+  .tagsafe-table-data, .tagsafe-table-data * {
+    color: $dark-grey-text;
+  }
+  .tagsafe-table-row {
+    border-bottom: 1px solid lightgrey;
+    padding: 5px;
+  }
+}

@@ -25,7 +25,7 @@ module PerformanceAuditManager
     private
 
     def ensure_successful_audit
-      raise InvalidAudit, "Audit must be completed and successfull in order to score its accuracy. It is currently #{@audit.state}" if !@audit.performance_audit_successful?
+      raise InvalidAudit, "Audit must be completed and successfull in order to score its accuracy. It is currently #{@audit.state}" if !@audit.successful?
     end
 
     def calculate_std_dev_for_each_attribute

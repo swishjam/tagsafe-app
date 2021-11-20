@@ -56,4 +56,14 @@ body.tags {
       }
     }
   }
+
+  .tag-img-thumbnail-container {
+    width: 60px;
+    text-align: center;
+    display: inline-block;
+  }
+  .tag-name-container {
+    width: calc(100% - 65px);
+    display: inline-block;
+  }
 }
