@@ -27,3 +27,7 @@ end
 class LambdaResponseGeneratorError
   class MissingRequiredKey < StandardError; end;
 end
+
+class FlagError
+  class FlagDoesntExist < StandardError; end;
+end

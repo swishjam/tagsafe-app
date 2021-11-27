@@ -54,10 +54,10 @@
         </div>
       </div>
       <div class='row'>
-        <div class='col-6 text-start'>
+        <div class='col-12 text-start'>
           <b>Impact on Metrics:</b>
         </div>
-        <div class='col-6 text-end'>
+        <!-- <div class='col-6 text-end'>
           <div class='tagsafe-circular-btn' 
                 data-audit-results-expander-target='expandBtn' 
                 data-action='click->audit-results-expander#expandMetrics' 
@@ -76,7 +76,7 @@
                 title="Collapse metrics.">
             <i class="fas fa-compress-alt"></i>
           </div>
-        </div>
+        </div> !-->
       </div>
       <div data-audit-results-expander-target='metricsContainer' class="performance-metrics-container minimized">
         <div class="row">
@@ -140,9 +140,7 @@
           } %>
         </div>
         <div class='row'>
-          <%
-=begin%>
- <#%= render partial: 'audits/performance_audit_metric_row', locals: {
+          <%= render partial: 'audits/performance_audit_metric_row', locals: {
               tag: tag, 
               metric_title: 'DOM Content Loaded',
               impact_result: audit.delta_performance_audit.dom_content_loaded,
@@ -150,9 +148,7 @@
               score_impact: audit.delta_performance_audit.score_impact(:dom_content_loaded),
               unit: 'ms',
               previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-            } %> 
-<%
-=end%>
+            } %>
           <div class="metric-row col-6">
             <div class='metric col-12'>
               <div class='row'>

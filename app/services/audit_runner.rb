@@ -52,6 +52,7 @@ class AuditRunner
 
   def audit
     @audit ||= Audit.create!(
+      performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
       tag_version: @tag_version,
       tag: @tag,
       execution_reason: @execution_reason,

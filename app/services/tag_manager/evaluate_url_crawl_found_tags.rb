@@ -62,6 +62,7 @@ module TagManager
     end
 
     def remove_tags_removed_from_site
+      return if ENV['REMOVED_TAGS_IN_URL_CRAWLS'] == 'false'
       @pre_existing_tag_urls_for_this_page.each do |tag_url|
         tag = @domain.tags.find_by(full_url: tag_url)
         TagRemovedFromSiteEvent.create!(triggerer: tag)

@@ -54,10 +54,10 @@ namespace :seed do
     flags.each do |flag_config|
       existing = Flag.find_by(slug: flag_config[:slug])
       if existing
-        puts "#{flag_config[:slug]} already exists, skipping..."
+        puts "#{existing.slug} already exists, skipping..."
       else
-        Flag.create!(flag_config)
-        puts "Created #{flag_config[:slug]} flag."
+        flag = Flag.create!(flag_config)
+        puts "Created #{flag.slug} flag."
       end
     end
   end

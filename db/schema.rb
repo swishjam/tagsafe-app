@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_19_151659) do
+ActiveRecord::Schema.define(version: 2021_11_26_123350) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -56,8 +56,10 @@ ActiveRecord::Schema.define(version: 2021_11_19_151659) do
     t.bigint "audited_url_id"
     t.datetime "deleted_at"
     t.string "error_message"
+    t.integer "peformance_audit_calculator_id"
     t.index ["audited_url_id"], name: "index_audits_on_audited_url_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
+    t.index ["peformance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
     t.index ["uid"], name: "index_audits_on_uid"
@@ -80,6 +82,8 @@ ActiveRecord::Schema.define(version: 2021_11_19_151659) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.integer "current_performance_audit_calculator_id"
+    t.index ["current_performance_audit_calculator_id"], name: "index_domains_on_current_performance_audit_calculator_id"
     t.index ["organization_id"], name: "index_domains_on_organization_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
@@ -220,6 +224,29 @@ ActiveRecord::Schema.define(version: 2021_11_19_151659) do
     t.bigint "performance_audit_id"
     t.string "uid"
     t.index ["performance_audit_id"], name: "index_page_load_traces_on_performance_audit_id"
+  end
+
+  create_table "performance_audit_calculators", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.boolean "currently_active"
+    t.float "dom_complete_weight"
+    t.float "dom_content_loaded_weight"
+    t.float "dom_interactive_weight"
+    t.float "first_contentful_paint_weight"
+    t.float "layout_duration_weight"
+    t.float "task_duration_weight"
+    t.float "script_duration_weight"
+    t.float "byte_size_weight"
+    t.integer "dom_complete_score_decrement_amount"
+    t.integer "dom_content_loaded_score_decrement_amount"
+    t.integer "dom_interactive_score_decrement_amount"
+    t.integer "first_contentful_paint_score_decrement_amount"
+    t.integer "layout_duration_score_decrement_amount"
+    t.integer "task_duration_score_decrement_amount"
+    t.integer "script_duration_score_decrement_amount"
+    t.integer "byte_size_score_decrement_amount"
+    t.index ["domain_id"], name: "index_performance_audit_calculators_on_domain_id"
   end
 
   create_table "performance_audit_logs", charset: "utf8mb3", force: :cascade do |t|

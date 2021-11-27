@@ -6,11 +6,11 @@
         <circle class='inner-circle' cx="70" cy="70" r="70"></circle>
         <circle class='circle-outline' cx="70" cy="70" r="70" style='stroke-dashoffset: <%= 440 - (440*score) / 100 %>'></circle>
       </svg>
-      <div class="score">
+      <div class="score default-cursor">
         <h2><%= score.round(2) %></h2>
         <% if change_in_score %>
           <span data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="The previous version had a TagSafe score of <%= (score - change_in_score).round(2) %>.">
-            <span><i class="fa fa-xs <%=change_in_score.positive? ? "fa-chevron-up" : "fa-chevron-down"%>"></i> <%= change_in_score.round(2) %></span>
+            <span><i class="fas <%=change_in_score.positive? ? "fa-long-arrow-alt-up" : "fa-long-arrow-alt-down"%>"></i> <%= change_in_score.round(2) %></span>
           </span>
         <% end %>
       </div>

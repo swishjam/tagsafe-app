@@ -12,6 +12,7 @@
       &.script_duration { background-color: yellow }
       &.layout_duration { background-color: purple }
       &.task_duration { background-color: orange }
+      &.dom_content_loaded { background-color: rgb(21, 255, 0) }
     }
   }
 }
@@ -48,12 +49,13 @@
     height: 100%;
     position: absolute;
     width: 3px;
-    &.dom_complete { background-color: red }
-    &.dom_interactive { background-color: blue }
-    &.first_contentful_paint { background-color: green }
-    &.script_duration { background-color: yellow }
-    &.layout_duration { background-color: purple }
-    &.task_duration { background-color: orange }
+    &[data-performance-metric-type=dom_complete] { background-color: red }
+    &[data-performance-metric-type=dom_interactive] { background-color: blue }
+    &[data-performance-metric-type=first_contentful_paint] { background-color: green }
+    &[data-performance-metric-type=script_duration] { background-color: yellow }
+    &[data-performance-metric-type=layout_duration] { background-color: purple }
+    &[data-performance-metric-type=task_duration] { background-color: orange }
+    &[data-performance-metric-type=dom_content_loaded] { background-color: rgb(21, 255, 0) }
   }
   .page-load-timeline-marker {
     display: inline-block; 

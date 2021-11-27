@@ -5,18 +5,18 @@ class CrawlUrlJob < ApplicationJob
     sender = LambdaModerator::UrlCrawler.new(url_to_crawl, initial_crawl: initial_crawl)
     response = sender.send!
     if response.successful
-      capture_successful_crawl(response.response_body)
+      capture_successful_crawl(sender.url_crawl, response.response_body)
     else
       sender.url_crawl.errored!(response.error)
     end
   end
 
-  def capture_successful_crawl(response_data)
+  def capture_successful_crawl(url_crawl, response_data)
     if response_data['error_message'] || response_data['errorMessage']
       url_crawl.errored!(response_data['error_message'] || response_data['errorMessage'])
     else
       TagManager::EvaluateUrlCrawlFoundTags.new(
-        url_crawl: UrlCrawl.find(response_data['url_crawl_id']),
+        url_crawl: url_crawl,
         tag_urls: response_data['tag_urls'], 
         initial_crawl: response_data['initial_crawl']
       ).evaluate!

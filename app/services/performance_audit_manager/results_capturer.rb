@@ -5,8 +5,6 @@ module PerformanceAuditManager
       individual_performance_audit:, 
       results:, 
       blocked_resources:,
-      # blocked_tag_urls:, 
-      # allowed_tag_urls:,
       logs:,
       page_load_screenshot_urls: [],
       page_load_trace_json_url:,
@@ -16,8 +14,6 @@ module PerformanceAuditManager
       @results = results
       @logs = logs
       @blocked_resources = blocked_resources
-      # @blocked_tag_urls = blocked_tag_urls
-      # @allowed_tag_urls = allowed_tag_urls
       @page_load_screenshot_urls = page_load_screenshot_urls
       @page_load_trace_json_url = page_load_trace_json_url
       @error = error
@@ -40,9 +36,9 @@ module PerformanceAuditManager
 
     def update_individual_performance_audits_results!
       individual_performance_audit.update(
-        # dom_complete: @results['DOMComplete'],
+        # dom_complete: @results['LoadEvent'],
+        dom_complete: @results['DOMComplete'],
         dom_content_loaded: @results['DOMContentLoaded'],
-        dom_complete: @results['LoadEvent'],
         dom_interactive: @results['DOMInteractive'],
         first_contentful_paint: @results['FirstContentfulPaint'],
         layout_duration: @results['LayoutDuration'],
@@ -90,6 +86,7 @@ module PerformanceAuditManager
     def calculate_tagsafe_score_for_performance_audit
       return nil if @error
       @tagsafe_score ||= TagSafeScorer.new(
+        performance_audit_calculator: @individual_performance_audit.audit.tag.domain.current_performance_audit_calculator,
         dom_complete: @results['DOMComplete'],
         dom_content_loaded: @results['DOMContentLoaded'],
         dom_interactive: @results['DOMInteractive'],

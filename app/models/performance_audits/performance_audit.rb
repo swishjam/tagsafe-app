@@ -2,7 +2,7 @@ class PerformanceAudit < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :audit, optional: false
-  has_many :blocked_resources
+  has_many :blocked_resources, dependent: :destroy
   has_many :page_load_resources, foreign_key: :performance_audit_id, dependent: :destroy
   has_many :page_load_screenshots, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :page_load_trace, foreign_key: :performance_audit_id, dependent: :destroy

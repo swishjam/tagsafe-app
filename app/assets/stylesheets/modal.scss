@@ -23,6 +23,7 @@
     border-radius: 10px;
     position: absolute;
     max-width: 80%;
+    min-width: 60%;
     .tagsafe-modal-header {
       .close {
         position: absolute;
@@ -36,6 +37,11 @@
     .tagsafe-modal-header-divider {
       border-bottom: 1px solid lightgrey;
       margin: 0px 15px 0px 15px;
+    }
+    .button-divider {
+      border-top: 1px solid lightgrey;
+      margin-top: 15px;
+      padding-top: 15px;
     }
     .tagsafe-modal-content {
       padding: 15px;

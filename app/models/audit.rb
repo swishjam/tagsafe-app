@@ -6,6 +6,7 @@ class Audit < ApplicationRecord
   belongs_to :tag
   belongs_to :execution_reason
   belongs_to :audited_url, class_name: 'UrlToAudit'
+  belongs_to :performance_audit_calculator
 
   has_many :performance_audits, dependent: :destroy
   has_many :blocked_resources, through: :performance_audits
@@ -110,7 +111,9 @@ class Audit < ApplicationRecord
 
   def update_audit_content
     broadcast_replace_to "#{tag_version_id}_tag_version_audits"
-    broadcast_replace_to self, partial: 'audits/show', locals: { tag: tag, tag_version: tag_version, audit: self, previous_audit: tag_version.previous_version&.primary_audit }
+    if completed?
+      broadcast_replace_to self, partial: 'audits/show', locals: { tag: tag, tag_version: tag_version, audit: self, previous_audit: tag_version.previous_version&.primary_audit }
+    end
   end
 
   def successful?

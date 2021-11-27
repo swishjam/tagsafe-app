@@ -1,8 +1,10 @@
 class Domain < ApplicationRecord
+  include Flaggable
   uid_prefix 'dom'
   acts_as_paranoid
 
   belongs_to :organization
+  has_many :performance_audit_calculators
   has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :urls_to_crawl, dependent: :destroy, class_name: 'UrlToCrawl'
@@ -10,7 +12,7 @@ class Domain < ApplicationRecord
 
   validates :url, presence: true, uniqueness: true
 
-  after_create_commit :add_default_url_to_crawl
+  after_create_commit :add_defaults
 
   def parsed_domain_url
     u = URI.parse(url)
@@ -21,8 +23,13 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def add_default_url_to_crawl(create_mock_site = true)
+  def add_defaults(create_mock_site = true)
     urls_to_crawl.create(url: url)
+    PerformanceAuditCalculator.create_default_calculator(self)
+  end
+
+  def current_performance_audit_calculator
+    performance_audit_calculators.currently_active.limit(1).first
   end
 
   def disable_all_third_party_tags_during_audits

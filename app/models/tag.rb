@@ -1,6 +1,7 @@
 class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Notifier
+  include Flaggable
   uid_prefix 'tag'
   acts_as_paranoid
 

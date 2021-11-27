@@ -4,31 +4,24 @@
   <br/>
   <%= @tag_version.created_at.formatted_short %> tag change
 </h6>
-<div class="tagsafe-container text-center">
+<div class="tagsafe-container text-center" data-controller='primary-audits'>
   <div class="col-12 text-end">
     <%= render 'tag_versions/dropdown', tag: @tag, tag_version: @tag_version %>
   </div>
-  <table class="table table-hover col-12 text-start" style="table-layout: fixed">
-    <thead>
-      <tr>
-        <th scope="col" style="width: 10%">
-          <span data-controller="tooltip" data-bs-toggle="tooltip" data-placement="top" title="A tag version must have one audit that is the 'primary audit'. The primary audit is used in the calculations between tag versions. For this reason you must select the most accurate audit.">
-            Primary Audit
-          </span>
-        </th>
-        <th scope="col" style='width: 25%'>Date of Audit</th>
-        <th scope="col" style='width: 20%'>TagSafe Score</th>
-        <th scope="col" style='width: 15%'>
-          Execution Reason
-          <%= render 'partials/utils/help_tooltip', message: "An audit can be executed for the following reasons: Initial Audit, Reactivated Tag, Tag Change, Manual Audit, Scheduled Audit, or a Retry." %>
-        </th>
-        <th scope="col" style='width: 20%'>Audited URL</th>
-        <th scope="col" style='width: 10%'></th>
-      </tr>
-    </thead>
-    <%= turbo_stream_from "#{@tag_version.id}_tag_version_audits" %>
-    <tbody id="<%= @tag_version.id %>_tag_version_audits">
-      <%= render partial: 'audit', collection: @audits, as: :audit %>
-    </tbody>
-  </table>
+  <div class='tagsafe-table mt-3'>
+    <div class='tagsafe-table-head tagsafe-table-row'>
+      <div class='tagsafe-table-header' style='width: 15%'>Primary Audit</div>
+      <div class='tagsafe-table-header' style='width: 20%'>Date of Audit</div>
+      <div class='tagsafe-table-header' style='width: 20%'>TagSafe Score</div>
+      <div class='tagsafe-table-header' style='width: 15%'>Execution Reason</div>
+      <div class='tagsafe-table-header' style='width: 20%'>Audited URL</div>
+      <div class='tagsafe-table-header' style='width: 10%'></div>
+    </div>
+    <div class='tagsafe-table-body'>
+      <%= turbo_stream_from "#{@tag_version.id}_tag_version_audits" %>
+      <%= turbo_frame_tag "#{@tag_version.id}_tag_version_audits", clas: 'tagsafe-table-body' do %>
+        <%= render partial: 'audit', collection: @audits, as: :audit %>
+      <% end %>
+    </div>
+  </div>
 </div>

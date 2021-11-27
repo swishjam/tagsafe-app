@@ -6,36 +6,31 @@
       </div>
       <div class="col-6 metric-value">
         <% if impact_result.zero? %>
-          <span>No Impact</span>
+          <span class='default-cursor'>No Impact</span>
         <% else %>
+          <% tooltip_title = "When #{tag.try_friendly_name} is present, #{metric_title} is #{impact_result.round(2)} #{unit} #{impact_result > 0 ? 'slower' : nil}" %>
+          <% diff_in_metric = impact_result - previous_impact_result %>
+          <% unless previous_impact_result.nil? %>
+            <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{diff_in_metric.abs.round(2)} #{unit} from the previous version." %>
+          <% end %>
           <span data-controller='tooltip'
                 data-bs-toggle='tooltip'
-                title="When <%= tag.try_friendly_name %> is present, <%= metric_title %> is <%= impact_result.round(2) %> <%= unit %> <%= impact_result > 0 ? 'slower' : nil %>"
-                class="current-value">
-            <%= impact_result > 0 ? 'Adds' : nil %> <%= number_to_human(impact_result.round(2), units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
-          </span>
-        <% end %>
-        <div class='additional-details'>
-          <span><%= score_impact.round(2) %> Score Impact</span>
-          <br/>
-          <% unless previous_impact_result.nil? %>
-            <% diff_in_metric = impact_result - previous_impact_result %>
-            <% if diff_in_metric.zero? %>
-              (No Change)
-            <% else %>
+                title="<%= tooltip_title %>" 
+                class="current-value default-cursor">
+            <%= impact_result > 0 ? 'Adds' : nil %> <%= number_to_human(impact_result.round(2), units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>          
+            <% unless previous_impact_result.nil? %>
               <% if diff_in_metric.zero? %>
+                (No Change)
               <% else %>
-                <span data-bs-toggle="tooltip"
-                      data-placement="top"
-                      title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on <%= metric_title %>' was <%=number_to_human(previous_impact_result, units: { unit: unit, thousand: unit ? 'seconds' : nil })%> (<%= previous_timestamp.formatted_short %>)." 
-                      class="<%= diff_in_metric.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
-                  <%= diff_in_metric.positive? ? 'Adds' : nil %><%= number_to_human(diff_in_metric, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
-                  (<%= number_with_delimiter(((diff_in_metric/previous_impact_result)*100).round(2)) %>%)
+                <span class="<%= diff_in_metric.positive? ? 'green-text' : 'red-text' %>" style='font-size: 12px'>
+                  <% icon_class = diff_in_metric.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
+                  <i class="<%= icon_class %>"></i>
+                  <%= number_to_human(diff_in_metric.abs, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
                 </span>
               <% end %>
             <% end %>
-          <% end %>
-        </div>
+          </span>
+        <% end %>
       </div>
     </div>
   </div>

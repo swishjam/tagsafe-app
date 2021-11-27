@@ -1,29 +1,6 @@
 class TagSafeScorer
-  DEFAULT_WEIGHTS = {
-    dom_complete: 0.3,
-    dom_interactive: 0.15,
-    first_contentful_paint: 0.15,
-    layout_duration: 0.1,
-    task_duration: 0.1,
-    script_duration: 0.1,
-    byte_size: 0.1,
-    dom_content_loaded: 0
-  }
-
-  # deduct n points of 100 for each metric: Impact Score / METRIC_SCORE_INCREMENTS
-  # a DOMComplete impact of 100ms would be a deduction of 2 points
-  METRIC_SCORE_INCREMENTS = {
-    dom_complete: 15,
-    dom_interactive: 15,
-    first_contentful_paint: 15,
-    task_duration: 5,
-    layout_duration: 5,
-    script_duration: 5,
-    byte_size: 10_000,
-    dom_content_loaded: 0
-  }
-
-  def initialize(dom_complete:, dom_content_loaded:, dom_interactive:, first_contentful_paint:, task_duration:, script_duration:, layout_duration:, byte_size:)
+  def initialize(performance_audit_calculator:, dom_complete:, dom_content_loaded:, dom_interactive:, first_contentful_paint:, task_duration:, script_duration:, layout_duration:, byte_size:)
+    @performance_audit_calculator = performance_audit_calculator
     @dom_complete = dom_complete
     @dom_content_loaded = dom_content_loaded
     @dom_interactive = dom_interactive
@@ -37,7 +14,7 @@ class TagSafeScorer
   def score!
     100 - 
       performance_metric_deduction(:dom_complete) - 
-      # performance_metric_deduction(:dom_content_loaded) - 
+      performance_metric_deduction(:dom_content_loaded) - 
       performance_metric_deduction(:dom_interactive) - 
       performance_metric_deduction(:first_contentful_paint) - 
       performance_metric_deduction(:task_duration) -
@@ -47,7 +24,17 @@ class TagSafeScorer
   end
 
   def performance_metric_deduction(metric_key)
-    deduction = (instance_variable_get("@#{metric_key.to_s}")/METRIC_SCORE_INCREMENTS[metric_key]) * DEFAULT_WEIGHTS[metric_key]
-    deduction > DEFAULT_WEIGHTS[metric_key]*100 ? DEFAULT_WEIGHTS[metric_key]*100 : deduction
+    deduction = (instance_variable_get("@#{metric_key.to_s}")/decrement_amount_for_key(metric_key)) * weight_for_key(metric_key)
+    deduction > weight_for_key(metric_key)*100 ? weight_for_key(metric_key)*100 : deduction
+  end
+
+  private
+
+  def weight_for_key(metric_key)
+    @performance_audit_calculator["#{metric_key}_weight".to_sym]
+  end
+
+  def decrement_amount_for_key(metric_key)
+    @performance_audit_calculator["#{metric_key}_score_decrement_amount".to_sym]
   end
 end

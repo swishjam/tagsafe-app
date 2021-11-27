@@ -1,18 +1,16 @@
 <%= turbo_frame_tag "#{tag.id}_tag_tag_versions_container" do %>
   <% if tag_versions.any? %>
-    <table class="table table-hover col-12 text-center" style="table-layout: fixed">
-      <thead>
-        <tr>
-          <th scope="col" style='width: 33.33%'>Date of Change</th>
-          <th scope="col" style='width: 33.33%'>TagSafe Score</th>
-          <th scope="col" style='width: 33.33%'>Change in TagSafe Score</th>
-          <th scope="col" style='width: 10%'></th>
-        </tr>
-      </thead>
-      <tbody id="<%= tag.id %>_tag_tag_versions">
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head tagsafe-table-row'>
+        <div class='tagsafe-table-header' style='width: 30%'>Date of release</div>
+        <div class='tagsafe-table-header' style='width: 30%'>TagSafe Score</div>
+        <div class='tagsafe-table-header' style='width: 30%'>Sha</div>
+        <div class='tagsafe-table-header' style='width: 10%'></div>
+      </div>
+      <div class='tagsafe-table-body'>
         <%= render partial: 'server_loadable_partials/tag_versions/tag_version', collection: tag_versions, as: :tag_version, locals: { tag: tag } %>
-      </tbody>
-    </table>
+      </div>
+    </div>
     <%= paginate tag_versions %>
   <% else %>
     <%= turbo_frame_tag "#{tag.id}_tag_empty_tag_versions_message" do %>

@@ -210,7 +210,9 @@ turbo-frame.display-form-loading {
   height: 50px; 
   width: 50px; 
   border-radius: 50%; 
-  // border: 1px solid grey;
+  &.border {
+    border: 1px solid lightgrey;
+  }
 }
 
 .viewport-height {
@@ -249,13 +251,11 @@ ul.pagination {
   margin: 0 auto;
 }
 
-.passed, .positive {
-  color: green;
-}
+.white-text { color: white !important }
+.green-text { color: green !important }
+.red-text { color: red !important }
 
-.failed, .negative {
-  color: red;
-}
+.default-cursor { cursor: default }
 
 a.no-decoration {
   text-decoration: none;

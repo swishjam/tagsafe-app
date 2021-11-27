@@ -73,16 +73,18 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def hosted_js_file_url(include_query_params = true)
-    return js_file.url if include_query_params
+  def hosted_js_file_url(cloudfront_url = true)
+    return js_file.url unless cloudfront_url
     parsed_url = URI.parse(js_file.url)
-    "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
+    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
+    parsed_url.to_s
   end
 
-  def hosted_tagsafe_instrumented_js_file_url(include_query_params = true)
-    return tagsafe_instrumented_js_file.url if include_query_params
+  def hosted_tagsafe_instrumented_js_file_url(cloudfront_url = true)
+    return tagsafe_instrumented_js_file.url unless cloudfront_url
     parsed_url = URI.parse(tagsafe_instrumented_js_file.url)
-    "#{parsed_url.scheme}://#{parsed_url.host}#{parsed_url.path}"
+    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
+    parsed_url.to_s
   end
 
   def perform_audit_now(url_to_audit:, execution_reason:, options: {})

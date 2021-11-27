@@ -1,4 +1,5 @@
-class Organization < ApplicationRecord  
+class Organization < ApplicationRecord
+  include Flaggable
   uid_prefix 'org'
   acts_as_paranoid
   

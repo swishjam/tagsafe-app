@@ -14,6 +14,10 @@ module NotificationModerator
     private
 
     def notify_email_subscribers
+      # TODO: rework this to only send to email subscribers, not all organization users
+      @tag_version.tag.domain.organization.users.each do |user|
+        TagSafeMailer.send_new_tag_version_email(user, @tag_version.tag, @tag_version)
+      end
       # @tag_version.tag.new_tag_version_email_subscribers.should_receive_notifications.each do |email_subscriber|
       #   email_subscriber.send_email!(self)
       # end

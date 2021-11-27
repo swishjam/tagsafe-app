@@ -34,6 +34,7 @@ class DeltaPerformanceAudit < PerformanceAudit
 
   def scorer
     @scorer ||= TagSafeScorer.new(
+      performance_audit_calculator: audit.tag.domain.current_performance_audit_calculator,
       dom_complete: dom_complete,
       dom_content_loaded: dom_content_loaded,
       dom_interactive: dom_interactive,

@@ -7,7 +7,7 @@
       <% end %>
     </div>
   <% else %>
-    <h3>Perform audit on <%= tag.try_friendly_name %></h3>
+    <h3>Audit <%= tag.try_friendly_name %></h3>
     <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version) do |f| %>
       <% tag.urls_to_audit.each do |url_to_audit| %>
         <div class="form-check form-switch w-fit m-auto">
@@ -15,7 +15,7 @@
           <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
         </div>
       <% end %>
-      <div class='mt-3'>
+      <div class='button-divider text-end'>
         <button type='submit' class='tagsafe-btn loading-submit-btn'>
           <span class='submit-text'>Run audit</span>
           <span class='submit-loading-icon'><%= render 'partials/utils/spinner', size: :tiny, color: :white %></span>

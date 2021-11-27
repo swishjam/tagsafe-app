@@ -1,34 +1,39 @@
-<tr id="<%= dom_id(audit) %>" class='<%= audit.is_primary? ? 'primary' : nil %>'>
-  <td scope="row">
+<%= turbo_frame_tag dom_id(audit), class: "tagsafe-table-row clickable #{audit.is_primary? ? 'primary' : nil}" do %>
+  <div class='tagsafe-table-data' style='width: 15%'>
     <% unless audit.pending? || audit.failed? %>
       <% if audit.is_primary? %>
-        <button class='tagsafe-btn' style='font-size: 12px'>Primary Audit</button>
+        <button class='tagsafe-btn white-text' style='font-size: 12px'>Primary Audit</button>
       <% else %>
         <%= form_with url: make_primary_tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), method: :post, data: { manage_primary_audit_target: 'form' } do |f| %>
           <%= f.submit 'Make Primary', class: 'tagsafe-btn outline', style: 'font-size: 12px' %>
         <% end %>
       <% end %>
     <% end %>
-  </td>
-  <td scope="row"><%= audit.created_at.formatted %></td>
-  <td scope="row">
-    <% if audit.failed? %>
-      <span class="tagsafe-pill red">Failed</span>
-    <% elsif audit.pending? %>
-      <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
-      <%= render 'audits/completion_indicator', audit: audit %>
-    <% else %>
-      <% if audit.delta_performance_audit %>
-        <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
-        <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
-          <%= score %>
-        </div>
+  </div>
+  <%= link_to tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration', style: 'width: 85%' do %>
+    <div class='tagsafe-table-data' style='width: 24%'><%= audit.created_at.formatted %></div>
+    <div class='tagsafe-table-data' style='width: 23%'>
+      <% if audit.failed? %>
+        <span class="tagsafe-pill red">Failed</span>
+      <% elsif audit.pending? %>
+        <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
+        <%= render 'audits/completion_indicator', audit: audit %>
       <% else %>
-        NO DELTA PERFORMANCE AUDIT. TODO: HOW DO WE GET HERE? RETURNS NIL IN THE `audit.update_audit_content` METHOD
+        <% if audit.delta_performance_audit %>
+          <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
+          <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
+            <%= score %>
+          </div>
+        <% else %>
+          NO DELTA PERFORMANCE AUDIT. TODO: HOW DO WE GET HERE? RETURNS NIL IN THE `audit.update_audit_content` METHOD
+        <% end %>
       <% end %>
-    <% end %>
-  </td>
-  <td scope="row"><%= audit.execution_reason.name %></td>
-  <td scope="row"><%= audit.audited_url.tagsafe_hosted ? 'TagSafe-hosted version of ' : nil %><%= audit.audited_url.display_url %></td>
-  <td scope="row"><%= link_to 'View audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %></td>
-</tr>
+    </div>
+    <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
+    <div class='tagsafe-table-data' style='width: 24%'><%= audit.audited_url.tagsafe_hosted ? 'TagSafe-hosted version of ' : nil %><%= audit.audited_url.display_url %></div>
+    <div class='tagsafe-table-data justify-content-end' style='width: 11%'>
+      <!-- <#%= link_to 'View audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %> !-->
+      <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
+    </div>
+  <% end %>
+<% end %>
