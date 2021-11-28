@@ -1,32 +1,33 @@
-<%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
-  <div class='tagsafe-table-row'>
-    
-    <div class='tagsafe-table-data' style='width: 60%'>
-      <div class='tag-img-thumbnail-container'>
-        <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+<%= turbo_frame_tag "#{domain.id}_domain_tags_table_row_#{tag.id}" do %>
+  <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
+    <div class='tagsafe-table-row'>
+      
+      <div class='tagsafe-table-data' style='width: 60%'>
+        <div class='tag-img-thumbnail-container'>
+          <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+        </div>
+        <div class='tag-name-container' style="word-break: break-all"><%= tag.try_friendly_name %></div>
       </div>
-      <div class='tag-name-container' style="word-break: break-all"><%= tag.try_friendly_name %></div>
-    </div>
 
-    <div class='tagsafe-table-data' style='width: 17%'>
-      <% current_tag_version = tag.current_version %>
-      <% if current_tag_version %>
-        <% audit = current_tag_version.audit_to_display %>
-        <% if audit.nil? %>
-          <span>No audits for this release</span>
-        <% elsif audit.pending? %>
-          <span class='tagsafe-pill tagsafe-blue place-holder-wave'>Audit is currently running</span>
-        <% elsif audit.failed? %>
-          <span class='tagsafe-pill red'>Audit failed.</span>
-        <% elsif audit.successful? %>
-          <%= render 'audits/pill_for_audit_score', tag_version: current_tag_version, audit: audit %>
+      <div class='tagsafe-table-data' style='width: 17%'>
+        <% current_tag_version = tag.current_version %>
+        <% if current_tag_version %>
+          <% audit = current_tag_version.audit_to_display %>
+          <% if audit.nil? %>
+            <span>No audits for this release</span>
+          <% elsif audit.pending? %>
+            <span class='tagsafe-pill tagsafe-blue place-holder-wave'>Audit is currently running</span>
+          <% elsif audit.failed? %>
+            <span class='tagsafe-pill red'>Audit failed.</span>
+          <% elsif audit.successful? %>
+            <%= render 'audits/pill_for_audit_score', tag_version: current_tag_version, audit: audit %>
+          <% end %>
+        <% else %>
+          <span>No tag version recorded</span>
         <% end %>
-      <% else %>
-        <span>No tag version recorded</span>
-      <% end %>
+      </div>
+      <div class='tagsafe-table-data' style='width: 17%'><%= tag&.content_changed_at&.formatted_short || 'No releases' %></div>
+      <div class='tagsafe-table-data text-end' style='width: 5%'><i class="fas fa-angle-double-right"></i></div>
     </div>
-    <div class='tagsafe-table-data' style='width: 17%'><%= tag&.content_changed_at&.formatted_short || 'No releases' %></div>
-    <div class='tagsafe-table-data text-end' style='width: 5%'><i class="fas fa-angle-double-right"></i></div>
-    <!-- <td><#%= link_to 'View Tag Details', tag_path(tag), target: '_top' %> !-->
-  </div>
+  <% end %>
 <% end %>

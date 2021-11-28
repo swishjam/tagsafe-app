@@ -8,7 +8,7 @@ class RegistrationsController < LoggedOutController
   def create
     user = User.new(user_params)
     if user.save
-      user.roles << Role.USER_ADMIN
+      Role.USER_ADMIN.assign_to(user)
       log_user_in(user)
       redirect_to new_organization_path
     else

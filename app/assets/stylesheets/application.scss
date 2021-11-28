@@ -16,7 +16,7 @@
 // @import "variables";
 @import "*";
 
-.tag-safe-font {
+.tagsafe-font {
   font-family: $tagsafe-font-family;
 }
 
@@ -30,6 +30,23 @@
 
 a.no-decoration {
   text-decoration: none !important;
+}
+
+.card-tagsafe-logo-container {
+  width: 100px;
+  height: 150px;
+  background: white;
+  margin: 0 auto;
+  position: absolute;
+  left: calc(50% - 50px);
+  border-radius: 50%;
+  margin-top: -50px;
+  z-index: -1;
+  .card-tagsafe-logo {
+    width: 50px;
+    height: 50px;
+    // margin: 0 auto;
+  }
 }
 
 body.logged-in {
@@ -49,9 +66,12 @@ body.logged-in {
       padding: 30px 15px 30px 15px;
     }
   }
+  
   .breadcrumb {
     padding: 40px 0px 0px 10px;
   }
+
+
   .page-title {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 72px;

@@ -12,11 +12,13 @@ class UrlToCrawl < ApplicationRecord
   scope :should_crawl, -> { all }
 
   def crawl_later(initial_crawl = false)
-    CrawlUrlJob.perform_later(self, initial_crawl: initial_crawl)
+    crawl = UrlCrawl.create!(domain_id: domain_id, url: url)
+    CrawlUrlJob.perform_later(crawl, initial_crawl: initial_crawl)
   end
   
   def crawl_now(initial_crawl = false)
-    CrawlUrlJob.perform_now(self, initial_crawl: initial_crawl)
+    crawl = UrlCrawl.create!(domain_id: domain_id, url: url)
+    CrawlUrlJob.perform_now(crawl, initial_crawl: initial_crawl)
   end
 
   private

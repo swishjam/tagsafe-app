@@ -1,27 +1,31 @@
-<div class="col-md-4 offset-md-4 card tagsafe-container text-center">
+<div class="col-xs-12 offset-xs-0 col-md-8 offset-md-2 col-xl-6 offset-xl-3 card tagsafe-container text-center">
+  <div class='step-indicators'>
+    <div class='step-indicator complete'>
+    </div>
+    <div class='step-indicator current'>
+    </div>
+  </div>
   <h3>Register</h3>
   <%= form_for @organization, class: 'col-12' do |f| %>
-    <div class='form-group'>
+    <div class='form-floating m-2'>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'TagSafe' %>
       <%= f.label 'Organization Name' %>
-      <%= f.text_field :name %>
     </div>
-    <div class='form-group row'>
-      <%= f.fields_for :domains, @organization.domains.new do |ff| %>
-        <%= ff.label 'Domain URL' %>
-        <div class='row'>
-          <div class='col-3 p-0'>
-            <select name='domain[protocol]' class='form-select' required>
-              <option class='dropdown-item' value='https://' selected>https://</option>
-              <option class='dropdown-item' value='http://'>http://</option>
-            </select>
-          </div>
-          <div class='col-9 p-0'>
-            <%= ff.text_field :url, placeholder: 'www.example.com', class: 'form-control' %>
-          </div>
+    <div class='form-floating m-2'>
+      <div class='row mb-3 mt-3'>
+        <div class='col-2 p-0'>
+          <select name='domain[protocol]' class='form-select text-center col-2 h-100' required>
+            <option class='dropdown-item' value='https://' selected>https://</option>
+            <option class='dropdown-item' value='http://'>http://</option>
+          </select>
         </div>
-      <% end %>
+        <div class="form-floating col-10 p-0">
+          <input id='url' name='domain[url]' type='text' class='form-control' placeholder='www.tagsafe.io'>
+          <label for='url'>Site URL to monitor</label>
+        </div>
+      </div>
     </div>
     <%= render partial: 'partials/inline_errors' %>
-    <%= f.submit 'Get Started', class: 'btn btn-outline-primary' %>
+    <%= f.submit 'Complete setup', class: 'tagsafe-btn float-end' %>
   <% end %>
 </div>

@@ -1,6 +1,6 @@
 <% if tags.any? %>
   <% tags.each do |tag| %>
-    <%= render 'server_loadable_partials/tags/tag', tag: tag %>
+    <%= render 'server_loadable_partials/tags/tag_card', tag: tag %>
   <% end %>
   <div class="pagination-container text-center">
     <%= paginate tags %>

@@ -12,7 +12,10 @@ class UrlCrawl < ApplicationRecord
   scope :successful, -> { completed.where(error_message: nil ) }
 
   after_create_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }}
-  after_update_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }}
+  after_update_commit { 
+    broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }
+    broadcast_replace_to "#{uid}_url_crawl", target: "#{uid}_url_crawl", partial: 'url_crawls/status', locals: { url_crawl: self }
+  }
 
   def self.most_recent
     most_recent_first(timestamp_column: :enqueued_at).limit(1).first
@@ -50,9 +53,7 @@ class UrlCrawl < ApplicationRecord
     if tag.save
       url_to_audit = tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
       url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
-      # if it's the first time scanning the domain for tags, don't run the job
-      # we may eventually move this into the job itself, but for now let's just not bother enqueuing
-      AfterTagCreationJob.perform_later(tag) unless initial_crawl
+      AfterTagCreationJob.perform_later(tag, initial_crawl)
       tag
     else
       Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"

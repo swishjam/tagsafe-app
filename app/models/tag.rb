@@ -39,9 +39,9 @@ class Tag < ApplicationRecord
   # CALLBACKS
   broadcast_notification on: :create
   after_create_commit do
-    broadcast_append_later_to "#{domain_id}_domain_tags", 
-                                target: "#{domain_id}_domain_tags", 
-                                partial: 'server_loadable_partials/tags/tag', 
+    broadcast_append_later_to "#{domain.uid}_domain_tags_table_rows", 
+                                target: "#{domain.uid}_domain_tags_table_rows", 
+                                partial: 'server_loadable_partials/tags/tag_table_row', 
                                 locals: { tag: self, domain: domain } 
   end
   # after_create_commit { broadcast_remove_to 'no_tags_message', target: 'no_tags_message' }
@@ -100,7 +100,7 @@ class Tag < ApplicationRecord
   end
 
   def update_tag_content
-    broadcast_replace_later_to "#{domain_id}_domain_tags", partial: 'server_loadable_partials/tags/tag', locals: { tag: self, domain: domain }
+    broadcast_replace_later_to "#{domain_id}_domain_tags", partial: 'server_loadable_partials/tags/tag_table_row', locals: { tag: self, domain: domain }
   end
 
   def after_create_notification_msg

@@ -1,23 +1,32 @@
-<div class="col-md-4 offset-md-4 card tagsafe-container text-center">
-  <h3>Register</h3>
+<div class="col-xs-12 offset-xs-0 col-md-8 offset-md-2 col-xl-6 offset-xl-3 card tagsafe-container text-center">
+  <div class='card-tagsafe-logo-container'>
+    <%= image_tag 'TagSafe-lock.png', class: 'img-fluid card-tagsafe-logo' %>
+  </div>
+  <div class='step-indicators'>
+    <div class='step-indicator current'>
+    </div>
+    <div class='step-indicator incomplete'>
+    </div>
+  </div>
+  <h3 class='tagsafe-font'>Register</h3>
   <%= form_for @user, url: registrations_path do |f| %>
-    <div class='form-group'>
+    <div class='form-floating m-2'>
+      <%= f.text_field :first_name, class: 'form-control', placeholder: 'John' %>
       <%= f.label :first_name %>
-      <%= f.text_field :first_name %>
     </div>
-    <div class='form-group'>
+    <div class='form-floating m-2'>
+      <%= f.text_field :last_name, class: 'form-control', placeholder: 'Smith' %>
       <%= f.label :last_name %>
-      <%= f.text_field :last_name %>
     </div>
-    <div class='form-group'>
+    <div class='form-floating m-2'>
+      <%= f.text_field :email, class: 'form-control', placeholder: 'john@example.com' %>
       <%= f.label :email %>
-      <%= f.text_field :email %>
     </div>
-    <div class='form-group'>
+    <div class='form-floating m-2'>
+      <%= f.password_field :password, class: 'form-control', placeholder: 'password' %>
       <%= f.label :password %>
-      <%= f.password_field :password %>
     </div>
     <%= render partial: 'partials/inline_errors' %>
-    <%= f.submit 'Get Started', class: 'btn btn-outline-primary' %>
+    <%= f.submit 'Get Started', class: 'tagsafe-btn float-end' %>
   <% end %>
 </div>

@@ -10,10 +10,13 @@ class OrganizationsController < LoggedInController
   end
 
   def create
-    params[:organization][:domains_attributes]['0']['url'] = params[:domain][:protocol] + params[:organization][:domains_attributes]['0']['url']
-    params[:organization][:tag_version_retention_count] = (ENV['DEFAULT_TAG_VERSIONS_RETENTION_COUNT'] || '500').to_i
-    params[:organization][:tag_check_retention_count] = (ENV['DEFAULT_TAG_CHECK_RETENTION_COUNT'] || '14400').to_i # 10 days worth when checking every minute
-    @organization = Organization.new(organization_params)
+    domain_url = params[:domain][:protocol] + params[:domain][:url]
+    @organization = Organization.new(
+      name: params[:organization][:name],
+      tag_check_retention_count: (ENV['DEFAULT_TAG_CHECK_RETENTION_COUNT'] || '14400').to_i, # 10 days worth when checking every minute
+      tag_version_retention_count: (ENV['DEFAULT_TAG_VERSIONS_RETENTION_COUNT'] || '500').to_i,
+      domains_attributes: [{ url: domain_url }]
+    )
     if @organization.save
       @organization.add_user(current_user)
       set_current_organization_for_user(current_user, @organization)

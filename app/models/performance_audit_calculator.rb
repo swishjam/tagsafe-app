@@ -62,7 +62,7 @@ class PerformanceAuditCalculator < ApplicationRecord
                         task_duration_weight + 
                         script_duration_weight + 
                         byte_size_weight
-    if sum_of_weights < 99.999 || sum_of_weights > 100.0001
+    if sum_of_weights < 0.999 || sum_of_weights > 1.0001
       errors.add(:base, "Weights must add up to 100")
     end
   end

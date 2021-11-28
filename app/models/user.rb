@@ -5,7 +5,9 @@ class User < ApplicationRecord
 
   has_many :organization_users, dependent: :destroy
   has_many :organizations, through: :organization_users
-  has_and_belongs_to_many :roles
+  # has_and_belongs_to_many :roles
+  has_many :roles_users, class_name: 'RoleUser'
+  has_many :roles, through: :roles_users
 
   has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
   has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'

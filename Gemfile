@@ -67,6 +67,9 @@ gem 'kaminari'
 gem 'font-awesome-sass', '~> 5.15.1'
 gem 'sendgrid-ruby'
 
+gem 'sentry-ruby'
+gem 'sentry-rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "#{current_domain.id}_domain_tags_chart" do %>
+<%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart" do %>
   <% if @include_metric_select %>
     <div style='float: right;'>
       <select class="selectpicker" id="metric-dropdown" data-max-options="1" data-live-search="true">
@@ -18,8 +18,8 @@
         download: true, 
         title: "#{@displayed_metric.to_s.gsub('_', ' ')}",
         ytitle: "#{@displayed_metric.to_s.gsub('_', ' ')}",
-        xtitle: 'Tag Changes',
-        messages: { empty: "No Audits Run." },
+        xtitle: 'Releases',
+        messages: { empty: "No third party tag data to visualize." },
         curve: false, 
         legend: "bottom",
         library: {

@@ -1,0 +1,14 @@
+.step-indicators {
+  .step-indicator {
+    width: 50px;
+    height: 5px;
+    display: inline-block;
+    margin: 0 auto;
+    &.incomplete {
+      background: lightgrey;
+    }
+    &.complete, &.current {
+      background: $tagsafe-blue;
+    }
+  }
+}

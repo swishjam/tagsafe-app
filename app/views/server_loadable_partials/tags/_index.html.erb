@@ -1,19 +1,28 @@
-<%= turbo_stream_from "#{domain.id}_domain_tags" %>
-
-<%= turbo_frame_tag "#{domain.id}_domain_tags", class: 'tags row' do %>
-  <% if tags.any? %>
-    <div class='col-12'>
-      <div class='tagsafe-container'>
-        <%= turbo_frame_tag "#{domain.id}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: tags.is_third_party_tag.collect(&:id)) do %>
-          <%= render 'partials/utils/spinner' %>
-        <% end %>
-      </div>
+<%= turbo_frame_tag "#{domain.uid}_domain_tags_container" do %>
+  <% if tags.none? %>
+    <% most_recent_crawl = domain.url_crawls&.most_recent %>
+    <div class='tagsafe-container mb-3 tagsafe-font'>
+      <% if most_recent_crawl.nil? %>
+        <button class='tagsafe-btn'>Sync third party tags</button>
+      <% elsif most_recent_crawl.pending? %>
+        <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
+      <% elsif %>
+        <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
+      <% end %>
     </div>
   <% end %>
   
+  <div class='col-12'>
+    <div class='tagsafe-container'>
+      <%= turbo_stream_from "#{domain.uid}_domain_tags_chart" %>
+      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: tags.is_third_party_tag.collect(&:id)) do %>
+        <%= display_loading_spinner %>
+      <% end %>
+    </div>
+  </div>
   <% if local_assigns[:card_format] %>
-    <%= render 'server_loadable_partials/tags/tag_cards', tags: tags %>
+    <%= render 'server_loadable_partials/tags/tag_cards', tags: tags, domain: domain %>
   <% else %>
-    <%= render 'server_loadable_partials/tags/tag_table', tags: tags %>
+    <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
   <% end %>
 <% end %>

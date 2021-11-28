@@ -2,7 +2,6 @@ module ApplicationHelper
   # helper_method :current_user
   # helper_method :current_domain
   # helper_method :current_organization
-
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
@@ -42,6 +41,10 @@ module ApplicationHelper
         raise "Invalid model provided to permitted_to_view?: #{model.class}"
       end
     end
+  end
+
+  def display_loading_spinner(opts = {})
+    render 'partials/utils/spinner', opts
   end
 
   def render_breadcrumbs(*crumbs)

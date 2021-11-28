@@ -22,7 +22,6 @@
 </div>
 
 <div class="tag-versions-container">
-  <h5 class="text-center">Tag Change Log</h5>
   <%= turbo_stream_from "#{@tag.id}_tag_tag_versions" %>
   <%= turbo_frame_tag "#{@tag.id}_tag_tag_versions", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
     <%= render 'partials/utils/spinner', size: 'large' %>

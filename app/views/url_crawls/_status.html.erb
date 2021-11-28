@@ -1,0 +1,10 @@
+<%= turbo_stream_from "#{url_crawl.uid}_url_crawl" %>
+<%= turbo_frame_tag "#{url_crawl.uid}_url_crawl" do %>
+  <% if url_crawl.pending? %>
+    <h3>Currently syncing third party tags from <%= url_crawl.url %>...</h3>
+  <% elsif url_crawl.failed? %>
+    <h3>Unable to sync third party tags: <%= url_crawl.error_message %></h3>
+  <% elsif url_crawl.successful? %>
+    <h3>Third party tag sync complete. Found <%= url_crawl.found_tags.count %> new tags.</h3>
+  <% end %>
+<% end %>

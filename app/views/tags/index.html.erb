@@ -1,6 +1,6 @@
 <div class="text-center">
   <h1 class="page-title">Monitor Center</h1>
-  <%= turbo_frame_tag "#{current_domain.id}_domain_tags", src: server_loadable_partials_tags_path(page: params[:page]) do %>
-    <%= render 'partials/utils/spinner', size: :large %>
+  <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
+    <%= display_loading_spinner size: :large %>
   <% end %>
 </div>

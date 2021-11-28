@@ -1,8 +1,8 @@
 class CrawlUrlJob < ApplicationJob
   queue_as :crawl_url_for_tags_queue
 
-  def perform(url_to_crawl, initial_crawl: false)
-    sender = LambdaModerator::UrlCrawler.new(url_to_crawl, initial_crawl: initial_crawl)
+  def perform(url_crawl, initial_crawl: false)
+    sender = LambdaModerator::UrlCrawler.new(url_crawl, initial_crawl: initial_crawl)
     response = sender.send!
     if response.successful
       capture_successful_crawl(sender.url_crawl, response.response_body)
