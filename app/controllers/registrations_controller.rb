@@ -7,12 +7,17 @@ class RegistrationsController < LoggedOutController
 
   def create
     user = User.new(user_params)
-    if user.save
-      Role.USER_ADMIN.assign_to(user)
-      log_user_in(user)
-      redirect_to new_organization_path
+    if params[:invite_code] == ENV['INVITE_CODE']
+      if user.save
+        Role.USER_ADMIN.assign_to(user)
+        log_user_in(user)
+        redirect_to new_organization_path
+      else
+        display_inline_errors(user.errors.full_messages)
+        redirect_to new_registration_path
+      end
     else
-      display_inline_errors(user.errors.full_messages)
+      display_inline_errors(['Invalid invite code.'])
       redirect_to new_registration_path
     end
   end
