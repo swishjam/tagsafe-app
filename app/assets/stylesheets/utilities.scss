@@ -14,10 +14,12 @@
 }
 
 .tagsafe-btn {
+  &:not(.outline) {
+    color: white !important;
+  }
   border: none;
   background: $tagsafe-primary;
-  color: white;
-  padding: 5px 10px 5px 10px;
+  padding: 5px 15px 5px 15px;
   border-radius: 5px;
   font-size: 18px;
   transition: 200ms all;
@@ -29,7 +31,7 @@
   }
   &.large {
     font-size: 22px;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 25px 10px 25px;
   }
   &.square {
     border-radius: 0px;

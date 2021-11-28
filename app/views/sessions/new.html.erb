@@ -1,19 +1,17 @@
 
-<div class="col-md-4 offset-md-4 card login-card text-center">
+<div class="col-xs-12 offset-xs-0 col-md-8 offset-md-2 col-xl-6 offset-xl-3 card tagsafe-container text-center">
   <h1>Login</h1>
 
   <%= form_for :login do |f| %>
-    <div class="form-group">
-      <%= f.email_field :email, class: "form-control form-control-lg", placeholder: 'Email' %>
+    <div class="form-floating m-3">
+      <%= f.password_field :email, class: "form-control", placeholder: 'Email' %>
+      <%= f.label :email %>
     </div>
-    <div class="form-group">
-      <%= f.password_field :password, class: "form-control form-control-lg", placeholder: 'Password' %>
+    <div class="form-floating m-3">
+      <%= f.password_field :password, class: "form-control", placeholder: 'Password' %>
+      <%= f.label :password %>
     </div>
-    <% if flash[:inline_errors] %>
-      <% flash[:inline_errors].each do |err| %>
-        <p style="color: #e74d4d"><%= err %></p>
-      <% end %>
-    <% end %>
-    <%= f.submit 'Submit', class: 'btn btn-outline-primary' %>
+    <%= render 'partials/inline_errors' %>
+    <%= f.submit 'Login', class: 'tagsafe-btn large' %>
   <% end %>
 </div>
