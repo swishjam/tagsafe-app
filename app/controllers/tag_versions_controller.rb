@@ -24,7 +24,7 @@ class TagVersionsController < LoggedInController
     #                 .where(primary: true, execution_reason: ExecutionReason.NEW_TAG_VERSION, tag: current_domain.tags)
     #                 .most_recent_first
     #                 .page(params[:page] || 1).per(params[:per_page] || 10)
-    @number_of_tags = current_domain.tags.is_third_party_tag.monitor_changes.count
+    @number_of_tags = current_domain.tags.is_third_party_tag.enabled.count
   end
 
   def begin_audit

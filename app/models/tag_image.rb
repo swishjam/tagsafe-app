@@ -1,5 +1,4 @@
-class TagImage < ApplicationRecord
-  
+class TagImage < ApplicationRecord  
   has_one_attached :image, service: :tag_image_s3
   has_many :lookup_patterns, class_name: 'TagImageDomainLookupPattern'
   has_many :tags

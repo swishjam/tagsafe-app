@@ -74,6 +74,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/admin' => redirect('/admin/performance')
   namespace :admin do
     get '/performance' => 'performance#index'
     resources :tag_images do

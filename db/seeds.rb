@@ -139,7 +139,7 @@
 #   script = Tag.find_or_create_by(url: url)
 #   tag_versions = seed_tag_versions_for_script(script)
 #   domains.each do |domain|
-#     tag = domain.has_tag?(script) ? domain.tags.find_by(script_id: script.id) : domain.add_tag!(script, active: true, monitor_changes: false)
+#     tag = domain.has_tag?(script) ? domain.tags.find_by(script_id: script.id) : domain.add_tag!(script, active: true, enabled: false)
 #     audits = create_audits_for_tag_versions(tag, tag_versions)
 #     create_lighthouse_audits_for_audits(audits)
 #   end

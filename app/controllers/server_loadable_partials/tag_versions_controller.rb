@@ -4,7 +4,7 @@ module ServerLoadablePartials
       tag = Tag.find(params[:tag_id])
       tag_versions = tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
       render turbo_stream: turbo_stream.replace(
-        "#{tag.id}_tag_tag_versions",
+        "#{tag.uid}_tag_tag_versions_container",
         partial: 'server_loadable_partials/tag_versions/index',
         locals: { tag_versions: tag_versions, tag: tag }
       )

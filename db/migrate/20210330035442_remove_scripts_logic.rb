@@ -3,10 +3,10 @@ class RemoveTagsLogic < ActiveRecord::Migration[5.2]
     drop_table :scripts
     
     rename_table :tags, :tags
-    rename_table :script_images, :tag_images
+    rename_table :tag_images, :tag_images
     rename_table :tag_versions, :tag_versions
     rename_table :script_checks, :tag_checks
-    rename_table :script_image_domain_lookup_patterns, :tag_image_domain_lookup_patterns
+    rename_table :tag_image_domain_lookup_patterns, :tag_image_domain_lookup_patterns
     rename_table :tag_allowed_performance_audit_third_party_urls, :tag_allowed_performance_audit_third_party_urls
     rename_table :script_check_region, :tag_check_region
 
@@ -51,7 +51,7 @@ class RemoveTagsLogic < ActiveRecord::Migration[5.2]
     remove_column :tag_allowed_performance_audit_third_party_urls, :tag_id
     add_reference :tag_allowed_performance_audit_third_party_urls, :tag
 
-    remove_column :tag_image_domain_lookup_patterns, :script_image_id
+    remove_column :tag_image_domain_lookup_patterns, :tag_image_id
     add_reference :tag_image_domain_lookup_patterns, :tag
 
     remove_column :tag_checks, :script_check_region_id

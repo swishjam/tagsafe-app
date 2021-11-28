@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_26_123350) do
+ActiveRecord::Schema.define(version: 2021_11_28_202929) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -56,10 +56,10 @@ ActiveRecord::Schema.define(version: 2021_11_26_123350) do
     t.bigint "audited_url_id"
     t.datetime "deleted_at"
     t.string "error_message"
-    t.integer "peformance_audit_calculator_id"
+    t.integer "performance_audit_calculator_id"
     t.index ["audited_url_id"], name: "index_audits_on_audited_url_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
-    t.index ["peformance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
+    t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
     t.index ["uid"], name: "index_audits_on_uid"
@@ -350,8 +350,8 @@ ActiveRecord::Schema.define(version: 2021_11_26_123350) do
   create_table "tag_image_domain_lookup_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "url_pattern"
-    t.integer "tag_id"
-    t.index ["tag_id"], name: "index_tag_image_domain_lookup_patterns_on_tag_id"
+    t.integer "tag_image_id"
+    t.index ["tag_image_id"], name: "index_tag_image_domain_lookup_patterns_on_tag_image_id"
     t.index ["uid"], name: "index_tag_image_domain_lookup_patterns_on_uid"
   end
 
@@ -364,11 +364,10 @@ ActiveRecord::Schema.define(version: 2021_11_26_123350) do
 
   create_table "tag_preferences", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
-    t.boolean "should_run_audit"
     t.string "url_to_audit"
     t.integer "performance_audit_iterations"
     t.integer "tag_id"
-    t.boolean "monitor_changes"
+    t.boolean "enabled"
     t.boolean "is_allowed_third_party_tag"
     t.boolean "is_third_party_tag"
     t.boolean "should_log_tag_checks"

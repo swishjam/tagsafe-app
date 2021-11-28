@@ -16,11 +16,11 @@ class AddAllForeignKeyIndexes < ActiveRecord::Migration[5.2]
     add_index :roles_users, :user_id
     add_index :roles_users, :role_id
     add_index :script_checks, :script_id
-    add_index :script_image_domain_lookup_patterns, :script_image_id
+    add_index :tag_image_domain_lookup_patterns, :tag_image_id
     add_index :tag_allowed_performance_audit_third_party_urls, :tag_id, name: 'index_allowed_performance_audit_third_party_urls_on_tag_id'
     add_index :tag_lint_results, :tag_id
     add_index :tag_lint_results, :lint_result_id
-    add_index :scripts, :script_image_id
+    add_index :scripts, :tag_image_id
     add_index :slack_notification_subscribers, :tag_id
     add_index :slack_settings, :organization_id
     add_index :user_invites, :organization_id

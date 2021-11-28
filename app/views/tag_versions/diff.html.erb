@@ -20,7 +20,7 @@
       <% end %>
     </div>
   </div>
-  <%= turbo_frame_tag "#{@tag_version.id}_diff", src: diff_server_loadable_partials_tag_tag_version_path(@tag, @tag_version, diff_type: params[:diff_type]) do %>
+  <%= turbo_frame_tag "#{@tag_version.id}_diff", src: diff_server_loadable_partials_tag_tag_version_path(@tag, @tag_version, diff_type: params[:diff_type] || 'split') do %>
     <div class='tag-changes-container col-12'>
       <div class='tag-details-tab'>
         <span><%= @tag.full_url %></span>

@@ -32,6 +32,11 @@ a.no-decoration {
   text-decoration: none !important;
 }
 
+.form-control:focus {
+  border-color: $lighter-tagsafe-purple;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25)
+}
+
 .card-tagsafe-logo-container {
   width: 100px;
   height: 150px;
@@ -123,63 +128,18 @@ body.logged-in {
   height: 40px;
   width: 40px;
   &:hover, &.active {
-    background: rgb(195, 240, 255);
-  }
-}
-
-.tagsafe-btn {
-  border: none;
-  background: $dark-tagsafe-blue;
-  color: white;
-  padding: 5px 10px 5px 10px;
-  border-radius: 5px;
-  font-size: 18px;
-  transition: 200ms all;
-  cursor: pointer;
-  border-radius: 999px;
-  text-decoration: none !important;
-  &:hover {
-    background: $darkest-tagsafe-blue;
-  }
-  &.large {
-    font-size: 22px;
-    padding: 10px 20px 10px 20px;
-  }
-  &.square {
-    border-radius: 0px;
-  }
-  &.red {
-    background: rgb(255, 96, 96);
-    &:hover {
-      background: red;
-    }
-  }
-  &.outline {
-    background: white;
-    border: 1px solid $dark-tagsafe-blue;
-    color: $dark-tagsafe-blue;
-    &:hover {
-      background: $dark-tagsafe-blue;
-      color: white;
-    }
-    &.red {
-      border: 1px solid red;
-      color: red;
-      &:hover {
-        background: red;
-        color: white;
-      }
-    }
+    background: $tagsafe-primary;
   }
 }
 
 .form-check-input:checked {
-  background-color: $tagsafe-blue !important;
-  border-color: $tagsafe-blue !important;
+  background-color: $tagsafe-primary !important;
+  border-color: $tagsafe-primary !important;
 }
 
-.tagsafe-spinner {
-  color: $tagsafe-blue;
+
+.tagsafe-spinner-grow, .tagsafe-spinner {
+  color: $tagsafe-primary;
   &.white {
     color: white;
   }
@@ -294,10 +254,10 @@ a.no-decoration {
   text-align: center;
   &.tagsafe-blue {
     background: #cce9ff;
-    border: 1px solid $darkest-tagsafe-blue;
+    border: 1px solid $tagsafe-primary;
   }
   &.tagsafe-blue, &.tagsafe-blue * {
-    color: $darkest-tagsafe-blue;
+    color: $tagsafe-primary;
   }
   &.green {
     background: rgb(200, 255, 200);

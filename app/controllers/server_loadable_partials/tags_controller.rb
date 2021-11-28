@@ -2,7 +2,7 @@ module ServerLoadablePartials
   class TagsController < BaseController
     def index
       tags = current_domain.tags.joins(:tag_preferences)
-                                  .order('tag_preferences.should_run_audit DESC')
+                                  .order('tag_preferences.enabled DESC')
                                   .order('removed_from_site_at ASC')
                                   .order('content_changed_at DESC')
                                   .page(params[:page] || 1).per(params[:per_page] || 9)

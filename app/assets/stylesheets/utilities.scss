@@ -8,7 +8,53 @@
       background: lightgrey;
     }
     &.complete, &.current {
-      background: $tagsafe-blue;
+      background: $tagsafe-primary;
+    }
+  }
+}
+
+.tagsafe-btn {
+  border: none;
+  background: $tagsafe-primary;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  font-size: 18px;
+  transition: 200ms all;
+  cursor: pointer;
+  border-radius: 999px;
+  text-decoration: none !important;
+  &:hover {
+    background: $lighter-tagsafe-purple;
+  }
+  &.large {
+    font-size: 22px;
+    padding: 10px 20px 10px 20px;
+  }
+  &.square {
+    border-radius: 0px;
+  }
+  &.red {
+    background: rgb(255, 96, 96);
+    &:hover {
+      background: red;
+    }
+  }
+  &.outline {
+    background: white;
+    border: 1px solid $tagsafe-primary;
+    color: $tagsafe-primary;
+    &:hover {
+      background: $lighter-tagsafe-purple;
+      color: white;
+    }
+    &.red {
+      border: 1px solid red;
+      color: red;
+      &:hover {
+        background: red;
+        color: white;
+      }
     }
   }
 }

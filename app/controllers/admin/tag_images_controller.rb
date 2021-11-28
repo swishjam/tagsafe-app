@@ -1,29 +1,29 @@
 module Admin
   class TagImagesController < BaseController
     def index
-      @script_images = TagImage.all
+      @tag_images = TagImage.all
     end
 
     def show
-      @script_image = TagImage.find(params[:id])
+      @tag_image = TagImage.find(params[:id])
     end
   
     def create
-      TagImage.create(script_image_params)
+      TagImage.create(tag_image_params)
       display_toast_message('Successfully created Tag Image')
       redirect_to request.referrer
     end
 
     def destroy
-      script_image = TagImage.find(params[:id])
-      script_image.destroy
+      tag_image = TagImage.find(params[:id])
+      tag_image.destroy
       display_toast_message('Successfully deleted Tag Image')
       redirect_to admin_tag_images_path
     end
 
     def apply_to_tags
-      script_image = TagImage.find(params[:id])
-      scripts = script_image.apply_to_tags
+      tag_image = TagImage.find(params[:id])
+      scripts = tag_image.apply_to_tags
       display_toast_message("Applied image to #{scripts.count} scripts.")
       redirect_to request.referrer
     end
@@ -37,8 +37,8 @@ module Admin
   
     private
     
-    def script_image_params
-      params.require(:script_image).permit(:image)
+    def tag_image_params
+      params.require(:tag_image).permit(:image)
     end
   end
 end

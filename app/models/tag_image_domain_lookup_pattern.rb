@@ -1,5 +1,4 @@
 class TagImageDomainLookupPattern < ApplicationRecord
-  
   belongs_to :tag_image
 
   def self.find_and_apply_image_to_tag(tag)
@@ -19,7 +18,7 @@ class TagImageDomainLookupPattern < ApplicationRecord
   end
 
   def lookup_tags!
-    Tag.where('url LIKE ?', "%#{url_pattern}%")
+    Tag.where('full_url LIKE ?', "%#{url_pattern}%")
   end
 
   def matches?(tag_url)

@@ -8,7 +8,7 @@ module Schedule
         count = 0
         Tag.send(interval_scope).should_run_tag_checks.each do |tag|
           count += 1
-          tag.capture_changes_if_tag_changed
+          tag.run_tag_check!
         end
         Resque.logger.info "#{self.class} evaluated #{count} tags in #{Time.new - start} seconds."
       end

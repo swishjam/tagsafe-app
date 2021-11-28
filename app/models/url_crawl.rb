@@ -2,7 +2,7 @@ class UrlCrawl < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :domain
-  has_one :executed_lambda_function
+  # has_one :executed_lambda_function
   has_many :found_tags, class_name: 'Tag'
   alias tags_found found_tags
 
@@ -23,9 +23,7 @@ class UrlCrawl < ApplicationRecord
 
   def found_tag!(
     tag_url,
-    monitor_changes: ENV['SHOULD_MONITOR_CHANGES_BY_DEFAULT'] == 'true', 
-    # should_run_audit: ENV['SHOULD_RUN_AUDITS_BY_DEFAULT'] == 'true', 
-    should_run_audit: true,
+    enabled: ENV['NEW_TAGS_ARE_ENABLED_BY_DEFAULT'] == 'true', 
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
     initial_crawl: false,
@@ -41,10 +39,9 @@ class UrlCrawl < ApplicationRecord
       url_path: parsed_url.path,
       url_query_param: parsed_url.query,
       tag_preferences_attributes: {
-        monitor_changes: monitor_changes,
+        enabled: enabled,
         is_allowed_third_party_tag: is_allowed_third_party_tag,
         is_third_party_tag: is_third_party_tag,
-        should_run_audit: should_run_audit,
         should_log_tag_checks: should_log_tag_checks,
         consider_query_param_changes_new_tag: consider_query_param_changes_new_tag,
         performance_audit_iterations: performance_audit_iterations
@@ -57,7 +54,12 @@ class UrlCrawl < ApplicationRecord
       tag
     else
       Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
+      Resque.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
     end
+  end
+
+  def executed_lambda_function
+    ExecutedLambdaFunction.find_by(parent_id: id, parent_type: self.class.to_s)
   end
 
   # def unremove_tag_from_site!(tag)

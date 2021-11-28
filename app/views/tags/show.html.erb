@@ -1,3 +1,5 @@
+<%= turbo_stream_from "#{@tag.uid}_tag_show" %>
+
 <div class="text-center">
   <h5 class="page-title with-sub-title">Tag Details</h6>
   <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
@@ -22,8 +24,7 @@
 </div>
 
 <div class="tag-versions-container">
-  <%= turbo_stream_from "#{@tag.id}_tag_tag_versions" %>
-  <%= turbo_frame_tag "#{@tag.id}_tag_tag_versions", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
+  <%= turbo_frame_tag "#{@tag.uid}_tag_tag_versions_container", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
     <%= render 'partials/utils/spinner', size: 'large' %>
   <% end %>
 </div>

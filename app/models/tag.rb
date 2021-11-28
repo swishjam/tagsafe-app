@@ -8,6 +8,7 @@ class Tag < ApplicationRecord
   # RELATIONS
   has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
   belongs_to :domain
+  belongs_to :tag_image, optional: true
   has_many :tag_versions, -> { order('created_at DESC') }, dependent: :destroy
   has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
   has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
@@ -48,10 +49,11 @@ class Tag < ApplicationRecord
   after_update_commit { update_tag_content }
   after_destroy_commit { broadcast_remove_to "#{domain_id}_domain_tags", target: "#{domain_id}_domain_tags" }
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
+  after_create :attempt_to_find_and_apply_tag_image
 
   # SCOPES
-  scope :monitor_changes, -> { where_tag_preferences({ monitor_changes: true }) }
-  scope :do_not_monitor_changes, -> { where_tag_preferences({ monitor_changes: false }) }
+  scope :enabled, -> { where_tag_preferences({ enabled: true }) }
+  scope :disabled, -> { where_tag_preferences({ enabled: false }) }
   
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :removed, -> { where.not(removed_from_site_at: nil) }
@@ -62,9 +64,6 @@ class Tag < ApplicationRecord
   scope :allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: true }) }
   scope :not_allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
 
-  scope :should_run_audits, -> { where_tag_preferences({ should_run_audit: true }) }
-  scope :should_not_run_audits, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
-
   scope :should_log_tag_checks, -> { where_tag_preferences({ should_log_tag_checks: true }) }
   scope :should_not_log_tag_checks, -> { where_tag_preferences({ should_log_tag_checks: false }) }
 
@@ -72,8 +71,8 @@ class Tag < ApplicationRecord
   scope :should_not_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: false }) }
 
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
-  scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.monitor_changes }
-  scope :should_run_tag_checks, -> { monitor_changes.still_on_site.is_third_party_tag }
+  scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.enabled }
+  scope :should_run_tag_checks, -> { enabled.still_on_site.is_third_party_tag }
 
   scope :one_minute_interval_checks, -> { all }
   # etc...
@@ -100,20 +99,23 @@ class Tag < ApplicationRecord
   end
 
   def update_tag_content
-    broadcast_replace_later_to "#{domain_id}_domain_tags", partial: 'server_loadable_partials/tags/tag_table_row', locals: { tag: self, domain: domain }
+    broadcast_replace_later_to "#{domain.uid}_domain_tags_table", 
+                                  target: "#{domain.uid}_domain_tags_table_row_#{uid}",
+                                  partial: 'server_loadable_partials/tags/tag_table_row',
+                                  locals: { tag: self, domain: domain }
   end
 
   def after_create_notification_msg
     "A new tag has been detected: #{full_url}"
   end
 
+  def attempt_to_find_and_apply_tag_image
+    TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
+  end
+
   def state
-    removed_from_site? ?
-      'removed' :
-        !monitor_changes? ?
-          'not-monitoring' :
-            !should_run_audit? ?
-             'not-auditing' : 'active'
+    removed_from_site? ? 'removed' :
+      enabled? ? 'active' : 'disabled'
   end
 
   def human_state
@@ -129,7 +131,7 @@ class Tag < ApplicationRecord
     most_recent_version.nil?
   end
 
-  def capture_changes_if_tag_changed
+  def run_tag_check!
     # make sure to return the evaluator so we can read the results afterwards
     evaluator = TagManager::Evaluator.new(self)
     evaluator.evaluate!
@@ -140,12 +142,8 @@ class Tag < ApplicationRecord
     !removed_from_site_at.nil?
   end
 
-  def should_run_audit?
-    tag_preferences.should_run_audit
-  end
-
-  def monitor_changes?
-    tag_preferences.monitor_changes
+  def enabled?
+    tag_preferences.enabled
   end
 
   def try_friendly_name
@@ -161,7 +159,8 @@ class Tag < ApplicationRecord
   end
 
   def try_image_url
-    image.attached? ? rails_blob_url(image, host: ENV['CURRENT_HOST']) : 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
+    image.attached? ? rails_blob_url(image, host: ENV['CURRENT_HOST']) : 
+      !tag_image_id.nil? ? tag_image.image.url : 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
   end
   alias image_url try_image_url
 
@@ -216,8 +215,8 @@ class Tag < ApplicationRecord
   # HELPERS #
   ###########
 
-  def toggle_monitor_changes_flag!
-    toggle_boolean_column(:monitor_changes)
+  def toggle_enabled_flag!
+    toggle_boolean_column(:enabled)
   end
 
   def toggle_third_party_flag!

@@ -58,7 +58,7 @@ class TagsController < LoggedInController
 
   def enable
     tag = current_domain.tags.find(params[:id])
-    tag.tag_preferences.update!(monitor_changes: true)
+    tag.tag_preferences.update!(enabled: true)
     current_user.broadcast_notification("Tag monitoring is now enabled for #{tag.try_friendly_name}", image: tag.try_image_url)
     render turbo_stream: turbo_stream.replace(
       "#{tag.id}_edit_general_settings",
@@ -69,7 +69,7 @@ class TagsController < LoggedInController
 
   def disable
     tag = current_domain.tags.find(params[:id])
-    tag.tag_preferences.update!(monitor_changes: false)
+    tag.tag_preferences.update!(enabled: false)
     current_user.broadcast_notification("Tag monitoring is now disabled for #{tag.try_friendly_name}", image: tag.try_image_url)
     render turbo_stream: turbo_stream.replace(
       "#{tag.id}_edit_general_settings",
@@ -81,12 +81,6 @@ class TagsController < LoggedInController
   private
 
   def tag_params
-    params.require(:tag).permit(:friendly_name, :image, tag_preferences_attributes: tag_preference_attributes)
-  end
-
-  def tag_preference_attributes
-    attrs = %i[id monitor_changes consider_query_param_changes_new_tag]
-    attrs << should_run_audit if ENV['SHOULD_RUN_AUDIT_IS_TOGGLABLE'] == 'true'
-    attrs
+    params.require(:tag).permit(:friendly_name, :image, tag_preferences_attributes: %i[id enabled consider_query_param_changes_new_tag])
   end
 end

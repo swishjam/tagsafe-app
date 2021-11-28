@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "#{tag.id}_edit_general_settings" do %>
   <div class='row'>
-    <% if !tag.monitor_changes? %>
+    <% if !tag.enabled? %>
       <%= form_with model: tag, url: enable_tag_path(tag) do |f| %>
         <%= f.submit 'Enable TagSafe Monitoring', class: 'tagsafe-btn square outline large float-end' %>
       <% end %>
@@ -23,17 +23,6 @@
         <button type='submit' class='tagsafe-btn square'>Update</button>
       </div>
       <%= f.fields_for :tag_preferences_attributes, tag.tag_preferences do |ff| %>
-        <% if ENV['SHOULD_RUN_AUDIT_IS_TOGGLABLE'] %>
-          <div class="form-check form-switch w-fit m-auto">
-            <%= ff.label 'Run audit on new versions', class: 'form-check-label' %>
-            <i data-controller='tooltip'
-                data-bs-toggle="tooltip"
-                data-placement="top"
-                title="Un-select this option to no longer run audits automatically on each new version."
-                class="far fa-question-circle"></i>
-            <%= ff.check_box :should_run_audit, checked: tag.tag_preferences.should_run_audit, class: 'form-check-input' %>
-          </div>
-        <% end %>
         <div class="form-check form-switch w-fit m-auto mt-3">
           <%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
           <i data-controller='tooltip'
@@ -46,7 +35,7 @@
       </div>
     <% end %>
   <% end %>
-  <% if tag.monitor_changes? %>
+  <% if tag.enabled? %>
     <%= form_with model: tag, url: disable_tag_path(tag) do |f| %>
       <%= f.submit 'Disable TagSafe Monitoring', class: 'tagsafe-btn square outline red large mt-3' %>
     <% end %>

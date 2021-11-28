@@ -8,20 +8,27 @@
   <div class="col-12 text-end">
     <%= render 'tag_versions/dropdown', tag: @tag, tag_version: @tag_version %>
   </div>
-  <div class='tagsafe-table mt-3'>
-    <div class='tagsafe-table-head tagsafe-table-row'>
-      <div class='tagsafe-table-header' style='width: 15%'>Primary Audit</div>
-      <div class='tagsafe-table-header' style='width: 20%'>Date of Audit</div>
-      <div class='tagsafe-table-header' style='width: 20%'>TagSafe Score</div>
-      <div class='tagsafe-table-header' style='width: 15%'>Execution Reason</div>
-      <div class='tagsafe-table-header' style='width: 20%'>Audited URL</div>
-      <div class='tagsafe-table-header' style='width: 10%'></div>
+  <% if @audits.any? %>
+    <div class='tagsafe-table mt-3'>
+      <div class='tagsafe-table-head tagsafe-table-row'>
+        <div class='tagsafe-table-header' style='width: 15%'>Primary Audit</div>
+        <div class='tagsafe-table-header' style='width: 20%'>Date of Audit</div>
+        <div class='tagsafe-table-header' style='width: 20%'>TagSafe Score</div>
+        <div class='tagsafe-table-header' style='width: 15%'>Execution Reason</div>
+        <div class='tagsafe-table-header' style='width: 20%'>Audited URL</div>
+        <div class='tagsafe-table-header' style='width: 10%'></div>
+      </div>
+      <div class='tagsafe-table-body'>
+        <%= turbo_stream_from "#{@tag_version.id}_tag_version_audits" %>
+        <%= turbo_frame_tag "#{@tag_version.id}_tag_version_audits", clas: 'tagsafe-table-body' do %>
+          <%= render partial: 'audit', collection: @audits, as: :audit %>
+        <% end %>
+      </div>
     </div>
-    <div class='tagsafe-table-body'>
-      <%= turbo_stream_from "#{@tag_version.id}_tag_version_audits" %>
-      <%= turbo_frame_tag "#{@tag_version.id}_tag_version_audits", clas: 'tagsafe-table-body' do %>
-        <%= render partial: 'audit', collection: @audits, as: :audit %>
-      <% end %>
-    </div>
-  </div>
+  <% else %>
+    <h3>No audits have been run on this tag version.</h3>
+    <%= link_to begin_audit_tag_tag_version_path(@tag, @tag_version), class: 'tagsafe-btn outline', data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal_content' } do %>
+      <i class="fas fa-sync-alt"></i> Run audit
+    <% end %>
+  <% end %>
 </div>
