@@ -1,7 +1,6 @@
 class TagVersionsController < LoggedInController
   skip_before_action :authorize!, only: :content
   protect_from_forgery except: :content
-  hide_navigation_on :diff
 
   def diff
     @tag_version = TagVersion.find(params[:id])

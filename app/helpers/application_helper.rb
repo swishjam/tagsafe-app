@@ -24,8 +24,16 @@ module ApplicationHelper
     session[:current_organization_id] = organization.id
   end
 
-  def log_user_in(user)
+  def log_user_in(user, organization = user.organizations&.first, domain = organization&.domains&.first)
     session[:user_id] = user.id
+    session[:current_organization_id] = organization.id
+    session[:current_domain_id] = domain.id
+  end
+
+  def log_user_out
+    session.delete(:user_id)
+    session.delete(:current_domain_id)
+    session.delete(:current_organization_id)
   end
 
   def permitted_to_view?(*models, raise_error: false)

@@ -10,7 +10,6 @@ class DomainsController < LoggedInController
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
     domain = Domain.create(domain_params)
     if domain.valid?
-      current_user.broadcast_notification("Scanning #{domain.url} for third party tags.")
       redirect_to tags_path
     else
       display_inline_errors(domain.errors.full_messages)

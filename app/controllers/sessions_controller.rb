@@ -20,9 +20,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.delete(:user_id)
-    session.delete(:current_domain_id)
-    session.delete(:current_organization_id)
+    log_user_out
     redirect_to login_path
   end
 end

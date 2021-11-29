@@ -7,7 +7,7 @@ class LoggedInController < ApplicationController
 
   def authorize!
     if current_user.nil?
-      display_toast_error("Please login.")
+      log_user_out
       session[:redirect_url] = request.original_url
       redirect_to login_path 
     end
