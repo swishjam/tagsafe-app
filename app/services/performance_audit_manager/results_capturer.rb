@@ -6,15 +6,16 @@ module PerformanceAuditManager
       results:, 
       blocked_resources:,
       logs:,
-      page_load_screenshot_urls: [],
+      page_load_screenshot_urls:,
       page_load_trace_json_url:,
       error:
     )
       @individual_performance_audit = individual_performance_audit
-      @results = results
-      @logs = logs
-      @blocked_resources = blocked_resources
-      @page_load_screenshot_urls = page_load_screenshot_urls
+      # when lambda function times out, results are nil but is still a 200 response code
+      @results = results || {}
+      @logs = logs || ''
+      @blocked_resources = blocked_resources || []
+      @page_load_screenshot_urls = page_load_screenshot_urls || []
       @page_load_trace_json_url = page_load_trace_json_url
       @error = error
     end

@@ -26,7 +26,7 @@ class RunIndividualPerformanceAuditJob < ApplicationJob
       logs: response_data['logs'],
       page_load_screenshot_urls: response_data['page_load_screenshot_urls'], 
       page_load_trace_json_url: response_data['page_load_trace_json_url'],
-      error: response_data['error']
+      error: response_data['error'] || response_data['errorMessage']
     ).capture_results!
     all_individual_performance_audit_completed = !audit.failed? && audit.all_individual_performance_audits_completed?
     if all_individual_performance_audit_completed
