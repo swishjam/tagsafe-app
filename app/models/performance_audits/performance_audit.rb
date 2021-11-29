@@ -57,20 +57,20 @@ class PerformanceAudit < ApplicationRecord
     ExecutedLambdaFunction.find_by(parent_id: id, parent_type: 'PerformanceAudit')
   end
 
-  def previous_metric_result(metric_column)
-    return nil if audit.previous_primary_audit.nil?
-    audit.previous_primary_audit.performance_audits.find_by(type: type).send(metric_column).round(2)
-  end
+  # def previous_metric_result(metric_column)
+  #   return nil if audit.previous_primary_audit.nil?
+  #   audit.previous_primary_audit.performance_audits.find_by(type: type).send(metric_column).round(2)
+  # end
 
-  def change_in_metric(metric_column)
-    return nil if audit.previous_primary_audit.nil?
-    (send(metric_column) - previous_metric_result(metric_column)).round(2)
-  end
+  # def change_in_metric(metric_column)
+  #   return nil if audit.previous_primary_audit.nil?
+  #   (send(metric_column) - previous_metric_result(metric_column)).round(2)
+  # end
 
-  def percent_change_in_metric(metric_column)
-    return nil if audit.previous_primary_audit.nil?
-    ((change_in_metric(metric_column)/previous_metric_result(metric_column))*100).round(2)
-  end
+  # def percent_change_in_metric(metric_column)
+  #   return nil if audit.previous_primary_audit.nil?
+  #   ((change_in_metric(metric_column)/previous_metric_result(metric_column))*100).round(2)
+  # end
 
   def completed!
     touch(:completed_at)

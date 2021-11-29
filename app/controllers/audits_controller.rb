@@ -1,7 +1,6 @@
 class AuditsController < LoggedInController
   def index
-    @tag = Tag.find(params[:tag_id])
-    permitted_to_view?(@tag)
+    @tag = current_domain.tags.find(params[:tag_id])
     @tag_version = TagVersion.find(params[:tag_version_id])
     @audits = @tag_version.audits.most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
     render_breadcrumbs(
@@ -12,8 +11,7 @@ class AuditsController < LoggedInController
   end
 
   def show
-    @tag = Tag.find(params[:tag_id])
-    permitted_to_view?(@tag)
+    @tag = current_domain.tags.find(params[:tag_id])
     @tag_version = TagVersion.find(params[:tag_version_id])
     @audit = Audit.find(params[:id])
     @previous_audit = @tag_version.previous_version&.primary_audit

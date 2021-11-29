@@ -28,6 +28,7 @@ module ChartHelper
     def tags_primary_delta_performance_audits
       @performance_audits ||= DeltaPerformanceAudit.includes(audit: :tag_version)
                                                     .where(audits: { tag_id: @tag.id, primary: true, throttled: false })
+                                                    .order('tag_versions.created_at ASC')
     end
   end
 end

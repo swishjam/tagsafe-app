@@ -1,4 +1,4 @@
-<div class="metric-row col-6">
+<div class="metric-row col-md-12 col-lg-6">
   <div class='metric col-12'>
     <div class='row'>
       <div class="col-6 metric-title">
@@ -22,10 +22,13 @@
               <% if diff_in_metric.zero? %>
                 (No Change)
               <% else %>
-                <span class="<%= diff_in_metric.positive? ? 'green-text' : 'red-text' %>" style='font-size: 12px'>
+                <span class="<%= diff_in_metric.positive? ? 'red-text' : 'green-text' %>" style='font-size: 12px'>
                   <% icon_class = diff_in_metric.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
                   <i class="<%= icon_class %>"></i>
                   <%= number_to_human(diff_in_metric.abs, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
+                  <% unless previous_impact_result.zero? || impact_result.zero? %>
+                    (<%= ((diff_in_metric/previous_impact_result)*100).round(2) %>%)
+                  <% end %>
                 </span>
               <% end %>
             <% end %>

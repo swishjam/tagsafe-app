@@ -14,7 +14,13 @@
         <% if current_tag_version %>
           <% audit = current_tag_version.audit_to_display %>
           <% if audit.nil? %>
-            <span>No audits for this release</span>
+            <% if tag.removed_from_site? %>
+              <span class='tagsafe-pill orange'>Tag removed from site</span>
+            <% elsif tag.disabled? %>
+              <span class='tagsafe-pill red'>Tag monitoring disabled</span>
+            <% else %>
+              <span class='tagsafe-pill grey'>No audits for this release</span>
+            <% end %>
           <% elsif audit.pending? %>
             <span class='tagsafe-pill tagsafe-blue place-holder-wave'>Audit is currently running</span>
           <% elsif audit.failed? %>

@@ -50,33 +50,18 @@
       <div class="row">
         <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
           <h4>TagSafe Score</h4>
-          <%= render partial: 'partials/progress_ring', locals: { score: audit.delta_performance_audit.tagsafe_score, change_in_score: audit.delta_performance_audit.change_in_metric(:tagsafe_score) } %>
+          <%= render partial: 'partials/progress_ring', 
+                      locals: { 
+                        score: audit.delta_performance_audit.tagsafe_score,
+                        change_in_score: previous_audit ? audit.delta_performance_audit.tagsafe_score - previous_audit.delta_performance_audit.tagsafe_score : nil
+                      } 
+            %>
         </div>
       </div>
       <div class='row'>
         <div class='col-12 text-start'>
           <b>Impact on Metrics:</b>
         </div>
-        <!-- <div class='col-6 text-end'>
-          <div class='tagsafe-circular-btn' 
-                data-audit-results-expander-target='expandBtn' 
-                data-action='click->audit-results-expander#expandMetrics' 
-                data-controller='tooltip' 
-                data-bs-toggle="tooltip" 
-                data-placement="top" 
-                title="Expand metrics.">
-            <i class="fas fa-expand-alt"></i>
-          </div>
-          <div class='tagsafe-circular-btn active' 
-                data-audit-results-expander-target='collapseBtn' 
-                data-action='click->audit-results-expander#collapseMetrics' 
-                data-controller='tooltip' 
-                data-bs-toggle="tooltip" 
-                data-placement="top" 
-                title="Collapse metrics.">
-            <i class="fas fa-compress-alt"></i>
-          </div>
-        </div> !-->
       </div>
       <div data-audit-results-expander-target='metricsContainer' class="performance-metrics-container minimized">
         <div class="row">
@@ -84,8 +69,7 @@
             tag: tag, 
             metric_title: 'DOM Complete',
             impact_result: audit.delta_performance_audit.dom_complete,
-            previous_impact_result: audit.delta_performance_audit.previous_metric_result(:dom_complete),
-            score_impact: audit.delta_performance_audit.score_impact(:dom_complete),
+            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_complete : nil,
             unit: 'ms',
             previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
@@ -93,8 +77,7 @@
             tag: tag,
             metric_title: 'DOM Interactive',
             impact_result: audit.delta_performance_audit.dom_interactive,
-            previous_impact_result: audit.delta_performance_audit.previous_metric_result(:dom_interactive),
-            score_impact: audit.delta_performance_audit.score_impact(:dom_interactive),
+            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_interactive : nil,
             unit: 'ms',
             previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
@@ -104,8 +87,7 @@
             tag: tag, 
             metric_title: 'First Contentful Paint',
             impact_result: audit.delta_performance_audit.first_contentful_paint,
-            previous_impact_result: audit.delta_performance_audit.previous_metric_result(:first_contentful_paint),
-            score_impact: audit.delta_performance_audit.score_impact(:first_contentful_paint),
+            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.first_contentful_paint : nil,
             unit: 'ms',
             previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
@@ -113,8 +95,7 @@
             tag: tag, 
             metric_title: 'Task Duration Time',
             impact_result: audit.delta_performance_audit.task_duration,
-            previous_impact_result: audit.delta_performance_audit.previous_metric_result(:task_duration),
-            score_impact: audit.delta_performance_audit.score_impact(:task_duration),
+            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.task_duration : nil,
             unit: 'ms',
             previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
@@ -124,8 +105,7 @@
             tag: tag, 
             metric_title: 'Script Duration',
             impact_result: audit.delta_performance_audit.script_duration,
-            previous_impact_result: audit.delta_performance_audit.previous_metric_result(:script_duration),
-            score_impact: audit.delta_performance_audit.score_impact(:script_duration),
+            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.script_duration : nil,
             unit: 'ms',
             previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
@@ -133,8 +113,7 @@
             tag: tag, 
             metric_title: 'Layout Duration',
             impact_result: audit.delta_performance_audit.layout_duration,
-            previous_impact_result: audit.delta_performance_audit.previous_metric_result(:layout_duration),
-            score_impact: audit.delta_performance_audit.score_impact(:layout_duration),
+            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.layout_duration : nil,
             unit: 'ms',
             previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
           } %>
@@ -144,8 +123,7 @@
               tag: tag, 
               metric_title: 'DOM Content Loaded',
               impact_result: audit.delta_performance_audit.dom_content_loaded,
-              previous_impact_result: audit.delta_performance_audit.previous_metric_result(:dom_content_loaded),
-              score_impact: audit.delta_performance_audit.score_impact(:dom_content_loaded),
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_content_loaded : nil,
               unit: 'ms',
               previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
             } %>
