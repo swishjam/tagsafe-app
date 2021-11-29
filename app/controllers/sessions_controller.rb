@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
   layout 'logged_out_layout'
 
+  def new
+    @hide_logged_out_nav_items = true
+  end
+
   def create
     user = User.find_by(email: params[:login][:email].downcase)
     if user && user.authenticate(params[:login][:password])

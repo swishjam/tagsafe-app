@@ -28,7 +28,11 @@ Rails.application.routes.draw do
     member do
       patch :crawl
     end
-    resources :url_crawls, only: [:index, :show]
+    resources :url_crawls, only: [:index, :show] do
+      member do
+        get :executed_lambda_functions
+      end
+    end
     resources :urls_to_crawl, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end

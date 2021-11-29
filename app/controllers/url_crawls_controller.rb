@@ -13,4 +13,9 @@ class UrlCrawlsController < LoggedInController
       { text: 'URL Crawl', active: true }
     )
   end
+
+  def executed_lambda_functions
+    @url_crawl = current_domain.url_crawls.find(params[:id])
+    @executed_lambda_functions = @url_crawl.executed_lambda_function
+  end
 end

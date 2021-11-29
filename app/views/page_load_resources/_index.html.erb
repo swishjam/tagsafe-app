@@ -41,8 +41,7 @@
     <div class='page-load-resource-name-container'>
       <div class='page-load-resource-name placeholder'></div>
       <% page_load_resources.each do |plr| %>
-        <!-- <#% safe_resource_name = plr.name_without_query_string == audited_tag_version_url ? tag.url_based_on_preferences : plr.name %> !-->
-        <% safe_resource_name = plr.name_without_query_string %>
+        <% safe_resource_name = plr.name_without_query_string == audited_tag_version_url ? tag.url_based_on_preferences : plr.name %>
         <div class='page-load-resource-name <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>' 
               data-resource="<%= plr.uid %>"
               data-controller='tooltip'

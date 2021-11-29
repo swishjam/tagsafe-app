@@ -2,6 +2,7 @@ class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
 
   def new
+    @hide_logged_out_nav_items = true
     @user = User.new
   end
 

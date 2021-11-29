@@ -20,7 +20,7 @@ class ExecutionReason < ApplicationRecord
   end
 
   def self.NEW_TAG_VERSION
-    @tag_change ||= find_by!(name: 'Tag Change')
+    @tag_change ||= find_by!(name: 'New Tag Version')
   end
 
   def self.RETRY
