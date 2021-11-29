@@ -29,6 +29,7 @@ module ChartHelper
     def tags_primary_delta_performance_audits
       @performance_audits ||= DeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
                                                     .where(audits: { tag_id: @tags.collect(&:id), primary: true })
+                                                    .order('tag_versions.created_at')
                                                     .group_by{ |dpa| dpa.audit.tag.try_friendly_name }
     end
   end

@@ -1,4 +1,4 @@
-<div class="col-xs-12 offset-xs-0 col-md-8 offset-md-2 col-xl-6 offset-xl-3 card tagsafe-container text-center mt-5">
+<div class="col-xs-12 offset-xs-0 col-md-8 offset-md-2 col-xl-6 offset-xl-3 card tagsafe-container with-shadow no-border text-center mt-5">
   <!-- <div class='card-tagsafe-logo-container'>
     <#%= image_tag '/tagsafe-logo.svg', class: 'img-fluid card-tagsafe-logo' %>
   </div> !-->
@@ -8,7 +8,7 @@
     <div class='step-indicator incomplete'>
     </div>
   </div>
-  <h3 class='tagsafe-font'>Get started</h3>
+  <h3 class='tagsafe-font'>Register</h3>
   <%= form_for @user, url: registrations_path do |f| %>
     <div class='form-floating m-2'>
       <%= f.text_field :first_name, class: 'form-control', placeholder: 'John' %>
@@ -27,10 +27,13 @@
       <%= f.label :password %>
     </div>
     <div class='form-floating m-2'>
-      <input type='text' name='invite_code' id='invite_code' class='form-control' placeholder='ABC123'>
+      <input type='password' name='invite_code' id='invite_code' class='form-control' placeholder='ABC123'>
       <label for='invite_code'>Invite Code</label>
     </div>
     <%= render 'partials/inline_errors' %>
-    <%= f.submit 'Get Started', class: 'tagsafe-btn large' %>
+    <%= f.submit 'Get Started', class: 'tagsafe-btn large mb-3' %>
+    <div class='row'>
+      <%= link_to 'Login', login_path %>
+    </div>
   <% end %>
 </div>
