@@ -81,6 +81,14 @@ module ApplicationHelper
     flash[:inline_errors] = messages
   end
 
+  def display_success_banner(message)
+    flash[:banner_success_messages] = [message]
+  end
+
+  def display_error_banner(message)
+    flash[:banner_error_messages] = [message]
+  end
+
   def pluralize_if_necessary(singular_term, list)
     "#{singular_term}#{list.count > 1 ? 's' : nil}"
   end

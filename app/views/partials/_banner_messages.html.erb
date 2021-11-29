@@ -1,0 +1,15 @@
+<% if flash[:banner_success_messages] %>
+ <% flash[:banner_success_messages].each do |msg| %>
+  <div class='banner-message success dismissable'>
+    <%= msg %>
+  </div>
+ <% end %>
+<% end %>
+
+<% if flash[:banner_error_messages] %>
+ <% flash[:banner_error_messages].each do |msg| %>
+  <div class='banner-message error dismissable'>
+    <%= msg %>
+  </div>
+ <% end %>
+<% end %>

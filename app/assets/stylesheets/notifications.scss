@@ -40,3 +40,18 @@
     }
   }
 }
+
+.banner-message {
+  width: 100%;
+  position: fixed;
+  text-align: center;
+  color: white;
+  z-index: 1000;
+  padding: 15px;
+  &.success {
+    background: rgb(0, 193, 0);
+  }
+  &.error {
+    background: rgb(242, 80, 35);
+  }
+}

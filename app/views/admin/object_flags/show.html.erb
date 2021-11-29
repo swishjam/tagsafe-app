@@ -1,0 +1,13 @@
+<div class='tagsafe-container text-center col-8 offset-2'>
+  <h1>Object flag for <%= @object_flag.display_name %></h1>
+  <h3><%= @object_flag.flag.name %></h3>
+  <p><%= @object_flag.flag.description %></p>
+  <%= form_with model: @object_flag, url: admin_flag_object_flag_path(@flag, @object_flag) do |f| %>
+    <div class='form-floating'>
+      <%= f.text_field :value, class: 'form-control', placeholder: 'value' %>
+      <%= f.label :value %>
+    </div>
+    <%= f.submit 'Update', class: 'tagsafe-btn mt-3' %>
+  <% end %>
+  <%= button_to 'Remove Flag', admin_flag_object_flag_path(@flag, @object_flag), method: :delete, class: 'tagsafe-btn red mt-3' %>
+</div>

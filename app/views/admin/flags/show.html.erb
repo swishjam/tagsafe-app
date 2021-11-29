@@ -1,0 +1,28 @@
+<div class='tagsafe-container col-10 offset-1'>
+  <h2><%= @flag.name %></h2>
+  <p>
+    <%= @flag.description %>
+  </p>
+</div>
+
+<div class='tagsafe-container col-10 offset-1 mt-3'>
+  <%= link_to 'Add new object', new_admin_flag_object_flag_path(@flag), class: 'tagsafe-btn float-end mb-3' %>
+  <div class='tagsafe-table'>
+    <div class='tagsafe-table-head tagsafe-table-row'>
+      <div class='tagsafe-table-header' style='width: 25%'>Object Type</div>
+      <div class='tagsafe-table-header' style='width: 25%'>Object</div>
+      <div class='tagsafe-table-header' style='width: 25%'>Value</div>
+      <div class='tagsafe-table-header' style='width: 25%'></div>
+    </div>
+    <div class='tagsafe-table-body'>
+      <% @flag.object_flags.each do |object_flag| %>
+        <div class='tagsafe-table-row'>
+          <div class='tagsafe-table-data' style='width: 25%'><%= object_flag.object_type %></div>
+          <div class='tagsafe-table-data' style='width: 25%'><%= object_flag.display_name %></div>
+          <div class='tagsafe-table-data' style='width: 25%'><%= object_flag.value %></div>
+          <div class='tagsafe-table-data' style='width: 25%'><%= link_to 'Edit', admin_flag_object_flag_path(@flag, object_flag) %></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
