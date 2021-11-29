@@ -73,14 +73,14 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def hosted_js_file_url(cloudfront_url = true)
+  def hosted_js_file_url(cloudfront_url = ENV['USE_CLOUDFRONT_CDN_FOR_JS_FILES'] == 'true')
     return js_file.url unless cloudfront_url
     parsed_url = URI.parse(js_file.url)
     parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
     parsed_url.to_s
   end
 
-  def hosted_tagsafe_instrumented_js_file_url(cloudfront_url = true)
+  def hosted_tagsafe_instrumented_js_file_url(cloudfront_url = ENV['USE_CLOUDFRONT_CDN_FOR_JS_FILES'] == 'true')
     return tagsafe_instrumented_js_file.url unless cloudfront_url
     parsed_url = URI.parse(tagsafe_instrumented_js_file.url)
     parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']

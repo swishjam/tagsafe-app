@@ -1,3 +1,4 @@
+class GenericTagSafeError < StandardError; end;
 class NoAccessError < StandardError; end;
 
 class LambdaFunctionError
