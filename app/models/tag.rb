@@ -146,6 +146,10 @@ class Tag < ApplicationRecord
     tag_preferences.enabled
   end
 
+  def disabled?
+    !enabled?
+  end
+
   def try_friendly_name
     friendly_name || full_url
   end
