@@ -183,6 +183,7 @@ class Audit < ApplicationRecord
   end
 
   def update_completion_indicators
+    return unless ENV['INCLUDE_AUDIT_COMPLETION_INDICATOR'] == 'true'
     broadcast_replace_to "#{id}_completion_indicator", 
                           target: "#{id}_completion_indicator", 
                           partial: 'audits/completion_indicator', 
