@@ -12,22 +12,27 @@
       </select>
     </div>
   <% end %>
-  <div id="tags-chart-container">
-    <%=
-      line_chart @chart_data,
-        download: true, 
-        title: "#{@displayed_metric.to_s.gsub('_', ' ')}",
-        ytitle: "#{@displayed_metric.to_s.gsub('_', ' ')}",
-        xtitle: 'Releases',
-        messages: { empty: "No third party tag data to visualize." },
-        curve: false, 
-        legend: "bottom",
-        library: {
-          rangeSelector: true,
-          hAxis: { 
-            # format: 'MM-DD-YYYY' 
-            }
-        }
-    %>
+  <div data-controller='chart'>
+    <div class='timeframe-selector-container float-start'>
+      <input type="text" name="datetimes" class='tagsafe-dotted-selector' data-chart-target='datepicker' data-start="<%= @start_time %>" data-end="<%= @end_time %>" />
+    </div>
+    <div id="tags-chart-container">
+      <%=
+        line_chart @chart_data,
+          download: true, 
+          title: "#{@displayed_metric.to_s.gsub('_', ' ')}",
+          ytitle: "#{@displayed_metric.to_s.gsub('_', ' ')}",
+          xtitle: 'Releases',
+          messages: { empty: "No third party tag data to visualize." },
+          curve: false, 
+          legend: "bottom",
+          library: {
+            rangeSelector: true,
+            hAxis: { 
+              # format: 'MM-DD-YYYY' 
+              }
+          }
+      %>
+    </div>
   </div>
 <% end %>

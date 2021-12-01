@@ -1,11 +1,13 @@
 module ChartHelper
   class TagUptimeData
-    def initialize(tags, time_ago = 1.day.ago)
+    def initialize(tags, start_time:, end_time:)
       @tags = tags
-      @time_ago = time_ago
+      @start_time = start_time
+      @end_time = end_time
+      # @time_ago = time_ago
     end
 
-    def get_response_time_data!
+    def chart_data
       @tags.map do |tag|
         { 
           name: tag.try_friendly_name,
@@ -17,7 +19,11 @@ module ChartHelper
     private
     
     def tag_check_data(tag)
-      tag.tag_checks.more_recent_than(@time_ago).collect{ |check| [check.created_at, check.response_time_ms] }
+      # tag.tag_checks.more_recent_than(@time_ago).collect{ |check| [check.created_at, check.response_time_ms] }
+      tag.tag_checks.more_recent_than(@start_time)
+                    .older_than(@end_time)
+                    .order('created_at ASC')
+                    .collect{ |check| [check.created_at, check.response_time_ms] }
     end
   end
 end

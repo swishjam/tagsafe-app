@@ -15,7 +15,7 @@
   <div class='col-12'>
     <div class='tagsafe-container'>
       <%= turbo_stream_from "#{domain.uid}_domain_tags_chart" %>
-      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: tags.is_third_party_tag.collect(&:id)) do %>
+      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: tags.is_third_party_tag.collect(&:id), start_time: 1.day.ago, end_time: Time.now) do %>
         <%= display_loading_spinner %>
       <% end %>
     </div>

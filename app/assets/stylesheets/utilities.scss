@@ -1,3 +1,11 @@
+.with-shadow {
+  box-shadow: 1px 1px 13px 0px grey;
+}
+
+.no-border {
+  border: none !important;
+}
+
 .step-indicators {
   .step-indicator {
     width: 50px;
@@ -61,10 +69,11 @@
   }
 }
 
-.with-shadow {
-  box-shadow: 1px 1px 13px 0px grey;
-}
-
-.no-border {
-  border: none !important;
+.tagsafe-dotted-selector {
+  border: none;
+  border-bottom: 1px dashed rgb(116, 116, 116);
+  color: rgb(116, 116, 116);
+  cursor: pointer;
+  width: 275px;
+  text-align: center;
 }

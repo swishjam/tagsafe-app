@@ -1,21 +1,9 @@
 <h5 class='page-title'>Uptime</h5>
 
 <div class="tagsafe-container">
-  <%=
-    line_chart tags_uptime_chart_path(current_domain, tag_ids: @tags.collect(&:id), days_ago: @days_ago),
-      download: true, 
-      title: "Tag Uptime",
-      ytitle: "Response Time (ms)",
-      messages: { empty: "No checks." },
-      curve: false, 
-      legend: "bottom",
-      library: {
-        rangeSelector: true,
-        hAxis: { 
-          # format: 'MM-DD-YYYY' 
-          }
-      }
-  %>
+  <%= turbo_frame_tag "#{current_domain.uid}_domain_tag_uptime", src: tags_uptime_chart_path(current_domain, tag_ids: @tags.collect(&:id), start_time: 1.day.ago, end_time: Time.now) do %>
+    <%= display_loading_spinner %>
+  <% end %>
 </div>
 
 <div class="tagsafe-container" style='margin-top: 15px'>

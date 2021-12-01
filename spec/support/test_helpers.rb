@@ -2,6 +2,8 @@ def prepare_test!(options = {})
   stub_lambda_calls unless options[:allow_lambda_calls]
   @organization = create(:organization) unless options[:bypass_default_organization_create]
   @domain = create(:domain, organization: @organization) unless options[:bypass_default_organization_create] || options[:bypass_default_domain_create]
+  @performance_audit_calculator = create(:performance_audit_calculator, domain: @domain)
+  @domain.current_performance_audit_calculator_id = @performance_audit_calculator.id
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
   create_flags unless options[:bypass_flags]
 end
@@ -20,7 +22,7 @@ def create_execution_reasons
   create(:manual_execution)
   create(:reactivated_tag_execution)
   create(:scheduled_execution)
-  create(:tag_change_execution)
+  create(:new_tag_version_execution)
   create(:retry_execution)
 end
 

@@ -15,8 +15,8 @@ FactoryBot.define do
     name { 'Scheduled Execution' }
   end
 
-  factory :tag_change_execution, class: 'ExecutionReason' do
-    name { 'Tag Change' }
+  factory :new_tag_version_execution, class: 'ExecutionReason' do
+    name { 'New Tag Version' }
   end
   
   factory :retry_execution, class: 'ExecutionReason' do

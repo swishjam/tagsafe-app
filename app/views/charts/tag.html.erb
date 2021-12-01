@@ -1,21 +1,30 @@
 <%= turbo_frame_tag "#{@tag.id}_tag_chart" do %>
-  <form class="col-4 offset-8" data-controller='select-change-form-submit'>
-    <select class="form-select form-control" data-select-change-form-submit-target='select' data-action='change->select-change-form-submit#updateFormAction change->select-change-form-submit#submitForm'>
-      <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
-        <option value="/charts/tag/<%=@tag.id%>?chart_metric=<%= metric_type[:column] %>" <%= metric_type[:column] === @chart_metric ? 'selected="selected"' : nil %>>
-          <%= metric_type[:title] %>
-        </option>
-      <% end %>
-    </select>
-  </form>
-  <%= 
-    title = @chart_metric == :tagsafe_score ? "TagSafe Score" : "Impact to #{@chart_metric.to_s.split('_').map(&:capitalize).join(' ')}"
-    line_chart @chart_data,
-      download: true, 
-      title: title,
-      ytitle: title,
-      xtitle: 'Releases',
-      curve: false,
-      messages: { empty: "No third party tag data to visualize." } 
-  %>
+  <div data-controller='chart'>
+    <div class='col-12'>
+      <div class='row'>
+        <div class='timeframe-selector-container col-8'>
+          <input type="text" name="datetimes" class='tagsafe-dotted-selector' data-chart-target='datepicker' data-start="<%= @start_time %>" data-end="<%= @end_time %>" />
+        </div>
+        <form class="col-4" data-controller='select-change-form-submit'>
+          <select class="form-select form-control" data-select-change-form-submit-target='select' data-action='change->select-change-form-submit#updateFormAction change->select-change-form-submit#submitForm'>
+            <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
+              <option value="/charts/tag/<%=@tag.id%>?chart_metric=<%= metric_type[:column] %>" <%= metric_type[:column] === @chart_metric ? 'selected="selected"' : nil %>>
+                <%= metric_type[:title] %>
+              </option>
+            <% end %>
+          </select>
+        </form>
+      </div>
+    </div>
+    <%= 
+      title = @chart_metric == :tagsafe_score ? "TagSafe Score" : "Impact to #{@chart_metric.to_s.split('_').map(&:capitalize).join(' ')}"
+      line_chart @chart_data,
+        download: true, 
+        title: title,
+        ytitle: title,
+        xtitle: 'Releases',
+        curve: false,
+        messages: { empty: "No third party tag data to visualize." } 
+    %>
+  </div>
 <% end %>

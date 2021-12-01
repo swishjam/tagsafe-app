@@ -146,8 +146,16 @@ class Tag < ApplicationRecord
     tag_preferences.enabled
   end
 
+  def enable!
+    tag_preferences.update!(enabled: true)
+  end
+
   def disabled?
     !enabled?
+  end
+
+  def disable!
+    tag_preferences.update!(enabled: false)
   end
 
   def try_friendly_name
