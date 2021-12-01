@@ -1,15 +1,23 @@
-
-<div class="splash-container red row">
-  <div class="col-md-6 col-sm-12 text-left">
+<div class="splash-container">
+  <div class="col-12">
     <div class="header">
-      <h1>Stop letting other people's code impact your site.</h1>
-      <p class="description">
+      <h1 class='main-header alfa-slab'>It's time to <span class='italic'>actually</span> manage your third party tags.</h1>
+      <h2 class="sub-header">
         Gain visibility into your third party JavaScript tags. Monitor changes in real time, and ensure your site is not hurt by a third party release.
-      </p>
+      </h2>
+      <%= form_with url: learn_more_path, class: 'learn-more-form', html: { onsubmit: 'window.onFormSubmit' } do |f| %>
+        <%= f.email_field :email, placeholder: 'Enter email to join beta, learn more, or say hi.' %>
+        <%= f.submit 'Say Hello', class: 'tagsafe-btn large mt-2' %>
+      <% end %>
+      <p class='sub-header learn-more-form-msg text-center hidden'>Thanks for reaching out! We'll be in touch.</p>
     </div>
   </div>
 </div>
 
-<div class="splash-container white row">
-  
-</div>
+<script>
+  var learnMoreForm = document.querySelector('.learn-more-form');
+  learnMoreForm.addEventListener('submit', function() {
+    learnMoreForm.classList.add('hidden');
+    document.querySelector('.learn-more-form-msg').classList.remove('hidden');
+  })
+</script>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'welcome#index'
+  post '/learn_more' => 'welcome#learn_more'
 
   require 'resque/server'
   mount Resque::Server.new, at: '/queue'

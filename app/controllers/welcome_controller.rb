@@ -4,4 +4,14 @@ class WelcomeController < LoggedOutController
     @include_thirdpartytag_dotcom = true
     @include_segment = true
   end
+
+  def learn_more
+    binding.pry
+    TagSafeMailer.generic_email(
+      to: 'collin@tagsafe.io', 
+      subject: 'User interested', 
+      body: "#{params[:email]} is interested in TagSafe."
+    )
+    head :ok
+  end
 end

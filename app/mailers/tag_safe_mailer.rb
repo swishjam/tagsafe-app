@@ -1,5 +1,16 @@
 class TagSafeMailer < SendgridTemplateMailer
   class << self
+    def generic_email(to:, subject:, body:, from: 'notifications@tagsafe.io')
+      @to_email = to
+      @template_name = :generic
+      @from_email = from
+      @variable_json = { 
+        subject: subject,
+        body: body
+      }
+      send!
+    end
+
     def send_welcome_email(user)
       @to_email = user.email
       @from_email = 'collin@tagsafe.io'

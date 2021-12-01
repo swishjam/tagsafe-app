@@ -1,6 +1,10 @@
 class GenericTagSafeError < StandardError; end;
 class NoAccessError < StandardError; end;
 
+class TagSafeMailerError
+  class InvalidArgumentsError < StandardError; end;
+end
+
 class LambdaFunctionError
   class PayloadNotProvided < StandardError; end;
   class InvalidInvocation < StandardError; end;
