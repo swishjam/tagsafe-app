@@ -6,7 +6,6 @@ class WelcomeController < LoggedOutController
   end
 
   def learn_more
-    binding.pry
     TagSafeMailer.generic_email(
       to: 'collin@tagsafe.io', 
       subject: 'User interested', 
