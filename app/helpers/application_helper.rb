@@ -1,13 +1,14 @@
 module ApplicationHelper
-  # helper_method :current_user
-  # helper_method :current_domain
-  # helper_method :current_organization
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  rescue ActiveRecord::RecordNotFound => e
+    log_user_out
   end
 
   def current_domain
     @current_domain ||= session[:current_domain_id] ? current_organization&.domains&.find(session[:current_domain_id]) : current_organization&.domains&.first
+  rescue ActiveRecord::RecordNotFound => e
+    log_user_out
   end
 
   def set_current_domain_for_user(user, domain)
@@ -17,6 +18,8 @@ module ApplicationHelper
 
   def current_organization
     @current_organization ||= session[:current_organization_id] ? Organization.find(session[:current_organization_id]) : current_user && current_user.organizations.first
+  rescue ActiveRecord::RecordNotFound => e
+    log_user_out
   end
 
   def set_current_organization_for_user(user, organization)

@@ -28,12 +28,12 @@ class AuditsController < LoggedInController
     permitted_to_view?(audit)
     audit.make_primary!
     current_user.broadcast_notification("Primary audit updated for #{audit.tag.try_friendly_name} version #{audit.tag_version.sha}", image: audit.tag.try_image_url)
-    # updated_audits_collection = audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
-    # render turbo_stream: turbo_stream.replace(
-    #   "tag_version_#{audit.tag_version.uid}_audits_table",
-    #   partial: 'audits/audits_table',
-    #   locals: { tag_version: audit.tag_version, audits: updated_audits_collection, streamed: true }
-    # )
+    updated_audits_collection = audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
+    render turbo_stream: turbo_stream.replace(
+      "tag_version_#{audit.tag_version.uid}_audits_table",
+      partial: 'audits/audits_table',
+      locals: { tag_version: audit.tag_version, audits: updated_audits_collection, streamed: true }
+    )
   end
 
   def cloudwatch_logs

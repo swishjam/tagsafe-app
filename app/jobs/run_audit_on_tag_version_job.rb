@@ -1,4 +1,6 @@
 class RunAuditOnTagVersionJob < ApplicationJob
+  queue_as :performance_audit_runner_queue
+
   def perform(audit:, tag_version:, url_to_audit_id:, execution_reason:, options: {})
     AuditRunner.new(
       audit: audit,

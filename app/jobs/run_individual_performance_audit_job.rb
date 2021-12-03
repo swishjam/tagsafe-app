@@ -1,5 +1,6 @@
 class RunIndividualPerformanceAuditJob < ApplicationJob
-  # queue_as :performance_audit_runner_queue
+  queue_as :performance_audit_runner_queue
+  
   def perform(type:, audit:, tag_version:, options: {})
     performance_auditer = LambdaModerator::PerformanceAuditer.new(
       type: type,

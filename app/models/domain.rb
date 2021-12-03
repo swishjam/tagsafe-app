@@ -7,7 +7,8 @@ class Domain < ApplicationRecord
   has_many :performance_audit_calculators
   has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
-  has_many :urls_to_crawl, dependent: :destroy, class_name: 'UrlToCrawl'
+  has_many :urls_to_crawl, class_name: 'UrlToCrawl', dependent: :destroy
+  has_many :url_crawls, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true

@@ -12,10 +12,10 @@ class UrlCrawl < ApplicationRecord
   scope :successful, -> { completed.where(error_message: nil ) }
 
   after_create_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain } }
-  after_update_commit { 
+  after_update_commit do
     broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }
     broadcast_replace_to "#{uid}_url_crawl", target: "#{uid}_url_crawl", partial: 'url_crawls/status', locals: { url_crawl: self }
-  }
+  end
 
   def self.most_recent
     most_recent_first(timestamp_column: :enqueued_at).limit(1).first
