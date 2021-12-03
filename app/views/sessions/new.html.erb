@@ -1,6 +1,14 @@
-<div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center login-card">
-  <h1>Login</h1>
-  <!-- <#%= turbo_frame_tag 'new_session' do %> !-->
-    <%= render 'form' %>
-  <!-- <#% end %> !-->
+<div class='container'>
+  <div class='nav-less-tagsafe-logo-container col-12 text-center'>
+    <%= link_to root_path do %>
+      <%= image_tag '/tagsafe-logo.svg', class: 'img-fluid mb-5 enlarge-slightly-on-hover', style: 'width: 100px; height: 100px;' %>
+    <% end %>
+  </div>
+
+  <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center login-card m-auto">
+    <h3 class='tagsafe-font'>Log in</h3>
+    <!-- <#%= turbo_frame_tag 'new_session' do %> !-->
+      <%= render 'form' %>
+    <!-- <#% end %> !-->
+  </div>
 </div>

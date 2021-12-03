@@ -25,6 +25,11 @@
   50% { box-shadow: 0 0 8px 3px $tagsafe-primary; }
 }
 
+.enlarge-slightly-on-hover:hover {
+  transition: 500ms all;
+  transform: scale(1.02, 1.02);
+}
+
 .tagsafe-spinner-grow, .tagsafe-spinner {
   color: $tagsafe-primary;
   &.white {

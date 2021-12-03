@@ -37,12 +37,6 @@
   .logo-container {
     margin: 25px;
     text-align: center;
-    .logo-img {
-      transition: 500ms all;
-      &:hover {
-        transform: scale(1.02, 1.02);
-      }
-    }
   }
   .navigation-profile-container {
     position: absolute;

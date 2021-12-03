@@ -2,7 +2,7 @@ class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
 
   def new
-    @hide_logged_out_nav_items = true
+    @hide_logged_out_nav = true
     @user = User.new
   end
 
@@ -15,10 +15,12 @@ class RegistrationsController < LoggedOutController
         redirect_to new_organization_path
       else
         display_inline_errors(@user.errors.full_messages)
+        @hide_logged_out_nav = true
         render :new, status: :unprocessable_entity
       end
     else
       display_inline_errors(['Invalid invite code.'])
+      @hide_logged_out_nav = true
       render :new, status: :unprocessable_entity
     end
   end

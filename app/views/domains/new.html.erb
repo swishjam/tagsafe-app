@@ -16,7 +16,8 @@
           </div>
         </div>
         <%= render 'partials/utils/inline_form_errors' %>
-        <%= f.submit 'Begin monitoring', class: 'tagsafe-btn outline large' %>
+        <!-- <#%= f.submit 'Begin monitoring', class: 'tagsafe-btn outline large' %> !-->
+        <%= loading_submit_button 'Begin monitoring', class: 'outline large' %>
       <% end %>
     </div>
   </div>

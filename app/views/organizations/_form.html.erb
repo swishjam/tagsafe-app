@@ -1,17 +1,21 @@
-<%= form_for @organization, class: 'col-12', data: { controller: 'loading_form' } do |f| %>
-  <div class='form-floating m-2'>
-    <%= f.text_field :name, class: 'form-control', placeholder: 'TagSafe' %>
-    <%= f.label 'Organization Name' %>
+<%= form_with model: @organization, class: 'col-12', data: { controller: 'loading_form' } do |f| %>
+  <div class='container'>
+    <div class='row m-3'>
+      <div class='form-floating col-12 p-0'>
+        <%= f.text_field :name, class: 'form-control', placeholder: 'TagSafe' %>
+        <%= f.label 'Organization Name' %>
+      </div>
+    </div>
   </div>
-  <div class='form-floating m-2'>
-    <div class='row mb-3 mt-3'>
-      <div class='col-2 p-0'>
+  <div class='container'>
+    <div class='row m-3'>
+      <div class='col-3 p-0'>
         <select name='domain[protocol]' class='form-select text-center col-2 h-100' required>
           <option class='dropdown-item' value='https://' selected>https://</option>
           <option class='dropdown-item' value='http://'>http://</option>
         </select>
       </div>
-      <div class="form-floating col-10 p-0">
+      <div class="form-floating col-9 p-0">
         <input id='url' name='domain[url]' type='text' class='form-control' placeholder='www.tagsafe.io'>
         <label for='url'>Site URL to monitor</label>
       </div>
