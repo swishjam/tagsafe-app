@@ -2,7 +2,7 @@
   <div class='row'>
     <% if !tag.enabled? %>
       <%= form_with model: tag, url: enable_tag_path(tag) do |f| %>
-        <%= f.submit 'Enable TagSafe Monitoring', class: 'tagsafe-btn square outline large float-end' %>
+        <%= f.submit 'Enable Tagsafe Monitoring', class: 'tagsafe-btn square outline large float-end' %>
       <% end %>
     <% end %>
   </div>
@@ -37,7 +37,7 @@
   <% end %>
   <% if tag.enabled? %>
     <%= form_with model: tag, url: disable_tag_path(tag) do |f| %>
-      <%= f.submit 'Disable TagSafe Monitoring', class: 'tagsafe-btn square outline red large mt-3' %>
+      <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large mt-3' %>
     <% end %>
   <% end %>
 <% end %>

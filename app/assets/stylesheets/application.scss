@@ -55,18 +55,22 @@ a.no-decoration {
 }
 
 body.logged-in {
+  background-color: #eeeeee;
   #content {
     margin: 0;
     background-color: #eeeeee;
     min-height: 100vh;
-    &:not(.full-width) {
-      transition: 500ms width;
+    float: right;
+    transition: 500ms width;
+    &:not(.collapsed-navigation) {
       width: 85%;
-      float: right;
     }
-    // &.full-width {
-    //   width: 100%
-    // }
+    &.collapsed-navigation {
+      width: 99%;
+    }
+    &.no-navigation {
+      width: 100%;
+    }
     #inner-content {
       padding: 30px 15px 30px 15px;
     }
@@ -75,7 +79,6 @@ body.logged-in {
   .breadcrumb {
     padding: 40px 0px 0px 10px;
   }
-
 
   .page-title {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -180,6 +183,15 @@ body.logged-in {
 ul.pagination {
   width: fit-content;
   margin: 0 auto;
+  margin-top: 1rem;
+  .page-item a.page-link {
+    color: $tagsafe-primary;
+  }
+  .page-item.active a.page-link {
+    background-color: $tagsafe-primary;
+    border-color: $tagsafe-primary;
+    color: white;
+  }
 }
 
 .white-text { color: white !important }

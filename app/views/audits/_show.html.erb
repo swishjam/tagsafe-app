@@ -28,7 +28,7 @@
                       audit: audit, 
                       additional_menu_items: additional_menu_items
           %>
-          <!-- <#%= render 'partials/utils/help_tooltip', message: "TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
+          <!-- <#%= render 'partials/utils/help_tooltip', message: "Tagsafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
         </div>
         <% if tag_version.audits.count > 1 %>
           <p class='mt-2'>This is one of <%= tag_version.audits.count %> audits perfomed on this version of the tag. <%= link_to 'View all', tag_tag_version_audits_path(tag, tag_version), target: '_top' %></p>
@@ -50,7 +50,7 @@
       <div data-controller='audit-results-expander'>
         <div class="row">
           <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
-            <h4>TagSafe Score</h4>
+            <h4>Tagsafe Score</h4>
             <%= render partial: 'partials/progress_ring', 
                         locals: { 
                           score: audit.delta_performance_audit.tagsafe_score,

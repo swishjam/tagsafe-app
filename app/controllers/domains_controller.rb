@@ -2,19 +2,20 @@ class DomainsController < LoggedInController
   skip_before_action :ensure_domain
 
   def new
-    @hide_navigation = true
+    @domain = Domain.new
+    @collapsed_navigation = true
   end
   
   def create
     params[:domain][:organization_id] = current_organization.id
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
-    domain = Domain.new(domain_params)
-    if domain.save
-      set_current_domain_for_user(current_user, domain)
+    @domain = Domain.new(domain_params)
+    if @domain.save
+      set_current_domain_for_user(current_user, @domain)
       redirect_to tags_path
     else
-      display_inline_errors(domain.errors.full_messages)
-      redirect_to request.referrer
+      display_inline_errors(@domain.errors.full_messages)
+      render :new, status: :unprocessable_entity
     end
   end
 

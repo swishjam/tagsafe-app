@@ -31,7 +31,7 @@
       <% end %>
     </div>
     <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
-    <div class='tagsafe-table-data' style='width: 24%'><%= audit.audited_url.tagsafe_hosted ? 'TagSafe-hosted version of ' : nil %><%= audit.audited_url.display_url %></div>
+    <div class='tagsafe-table-data' style='width: 24%'><%= audit.audited_url.tagsafe_hosted ? 'Tagsafe-hosted version of ' : nil %><%= audit.audited_url.display_url %></div>
     <div class='tagsafe-table-data justify-content-end' style='width: 11%'>
       <!-- <#%= link_to 'View audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %> !-->
       <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>

@@ -15,7 +15,7 @@
     <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'loading_form' } do |f| %>
       <% tag.urls_to_audit.each do |url_to_audit| %>
         <div class="form-check form-switch w-fit m-auto">
-          <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.tagsafe_hosted ? 'TagSafe-hosted version of ' : nil %><%= url_to_audit.display_url %></label>
+          <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.tagsafe_hosted ? 'Tagsafe-hosted version of ' : nil %><%= url_to_audit.display_url %></label>
           <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
         </div>
       <% end %>

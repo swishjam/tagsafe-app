@@ -14,7 +14,7 @@
           <div class='col-3 text-start'>
             <label for='url_to_audit_production_url_version'>Production URL version</label>
             <%= f.check_box :production_url_version, checked: true %>
-            <label for='url_to_audit_tagsafe_hosted_version'>TagSafe-hosted URL version</label>
+            <label for='url_to_audit_tagsafe_hosted_version'>Tagsafe-hosted URL version</label>
             <%= f.check_box :tagsafe_hosted_version, checked: true %>
           </div>
         <% end %>
@@ -24,7 +24,7 @@
 
   <% urls_to_audit.each do |url_to_audit| %>
     <% if url_to_audit.tagsafe_hosted %>
-      <div class='tagsafe-pill tagsafe-blue removable m-1' data-controller='tooltip' data-bs-toggle='tooltip' data-placement='top' title="This is the TagSafe hosted version of <%=url_to_audit.display_url%>. TagSafe hosts a second version of your URLs for accurate tests.">
+      <div class='tagsafe-pill tagsafe-blue removable m-1' data-controller='tooltip' data-bs-toggle='tooltip' data-placement='top' title="This is the Tagsafe hosted version of <%=url_to_audit.display_url%>. Tagsafe hosts a second version of your URLs for accurate tests.">
         <%= url_to_audit.display_url %>
         <%= form_with model: [tag, url_to_audit], url: tag_urls_to_audit_path(tag, url_to_audit), method: :delete, class: 'd-inline' do |f| %>
           <span class='remove-btn pointer p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>

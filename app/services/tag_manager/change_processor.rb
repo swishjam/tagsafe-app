@@ -82,7 +82,7 @@ module TagManager
         (function(){ 
           window.performance.mark("tagsafeExecutionEnd"); 
           window.performance.measure("tagsafeExecutionTime", "tagsafeExecutionStart", "tagsafeExecutionEnd");
-          console.log(`TagSafe execution time: ${window.performance.getEntriesByName('tagsafeExecutionTime')[0].duration} ms.`);
+          console.log(`Tagsafe execution time: ${window.performance.getEntriesByName('tagsafeExecutionTime')[0].duration} ms.`);
         })();
       JS
     end

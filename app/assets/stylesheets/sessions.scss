@@ -1,13 +1,14 @@
-body.sessions, body.registrations, body.organizations {
+body.sessions, body.registrations, body.organizations, body.domains.new {
   background: $tagsafe-secondary;
   #content {
+    background: $tagsafe-secondary;
     min-height: calc(100vh - 66px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 25px;
   }
-  .login-card, .registration-card {
+  .form-card {
     max-width: 500px;
   }
 }

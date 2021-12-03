@@ -3,7 +3,7 @@ class SlackSettingsController < LoggedInController
     authorizer = SlackModerator::Authorizer.new(current_organization)
     authorizer.auth!(params[:code])
     if authorizer.success
-      display_toast_message('TagSafe bot has been added to your Slack workspace.')
+      display_toast_message('Tagsafe bot has been added to your Slack workspace.')
     else
       display_toast_error(authorizer.error)
     end

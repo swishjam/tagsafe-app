@@ -37,7 +37,6 @@ class AuditsController < LoggedInController
   end
 
   def cloudwatch_logs
-    @hide_navigation = true
     @tag = Tag.find(params[:tag_id])
     @tag_version = TagVersion.find(params[:tag_version_id])
     @audit = Audit.includes(:performance_audits).find(params[:audit_id])

@@ -17,7 +17,7 @@
       </div>
     </div>
     <%= 
-      title = @chart_metric == :tagsafe_score ? "TagSafe Score" : "Impact to #{@chart_metric.to_s.split('_').map(&:capitalize).join(' ')}"
+      title = @chart_metric == :tagsafe_score ? "Tagsafe Score" : "Impact to #{@chart_metric.to_s.split('_').map(&:capitalize).join(' ')}"
       line_chart @chart_data,
         download: true, 
         title: title,

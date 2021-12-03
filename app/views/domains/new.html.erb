@@ -1,8 +1,14 @@
-<div class='fill-view d-flex align-items-center justify-content-center'>
-  <div class="col-sm-10 tagsafe-container p-5 d-flex align-items-center justify-content-center" style='height: 50vh'>
+<div class='container'>
+  <div class='nav-less-tagsafe-logo-container col-12 text-center'>
+    <%= link_to tags_path do %>
+      <%= image_tag '/tagsafe-logo.svg', class: 'img-fluid mb-5 enlarge-slightly-on-hover', style: 'width: 100px; height: 100px;' %>
+    <% end %>
+  </div>
+
+  <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center form-card m-auto">
     <div class='container text-center'>
-      <h3>Enter the domain of your site you would like TagSafe to monitor.</h3>
-      <%= form_for Domain.new, data: { controller: 'loading_form' } do |f| %>
+      <h3 class='tagsafe-font'>Enter the domain of your site you would like Tagsafe to monitor.</h3>
+      <%= form_for @domain, data: { controller: 'loading_form' } do |f| %>
         <div class='row mb-3 mt-3'>
           <div class='col-2 p-0'>
             <select name='domain[protocol]' class='form-select text-center col-2 h-100' required>
@@ -17,7 +23,7 @@
         </div>
         <%= render 'partials/utils/inline_form_errors' %>
         <!-- <#%= f.submit 'Begin monitoring', class: 'tagsafe-btn outline large' %> !-->
-        <%= loading_submit_button 'Begin monitoring', class: 'outline large' %>
+        <%= loading_submit_button 'Begin monitoring', button_class: 'outline large' %>
       <% end %>
     </div>
   </div>

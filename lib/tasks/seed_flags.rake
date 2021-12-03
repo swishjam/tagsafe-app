@@ -26,9 +26,9 @@ namespace :seed do
         default_value: 'false'
       },
       {
-        name: 'TagSafe-Hosted Site Option Available',
+        name: 'Tagsafe-Hosted Site Option Available',
         slug: 'tagsafe_hosted_site_enabled',
-        description: 'Provides the option to have TagSafe host a duplicated front-end version of their site for audits.',
+        description: 'Provides the option to have Tagsafe host a duplicated front-end version of their site for audits.',
         default_value: 'false'
       },
       {
@@ -38,23 +38,30 @@ namespace :seed do
         default_value: '3'
       },
       {
-        name: 'Stripe all CSS in Performance Audits',
+        name: 'Strip all CSS in Performance Audits',
         slug: 'strip_all_css_in_performance_audits',
         description: 'Removes all CSS from the audited page when running performance audits.',
         default_value: 'false'
       },
       {
-        name: 'Stripe all images in Performance Audits',
+        name: 'Strip all images in Performance Audits',
         slug: 'strip_all_images_in_performance_audits',
         description: 'Removes all img tags from the audited page when running performance audits.',
         default_value: 'false'
+      }, 
+      {
+        name: 'Throw an error if DOM Complete is zero in Performance Audits',
+        slug: 'performance_audit_throw_error_if_dom_complete_is_zero',
+        description: 'When running a performance audit, throw an error if the DOM Complete timestamp does not exceed zero.',
+        default_value: 'true'
       }
     ]
 
     flags.each do |flag_config|
       existing = Flag.find_by(slug: flag_config[:slug])
       if existing
-        puts "#{existing.slug} already exists, skipping..."
+        puts "#{existing.slug} already exists, updating..."
+        existing.update!(flag_config)
       else
         flag = Flag.create!(flag_config)
         puts "Created #{flag.slug} flag."

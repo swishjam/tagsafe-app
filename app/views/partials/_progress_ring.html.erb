@@ -9,7 +9,7 @@
       <div class="score default-cursor">
         <h2><%= score.round(2) %></h2>
         <% if change_in_score %>
-          <span data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="The previous version had a TagSafe score of <%= (score - change_in_score).round(2) %>.">
+          <span data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="The previous version had a Tagsafe score of <%= (score - change_in_score).round(2) %>.">
             <span><i class="fas <%=change_in_score.positive? ? "fa-long-arrow-alt-up" : "fa-long-arrow-alt-down"%>"></i> <%= change_in_score.round(2) %></span>
           </span>
         <% end %>

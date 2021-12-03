@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TagSafe</title>
+    <title>Tagsafe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -43,7 +43,7 @@
       <% unless @hide_navigation %>
         <%= render partial: 'partials/logged_in_nav' %>
       <% end %>
-      <div id="content" class="<%= @hide_navigation ? 'full-width' : 'with-navigation' %>">
+      <div id="content" class="<%= @hide_navigation ? 'collapsed-navigation' : 'with-navigation' %>">
         <%= render partial: 'partials/breadcrumbs' %>
         <div id="inner-content" class="col-12">
           <%= yield %>

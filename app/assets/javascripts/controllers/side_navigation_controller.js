@@ -4,21 +4,21 @@ export default class extends Controller {
   static targets = ['leftHandNav', 'showBtn', 'hideBtn'];
   
   hide() {
-    document.querySelector('#content').classList.add('full-width');
+    document.querySelector('#content').classList.add('collapsed-navigation');
     this.leftHandNavTarget.classList.add('collapsed');
-    this.showBtnTarget.classList.remove('hidden');
     this.hideBtnTarget.classList.add('hidden');
+    setTimeout(() => this.showBtnTarget.classList.remove('hidden'), 500);
   }
 
   show() {
-    document.querySelector('#content').classList.remove('full-width');
+    document.querySelector('#content').classList.remove('collapsed-navigation');
     this.leftHandNavTarget.classList.remove('collapsed');
     this.showBtnTarget.classList.add('hidden');
-    this.hideBtnTarget.classList.remove('hidden');
+    setTimeout(() => this.hideBtnTarget.classList.remove('hidden'), 500);
   }
 
   leftHandNavClick() {
-    // if(!this.leftHandNavTarget.classList.contains('full-width')) {
+    // if(!this.leftHandNavTarget.classList.contains('collapsed-navigation')) {
     //   this.show();
     // }
   }

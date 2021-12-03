@@ -12,7 +12,7 @@
         <tr>
           <th scope="col" style='width: 65%'>Tag</th>
           <th scope="col" style='width: 12.5%'>Status</th>
-          <th scope="col" style='width: 12.5%'>Current TagSafe Score</th>
+          <th scope="col" style='width: 12.5%'>Current Tagsafe Score</th>
           <th scope="col" style='width: 5%'></th>
         </tr>
       </thead>
@@ -35,7 +35,9 @@
             </td>
             <td>
               <div class='d-flex align-items-center'>
-                <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag.current_version %>
+                <% if tag.current_version %>
+                  <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag.current_version %>
+                <% end %>
               </div>
             </td>
             <td>

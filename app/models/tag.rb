@@ -39,10 +39,9 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   broadcast_notification on: :create
-  after_create_commit :append_tag_row_to_table
-  # after_create_commit { broadcast_remove_to 'no_tags_message', target: 'no_tags_message' }
+  after_create_commit -> { append_tag_row_to_table(now: true) }
   after_update_commit { update_tag_row }
-  after_destroy_commit { broadcast_remove_to "#{domain_id}_domain_tags", target: "#{domain_id}_domain_tags" }
+  after_destroy_commit :remove_tag_from_from_table
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
   after_create :attempt_to_find_and_apply_tag_image
 
@@ -213,6 +212,14 @@ class Tag < ApplicationRecord
       target: "#{domain.uid}_domain_tags_table_row_#{uid}",
       partial: 'server_loadable_partials/tags/tag_table_row',
       locals: { tag: self, domain: domain, streamed: true }
+    )
+  end
+
+  def remove_tag_from_from_table(now: false)
+    broadcast_method = now ? :broadcast_remove_to : :broadcast_remove_to_later
+    send(broadcast_method, 
+      "domain_#{domain.uid}_monitor_center_view_stream", 
+      target: "#{domain.uid}_domain_tags_table_row_#{uid}"
     )
   end
 
