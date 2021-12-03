@@ -27,6 +27,9 @@
         }}();
       </script>
     <% end %>
+    <% if @include_new_relic %>
+      <%= render 'partials/tags/new_relic_script' %>
+    <% end %>
   </head>
 
   <body class="<%=controller_name%>">
