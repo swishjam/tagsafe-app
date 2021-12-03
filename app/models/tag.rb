@@ -215,12 +215,8 @@ class Tag < ApplicationRecord
     )
   end
 
-  def remove_tag_from_from_table(now: false)
-    broadcast_method = now ? :broadcast_remove_to : :broadcast_remove_to_later
-    send(broadcast_method, 
-      "domain_#{domain.uid}_monitor_center_view_stream", 
-      target: "#{domain.uid}_domain_tags_table_row_#{uid}"
-    )
+  def remove_tag_from_from_table
+    broadcast_remove_to "domain_#{domain.uid}_monitor_center_view_stream", target: "#{domain.uid}_domain_tags_table_row_#{uid}"
   end
 
   private
