@@ -11,6 +11,7 @@ class Domain < ApplicationRecord
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true
+  validate :is_valid_url
 
   after_create_commit :add_defaults
 
@@ -60,5 +61,11 @@ class Domain < ApplicationRecord
   def user_can_initiate_crawl?(user)
     return false if user.nil?
     organization.users.include?(user)
+  end
+
+  def is_valid_url
+    HTTParty.get(url)
+  rescue => e
+    errors.add(:base, "Cannot access #{url}, ensure this is a valid URL.")
   end
 end

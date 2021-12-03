@@ -1,9 +1,7 @@
-<div class='text-center'>
+<!-- <div class='text-center'> !-->
   <% if local_assigns[:type] == 'grow' %>
-    <div class="spinner-grow tagsafe-spinner-grow" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+    <div class="spinner-grow tagsafe-spinner-grow" role="status"></div>
   <% else %>
-    <span class='spinner-border tagsafe-spinner <%= local_assigns[:size] ? size : 'medium' %> <%= local_assigns[:color] %>'></span>
+    <div class='spinner-border tagsafe-spinner <%= local_assigns[:size] ? size : 'medium' %> <%= local_assigns[:color] %>'></div>
   <% end %>
-</div>
+<!-- </div> !-->

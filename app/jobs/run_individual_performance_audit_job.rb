@@ -12,8 +12,6 @@ class RunIndividualPerformanceAuditJob < ApplicationJob
     if response.successful
       capture_successful_response(response.response_body, performance_auditer.individual_performance_audit, audit)
     else
-      # TODO: I think this may be linking the error to a successful performance audit?
-      # because an audit can have many failed performance audits we should change to generic errors
       performance_auditer.individual_performance_audit.error!(response.error)
     end
   end
@@ -31,7 +29,6 @@ class RunIndividualPerformanceAuditJob < ApplicationJob
     all_individual_performance_audit_completed = !audit.failed? && audit.all_individual_performance_audits_completed?
     if all_individual_performance_audit_completed
       audit.create_delta_performance_audit!
-      audit.completed!
     end
   end
 end

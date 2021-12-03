@@ -39,14 +39,9 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   broadcast_notification on: :create
-  after_create_commit do
-    broadcast_append_later_to "#{domain.uid}_domain_tags_table_rows", 
-                                target: "#{domain.uid}_domain_tags_table_rows", 
-                                partial: 'server_loadable_partials/tags/tag_table_row', 
-                                locals: { tag: self, domain: domain } 
-  end
+  after_create_commit :append_tag_row_to_table
   # after_create_commit { broadcast_remove_to 'no_tags_message', target: 'no_tags_message' }
-  after_update_commit { update_tag_content }
+  after_update_commit { update_tag_row }
   after_destroy_commit { broadcast_remove_to "#{domain_id}_domain_tags", target: "#{domain_id}_domain_tags" }
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
   after_create :attempt_to_find_and_apply_tag_image
@@ -96,13 +91,6 @@ class Tag < ApplicationRecord
 
   def self.find_removed_tag_without_query_params(url)
     find_without_query_params(url, include_removed_tags: true)
-  end
-
-  def update_tag_content
-    broadcast_replace_later_to "#{domain.uid}_domain_tags_table", 
-                                  target: "#{domain.uid}_domain_tags_table_row_#{uid}",
-                                  partial: 'server_loadable_partials/tags/tag_table_row',
-                                  locals: { tag: self, domain: domain }
   end
 
   def after_create_notification_msg
@@ -180,29 +168,6 @@ class Tag < ApplicationRecord
     "#{URI.parse(full_url).scheme}://#{url_domain}#{url_path}"
   end
 
-  ############
-  ## AUDITS ##
-  ############
-
-  def has_pending_audits_for_tag_version?(tag_version)
-    audits.pending_performance_audit.where(tag_version: tag_version).any?
-  end
-
-  def most_recent_audit(primary: true)
-    primary ? audits.where(primary: true).limit(1).first : audits.limit(1).first
-  end
-
-  def most_recent_audit_by_tag_version(tag_version, include_pending_performance_audits: false, include_failed_performance_audits: false)
-    scopes = determine_audit_scopes(include_pending_performance_audits: include_pending_performance_audits, include_failed_performance_audits: include_failed_performance_audits)
-    audits.chain_scopes(scopes).where(tag_version: tag_version).limit(1).first
-  end
-
-  def tag_changes_per_day
-    unless tag_versions.count === 1
-      (tag_versions.count / ((Time.now - created_at) / 86_400)).round(2)
-    end
-  end
-
   ################
   ## TAG CHECKS ##
   ################
@@ -223,16 +188,28 @@ class Tag < ApplicationRecord
     failed_requests(days_ago: days_ago, successful_codes: successful_codes) / tag_checks.more_recent_than(days_ago.days.ago).count
   end
 
-  ###########
-  # HELPERS #
-  ###########
+  ###################
+  ## TURBO STREAMS ##
+  ###################
 
-  def toggle_enabled_flag!
-    toggle_boolean_column(:enabled)
+  def append_tag_row_to_table(now: false)
+    broadcast_method = now ? :broadcast_append_to : :broadcast_append_later_to
+    send(broadcast_method,
+      "domain_#{domain.uid}_monitor_center_view_stream", 
+      target: "#{domain.uid}_domain_tags_table_rows", 
+      partial: 'server_loadable_partials/tags/tag_table_row', 
+      locals: { tag: self, domain: domain, streamed: true } 
+    )
   end
 
-  def toggle_third_party_flag!
-    toggle_boolean_column(:is_third_party_tag)
+  def update_tag_row(now: false)
+    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
+    send(broadcast_method,
+      "domain_#{domain.uid}_monitor_center_view_stream", 
+      target: "#{domain.uid}_domain_tags_table_row_#{uid}",
+      partial: 'server_loadable_partials/tags/tag_table_row',
+      locals: { tag: self, domain: domain, streamed: true }
+    )
   end
 
   private

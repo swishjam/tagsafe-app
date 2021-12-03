@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_28_202929) do
+ActiveRecord::Schema.define(version: 2021_12_01_225305) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -117,12 +117,12 @@ ActiveRecord::Schema.define(version: 2021_11_28_202929) do
     t.text "request_payload"
     t.text "response_payload", size: :long
     t.integer "response_code"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.string "uid"
     t.string "aws_log_stream_name"
     t.string "aws_request_id"
     t.string "aws_trace_id"
+    t.datetime "executed_at"
+    t.datetime "completed_at"
     t.index ["parent_type", "parent_id"], name: "index_executed_lambda_functions_on_parent"
   end
 

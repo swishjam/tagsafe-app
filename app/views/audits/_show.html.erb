@@ -1,157 +1,159 @@
-<%= turbo_frame_tag dom_id(audit) do %>
-  <div class="row">
-    <div class="col-12">
-      <% if audit.is_primary? %>
-        <%= link_to tag_tag_version_audits_path(tag, tag_version) do %>
-          <span data-controller='tooltip'
-                data-bs-toggle="tooltip"
-                data-placement="right"
-                title="This tag version of <%=tag.try_friendly_name%> has <%=tag_version.audits.count%> audits performed on it. This is the primary audit, 
-                which is used in comparisons and calculations between tag versions. Click this badge to edit the primary audit."
-                class="badge bg-info"
-                style="float: left;">
-            <i class="far fa-star"></i>
-          </span>
+<%= turbo_frame_tag "audit_#{audit.uid}" do %>
+  <div class="col-10 offset-1 tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>">
+    <div class="row">
+      <div class="col-12">
+        <% if audit.is_primary? %>
+          <%= link_to tag_tag_version_audits_path(tag, tag_version) do %>
+            <span data-controller='tooltip'
+                  data-bs-toggle="tooltip"
+                  data-placement="right"
+                  title="This tag version of <%=tag.try_friendly_name%> has <%=tag_version.audits.count%> audits performed on it. This is the primary audit, 
+                  which is used in comparisons and calculations between tag versions. Click this badge to edit the primary audit."
+                  class="badge bg-info"
+                  style="float: left;">
+              <i class="far fa-star"></i>
+            </span>
+          <% end %>
         <% end %>
-      <% end %>
-      <div class='row text-end'>
-        <% additional_menu_items = audit.should_show_page_load_resources? ? [{ 
-            text: 'View Waterfall Load Chart', 
-            url: tag_tag_version_audit_waterfall_path(tag, tag_version, audit),
-            icon_class: 'fas fa-tasks'
-          }] : [] 
-        %>
-        <%= render 'tag_versions/dropdown', 
-                    tag: tag, 
-                    tag_version: tag_version, 
-                    audit: audit, 
-                    additional_menu_items: additional_menu_items
-        %>
-        <!-- <#%= render 'partials/utils/help_tooltip', message: "TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
+        <div class='row text-end'>
+          <% additional_menu_items = audit.should_show_page_load_resources? ? [{ 
+              text: 'View Waterfall Load Chart', 
+              url: tag_tag_version_audit_waterfall_path(tag, tag_version, audit),
+              icon_class: 'fas fa-tasks'
+            }] : [] 
+          %>
+          <%= render 'tag_versions/dropdown', 
+                      tag: tag, 
+                      tag_version: tag_version, 
+                      audit: audit, 
+                      additional_menu_items: additional_menu_items
+          %>
+          <!-- <#%= render 'partials/utils/help_tooltip', message: "TagSafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
+        </div>
+        <% if tag_version.audits.count > 1 %>
+          <p class='mt-2'>This is one of <%= tag_version.audits.count %> audits perfomed on this version of the tag. <%= link_to 'View all', tag_tag_version_audits_path(tag, tag_version), target: '_top' %></p>
+        <% end %>
       </div>
-      <% if tag_version.audits.count > 1 %>
-        <span>This is one of <%= tag_version.audits.count %> audits perfomed on this version of the tag. <%= link_to 'View all', tag_tag_version_audits_path(tag, tag_version), target: '_top' %></span>
-      <% end %>
     </div>
-  </div>
-  <% if audit.failed? %>
-    <p>Performance audit failed:</p>
-    <p><%= audit.error_message %></p>
-    <% audit.individual_performance_audits.failed.each do |perf_audit| %>
-      <p><%= perf_audit.error_message %></p>
-    <% end %>
-  <% elsif audit.pending? %>
-    <span>Performance audit is currently running.</span>
-    <div class='m-auto text-center w-fit'>
-      <%= render 'audits/completion_indicator', audit: audit %>
-    </div>
-  <% elsif audit.delta_performance_audit %>
-    <div data-controller='audit-results-expander'>
-      <div class="row">
-        <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
-          <h4>TagSafe Score</h4>
-          <%= render partial: 'partials/progress_ring', 
-                      locals: { 
-                        score: audit.delta_performance_audit.tagsafe_score,
-                        change_in_score: previous_audit ? audit.delta_performance_audit.tagsafe_score - previous_audit.delta_performance_audit.tagsafe_score : nil
-                      } 
-            %>
-        </div>
+    <% if audit.failed? %>
+      <p>Performance audit failed:</p>
+      <p><%= audit.error_message %></p>
+      <% audit.individual_performance_audits.failed.each do |perf_audit| %>
+        <p><%= perf_audit.error_message %></p>
+      <% end %>
+    <% elsif audit.pending? %>
+      <span>Performance audit is currently running.</span>
+      <div class='m-auto text-center w-fit'>
+        <%= render 'audits/completion_indicator', audit: audit %>
       </div>
-      <div class='row'>
-        <div class='col-12 text-start'>
-          <b>Impact on Metrics:</b>
-        </div>
-      </div>
-      <div data-audit-results-expander-target='metricsContainer' class="performance-metrics-container minimized">
+    <% elsif audit.delta_performance_audit %>
+      <div data-controller='audit-results-expander'>
         <div class="row">
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
-            tag: tag, 
-            metric_title: 'DOM Complete',
-            impact_result: audit.delta_performance_audit.dom_complete,
-            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_complete : nil,
-            unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-          } %>
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
-            tag: tag,
-            metric_title: 'DOM Interactive',
-            impact_result: audit.delta_performance_audit.dom_interactive,
-            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_interactive : nil,
-            unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-          } %>
-        </div>
-        <div class="row">
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
-            tag: tag, 
-            metric_title: 'First Contentful Paint',
-            impact_result: audit.delta_performance_audit.first_contentful_paint,
-            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.first_contentful_paint : nil,
-            unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-          } %>
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
-            tag: tag, 
-            metric_title: 'Task Duration Time',
-            impact_result: audit.delta_performance_audit.task_duration,
-            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.task_duration : nil,
-            unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-          } %>
-        </div>
-        <div class="row">
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
-            tag: tag, 
-            metric_title: 'Script Duration',
-            impact_result: audit.delta_performance_audit.script_duration,
-            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.script_duration : nil,
-            unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-          } %>
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
-            tag: tag, 
-            metric_title: 'Layout Duration',
-            impact_result: audit.delta_performance_audit.layout_duration,
-            previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.layout_duration : nil,
-            unit: 'ms',
-            previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
-          } %>
+          <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
+            <h4>TagSafe Score</h4>
+            <%= render partial: 'partials/progress_ring', 
+                        locals: { 
+                          score: audit.delta_performance_audit.tagsafe_score,
+                          change_in_score: previous_audit ? audit.delta_performance_audit.tagsafe_score - previous_audit.delta_performance_audit.tagsafe_score : nil
+                        } 
+              %>
+          </div>
         </div>
         <div class='row'>
-          <%= render partial: 'audits/performance_audit_metric_row', locals: {
+          <div class='col-12 text-start'>
+            <b>Impact on Metrics:</b>
+          </div>
+        </div>
+        <div data-audit-results-expander-target='metricsContainer' class="performance-metrics-container minimized">
+          <div class="row">
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
               tag: tag, 
-              metric_title: 'DOM Content Loaded',
-              impact_result: audit.delta_performance_audit.dom_content_loaded,
-              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_content_loaded : nil,
+              metric_title: 'DOM Complete',
+              impact_result: audit.delta_performance_audit.dom_complete,
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_complete : nil,
               unit: 'ms',
               previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
             } %>
-          <div class="metric-row col-6">
-            <div class='metric col-12'>
-              <div class='row'>
-                <div class="col-6 metric-title">
-                  File Size
-                </div>
-                <div class="col-6 metric-value">
-                  <span class="current-value"><%= number_to_human_size(tag_version.bytes) %></span>
-                  <div class='additional-details'>
-                    <span><%= audit.delta_performance_audit.score_impact(:byte_size) %> Score Impact</span>
-                    <br/>
-                    <% unless tag_version.first_version? %>
-                      <% if tag_version.change_in_bytes.zero? %>
-                        (No Change)
-                      <% else %>
-                        <span data-controller='tooltip'
-                              data-bs-toggle="tooltip"
-                              data-placement="top"
-                              title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on File Size' was <%=number_to_human_size(tag_version.previous_version.bytes)%> (<%= previous_audit ? previous_audit.enqueued_at : nil %>)." 
-                              class="<%= tag_version.change_in_bytes.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
-                          <%= tag_version.change_in_bytes.positive? ? '+' : nil %><%= number_to_human_size(tag_version.change_in_bytes) %>
-                          (<%= number_with_delimiter(((tag_version.change_in_bytes/tag_version.previous_version.bytes)*100).round(2)) %>%)
-                        </span>
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
+              tag: tag,
+              metric_title: 'DOM Interactive',
+              impact_result: audit.delta_performance_audit.dom_interactive,
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_interactive : nil,
+              unit: 'ms',
+              previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+            } %>
+          </div>
+          <div class="row">
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
+              tag: tag, 
+              metric_title: 'First Contentful Paint',
+              impact_result: audit.delta_performance_audit.first_contentful_paint,
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.first_contentful_paint : nil,
+              unit: 'ms',
+              previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+            } %>
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
+              tag: tag, 
+              metric_title: 'Task Duration Time',
+              impact_result: audit.delta_performance_audit.task_duration,
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.task_duration : nil,
+              unit: 'ms',
+              previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+            } %>
+          </div>
+          <div class="row">
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
+              tag: tag, 
+              metric_title: 'Script Duration',
+              impact_result: audit.delta_performance_audit.script_duration,
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.script_duration : nil,
+              unit: 'ms',
+              previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+            } %>
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
+              tag: tag, 
+              metric_title: 'Layout Duration',
+              impact_result: audit.delta_performance_audit.layout_duration,
+              previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.layout_duration : nil,
+              unit: 'ms',
+              previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+            } %>
+          </div>
+          <div class='row'>
+            <%= render partial: 'audits/performance_audit_metric_row', locals: {
+                tag: tag, 
+                metric_title: 'DOM Content Loaded',
+                impact_result: audit.delta_performance_audit.dom_content_loaded,
+                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_content_loaded : nil,
+                unit: 'ms',
+                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+              } %>
+            <div class="metric-row col-md-12 col-lg-6">
+              <div class='metric col-12'>
+                <div class='row'>
+                  <div class="col-6 metric-title">
+                    File Size
+                  </div>
+                  <div class="col-6 metric-value">
+                    <span class="current-value"><%= number_to_human_size(tag_version.bytes) %></span>
+                    <div class='additional-details'>
+                      <!-- <span><#%= audit.delta_performance_audit.score_impact(:byte_size) %> Score Impact</span> !-->
+                      <br/>
+                      <% unless tag_version.first_version? %>
+                        <% if tag_version.change_in_bytes.zero? %>
+                          (No Change)
+                        <% else %>
+                          <span data-controller='tooltip'
+                                data-bs-toggle="tooltip"
+                                data-placement="top"
+                                title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on File Size' was <%=number_to_human_size(tag_version.previous_version.bytes)%> (<%= previous_audit ? previous_audit.enqueued_at : nil %>)." 
+                                class="<%= tag_version.change_in_bytes.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
+                            <%= tag_version.change_in_bytes.positive? ? '+' : nil %><%= number_to_human_size(tag_version.change_in_bytes) %>
+                            (<%= number_with_delimiter(((tag_version.change_in_bytes/tag_version.previous_version.bytes)*100).round(2)) %>%)
+                          </span>
+                        <% end %>
                       <% end %>
-                    <% end %>
+                    </div>
                   </div>
                 </div>
               </div>

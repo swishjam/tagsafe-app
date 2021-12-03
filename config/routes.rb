@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     end
     resources :url_crawls, only: [:index, :show] do
       member do
-        get :executed_lambda_functions
+        get :executed_lambda_function
       end
     end
     resources :urls_to_crawl, only: [:create, :destroy]

@@ -2,7 +2,7 @@ class AuditsController < LoggedInController
   def index
     @tag = current_domain.tags.find(params[:tag_id])
     @tag_version = TagVersion.find(params[:tag_version_id])
-    @audits = @tag_version.audits.most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
+    @audits = @tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
@@ -24,14 +24,16 @@ class AuditsController < LoggedInController
   end
 
   def make_primary
-    audit = Audit.find(params[:id])
+    audit = Audit.includes(:tag, :tag_version).find(params[:id])
     permitted_to_view?(audit)
     audit.make_primary!
-    current_user.broadcast_notification('Primary audit updated')
-    render turbo_stream: turbo_stream.replace(
-      "#{audit.tag_id}_tag_version_audits",
-      partial: 'audit', collection: audit.tag_version.audits.most_recent_first.includes(:performance_audits), as: :audit
-    )
+    current_user.broadcast_notification("Primary audit updated for #{audit.tag.try_friendly_name} version #{audit.tag_version.sha}", image: audit.tag.try_image_url)
+    # updated_audits_collection = audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
+    # render turbo_stream: turbo_stream.replace(
+    #   "tag_version_#{audit.tag_version.uid}_audits_table",
+    #   partial: 'audits/audits_table',
+    #   locals: { tag_version: audit.tag_version, audits: updated_audits_collection, streamed: true }
+    # )
   end
 
   def cloudwatch_logs

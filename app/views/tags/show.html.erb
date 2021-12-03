@@ -1,4 +1,5 @@
-<%= turbo_stream_from "#{@tag.uid}_tag_show" %>
+<%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %>
+<meta name='stream' content="tag_<%=@tag.uid%>_details_view_stream">
 
 <div class="text-center">
   <h5 class="page-title with-sub-title">Tag Details</h6>
@@ -24,12 +25,16 @@
     </div>
   </div>
   <%= turbo_frame_tag "#{@tag.id}_tag_chart", src: tag_chart_path(@tag, start_time: 1.day.ago, end_time: Time.now) do %>
-    <%= display_loading_spinner %>
+    <div class='text-center'>
+      <%= display_loading_spinner %>
+    </div>
   <% end %>
 </div>
 
 <div class="tag-versions-container">
-  <%= turbo_frame_tag "#{@tag.uid}_tag_tag_versions_container", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
-    <%= render 'partials/utils/spinner', size: 'large' %>
+  <%= turbo_frame_tag "tag_#{@tag.uid}_tag_versions_table", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
+    <div class='text-center'>
+      <%= display_loading_spinner %>
+    </div>
   <% end %>
 </div>

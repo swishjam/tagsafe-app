@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "tag_version_#{tag_version.uid}_audits_table" do %>
+  <div class='tagsafe-table mt-3'>
+    <div class='tagsafe-table-head tagsafe-table-row'>
+      <div class='tagsafe-table-header' style='width: 15%'>Primary Audit</div>
+      <div class='tagsafe-table-header' style='width: 20%'>Date of Audit</div>
+      <div class='tagsafe-table-header' style='width: 20%'>TagSafe Score</div>
+      <div class='tagsafe-table-header' style='width: 15%'>Execution Reason</div>
+      <div class='tagsafe-table-header' style='width: 20%'>Audited URL</div>
+      <div class='tagsafe-table-header' style='width: 10%'></div>
+    </div>
+    <div class='tagsafe-table-body'>
+      <%= turbo_frame_tag "tag_version_#{tag_version.uid}_audits_table_rows" do %>
+        <%= render partial: 'audits/audit_row', collection: audits, as: :audit, locals: { streamed: local_assigns[:streamed] } %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

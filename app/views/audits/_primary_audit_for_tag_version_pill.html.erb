@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "tag_version_#{tag_version.uid}_primary_audit_pill" do %>
+  <% audit = tag_version.audit_to_display %>
+  <% if audit.nil? %>
+    <% if tag.removed_from_site? %>
+      <span class='tagsafe-pill orange <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Tag removed from site</span>
+    <% elsif tag.disabled? %>
+      <span class='tagsafe-pill red <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Tag monitoring disabled</span>
+    <% else %>
+      <span class='tagsafe-pill grey <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this release</span>
+    <% end %>
+  <% elsif audit.pending? %>
+    <span class='tagsafe-pill tagsafe-blue place-holder-wave <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit is currently running</span>
+  <% elsif audit.failed? %>
+    <span class='tagsafe-pill red <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit failed.</span>
+  <% elsif audit.successful? %>
+    <%= render 'audits/pill_for_audit_score', tag_version: tag_version, audit: audit, streamed: local_assigns[:streamed] %>
+  <% end %>
+<% end %>

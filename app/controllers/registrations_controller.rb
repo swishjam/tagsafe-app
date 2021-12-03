@@ -7,19 +7,19 @@ class RegistrationsController < LoggedOutController
   end
 
   def create
-    user = User.new(user_params)
+    @user = User.new(user_params)
     if params[:invite_code] == ENV['INVITE_CODE']
-      if user.save
-        Role.USER_ADMIN.assign_to(user)
-        log_user_in(user)
+      if @user.save
+        Role.USER_ADMIN.assign_to(@user)
+        log_user_in(@user)
         redirect_to new_organization_path
       else
         display_inline_errors(user.errors.full_messages)
-        redirect_to new_registration_path
+        render :new, status: :unprocessable_entity
       end
     else
       display_inline_errors(['Invalid invite code.'])
-      redirect_to new_registration_path
+      render :new, status: :unprocessable_entity
     end
   end
 

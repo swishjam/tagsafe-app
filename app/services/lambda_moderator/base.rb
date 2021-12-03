@@ -71,7 +71,8 @@ module LambdaModerator
       @executed_lambda_function ||= ExecutedLambdaFunction.create!(
         parent: executed_lambda_function_parent,
         function_name: lambda_invoke_function_name,
-        request_payload: request_payload
+        request_payload: request_payload,
+        executed_at: Time.now
       )
     end
 
@@ -79,6 +80,7 @@ module LambdaModerator
       executed_lambda_function.update!(
         response_code: status_code, 
         response_payload: response_body,
+        completed_at: Time.now,
         aws_log_stream_name: response_body && response_body['aws_log_stream_name'],
         aws_request_id: response_body && response_body['aws_request_id'],
         aws_trace_id: response_body && response_body['aws_trace_id']

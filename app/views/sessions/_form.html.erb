@@ -1,0 +1,17 @@
+<!-- <#%= turbo_frame_tag 'new_session', class: 'display-form-loading' do %> !-->
+  <%= form_for :login, data: { controller: 'loading_form' } do |f| %>
+    <div class="form-floating m-3">
+      <%= f.email_field :email, class: "form-control", placeholder: 'Email' %>
+      <%= f.label :email %>
+    </div>
+    <div class="form-floating m-3">
+      <%= f.password_field :password, class: "form-control", placeholder: 'Password' %>
+      <%= f.label :password %>
+    </div>
+    <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
+    <%= loading_submit_button 'Login' %>
+    <div class='row'>
+      <%= link_to 'Register', new_registration_path, target: '_top' %>
+    </div>
+  <% end %>
+<!-- <#% end %> !--.

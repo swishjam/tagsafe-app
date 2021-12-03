@@ -10,6 +10,44 @@
   border: none !important;
 }
 
+.tagsafe-illuminate {
+  -webkit-animation: fade-box-shadow-in-then-out 1500ms linear forwards;
+  animation: fade-box-shadow-in-then-out 1500ms linear forwards;
+}
+
+@-webkit-keyframes fade-box-shadow-in-then-out {
+  0%,100% { box-shadow: none; }
+  50% { box-shadow: 0 0 8px 3px $tagsafe-primary; }
+}
+
+@keyframes fade-box-shadow-in-then-out {
+  0%,100% { box-shadow: none; }
+  50% { box-shadow: 0 0 8px 3px $tagsafe-primary; }
+}
+
+.tagsafe-spinner-grow, .tagsafe-spinner {
+  color: $tagsafe-primary;
+  &.white {
+    color: white;
+  }
+  &.tiny {
+    width: 15px;
+    height: 15px;
+  }
+  &.small {
+    width: 30px;
+    height: 30px;
+  }
+  &.medium {
+    width: 50px;
+    height: 50px;
+  }
+  &.large {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 .step-indicators {
   .step-indicator {
     width: 50px;
@@ -43,7 +81,7 @@
   }
   &.large {
     font-size: 22px;
-    padding: 10px 25px 10px 25px;
+    padding: 10px 35px 10px 35px;
   }
   &.square {
     border-radius: 0px;
@@ -69,6 +107,31 @@
         background: red;
         color: white;
       }
+    }
+  }
+}
+
+
+form[data-controller=loading_form] {
+  .loading-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    .tagsafe-spinner {
+      position: absolute;
+      display: none;
+    }
+  }
+  &.loading {
+    .loading-button {
+      background: $tagsafe-secondary;
+      cursor: default;
+    }
+    .loading-button .tagsafe-spinner {
+      display: inline-block;
+    }
+    .loading-button .submit-text {
+      visibility: hidden;
     }
   }
 }

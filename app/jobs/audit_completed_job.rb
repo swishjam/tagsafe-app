@@ -1,5 +1,7 @@
 class AuditCompletedJob < ApplicationJob
   def perform(audit)
-    NotificationModerator::AuditNotifier.new(audit).notify!
+    unless audit.execution_reason == ExecutionReason.INITIAL_AUDIT
+      NotificationModerator::AuditNotifier.new(audit).notify!
+    end
   end
 end

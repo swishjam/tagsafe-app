@@ -3,6 +3,8 @@
 <% else %>
   <p>
     Function name: <%= @executed_lambda_function.function_name %> <br/>
+    Executed at: <%= @executed_lambda_function.executed_at %> <br/>
+    Completed at: <%= @executed_lambda_function.completed_at || 'Not completed' %> <br/>
     Request Payload <%= @executed_lambda_function.request_payload %> <br/>
     Response Code <%= @executed_lambda_function.response_code %> <br/>
     Response Payload <%= JSON.parse @executed_lambda_function.response_payload.to_json %>

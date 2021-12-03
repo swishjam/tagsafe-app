@@ -5,6 +5,7 @@ class OrganizationsController < LoggedInController
 
   def new
     redirect_to root_path if current_organization
+    @hide_logged_out_nav_items = true
     # redirect_to new_domain_path if current_organization
     @organization = Organization.new
   end
@@ -23,7 +24,8 @@ class OrganizationsController < LoggedInController
       redirect_to tags_path
     else
       display_inline_errors(@organization.errors.full_messages)
-      render :new
+      @hide_logged_out_nav_items = true
+      render :new, status: :unprocessable_entity
     end
   end
 

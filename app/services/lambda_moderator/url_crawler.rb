@@ -5,9 +5,8 @@ module LambdaModerator
 
     attr_accessor :url_crawl
 
-    def initialize(url_crawl, initial_crawl: false)
+    def initialize(url_crawl)
       @url_crawl = url_crawl
-      @initial_crawl = initial_crawl
       @executed_lambda_function_parent = url_crawl
       set_enqueued_timestamp
     end
@@ -23,15 +22,11 @@ module LambdaModerator
     end
 
     def request_payload
-      {
-        url: url_crawl.url,
-        url_crawl_id: url_crawl.id,
-        initial_crawl: @initial_crawl
-      }
+      { url: url_crawl.url }
     end
 
     def required_payload_arguments
-      %i[url url_crawl_id initial_crawl]
+      %i[url]
     end
   end
 end

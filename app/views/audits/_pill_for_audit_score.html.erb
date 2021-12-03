@@ -2,7 +2,7 @@
   color = audit.delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : 
             audit.delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red'
 %>
-<span class='tagsafe-pill <%= color %>'>
+<span class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
   <% current_score = audit.delta_performance_audit.tagsafe_score.round(2) %> 
   <span class='current-tagsafe-score fw-bolder fs-6 p-2'><%= current_score %></span>
   <% previous_primary_audit = tag_version.previous_version&.primary_audit %>

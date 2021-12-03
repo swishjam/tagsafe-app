@@ -21,7 +21,8 @@
         <% additional_klass = request.path == nav[:path] ? 'current' : nil %>
         <li class='nav-item <%= additional_klass %>'>
           <%= link_to nav[:path], class: "nav-link #{additional_klass}" do %>
-            <i class="<%= nav[:icon_class] %>"></i> <%= nav[:text] %>
+            <span class='nav-item-icon'><i class="<%= nav[:icon_class] %>"></i></span> 
+            <span class='nav-item-text d-sm-none d-md-inline'><%= nav[:text] %></span>
           <% end %>
         </li>
       <% end %>

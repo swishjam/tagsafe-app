@@ -1,19 +1,6 @@
-<div class="col-xs-12 offset-xs-0 col-md-8 offset-md-2 col-xl-6 offset-xl-3 card tagsafe-container with-shadow no-border text-center mt-5">
+<div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center login-card">
   <h1>Login</h1>
-
-  <%= form_for :login do |f| %>
-    <div class="form-floating m-3">
-      <%= f.email_field :email, class: "form-control", placeholder: 'Email' %>
-      <%= f.label :email %>
-    </div>
-    <div class="form-floating m-3">
-      <%= f.password_field :password, class: "form-control", placeholder: 'Password' %>
-      <%= f.label :password %>
-    </div>
-    <%= render 'partials/inline_errors' %>
-    <%= f.submit 'Login', class: 'tagsafe-btn large mb-3' %>
-    <div class='row'>
-      <%= link_to 'Register', new_registration_path %>
-    </div>
-  <% end %>
+  <!-- <#%= turbo_frame_tag 'new_session' do %> !-->
+    <%= render 'form' %>
+  <!-- <#% end %> !-->
 </div>

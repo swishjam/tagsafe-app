@@ -137,55 +137,6 @@ body.logged-in {
   border-color: $tagsafe-primary !important;
 }
 
-
-.tagsafe-spinner-grow, .tagsafe-spinner {
-  color: $tagsafe-primary;
-  &.white {
-    color: white;
-  }
-  &.tiny {
-    width: 15px;
-    height: 15px;
-  }
-  &.small {
-    width: 30px;
-    height: 30px;
-  }
-  &.medium {
-    width: 50px;
-    height: 50px;
-  }
-  &.large {
-    width: 70px;
-    height: 70px;
-  }
-}
-
-turbo-frame.display-form-loading {
-  input.loading-submit-btn, button.loading-submit-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    .submit-loading-icon {
-      position: absolute;
-    }
-  }
-
-  &:not([busy]) {
-    form .submit-loading-icon {
-      display: none;
-    }
-  }
-  &[busy] {
-    form .submit-loading-icon {
-      display: inline-block;
-    }
-    form .submit-text {
-      visibility: hidden;
-    }
-  }
-}
-
 .tag-thumbnail {
   height: 50px; 
   width: 50px; 

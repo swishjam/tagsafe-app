@@ -10,21 +10,7 @@ class TagVersion < ApplicationRecord
   
   scope :most_recent, -> { where(most_recent: true) }
 
-  after_create_commit do
-    tag.update_tag_content
-    # if first_version?
-    #   broadcast_replace_later_to "#{tag_id}_tag_empty_tag_versions_message",
-    #                         target: "#{tag_id}_tag_empty_tag_versions_message",
-    #                         partial: 'server_loadable_partials/tag_versions/index',
-    #                         locals: { tag_versions: tag.tag_versions.page(1).per(10), tag: tag }
-    # else
-      add_tag_version_to_list
-    # end
-  end
-
-  after_update_commit { update_tag_version_content }
   broadcast_notification on: :create
-
   after_create :after_creation
   # after_destroy :purge_js_file
 
@@ -33,22 +19,9 @@ class TagVersion < ApplicationRecord
   def after_creation
     set_script_content_changed_at_timestamp
     make_most_recent!
+    tag.update_tag_row
+    add_tag_version_to_tag_details_view
     NewTagVersionJob.perform_later(self)
-  end
-
-  def update_tag_version_content
-    broadcast_replace_later_to "#{tag_id}_tag_tag_versions", partial: 'server_loadable_partials/tag_versions/tag_version', locals: { tag_version: self }
-    # in order to recalculate the change in performance score
-    unless next_version.nil?
-      broadcast_replace_later_to "#{next_version.id}_tag_tag_versions", partial: 'server_loadable_partials/tag_versions/tag_version', locals: { tag_version: self }
-    end
-  end
-
-  def add_tag_version_to_list
-    broadcast_prepend_later_to "#{tag_id}_tag_tag_versions",
-                                target: "#{tag_id}_tag_tag_versions",
-                                partial: 'server_loadable_partials/tag_versions/tag_version',
-                                locals: { tag_version: self }
   end
 
   def after_create_notification_msg
@@ -181,6 +154,40 @@ class TagVersion < ApplicationRecord
 
   def change_in_bytes
     bytes - previous_version.bytes unless previous_version.nil?
+  end
+
+  ###################
+  ## TURBO STREAMS ##
+  ###################
+
+  def add_tag_version_to_tag_details_view(now: false)
+    broadcast_method = now ? :broadcast_prepend_to : :broadcast_prepend_later_to
+    send(broadcast_method, 
+      "tag_#{tag.uid}_details_view_stream",
+      target: "tag_#{tag.uid}_tag_versions_table",
+      partial: 'server_loadable_partials/tag_versions/tag_version_row',
+      locals: { tag_version: self, tag: tag, streamed: true }
+    )
+  end
+
+  def update_primary_audit_pill(now: false)
+    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
+    send(broadcast_method, 
+      "domain_#{tag.domain.uid}_monitor_center_view_stream", 
+      target: "tag_version_#{uid}_primary_audit_pill", 
+      partial: 'audits/primary_audit_for_tag_version_pill',
+      locals: { tag_version: self, tag: tag, streamed: true }
+    )
+  end
+
+  def update_tag_version_table_row(now: false)
+    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
+    send(broadcast_method, 
+      "tag_#{tag.uid}_details_view_stream",
+      target: "tag_version_#{uid}_row",
+      partial: 'server_loadable_partials/tag_versions/tag_version_row',
+      locals: { tag_version: self, tag: tag, streamed: true }
+    )
   end
 
   ###############

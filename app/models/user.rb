@@ -38,7 +38,8 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email
-    TagSafeMailer.send_welcome_email(self)
+    # TODO: need to update SendGrid template
+    # TagSafeMailer.send_welcome_email(self)
   end
 
   def can_remove_user_from_organization?(organization)

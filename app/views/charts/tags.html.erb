@@ -14,7 +14,7 @@
   <% end %>
   <div data-controller='chart'>
     <div class='timeframe-selector-container float-start'>
-      <input type="text" name="datetimes" class='tagsafe-dotted-selector' data-chart-target='datepicker' data-start="<%= @start_time %>" data-end="<%= @end_time %>" />
+      <input type="text" name="datetimes" class='tagsafe-dotted-selector' data-chart-target='datepicker' data-start="<%= @start_time || 1.day.ago %>" data-end="<%= @end_time || Time.now %>" />
     </div>
     <div id="tags-chart-container">
       <%=

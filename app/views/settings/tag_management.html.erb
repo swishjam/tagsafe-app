@@ -11,9 +11,8 @@
       <thead>
         <tr>
           <th scope="col" style='width: 65%'>Tag</th>
-          <th scope="col" style='width: 10%'>Changes / Day (volatility)</th>
-          <th scope="col" style='width: 10%'>Status</th>
-          <th scope="col" style='width: 10%'>Current TagSafe Score</th>
+          <th scope="col" style='width: 12.5%'>Status</th>
+          <th scope="col" style='width: 12.5%'>Current TagSafe Score</th>
           <th scope="col" style='width: 5%'></th>
         </tr>
       </thead>
@@ -31,17 +30,12 @@
             </td>
             <td>
               <div class='d-flex align-items-center'>
-                <%= tag.tag_changes_per_day || '-' %>
-              </div>
-            </td>
-            <td>
-              <div class='d-flex align-items-center'>
                 <span class='tagsafe-pill <%= tag.state %>'><%= tag.human_state %></span>
               </div>
             </td>
             <td>
               <div class='d-flex align-items-center'>
-                <%= tag.most_recent_version&.primary_audit&.delta_performance_audit&.tagsafe_score || '-' %>
+                <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag.current_version %>
               </div>
             </td>
             <td>

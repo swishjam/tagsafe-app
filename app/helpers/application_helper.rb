@@ -26,8 +26,8 @@ module ApplicationHelper
 
   def log_user_in(user, organization = user.organizations&.first, domain = organization&.domains&.first)
     session[:user_id] = user.id
-    session[:current_organization_id] = organization.id
-    session[:current_domain_id] = domain.id
+    session[:current_organization_id] = organization&.id
+    session[:current_domain_id] = domain&.id
   end
 
   def log_user_out
@@ -51,9 +51,14 @@ module ApplicationHelper
     end
   end
 
+  def loading_submit_button(btn_text, button_classes: nil)
+    "<button type='submit' class='tagsafe-btn loading-button #{button_classes}'><span class='submit-text'>#{btn_text}</span>#{display_loading_icon color: 'white', size: 'small'}</button>".html_safe
+  end
+
   def display_loading_spinner(opts = {})
     render 'partials/utils/spinner', opts
   end
+  alias display_loading_icon display_loading_spinner
 
   def render_breadcrumbs(*crumbs)
     @breadcrumbs = crumbs
