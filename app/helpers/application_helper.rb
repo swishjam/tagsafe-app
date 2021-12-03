@@ -51,8 +51,8 @@ module ApplicationHelper
     end
   end
 
-  def loading_submit_button(btn_text, button_classes: nil)
-    "<button type='submit' class='tagsafe-btn loading-button #{button_classes}'><span class='submit-text'>#{btn_text}</span>#{display_loading_icon color: 'white', size: 'small'}</button>".html_safe
+  def loading_submit_button(btn_text, button_class: nil)
+    "<button type='submit' class='tagsafe-btn loading-button #{button_class}'><span class='submit-text'>#{btn_text}</span>#{display_loading_icon color: 'white', size: 'small'}</button>".html_safe
   end
 
   def display_loading_spinner(opts = {})

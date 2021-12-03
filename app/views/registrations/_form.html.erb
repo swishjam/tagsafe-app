@@ -21,7 +21,7 @@
       <label for='invite_code'>Invite Code</label>
     </div>
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
-    <%= loading_submit_button 'Get Started' %>
+    <%= loading_submit_button 'Get Started', button_class: 'large' %>
     <div class='row'>
       <%= link_to 'Login', login_path %>
     </div>

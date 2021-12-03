@@ -14,7 +14,7 @@ class RegistrationsController < LoggedOutController
         log_user_in(@user)
         redirect_to new_organization_path
       else
-        display_inline_errors(user.errors.full_messages)
+        display_inline_errors(@user.errors.full_messages)
         render :new, status: :unprocessable_entity
       end
     else

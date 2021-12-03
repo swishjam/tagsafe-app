@@ -9,7 +9,7 @@
       <%= f.label :password %>
     </div>
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
-    <%= loading_submit_button 'Login' %>
+    <%= loading_submit_button 'Login', button_class: 'large' %>
     <div class='row'>
       <%= link_to 'Register', new_registration_path, target: '_top' %>
     </div>
