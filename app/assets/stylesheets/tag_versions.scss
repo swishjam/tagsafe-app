@@ -5,6 +5,29 @@
     padding: 10px;
     border-radius: 15px 15px 0px 0px;
   }
+  .git-diff-split-unified-btn {
+    border: none;
+    background: #e1e1e1;
+    color: #787878;
+    padding: 5px 15px 5px 15px;
+    text-decoration: none;
+    border: 1px solid #787878;
+    &:first-of-type {
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+    &:last-of-type {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+      border-left: none;
+    }
+    &.selected {
+      background: #cdcdcd;
+    }
+    &:not(.selected):hover {
+      background: #d8d8d8;
+    }
+  }
   .tag-change-content {
     background: white;
     border-radius: 0px 0px 15px 15px;
@@ -23,6 +46,12 @@
         list-style-position: outside;
         margin-left: 35px;
         height: auto;
+        &::marker, .symbol {
+          color: #24292f;
+        }
+        &.diff-block-info {
+          background: rgb(245, 245, 245);
+        }
         &.unchanged, &.unchanged:hover {
           background: white;
         }

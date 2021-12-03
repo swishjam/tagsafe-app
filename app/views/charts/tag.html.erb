@@ -8,7 +8,7 @@
         <form class="col-4" data-controller='select-change-form-submit'>
           <select class="form-select form-control" data-select-change-form-submit-target='select' data-action='change->select-change-form-submit#updateFormAction change->select-change-form-submit#submitForm'>
             <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
-              <option value="/charts/tag/<%=@tag.id%>?chart_metric=<%= metric_type[:column] %>" <%= metric_type[:column] === @chart_metric ? 'selected="selected"' : nil %>>
+              <option value="<%= tag_chart_path(@tag, chart_metric: metric_type[:column], start_time: @start_time, end_time: @end_time) %>" <%= metric_type[:column].to_s === @chart_metric.to_s ? 'selected="selected"' : nil %>>
                 <%= metric_type[:title] %>
               </option>
             <% end %>
@@ -23,6 +23,7 @@
         title: title,
         ytitle: title,
         xtitle: 'Releases',
+        # ymax: @chart_metric == :tagsafe_score ? 100 : nil,
         curve: false,
         messages: { empty: "No third party tag data to visualize." } 
     %>

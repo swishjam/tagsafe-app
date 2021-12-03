@@ -16,22 +16,6 @@
 // @import "variables";
 @import "*";
 
-.tagsafe-font {
-  font-family: $tagsafe-font-family;
-}
-
-.w-fit {
-  width: fit-content;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-a.no-decoration {
-  text-decoration: none !important;
-}
-
 .form-control:focus {
   border-color: $lighter-tagsafe-purple;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25)

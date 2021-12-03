@@ -1,3 +1,19 @@
+.tagsafe-font {
+  font-family: $tagsafe-font-family;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+a.no-decoration {
+  text-decoration: none !important;
+}
+
 .italic {
   font-style: italic;
 }

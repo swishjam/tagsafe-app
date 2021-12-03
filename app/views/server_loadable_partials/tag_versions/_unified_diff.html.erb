@@ -5,8 +5,8 @@
         <h5>There were <span class='fw-bold'><i id='additions-count'></i> additions</span> and <span class='fw-bold'><i id='deletions-count'></i> deletions</span> in this version.</h5>
       </div>
       <div class='col-4 text-end'>
-        <%= link_to 'Split', diff_server_loadable_partials_tag_tag_version_path(tag, tag_version, diff_type: 'split'), class: 'tagsafe-btn outline square', style: 'width: 50px;' %>
-        <button class='tagsafe-btn square'>Unified</button>
+        <a href='#' class='git-diff-split-unified-btn'>Unified</button>
+        <%= link_to 'Unified', diff_server_loadable_partials_tag_tag_version_path(tag, tag_version, diff_type: 'split'), class: 'git-diff-split-unified-btn selected' %>
       </div>
     </div>
   </div>

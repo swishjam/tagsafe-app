@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "tag_version_#{tag_version.uid}_audits_table" do %>
   <div class='tagsafe-table mt-3'>
     <div class='tagsafe-table-head tagsafe-table-row'>
-      <div class='tagsafe-table-header' style='width: 15%'>Primary Audit</div>
+      <div class='tagsafe-table-header' style='width: 15%'>Primary Audit <%= render 'partials/utils/help_tooltip', message: 'Each tag version can have many performance audits, but must have only one primary performance audit. The primary performance is used for benchmarking and comparing against previous versions.' %></div>
       <div class='tagsafe-table-header' style='width: 20%'>Date of Audit</div>
       <div class='tagsafe-table-header' style='width: 20%'>Tagsafe Score</div>
       <div class='tagsafe-table-header' style='width: 15%'>Execution Reason</div>

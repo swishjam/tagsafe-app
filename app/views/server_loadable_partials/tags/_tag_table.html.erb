@@ -3,13 +3,11 @@
   <div class='col-12'>
     <div class='tagsafe-container mt-3'>
       <div class='tagsafe-table'>
-        <div class='tagsafe-table-head'>
-          <div class='tagsafe-table-row'>
-            <div class='tagsafe-table-header' style='width: 60%'>Tag</div>
-            <div class='tagsafe-table-header' style='width: 16%'>Tagsafe Score</div>
-            <div class='tagsafe-table-header' style='width: 16%'>Last release</div>
-            <div class='tagsafe-table-header' style='width: 6%'></div>
-          </div>
+        <div class='tagsafe-table-head tagsafe-table-row'>
+          <div class='tagsafe-table-header' style='width: 60%'>Tag</div>
+          <div class='tagsafe-table-header' style='width: 16%'>Tagsafe Score</div>
+          <div class='tagsafe-table-header' style='width: 16%'>Last release</div>
+          <div class='tagsafe-table-header' style='width: 6%'></div>
         </div>
         <div class='tagsafe-table-body'>
           <%= turbo_stream_from "#{domain.uid}_domain_tags_table_rows" %>

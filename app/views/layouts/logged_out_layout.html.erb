@@ -16,20 +16,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <% if @include_thirdpartytag_dotcom %>
-      <script src='https://www.thirdpartytag.com/script.js'></script>
-    <% end %>
-    <% if @include_segment %>
-      <script>
-        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="4qYDwD8QrJuqCpqlIuN6waqj5BtfYZzu";;analytics.SNIPPET_VERSION="4.15.3";
-        analytics.load("4qYDwD8QrJuqCpqlIuN6waqj5BtfYZzu");
-        analytics.page();
-        }}();
-      </script>
-    <% end %>
-    <% if @include_new_relic %>
-      <%= render 'partials/tags/new_relic_script' %>
-    <% end %>
+    <%= render 'partials/third_party_tags/thirdpartytag_dot_com_script' %>
+    <%= render 'partials/third_party_tags/segment_script' %>
+    <%= render 'partials/third_party_tags/new_relic_script' %>
+    <%= render 'partials/third_party_tags/amplitude_script' %>
   </head>
 
   <body class="<%=controller_name%>">
@@ -39,16 +29,6 @@
         <%= yield %>
       </div>
     </div>
-    <% if @include_google_analytics %>
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GSZ6G0R2K4"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-GSZ6G0R2K4');
-      </script>
-    <% end %>
+    <%= render 'partials/third_party_tags/google_analytics_script' %>
   </body>
 </html>

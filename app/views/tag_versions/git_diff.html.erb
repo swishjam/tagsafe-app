@@ -1,6 +1,10 @@
 <% content_for :head do %>
   <style><%= Diffy::CSS %></style>
 <% end %>
+
+<h3 class='page-title with-sub-title'>Git Diff</h3>
+<h4 class='page-sub-title'><%= @tag.try_friendly_name %> - <%= @tag_version.sha %></h3>
+
 <div class="row git-diff-container">
   <div class='tag-changes-container col-12 mb-3'>
     <div class='tag-details-tab'>
@@ -28,14 +32,16 @@
       <div class='tag-change-content p-3'>
         <div class='row'>
           <% if params[:diff_type] == 'split' %>
-            <div class="col-6">
-              <%= render 'partials/utils/spinner', size: :small %>
+            <div class="col-6 text-center">
+              <%= display_loading_icon size: :small %>
             </div>
-            <div class="col-6">
-              <%= render 'partials/utils/spinner', size: :small %>
+            <div class="col-6 text-center">
+              <%= display_loading_icon size: :small %>
             </div>
           <% else %>
-            <%= render 'partials/utils/spinner', size: :small %>
+            <div class='text-center'>
+              <%= display_loading_icon size: :small %>
+            </div>
           <% end %>
         </div>
       </div>

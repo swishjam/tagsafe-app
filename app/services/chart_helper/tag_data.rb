@@ -10,7 +10,7 @@ module ChartHelper
     
     def chart_data
       @chart_data ||= [{
-        name: @metric.to_s.gsub('_', ' '),
+        name: @metric.to_s.split('_').map(&:capitalize).join(' '),
         data: tags_primary_delta_performance_audits.pluck('tag_versions.created_at', @metric)
       }]
     end

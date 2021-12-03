@@ -13,7 +13,7 @@ class ChartsController < ApplicationController
         end_time: @end_time,
         metric_key: @displayed_metric
       )
-      @include_metric_select = true
+      @include_metric_select = params[:include_metric_selector] == 'true'
       @chart_data = chart_data_getter.chart_data
     else
       @chart_data = []

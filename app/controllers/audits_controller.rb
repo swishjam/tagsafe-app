@@ -45,7 +45,7 @@ class AuditsController < LoggedInController
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
-      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.created_at.formatted_short} Change Audits" },
+      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.sha} Audits" },
       { url: tag_tag_version_audit_path(@tag, @tag_version, @audit),  text: "#{@audit.created_at.formatted_short} Audit" },
       { text: "#{@audit.created_at.formatted_short} Audit Cloudwatch logs", active: true },
     )

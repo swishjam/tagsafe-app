@@ -2,10 +2,9 @@ class TagVersionsController < LoggedInController
   skip_before_action :authorize!, only: :content
   protect_from_forgery except: :content
 
-  def diff
-    @tag_version = TagVersion.find(params[:id])
-    permitted_to_view?(@tag_version)
-    @tag = @tag_version.tag
+  def git_diff
+    @tag = current_domain.tags.find(params[:tag_id])
+    @tag_version = @tag.tag_versions.find(params[:id])
 
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },

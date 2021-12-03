@@ -9,7 +9,7 @@
     </button>
   <% end %>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <%= link_to diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' do %>
+    <%= link_to git_diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' do %>
       <i class="fas fa-code-branch"></i> View changes made in this version
     <% end %>
     <% if !local_assigns[:audit].nil? && !audit.pending? %>

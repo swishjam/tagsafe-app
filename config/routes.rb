@@ -59,7 +59,7 @@ Rails.application.routes.draw do
         get :begin_audit
         post :run_audit
         get :content
-        get :diff
+        get :git_diff
         get :js
         get '/js.js' => 'tag_versions#js'
         get :tagsafe_instrumented_js
