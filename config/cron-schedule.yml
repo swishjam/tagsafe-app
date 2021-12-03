@@ -7,7 +7,8 @@ re_scan_domains:
   class: Schedule::CrawlUrlsJob
   cron: "0 */1 * * *" # every 1 hour
   description: "Scans each domain for any new third party tags."
-  queue: "crawl_url_for_tags_queue"
+  # queue: "crawl_url_for_tags_queue"
+  queue: "default_queue"
 fail_stale_pending_audits:
   class: Schedule::FailStaleLambdaFunctionsJob
   cron: "0 */1 * * *" # every 1 hour

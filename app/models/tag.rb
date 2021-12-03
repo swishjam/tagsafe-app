@@ -93,6 +93,10 @@ class Tag < ApplicationRecord
     find_without_query_params(url, include_removed_tags: true)
   end
 
+  def url_scheme
+    URI.parse(full_url).scheme
+  end
+
   def after_create_notification_msg
     "A new tag has been detected: #{full_url}"
   end
@@ -147,7 +151,7 @@ class Tag < ApplicationRecord
   end
 
   def try_friendly_name
-    friendly_name || full_url
+    friendly_name || url_based_on_preferences
   end
 
   def url_based_on_preferences
