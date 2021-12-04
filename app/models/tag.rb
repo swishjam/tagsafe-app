@@ -39,8 +39,8 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   broadcast_notification on: :create
-  after_create_commit -> { append_tag_row_to_table(now: true) }
-  after_update_commit { update_tag_row }
+  after_create_commit :stream_new_tag_to_views
+  after_update_commit { update_tag_row(now: true) }
   after_destroy_commit :remove_tag_from_from_table
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
   after_create :attempt_to_find_and_apply_tag_image
@@ -67,6 +67,7 @@ class Tag < ApplicationRecord
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
   scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.enabled }
   scope :should_run_tag_checks, -> { enabled.still_on_site.is_third_party_tag }
+  scope :chartable, -> { is_third_party_tag.still_on_site.not_allowed_third_party_tag }
 
   scope :one_minute_interval_checks, -> { all }
   # etc...
@@ -102,6 +103,15 @@ class Tag < ApplicationRecord
 
   def attempt_to_find_and_apply_tag_image
     TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
+  end
+
+  def stream_new_tag_to_views
+    if domain.tags.count == 1
+      # render the table empty and allow `append_tag_row_to_table` to add the new tag
+      domain.re_render_tags_table(empty: true, now: true)
+      domain.re_render_tags_chart(now: true)
+    end
+    append_tag_row_to_table(now: true)
   end
 
   def state

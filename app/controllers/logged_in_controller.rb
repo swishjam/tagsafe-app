@@ -1,9 +1,9 @@
 class LoggedInController < ApplicationController
+  layout 'logged_in_layout'
+
   before_action :authorize!
   before_action :ensure_organization
   before_action :ensure_domain
-
-  layout 'logged_in_layout'
 
   def authorize!
     if current_user.nil?

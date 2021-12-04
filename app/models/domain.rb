@@ -68,6 +68,17 @@ class Domain < ApplicationRecord
   ## TURBO STREAMS ##
   ###################
 
+  # really should just be used after the first Tag is created during onboarding
+  def re_render_tags_table(empty: false, now: false)
+    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
+    send(broadcast_method,
+      "domain_#{uid}_monitor_center_view_stream",
+      target: "#{uid}_domain_tags_table",
+      partial: 'server_loadable_partials/tags/tag_table',
+      locals: { domain: self, tags: empty ? [] : tags.page(1).per(9), allow_empty_table: true }
+    )
+  end
+
   def re_render_tags_chart(now: false)
     return if ENV['DISABLE_CHART_UPDATE_STREAMS'] == 'true'
     broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to

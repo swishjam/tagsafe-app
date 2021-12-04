@@ -4,8 +4,8 @@ class ChartsController < ApplicationController
   def tags
     # domain = Domain.find(params[:domain_id])
     displayed_metric = params[:metric_type] || :tagsafe_score
-    start_time = params[:start_time].to_datetime
-    end_time = params[:end_time].to_datetime
+    start_time = (params[:start_time] || 1.day.ago).to_datetime
+    end_time = (params[:end_time] || Time.now).to_datetime
     if params[:tag_ids]
       tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
       tags = current_domain.tags.includes(:tag_preferences).where(id: tag_ids)
@@ -33,6 +33,7 @@ class ChartsController < ApplicationController
         partial: 'charts/tags',
         locals: { 
           chart_data: [], 
+          displayed_metric: :tagsafe_score,
           domain: current_domain,
           start_time: start_time,
           end_time: end_time 
@@ -42,8 +43,8 @@ class ChartsController < ApplicationController
   end
 
   def tag
-    start_time = params[:start_time].to_datetime
-    end_time = params[:end_time].to_datetime
+    start_time = (params[:start_time] || 1.day.ago).to_datetime
+    end_time = (params[:end_time] || Time.now).to_datetime
     tag = current_domain.tags.find(params[:tag_id])
     chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
     chart_data_getter = ChartHelper::TagData.new(

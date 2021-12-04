@@ -48,7 +48,7 @@ class PerformanceAudit < ApplicationRecord
       column: :task_duration
     },
     {
-      title: 'TagSafe Score',
+      title: 'Tagsafe Score',
       column: :tagsafe_score
     }
   ].freeze
