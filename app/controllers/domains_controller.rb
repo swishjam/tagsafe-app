@@ -3,7 +3,12 @@ class DomainsController < LoggedInController
 
   def new
     @domain = Domain.new
-    @collapsed_navigation = true
+    if current_organization.nil? || current_domain.nil?
+      # if user got into a weird state
+      @hide_navigation = true
+    else
+      @collapsed_navigation = true
+    end
   end
   
   def create

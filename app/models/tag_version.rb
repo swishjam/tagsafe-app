@@ -164,7 +164,7 @@ class TagVersion < ApplicationRecord
     broadcast_method = now ? :broadcast_prepend_to : :broadcast_prepend_later_to
     send(broadcast_method, 
       "tag_#{tag.uid}_details_view_stream",
-      target: "tag_#{tag.uid}_tag_versions_table",
+      target: "tag_#{tag.uid}_tag_versions_table_rows",
       partial: 'server_loadable_partials/tag_versions/tag_version_row',
       locals: { tag_version: self, tag: tag, streamed: true }
     )

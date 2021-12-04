@@ -22,6 +22,14 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   class << self
+    def destroy_all_fully!
+      if column_names.include? 'deleted_at'
+        all.each(&:destroy_fully!)
+      else
+        destroy_all
+      end
+    end
+
     def column_update_listener(*columns)
       columns.each do |column|
         define_singleton_method(:"after_#{column}_updated_to") do |expected_value, callback_method|

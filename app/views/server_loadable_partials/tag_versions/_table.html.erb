@@ -8,7 +8,9 @@
         <div class='tagsafe-table-header' style='width: 10%'></div>
       </div>
       <div class='tagsafe-table-body'>
-        <%= render partial: 'server_loadable_partials/tag_versions/tag_version_row', collection: tag_versions, as: :tag_version, locals: { tag: tag } %>
+        <%= turbo_frame_tag "tag_#{tag.uid}_tag_versions_table_rows" do %>
+          <%= render partial: 'server_loadable_partials/tag_versions/tag_version_row', collection: tag_versions, as: :tag_version, locals: { tag: tag } %>
+        <% end %>
       </div>
     </div>
     <%= paginate tag_versions %>

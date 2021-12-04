@@ -218,13 +218,4 @@ class Tag < ApplicationRecord
   def remove_tag_from_from_table
     broadcast_remove_to "domain_#{domain.uid}_monitor_center_view_stream", target: "#{domain.uid}_domain_tags_table_row_#{uid}"
   end
-
-  private
-
-  def determine_audit_scopes(include_pending_performance_audits:, include_failed_performance_audits:)
-    [
-      include_pending_performance_audits ? nil : :completed_performance_audit,
-      include_failed_performance_audits ? nil : :successful_performance_audit
-    ].compact || []
-  end
 end

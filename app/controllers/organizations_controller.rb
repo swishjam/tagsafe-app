@@ -5,8 +5,9 @@ class OrganizationsController < LoggedInController
 
   def new
     redirect_to root_path if current_organization
-    @hide_logged_out_nav = true
     @organization = Organization.new
+    @hide_logged_out_nav = true
+    @hide_navigation = true
   end
 
   def create

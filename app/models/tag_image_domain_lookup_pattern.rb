@@ -13,7 +13,7 @@ class TagImageDomainLookupPattern < ApplicationRecord
   def apply_image_to_tags_with_matching_pattern(override_existing_image = false)
     tags_matching_url_pattern = lookup_tags!
     tags_matching_url_pattern.each do |tag|
-      tag.update(tag_image: tag_image) if tag.tag_image.nil? || override_existing_image
+      tag.update!(tag_image: tag_image) if tag.tag_image.nil? || override_existing_image
     end
   end
 
