@@ -3,8 +3,6 @@
 
 <%= render partial: 'edit_tag_nav', locals: { tag: @tag } %>
 
-<div class="text-center tagsafe-container">
-  <%= turbo_frame_tag "#{@tag.id}_tag_edit_general_settings" do %>
-    <%= render 'edit_general_settings', tag: @tag %>
-  <% end %>
-</div>
+<%= turbo_frame_tag "#{@tag.id}_tag_edit_general_settings" do %>
+  <%= render 'edit_general_settings', tag: @tag %>
+<% end %>

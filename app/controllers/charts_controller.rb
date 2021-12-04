@@ -1,37 +1,68 @@
 class ChartsController < ApplicationController
+  layout false
+
   def tags
     # domain = Domain.find(params[:domain_id])
-    @displayed_metric = params[:metric_type] || :tagsafe_score
+    displayed_metric = params[:metric_type] || :tagsafe_score
+    start_time = params[:start_time].to_datetime
+    end_time = params[:end_time].to_datetime
     if params[:tag_ids]
       tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
-      tags = current_domain.tags.where(id: tag_ids)
-      @start_time = params[:start_time].to_datetime
-      @end_time = params[:end_time].to_datetime
+      tags = current_domain.tags.includes(:tag_preferences).where(id: tag_ids)
+      include_metric_select = params[:include_metric_selector] == 'true'
       chart_data_getter = ChartHelper::TagsData.new(
         tags: tags, 
-        start_time: @start_time,
-        end_time: @end_time,
-        metric_key: @displayed_metric
+        start_time: start_time,
+        end_time: end_time,
+        metric_key: displayed_metric
       )
-      @include_metric_select = params[:include_metric_selector] == 'true'
-      @chart_data = chart_data_getter.chart_data
+      render turbo_stream: turbo_stream.replace(
+        "#{current_domain.uid}_domain_tags_chart",
+        partial: 'charts/tags',
+        locals: { 
+          chart_data: chart_data_getter.chart_data, 
+          domain: current_domain, 
+          displayed_metric: displayed_metric,
+          start_time: start_time,
+          end_time: end_time 
+        }
+      )
     else
-      @chart_data = []
+      render turbo_stream: turbo_stream.replace(
+        "#{current_domain.uid}_domain_tags_chart",
+        partial: 'charts/tags',
+        locals: { 
+          chart_data: [], 
+          domain: current_domain,
+          start_time: start_time,
+          end_time: end_time 
+        }
+      )
     end
   end
 
   def tag
-    @start_time = params[:start_time].to_datetime
-    @end_time = params[:end_time].to_datetime
-    @tag = current_domain.tags.find(params[:tag_id])
-    @chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
+    start_time = params[:start_time].to_datetime
+    end_time = params[:end_time].to_datetime
+    tag = current_domain.tags.find(params[:tag_id])
+    chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
     chart_data_getter = ChartHelper::TagData.new(
-      tag: @tag, 
-      metric: @chart_metric,
-      start_time: @start_time,
-      end_time: @end_time
+      tag: tag, 
+      metric: chart_metric,
+      start_time: start_time,
+      end_time: end_time
     )
-    @chart_data = chart_data_getter.chart_data
+    render turbo_stream: turbo_stream.replace(
+      "#{tag.uid}_tag_chart",
+      partial: 'charts/tag',
+      locals: { 
+        chart_data: chart_data_getter.chart_data, 
+        tag: tag, 
+        chart_metric: chart_metric, 
+        start_time: start_time, 
+        end_time: end_time 
+      }
+    )
   end
 
   def tag_uptime

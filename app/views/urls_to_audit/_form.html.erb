@@ -6,7 +6,7 @@
           <div class="form-floating d-flex">
             <%= f.text_field :display_url, class: "form-control form-control-lg", value: current_domain.url, placeholder: current_domain.url %>
             <!-- <#%= f.label :friendly_name %> !-->
-            <label for='friendly_name'>URL to audit</label>
+            <label class='tagsafe-font'>Add new URL to audit</label>
             <button type='submit' class='tagsafe-btn square'>Add</button>
           </div>
         </div>
@@ -22,6 +22,7 @@
     <% end %>
   </div>
 
+  <h5 class='tagsafe-font'>URLs to audit:</h5>
   <% urls_to_audit.each do |url_to_audit| %>
     <% if url_to_audit.tagsafe_hosted %>
       <div class='tagsafe-pill tagsafe-blue removable m-1' data-controller='tooltip' data-bs-toggle='tooltip' data-placement='top' title="This is the Tagsafe hosted version of <%=url_to_audit.display_url%>. Tagsafe hosts a second version of your URLs for accurate tests.">

@@ -23,7 +23,6 @@ module ChartHelper
       chart_data.each do |tag_data|
         unless tag_data[:data].empty?
           tag_data[:data] << [DateTime.now, tag_data[:data][0][1]]
-          # tag_data[:data] << [DateTime.now, tag_data[:data][tag_data[:data].length-1][1]]
         end
       end
     end

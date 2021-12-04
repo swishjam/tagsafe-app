@@ -215,6 +215,24 @@ class Tag < ApplicationRecord
     )
   end
 
+  def re_render_chart(now: false)
+    return if ENV['DISABLE_CHART_UPDATE_STREAMS'] == 'true'
+    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
+    chart_data_getter = ChartHelper::TagData.new(tag: self, metric: :tagsafe_score, start_time: 1.day.ago, end_time: Time.now)
+    send(broadcast_method,
+      "tag_#{uid}_details_view_stream",
+      target: "#{uid}_tag_chart",
+      partial: 'charts/tag',
+      locals: {
+        chart_data: chart_data_getter.chart_data,
+        chart_metric: :tagsafe_score,
+        start_time: 1.day.ago,
+        end_time: Time.now,
+        streamed: true
+      }
+    )
+  end
+
   def remove_tag_from_from_table
     broadcast_remove_to "domain_#{domain.uid}_monitor_center_view_stream", target: "#{domain.uid}_domain_tags_table_row_#{uid}"
   end

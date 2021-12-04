@@ -3,6 +3,8 @@
 <div class="text-center">
   <h1 class="page-title">Monitor Center</h1>
   <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
-    <%= display_loading_spinner size: :large %>
+    <div class='tagsafe-container'>
+      <%= display_loading_spinner size: :large %>
+    </div>
   <% end %>
 </div>

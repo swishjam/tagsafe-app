@@ -115,6 +115,6 @@ class PerformanceAudit < ApplicationRecord
   end
 
   def should_retry?
-    audit.individual_performance_audits.failed.count <= audit.maximum_individual_performance_audit_attempts
+    audit.individual_performance_audits.failed.count < audit.maximum_individual_performance_audit_attempts
   end
 end

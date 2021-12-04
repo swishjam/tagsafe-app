@@ -109,7 +109,9 @@ class Audit < ApplicationRecord
     tag_version.update_primary_audit_pill(now: update_views_now)
     tag_version.update_tag_version_table_row(now: update_views_now)
     re_render_audit_table(now: update_views_now)
-    # update chart...
+    tag.domain.re_render_tags_chart(now: update_views_now)
+    tag.re_render_chart(now: update_views_now)
+    # update performance chart...
   end
 
   def previous_primary_audit(force = false)

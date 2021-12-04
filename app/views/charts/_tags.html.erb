@@ -1,17 +1,17 @@
-<%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart" do %>
-  <div data-controller='chart'>
+<%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
+  <div class='tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' data-controller='chart' data-fetch-url="<%= domain_tags_chart_path(domain, tag_ids: params[:tag_ids], start_time: start_time, end_time: end_time, metric_type: displayed_metric) %>">
     <div class='container'>
       <div class='col-12'>
         <div class='row'>
           <div class='timeframe-selector-container col-6 text-start'>
-            <input type="text" name="datetimes" class='tagsafe-dotted-selector' data-chart-target='datepicker' data-start="<%= @start_time || 1.day.ago %>" data-end="<%= @end_time || Time.now %>" />
+            <input type="text" name="datetimes" class='tagsafe-dotted-selector' data-chart-target='datepicker' data-start="<%= local_assigns[:start_time] || 1.day.ago %>" data-end="<%= local_assigns[:end_time] || Time.now %>" />
           </div>
-          <% if @include_metric_select %>
+          <% if local_assigns[:include_metric_select] %>
             <div class='metric-type-selector-container col-6'>
               <form data-controller='select-change-form-submit'>
                 <select class="form-select form-control w-fit float-end" data-select-change-form-submit-target='select' data-action='change->select-change-form-submit#updateFormAction change->select-change-form-submit#submitForm'>
                   <% PerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
-                    <option value="<%= domain_tags_chart_path(current_domain.id, tag_ids: params[:tag_ids], start_time: @start_time, end_time: @end_time, metric_type: metric_type[:column]) %>>" <%= metric_type[:column].to_s === @displayed_metric.to_s ? 'selected="selected"' : nil %>>
+                    <option value="<%= domain_tags_chart_path(domain, tag_ids: params[:tag_ids], start_time: local_assigns[:start_time], end_time: local_assigns[:end_time], metric_type: metric_type[:column]) %>>" <%= metric_type[:column].to_s === displayed_metric.to_s ? 'selected="selected"' : nil %>>
                       <%= metric_type[:title] %>
                     </option>
                   <% end %>
@@ -22,12 +22,12 @@
         </div>
       </div>
     </div>
-    <div id="tags-chart-container">
+    <div id="tags-chart-container" data-controller='streamed-script-tag'>
       <%=
-        line_chart @chart_data,
+        line_chart chart_data,
           download: true, 
-          title: "#{@displayed_metric.to_s.split('_').map(&:capitalize).join(' ')}",
-          ytitle: "#{@displayed_metric.to_s.split('_').map(&:capitalize).join(' ')}",
+          title: "#{displayed_metric.to_s.split('_').map(&:capitalize).join(' ')}",
+          ytitle: "#{displayed_metric.to_s.split('_').map(&:capitalize).join(' ')}",
           xtitle: 'Releases',
           messages: { empty: "No third party tag data to visualize." },
           curve: false, 

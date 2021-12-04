@@ -1,4 +1,3 @@
-<!-- <#%= turbo_stream_from "#{domain.uid}_domain_tags_table" %> !-->
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_table" do %>
   <div class='col-12'>
     <div class='tagsafe-container mt-3'>
@@ -10,7 +9,6 @@
           <div class='tagsafe-table-header' style='width: 6%'></div>
         </div>
         <div class='tagsafe-table-body'>
-          <%= turbo_stream_from "#{domain.uid}_domain_tags_table_rows" %>
           <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_rows" do %>
             <% tags.each do |tag| %>
               <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, domain: domain %>

@@ -64,6 +64,34 @@ class Domain < ApplicationRecord
     organization.users.include?(user)
   end
 
+  ###################
+  ## TURBO STREAMS ##
+  ###################
+
+  def re_render_tags_chart(now: false)
+    return if ENV['DISABLE_CHART_UPDATE_STREAMS'] == 'true'
+    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
+    tags_to_chart = tags.includes(:tag_preferences).order('tag_preferences.enabled DESC, removed_from_site_at ASC, content_changed_at DESC').page(1).per(9)
+    chart_data_getter = ChartHelper::TagsData.new(tags: tags_to_chart, start_time: 1.day.ago, end_time: Time.now, metric_key: :tagsafe_score)
+    send(broadcast_method,
+      "domain_#{uid}_monitor_center_view_stream",
+      target: "#{uid}_domain_tags_chart",
+      partial: 'charts/tags',
+      locals: { 
+        domain: self, 
+        chart_data: chart_data_getter.chart_data, 
+        displayed_metric: :tagsafe_score, 
+        start_time: 1.day.ago, 
+        end_time: Time.now, 
+        streamed: true 
+      }
+    )
+  end
+
+  #################
+  ## VALIDATIONS ##
+  #################
+
   def is_valid_url
     HTTParty.get(url)
   rescue => e

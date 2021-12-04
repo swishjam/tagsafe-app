@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <%= turbo_frame_tag "#{@tag.id}_tag_chart", src: tag_chart_path(@tag, start_time: 1.day.ago, end_time: Time.now) do %>
+  <%= turbo_frame_tag "#{@tag.uid}_tag_chart", src: tag_chart_path(@tag, start_time: 1.day.ago, end_time: Time.now) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
     </div>
