@@ -23,6 +23,7 @@ class UrlCrawl < ApplicationRecord
 
   def found_tag!(
     tag_url,
+    load_type:,
     enabled: ENV['NEW_TAGS_ARE_ENABLED_BY_DEFAULT'] == 'true', 
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
@@ -38,6 +39,7 @@ class UrlCrawl < ApplicationRecord
       url_domain: parsed_url.host,
       url_path: parsed_url.path,
       url_query_param: parsed_url.query,
+      load_type: load_type,
       tag_preferences_attributes: {
         enabled: enabled,
         is_allowed_third_party_tag: is_allowed_third_party_tag,

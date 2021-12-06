@@ -4,7 +4,8 @@ class Domain < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :organization
-  has_many :performance_audit_calculators
+  has_many :page_urls, dependent: :destroy
+  has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :urls_to_crawl, class_name: 'UrlToCrawl', dependent: :destroy
@@ -25,9 +26,20 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def add_defaults(create_mock_site = true)
-    urls_to_crawl.create(url: url)
+  def add_defaults
+    add_url(url, should_scan_for_tags: true, should_run_audits_on: true)
     PerformanceAuditCalculator.create_default_calculator(self)
+  end
+
+  def add_url(full_url, should_scan_for_tags:, should_run_audits_on:)
+    parsed_url = URI.parse(full_url)
+    page_urls.create!(
+      full_url: parsed_url.to_s, 
+      hostname: parsed_url.hostname, 
+      pathname: parsed_url.path,
+      should_scan_for_tags: should_scan_for_tags,
+      should_run_audits_on: should_run_audits_on
+    )
   end
 
   def current_performance_audit_calculator

@@ -11,33 +11,29 @@ module TagManager
     end
 
     def evaluate!
-      if already_processed?
+      if @url_crawl.completed? # just in case?
         Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
       else
-        @tag_urls_and_load_types.each{ |tag_url, _load_type| add_tag_to_domain_if_necessary(tag_url) }
-        remove_tags_removed_from_site
+        @tag_urls_and_load_types.each{ |tag_url, load_type| add_tag_to_domain_if_necessary(tag_url, load_type) }
+        # remove_tags_removed_from_site
         @url_crawl.completed!
       end
     end
 
     private
 
-    def already_processed?
-      @url_crawl.completed?
-    end
-
-    def add_tag_to_domain_if_necessary(tag_url)
+    def add_tag_to_domain_if_necessary(tag_url, load_type)
       if @domain.should_capture_tag?(tag_url)
         existing_full_url_tag = @domain.tags.still_on_site.find_by(full_url: tag_url)
         if existing_full_url_tag.nil?
-          evaluate_new_full_url(tag_url)
+          evaluate_new_full_url(tag_url, load_type)
         else
           remove_full_url_from_starting_tags(tag_url)
         end
       end
     end
 
-    def evaluate_new_full_url(tag_url)
+    def evaluate_new_full_url(tag_url, load_type)
       if existing_tag_without_query_params = @domain.tags.find_without_query_params(tag_url)
         # already has this tag but the query params have changed
         TagUrlQueryParamsChangedEvent.create!(triggerer: existing_tag_without_query_params, metadata: {
@@ -57,7 +53,7 @@ module TagManager
         })
       else
         # new tag
-        @url_crawl.found_tag!(tag_url, initial_crawl: @initial_crawl)
+        @url_crawl.found_tag!(tag_url, load_type: load_type, initial_crawl: @initial_crawl)
       end
     end
 
@@ -82,6 +78,10 @@ module TagManager
           remove_full_url_from_starting_tags(existing_tag_url)
         end
       end
+    end
+
+    def previous_url_crawl_on_url
+      @previous_url_crawl_on_url ||= @domain.url_crawls.completed.most_recent_first(timestamp_column: :enqueued_at).where(url: @url_crawl.url).where.not(id: @url_crawl.id).limit(1).first
     end
   end
 end

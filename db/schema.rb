@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_01_225305) do
+ActiveRecord::Schema.define(version: 2021_12_05_172810) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -57,8 +57,10 @@ ActiveRecord::Schema.define(version: 2021_12_01_225305) do
     t.datetime "deleted_at"
     t.string "error_message"
     t.integer "performance_audit_calculator_id"
+    t.bigint "page_url_id"
     t.index ["audited_url_id"], name: "index_audits_on_audited_url_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
+    t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
@@ -224,6 +226,22 @@ ActiveRecord::Schema.define(version: 2021_12_01_225305) do
     t.bigint "performance_audit_id"
     t.string "uid"
     t.index ["performance_audit_id"], name: "index_page_load_traces_on_performance_audit_id"
+  end
+
+  create_table "page_urls", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "domain_id"
+    t.string "full_url"
+    t.string "hostname"
+    t.string "pathname"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uid"
+    t.boolean "should_scan_for_tags"
+    t.index ["domain_id"], name: "index_page_urls_on_domain_id"
+    t.index ["full_url"], name: "index_page_urls_on_full_url"
+    t.index ["hostname"], name: "index_page_urls_on_hostname"
+    t.index ["pathname"], name: "index_page_urls_on_pathname"
+    t.index ["uid"], name: "index_page_urls_on_uid"
   end
 
   create_table "performance_audit_calculators", charset: "utf8mb3", force: :cascade do |t|
@@ -406,7 +424,9 @@ ActiveRecord::Schema.define(version: 2021_12_01_225305) do
     t.integer "url_crawl_id"
     t.string "load_type"
     t.datetime "deleted_at"
+    t.bigint "found_on_page_url_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
+    t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
     t.index ["url_crawl_id"], name: "index_tags_on_url_crawl_id"
@@ -421,7 +441,9 @@ ActiveRecord::Schema.define(version: 2021_12_01_225305) do
     t.string "url"
     t.float "seconds_to_complete"
     t.datetime "deleted_at"
+    t.bigint "page_url_id"
     t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
+    t.index ["page_url_id"], name: "index_url_crawls_on_page_url_id"
     t.index ["uid"], name: "index_url_crawls_on_uid"
   end
 
@@ -432,6 +454,8 @@ ActiveRecord::Schema.define(version: 2021_12_01_225305) do
     t.string "uid"
     t.string "display_url"
     t.boolean "tagsafe_hosted"
+    t.bigint "page_url_id"
+    t.index ["page_url_id"], name: "index_urls_to_audit_on_page_url_id"
     t.index ["tag_id"], name: "index_urls_to_audit_on_tag_id"
   end
 

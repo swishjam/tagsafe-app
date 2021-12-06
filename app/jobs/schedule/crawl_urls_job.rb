@@ -3,7 +3,8 @@ module Schedule
     # queue_as :crawl_url_for_tags_queue
     
     def perform
-      UrlToCrawl.should_crawl.each(&:crawl_now)
+      PageUrl.should_scan_for_tags.each(&:crawl_now)
+      # UrlToCrawl.should_crawl.each(&:crawl_now)
     end
   end
 end

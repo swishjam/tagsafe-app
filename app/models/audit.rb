@@ -5,7 +5,8 @@ class Audit < ApplicationRecord
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason
-  belongs_to :audited_url, class_name: 'UrlToAudit'
+  # belongs_to :audited_url, class_name: 'UrlToAudit'
+  belongs_to :page_url
   belongs_to :performance_audit_calculator
 
   has_many :performance_audits, dependent: :destroy
