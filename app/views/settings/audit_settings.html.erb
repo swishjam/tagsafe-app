@@ -18,7 +18,8 @@
     </div>
   </div>
   <div class='form-group'>
-    <%= render 'urls_to_crawl/index', domain: current_domain %>
+    <%= render 'page_urls/index', domain: current_domain, page_urls: current_domain.page_urls.should_scan_for_tags, should_scan_for_tags: true %>
+    <!-- <#%= render 'urls_to_crawl/index', domain: current_domain %> !-->
     <%= render 'non_third_party_url_patterns/index', domain: current_domain %>
   </div>
 </div>

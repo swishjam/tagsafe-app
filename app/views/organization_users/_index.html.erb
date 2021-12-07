@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "organization_#{current_organization.uid}_organization_users" do %>
+  <h3 class='tagsafe-font text-center'>Users</h3>
+  <% if organization_users.any? %>
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head tagsafe-table-row'>
+        <div class='tagsafe-table-head' style='width: 25%;'>Name</div>
+        <div class='tagsafe-table-head' style='width: 25%;'>Email</div>
+        <div class='tagsafe-table-head' style='width: 25%;'>User since</div>
+        <div class='tagsafe-table-head' style='width: 25%;'></div>
+      </div>
+      <div class='tagsafe-table-body'>
+        <% organization_users.each do |ou| %>
+          <div class='tagsafe-table-row'>
+            <div class='tagsafe-table-data' style='width: 25%'><%= ou.user.full_name %></div>
+            <div class='tagsafe-table-data' style='width: 25%'><%= ou.user.email %></div>
+            <div class='tagsafe-table-data' style='width: 25%'><%= ou.user.created_at.formatted_long %></div>
+            <div class='tagsafe-table-data' style='width: 25%'>
+              <%= link_to 'Remove user', organization_user_path(ou), method: :delete, data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class='text-center'>
+      <span class='empty-message'>You are the only Tagsafe user in <%= current_organization.name %>! Add teammates here.</span>
+    </div>
+  <% end %>
+<% end %>

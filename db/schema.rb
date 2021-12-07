@@ -421,15 +421,15 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.text "url_query_param"
     t.timestamp "content_changed_at"
     t.integer "tag_image_id"
-    t.integer "url_crawl_id"
     t.string "load_type"
     t.datetime "deleted_at"
     t.bigint "found_on_page_url_id"
+    t.bigint "found_on_url_crawl_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
+    t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
-    t.index ["url_crawl_id"], name: "index_tags_on_url_crawl_id"
   end
 
   create_table "url_crawls", charset: "utf8mb3", force: :cascade do |t|
@@ -449,11 +449,8 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
 
   create_table "urls_to_audit", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "tag_id"
-    t.text "audit_url"
     t.boolean "primary"
     t.string "uid"
-    t.string "display_url"
-    t.boolean "tagsafe_hosted"
     t.bigint "page_url_id"
     t.index ["page_url_id"], name: "index_urls_to_audit_on_page_url_id"
     t.index ["tag_id"], name: "index_urls_to_audit_on_tag_id"

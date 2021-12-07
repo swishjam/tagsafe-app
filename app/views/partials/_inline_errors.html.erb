@@ -1,7 +1,9 @@
 <% if flash[:inline_errors] || local_assigns[:errors] %>
   <% (flash[:inline_errors] || local_assigns[:errors]).each do |err| %>
-    <div class="error-container">
-      <%= err %>
-    </div>
+    <% if local_assigns[:text_only] %>
+      <span class='red-text'><%= err %></span>
+    <% else %>
+      <div class="error-container"><%= err %></div>
+    <% end %>
   <% end %>
 <% end %>

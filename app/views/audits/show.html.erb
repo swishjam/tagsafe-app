@@ -3,7 +3,7 @@
 <div class="text-center">
   <h5 class="page-title with-sub-title">Audit Results</h5>
   <h6 class="page-sub-title" style='margin-bottom: 5px;'>Audited tag: <%= @tag.try_friendly_name %></h6>
-  <h6 class="page-sub-title">Audited url: <%= @audit.audited_url.tagsafe_hosted ? 'Tagsafe-hosted version of' : nil %> <%= @audit.audited_url.display_url %></h6>
+  <h6 class="page-sub-title">Audited URL: <%= @audit.page_url.full_url %></h6>
   <div class="row">
     <%= render 'show', audit: @audit, previous_audit: @previous_audit, tag: @tag, tag_version: @tag_version %>
   </div>

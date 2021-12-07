@@ -4,13 +4,12 @@
   <% previous_audit = tag_version.previous_version&.primary_audit %>
   <%= link_to audit.nil? ? tag_tag_version_audits_path(tag, tag_version) : tag_tag_version_audit_path(tag, tag_version, audit), class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row <%= audit.nil? ? nil : 'clickable' %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
-      <div class="tagsafe-table-data" style='width: 30%'><%= tag_version.created_at.formatted_short %></div>
-      <div class="tagsafe-table-data" style='width: 30%'>
+      <div class="tagsafe-table-data" style='width: 25%'><%= tag_version.created_at.formatted_short %></div>
+      <div class="tagsafe-table-data" style='width: 20%'>
         <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag_version %>
       </div>
-      <div class="tagsafe-table-data" style='width: 30%'>
-        <%= tag_version.sha %>
-      </div>
+      <div class="tagsafe-table-data" style='width: 25%'><%= audit.page_url.full_url %></div>
+      <div class="tagsafe-table-data" style='width: 20%'><%= tag_version.sha %></div>
       <div class='tagsafe-table-data' style='width: 10%'>
         <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
       </div>

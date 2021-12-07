@@ -45,12 +45,8 @@ class DomainsController < LoggedInController
   def crawl
     domain = Domain.find(params[:id])
     raise StandardError, 'No permission' unless domain.user_can_initiate_crawl?(current_user)
-    if domain.urls_to_crawl.any?
-      domain.crawl_and_capture_domains_tags
-      current_user.broadcast_notification('Crawling for third party tags...')
-    else
-      current_user.broadcast_notification('No URLs to crawl defined', error: true)
-    end
+    domain.crawl_and_capture_domains_tags
+    current_user.broadcast_notification("Syncing #{domain.url}'s third party tags...")
     head :no_content
   end
 

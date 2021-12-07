@@ -29,7 +29,7 @@ module LambdaModerator
   
     def request_payload
       {
-        page_url_to_perform_audit_on: @audit.audited_url.audit_url,
+        page_url_to_perform_audit_on: @audit.page_url.full_url,
         first_party_request_url: tag.domain.parsed_domain_url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
         third_party_tag_url_patterns_to_allow: tag.domain.non_third_party_url_patterns.collect(&:pattern),

@@ -1,24 +1,12 @@
 <div class="col-md-4 offset-md-4 card tagsafe-container text-center">
-  <h5>Invite users to <%= current_organization.name %></h5>
-  <%= form_for @user_invite do |f| %>
-    <div class="form-group">
-      <%= f.text_field :email, placeholder: 'Email' %>
-    </div>
-    <%= f.submit 'Invite', class: 'btn-outline-primary btn' %>
-  <% end %>
+  <h1 class='tagsafe-font'>Invite users to <%= current_organization.name %></h1>
+  <%= render 'form', organization: current_organization %>
 </div>
 
 <div class='tagsafe-container' style='margin-top: 15px;'>
-  <% if @organization_users.any? %>
-    <% @organization_users.each do |ou| %>
-      <span class="badge bg-primary removable" style='font-size: 14px'>
-        <%= ou.user.email %> 
-        <%= link_to 'X', organization_user_path(ou), method: :delete, style: 'color: white;', data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
-      </span>
-    <% end %>
-  <% else %>
-    <div class='text-center'>
-      <span class='empty-message'>You are the only Tagsafe user in <%= current_organization.name %>! Add teammates here.</span>
-    </div>
-  <% end %>
+  <%= render 'organization_users/index', organization_users: @organization_users %>
+</div>
+
+<div class='tagsafe-container' style='margin-top: 15px;'>
+  <%= render 'index', user_invites: @pending_invites %>
 </div>

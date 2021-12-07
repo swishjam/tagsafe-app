@@ -1,0 +1,22 @@
+<%= turbo_frame_tag "domain_#{domain.uid}_page_urls_to_scan" do %>
+  <%= render 'page_urls/form', 
+                domain: domain, 
+                should_scan_for_tags: local_assigns[:should_scan_for_tags] || false,
+                errors: local_assigns[:errors]
+  %>
+
+  <% if page_urls.any? %>
+    <div class='mb-3'>
+      <% page_urls.each do |page_url| %>
+        <div class='tagsafe-pill grey removable m-1'>
+          <%= page_url.full_url %>
+          <%= form_with url: create_or_update_domain_page_urls_path(domain), class: 'd-inline' do |f| %>
+            <%= f.hidden_field :full_url, value: page_url.full_url %>
+            <%= f.hidden_field :should_scan_for_tags, value: false %>
+            <span class='remove-btn pointer p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

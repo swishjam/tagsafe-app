@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "organization_#{organization.uid}_invite_form" do %>
+  <%= form_for UserInvite.new, data: { controller: 'loading_form' } do |f| %>
+    <div class="form-floating">
+      <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>
+      <%= f.label :email, class: 'tagsafe-font' %>
+    </div>
+
+    <%= loading_submit_button 'Invite', button_class: 'large mt-3' %>
+  <% end %>
+<% end %>

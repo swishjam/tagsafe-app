@@ -7,7 +7,7 @@ class Organization < ApplicationRecord
   has_many :users, through: :organization_users
   has_many :domains, dependent: :destroy
   has_many :tags, through: :domains
-  has_many :scripts, through: :domains
+  has_many :user_invites
 
   has_one :slack_settings, class_name: 'SlackSetting'
 

@@ -1,20 +1,29 @@
-class UserInvitesController < ApplicationController
-  layout 'purgatory', except: :new
-  layout 'logged_in_layout', only: :new
+class UserInvitesController < LoggedInController
+  skip_before_action :authorize!, only: :accept
 
   def new
     @user_invite = UserInvite.new
-    @organization_users = OrganizationUser.includes(:user).where(organization_id: current_organization.id).where.not(user_id: current_user.id)
+    # @organization_users = OrganizationUser.includes(:user).where(organization_id: current_organization.id).where.not(user_id: current_user.id)
+    @organization_users = current_organization.organization_users.includes(:user)
+    @pending_invites = current_organization.user_invites.not_redeemed
   end
 
   def create
     invite = current_user.invite_user_to_organization!(params[:user_invite][:email], current_organization)
     if invite.valid?
-      display_toast_message("Invite sent to #{params[:user_invite][:email]}")
+      current_user.broadcast_notification("Invite sent to #{params[:user_invite][:email]}")
+      render turbo_stream: turbo_stream.replace(
+        "organization_#{current_organization.uid}_pending_invites",
+        partial: 'user_invites/index',
+        locals: { user_invites: current_organization.user_invites.not_redeemed }
+      )
     else
-      display_toast_errors(invite.errors.full_messages)
+      render turbo_stream: turbo_stream.replace(
+        "organization_#{current_organization.uid}_invite_form",
+        partial: 'user_invites/form',
+        locals: { errors: invite.errors.full_messages }
+      )
     end
-    redirect_to request.referrer
   end
 
   def accept

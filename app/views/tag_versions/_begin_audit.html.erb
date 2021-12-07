@@ -4,7 +4,7 @@
       <h3 class='inline-message mt-5 mb-5'>Performing <%= audits_enqueued.count %> <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
       <% if audits_enqueued.count > 1 %>
         <% audits_enqueued.each do |audit| %>
-          <%= link_to "View audit being performed on #{audit.audited_url.formatted_display_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
+          <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
         <% end %>
       <% else %>
         <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), target: '_top' %>
@@ -13,9 +13,9 @@
   <% else %>
     <h3>Audit <%= tag.try_friendly_name %></h3>
     <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'loading_form' } do |f| %>
-      <% tag.urls_to_audit.each do |url_to_audit| %>
+      <% tag.urls_to_audit.includes(:page_url).each do |url_to_audit| %>
         <div class="form-check form-switch w-fit m-auto">
-          <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.tagsafe_hosted ? 'Tagsafe-hosted version of ' : nil %><%= url_to_audit.display_url %></label>
+          <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.page_url.full_url %></label>
           <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
         </div>
       <% end %>

@@ -1,29 +1,37 @@
 class PageUrlsController < LoggedInController
-  def create_or_update_to_run_audits_on
-    existing_url = current_domain.page_urls.find_by(full_url: params[:url])
+  def create_or_update
+    existing_url = current_domain.page_urls.find_by(full_url: params[:full_url])
     if existing_url
-      existing_url.update!(should_run_audits_on: true)
+      if existing_url.update(should_scan_for_tags: params[:should_scan_for_tags])
+        current_user.broadcast_notification("Added #{existing_url.full_url} to sync third party tags from.")
+        render turbo_stream: turbo_stream.replace(
+          "domain_#{current_domain.uid}_page_urls_to_scan",
+          partial: 'page_urls/index',
+          locals: { domain: current_domain, page_urls: current_domain.page_urls.should_scan_for_tags, should_scan_for_tags: true }
+        )
+      else
+        render turbo_stream: turbo_stream.replace(
+          "domain_#{current_domain.uid}_page_urls_to_scan",
+          partial: 'page_urls/index',
+          locals: { domain: current_domain, page_urls: current_domain.page_urls.should_scan_for_tags, should_scan_for_tags: true, errors: existing_url.errors.full_messages }
+        )
+      end
     else
-      current_domain.add_url(params[:url], should_run_audits_on: true, should_scan_for_tags: false)
+      new_page_url = current_domain.add_url(params[:full_url], should_scan_for_tags: params[:should_scan_for_tags])
+      if new_page_url.valid?
+        current_user.broadcast_notification("Added #{new_page_url.full_url} to sync third party tags from.")
+        render turbo_stream: turbo_stream.replace(
+          "domain_#{current_domain.uid}_page_urls_to_scan",
+          partial: 'page_urls/index',
+          locals: { domain: current_domain, page_urls: current_domain.page_urls.should_scan_for_tags, should_scan_for_tags: true }
+        )
+      else
+        render turbo_stream: turbo_stream.replace(
+          "domain_#{current_domain.uid}_page_urls_to_scan",
+          partial: 'page_urls/index',
+          locals: { domain: current_domain, page_urls: current_domain.page_urls.should_scan_for_tags, should_scan_for_tags: true, errors: new_page_url.errors.full_messages }
+        )
+      end
     end
-  end
-
-  def create_or_update_to_run_scans_on
-    existing_url = current_domain.page_urls.find_by(full_url: params[:url])
-    if existing_url
-      existing_url.update!(should_scan_for_tags: true)
-    else
-      current_domain.add_url(params[:url], should_scan_for_tags: true, should_run_audits_on: false)
-    end
-  end
-
-  def dont_run_audits_on
-    page_url = current_domain.page_urls.find(params[:id])
-    page_url.update!(should_run_audits_on: false)
-  end
-
-  def dont_scan_for_tags_on
-    page_url = current_domain.page_urls.find(params[:id])
-    page_url.update!(should_scan_for_tags: false)
   end
 end

@@ -1,15 +1,18 @@
 <h5 class='page-title'>Tag Performance</h5>
 
-<div class='tagsafe-container' style='margin-bottom: 15px;'>
   <% if @tags.any? %>
     <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: @tags.collect(&:id), start_time: 1.day.ago, end_time: Time.now, include_metric_selector: true) do %>
-      <div class='text-center'>
-        <%= render 'partials/utils/spinner' %>
+      <div class='tagsafe-container' style='margin-bottom: 15px;'>
+        <div class='text-center'>
+          <%= render 'partials/utils/spinner' %>
+        </div>
       </div>
     <% end %>
   <% else %>
-    <div class='text-center'>
-      <span>No tags present.</span>
+    <div class='tagsafe-container' style='margin-bottom: 15px;'>
+      <div class='text-center'>
+        <span>No tags present.</span>
+      </div>
     </div>
   <% end %>
 </div>

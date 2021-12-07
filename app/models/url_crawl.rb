@@ -2,8 +2,9 @@ class UrlCrawl < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :domain
+  belongs_to :page_url
   # has_one :executed_lambda_function
-  has_many :found_tags, class_name: 'Tag'
+  has_many :found_tags, class_name: 'Tag', foreign_key: :found_on_url_crawl_id
   alias tags_found found_tags
 
   scope :pending, -> { where(completed_at: nil) }
@@ -40,6 +41,7 @@ class UrlCrawl < ApplicationRecord
       url_path: parsed_url.path,
       url_query_param: parsed_url.query,
       load_type: load_type,
+      found_on_page_url: page_url,
       tag_preferences_attributes: {
         enabled: enabled,
         is_allowed_third_party_tag: is_allowed_third_party_tag,
@@ -50,8 +52,8 @@ class UrlCrawl < ApplicationRecord
       }
     )
     if tag.save
-      url_to_audit = tag.urls_to_audit.create!(audit_url: url, display_url: url, tagsafe_hosted: false)
-      url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
+      url_to_audit = tag.urls_to_audit.create(page_url: page_url)
+      # url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
       AfterTagCreationJob.perform_later(tag, initial_crawl)
       tag
     else

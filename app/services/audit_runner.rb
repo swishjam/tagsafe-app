@@ -56,7 +56,7 @@ class AuditRunner
       tag_version: @tag_version,
       tag: @tag,
       execution_reason: @execution_reason,
-      audited_url_id: @url_to_audit_id,
+      page_url: url_to_audit.page_url,
       performance_audit_iterations: tag_preferences.performance_audit_iterations,
       primary: false
     )
@@ -65,5 +65,9 @@ class AuditRunner
   
   def tag_preferences
     @tag_preferences ||= @tag.tag_preferences
+  end
+
+  def url_to_audit
+    @url_to_audit ||= UrlToAudit.find(@url_to_audit_id)
   end
 end

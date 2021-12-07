@@ -29,20 +29,22 @@ Rails.application.routes.draw do
     member do
       patch :crawl
     end
+    resources :page_urls, only: [:update] do
+      collection do
+        post '/create_or_update' => 'page_urls#create_or_update'
+      end
+    end
+    # patch 'page_urls/:id/dont_scan_for_tags_on' => 'page_urls#dont_scan_for_tags_on'
+
     resources :url_crawls, only: [:index, :show] do
       member do
         get :executed_lambda_function
       end
     end
-    resources :urls_to_crawl, only: [:create, :destroy]
+    # resources :urls_to_crawl, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
-  
-  post '/create_or_update_to_run_audits_on' => 'page_urls#create_or_update_to_run_audits_on'
-  post '/create_or_update_to_run_scans_on' => 'page_urls#create_or_update_to_run_scans_on'
-  patch '/dont_scan_for_tags_on/:id' => 'page_urls#dont_scan_for_tags_on'
-  patch '/dont_run_audits_on/:id' => 'page_urls#dont_run_audits_on'
 
   resources :tags do
     member do

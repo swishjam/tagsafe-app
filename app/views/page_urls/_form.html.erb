@@ -1,2 +1,13 @@
-<%= form_with url: %>
-<% end %>
+<div class='col-6 offset-3'>
+  <%= form_with url: create_or_update_domain_page_urls_path(domain), data: { controller: 'loading_form' } do |f| %>
+    <%= f.hidden_field :should_scan_for_tags, value: local_assigns[:should_scan_for_tags] || false %>
+    <div class='form-floating d-flex mb-3'>
+      <%= f.text_field :full_url, class: 'form-control', value: "#{domain.url}/", placeholder: "#{domain.url}/url_with_tags" %>
+      <label for='url'>URL to sync tags from</label>
+      <%= loading_submit_button 'Add URL', button_class: 'square' %>
+    </div>
+  <% end %>
+  <div class='text-center'>
+    <%= render 'partials/inline_errors', errors: local_assigns[:errors], text_only: true %>
+  </div>
+</div>

@@ -8,14 +8,15 @@ class Domain < ApplicationRecord
   has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
-  has_many :urls_to_crawl, class_name: 'UrlToCrawl', dependent: :destroy
+  # has_many :urls_to_crawl, class_name: 'UrlToCrawl', dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true
-  validate :is_valid_url
 
-  after_create_commit :add_defaults
+  before_validation :strip_pathname_from_url
+  before_validation :add_default_page_url
+  after_create_commit :add_default_performance_audit_calculator
 
   def parsed_domain_url
     u = URI.parse(url)
@@ -26,20 +27,21 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def add_defaults
-    add_url(url, should_scan_for_tags: true, should_run_audits_on: true)
+  def add_default_performance_audit_calculator
     PerformanceAuditCalculator.create_default_calculator(self)
   end
 
-  def add_url(full_url, should_scan_for_tags:, should_run_audits_on:)
-    parsed_url = URI.parse(full_url)
-    page_urls.create!(
-      full_url: parsed_url.to_s, 
-      hostname: parsed_url.hostname, 
-      pathname: parsed_url.path,
-      should_scan_for_tags: should_scan_for_tags,
-      should_run_audits_on: should_run_audits_on
-    )
+  def add_default_page_url
+    page_urls.new(full_url: url, should_scan_for_tags: true)
+  end
+
+  def add_url(full_url, should_scan_for_tags:)
+    page_urls.create(full_url: full_url, should_scan_for_tags: should_scan_for_tags)
+  end
+
+  def strip_pathname_from_url
+    parsed_url = URI.parse(url)
+    self.url = "#{parsed_url.scheme}://#{parsed_url.hostname}"
   end
 
   def current_performance_audit_calculator
@@ -60,7 +62,8 @@ class Domain < ApplicationRecord
   end
 
   def crawl_and_capture_domains_tags(initial_crawl = false)
-    urls_to_crawl.each{ |url_to_crawl| url_to_crawl.crawl_later(initial_crawl) }
+    page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_later(initial_crawl) }
+    # urls_to_crawl.each{ |url_to_crawl| url_to_crawl.crawl_later(initial_crawl) }
   end
 
   def should_capture_tag?(url)

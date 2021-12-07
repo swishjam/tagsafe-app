@@ -10,10 +10,6 @@ module LambdaModerator
       @executed_lambda_function_parent = url_crawl
       set_enqueued_timestamp
     end
-
-    # def url_crawl
-    #   @url_crawl ||= UrlCrawl.create!(domain_id: @url_to_crawl.domain_id, url: @url_to_crawl.url, enqueued_at: Time.now)
-    # end
   
     private
 
@@ -22,7 +18,7 @@ module LambdaModerator
     end
 
     def request_payload
-      { url: url_crawl.url }
+      { url: url_crawl.page_url.full_url }
     end
 
     def required_payload_arguments
