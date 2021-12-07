@@ -5,10 +5,8 @@ class Domain < ApplicationRecord
 
   belongs_to :organization
   has_many :page_urls, dependent: :destroy
-  has_many :performance_audit_calculators, dependent: :destroy
-  has_many :url_crawls, dependent: :destroy
   has_many :tags, dependent: :destroy
-  # has_many :urls_to_crawl, class_name: 'UrlToCrawl', dependent: :destroy
+  has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
 
