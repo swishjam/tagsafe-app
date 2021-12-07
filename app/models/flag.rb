@@ -40,7 +40,7 @@ class Flag < ApplicationRecord
 
     def flag_is_true_for_objects(*objects, slug:)
       enabled_for_any_object = objects.any?{ |obj| flag_is_true(obj, slug, fallback_to_default: false) }
-      return enabled_for_any_object || find_by_slug!(slug).default_value
+      return enabled_for_any_object || find_by_slug!(slug).default_value == 'true'
     end
 
     def flag_value_for_objects(*objects, slug:)

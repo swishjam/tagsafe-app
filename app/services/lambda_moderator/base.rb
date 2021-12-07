@@ -15,6 +15,8 @@ module LambdaModerator
       successful = response.status_code.between?(199, 299)
       OpenStruct.new(successful: successful, response_body: response_body, error: response.function_error || response_body['errorMessage'] || response_body['error'])
     rescue => e
+      Rails.logger.error("Encountered Lambda error in #{self.class.to_s}: #{e.inspect}")
+      update_executed_lambda_function_with_response(0, { error: e.inspect })
       OpenStruct.new(successful: false, error: e.message, response_body: {})
     end
 
