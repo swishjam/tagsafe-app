@@ -5,9 +5,6 @@ module TagManager
       @domain = @url_crawl.domain
       @tag_urls_and_load_types = tag_urls
       @initial_crawl = initial_crawl
-      # @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.present_on_page_url(@url_crawl.url).collect(&:full_url)
-      # TODO: need to scope this to the url being crawled...
-      @pre_existing_tag_urls_for_this_page = @domain.tags.still_on_site.collect(&:full_url)
     end
 
     def evaluate!
@@ -15,7 +12,7 @@ module TagManager
         Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
       else
         @tag_urls_and_load_types.each{ |tag_url, load_type| add_tag_to_domain_if_necessary(tag_url, load_type) }
-        # remove_tags_removed_from_site
+        update_tags_no_longer_present_as_removed_from_site!
         @url_crawl.completed!
       end
     end
@@ -57,21 +54,21 @@ module TagManager
       end
     end
 
-    def remove_tags_removed_from_site
+    def update_tags_no_longer_present_as_removed_from_site!
       return if ENV['REMOVED_TAGS_IN_URL_CRAWLS'] == 'false'
-      @pre_existing_tag_urls_for_this_page.each do |tag_url|
+      tag_urls_that_were_previously_active_on_this_page_url.each do |tag_url|
         tag = @domain.tags.find_by(full_url: tag_url)
         TagRemovedFromSiteEvent.create!(triggerer: tag)
       end
     end
 
     def remove_full_url_from_starting_tags(tag_url)
-      @pre_existing_tag_urls_for_this_page.delete(tag_url)
+      tag_urls_that_were_previously_active_on_this_page_url.delete(tag_url)
     end
 
     def remove_url_from_starting_tags_without_query_params(tag_url)
       parsed_new_tag_url = URI.parse(tag_url)
-      @pre_existing_tag_urls_for_this_page.each do |existing_tag_url|
+      tag_urls_that_were_previously_active_on_this_page_url.each do |existing_tag_url|
         parsed_existing_tag_url = URI.parse(existing_tag_url)
         # find the tag URL from there previous query params and remove it from the already subscribed list
         if parsed_existing_tag_url.host == parsed_new_tag_url.host && parsed_existing_tag_url.path == parsed_new_tag_url.path
@@ -80,8 +77,8 @@ module TagManager
       end
     end
 
-    def previous_url_crawl_on_url
-      @previous_url_crawl_on_url ||= @domain.url_crawls.completed.most_recent_first(timestamp_column: :enqueued_at).where(url: @url_crawl.url).where.not(id: @url_crawl.id).limit(1).first
+    def tag_urls_that_were_previously_active_on_this_page_url
+      @tag_urls_that_were_previously_active_on_this_page_url ||= @url_crawl.page_url.tags_found_on_url.still_on_site.collect(&:full_url) 
     end
   end
 end
