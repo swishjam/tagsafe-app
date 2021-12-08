@@ -152,6 +152,10 @@ class TagVersion < ApplicationRecord
     js_file.purge if js_file && js_file.persisted?
   end
 
+  def bytesize
+    bytes
+  end
+
   def change_in_bytes
     bytes - previous_version.bytes unless previous_version.nil?
   end

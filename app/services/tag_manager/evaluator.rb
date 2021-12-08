@@ -4,62 +4,34 @@ module TagManager
 
     def initialize(tag)
       @tag = tag
-      @tag_changed = false
     end
 
     def evaluate!
-      @response = fetcher.fetch!
-      capture_tag_check!
-      if fetcher.success
-        if @response.body.nil?
-          Rails.logger.error "Fetch for #{@tag.full_url} (uid: #{@tag.uid}) resulted in an empty response. Skipping tag version creation and test runs."
-        else
-          @hashed_content = TagManager::Hasher.hash!(@response.body)
-          try_tag_change!
-        end
-      else
-        Rails.logger.error "Fetch for #{@tag.full_url} (uid: #{@tag.uid}) resulted in a #{@response.code} response code. Skipping tag version creation and test runs."
+      if tag_changed?
+        tag_version = TagManager::TagVersionCapturer.new(
+          @tag, 
+          fetched_tag_content,
+          hashed_content: tag_version_detector.new_hashed_content
+        ).capture_new_tag_version!
       end
     end
 
     def tag_changed?
-      @tag_changed
+      tag_version_detector.detected_new_tag_version?
     end
 
     private
 
+    def fetched_tag_content
+      @tag_content ||= fetcher.fetch!
+    end
+
     def fetcher
-      @fetcher ||= TagManager::Fetcher.new(@tag.full_url)
+      @fetcher ||= TagManager::ContentFetcher.new(@tag)
     end
 
-    def capture_tag_check!
-      if @tag.tag_preferences.should_log_tag_checks
-        TagCheck.create(
-          response_time_ms: fetcher.response_time_ms, 
-          response_code: fetcher.response_code, 
-          tag: @tag
-        )
-      end
-    end
-
-    def try_tag_change!
-      if should_capture_tag_change?
-        Rails.logger.info "Capturing a change to tag #{@tag.full_url}."
-        @tag_changed = true
-        @tag_version = TagManager::ChangeProcessor.new(
-          @tag, 
-          @response.body, 
-          hashed_content: @hashed_content
-        ).process_change!
-      end
-    end
-
-    def should_capture_tag_change?
-      @tag.has_no_versions? || tag_content_changed?
-    end
-
-    def tag_content_changed?
-      @tag.most_recent_version.hashed_content != @hashed_content
+    def tag_version_detector
+      @tag_version_detector ||= TagManager::NewTagVersionDetector.new(@tag, fetched_tag_content)
     end
   end
 end

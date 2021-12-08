@@ -1,5 +1,8 @@
 class RunIndividualPerformanceAuditJob < ApplicationJob
   queue_as :performance_audit_runner_queue
+  # queue_as do
+  #   # determine if its part of the load of initial audits, put in onboarding_audits_queue ?
+  # end
   
   def perform(type:, audit:, tag_version:, options: {})
     performance_auditer = LambdaModerator::PerformanceAuditer.new(

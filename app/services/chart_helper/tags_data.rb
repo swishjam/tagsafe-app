@@ -5,6 +5,8 @@ module ChartHelper
       @start_time = start_time
       @end_time = end_time
       @metric_key = metric_key
+      # TODO: add_first_timestamp_to_charge_data so the first data point in chart_data 
+      # is always the exact start_time, not the TagVersion created_at
       add_current_timestamp_to_chart_data
     end
   

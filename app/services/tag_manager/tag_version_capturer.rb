@@ -1,5 +1,5 @@
 module TagManager
-  class ChangeProcessor
+  class TagVersionCapturer
     def initialize(tag, content, hashed_content: nil, keep_file_on_disk: ENV['KEEP_TAG_VERSIONS_ON_DISK'] == 'true')
       @tag = tag
       @content = content
@@ -7,7 +7,7 @@ module TagManager
       @keep_file_on_disk = keep_file_on_disk
     end
 
-    def process_change!
+    def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
       tag_version.js_file.attach(tag_version_js_file_data)
       tag_version.tagsafe_instrumented_js_file.attach(tagsafe_instrumented_js_file_data)

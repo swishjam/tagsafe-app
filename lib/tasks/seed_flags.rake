@@ -47,13 +47,19 @@ namespace :seed do
         name: 'Strip all images in Performance Audits',
         slug: 'strip_all_images_in_performance_audits',
         description: 'Removes all img tags from the audited page when running performance audits.',
-        default_value: 'false'
+        default_value: 'true'
       }, 
       {
         name: 'Throw an error if DOM Complete is zero in Performance Audits',
         slug: 'performance_audit_throw_error_if_dom_complete_is_zero',
         description: 'When running a performance audit, throw an error if the DOM Complete timestamp does not exceed zero.',
         default_value: 'true'
+      },
+      {
+        name: 'Determine new tag versions by bytesize instead of hashed content',
+        slug: 'should_detect_new_releases_based_on_bytesize_changes',
+        description: 'Instead of using the tag versions hashed content to determine if a new version was released, if the file changes in size',
+        default_value: 'false'
       }
     ]
 
