@@ -87,8 +87,6 @@ module LambdaModerator
         aws_request_id: response_body && response_body['aws_request_id'],
         aws_trace_id: response_body && response_body['aws_trace_id']
       )
-    # rescue Mysql2::Error => e
-    #   executed_lambda_function.update!(response_code: status_code, response_payload: 'TOO LONG')
     end
   end
 end

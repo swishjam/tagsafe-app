@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
 
+  resources :functional_tests
   resources :tags do
     member do
       patch :disable
@@ -77,6 +78,7 @@ Rails.application.routes.draw do
           post :make_primary  
         end
         resources :individual_performance_audits, only: :index
+        resources :test_runs, only: [:index, :show]
         resources :performance_audit_logs, only: :index
         resources :executed_lambda_functions, only: :index
         resources :page_load_resources, only: :index

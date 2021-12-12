@@ -7,4 +7,12 @@
   <div class="row">
     <%= render 'show', audit: @audit, previous_audit: @previous_audit, tag: @tag, tag_version: @tag_version %>
   </div>
+  <div class='row'>
+    <div class='tagsafe-container text-center col-10 offset-1 mt-5'>
+      <h4>Functional Tests</h4>
+      <%= turbo_frame_tag "audit_#{@audit.uid}_test_runs", src: tag_tag_version_audit_test_runs_path(@tag, @tag_version, @audit) do %>
+        <%= display_loading_spinner %>
+      <% end %>
+    </div>
+  </div>
 </div>

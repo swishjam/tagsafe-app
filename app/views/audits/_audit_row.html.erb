@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_row", class: "tagsafe-table-row clickable #{audit.is_primary? && streamed ? 'tagsafe-illuminate' : nil}" do %>
-  <div class='tagsafe-table-data' style='width: 15%'>
+  <div class='tagsafe-table-data' style='width: 19%'>
     <% unless audit.pending? || audit.failed? %>
       <% if audit.is_primary? %>
         <button class='tagsafe-btn white-text' style='font-size: 12px'>Primary Audit</button>
@@ -11,9 +11,9 @@
       <% end %>
     <% end %>
   </div>
-  <%= link_to tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration d-flex', style: 'width: 85%', target: '_top' do %>
-    <div class='tagsafe-table-data' style='width: 24%'><%= audit.created_at.formatted %></div>
-    <div class='tagsafe-table-data' style='width: 23%'>
+  <%= link_to tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration d-flex', style: 'width: 81%', target: '_top' do %>
+    <div class='tagsafe-table-data' style='width: 26%'><%= audit.created_at.formatted_short %></div>
+    <div class='tagsafe-table-data' style='width: 26%'>
       <% if audit.failed? %>
         <span class="tagsafe-pill red">Failed</span>
       <% elsif audit.pending? %>
@@ -30,8 +30,9 @@
         <% end %>
       <% end %>
     </div>
-    <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
-    <div class='tagsafe-table-data' style='width: 24%'><%= audit.page_url.full_url %></div>
+    <!-- <div class='tagsafe-table-data' style='width: 15%'><#%= audit.execution_reason.name %></div> !-->
+    <div class='tagsafe-table-data' style='width: 26%'><%= audit.test_runs_with_tag.passed.count %>/<%= audit.test_runs_with_tag.completed.count %></div>
+    <div class='tagsafe-table-data' style='width: 23%'><%= audit.page_url.full_url %></div>
     <div class='tagsafe-table-data justify-content-end' style='width: 11%'>
       <!-- <#%= link_to 'View audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %> !-->
       <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>

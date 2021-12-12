@@ -1,0 +1,20 @@
+<div class='text-center'>
+  <% if functional_test.passed_dry_run %>
+    <% if functional_test.run_on_all_tags %>
+      <p>Test is configured to run against all existing and future tags</p>
+    <% else %>
+      <% if functional_test.functional_tests_to_run.any? %>
+        <% functional_test.functional_tests_to_run.each do |test_to_run| %>
+          <%= tag.try_friendly_name %>
+        <% end %>
+      <% else %>
+        <p>You have not configured this functional test to run against any tags yet.</p>
+      <% end %>
+    <% end %>
+    <%= render 'functional_tests_to_run/form_for_functional_test', functional_test: functional_test %>
+  <% else %>
+    <p>Functional test has not yet been validated to run correctly.</p>
+    <button class='tagsafe-btn'>Validate test</button>
+    <button class='tagsafe-btn'>Edit test</button>
+  <% end %>
+</div>

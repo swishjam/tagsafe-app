@@ -1,0 +1,24 @@
+<%= turbo_frame_tag 'new_functional_test' do %>
+  <h4 class='text-center'>New functional test</h4>
+  <%= form_with model: functional_test, class: 'new-functional-test', data: { controller: 'loading_form' } do |f| %>
+    <div class='form-floating col-6 offset-3'>
+      <%= f.text_field :title, class: 'form-control mt-3', placeholder: 'User can add to cart' %>
+      <label for='functional_test_title'>Name of test</label>
+    </div>
+    <div class='form-floating col-6 offset-3'>
+      <%= f.text_field :description, class: 'form-control mt-3', value: 'this.page.goto("https://www.tagsafe.io");\n return this.page.evaluate(() => document.title);', placeholder: 'A user can navigate to the PDP page and add an item to their cart successfully' %>
+      <label for='functional_test_description'>Description</label>
+    </div>
+    <div class='col-10 offset-1'>
+      <span class='puppeteer-script-label d-block text-center'>Test script</span>
+      <%= f.text_area :puppeteer_script, class: 'code-mirror-textarea hidden', data: { controller: 'code_mirror' } %>
+    </div>
+    <div class='form-floating col-6 offset-3'>
+      <%= f.text_field :expected_results, class: 'form-control mt-3', placeholder: 'Expected results' %>
+      <label for='functional_test_expected_results'>Expected return value of test script</label>
+    </div>
+    <div class='col-12 text-center mt-3'>
+      <%= submit_loading_button 'Run test validation', button_class: 'large' %>
+    </div>
+  <% end %>
+<% end %>

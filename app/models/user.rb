@@ -8,6 +8,7 @@ class User < ApplicationRecord
   # has_and_belongs_to_many :roles
   has_many :roles_users, class_name: 'RoleUser', dependent: :destroy
   has_many :roles, through: :roles_users
+  has_many :created_functional_tests, class_name: 'FunctionalTest', foreign_key: :created_by_user_id
 
   has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
   has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'

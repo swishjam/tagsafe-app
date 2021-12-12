@@ -1,0 +1,20 @@
+<%= turbo_frame_tag "test_run_#{dry_test_run.uid}" do %>
+  <div class='text-center'>
+    <h4>Test: <%= functional_test.title %></h4>
+    <p>
+      <%= functional_test.description %>
+    </p>
+
+    <% if dry_test_run.pending? %>
+      <h5>Test is running...</h5>
+      <%= display_loading_spinner %>
+    <% else %>
+      <% if dry_test_run.passed? %>
+        <h5>Test Passed</h5>
+      <% else %>
+        <h5>Test Failed:</h5>
+        <p><%= dry_test_run.results %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

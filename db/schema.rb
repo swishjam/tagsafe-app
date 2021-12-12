@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_172810) do
+ActiveRecord::Schema.define(version: 2021_12_09_205513) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -142,6 +142,34 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "default_value"
+  end
+
+  create_table "functional_tests", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.bigint "created_by_user_id"
+    t.string "title"
+    t.string "description"
+    t.text "puppeteer_script"
+    t.string "expected_results"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "run_on_all_tags"
+    t.boolean "passed_dry_run"
+    t.index ["created_by_user_id"], name: "index_functional_tests_on_created_by_user_id"
+    t.index ["domain_id"], name: "index_functional_tests_on_domain_id"
+    t.index ["uid"], name: "index_functional_tests_on_uid"
+  end
+
+  create_table "functional_tests_to_run", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "functional_test_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uid"
+    t.index ["functional_test_id"], name: "index_functional_tests_to_run_on_functional_test_id"
+    t.index ["tag_id"], name: "index_functional_tests_to_run_on_tag_id"
+    t.index ["uid"], name: "index_functional_tests_to_run_on_uid"
   end
 
   create_table "monitored_scripts", charset: "utf8mb3", force: :cascade do |t|
@@ -430,6 +458,20 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
+  end
+
+  create_table "test_runs", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "functional_test_id"
+    t.bigint "audit_id"
+    t.string "type"
+    t.string "results"
+    t.boolean "passed"
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
+    t.index ["audit_id"], name: "index_test_runs_on_audit_id"
+    t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
+    t.index ["uid"], name: "index_test_runs_on_uid"
   end
 
   create_table "url_crawls", charset: "utf8mb3", force: :cascade do |t|

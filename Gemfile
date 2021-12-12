@@ -59,6 +59,7 @@ gem 'acts_as_paranoid'
 gem "chartkick"
 gem "groupdate"
 gem 'diffy'
+# gem 'codemirror-rails'
 # gem 'eslintrb'
 gem 'slack-ruby-client'
 # gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']

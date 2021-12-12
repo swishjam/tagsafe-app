@@ -15,6 +15,10 @@ class Audit < ApplicationRecord
   has_many :individual_performance_audits_with_tag, class_name: 'IndividualPerformanceAuditWithTag',  dependent: :destroy
   has_many :individual_performance_audits_without_tag, class_name: 'IndividualPerformanceAuditWithoutTag',  dependent: :destroy
 
+  has_many :test_runs
+  has_many :test_runs_with_tag, class_name: 'TestRunWithTag'
+  has_many :tests_runs_without_tag, class_name: 'TestRunWithoutTag'
+
   #############
   # CALLBACKS #
   #############

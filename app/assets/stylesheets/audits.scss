@@ -7,17 +7,6 @@ body.audits {
     border-top: 1px solid lightgrey;
     padding-top: 5px;
   }
-  .minimize-audit-details, .expand-audit-details {
-    border: 1px solid lightgrey;
-    &:not(.selected) {
-      background: grey;
-      color: white;
-    }
-    &.selected {
-      background: #95d1ff;
-      color: white;
-    }
-  }
   .performance-audits-completion-indicators {
     .performance-audits-completion-indicator {
       // border: 1px solid black;
@@ -34,6 +23,29 @@ body.audits {
       }
       &.failed {
         background: red;
+      }
+    }
+  }
+  .test-runs-container {
+    .test-run {
+      border-radius: 5px;
+      border: 1px solid lightgrey;
+      padding: 10px;
+      &:hover {
+        background: lightgrey;
+      }
+      .test-run-title, .test-run-icon {
+        font-size: 20px;
+      }
+      .test-run-description {
+        font-size: 16px;
+        display: block;
+      }
+      .test-run-icon.passed {
+        color: green;
+      }
+      .test-run-icon.failed {
+        color: red;
       }
     }
   }

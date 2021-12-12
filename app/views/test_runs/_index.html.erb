@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "audit_#{audit.uid}_test_runs" do %>
+  <div class='test-runs-container col-12'>
+    <h5><%= audit.test_runs_with_tag.passed.count %>/<%= audit.test_runs_with_tag.completed.count %></h5>
+    <% test_runs.each do |test_run| %>
+      <div class='row'>
+        <%= render 'test_run', test_run: test_run %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

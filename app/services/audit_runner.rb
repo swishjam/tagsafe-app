@@ -20,6 +20,7 @@ class AuditRunner
 
   def run!
     run_performance_audit!
+    run_functional_tests!
   end
 
   private
@@ -38,6 +39,12 @@ class AuditRunner
     @tag.tag_preferences.performance_audit_iterations.times do
       RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:with_tag))
       RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:without_tag))
+    end
+  end
+
+  def run_functional_tests!
+    @tag.functional_tests.each do |functional_test|
+      RunFunctionalTestJob.perform_later(functional_test: functional_test, audit: audit, test_run_klass: TestRunWithTag)
     end
   end
 
