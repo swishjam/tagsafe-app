@@ -5,7 +5,7 @@ class DryTestRun < TestRun
   end
 
   def after_failed
-    functional_test.update!(passed_dry_run: true)
+    functional_test.update!(passed_dry_run: false)
     update_pending_dry_run_functional_test_view(now: true)
   end
 
@@ -15,6 +15,12 @@ class DryTestRun < TestRun
       "new_functional_test_view_stream",
       target: "functional_test_#{functional_test.uid}_pending_dry_run",
       partial: 'functional_tests/pending_dry_run',
+      locals: { functional_test: functional_test, dry_test_run: self }
+    )
+    send(broadcast_method,
+      "functional_test_#{functional_test.uid}_show_view_stream",
+      target: "functional_test_#{functional_test.uid}_un_validated",
+      partial: 'functional_tests/un_validated',
       locals: { functional_test: functional_test, dry_test_run: self }
     )
   end

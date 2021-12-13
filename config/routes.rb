@@ -46,7 +46,11 @@ Rails.application.routes.draw do
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
 
-  resources :functional_tests
+  resources :functional_tests do
+    member do
+      post :validate
+    end
+  end
   resources :tags do
     member do
       patch :disable

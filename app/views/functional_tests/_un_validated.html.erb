@@ -1,0 +1,23 @@
+<%= turbo_frame_tag "functional_test_#{functional_test.uid}_un_validated" do %>
+  <div class='text-center'>
+    <% if functional_test.passed_dry_run %>
+      <p>Functional test passed validation.</p>
+      <%= render 'functional_tests_to_run/for_functional_test', functional_test: functional_test %>
+    <% else %>
+      <% most_recent_dry_run = functional_test.most_recent_dry_test_run %>
+      <% if most_recent_dry_run %>
+        <% if most_recent_dry_run.pending? %>
+          <h5>Running validation...</h5>
+          <%= display_loading_spinner %>
+        <% else %>
+          <h5>Functional test has not yet been validated to run correctly. It last failed with an error of:</h5>
+          <h6><%= functional_test.most_recent_dry_test_run.results %></h6>
+            <%= form_with url: validate_functional_test_path(functional_test), data: { controller: 'loading_form' } do |f| %>
+              <%= submit_loading_button 'Validate test', button_class: 'large' %>
+            <% end %>
+            <button class='tagsafe-btn large mt-3'>Edit test</button>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

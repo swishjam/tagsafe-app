@@ -1,8 +1,8 @@
 class TestRun < ApplicationRecord
   belongs_to :functional_test
 
-  scope :completed, -> { where.not(passed: nil) }
-  scope :pending, -> { where(passed: nil) }
+  scope :completed, -> { where.not(completed_at: nil) }
+  scope :pending, -> { where(completed_at: nil) }
   scope :passed, -> { where(passed: true) }
   scope :failed, -> { where(passed: false) }
 
@@ -11,14 +11,12 @@ class TestRun < ApplicationRecord
       passed? ? 'passed' : 'failed'
   end
 
-  # TODO: should we use timestamps..?
   def completed?
     !pending?
   end
 
-  # TODO: should we use timestamps..?
   def pending?
-    passed.nil?
+    completed_at.nil?
   end
 
   def passed?

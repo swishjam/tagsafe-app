@@ -4,12 +4,14 @@ module LambdaModerator
     lambda_function 'run-test'
 
     def initialize(
-      functional_test:, 
+      functional_test:,
+      already_created_test_run: nil,
       test_run_klass:, 
       domain: nil, 
       audit:
     )
       @functional_test = functional_test
+      @test_run = already_created_test_run
       @test_run_klass = test_run_klass
       @domain = domain
       @audit = audit
@@ -19,6 +21,14 @@ module LambdaModerator
 
     def test_run
       @test_run ||= @test_run_klass.create!(functional_test: @functional_test, audit: @audit)
+    end
+
+    def before_send
+      test_run.update!(enqueued_at: Time.now)
+    end
+
+    def after_send
+      test_run.update!(completed_at: Time.now)
     end
 
     def request_payload

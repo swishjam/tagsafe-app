@@ -27,6 +27,14 @@ class FunctionalTest < ApplicationRecord
     test_run
   end
 
+  def has_pending_dry_run?
+    dry_test_runs.pending.any?
+  end
+
+  def most_recent_dry_test_run
+    dry_test_runs.most_recent_first(timestamp_column: :enqueued_at).limit(1).first
+  end
+
   def is_enabled_for_tag?(tag)
     run_on_all_tags || tags_to_run_tests_on.include?(tag)
   end

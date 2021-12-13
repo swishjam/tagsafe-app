@@ -58,6 +58,16 @@ class FunctionalTestsController < LoggedInController
     end
   end
 
+  def validate
+    functional_test = current_domain.functional_tests.find(params[:id])
+    dry_test_run = functional_test.run_dry_run!
+    render turbo_stream: turbo_stream.replace(
+      "functional_test_#{functional_test.uid}_un_validated",
+      partial: 'functional_tests/un_validated',
+      locals: { functional_test: functional_test, dry_test_run: dry_test_run }
+    )
+  end
+
   private
 
   def update_functional_test_params

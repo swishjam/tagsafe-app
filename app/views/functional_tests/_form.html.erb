@@ -6,12 +6,12 @@
       <label for='functional_test_title'>Name of test</label>
     </div>
     <div class='form-floating col-6 offset-3'>
-      <%= f.text_field :description, class: 'form-control mt-3', value: 'this.page.goto("https://www.tagsafe.io");\n return this.page.evaluate(() => document.title);', placeholder: 'A user can navigate to the PDP page and add an item to their cart successfully' %>
+      <%= f.text_field :description, class: 'form-control mt-3', placeholder: 'A user can navigate to the PDP page and add an item to their cart successfully' %>
       <label for='functional_test_description'>Description</label>
     </div>
     <div class='col-10 offset-1'>
       <span class='puppeteer-script-label d-block text-center'>Test script</span>
-      <%= f.text_area :puppeteer_script, class: 'code-mirror-textarea hidden', data: { controller: 'code_mirror' } %>
+      <%= f.text_area :puppeteer_script, value: 'await this.page.goto("https://www.tagsafe.io"); return await this.page.evaluate(() => document.title);', class: 'code-mirror-textarea hidden', data: { controller: 'code_mirror' } %>
     </div>
     <div class='form-floating col-6 offset-3'>
       <%= f.text_field :expected_results, class: 'form-control mt-3', placeholder: 'Expected results' %>

@@ -4,10 +4,10 @@ class RunDryTestRunJob < ApplicationJob
   def perform(functional_test, test_run)
     test_runner = LambdaModerator::FunctionalTestRunner.new(
       functional_test: functional_test,
-      test_run_klass: nil,
-      domain: functional_test.domain,
-      test_run: test_run,
-      tag_version: nil,
+      already_created_test_run: test_run,
+      test_run_klass: DryTestRun,
+      # domain: functional_test.domain,
+      # test_run: test_run,
       audit: nil
     )
     response = test_runner.send!
@@ -16,7 +16,7 @@ class RunDryTestRunJob < ApplicationJob
       if resp_body['passed']
         test_run.passed!(resp_body['script_results'])
       else
-        test_run.failed!(resp_body['failure']['message'])
+        test_run.failed!(resp_body['errorMessage'] || resp_body['failure']['message'])
       end
     else
       raise StandardError, "FunctionalTestRunner returned error: #{response.inspect}"
