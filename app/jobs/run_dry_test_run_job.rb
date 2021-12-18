@@ -6,8 +6,6 @@ class RunDryTestRunJob < ApplicationJob
       functional_test: functional_test,
       already_created_test_run: test_run,
       test_run_klass: DryTestRun,
-      # domain: functional_test.domain,
-      # test_run: test_run,
       audit: nil
     )
     response = test_runner.send!

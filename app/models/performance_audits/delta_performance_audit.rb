@@ -5,16 +5,12 @@ class DeltaPerformanceAudit < PerformanceAudit
   }
 
   after_create :completed!
-  # after_create_commit { audit.tag_version.update_tag_version_content }
-  # after_update_commit { audit.tag_version.update_tag_version_content }
-  # after_create_commit { audit.tag.update_tag_row }
-  # after_update_commit { audit.tag.update_tag_row }
 
   validate :valid_individual_performance_audits
 
   def completed!
     touch(:enqueued_at, :completed_at)
-    audit.completed!
+    audit.try_completion!
   end
   
   private

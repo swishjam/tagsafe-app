@@ -16,15 +16,19 @@
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
         <% audit = tag.current_version&.audit_to_display %>
-        <% if audit && audit.successful? %>
-          <% passed_tests = audit.test_runs_with_tag.passed.count %>
-          <% completed_tests = audit.test_runs_with_tag.completed.count %>
-          <% if passed_tests == completed_tests %>
-            <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
+        <% if audit %>
+          <% if audit.include_functional_tests %>
+            <% passed_tests = audit.test_runs_with_tag.passed.count %>
+            <% completed_tests = audit.test_runs_with_tag.completed.count %>
+            <% if passed_tests == completed_tests %>
+              <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
+            <% else %>
+              <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
+            <% end %>
+            <span><%= passed_tests %>/<%= completed_tests %></span>
           <% else %>
-            <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
+            <span>Tests disabled</span>
           <% end %>
-          <span><%= passed_tests %>/<%= completed_tests %></span>
         <% end %>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'><%= tag.content_changed_at&.formatted_short || 'No releases' %></div>

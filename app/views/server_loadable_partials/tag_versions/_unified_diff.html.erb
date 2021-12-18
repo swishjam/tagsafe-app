@@ -1,8 +1,25 @@
-<%= turbo_frame_tag "#{tag_version.id}_diff" do %>
+<%= turbo_frame_tag "#{tag_version.uid}_diff" do %>
+  <style id='diffy-css'><%= Diffy::CSS %></style>
   <div class='col-12 mb-3'>
     <div class='row'>
-      <div class='col-8'>
-        <h5>There were <span class='fw-bold'><i id='additions-count'></i> additions</span> and <span class='fw-bold'><i id='deletions-count'></i> deletions</span> in this version.</h5>
+      <div class='col-8 text-start'>
+        <div class='git-changes-visual-container'>
+          <span class='num-additions-text'>+<%= num_additions %></span> <span class='num-deletions-text'>-<%= num_deletions %></span>
+          <div class='git-changes-visual-squares-container' data-controller='tooltip' data-bs-toggle='tooltip' title='<%= num_additions + num_deletions %> lines changed: <%= num_additions %> additions & <%= num_deletions %> deletions.'>
+            <% num_addition_squares = ((num_additions.to_f / (num_additions.to_f+num_deletions.to_f))*5.0).to_i %>
+            <% num_deletion_squares = ((num_deletions.to_f / (num_additions.to_f+num_deletions.to_f))*5.0).to_i %>
+            <% num_neutral_squares = 5 - num_addition_squares - num_deletion_squares %>
+            <% num_addition_squares.times do %>
+              <div class='git-changes-visual-square addition'></div>
+            <% end %>
+            <% num_deletion_squares.times do %>
+              <div class='git-changes-visual-square deletion'></div>
+            <% end %>
+            <% num_neutral_squares.times do %>
+              <div class='git-changes-visual-square neutral'></div>
+            <% end %>
+          </div>
+        </div>
       </div>
       <div class='col-4 text-end'>
         <a href='#' class='git-diff-split-unified-btn'>Unified</button>
@@ -14,16 +31,18 @@
     <div class='tag-details-tab'>
       <span><%= tag.full_url %></span>
     </div>
-    <div class='tag-change-content col-12'>
-      <div class='expand-container'>
+    <div class='git-diff-container unified col-12'>
+      <!--<div class='expand-container'>
         <span class='expand top' data-controller='tooltip tag_version_diff_displayer' data-action='click->tag_version_diff_displayer#showLinesAbove' data-bs-toggle="tooltip" data-placement="top" title="Show more."><i class="fas fa-expand-alt"></i></span>
-      </div>
+      </div>!-->
       <div class="content" data-controller='tag_version_diff' data-diff-type='unified'>
-        <%= diff %>
+        <div class='diff-container'>
+          <%= diff_html.html_safe %>
+        </div>
       </div>
-      <div class='expand-container'>
+      <!--<div class='expand-container'>
         <span class='expand bottom' data-controller='tooltip tag_version_diff_displayer' data-action='click->tag_version_diff_displayer#showLinesBelow' data-bs-toggle="tooltip" data-placement="top" title="Show more."><i class="fas fa-expand-alt"></i></span>
-      </div>
+      </div>!-->
     </div>
   </div>
 <% end %>

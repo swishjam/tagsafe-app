@@ -9,9 +9,9 @@ module LambdaModerator
 
     def send!
       create_executed_lambda_function!
-      before_send if defined?(:before_send)
+      before_send
       response = lambda_client.invoke(invoke_params)
-      after_send if defined?(:after_send)
+      after_send
       response_body = JSON.parse(response.payload.read)
       update_executed_lambda_function_with_response(response.status_code, response_body)
       successful = response.status_code.between?(199, 299)
@@ -62,6 +62,10 @@ module LambdaModerator
       missing_args = required_payload_arguments.select{ |req_arg| request_payload[req_arg].nil? }
       raise LambdaFunctionError::InvalidFunctionArguments, "#{lambda_invoke_function_name} is missing #{missing_args.join(', ')} arguments" if missing_args.any?
     end
+
+    def before_send; end
+
+    def after_send; end
 
     def required_payload_arguments
       []

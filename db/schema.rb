@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_205513) do
+ActiveRecord::Schema.define(version: 2021_12_16_224656) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -52,13 +52,14 @@ ActiveRecord::Schema.define(version: 2021_12_09_205513) do
     t.integer "tag_id"
     t.integer "performance_audit_iterations"
     t.timestamp "completed_at"
-    t.integer "attempt_number"
-    t.bigint "audited_url_id"
     t.datetime "deleted_at"
     t.string "error_message"
     t.integer "performance_audit_calculator_id"
     t.bigint "page_url_id"
-    t.index ["audited_url_id"], name: "index_audits_on_audited_url_id"
+    t.boolean "include_page_load_resources"
+    t.boolean "include_page_change_audit"
+    t.boolean "include_performance_audit"
+    t.boolean "include_functional_tests"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
@@ -172,6 +173,18 @@ ActiveRecord::Schema.define(version: 2021_12_09_205513) do
     t.index ["uid"], name: "index_functional_tests_to_run_on_uid"
   end
 
+  create_table "html_snapshots", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "type"
+    t.string "html_s3_location"
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
+    t.bigint "page_change_audit_id"
+    t.string "screenshot_s3_location"
+    t.index ["page_change_audit_id"], name: "index_html_snapshots_on_page_change_audit_id"
+    t.index ["uid"], name: "index_html_snapshots_on_uid"
+  end
+
   create_table "monitored_scripts", charset: "utf8mb3", force: :cascade do |t|
     t.string "url"
     t.datetime "created_at", null: false
@@ -225,6 +238,18 @@ ActiveRecord::Schema.define(version: 2021_12_09_205513) do
     t.integer "tag_check_retention_count"
     t.datetime "deleted_at"
     t.index ["uid"], name: "index_organizations_on_uid"
+  end
+
+  create_table "page_change_audits", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "audit_id"
+    t.boolean "tag_causes_page_changes"
+    t.integer "num_additions_between_without_tag_snapshots"
+    t.integer "num_deletions_between_without_tag_snapshots"
+    t.integer "num_additions_between_with_tag_snapshot_without_tag_snapshot"
+    t.integer "num_deletions_between_with_tag_snapshot_without_tag_snapshot"
+    t.index ["audit_id"], name: "index_page_change_audits_on_audit_id"
+    t.index ["uid"], name: "index_page_change_audits_on_uid"
   end
 
   create_table "page_load_resources", charset: "utf8mb3", force: :cascade do |t|

@@ -5,13 +5,25 @@ export default class extends Controller {
   
   expand() {
     this.expandableTarget.classList.add('expanded');
-    this.expandBtnTarget.classList.add('hidden');
-    this.collapseBtnTarget.classList.remove('hidden');
+    try {
+      this.expandBtnTarget.classList.add('hidden');
+      this.collapseBtnTarget.classList.remove('hidden');
+    } catch(e) { console.warn(e) }
   }
 
   collapse() {
     this.expandableTarget.classList.remove('expanded');
-    this.expandBtnTarget.classList.remove('hidden');
-    this.collapseBtnTarget.classList.add('hidden');
+    try {
+      this.expandBtnTarget.classList.remove('hidden');
+      this.collapseBtnTarget.classList.add('hidden');
+    } catch(e) { console.warn(e) }
+  }
+
+  toggle() {
+    if(this.expandableTarget.classList.contains('expanded')) {
+      this.collapse();
+    } else {
+      this.expand();
+    }
   }
 }

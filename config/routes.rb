@@ -34,14 +34,12 @@ Rails.application.routes.draw do
         post '/create_or_update' => 'page_urls#create_or_update'
       end
     end
-    # patch 'page_urls/:id/dont_scan_for_tags_on' => 'page_urls#dont_scan_for_tags_on'
 
     resources :url_crawls, only: [:index, :show] do
       member do
         get :executed_lambda_function
       end
     end
-    # resources :urls_to_crawl, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
@@ -51,6 +49,7 @@ Rails.application.routes.draw do
       post :validate
     end
   end
+
   resources :tags do
     member do
       patch :disable
@@ -64,7 +63,6 @@ Rails.application.routes.draw do
     resources :urls_to_audit, only: [:create, :destroy]
     resources :slack_notification_subscribers, only: [:create, :destroy]
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
-    # resources :performance_audit_preferences, only: :update
     resources :tag_preferences, only: [:edit, :update]
     resources :tag_versions, only: [:show, :index] do
       member do
@@ -77,17 +75,30 @@ Rails.application.routes.draw do
         get :tagsafe_instrumented_js
         get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
-      resources :audits, only: [:index, :show] do
+      resources :audits, only: [:show, :index] do
         member do
-          post :make_primary  
+          get :performance_audit
+          get :functional_tests
+          get :page_change_audit
+          get :waterfall
+          get :git_diff
+          get :cloudwatch_logs
+          post :make_primary
+          # get :html_snapshot_diff
         end
         resources :individual_performance_audits, only: :index
         resources :test_runs, only: [:index, :show]
+        resources :page_change_audits, only: :show do
+          resources :html_snapshots, only: [] do
+            member do
+              get :screenshot
+            end
+          end
+        end
         resources :performance_audit_logs, only: :index
         resources :executed_lambda_functions, only: :index
         resources :page_load_resources, only: :index
         get '/waterfall' => 'page_load_resources#for_audit'
-        get '/cloudwatch_logs' => 'audits#cloudwatch_logs'
       end
     end
   end
@@ -123,19 +134,6 @@ Rails.application.routes.draw do
   get '/settings/audit_settings' => 'settings#audit_settings'
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
-  namespace :api do
-    # post '/notification_preferences/:tag_id/toggle_tag_version_notification' => 'notification_preferences#toggle_tag_version_notification'
-    # post '/notification_preferences/:tag_id/toggle_audit_complete_notification' => 'notification_preferences#toggle_audit_complete_notification'
-    # post '/notification_preferences/:tag_id/toggle_lighthouse_audit_exceeded_threshold_notification' => 'notification_preferences#toggle_lighthouse_audit_exceeded_threshold_notification'
-  
-    post '/geppetto_receiver/url_crawl_complete' => 'geppetto_receiver#url_crawl_complete'
-    post '/geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
-
-    post '/lambda_event_receiver/success' => 'lambda_receiver#success_receiver'
-    post '/lambda_event_receiver/failed' => 'lambda_receiver#fail_receiver'
-  end
-
-  
   get '/charts/domain/:domain_id' => 'charts#tags', as: :domain_tags_chart
   get '/charts/tag/:tag_id' => 'charts#tag', as: :tag_chart
   get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime_chart

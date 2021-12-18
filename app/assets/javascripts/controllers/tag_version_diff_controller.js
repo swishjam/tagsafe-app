@@ -9,9 +9,9 @@ export default class extends Controller {
   diffType = this.element.getAttribute('data-diff-type');
   
   connect() {
-    this.element['diffController'] = this;
-    this._handleDiffs();
-    this._showChangeMetrics();
+    // this.element['diffController'] = this;
+    // this._handleDiffs();
+    // this._showChangeMetrics();
   }
 
   showLinesAbove() {

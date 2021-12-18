@@ -240,17 +240,32 @@ a.no-decoration {
 }
 
 .full-screenable.expanded {
-  // height: 95vh;
   width: 95vw;
-  position: absolute;
+  // position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   margin-left: 2.5vw;
   margin-top: 2.5vh;
-  background: white;
-  border: 1px solid black;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
+  z-index: 10;
+  &.full-height {
+    height: 95vh;
+  }
+  &:not(.no-background) {
+    background: white;
+    border: 1px solid black;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
+  }
+  .shadow-background {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color:rgba(108, 108, 108, 0.35);
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 }
 
 .badge.removable {

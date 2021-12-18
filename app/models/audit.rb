@@ -15,9 +15,11 @@ class Audit < ApplicationRecord
   has_many :individual_performance_audits_with_tag, class_name: 'IndividualPerformanceAuditWithTag',  dependent: :destroy
   has_many :individual_performance_audits_without_tag, class_name: 'IndividualPerformanceAuditWithoutTag',  dependent: :destroy
 
-  has_many :test_runs
-  has_many :test_runs_with_tag, class_name: 'TestRunWithTag'
-  has_many :tests_runs_without_tag, class_name: 'TestRunWithoutTag'
+  has_many :test_runs, dependent: :destroy
+  has_many :test_runs_with_tag, class_name: 'TestRunWithTag', dependent: :destroy
+  has_many :tests_runs_without_tag, class_name: 'TestRunWithoutTag', dependent: :destroy
+
+  has_one :page_change_audit, class_name: 'PageChangeAudit', dependent: :destroy
 
   #############
   # CALLBACKS #
@@ -50,6 +52,15 @@ class Audit < ApplicationRecord
       failed? ? 'failed' : 'complete'
   end
 
+  def try_completion!
+    if !completed? && 
+        (!include_page_change_audit || !!page_change_audit&.completed?) && 
+        (!include_functional_tests || completed_test_runs?) && 
+        (!include_performance_audit || !!reload.delta_performance_audit&.completed?)
+      completed!
+    end
+  end
+
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - enqueued_at)
@@ -73,6 +84,10 @@ class Audit < ApplicationRecord
 
   def completed?
     !completed_at.nil?
+  end
+
+  def completed_test_runs?
+    test_runs_with_tag.count == tag.functional_tests_to_run.count
   end
 
   def create_delta_performance_audit!
@@ -141,7 +156,15 @@ class Audit < ApplicationRecord
     ((individual_performance_audits.completed_successfully.count) / (performance_audit_iterations * 2.0))*100
   end
 
-  def should_show_page_load_resources?
+  def has_functional_tests?
+    tag.functional_tests.any?
+  end
+
+  def has_page_change_audit?
+    !page_change_audit.nil? && page_change_audit.completed?
+  end
+
+  def has_page_load_resources?
     completed? && !failed? && blocked_resources.any?
   end
 

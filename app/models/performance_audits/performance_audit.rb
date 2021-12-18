@@ -110,7 +110,7 @@ class PerformanceAudit < ApplicationRecord
         tag_version: audit.tag_version
       )
     else
-      audit.error!("Stopping PerformanceAudit retries on audit #{audit_id} due to exceeding max retry count of #{audit.maximum_individual_performance_audit_attempts}")
+      audit.error!("Haulting Performance Audit retries on audit due to exceeding max retry count of #{audit.maximum_individual_performance_audit_attempts}")
     end
   end
 

@@ -24,19 +24,23 @@ module ServerLoadablePartials
       tag_version = TagVersion.includes(:tag).find(params[:id])
       permitted_to_view?(tag_version)
       previous_tag_version = tag_version.previous_version
-  
-      diff = Diffy::Diff.new(
-        previous_tag_version&.content&.force_encoding('UTF-8'), 
-        tag_version.content.force_encoding('UTF-8'), 
-        format: :html, 
-        include_plus_and_minus_in_html: true,
+      diff_analyzer = DiffAnalyzer.new(
+        tag_version.content, 
+        previous_tag_version&.content,
+        num_lines_of_context: 0,
         include_diff_info: true
-      ).to_s(:html)
-      
+      )
       render turbo_stream: turbo_stream.replace(
-        "#{tag_version.id}_diff",
+        "#{tag_version.uid}_diff",
         partial: 'server_loadable_partials/tag_versions/unified_diff',
-        locals: { tag: tag_version.tag, tag_version: tag_version, diff: diff.html_safe }
+        locals: { 
+          tag: tag_version.tag, 
+          tag_version: tag_version, 
+          diff_html: diff_analyzer.html_unified_diff,
+          num_additions: diff_analyzer.num_additions,
+          num_deletions: diff_analyzer.num_deletions,
+          total_changes: diff_analyzer.total_changes
+        }
       )
     end
 
@@ -44,19 +48,24 @@ module ServerLoadablePartials
       tag_version = TagVersion.includes(:tag).find(params[:id])
       permitted_to_view?(tag_version)
       previous_tag_version = tag_version.previous_version
-  
-      diff = Diffy::SplitDiff.new(
-        previous_tag_version&.content&.force_encoding('UTF-8'), 
-        tag_version.content.force_encoding('UTF-8'), 
-        format: :html, 
-        include_plus_and_minus_in_html: true,
+      diff_analyzer = DiffAnalyzer.new(
+        tag_version.content, 
+        previous_tag_version&.content,
+        num_lines_of_context: 0,
         include_diff_info: true
       )
-      
       render turbo_stream: turbo_stream.replace(
-        "#{tag_version.id}_diff",
+        "#{tag_version.uid}_diff",
         partial: 'server_loadable_partials/tag_versions/split_diff',
-        locals: { tag: tag_version.tag, tag_version: tag_version, additions: diff.right.html_safe, deletions: diff.left.html_safe }
+        locals: { 
+          tag: tag_version.tag, 
+          tag_version: tag_version, 
+          additions_html: diff_analyzer.html_split_diff_additions, 
+          deletions_html: diff_analyzer.html_split_diff_deletions,
+          num_additions: diff_analyzer.num_additions,
+          num_deletions: diff_analyzer.num_deletions,
+          total_changes: diff_analyzer.total_changes
+        }
       )
     end
   end

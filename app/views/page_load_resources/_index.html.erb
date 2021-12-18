@@ -53,7 +53,7 @@
         </div>
       <% end %>
       <% if blocked_resources.any? %>
-        <div class='page-load-resource-name'>Blocked resources (<%= blocked_resources.count %>):</div>
+        <div class='page-load-resource-name' data-controller='tooltip' data-bs-toggle='tooltip' title="Tagsafe blocks certain resources in order to accurately measure the tag in question's performance attribution.">Blocked resources (<%= blocked_resources.count %>):</div>
         <% blocked_resources.each do |resource| %>
           <% unless performance_audit_type == 'with_tag' && resource.url == tag.full_url %>
             <div class='page-load-resource-name blocked-resource'>
