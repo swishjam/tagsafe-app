@@ -2,7 +2,7 @@ class RunFunctionalTestSuiteForAuditJob < ApplicationJob
   queue_as :functional_tests_queue
 
   def perform(audit)
-    audit.tag.functional_tests.each{ |test| run_functional_test(audit, test) }
+    audit.tag.functional_tests.each{ |functional_test| run_functional_test(audit, functional_test) }
   end
 
   def run_functional_test(audit, functional_test)

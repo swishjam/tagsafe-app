@@ -41,9 +41,7 @@ class AuditRunner
 
   def enqueue_functional_tests!
     if @include_functional_tests
-      @tag.functional_tests.each do |functional_test|
-        RunFunctionalTestSuiteForAuditJob.perform_later(audit)
-      end
+      RunFunctionalTestSuiteForAuditJob.perform_later(audit)
     end
   end
 

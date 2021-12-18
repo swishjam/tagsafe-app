@@ -7,12 +7,9 @@
   <div class='text-center'>
     <p><%= @functional_test.description %></p>
   </div>
-  <textarea class='codemirror fit-content hidden' data-controller='code_mirror' data-readonly='true'><%= @functional_test.puppeteer_script %></textarea>
   
   <% if @functional_test.passed_dry_run %>
-    <div class='functional-tests-to-run-container mt-3'>
-      <%= render 'functional_tests_to_run/for_functional_test', functional_test: @functional_test %>
-    </div>
+    <%= render 'functional_tests_to_run/for_functional_test', functional_test: @functional_test %>
   <% else %>
     <%= render 'un_validated', functional_test: @functional_test %>
   <% end %>

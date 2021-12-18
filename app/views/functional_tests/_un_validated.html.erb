@@ -10,12 +10,15 @@
           <h5>Running validation...</h5>
           <%= display_loading_spinner %>
         <% else %>
-          <h5>Functional test has not yet been validated to run correctly. It last failed with an error of:</h5>
-          <h6><%= functional_test.most_recent_dry_test_run.results %></h6>
-            <%= form_with url: validate_functional_test_path(functional_test), data: { controller: 'loading_form' } do |f| %>
-              <%= submit_loading_button 'Validate test', button_class: 'large' %>
-            <% end %>
+          <h5>Functional test has not yet been validated to run successfully. Update the test so it runs successfully. It last failed with an error of:</h5>
+          <div class='code-block'><span><%= functional_test.most_recent_dry_test_run.results %></span></div>
+          <%= render 'form', functional_test: functional_test %>
+            <!--
+            <#%= form_with url: validate_functional_test_path(functional_test), data: { controller: 'loading_form' } do |f| %>
+              <#%= submit_loading_button 'Validate test', button_class: 'large' %>
+            <#% end %>
             <button class='tagsafe-btn large mt-3'>Edit test</button>
+            !-->
         <% end %>
       <% end %>
     <% end %>

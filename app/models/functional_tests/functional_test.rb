@@ -20,6 +20,7 @@ class FunctionalTest < ApplicationRecord
   attribute :run_on_all_tags, default: false
 
   after_update :check_if_run_on_all_tags_changed
+  after_update :check_to_run_dry_run
 
   def run_dry_run!
     test_run = dry_test_runs.create!
@@ -46,9 +47,16 @@ class FunctionalTest < ApplicationRecord
       run_on_all_tags_became = saved_changes['run_on_all_tags'][1]
       if run_on_all_tags_became == true
         domain.tags.each{ |tag| functional_tests_to_run.create(tag: tag) }
-      elsif run_on_all_tags_became == false
+      else
         # do nothing, leave each individual functional_tests_to_run to be disabled manually
       end
+    end
+  end
+
+  def check_to_run_dry_run
+    if saved_changes['puppeteer_script']
+      update_column :passed_dry_run, false
+      run_dry_run!
     end
   end
 end

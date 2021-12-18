@@ -28,7 +28,7 @@ class FunctionalTestsController < LoggedInController
   def create
     params[:functional_test][:created_by_user_id] = current_user.id
     params[:functional_test][:expected_results] = params[:functional_test][:expected_results].blank? ? nil : params[:functional_test][:expected_results]
-    @functional_test = current_domain.functional_tests.new(new_functional_test_params)
+    @functional_test = current_domain.functional_tests.new(functional_test_params)
     if @functional_test.save
       dry_test_run = @functional_test.run_dry_run!
       render turbo_stream: turbo_stream.replace(
@@ -42,18 +42,19 @@ class FunctionalTestsController < LoggedInController
   end
 
   def update
-    @functional_test = current_domain.functional_tests.find(params[:id])
-    if @functional_test.update(update_functional_test_params)
+    functional_test = current_domain.functional_tests.find(params[:id])
+    if functional_test.update(functional_test_params)
+      current_user.broadcast_notification("Validating test can run successfully...") if functional_test.saved_changes['puppeteer_script']
       render turbo_stream: turbo_stream.replace(
-        "tags_to_run_functional_tests_for_functional_test_#{@functional_test.uid}",
-        partial: 'functional_tests_to_run/form_for_functional_test',
-        locals: { functional_test: @functional_test }
+        params[:turbo_frame] || "functional_test_#{functional_test.uid}_un_validated",
+        partial: params[:turbo_partial] || 'functional_tests/un_validated',
+        locals: { functional_test: functional_test }
       )
     else
       render turbo_stream: turbo_stream.replace(
-        "tags_to_run_functional_tests_for_functional_test_#{@functional_test.uid}",
-        partial: 'functional_tests_to_run/form_for_functional_test',
-        locals: { functional_test: @functional_test, errors: @functional_test.errors.full_messages }
+        params[:turbo_frame] || "new_functional_test",
+        partial: params[:turbo_frame] || 'functional_test/form',
+        locals: { functional_test: functional_test, errors: functional_test.errors.full_messages }
       )
     end
   end
@@ -70,11 +71,7 @@ class FunctionalTestsController < LoggedInController
 
   private
 
-  def update_functional_test_params
-    params.require(:functional_test).permit(:title, :description, :run_on_all_tags)
-  end
-
-  def new_functional_test_params
-    params.require(:functional_test).permit(:title, :description, :puppeteer_script, :expected_results, :created_by_user_id)
+  def functional_test_params
+    params.require(:functional_test).permit(:title, :description, :puppeteer_script, :expected_results, :created_by_user_id, :run_on_all_tags)
   end
 end

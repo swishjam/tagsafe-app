@@ -49,7 +49,7 @@ module ServerLoadablePartials
       permitted_to_view?(tag_version)
       previous_tag_version = tag_version.previous_version
       diff_analyzer = DiffAnalyzer.new(
-        tag_version.content, 
+        tag_version.content,
         previous_tag_version&.content,
         num_lines_of_context: 0,
         include_diff_info: true

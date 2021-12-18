@@ -1,0 +1,9 @@
+.CodeMirror {
+  height: auto !important; 
+}
+
+.outter-code-mirror {
+  .CodeMirror-lines, .CodeMirror-code {
+    background: #f7f7f7;
+  }
+}
