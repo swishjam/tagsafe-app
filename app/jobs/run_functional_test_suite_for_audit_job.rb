@@ -15,10 +15,18 @@ class RunFunctionalTestSuiteForAuditJob < ApplicationJob
     if response.successful
       resp_body = response.response_body
       if resp_body['passed']
-        test_runner.test_run.passed!(resp_body['script_results'])
+        test_runner.test_run.passed!(
+          resp_body['script_results'], 
+          logs: resp_body['logs'],
+          screenshots: resp_body['screenshots']
+        )
         audit.try_completion!
       else
-        test_runner.test_run.failed!(resp_body['failure']['message'])
+        test_runner.test_run.failed!(
+          resp_body['errorMessage'] || resp_body['failure']['message'],
+          logs: resp_body['logs'],
+          screenshots: resp_body['screenshots']
+        )
         audit.try_completion!
       end
     else

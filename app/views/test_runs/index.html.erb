@@ -1,0 +1,6 @@
+<h1 class='page-title with-sub-title'><%= @functional_test.title %></h1>
+<h2 class='page-sub-title'><%= @functional_test.description %></h2>
+
+<div class='tagsafe-container'>
+  <%= render 'test_runs_table', test_runs: @test_runs, functional_test: @functional_test %>
+</div>

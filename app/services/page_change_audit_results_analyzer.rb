@@ -25,14 +25,17 @@ class PageChangeAuditResultsAnalyzer
   def diff_analyzer_between_without_tag_snapshots
     return @analyzer_without_tag_snapshots if defined?(@analyzer_without_tag_snapshots)
     snapshots = @page_change_audit.html_snapshots_without_tag
-    @analyzer_without_tag_snapshots  = DiffAnalyzer.new(snapshots.first.fetch_html_content, snapshots.last.fetch_html_content)
+    @analyzer_without_tag_snapshots  = DiffAnalyzer.new(
+      new_content: snapshots.first.fetch_html_content, 
+      previous_content: snapshots.last.fetch_html_content
+    )
   end
 
   def diff_analyzer_between_with_and_without_tag_snapshots
     return @analyzer_with_and_without_tag_snapshots if defined?(@analyzer_with_and_without_tag_snapshots)
     html_without_tag = @page_change_audit.html_snapshots_without_tag.first.fetch_html_content
     html_with_tag = @page_change_audit.html_snapshot_with_tag.fetch_html_content
-    @analyzer_with_and_without_tag_snapshots = DiffAnalyzer.new(html_without_tag, html_with_tag)
+    @analyzer_with_and_without_tag_snapshots = DiffAnalyzer.new(new_content: html_without_tag, previous_content: html_with_tag)
   end
 
   def ensure_page_change_audit_is_complete!

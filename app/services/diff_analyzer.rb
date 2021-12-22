@@ -1,7 +1,7 @@
 class DiffAnalyzer
   def initialize(
-    new_content, 
-    previous_content, 
+    new_content:,
+    previous_content:, 
     num_lines_of_context: 10_000, 
     diff_output_format: :html, 
     include_plus_and_minus_in_html: true, 

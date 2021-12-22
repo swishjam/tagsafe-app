@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_16_224656) do
+ActiveRecord::Schema.define(version: 2021_12_19_180004) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2021_12_16_224656) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "run_on_all_tags"
     t.boolean "passed_dry_run"
+    t.timestamp "disabled_at"
     t.index ["created_by_user_id"], name: "index_functional_tests_on_created_by_user_id"
     t.index ["domain_id"], name: "index_functional_tests_on_domain_id"
     t.index ["uid"], name: "index_functional_tests_on_uid"
@@ -485,6 +486,16 @@ ActiveRecord::Schema.define(version: 2021_12_16_224656) do
     t.index ["uid"], name: "index_tags_on_uid"
   end
 
+  create_table "test_run_screenshots", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "test_run_id"
+    t.string "name"
+    t.string "s3_url"
+    t.integer "timestamp"
+    t.index ["test_run_id"], name: "index_test_run_screenshots_on_test_run_id"
+    t.index ["uid"], name: "index_test_run_screenshots_on_uid"
+  end
+
   create_table "test_runs", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.bigint "functional_test_id"
@@ -494,8 +505,13 @@ ActiveRecord::Schema.define(version: 2021_12_16_224656) do
     t.boolean "passed"
     t.timestamp "enqueued_at"
     t.timestamp "completed_at"
+    t.text "logs", size: :medium
+    t.text "puppeteer_script_ran"
+    t.string "expected_results"
+    t.bigint "test_run_without_tag_id"
     t.index ["audit_id"], name: "index_test_runs_on_audit_id"
     t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
+    t.index ["test_run_without_tag_id"], name: "index_test_runs_on_test_run_without_tag_id"
     t.index ["uid"], name: "index_test_runs_on_uid"
   end
 

@@ -5,8 +5,8 @@ class PageChangeAuditsController < ApplicationController
     audit = tag_version.audits.find(params[:audit_id])
     page_change_audit = audit.page_change_audit
     diff_analyzer = DiffAnalyzer.new(
-      page_change_audit.html_snapshot_without_tag.fetch_html_content,
-      page_change_audit.html_snapshot_with_tag.fetch_html_content,
+      new_content: page_change_audit.html_snapshot_with_tag.fetch_html_content,
+      previous_content: page_change_audit.html_snapshot_without_tag.fetch_html_content,
       num_lines_of_context: 5
     )
     render turbo_stream: turbo_stream.replace(

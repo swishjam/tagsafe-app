@@ -48,7 +48,7 @@ class Tag < ApplicationRecord
   after_update_commit { update_tag_row(now: true) }
   after_destroy_commit :remove_tag_from_from_table
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
-  after_create :attempt_to_find_and_apply_tag_image
+  after_create :apply_defaults
 
   # SCOPES
   scope :enabled, -> { where_tag_preferences({ enabled: true }) }
@@ -106,8 +106,9 @@ class Tag < ApplicationRecord
     "A new tag has been detected: #{full_url}"
   end
 
-  def attempt_to_find_and_apply_tag_image
+  def apply_defaults
     TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
+    domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
   end
 
   def stream_new_tag_to_views

@@ -3,14 +3,8 @@
 <h1 class='page-title with-sub-title'>Functional Test</h1>
 <h2 class='page-sub-title'><%= @functional_test.title %></h2>
 
+<%= render 'nav' %>
+
 <div class='tagsafe-container'>
-  <div class='text-center'>
-    <p><%= @functional_test.description %></p>
-  </div>
-  
-  <% if @functional_test.passed_dry_run %>
-    <%= render 'functional_tests_to_run/for_functional_test', functional_test: @functional_test %>
-  <% else %>
-    <%= render 'un_validated', functional_test: @functional_test %>
-  <% end %>
+  <%= render 'show', functional_test: @functional_test %>
 </div>

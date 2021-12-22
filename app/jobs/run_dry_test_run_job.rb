@@ -12,9 +12,17 @@ class RunDryTestRunJob < ApplicationJob
     if response.successful
       resp_body = response.response_body
       if resp_body['passed']
-        test_run.passed!(resp_body['script_results'])
+        test_run.passed!(
+          resp_body['script_results'], 
+          logs: resp_body['logs'],
+          screenshots: resp_body['screenshots']
+        )
       else
-        test_run.failed!(resp_body['errorMessage'] || resp_body['failure']['message'])
+        test_run.failed!(
+          resp_body['errorMessage'] || resp_body['failure']['message'], 
+          logs: resp_body['logs'],
+          screenshots: resp_body['screenshots']
+        )
       end
     else
       raise StandardError, "FunctionalTestRunner returned error: #{response.inspect}"

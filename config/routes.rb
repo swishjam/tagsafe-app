@@ -47,7 +47,9 @@ Rails.application.routes.draw do
   resources :functional_tests do
     member do
       post :validate
+      patch :toggle_disable
     end
+    resources :test_runs, only: [:index, :show]
   end
 
   resources :tags do
@@ -87,7 +89,7 @@ Rails.application.routes.draw do
           # get :html_snapshot_diff
         end
         resources :individual_performance_audits, only: :index
-        resources :test_runs, only: [:index, :show]
+        # resources :test_runs, only: [:index, :show]
         resources :page_change_audits, only: :show do
           resources :html_snapshots, only: [] do
             member do

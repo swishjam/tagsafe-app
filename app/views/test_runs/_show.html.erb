@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "test_run_#{test_run.uid}" do %>
+  <% if test_run.enqueued_at %>
+    <h5>Test run began: <%= test_run.enqueued_at.formatted_long %></h5>
+  <% end %>
+  <% if test_run.pending? %>
+    <h4>Test is running...</h4>
+    <%= display_loading_spinner %>
+  <% elsif test_run.failed? %>
+    <h4>Test failed</h4>
+    <div class='test-run-results failed'>
+      <h5><%= test_run.results %></h5>
+    </div>
+  <% else %>
+    <h4>Test passed.</h4>
+    <% if functional_test.expected_results %>
+      <h5>Test returned the expected value of <%= functional_test.expected_results %></h5>
+    <% else %>
+      <h5>Test completed without failure</h5>
+    <% end %>
+  <% end %>
+  <div class='test-logs-code-block mb-3'><%= test_run.logs&.html_safe %></div>
+  <div class='col-12'>
+    <% test_run.screenshots.each do |screenshot| %>
+      <div class='test-run-screenshot-container col-4 full-screenable pointer full-height no-background' data-controller='full-screen-expandable' data-full-screen-expandable-target='expandable' data-action='click->full-screen-expandable#toggle'>
+        <div class='shadow-background'></div>
+        <div class='test-run-screenshot-filename'><%= screenshot.name %></div>
+        <%= image_tag screenshot.s3_url, class: 'img-fluid' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

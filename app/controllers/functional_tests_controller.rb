@@ -32,42 +32,68 @@ class FunctionalTestsController < LoggedInController
     if @functional_test.save
       dry_test_run = @functional_test.run_dry_run!
       render turbo_stream: turbo_stream.replace(
-        "new_functional_test",
-        partial: 'functional_tests/pending_dry_run',
-        locals: { functional_test: @functional_test, dry_test_run: dry_test_run }
+        "functional_test_form",
+        partial: 'test_runs/show',
+        locals: { functional_test: @functional_test, test_run: dry_test_run }
       )
     else
-      render :new, :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
     functional_test = current_domain.functional_tests.find(params[:id])
     if functional_test.update(functional_test_params)
-      current_user.broadcast_notification("Validating test can run successfully...") if functional_test.saved_changes['puppeteer_script']
-      render turbo_stream: turbo_stream.replace(
-        params[:turbo_frame] || "functional_test_#{functional_test.uid}_un_validated",
-        partial: params[:turbo_partial] || 'functional_tests/un_validated',
-        locals: { functional_test: functional_test }
-      )
+      should_run_dry_test_run = functional_test.saved_changes['puppeteer_script']
+      if should_run_dry_test_run
+        functional_test.update_column :passed_dry_run, false
+        dry_test_run = functional_test.run_dry_run!
+        current_user.broadcast_notification("Validating test can run successfully...")
+        render turbo_stream: turbo_stream.replace(
+          "functional_test_#{functional_test.uid}",
+          partial: 'test_runs/show',
+          locals: { functional_test: functional_test, test_run: dry_test_run }
+        )
+      else
+        render turbo_stream: turbo_stream.replace(
+          "functional_test_#{functional_test.uid}",
+          partial: 'functional_tests/show',
+          locals: { functional_test: functional_test }
+        )
+      end
     else
       render turbo_stream: turbo_stream.replace(
-        params[:turbo_frame] || "new_functional_test",
-        partial: params[:turbo_frame] || 'functional_test/form',
+        "functional_test_form",
+        partial: 'functional_test/form',
         locals: { functional_test: functional_test, errors: functional_test.errors.full_messages }
       )
     end
   end
 
-  def validate
+
+  def toggle_disable
     functional_test = current_domain.functional_tests.find(params[:id])
-    dry_test_run = functional_test.run_dry_run!
+    if functional_test.enabled?
+      functional_test.disable!
+    else
+      functional_test.enable!
+    end
     render turbo_stream: turbo_stream.replace(
-      "functional_test_#{functional_test.uid}_un_validated",
-      partial: 'functional_tests/un_validated',
-      locals: { functional_test: functional_test, dry_test_run: dry_test_run }
+      "functional_test_#{functional_test.uid}",
+      partial: 'functional_tests/show',
+      locals: { functional_test: functional_test }
     )
   end
+
+  # def validate
+  #   functional_test = current_domain.functional_tests.find(params[:id])
+  #   dry_test_run = functional_test.run_dry_run!
+  #   render turbo_stream: turbo_stream.replace(
+  #     "functional_test_#{functional_test.uid}",
+  #     partial: 'functional_tests/show',
+  #     locals: { functional_test: functional_test, dry_test_run: dry_test_run }
+  #   )
+  # end
 
   private
 

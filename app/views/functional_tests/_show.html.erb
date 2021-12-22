@@ -1,0 +1,47 @@
+<%= turbo_frame_tag "functional_test_#{functional_test.uid}" do %>
+  <div class='text-center'>
+    <% if functional_test.disabled? %>
+      <div class="alert alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> Functional test is disabled.
+      </div>
+    <% end %>
+    <% if functional_test.passed_dry_run %>
+      <p>Functional test passed validation.</p>
+      <h6>Expect the following script to run without failure <%= functional_test.expected_results ? "and return a value of '#{functional_test.expected_results}'" : nil %>:</h6>
+      <div class='code-mirror-container readonly' data-controller='code-mirror'>
+        <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
+        <div class='outter-code-mirror top'>
+          <textarea class='code-mirror-text opening-async-function  hidden' data-controller='code-mirror' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true'>(async () => {</textarea>
+        </div>
+        <div class='user-input-code-mirror'>
+          <textarea class='codemirror fit-content hidden' data-code-mirror-target='codeMirrorTextarea' data-readonly='true'><%= functional_test.puppeteer_script %></textarea>
+        </div>
+        <div class='outter-code-mirror bottom'>
+          <textarea class='code-mirror-text closing-async-function  hidden' data-controller='code-mirror' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true'>})();</textarea>
+        </div>
+      </div>
+      <%= render 'functional_tests_to_run/for_functional_test', functional_test: functional_test %>
+    <% else %>
+      <% most_recent_dry_run = functional_test.most_recent_dry_test_run %>
+      <% if most_recent_dry_run.nil? || most_recent_dry_run.completed? %>
+        <div class="alert alert-danger" role="alert">
+          <i class="fas fa-exclamation-triangle"></i> Functional test has not yet been validated to run successfully, it cannot be enabled to run on future audits until then. Update the test so it runs successfully.
+        </div>
+        <% unless most_recent_dry_run.nil? %>
+          <div class='code-block'><span><%= most_recent_dry_run.results %></span></div>
+          <div class='test-logs-code-block'><%= most_recent_dry_run.logs&.html_safe %></div>
+        <% end %>
+        <%= render 'form', functional_test: functional_test %>
+      <% elsif most_recent_dry_run.pending? %>
+        <h5>Running validation...</h5>
+        <%= display_loading_spinner %>
+      <% end %>
+    <% end %>
+      <% if functional_test.enabled? %>
+        <%= form_with model: functional_test, url: toggle_disable_functional_test_path(functional_test), class: 'mt-5', data: { controller: 'loading_form' } do |f| %>
+          <%= loading_submit_button 'Disable test', button_class: 'red large' %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

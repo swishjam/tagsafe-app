@@ -1,1 +1,6 @@
-<h1 class='page-title'>Test Run</h1>
+<h1 class='page-title with-sub-title'>Test Run Result</h1>
+<h2 class='page-sub-title'><%= @functional_test.title %></h2>
+
+<div class='tagsafe-container col-10 offset-1'>
+  <%= render 'show', functional_test: @functional_test, test_run: @test_run %>
+</div>

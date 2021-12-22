@@ -1,0 +1,21 @@
+.test-logs-code-block {
+  background: black;
+  text-align: left;
+  color: white;
+  .user-log {
+    display: block;
+    word-break: break-all;
+  }
+}
+
+.test-run-screenshot-container {
+  position: relative;
+  .test-run-screenshot-filename {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 12px;
+  }
+}

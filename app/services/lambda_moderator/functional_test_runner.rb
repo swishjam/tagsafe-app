@@ -20,7 +20,12 @@ module LambdaModerator
     end
 
     def test_run
-      @test_run ||= @test_run_klass.create!(functional_test: @functional_test, audit: @audit)
+      @test_run ||= @test_run_klass.create!(
+        functional_test: @functional_test, 
+        audit: @audit, 
+        puppeteer_script_ran: @functional_test.puppeteer_script, 
+        expected_results: @functional_test.expected_results
+      )
     end
 
     def before_send
@@ -36,7 +41,8 @@ module LambdaModerator
         puppeteer_script: @functional_test.puppeteer_script,
         expected_results: @functional_test.expected_results,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
-        third_party_tag_url_patterns_to_allow: allowed_request_urls
+        third_party_tag_url_patterns_to_allow: allowed_request_urls,
+        take_screenshot_on_failure: true
       }
     end
 

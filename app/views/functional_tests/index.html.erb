@@ -21,7 +21,15 @@
               <div class='tagsafe-table-row clickable'>
                 <div class='tagsafe-table-data' style='width: 25%'><%= test.title %></div>
                 <div class='tagsafe-table-data' style='width: 35%'><%= test.description %></div>
-                <div class='tagsafe-table-data' style='width: 25%'><%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_tests_on.count %></div>
+                <div class='tagsafe-table-data' style='width: 25%'>
+                  <% if test.disabled? %>
+                    <span class='tagsafe-pill red'>Disabled</span>
+                  <% elsif !test.passed_dry_run %>
+                    <span class='tagsafe-pill grey'>Needs validation</span>
+                  <% else %>
+                    <%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_tests_on.count %>
+                  <% end %>
+                </div>
                 <div class='tagsafe-table-data text-end' style='width: 10%'>
                   <span class='link-indicator hover-enlarge float-end'><i class="fas fa-angle-double-right"></i></span>
                 </div>

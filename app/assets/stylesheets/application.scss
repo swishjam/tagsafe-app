@@ -249,7 +249,7 @@ a.no-decoration {
   margin-top: 2.5vh;
   z-index: 10;
   &.full-height {
-    height: 95vh;
+    max-height: 95vh;
   }
   &:not(.no-background) {
     background: white;
