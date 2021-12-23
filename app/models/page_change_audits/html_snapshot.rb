@@ -8,19 +8,19 @@ class HtmlSnapshot < ApplicationRecord
 
   def fetch_html_content
     if html_s3_location
-      @html_content ||= _s3_client.get_object({ bucket: s3_bucket_name, key: s3_filename_for(html_s3_location) }).body.read
+      @html_content ||= TagsafeS3.client.get_object(html_s3_params).body.read
     end
   end
 
   def fetch_screenshot
     if screenshot_s3_location
-      @screenshot ||= _s3_client.get_object({ bucket: s3_bucket_name, key: s3_filename_for(screenshot_s3_location) }).body.read
+      @screenshot ||= TagsafeS3.client.get_object(screenshot_s3_params).body.read
     end
   end
 
   def purge_s3_files
-    _s3_client.delete_object({ bucket: s3_bucket_name, key: s3_filename_for(html_s3_location) }) if html_s3_location
-    _s3_client.delete_object({ bucket: s3_bucket_name, key: s3_filename_for(screenshot_s3_location) }) if screenshot_s3_location
+    TagsafeS3.client.delete_object(html_s3_params) if html_s3_location
+    TagsafeS3.client.delete_object(screenshot_s3_params) if screenshot_s3_location
     update!(html_s3_location: nil, screenshot_s3_location: nil)
   end
 
@@ -34,8 +34,12 @@ class HtmlSnapshot < ApplicationRecord
 
   private
 
-  def s3_filename_for(s3_url)
-    URI.parse(s3_url).path.gsub('/', '')
+  def html_s3_params
+    { bucket: s3_bucket_name, key: TagsafeS3.url_to_key(html_s3_location) }
+  end
+
+  def screenshot_s3_params
+    { bucket: s3_bucket_name, key: TagsafeS3.url_to_key(screenshot_s3_location) }
   end
 
   def s3_bucket_name
@@ -45,13 +49,5 @@ class HtmlSnapshot < ApplicationRecord
     when 'production'
       'prod-tagsafe-html-snapshots'
     end
-  end
-
-  def _s3_client
-    @_s3_client ||= Aws::S3::Client.new(
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      region: 'us-east-1'
-    )
   end
 end

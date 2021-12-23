@@ -15,13 +15,21 @@ class RunDryTestRunJob < ApplicationJob
         test_run.passed!(
           resp_body['script_results'], 
           logs: resp_body['logs'],
-          screenshots: resp_body['screenshots']
+          screenshots: resp_body['screenshots'] || [],
+          puppeteer_recording: { 
+            s3_url: resp_body.dig('screen_recording', 's3_url'), 
+            ms_to_stop_recording: resp_body.dig('screen_recording', 'ms_to_stop') 
+          }
         )
       else
         test_run.failed!(
-          resp_body['errorMessage'] || resp_body['failure']['message'], 
+          resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'], 
           logs: resp_body['logs'],
-          screenshots: resp_body['screenshots']
+          screenshots: resp_body['screenshots'] || [],
+          puppeteer_recording: { 
+            s3_url: resp_body.dig('screen_recording', 's3_url'), 
+            ms_to_stop_recording: resp_body.dig('screen_recording', 'ms_to_stop')
+          }
         )
       end
     else

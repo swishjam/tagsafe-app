@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_19_180004) do
+ActiveRecord::Schema.define(version: 2021_12_22_184854) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -352,6 +352,17 @@ ActiveRecord::Schema.define(version: 2021_12_19_180004) do
     t.float "dom_content_loaded"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
+  end
+
+  create_table "puppeteer_recordings", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "initiator_type"
+    t.bigint "initiator_id"
+    t.string "s3_url"
+    t.integer "ms_to_stop_recording"
+    t.datetime "created_at", null: false
+    t.index ["initiator_type", "initiator_id"], name: "index_puppeteer_recordings_on_initiator"
+    t.index ["uid"], name: "index_puppeteer_recordings_on_uid"
   end
 
   create_table "roles", charset: "utf8mb3", force: :cascade do |t|

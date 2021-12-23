@@ -18,17 +18,24 @@ class RunFunctionalTestSuiteForAuditJob < ApplicationJob
         test_runner.test_run.passed!(
           resp_body['script_results'], 
           logs: resp_body['logs'],
-          screenshots: resp_body['screenshots']
+          screenshots: resp_body['screenshots'],
+          puppeteer_recording: { 
+            s3_url: resp_body['screen_recording']['s3_url'], 
+            ms_to_stop_recording: resp_body['screen_recording']['ms_to_stop'] 
+          }
         )
-        audit.try_completion!
       else
         test_runner.test_run.failed!(
-          resp_body['errorMessage'] || resp_body['failure']['message'],
+          resp_body['errorMessage'] || resp_body['failure']['message'] || resp_body['script_results'],
           logs: resp_body['logs'],
-          screenshots: resp_body['screenshots']
+          screenshots: resp_body['screenshots'],
+          puppeteer_recording: { 
+            s3_url: resp_body['screen_recording']['s3_url'], 
+            ms_to_stop_recording: resp_body['screen_recording']['ms_to_stop'] 
+          }
         )
-        audit.try_completion!
       end
+      audit.try_completion!
     else
       raise StandardError, "FunctionalTestRunner returned error: #{response.inspect}"
     end

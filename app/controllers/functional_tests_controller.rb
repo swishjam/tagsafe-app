@@ -44,7 +44,7 @@ class FunctionalTestsController < LoggedInController
   def update
     functional_test = current_domain.functional_tests.find(params[:id])
     if functional_test.update(functional_test_params)
-      should_run_dry_test_run = functional_test.saved_changes['puppeteer_script']
+      should_run_dry_test_run = functional_test.saved_changes['puppeteer_script'] || functional_test.saved_changes['expected_results']
       if should_run_dry_test_run
         functional_test.update_column :passed_dry_run, false
         dry_test_run = functional_test.run_dry_run!
@@ -55,6 +55,7 @@ class FunctionalTestsController < LoggedInController
           locals: { functional_test: functional_test, test_run: dry_test_run }
         )
       else
+        current_user.broadcast_notification("Test updated.")
         render turbo_stream: turbo_stream.replace(
           "functional_test_#{functional_test.uid}",
           partial: 'functional_tests/show',

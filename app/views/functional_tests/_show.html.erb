@@ -28,13 +28,19 @@
           <i class="fas fa-exclamation-triangle"></i> Functional test has not yet been validated to run successfully, it cannot be enabled to run on future audits until then. Update the test so it runs successfully.
         </div>
         <% unless most_recent_dry_run.nil? %>
-          <div class='code-block'><span><%= most_recent_dry_run.results %></span></div>
-          <div class='test-logs-code-block'><%= most_recent_dry_run.logs&.html_safe %></div>
+          <p>The most recent test validation failed with an error of:</p>
+          <div class='code-block'><%= most_recent_dry_run.results %></div>
+          <% unless most_recent_dry_run.logs.nil? || most_recent_dry_run.logs.empty? %>
+            <p>Logs:</p>
+            <div class='test-logs-code-block mb-3'><%= most_recent_dry_run.logs&.html_safe %></div>
+          <% end %>
         <% end %>
-        <%= render 'form', functional_test: functional_test %>
+        <%= render 'functional_tests/form', functional_test: functional_test %>
       <% elsif most_recent_dry_run.pending? %>
-        <h5>Running validation...</h5>
-        <%= display_loading_spinner %>
+        <div class='text-center'>
+          <h5>Running validation...</h5>
+          <%= display_loading_spinner %>
+        </div>
       <% end %>
     <% end %>
       <% if functional_test.enabled? %>

@@ -1,15 +1,22 @@
 <%= turbo_frame_tag "test_run_#{test_run.uid}" do %>
-  <% if test_run.enqueued_at %>
-    <h5>Test run began: <%= test_run.enqueued_at.formatted_long %></h5>
-  <% end %>
   <% if test_run.pending? %>
-    <h4>Test is running...</h4>
-    <%= display_loading_spinner %>
+    <div class='text-center'>
+      <h4>Test is running...</h4>
+      <%= display_loading_spinner %>
+    </div>
   <% elsif test_run.failed? %>
-    <h4>Test failed</h4>
+    <div class="alert alert-danger text-center" role="alert">
+      <i class="fas fa-exclamation-triangle"></i> Test failed
+    </div>
     <div class='test-run-results failed'>
       <h5><%= test_run.results %></h5>
     </div>
+    <% if test_run.puppeteer_recording %>
+      <%= render 'puppeteer_recordings/show', puppeteer_recording: test_run.puppeteer_recording %>
+    <% end %>
+    <% if local_assigns[:show_update_form_if_failed] && test_run.is_a?(DryTestRun) %>
+      <%= render 'functional_tests/show', functional_test: functional_test %>
+    <% end %>
   <% else %>
     <h4>Test passed.</h4>
     <% if functional_test.expected_results %>

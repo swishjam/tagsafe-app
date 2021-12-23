@@ -3,13 +3,7 @@ module LambdaModerator
     lambda_service 'functional-test-runner'
     lambda_function 'run-test'
 
-    def initialize(
-      functional_test:,
-      already_created_test_run: nil,
-      test_run_klass:, 
-      domain: nil, 
-      audit:
-    )
+    def initialize(functional_test:, test_run_klass:, audit:, already_created_test_run: nil, domain: nil)
       @functional_test = functional_test
       @test_run = already_created_test_run
       @test_run_klass = test_run_klass
@@ -42,7 +36,7 @@ module LambdaModerator
         expected_results: @functional_test.expected_results,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
         third_party_tag_url_patterns_to_allow: allowed_request_urls,
-        take_screenshot_on_failure: true
+        enable_screen_recording: 'true'
       }
     end
 

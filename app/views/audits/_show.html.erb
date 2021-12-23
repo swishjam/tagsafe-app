@@ -19,17 +19,11 @@
             <% end %>
           <% end %>
           <div class='row text-end'>
-            <% additional_menu_items = audit.has_page_load_resources? ? [{ 
-                text: 'View Waterfall Load Chart', 
-                url: tag_tag_version_audit_waterfall_path(tag, tag_version, audit),
-                icon_class: 'fas fa-tasks'
-              }] : [] 
-            %>
             <%= render 'tag_versions/dropdown', 
                         tag: tag, 
                         tag_version: tag_version, 
-                        audit: audit, 
-                        additional_menu_items: additional_menu_items
+                        audit: audit,
+                        exclude_urls: [git_diff_tag_tag_version_path(tag, tag_version)]
             %>
             <!-- <#%= render 'partials/utils/help_tooltip', message: "Tagsafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
           </div>
