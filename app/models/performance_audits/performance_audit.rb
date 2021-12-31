@@ -2,15 +2,16 @@ class PerformanceAudit < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :audit, optional: false
+  has_one :puppeteer_recording, as: :initiator, dependent: :destroy
   has_many :blocked_resources, dependent: :destroy
   has_many :page_load_resources, foreign_key: :performance_audit_id, dependent: :destroy
-  has_many :page_load_screenshots, foreign_key: :performance_audit_id, dependent: :destroy
-  has_one :page_load_trace, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
   # doesnt like the single table inheritance...
   # has_one :executed_lambda_function
+  accepts_nested_attributes_for :puppeteer_recording
+  accepts_nested_attributes_for :blocked_resources
+  accepts_nested_attributes_for :page_load_resources
   accepts_nested_attributes_for :performance_audit_log
-  accepts_nested_attributes_for :page_load_trace
 
   scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }
@@ -36,6 +37,10 @@ class PerformanceAudit < ApplicationRecord
       column: :first_contentful_paint
     },
     {
+      title: 'DOM Content Loaded',
+      column: :dom_content_loaded
+    },
+    {
       title: 'Script Duration',
       column: :script_duration
     },
@@ -56,21 +61,6 @@ class PerformanceAudit < ApplicationRecord
   def executed_lambda_function
     ExecutedLambdaFunction.find_by(parent_id: id, parent_type: 'PerformanceAudit')
   end
-
-  # def previous_metric_result(metric_column)
-  #   return nil if audit.previous_primary_audit.nil?
-  #   audit.previous_primary_audit.performance_audits.find_by(type: type).send(metric_column).round(2)
-  # end
-
-  # def change_in_metric(metric_column)
-  #   return nil if audit.previous_primary_audit.nil?
-  #   (send(metric_column) - previous_metric_result(metric_column)).round(2)
-  # end
-
-  # def percent_change_in_metric(metric_column)
-  #   return nil if audit.previous_primary_audit.nil?
-  #   ((change_in_metric(metric_column)/previous_metric_result(metric_column))*100).round(2)
-  # end
 
   def completed!
     touch(:completed_at)

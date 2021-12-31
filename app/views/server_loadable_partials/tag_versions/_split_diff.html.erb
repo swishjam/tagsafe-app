@@ -6,8 +6,8 @@
         <div class='git-changes-visual-container'>
           <span class='num-additions-text'>+<%= num_additions %></span> <span class='num-deletions-text'>-<%= num_deletions %></span>
           <div class='git-changes-visual-squares-container' data-controller='tooltip' data-bs-toggle='tooltip' title='<%= num_additions + num_deletions %> lines changed: <%= num_additions %> additions & <%= num_deletions %> deletions.'>
-            <% num_addition_squares = ((num_additions.to_f / (total_changes.to_f))*5.0).to_i %>
-            <% num_deletion_squares = ((num_deletions.to_f / (total_changes.to_f))*5.0).to_i %>
+            <% num_addition_squares = total_changes.zero? ? 0 : ((num_additions.to_f / (total_changes.to_f))*5.0).to_i %>
+            <% num_deletion_squares = total_changes.zero? ? 0 : ((num_deletions.to_f / (total_changes.to_f))*5.0).to_i %>
             <% num_neutral_squares = 5 - num_addition_squares - num_deletion_squares %>
             <% num_addition_squares.times do %>
               <div class='git-changes-visual-square addition'></div>

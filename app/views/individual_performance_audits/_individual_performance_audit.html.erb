@@ -1,4 +1,4 @@
-<div class='individual-audit mb-3'>
+<div class='individual-audit mb-3' style='<%= individual_performance_audit.used_for_scoring ? 'border: 1px solid black' : nil %>'>
   <% if individual_performance_audit.failed? %>
     <span class='d-block'><%= individual_performance_audit.error_message %></span>
   <% elsif individual_performance_audit.pending? %>

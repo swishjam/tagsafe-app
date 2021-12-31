@@ -1,0 +1,14 @@
+<%= turbo_stream_from "functional_test_#{@functional_test.uid}_show_view_stream" %>
+
+<h1 class='page-title'>Edit <%= @functional_test.title %></h1>
+
+<%= render 'nav' %>
+
+<div class='tagsafe-container'>
+  <%= turbo_frame_tag "functional_test_#{@functional_test.uid}" do %>
+    <div class="alert alert-warning" role="alert">
+      <i class="fas fa-exclamation-triangle"></i> Editing a test will move it into a disabled state until it passes validation by running successfully. If you'd like to avoid disabling this test, create a new test and optionally disable this one after it passes validation.
+    </div>
+    <%= render 'form', functional_test: @functional_test %>
+  <% end %>
+</div>

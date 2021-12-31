@@ -46,10 +46,15 @@ Rails.application.routes.draw do
 
   resources :functional_tests do
     member do
+      get :tags_to_run_on
       post :validate
       patch :toggle_disable
     end
-    resources :test_runs, only: [:index, :show]
+    resources :test_runs, only: [:index, :show] do
+      member do
+        post :retry
+      end
+    end
   end
 
   resources :tags do
@@ -80,23 +85,19 @@ Rails.application.routes.draw do
       resources :audits, only: [:show, :index] do
         member do
           get :performance_audit
-          get :functional_tests
+          get :test_runs
+          # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
           get :page_change_audit
           get :waterfall
           get :git_diff
           get :cloudwatch_logs
           post :make_primary
-          # get :html_snapshot_diff
         end
         resources :individual_performance_audits, only: :index
-        # resources :test_runs, only: [:index, :show]
-        resources :page_change_audits, only: :show do
-          resources :html_snapshots, only: [] do
-            member do
-              get :screenshot
-            end
-          end
-        end
+        # turbo frame src endpoints
+        get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
+        get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
+        resources :page_change_audits, only: :show
         resources :performance_audit_logs, only: :index
         resources :executed_lambda_functions, only: :index
         resources :page_load_resources, only: :index
@@ -108,6 +109,7 @@ Rails.application.routes.draw do
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
     get '/performance' => 'performance#index'
+    get '/executed_lambda_function/for_obj/:parent_type/:parent_id' => 'executed_lambda_functions#for_obj'
     resources :flags, only: [:index, :show] do
       resources :object_flags
     end

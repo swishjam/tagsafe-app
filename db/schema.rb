@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_22_184854) do
+ActiveRecord::Schema.define(version: 2021_12_29_213631) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_12_22_184854) do
     t.boolean "include_page_change_audit"
     t.boolean "include_performance_audit"
     t.boolean "include_functional_tests"
+    t.integer "num_functional_tests_to_run"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
@@ -519,10 +520,12 @@ ActiveRecord::Schema.define(version: 2021_12_22_184854) do
     t.text "logs", size: :medium
     t.text "puppeteer_script_ran"
     t.string "expected_results"
-    t.bigint "test_run_without_tag_id"
+    t.bigint "original_test_run_with_tag_id"
+    t.integer "test_run_id_retried_from"
     t.index ["audit_id"], name: "index_test_runs_on_audit_id"
     t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
-    t.index ["test_run_without_tag_id"], name: "index_test_runs_on_test_run_without_tag_id"
+    t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
+    t.index ["test_run_id_retried_from"], name: "index_test_runs_on_test_run_id_retried_from"
     t.index ["uid"], name: "index_test_runs_on_uid"
   end
 

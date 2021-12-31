@@ -13,8 +13,9 @@
         consider_current_path: tag_tag_version_audit_path(@tag, @tag_version, @audit)
       },
       {
-        text: 'Functional Tests',
-        url: functional_tests_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+        text: "Functional Tests (#{@audit.display_test_runs_results})",
+        url: test_runs_tag_tag_version_audit_path(@tag, @tag_version, @audit),
+        consider_current_path_pattern: "/functional_tests/"
       },
       {
         text: 'Page Change Detection',
@@ -30,7 +31,10 @@
       }
     ].each do |nav_item|
   %>
-    <% is_active = [nav_item[:url], nav_item[:consider_current_path]].include?(request.path) %>
+    <% is_active = nav_item[:url] == request.path ||
+                                       (nav_item[:consider_current_path_pattern] && request.path.include?(nav_item[:consider_current_path_pattern])) ||
+                                       (nav_item[:consider_current_path] && request.path == nav_item[:consider_current_path])
+                                       %>
     <%= link_to is_active ? '#' : nav_item[:url] do %>
       <div class='sliding-nav-item <%= is_active ? 'active' : nil %>'><%= nav_item[:text] %></div>
     <% end %>

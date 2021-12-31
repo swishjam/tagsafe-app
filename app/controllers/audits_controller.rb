@@ -1,7 +1,8 @@
 class AuditsController < LoggedInController
+  SHOW_VIEWS = %i[show performance_audit test_runs test_run page_change_audit waterfall git_diff]
   before_action :find_tag_and_tag_version
   before_action :find_audit, except: :index
-  before_action :render_breadcrumbs_for_show_views, only: [:show, :performance_audit, :functional_tests, :page_change_audit, :waterfall, :git_diff]
+  before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
   def index
     @audits = @tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)

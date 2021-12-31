@@ -4,5 +4,5 @@
 <%= render 'functional_tests/nav' %>
 
 <div class='tagsafe-container'>
-  <%= render 'test_runs_table', test_runs: @test_runs, functional_test: @functional_test %>
+  <%= render 'test_runs_table', test_runs: @test_runs, turbo_frame_tag_name: "functional_test_#{@functional_test.uid}_test_runs" %>
 </div>

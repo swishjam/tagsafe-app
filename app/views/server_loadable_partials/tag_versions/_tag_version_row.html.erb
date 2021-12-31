@@ -12,14 +12,12 @@
         <% audit = tag_version.audit_to_display %>
         <% if audit %>
           <% if audit.include_functional_tests %>
-            <% passed_tests = audit.test_runs_with_tag.passed.count %>
-            <% completed_tests = audit.test_runs_with_tag.completed.count %>
-            <% if passed_tests == completed_tests %>
+            <% if audit.passed_all_test_runs? %>
               <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
             <% else %>
               <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
             <% end %>
-            <span><%= passed_tests %>/<%= completed_tests %></span>
+            <span><%= audit.display_test_runs_results %></span>
           <% else %>
             <span>Tests disabled</span>
           <% end %>

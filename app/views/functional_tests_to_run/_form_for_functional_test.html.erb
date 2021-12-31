@@ -1,11 +1,11 @@
-<%= turbo_frame_tag "tags_to_run_functional_tests_for_functional_test_#{functional_test.uid}" do %>
+<#%= turbo_frame_tag "tags_to_run_functional_tests_for_functional_test_#{functional_test.uid}" do %>
   <%= form_with model: functional_test, data: { controller: "loading_form" } do |f| %>
-    <input type='hidden' name='turbo_frame' value="tags_to_run_functional_tests_for_functional_test_<%=functional_test.uid%>">
-    <input type='hidden' name='turbo_partial' value="functional_tests_to_run/form_for_functional_test">
+    <!-- <input type='hidden' name='turbo_frame' value="tags_to_run_functional_tests_for_functional_test_<%=functional_test.uid%>">
+    <input type='hidden' name='turbo_partial' value="functional_tests_to_run/form_for_functional_test"> !-->
     <div class='col-4 offset-4'>
       <div class='form-check form-switch'>
         <%= f.check_box :run_on_all_tags, class: 'form-check-input' %>
-        <%= f.label :run_on_all_tags, class: 'form-check-label' %>
+        <label for='functional_test_run_on_all_tags' class='form-check-label'>Run on all current and future tags</label>
       </div>
       <div class='<%= functional_test.run_on_all_tags ? 'hidden' : nil %>'>
         <% functional_test.domain.tags.each do |tag| %>
@@ -19,4 +19,4 @@
     <%= render 'partials/inline_errors', errors: local_assigns[:errors], text_only: true %>
     <%= submit_loading_button 'Update tags to run test against' %>
   <% end %>
-<% end %>
+<#% end %>

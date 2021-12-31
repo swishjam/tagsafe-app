@@ -88,7 +88,7 @@ a.no-decoration {
   &:not(.outline) {
     color: white !important;
   }
-  border: none;
+  border: 1px solid $tagsafe-primary;
   background: $tagsafe-primary;
   padding: 5px 15px 5px 15px;
   border-radius: 5px;
@@ -99,6 +99,10 @@ a.no-decoration {
   text-decoration: none !important;
   &:hover {
     background: $lighter-tagsafe-purple;
+  }
+  &.small {
+    font-size: 12px;
+    padding: 2px 5px 2px 5px;
   }
   &.large {
     font-size: 22px;

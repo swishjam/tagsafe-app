@@ -1,19 +1,30 @@
 <%= turbo_frame_tag "test_run_#{test_run.uid}" do %>
-  <%= link_to functional_test_test_run_path(functional_test, test_run), class: 'no-decoration', target: '_top' do %>
+  <%= link_to show_url, class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row'>
-      <div class='tagsafe-table-data' style='width: 25%'><%= test_run.enqueued_at.formatted_short %></div>
-      <div class='tagsafe-table-data' style='width: 25%'><%= test_run.functional_test.title %></div>
-      <div class='tagsafe-table-data' style='width: 25%'><%= test_run.class.friendly_class_name %></div>
-      <div class='tagsafe-table-data' style='width: 25%'>
-        <% if test_run.pending? %>
-          <h6>Test is running...</h6>
-          <%= display_loading_spinner size: :tiny %>
-        <% elsif test_run.passed? %>
-          <span class='test-run-icon passed green-text'><i class='far fa-check-circle'></i> Passed</span>
-        <% elsif test_run.failed? %>
-          <span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i> Failed</span>
-        <% end %>
-      </div>
+      <% unless columns_to_exclude.include?('Date') %>
+        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.enqueued_at.formatted_short %></div>
+      <% end %>
+      <% unless columns_to_exclude.include?('Test') %>
+        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.functional_test.title %> <%= test_run.is_retry? ? "(retry)" : nil %></div>
+      <% end %>
+      <% unless columns_to_exclude.include?('Description') %>
+        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.functional_test.description %></div>
+      <% end %>
+      <% unless columns_to_exclude.include?('Type of Test') %>
+        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.class.friendly_class_name %></div>
+      <% end %>
+      <% unless columns_to_exclude.include?('Results') %>
+        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'>
+          <% if test_run.pending? %>
+            <h6>Test is running...</h6>
+            <%= display_loading_spinner size: :tiny %>
+          <% elsif test_run.passed? %>
+            <span class='test-run-icon passed green-text'><i class='far fa-check-circle'></i> Passed</span>
+          <% elsif test_run.failed? %>
+            <span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i> Failed</span>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 <% end %>

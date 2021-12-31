@@ -4,7 +4,7 @@ class PageChangeAudit < ApplicationRecord
   has_one :html_snapshot_with_tag, class_name: 'HtmlSnapshotWithTag', dependent: :destroy
 
   scope :tag_causes_page_changes, -> { where(tag_causes_page_changes: true) }
-  scope :tag_causes_page_changes, -> { where(tag_causes_page_changes: false) }
+  scope :tag_doesnt_cause_page_changes, -> { where(tag_causes_page_changes: false) }
   scope :completed, -> { where.not(num_additions_between_without_tag_snapshots: nil) }
   scope :pending, -> { where(num_additions_between_without_tag_snapshots: nil) }
 

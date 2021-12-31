@@ -1,0 +1,51 @@
+<% if test_run.conclusive? %>
+  <div class="alert alert-danger text-center" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> Test failed
+  </div>
+<% elsif test_run.test_run_without_tag && test_run.test_run_without_tag.pending? %>
+  <div class="alert alert-warning text-center" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> Test failed, waiting for follow up test to complete to ensure it's failing due to this tag.
+  </div>
+<% elsif test_run.inconclusive? %>
+  <div class="alert alert-warning text-center" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> Test failed, but it also failed when the tag was not present. You must update the test logic so that it can pass under normal circumstances.
+  </div>
+<% end %>
+
+<div class='text-center'>
+  <h4><%= test_run.functional_test.title %></h4>
+  <h5><%= test_run.functional_test.description %></h5>
+</div>
+
+<div class='test-run-error-code-block'>Test failed: <%= test_run.results %></div>
+
+<div class='container mt-3'>
+  <div class='row align-items-end'>
+    <% if test_run.puppeteer_recording %>
+      <% has_without_tag_recording = test_run.is_a?(TestRunWithTag) && test_run.follow_up_test_run_without_tag&.puppeteer_recording %>
+      <div class='<%= has_without_tag_recording ? 'col-6' : 'col-12' %>'>
+        <h5>The test fails when the tag is present:</h5>
+        <%= render 'puppeteer_recordings/show', puppeteer_recording: test_run.puppeteer_recording %>
+      </div>
+      <% if has_without_tag_recording %>
+        <div class='col-6'>
+          <h5>The same test passes when the tag is not present:</h5>
+          <%= render 'puppeteer_recordings/show', puppeteer_recording: test_run.follow_up_test_run_without_tag.puppeteer_recording %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<% if local_assigns[:show_update_form_if_failed] %>
+  <%= render 'functional_tests/show', functional_test: functional_test %>
+<% end %>
+
+<% if test_run.is_a?(TestRunWithTag) %>
+  <% if test_run.inconclusive? %>
+    <div class='text-center'>
+      <h5>Test results when tag was not present:</h5>
+      <%= test_run.follow_up_test_run_without_tag.results %>
+    </div>
+  <% end %>
+<% end %>

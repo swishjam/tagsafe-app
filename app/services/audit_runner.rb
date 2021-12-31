@@ -66,7 +66,8 @@ class AuditRunner
       include_performance_audit: @include_performance_audit,
       include_page_load_resources: @include_page_load_resources,
       include_page_change_audit: @include_page_change_audit,
-      include_functional_tests: @include_functional_tests
+      include_functional_tests: @include_functional_tests,
+      num_functional_tests_to_run: @include_functional_tests ? @tag.functional_tests.enabled.count : 0
     )
   end
   alias create_audit audit

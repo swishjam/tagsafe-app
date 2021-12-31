@@ -38,7 +38,7 @@
         <% audit.individual_performance_audits.failed.each do |perf_audit| %>
           <p><%= perf_audit.error_message %></p>
         <% end %>
-      <% elsif audit.pending? %>
+      <% elsif audit.performance_audit_pending? %>
         <span>Performance audit is currently running.</span>
         <div class='m-auto text-center w-fit'>
           <%= render 'audits/completion_indicator', audit: audit %>
@@ -160,5 +160,14 @@
         </div>
       </div>
     <% end %>
+  <% end %>
+  <% unless !audit.include_performance_audit || 
+            audit.performance_audit_with_tag_used_for_scoring&.puppeteer_recording.nil? || 
+            audit.performance_audit_without_tag_used_for_scoring&.puppeteer_recording.nil? %>
+    <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5">
+      <%= render 'audits/performance_audit_recordings',
+                  performance_audit_with_tag: audit.performance_audit_with_tag_used_for_scoring,
+                  performance_audit_without_tag: audit.performance_audit_without_tag_used_for_scoring %>
+    </div>
   <% end %>
 <% end %>

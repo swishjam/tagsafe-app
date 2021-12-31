@@ -1,38 +1,27 @@
 <%= turbo_frame_tag "test_run_#{test_run.uid}" do %>
-  <% if test_run.pending? %>
-    <div class='text-center'>
-      <h4>Test is running...</h4>
-      <%= display_loading_spinner %>
-    </div>
-  <% elsif test_run.failed? %>
-    <div class="alert alert-danger text-center" role="alert">
-      <i class="fas fa-exclamation-triangle"></i> Test failed
-    </div>
-    <div class='test-run-results failed'>
-      <h5><%= test_run.results %></h5>
-    </div>
-    <% if test_run.puppeteer_recording %>
-      <%= render 'puppeteer_recordings/show', puppeteer_recording: test_run.puppeteer_recording %>
-    <% end %>
-    <% if local_assigns[:show_update_form_if_failed] && test_run.is_a?(DryTestRun) %>
-      <%= render 'functional_tests/show', functional_test: functional_test %>
-    <% end %>
-  <% else %>
-    <h4>Test passed.</h4>
-    <% if functional_test.expected_results %>
-      <h5>Test returned the expected value of <%= functional_test.expected_results %></h5>
-    <% else %>
-      <h5>Test completed without failure</h5>
-    <% end %>
-  <% end %>
-  <div class='test-logs-code-block mb-3'><%= test_run.logs&.html_safe %></div>
-  <div class='col-12'>
-    <% test_run.screenshots.each do |screenshot| %>
-      <div class='test-run-screenshot-container col-4 full-screenable pointer full-height no-background' data-controller='full-screen-expandable' data-full-screen-expandable-target='expandable' data-action='click->full-screen-expandable#toggle'>
-        <div class='shadow-background'></div>
-        <div class='test-run-screenshot-filename'><%= screenshot.name %></div>
-        <%= image_tag screenshot.s3_url, class: 'img-fluid' %>
+  <div class='container mb-3'>
+    <div class='row'>
+      <div class='col-6'>
+        <% if local_assigns[:back_link] %>
+          <%= link_to back_link[:url], target: '_top' do %>
+            <i class="fas fa-arrow-left"></i> <%= back_link[:text] %>
+          <% end %>
+        <% end %>
       </div>
-    <% end %>
+      <div class='col-6 text-end'>
+        <% if test_run.can_retry? %>
+          <%= form_with model: test_run, url: retry_functional_test_test_run_path(test_run.functional_test, test_run), method: :post, data: { controller: 'loading_form' } do %>
+            <%= submit_loading_button 'Re-run test' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
+  <% if test_run.pending? %>
+    <%= render 'test_runs/show_pending', test_run: test_run, functional_test: test_run.functional_test %>
+  <% elsif test_run.failed? %>
+    <%= render 'test_runs/show_failed', test_run: test_run, functional_test: test_run.functional_test %>
+  <% else %> 
+    <%= render 'test_runs/show_passed', test_run: test_run, functional_test: test_run.functional_test %>
+  <% end %>
 <% end %>

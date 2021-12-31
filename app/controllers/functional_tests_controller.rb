@@ -1,6 +1,6 @@
 class FunctionalTestsController < LoggedInController
   def index
-    @functional_tests = current_domain.functional_tests
+    @functional_tests = current_domain.functional_tests.order(disabled_at: :ASC, passed_dry_run: :DESC, run_on_all_tags: :DESC)
     render_breadcrumbs(
       { url: tags_path, text: 'Monitor Center' },
       { text: 'Test Suite', active: true }
@@ -25,12 +25,21 @@ class FunctionalTestsController < LoggedInController
     )
   end
 
+  def tags_to_run_on
+    @functional_test = current_domain.functional_tests.find(params[:id])
+    render_breadcrumbs(
+      { url: tags_path, text: 'Monitor Center' },
+      { url: functional_tests_path, text: 'Test Suite' },
+      { text: @functional_test.title, active: true }
+    )
+  end
+
   def create
     params[:functional_test][:created_by_user_id] = current_user.id
     params[:functional_test][:expected_results] = params[:functional_test][:expected_results].blank? ? nil : params[:functional_test][:expected_results]
     @functional_test = current_domain.functional_tests.new(functional_test_params)
     if @functional_test.save
-      dry_test_run = @functional_test.run_dry_run!
+      dry_test_run = @functional_test.enqueue_dry_run!
       render turbo_stream: turbo_stream.replace(
         "functional_test_form",
         partial: 'test_runs/show',
@@ -41,13 +50,17 @@ class FunctionalTestsController < LoggedInController
     end
   end
 
+  def edit
+    @functional_test = current_domain.functional_tests.find(params[:id])
+  end
+
   def update
     functional_test = current_domain.functional_tests.find(params[:id])
     if functional_test.update(functional_test_params)
-      should_run_dry_test_run = functional_test.saved_changes['puppeteer_script'] || functional_test.saved_changes['expected_results']
+      should_run_dry_test_run = functional_test.saved_changes['puppeteer_script'] || functional_test.saved_changes['expected_results'] || params[:force_validation]
       if should_run_dry_test_run
         functional_test.update_column :passed_dry_run, false
-        dry_test_run = functional_test.run_dry_run!
+        dry_test_run = functional_test.enqueue_dry_run!
         current_user.broadcast_notification("Validating test can run successfully...")
         render turbo_stream: turbo_stream.replace(
           "functional_test_#{functional_test.uid}",
@@ -71,7 +84,6 @@ class FunctionalTestsController < LoggedInController
     end
   end
 
-
   def toggle_disable
     functional_test = current_domain.functional_tests.find(params[:id])
     if functional_test.enabled?
@@ -85,16 +97,6 @@ class FunctionalTestsController < LoggedInController
       locals: { functional_test: functional_test }
     )
   end
-
-  # def validate
-  #   functional_test = current_domain.functional_tests.find(params[:id])
-  #   dry_test_run = functional_test.run_dry_run!
-  #   render turbo_stream: turbo_stream.replace(
-  #     "functional_test_#{functional_test.uid}",
-  #     partial: 'functional_tests/show',
-  #     locals: { functional_test: functional_test, dry_test_run: dry_test_run }
-  #   )
-  # end
 
   private
 

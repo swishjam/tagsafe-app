@@ -1,6 +1,6 @@
 module LambdaModerator
   class Base
-    attr_accessor :executed_lambda_function, :executed_lambda_function_parent
+    attr_accessor :executed_lambda_function_parent
     LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
     
     class << self
@@ -18,8 +18,9 @@ module LambdaModerator
       OpenStruct.new(successful: successful, response_body: response_body, error: response.function_error || response_body['errorMessage'] || response_body['error'])
     rescue => e
       Rails.logger.error("Encountered Lambda error in #{self.class.to_s}: #{e.inspect}")
+      Resque.logger.error("Encountered Lambda error in #{self.class.to_s}: #{e.inspect}")
       update_executed_lambda_function_with_response(0, { error: e.inspect })
-      OpenStruct.new(successful: false, error: e.message, response_body: {})
+      OpenStruct.new(successful: false, response_body: { 'errorMessage' => e.message })
     end
 
     private
@@ -75,7 +76,7 @@ module LambdaModerator
       raise LambdaFunctionError::PayloadNotProvided, 'Subclass must implement a `request_payload` method.'
     end
 
-    def create_executed_lambda_function!
+    def executed_lambda_function
       @executed_lambda_function ||= ExecutedLambdaFunction.create!(
         parent: executed_lambda_function_parent,
         function_name: lambda_invoke_function_name,
@@ -83,6 +84,7 @@ module LambdaModerator
         executed_at: Time.now
       )
     end
+    alias create_executed_lambda_function! executed_lambda_function
 
     def update_executed_lambda_function_with_response(status_code, response_body)
       executed_lambda_function.update!(

@@ -23,14 +23,50 @@ class FunctionalTest < ApplicationRecord
   attribute :passed_dry_run, default: false
   attribute :run_on_all_tags, default: false
 
+  before_save :make_empty_expected_results_nil
   after_update :check_if_run_on_all_tags_changed
   
   validate :has_return_in_script_if_expected_results_is_present
 
-  def run_dry_run!
-    test_run = dry_test_runs.create!
-    RunDryTestRunJob.perform_later(self, test_run)
-    test_run
+  def enqueue_dry_run!
+    dry_test_run = DryTestRun.create!(
+      functional_test: self, 
+      puppeteer_script_ran: puppeteer_script, 
+      expected_results: expected_results
+    )
+    RunIndividualTestRunJob.perform_later(dry_test_run)
+    dry_test_run
+  end
+
+  def enqueue_test_run_with_tag!(associated_audit:, test_run_retried_from: nil)
+    raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
+    test_run_with_tag = TestRunWithTag.create!(
+      functional_test: self, 
+      audit: associated_audit, 
+      test_run_id_retried_from: test_run_retried_from&.id,
+      puppeteer_script_ran: puppeteer_script, 
+      expected_results: expected_results
+    )
+    RunIndividualTestRunJob.perform_later(test_run_with_tag)
+    test_run_with_tag
+  end
+
+  def enqueue_test_run_without_tag!(original_test_run_with_tag:, test_run_retried_from: nil)
+    raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
+    test_run_without_tag = TestRunWithoutTag.create!(
+      functional_test: self, 
+      original_test_run_with_tag: original_test_run_with_tag,
+      audit: original_test_run_with_tag.audit, 
+      test_run_id_retried_from: test_run_retried_from&.id, # can we retry test runs without tag?
+      puppeteer_script_ran: puppeteer_script, 
+      expected_results: expected_results
+    )
+    RunIndividualTestRunJob.perform_later(test_run_without_tag, { include_screen_recording_on_passing_script: true })
+    test_run_without_tag
+  end
+
+  def enqueue_test_run!(test_run_klass: TestRunWithTag, associated_audit:, options: {})
+
   end
 
   def disable!
@@ -62,15 +98,13 @@ class FunctionalTest < ApplicationRecord
   end
 
   def enable_for_tag(tag)
-    tags_to_run_tests_on.create(tag: tag)
+    tags_to_run_tests_on << tag
   end
 
   private
 
-  def has_return_in_script_if_expected_results_is_present
-    if !expected_results.nil? && !puppeteer_script.include?('return ')
-      errors.add(:base, "Functional test has an expected return value of `#{expected_results}` but the provided script does not contain an explicit `return` value.")
-    end
+  def make_empty_expected_results_nil
+    expected_results = nil if expected_results.blank?
   end
 
   def check_if_run_on_all_tags_changed
@@ -84,10 +118,9 @@ class FunctionalTest < ApplicationRecord
     end
   end
 
-  # def check_to_run_dry_run
-  #   if saved_changes['puppeteer_script']
-  #     update_column :passed_dry_run, false
-  #     run_dry_run!
-  #   end
-  # end
+  def has_return_in_script_if_expected_results_is_present
+    if !expected_results.nil? && !puppeteer_script.include?('return ')
+      errors.add(:base, "Functional test has an expected return value of `#{expected_results}` but the provided script does not contain an explicit `return` value.")
+    end
+  end
 end

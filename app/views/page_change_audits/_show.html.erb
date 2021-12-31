@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_page_change_audit" do %>
-  <div class='col-12 mb-2'>
+  <div class='col-12 mb-3'>
     <div class='row'>
       <div class='col-6'>
         <h6>Page without tag</h6>
@@ -31,19 +31,23 @@
       </div>
     </div>
   </div>
-  <% if page_change_audit.tag_causes_page_changes %>    
+  <% if !page_change_audit.tag_causes_page_changes %>    
+    <div class='col-12 text-center'>
+      <h5><%= HtmlHelper.PASSED_ICON %> Tag does not impact the page's HTML.</h5>
+    </div>
+  <% else %>
     <style><%= Diffy::CSS %></style>
     <div class='col-12'>
       <div class='row git-diff-container'>
         <div class='col-6'>
           <% if page_change_audit.absolute_additions > 0 %>
-            <h5><span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i></span> Caused <%= page_change_audit.absolute_additions %> additions to the page's HTML</h5>
+            <h6><span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i></span> Caused <%= page_change_audit.absolute_additions %> additions to the page's HTML</h6>
           <% end %>
           <div class='content'><%= additions_html.html_safe %></div>
         </div>
         <div class='col-6'>
           <% if page_change_audit.absolute_deletions > 0 %>
-            <h5><span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i></span> Caused <%= page_change_audit.absolute_deletions %> deletions to the page's HTML</h5>
+            <h6><span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i></span> Caused <%= page_change_audit.absolute_deletions %> deletions to the page's HTML</h6>
           <% end %>
           <div class='content'><%= deletions_html.html_safe %></div>
         </div>

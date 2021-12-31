@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include HtmlHelper
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   rescue ActiveRecord::RecordNotFound => e
@@ -53,16 +54,6 @@ module ApplicationHelper
       end
     end
   end
-
-  def loading_submit_button(btn_text, button_class: nil)
-    "<button type='submit' class='tagsafe-btn loading-button #{button_class}'><span class='submit-text'>#{btn_text}</span>#{display_loading_icon color: 'white', size: 'small'}</button>".html_safe
-  end
-  alias submit_loading_button loading_submit_button
-
-  def display_loading_spinner(opts = {})
-    render 'partials/utils/spinner', opts
-  end
-  alias display_loading_icon display_loading_spinner
 
   def render_breadcrumbs(*crumbs)
     @breadcrumbs = crumbs
