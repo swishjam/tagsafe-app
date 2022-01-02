@@ -6,15 +6,18 @@ class Tag < ApplicationRecord
   acts_as_paranoid
 
   # RELATIONS
-  has_many :audits, -> { order('created_at DESC') }, dependent: :destroy
   belongs_to :domain
   belongs_to :tag_image, optional: true
   belongs_to :found_on_page_url, class_name: 'PageUrl'
   belongs_to :found_on_url_crawl, class_name: 'UrlCrawl'
+  
+  has_many :audits, -> { order('created_at DESC') }, dependent: :destroy  
   has_many :tag_versions, -> { order('created_at DESC') }, dependent: :destroy
   has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
   has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
-  has_many :urls_to_audit, class_name: 'UrlToAudit'
+  has_many :urls_to_audit, class_name: 'UrlToAudit', dependent: :destroy
+  has_many :functional_tests_to_run, class_name: 'FunctionalTestToRun', dependent: :destroy
+  has_many :functional_tests, through: :functional_tests_to_run
   
   has_many :events, as: :triggerer, dependent: :destroy
   has_many :added_to_site_events, class_name: 'TagAddedToSiteEvent'
@@ -45,7 +48,7 @@ class Tag < ApplicationRecord
   after_update_commit { update_tag_row(now: true) }
   after_destroy_commit :remove_tag_from_from_table
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
-  after_create :attempt_to_find_and_apply_tag_image
+  after_create :apply_defaults
 
   # SCOPES
   scope :enabled, -> { where_tag_preferences({ enabled: true }) }
@@ -103,8 +106,9 @@ class Tag < ApplicationRecord
     "A new tag has been detected: #{full_url}"
   end
 
-  def attempt_to_find_and_apply_tag_image
+  def apply_defaults
     TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
+    domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
   end
 
   def stream_new_tag_to_views

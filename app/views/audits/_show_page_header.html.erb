@@ -1,0 +1,42 @@
+<%= turbo_stream_from "audit_#{@audit.uid}_details_view_stream" %>
+
+<h5 class="page-title with-sub-title">Audit Results</h5>
+<h6 class="page-sub-title" style='margin-bottom: 5px;'>Audited tag: <%= @tag.try_friendly_name %></h6>
+<h6 class="page-sub-title">Audited URL: <%= @audit.page_url.full_url %></h6>
+
+<div class='sliding-nav m-auto mb-3'>
+  <% 
+    [
+      {
+        text: 'Performance',
+        url: performance_audit_tag_tag_version_audit_path(@tag, @tag_version, @audit),
+        consider_current_path: tag_tag_version_audit_path(@tag, @tag_version, @audit)
+      },
+      {
+        text: "Functional Tests (#{@audit.display_test_runs_results})",
+        url: test_runs_tag_tag_version_audit_path(@tag, @tag_version, @audit),
+        consider_current_path_pattern: "/functional_tests/"
+      },
+      {
+        text: 'Page Change Detection',
+        url: page_change_audit_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+      },
+      {
+        text: 'Waterfall View',
+        url: waterfall_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+      },
+      {
+        text: 'View Tag Changes',
+        url: git_diff_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+      }
+    ].each do |nav_item|
+  %>
+    <% is_active = nav_item[:url] == request.path ||
+                                       (nav_item[:consider_current_path_pattern] && request.path.include?(nav_item[:consider_current_path_pattern])) ||
+                                       (nav_item[:consider_current_path] && request.path == nav_item[:consider_current_path])
+                                       %>
+    <%= link_to is_active ? '#' : nav_item[:url] do %>
+      <div class='sliding-nav-item <%= is_active ? 'active' : nil %>'><%= nav_item[:text] %></div>
+    <% end %>
+  <% end %>
+</div>

@@ -55,21 +55,21 @@ class PageUrl < ApplicationRecord
   def is_part_of_domain_url
     # simplify things by not providing multiples errors, weird results if `enforce_valid_url` returns an error first
     return if errors.any? 
-    if ENV['ALLOW_DIFFERENT_SUBDOMAIN_PER_DOMAIN'] == 'true'
+    if ENV['ALLOW_DIFFERENT_SUBDOMAIN_PER_DOMAIN'] == 'false'
+      if domain.url_hostname != hostname
+        errors.add(:base, "Invalid URL #{full_url}. Must be a part of the #{domain.url_hostname} domain.")
+      end
+    else
       split_hostname = hostname.split('.')
       split_hostname.shift
       hostname_without_subdomain = split_hostname.join('')
 
       split_domain_hostname = domain.url_hostname.split('.')
-      split_domain_hostname.shift('.')
+      split_domain_hostname.shift
       domain_hostname_without_subdomain = split_domain_hostname.join('')
       
       if hostname_without_subdomain != domain_hostname_without_subdomain
         errors.add(:base, "Invalid URL #{full_url}. Must be a part of the *.#{domain_hostname_without_subdomain} domain.")
-      end
-    else
-      if domain.url_hostname != hostname
-        errors.add(:base, "Invalid URL #{full_url}. Must be a part of the #{domain.url_hostname} domain.")
       end
     end
   end
@@ -100,7 +100,7 @@ class PageUrl < ApplicationRecord
     http.use_ssl = uri.scheme == 'https'
     resp = http.get(uri.request_uri, { 'User-Agent' => "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" })
     case resp.class.to_s
-    when 'Net::HTTPOK'
+    when 'Net::HTTPOK', 'Net::HTTPFound'
       uri
     when 'Net::HTTPMovedPermanently'
       get_valid_parsed_url(resp['location'], attempt_number: attempt_number+1)

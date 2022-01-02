@@ -1,0 +1,45 @@
+<h5 class="page-title">Functional Tests</h6>
+
+<div class='tagsafe-container container'>
+  <div class='row'>
+    <div class='col-12 text-end mb-3'>
+      <%= link_to 'New Test', new_functional_test_path, class: 'tagsafe-btn large' %>
+    </div>
+  </div>
+  <div class='row'>
+    <% if @functional_tests.any? %>
+      <div class='tagsafe-table'>
+        <div class='tagsafe-table-head tagsafe-row'>
+          <div class='tagsafe-table-header' style='width: 25%'>Test</div>
+          <div class='tagsafe-table-header' style='width: 35%'>Description</div>
+          <div class='tagsafe-table-header' style='width: 25%'>Tags enabled on</div>
+          <div class='tagsafe-table-header' style='width: 10%'></div>
+        </div>
+        <div class='tagsafe-table-body'>
+          <% @functional_tests.each do |test| %>
+            <%= link_to functional_test_path(test), class: 'no-decoration' do %>
+              <div class='tagsafe-table-row clickable'>
+                <div class='tagsafe-table-data' style='width: 25%'><%= test.title %></div>
+                <div class='tagsafe-table-data' style='width: 35%'><%= test.description %></div>
+                <div class='tagsafe-table-data' style='width: 25%'>
+                  <% if test.disabled? %>
+                    <span class='tagsafe-pill red'>Disabled</span>
+                  <% elsif !test.passed_dry_run %>
+                    <span class='tagsafe-pill grey'>Needs validation</span>
+                  <% else %>
+                    <%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_tests_on.count %>
+                  <% end %>
+                </div>
+                <div class='tagsafe-table-data text-end' style='width: 10%'>
+                  <span class='link-indicator hover-enlarge float-end'><i class="fas fa-angle-double-right"></i></span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <h5>No functional tests</h5>
+    <% end %>
+  </div>
+</div>

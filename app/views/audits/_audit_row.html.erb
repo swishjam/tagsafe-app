@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_row", class: "tagsafe-table-row clickable #{audit.is_primary? && streamed ? 'tagsafe-illuminate' : nil}" do %>
-  <div class='tagsafe-table-data' style='width: 15%'>
+  <div class='tagsafe-table-data' style='width: 19%'>
     <% unless audit.pending? || audit.failed? %>
       <% if audit.is_primary? %>
         <button class='tagsafe-btn white-text' style='font-size: 12px'>Primary Audit</button>
@@ -11,16 +11,20 @@
       <% end %>
     <% end %>
   </div>
-  <%= link_to tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration d-flex', style: 'width: 85%', target: '_top' do %>
-    <div class='tagsafe-table-data' style='width: 24%'><%= audit.created_at.formatted %></div>
-    <div class='tagsafe-table-data' style='width: 23%'>
+  <%= link_to performance_audit_tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration d-flex', style: 'width: 81%', target: '_top' do %>
+    <div class='tagsafe-table-data' style='width: 26%'><%= audit.created_at.formatted_short %></div>
+    <div class='tagsafe-table-data' style='width: 26%'>
       <% if audit.failed? %>
         <span class="tagsafe-pill red">Failed</span>
       <% elsif audit.pending? %>
         <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
         <%= render 'audits/completion_indicator', audit: audit %>
       <% else %>
-        <% if audit.delta_performance_audit %>
+        <% if !audit.include_performance_audit %>
+          <span class='fs-6' data-controller='tooltip' data-bs-toggle='tooltip' title='At the time this audit was run, performance audits were disabled. Run a new audit with performance audits enabled in order to generate a Tagsafe Score'>
+            Performance audit disabled
+          </span>
+        <% elsif audit.delta_performance_audit %>
           <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
           <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
             <%= score %>
@@ -30,8 +34,26 @@
         <% end %>
       <% end %>
     </div>
-    <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
-    <div class='tagsafe-table-data' style='width: 24%'><%= audit.page_url.full_url %></div>
+    <!-- <div class='tagsafe-table-data' style='width: 15%'><#%= audit.execution_reason.name %></div> !-->
+    <div class='tagsafe-table-data' style='width: 26%'>
+      <% if audit.include_functional_tests %>
+        <% if audit.completed_test_runs? %>
+          <% if audit.passed_all_test_runs? %>
+            <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
+          <% else %>
+            <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
+          <% end %>
+          <span><%= audit.display_test_runs_results %></span>
+        <% else %>
+          Tests in progress.
+        <% end %>
+      <% else %>
+        <span class='fs-6' data-controller='tooltip' data-bs-toggle='tooltip' title='At the time this audit was run, functional tests were disabled. Run a new audit with functional tests enabled in order to run your test suite against the tag.'>
+          Tests disabled
+        </span>
+      <% end %>
+    </div>
+    <div class='tagsafe-table-data' style='width: 23%'><%= audit.page_url.full_url %></div>
     <div class='tagsafe-table-data justify-content-end' style='width: 11%'>
       <!-- <#%= link_to 'View audit', tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id) %> !-->
       <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>

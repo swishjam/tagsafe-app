@@ -5,46 +5,50 @@ class AuditRunner
     @tag = @tag_version.tag
     @execution_reason = execution_reason
     @options = options
+    
+    @include_performance_audit = options[:include_performance_audit] != nil ? options[:include_performance_audit] : true
+    @include_page_load_resources = options[:include_page_load_resources] != nil ? options[:include_page_load_resources] : true
+    @include_page_change_audit = options[:include_page_change_audit] != nil ? options[:include_page_change_audit] : true
+    @include_functional_tests = options[:include_functional_tests] != nil ? options[:include_functional_tests] : true
+
     @audit = audit || create_audit
   end
 
-  def perform_later
-    RunAuditOnTagVersionJob.perform_later(job_args)
-    audit
-  end
-
-  def perform_now
-    RunAuditOnTagVersionJob.perform_now(job_args)
-    audit
-  end
-
   def run!
-    run_performance_audit!
+    audit.update(enqueued_at: DateTime.now)
+    enqueue_performance_audit!
+    enqueue_page_change_audit!
+    enqueue_functional_tests!
+    audit
   end
 
   private
 
-  def job_args
-    {
-      audit: audit,
-      tag_version: @tag_version,
-      url_to_audit_id: @url_to_audit_id,
-      execution_reason: @execution_reason
-    }
+  def enqueue_performance_audit!
+    if @include_performance_audit
+      @tag.tag_preferences.performance_audit_iterations.times do
+        RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:with_tag))
+        RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:without_tag))
+      end
+    end
   end
 
-  def run_performance_audit!
-    audit.update(enqueued_at: DateTime.now)
-    @tag.tag_preferences.performance_audit_iterations.times do
-      RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:with_tag))
-      RunIndividualPerformanceAuditJob.perform_later(perf_audit_job_args(:without_tag))
+  def enqueue_page_change_audit!
+    if @include_page_change_audit
+      RunPageChangeAuditJob.perform_later(audit)
+    end
+  end
+
+  def enqueue_functional_tests!
+    if @include_functional_tests
+      RunFunctionalTestSuiteForAuditJob.perform_later(audit)
     end
   end
 
   def perf_audit_job_args(audit_type)
     {
       type: audit_type,
-      audit: @audit,
+      audit: audit,
       tag_version: @tag_version,
       options: @options
     }
@@ -52,13 +56,18 @@ class AuditRunner
 
   def audit
     @audit ||= Audit.create!(
-      performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
-      tag_version: @tag_version,
       tag: @tag,
-      execution_reason: @execution_reason,
+      tag_version: @tag_version,
       page_url: url_to_audit.page_url,
+      execution_reason: @execution_reason,
+      primary: false,
+      performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
       performance_audit_iterations: tag_preferences.performance_audit_iterations,
-      primary: false
+      include_performance_audit: @include_performance_audit,
+      include_page_load_resources: @include_page_load_resources,
+      include_page_change_audit: @include_page_change_audit,
+      include_functional_tests: @include_functional_tests,
+      num_functional_tests_to_run: @include_functional_tests ? @tag.functional_tests.enabled.count : 0
     )
   end
   alias create_audit audit

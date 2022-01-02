@@ -85,7 +85,10 @@ a.no-decoration {
 }
 
 .tagsafe-btn {
-  border: none;
+  &:not(.outline) {
+    color: white !important;
+  }
+  border: 1px solid $tagsafe-primary;
   background: $tagsafe-primary;
   padding: 5px 15px 5px 15px;
   border-radius: 5px;
@@ -104,6 +107,10 @@ a.no-decoration {
   &:not(:disabled):hover {
     background: $lighter-tagsafe-purple;
   }
+  &.small {
+    font-size: 12px;
+    padding: 2px 5px 2px 5px;
+  }
   &.large {
     font-size: 22px;
     padding: 10px 35px 10px 35px;
@@ -113,6 +120,7 @@ a.no-decoration {
   }
   &.red {
     background: rgb(255, 96, 96);
+    border-color: rgb(255, 96, 96);
     &:hover {
       background: red;
     }

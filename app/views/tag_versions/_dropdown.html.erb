@@ -9,8 +9,10 @@
     </button>
   <% end %>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <%= link_to git_diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' do %>
-      <i class="fas fa-code-branch"></i> View changes made in this version
+    <% unless local_assigns[:exclude_urls] && local_assigns[:exclude_urls].include?(git_diff_tag_tag_version_path(tag, tag_version)) %>
+      <%= link_to git_diff_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', target: '_blank' do %>
+        <i class="fas fa-code-branch"></i> View changes made in this version
+      <% end %>
     <% end %>
     <% if !local_assigns[:audit].nil? && !audit.pending? %>
       <%= link_to tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' do %>
@@ -32,7 +34,7 @@
     <% end %>
     <div class="dropdown-divider"></div>
     <%= link_to begin_audit_tag_tag_version_path(tag, tag_version), class: 'dropdown-item', data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal_content' } do %>
-      <i class="fas fa-sync-alt"></i> Run audit
+      <i class="fas fa-sync-alt"></i> Re-run audit
     <% end %>
   </div>
 </div>

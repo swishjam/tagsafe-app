@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require activestorage
 //= require_tree .
+console.log('hello from application.js')

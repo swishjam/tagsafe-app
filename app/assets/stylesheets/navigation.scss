@@ -5,6 +5,7 @@
   }
   transition: 500ms margin-left;
   width: 15%;
+  left: 0;
   background-color: white;
   color: $dark-grey-text;
   float: left;
@@ -19,6 +20,9 @@
   }
   a.nav-link {
     color: #5d5c5c;
+    &.current, &:hover {
+      color: white;
+    }
   }
   .dropdown-item {
     color: blue;
@@ -27,11 +31,14 @@
     border-radius: 20px;
     text-decoration: none;
     &:hover {
-      text-decoration: underline;
-      background: lightgrey;
+      // text-decoration: underline;
+      background: $tagsafe-primary;
+      color: white;
+      // background: lightgrey;
     }
     &.current {
-      background: lightgrey;
+      background: $tagsafe-primary;
+      color: white;
     }
   }
   .logo-container {
@@ -96,4 +103,36 @@
 
 .logged-out-nav {
   box-shadow: 1px 1px 7px 0px grey;
+}
+
+.sliding-nav {
+  border-radius: 10px;
+  // background: #d5d5d5;
+  background: white;
+  width: fit-content;
+  padding: 5px;
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      // color: black;
+      color: white;
+    }
+  }
+  .sliding-nav-item {
+    width: fit-content;
+    display: inline-block;
+    padding: 5px 15px 5px 15px;
+    border-radius: 10px;
+    transition: 250ms;
+    &.active {
+      background: $tagsafe-primary;
+      box-shadow: 1px 1px 9px 1px darkgrey;
+      color: white;
+    }
+    &:not(.active):hover {
+      background: $lighter-tagsafe-purple;
+      box-shadow: 1px 1px 9px 1px rgb(191, 191, 191);
+    }
+  }
 }

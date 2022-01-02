@@ -2,14 +2,28 @@
 <%= turbo_frame_tag "tag_version_#{tag_version.uid}_row" do %>
   <% audit = tag_version.audit_to_display %>
   <% previous_audit = tag_version.previous_version&.primary_audit %>
-  <%= link_to audit.nil? ? tag_tag_version_audits_path(tag, tag_version) : tag_tag_version_audit_path(tag, tag_version, audit), class: 'no-decoration', target: '_top' do %>
+  <%= link_to audit.nil? ? tag_tag_version_audits_path(tag, tag_version) : performance_audit_tag_tag_version_audit_path(tag, tag_version, audit), class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row <%= audit.nil? ? nil : 'clickable' %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
       <div class="tagsafe-table-data" style='width: 25%'><%= tag_version.created_at.formatted_short %></div>
       <div class="tagsafe-table-data" style='width: 20%'>
         <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag_version %>
       </div>
+      <div class="tagsafe-table-data" style='width: 20%'>
+        <% audit = tag_version.audit_to_display %>
+        <% if audit %>
+          <% if audit.include_functional_tests %>
+            <% if audit.passed_all_test_runs? %>
+              <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
+            <% else %>
+              <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
+            <% end %>
+            <span><%= audit.display_test_runs_results %></span>
+          <% else %>
+            <span>Tests disabled</span>
+          <% end %>
+        <% end %>
+      </div>
       <div class="tagsafe-table-data" style='width: 25%'><%= audit&.page_url&.full_url || '--' %></div>
-      <div class="tagsafe-table-data" style='width: 20%'><%= tag_version.sha %></div>
       <div class='tagsafe-table-data' style='width: 10%'>
         <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
       </div>

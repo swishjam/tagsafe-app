@@ -5,15 +5,20 @@ class Audit < ApplicationRecord
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason
-  # belongs_to :audited_url, class_name: 'UrlToAudit'
   belongs_to :page_url
   belongs_to :performance_audit_calculator
 
   has_many :performance_audits, dependent: :destroy
-  has_many :blocked_resources, through: :performance_audits
+  # has_many :blocked_resources, through: :performance_audits
   has_one :delta_performance_audit, class_name: 'DeltaPerformanceAudit', dependent: :destroy
   has_many :individual_performance_audits_with_tag, class_name: 'IndividualPerformanceAuditWithTag',  dependent: :destroy
   has_many :individual_performance_audits_without_tag, class_name: 'IndividualPerformanceAuditWithoutTag',  dependent: :destroy
+
+  has_many :test_runs, dependent: :destroy
+  has_many :test_runs_with_tag, class_name: 'TestRunWithTag', dependent: :destroy
+  has_many :tests_runs_without_tag, class_name: 'TestRunWithoutTag', dependent: :destroy
+
+  has_one :page_change_audit, class_name: 'PageChangeAudit', dependent: :destroy
 
   #############
   # CALLBACKS #
@@ -25,6 +30,7 @@ class Audit < ApplicationRecord
   ##########
   # SCOPES #
   ##########
+
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }
 
@@ -41,9 +47,13 @@ class Audit < ApplicationRecord
   scope :throttled, -> { where(throttled: true) }
   scope :not_throttled, -> { where(throttled: false) }
 
-  def state
-    pending? ? 'pending' :
-      failed? ? 'failed' : 'complete'
+  def try_completion!
+    if !completed? && 
+        (!include_page_change_audit || page_change_audit_completed?) && 
+        (!include_functional_tests || completed_test_runs?) && 
+        (!include_performance_audit || performance_audit_completed?)
+      completed!
+    end
   end
 
   def completed!
@@ -67,40 +77,9 @@ class Audit < ApplicationRecord
     individual_performance_audits_without_tag.where(used_for_scoring: true).limit(1).first
   end
 
-  def completed?
-    !completed_at.nil?
-  end
-
-  def create_delta_performance_audit!
-    raise StandardError, "Audit #{id} already has a DeltaPerformanceAudit" unless delta_performance_audit.nil?
-    PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
-  end
-
-  def successful?
-    !failed? && completed?
-  end
-
-  def failed?
-    !error_message.nil?
-  end
-
-  def pending?
-    completed_at.nil?
-  end
-
-  def completed?
-    !pending?
-  end
-
-  def primary?
-    primary
-  end
-  alias is_primary? primary?
-
   def make_primary!
     raise AuditError::InvalidPrimary, "audit is in a #{state} state, must be completed." unless completed?
     primary_audit_from_before = tag_version.primary_audit
-    # THE ORDER OF THESE UPDATES MATTER DUE TO `check_for_new_primary_audit`
     primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
     after_became_primary(true)
@@ -113,6 +92,69 @@ class Audit < ApplicationRecord
     tag.domain.re_render_tags_chart(now: update_views_now)
     tag.re_render_chart(now: update_views_now)
     # update performance chart...
+  end
+
+  ############
+  ## STATES ##
+  ############
+
+  def state
+    pending? ? 'pending' :
+      failed? ? 'failed' : 'complete'
+  end
+
+  def completed?
+    !completed_at.nil?
+  end
+
+  def performance_audit_completed?
+    !!delta_performance_audit&.completed?
+  end
+
+  def performance_audit_pending?
+    include_performance_audit && !delta_performance_audit&.completed?
+  end
+
+  def completed_test_runs?
+    test_runs_with_tag.not_retries.count == num_functional_tests_to_run
+  end
+
+  def test_runs_pending?
+    include_functional_tests && !completed_test_runs?
+  end
+
+  def page_change_audit_completed?
+    !!page_change_audit&.completed?
+  end
+
+  def page_change_audit_pending?
+    include_page_change_audit && !page_change_audit_completed?
+  end
+
+  def successful?
+    !failed? && completed?
+  end
+
+  def failed?
+    !error_message.nil?
+  end
+
+  def pending?
+    !completed?
+  end
+
+  def primary?
+    primary
+  end
+  alias is_primary? primary?
+
+  ########################
+  ## PERFORMANCE AUDITS ##
+  ########################
+
+  def create_delta_performance_audit!
+    raise StandardError, "Audit #{id} already has a DeltaPerformanceAudit" unless delta_performance_audit.nil?
+    PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
   end
 
   def previous_primary_audit(force = false)
@@ -137,12 +179,24 @@ class Audit < ApplicationRecord
     ((individual_performance_audits.completed_successfully.count) / (performance_audit_iterations * 2.0))*100
   end
 
-  def should_show_page_load_resources?
-    completed? && !failed? && blocked_resources.any?
-  end
-
   def maximum_individual_performance_audit_attempts
     Flag.flag_value_for_objects(tag, tag.domain, tag.domain.organization, slug: 'max_individual_performance_audit_retries').to_i
+  end
+
+  ######################
+  ## FUNCTIONAL TESTS ##
+  ######################
+
+  def has_functional_tests?
+    tag.functional_tests.any?
+  end
+
+  def passed_all_test_runs?
+    test_runs_with_tag.not_retries.passed.count == num_functional_tests_to_run
+  end
+
+  def display_test_runs_results
+    "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run}"
   end
 
   ###################

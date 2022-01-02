@@ -34,17 +34,28 @@ Rails.application.routes.draw do
         post '/create_or_update' => 'page_urls#create_or_update'
       end
     end
-    # patch 'page_urls/:id/dont_scan_for_tags_on' => 'page_urls#dont_scan_for_tags_on'
 
     resources :url_crawls, only: [:index, :show] do
       member do
         get :executed_lambda_function
       end
     end
-    # resources :urls_to_crawl, only: [:create, :destroy]
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
+
+  resources :functional_tests do
+    member do
+      get :tags_to_run_on
+      post :validate
+      patch :toggle_disable
+    end
+    resources :test_runs, only: [:index, :show] do
+      member do
+        post :retry
+      end
+    end
+  end
 
   resources :tags do
     member do
@@ -59,7 +70,6 @@ Rails.application.routes.draw do
     resources :urls_to_audit, only: [:create, :destroy]
     resources :slack_notification_subscribers, only: [:create, :destroy]
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
-    # resources :performance_audit_preferences, only: :update
     resources :tag_preferences, only: [:edit, :update]
     resources :tag_versions, only: [:show, :index] do
       member do
@@ -72,16 +82,26 @@ Rails.application.routes.draw do
         get :tagsafe_instrumented_js
         get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
-      resources :audits, only: [:index, :show] do
+      resources :audits, only: [:show, :index] do
         member do
-          post :make_primary  
+          get :performance_audit
+          get :test_runs
+          # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
+          get :page_change_audit
+          get :waterfall
+          get :git_diff
+          get :cloudwatch_logs
+          post :make_primary
         end
         resources :individual_performance_audits, only: :index
+        # turbo frame src endpoints
+        get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
+        get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
+        resources :page_change_audits, only: :show
         resources :performance_audit_logs, only: :index
         resources :executed_lambda_functions, only: :index
         resources :page_load_resources, only: :index
         get '/waterfall' => 'page_load_resources#for_audit'
-        get '/cloudwatch_logs' => 'audits#cloudwatch_logs'
       end
     end
   end
@@ -89,6 +109,7 @@ Rails.application.routes.draw do
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
     get '/performance' => 'performance#index'
+    get '/executed_lambda_function/for_obj/:parent_type/:parent_id' => 'executed_lambda_functions#for_obj'
     resources :flags, only: [:index, :show] do
       resources :object_flags
     end
@@ -117,19 +138,6 @@ Rails.application.routes.draw do
   get '/settings/audit_settings' => 'settings#audit_settings'
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
-  namespace :api do
-    # post '/notification_preferences/:tag_id/toggle_tag_version_notification' => 'notification_preferences#toggle_tag_version_notification'
-    # post '/notification_preferences/:tag_id/toggle_audit_complete_notification' => 'notification_preferences#toggle_audit_complete_notification'
-    # post '/notification_preferences/:tag_id/toggle_lighthouse_audit_exceeded_threshold_notification' => 'notification_preferences#toggle_lighthouse_audit_exceeded_threshold_notification'
-  
-    post '/geppetto_receiver/url_crawl_complete' => 'geppetto_receiver#url_crawl_complete'
-    post '/geppetto_receiver/performance_audit_complete' => 'geppetto_receiver#performance_audit_complete'
-
-    post '/lambda_event_receiver/success' => 'lambda_receiver#success_receiver'
-    post '/lambda_event_receiver/failed' => 'lambda_receiver#fail_receiver'
-  end
-
-  
   get '/charts/domain/:domain_id' => 'charts#tags', as: :domain_tags_chart
   get '/charts/tag/:tag_id' => 'charts#tag', as: :tag_chart
   get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime_chart

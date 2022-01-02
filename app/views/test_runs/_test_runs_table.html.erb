@@ -1,0 +1,29 @@
+<%= turbo_frame_tag turbo_frame_tag_name do %>
+  <% if test_runs.none? %>
+    <%= local_assigns[:empty_message_html]&.html_safe || "No tests configured." %>
+  <% else %>
+    <div class='test-runs-table'>
+      <div class='tagsafe-table'>
+        <div class='tagsafe-table-head tagsafe-table-row'>
+          <% columns = ['Date', 'Test', 'Description', 'Type of Test', 'Results'] - (local_assigns[:columns_to_exclude] || []) %>
+          <% column_width_percent = 100/columns.count %>
+          <% columns.each do |column| %>
+            <div class='tagsafe-table-header' style='width: <%= column_width_percent %>%'><%= column %></div>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-body'>
+          <% test_runs.each do |test_run| %>
+            <%= render 'test_run_row', 
+              test_run: test_run,
+              column_width_percent: column_width_percent, 
+              columns_to_exclude: local_assigns[:columns_to_exclude] || [],
+              show_url: local_assigns[:for_audit] ? 
+                functional_test_test_run_path(test_run.functional_test, test_run, for_audit: true, tag_id: tag.id, tag_version_id: tag_version.id, audit_id: audit.id) :
+                functional_test_test_run_path(test_run.functional_test, test_run)
+              %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

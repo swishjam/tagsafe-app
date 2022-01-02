@@ -9,8 +9,8 @@ module LambdaModerator
       @tag_version = tag_version
       @executed_lambda_function_parent = individual_performance_audit
       
-      @include_performance_trace = option_or_flag_for(options, 'include_performance_trace')
-      @include_page_load_resources = option_or_flag_for(options, 'include_page_load_resources')
+      # @include_page_load_resources = option_or_flag_for(options, 'include_page_load_resources')
+      @include_page_load_resources = audit.include_page_load_resources.to_s
       @inline_injected_script_tags = option_or_flag_for(options, 'inline_injected_script_tags')
       @strip_all_css_in_performance_audits = option_or_flag_for(options, 'strip_all_css_in_performance_audits')
       @strip_all_images_in_performance_audits = option_or_flag_for(options, 'strip_all_images_in_performance_audits')
@@ -36,8 +36,8 @@ module LambdaModerator
         options: {
           puppeteer_page_wait_until: 'networkidle2',
           puppeteer_page_timeout_ms: 0,
+          enable_screen_recording: 'true',
           throw_error_if_dom_complete_is_zero: @throw_error_if_dom_complete_is_zero,
-          enable_page_load_tracing: @include_performance_trace,
           include_page_load_resources: @include_page_load_resources,
           inline_injected_script_tags: @inline_injected_script_tags,
           strip_all_images: @strip_all_images_in_performance_audits,

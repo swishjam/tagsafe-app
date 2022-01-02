@@ -4,4 +4,8 @@ class ExecutedLambdaFunction < ApplicationRecord
   store :response_payload
 
   uid_prefix 'lam'
+
+  def self.for(obj)
+    find_by(parent: obj)
+  end
 end

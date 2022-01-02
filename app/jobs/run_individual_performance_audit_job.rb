@@ -23,10 +23,9 @@ class RunIndividualPerformanceAuditJob < ApplicationJob
     PerformanceAuditManager::ResultsCapturer.new(
       individual_performance_audit: individual_performance_audit,
       results: response_data['results'], 
+      puppeteer_recording: response_data['screen_recording'],
       blocked_resources: response_data['blocked_resources'],
       logs: response_data['logs'],
-      page_load_screenshot_urls: response_data['page_load_screenshot_urls'], 
-      page_load_trace_json_url: response_data['page_load_trace_json_url'],
       error: response_data['error'] || response_data['errorMessage']
     ).capture_results!
     all_individual_performance_audit_completed = !audit.failed? && audit.all_individual_performance_audits_completed?

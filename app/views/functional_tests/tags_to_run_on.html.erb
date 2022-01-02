@@ -1,0 +1,8 @@
+<h1 class='page-title with-sub-title'>Tags to run test on</h1>
+<h2 class='page-sub-title'><%= @functional_test.title %></h2>
+
+<%= render 'nav' %>
+
+<div class='tagsafe-container'>
+  <%= render 'functional_tests_to_run/for_functional_test', functional_test: @functional_test %>
+</div>

@@ -1,0 +1,10 @@
+<%= turbo_stream_from "functional_test_#{@functional_test.uid}_show_view_stream" %>
+
+<h1 class='page-title with-sub-title'>Functional Test</h1>
+<h2 class='page-sub-title'><%= @functional_test.title %></h2>
+
+<%= render 'nav' %>
+
+<div class='tagsafe-container'>
+  <%= render 'show', functional_test: @functional_test %>
+</div>

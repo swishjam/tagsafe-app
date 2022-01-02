@@ -1,0 +1,41 @@
+.simulated-browser {
+  border-radius: 5px;
+  .simulated-browser-window {
+    border: 1px solid grey;
+    overflow: scroll;
+  }
+  &:not(.expanded) {
+    max-height: 22vw;
+    .simulated-browser-toolbar {
+      height: 12px;
+      .simulated-browser-button {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  }
+  &.expanded .simulated-browser-toolbar {
+    height: 20px;
+    .simulated-browser-button {
+      width: 10px;
+      height: 10px;
+    }
+  }
+  .simulated-browser-toolbar {
+    padding-left: 3px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: grey;
+    display: flex;
+    align-items: center;
+    .simulated-browser-button {
+      border-radius: 50%;
+      border: 1px solid black;
+      margin: 1px;
+      display: inline-block;
+      &.close { background: red; }
+      &.minimize { background: yellow; }
+      &.full-screen { background: #00e914; }
+    }
+  }
+}

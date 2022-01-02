@@ -1,0 +1,17 @@
+.test-run-error-code-block {
+  background: black;
+  text-align: left;
+  padding: 10px;
+  color: red;
+  font-weight: 500;
+  font-size: 16px;
+}
+.test-logs-code-block {
+  background: black;
+  text-align: left;
+  color: white;
+  .user-log {
+    display: block;
+    word-break: break-all;
+  }
+}

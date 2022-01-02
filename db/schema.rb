@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_172810) do
+ActiveRecord::Schema.define(version: 2022_01_02_025920) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -52,13 +52,15 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.integer "tag_id"
     t.integer "performance_audit_iterations"
     t.timestamp "completed_at"
-    t.integer "attempt_number"
-    t.bigint "audited_url_id"
     t.datetime "deleted_at"
     t.string "error_message"
     t.integer "performance_audit_calculator_id"
     t.bigint "page_url_id"
-    t.index ["audited_url_id"], name: "index_audits_on_audited_url_id"
+    t.boolean "include_page_load_resources"
+    t.boolean "include_page_change_audit"
+    t.boolean "include_performance_audit"
+    t.boolean "include_functional_tests"
+    t.integer "num_functional_tests_to_run"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
@@ -144,6 +146,47 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.string "default_value"
   end
 
+  create_table "functional_tests", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.bigint "created_by_user_id"
+    t.string "title"
+    t.string "description"
+    t.text "puppeteer_script"
+    t.string "expected_results"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "run_on_all_tags"
+    t.boolean "passed_dry_run"
+    t.timestamp "disabled_at"
+    t.index ["created_by_user_id"], name: "index_functional_tests_on_created_by_user_id"
+    t.index ["domain_id"], name: "index_functional_tests_on_domain_id"
+    t.index ["uid"], name: "index_functional_tests_on_uid"
+  end
+
+  create_table "functional_tests_to_run", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "functional_test_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uid"
+    t.index ["functional_test_id"], name: "index_functional_tests_to_run_on_functional_test_id"
+    t.index ["tag_id"], name: "index_functional_tests_to_run_on_tag_id"
+    t.index ["uid"], name: "index_functional_tests_to_run_on_uid"
+  end
+
+  create_table "html_snapshots", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "type"
+    t.string "html_s3_location"
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
+    t.bigint "page_change_audit_id"
+    t.string "screenshot_s3_location"
+    t.index ["page_change_audit_id"], name: "index_html_snapshots_on_page_change_audit_id"
+    t.index ["uid"], name: "index_html_snapshots_on_uid"
+  end
+
   create_table "monitored_scripts", charset: "utf8mb3", force: :cascade do |t|
     t.string "url"
     t.datetime "created_at", null: false
@@ -197,6 +240,18 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.integer "tag_check_retention_count"
     t.datetime "deleted_at"
     t.index ["uid"], name: "index_organizations_on_uid"
+  end
+
+  create_table "page_change_audits", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "audit_id"
+    t.boolean "tag_causes_page_changes"
+    t.integer "num_additions_between_without_tag_snapshots"
+    t.integer "num_deletions_between_without_tag_snapshots"
+    t.integer "num_additions_between_with_tag_snapshot_without_tag_snapshot"
+    t.integer "num_deletions_between_with_tag_snapshot_without_tag_snapshot"
+    t.index ["audit_id"], name: "index_page_change_audits_on_audit_id"
+    t.index ["uid"], name: "index_page_change_audits_on_uid"
   end
 
   create_table "page_load_resources", charset: "utf8mb3", force: :cascade do |t|
@@ -298,6 +353,17 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.float "dom_content_loaded"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
+  end
+
+  create_table "puppeteer_recordings", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "initiator_type"
+    t.bigint "initiator_id"
+    t.string "s3_url"
+    t.integer "ms_to_stop_recording"
+    t.datetime "created_at", null: false
+    t.index ["initiator_type", "initiator_id"], name: "index_puppeteer_recordings_on_initiator"
+    t.index ["uid"], name: "index_puppeteer_recordings_on_uid"
   end
 
   create_table "roles", charset: "utf8mb3", force: :cascade do |t|
@@ -432,6 +498,40 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.index ["uid"], name: "index_tags_on_uid"
   end
 
+  create_table "test_run_screenshots", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "test_run_id"
+    t.string "name"
+    t.string "s3_url"
+    t.integer "timestamp"
+    t.index ["test_run_id"], name: "index_test_run_screenshots_on_test_run_id"
+    t.index ["uid"], name: "index_test_run_screenshots_on_uid"
+  end
+
+  create_table "test_runs", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "functional_test_id"
+    t.bigint "audit_id"
+    t.string "type"
+    t.string "results"
+    t.boolean "passed"
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
+    t.text "logs", size: :medium
+    t.text "puppeteer_script_ran"
+    t.string "expected_results"
+    t.bigint "original_test_run_with_tag_id"
+    t.integer "test_run_id_retried_from"
+    t.string "error_message"
+    t.string "error_type"
+    t.text "error_trace"
+    t.index ["audit_id"], name: "index_test_runs_on_audit_id"
+    t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
+    t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
+    t.index ["test_run_id_retried_from"], name: "index_test_runs_on_test_run_id_retried_from"
+    t.index ["uid"], name: "index_test_runs_on_uid"
+  end
+
   create_table "url_crawls", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.integer "domain_id"
@@ -442,6 +542,8 @@ ActiveRecord::Schema.define(version: 2021_12_05_172810) do
     t.float "seconds_to_complete"
     t.datetime "deleted_at"
     t.bigint "page_url_id"
+    t.integer "num_first_party_bytes"
+    t.integer "num_third_party_bytes"
     t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
     t.index ["page_url_id"], name: "index_url_crawls_on_page_url_id"
     t.index ["uid"], name: "index_url_crawls_on_uid"

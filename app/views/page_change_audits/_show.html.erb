@@ -1,0 +1,57 @@
+<%= turbo_frame_tag "audit_#{audit.uid}_page_change_audit" do %>
+  <div class='col-12 mb-3'>
+    <div class='row'>
+      <div class='col-6'>
+        <h6>Page without tag</h6>
+        <div class='simulated-browser full-screenable pointer full-height no-background text-start' data-controller='full-screen-expandable' data-full-screen-expandable-target='expandable' data-action='click->full-screen-expandable#toggle'>
+          <div class='shadow-background'></div>
+          <div class='simulated-browser-toolbar'>
+            <div class='simulated-browser-button close'></div>
+            <div class='simulated-browser-button minimize'></div>
+            <div class='simulated-browser-button full-screen'></div>
+          </div>
+          <div class='simulated-browser-window'>
+            <%= image_tag page_change_audit.html_snapshot_without_tag.screenshot_s3_location, class: 'img-fluid' %>
+          </div>
+        </div>
+      </div>
+      <div class='col-6'>
+        <h6>Page with tag</h6>
+        <div class='simulated-browser full-screenable pointer full-height no-background' data-controller='full-screen-expandable' data-full-screen-expandable-target='expandable' data-action='click->full-screen-expandable#toggle'>
+          <div class='shadow-background'></div>
+          <div class='simulated-browser-toolbar'>
+            <div class='simulated-browser-button close'></div>
+            <div class='simulated-browser-button minimize'></div>
+            <div class='simulated-browser-button full-screen'></div>
+          </div>
+          <div class='simulated-browser-window'>
+            <%= image_tag page_change_audit.html_snapshot_with_tag.screenshot_s3_location, class: 'img-fluid' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if !page_change_audit.tag_causes_page_changes %>    
+    <div class='col-12 text-center'>
+      <h5><%= HtmlHelper.PASSED_ICON %> Tag does not impact the page's HTML.</h5>
+    </div>
+  <% else %>
+    <style><%= Diffy::CSS %></style>
+    <div class='col-12'>
+      <div class='row git-diff-container'>
+        <div class='col-6'>
+          <% if page_change_audit.absolute_additions > 0 %>
+            <h6><span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i></span> Caused <%= page_change_audit.absolute_additions %> additions to the page's HTML</h6>
+          <% end %>
+          <div class='content'><%= additions_html.html_safe %></div>
+        </div>
+        <div class='col-6'>
+          <% if page_change_audit.absolute_deletions > 0 %>
+            <h6><span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i></span> Caused <%= page_change_audit.absolute_deletions %> deletions to the page's HTML</h6>
+          <% end %>
+          <div class='content'><%= deletions_html.html_safe %></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

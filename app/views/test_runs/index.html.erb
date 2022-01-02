@@ -1,0 +1,8 @@
+<h1 class='page-title with-sub-title'><%= @functional_test.title %></h1>
+<h2 class='page-sub-title'><%= @functional_test.description %></h2>
+
+<%= render 'functional_tests/nav' %>
+
+<div class='tagsafe-container'>
+  <%= render 'test_runs_table', test_runs: @test_runs, turbo_frame_tag_name: "functional_test_#{@functional_test.uid}_test_runs" %>
+</div>
