@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_29_213631) do
+ActiveRecord::Schema.define(version: 2022_01_02_025920) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -522,6 +522,9 @@ ActiveRecord::Schema.define(version: 2021_12_29_213631) do
     t.string "expected_results"
     t.bigint "original_test_run_with_tag_id"
     t.integer "test_run_id_retried_from"
+    t.string "error_message"
+    t.string "error_type"
+    t.text "error_trace"
     t.index ["audit_id"], name: "index_test_runs_on_audit_id"
     t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
@@ -539,6 +542,8 @@ ActiveRecord::Schema.define(version: 2021_12_29_213631) do
     t.float "seconds_to_complete"
     t.datetime "deleted_at"
     t.bigint "page_url_id"
+    t.integer "num_first_party_bytes"
+    t.integer "num_third_party_bytes"
     t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
     t.index ["page_url_id"], name: "index_url_crawls_on_page_url_id"
     t.index ["uid"], name: "index_url_crawls_on_uid"

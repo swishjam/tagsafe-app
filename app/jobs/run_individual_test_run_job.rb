@@ -15,7 +15,11 @@ class RunIndividualTestRunJob < ApplicationJob
     if resp_body['passed']
       test_run.passed!
     else
-      test_run.failed!(resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'])
+      test_run.failed!(
+        message: resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'],
+        type: resp_body['errorType'],
+        trace: resp_body['trace']
+      )
     end
     test_run.audit.try_completion! unless test_run.is_a?(DryTestRun)
   end

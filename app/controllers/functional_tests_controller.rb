@@ -88,8 +88,10 @@ class FunctionalTestsController < LoggedInController
     functional_test = current_domain.functional_tests.find(params[:id])
     if functional_test.enabled?
       functional_test.disable!
+      current_user.broadcast_notification("Test '#{functional_test.title}' disabled.")
     else
       functional_test.enable!
+      current_user.broadcast_notification("Test '#{functional_test.title}' enabled.")
     end
     render turbo_stream: turbo_stream.replace(
       "functional_test_#{functional_test.uid}",

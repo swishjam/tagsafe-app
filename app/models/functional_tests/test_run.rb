@@ -57,19 +57,19 @@ class TestRun < ApplicationRecord
     !test_run_id_retried_from.nil?
   end
 
-  # currently causes infinite loop
-  # def original_test_run_retried_from(test_run_to_check = self)
-  #   return test_run_to_check unless is_retry?
-  #   original_test_run_retried_from(test_run_retried_from)
-  # end
-
   def passed!
     update!(passed: true)
     after_passed if respond_to?(:after_passed)
   end
 
-  def failed!(failure_message)
-    update!(passed: false, results: failure_message)
+  def failed!(message:, type: nil, trace: [])
+    trace = [] unless ((trace || [])[0] || "").match(/-callableScript-[0-9]*\.js/)
+    update!(passed: false, error_message: message, error_type: type, error_trace: trace.join("\n"))
     after_failed if respond_to?(:after_failed)
+  end
+
+  def full_error_message
+    return error_message if error_trace.blank?
+    "#{error_message}: #{error_trace}"
   end
 end

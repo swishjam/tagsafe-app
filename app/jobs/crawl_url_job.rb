@@ -15,9 +15,10 @@ class CrawlUrlJob < ApplicationJob
     if response_data['error'] || response_data['error_message'] || response_data['errorMessage']
       url_crawl.errored!(response_data['error'] || response_data['error_message'] || response_data['errorMessage'])
     else
+      url_crawl.update!(num_first_party_bytes: response_data['first_party_bytes'], num_third_party_bytes: response_data['third_party_bytes'])
       TagManager::EvaluateUrlCrawlFoundTags.new(
         url_crawl: url_crawl,
-        tag_urls: response_data['tag_urls'], 
+        tag_urls: response_data['tag_urls'],
         initial_crawl: initial_crawl
       ).evaluate!
     end

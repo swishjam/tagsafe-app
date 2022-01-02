@@ -1,6 +1,6 @@
 <%= turbo_frame_tag turbo_frame_tag_name do %>
   <% if test_runs.none? %>
-    <%= empty_message_html.html_safe %>
+    <%= local_assigns[:empty_message_html]&.html_safe || "No tests configured." %>
   <% else %>
     <div class='test-runs-table'>
       <div class='tagsafe-table'>

@@ -1,4 +1,15 @@
 <%= turbo_frame_tag "functional_test_#{functional_test.uid}" do %>
+  <div class='text-end mb-3'>
+    <button class="tagsafe-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Actions
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <%= link_to 'Edit Test', edit_functional_test_path(functional_test), class: 'dropdown-item', target: '_top' %>
+      <%= form_with model: functional_test, url: toggle_disable_functional_test_path(functional_test) do |f| %>
+        <%= f.submit "#{functional_test.enabled? ? 'Disable' : 'Enable'} test", class: 'dropdown-item' %>
+      <% end %>
+    </div>
+  </div>
   <div class='text-center'>
     <% if functional_test.disabled? %>
       <div class="alert alert-danger" role="alert">
@@ -6,13 +17,15 @@
       </div>
     <% end %>
     <% if functional_test.passed_dry_run %>
-      <div class="alert alert-success" role="alert">
-        <i class="far fa-check-circle"></i> Functional test passed validation and is able to enable for tag audits.
-      </div>
-      <% if functional_test.tags_to_run_tests_on.count.zero? %>
-        <div class="alert alert-warning" role="alert">
-          <i class="fas fa-exclamation-triangle"></i> Test is not enabled to run against any tags. <%= link_to 'Enable for tags', tags_to_run_on_functional_test_path(functional_test), target: '_top' %>
+      <% if functional_test.enabled? %>
+        <div class="alert alert-success" role="alert">
+          <i class="far fa-check-circle"></i> Functional test passed validation and is able to enable for tag audits.
         </div>
+        <% if functional_test.tags_to_run_tests_on.count.zero? %>
+          <div class="alert alert-warning" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> Test is not enabled to run against any tags. <%= link_to 'Enable for tags', tags_to_run_on_functional_test_path(functional_test), target: '_top' %>
+          </div>
+        <% end %>
       <% end %>
       <h6>Expect the following script to run without failure <%= functional_test.expected_results ? "and return a value of '#{functional_test.expected_results}'" : nil %>:</h6>
       <div class='code-mirror-container readonly' data-controller='code-mirror'>
@@ -27,9 +40,6 @@
           <textarea class='code-mirror-text closing-async-function  hidden' data-controller='code-mirror' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true'>})();</textarea>
         </div>
       </div>
-      <div class='col-12 mt-5'>
-        <%= link_to 'Edit Test', edit_functional_test_path(functional_test), class: 'tagsafe-btn large', target: '_top' %>
-      </div>
     <% else %>
       <% most_recent_dry_run = functional_test.most_recent_dry_test_run %>
       <% if most_recent_dry_run.nil? || most_recent_dry_run.completed? %>
@@ -38,7 +48,10 @@
         </div>
         <% unless most_recent_dry_run.nil? %>
           <p>The most recent test validation failed with an error of:</p>
-          <div class='test-run-error-code-block'><%= most_recent_dry_run.results %></div>
+          <div class='test-run-error-code-block'>
+            <span class='d-block'><%= most_recent_dry_run.error_message %>:</span>
+            <span class='d-block'><%= most_recent_dry_run.error_trace.to_s.gsub("\n", "<br/>").html_safe %></span>
+          </div>
           <% unless most_recent_dry_run.logs.nil? || most_recent_dry_run.logs.empty? %>
             <p>Logs:</p>
             <div class='test-logs-code-block mb-3'><%= most_recent_dry_run.logs&.html_safe %></div>
@@ -52,11 +65,6 @@
         </div>
       <% end %>
     <% end %>
-      <% if functional_test.enabled? %>
-        <%= form_with model: functional_test, url: toggle_disable_functional_test_path(functional_test), class: 'mt-5', data: { controller: 'loading_form' } do |f| %>
-          <%= loading_submit_button 'Disable test', button_class: 'red large' %>
-        <% end %>
-      <% end %>
     </div>
   </div>
 <% end %>

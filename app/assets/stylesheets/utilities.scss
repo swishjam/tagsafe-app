@@ -113,6 +113,7 @@ a.no-decoration {
   }
   &.red {
     background: rgb(255, 96, 96);
+    border-color: rgb(255, 96, 96);
     &:hover {
       background: red;
     }

@@ -20,7 +20,7 @@
   <% if test_run.pending? %>
     <%= render 'test_runs/show_pending', test_run: test_run, functional_test: test_run.functional_test %>
   <% elsif test_run.failed? %>
-    <%= render 'test_runs/show_failed', test_run: test_run, functional_test: test_run.functional_test %>
+    <%= render 'test_runs/show_failed', test_run: test_run, functional_test: test_run.functional_test, show_form: local_assigns[:show_form], force_validation_on_submit: local_assigns[:force_validation_on_submit] %>
   <% else %> 
     <%= render 'test_runs/show_passed', test_run: test_run, functional_test: test_run.functional_test %>
   <% end %>
