@@ -97,7 +97,14 @@ a.no-decoration {
   cursor: pointer;
   border-radius: 999px;
   text-decoration: none !important;
-  &:hover {
+  &:not(.outline) {
+    color: white !important;
+  }
+  &:disabled {
+    background: grey;
+    cursor: not-allowed;
+  }
+  &:not(:disabled):hover {
     background: $lighter-tagsafe-purple;
   }
   &.small {
