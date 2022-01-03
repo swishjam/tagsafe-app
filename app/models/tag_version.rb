@@ -106,6 +106,10 @@ class TagVersion < ApplicationRecord
     audits.primary.limit(1).first
   end
 
+  def tagsafe_score
+    primary_audit&.delta_performance_audit&.tagsafe_score
+  end
+
   def previous_version
     tag.tag_versions.most_recent_first.older_than(created_at).limit(1).first
   end

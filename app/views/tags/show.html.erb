@@ -4,7 +4,11 @@
 <h5 class="page-title with-sub-title">Tag Details</h6>
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 
-<div class="tag-chart-container" style="padding-top: 5px;">
+<div class='tagsafe-container'>
+  <%= render 'tags/current_stats', tag: @tag %>
+</div>
+
+<div class="tagsafe-container" style="padding-top: 5px;">
   <div class="row" style="margin-bottom: 5px;">
     <div class="col-12">
       <% if @tag.removed_from_site? %>
@@ -29,7 +33,7 @@
   <% end %>
 </div>
 
-<div class="tag-versions-container">
+<div class="tagsafe-container">
   <%= turbo_frame_tag "tag_#{@tag.uid}_tag_versions_table", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
