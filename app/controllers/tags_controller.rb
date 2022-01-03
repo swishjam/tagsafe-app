@@ -78,6 +78,13 @@ class TagsController < LoggedInController
     )
   end
 
+  def breakdown
+    most_recent_crawl = UrlCrawl.completed.successful.most_recent
+    @first_party_bytes = most_recent_crawl.num_first_party_bytes
+    @third_party_bytes = most_recent_crawl.num_third_party_bytes
+    @tag_versions = TagVersion.where(most_recent: true).includes(:tag).where(tag: current_domain.tags.is_third_party_tag.still_on_site)
+  end
+
   private
 
   def tag_params

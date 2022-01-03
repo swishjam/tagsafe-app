@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/change_log' => 'tag_versions#index'
   get '/uptime' => 'tag_checks#index'
   get '/performance' => 'performance#index'
+  get '/breakdown' => 'tags#breakdown'
 
   resources :domains, only: [:create, :update, :new] do
     member do
