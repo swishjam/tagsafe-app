@@ -39,7 +39,7 @@ class FunctionalTestsController < LoggedInController
     params[:functional_test][:expected_results] = params[:functional_test][:expected_results].blank? ? nil : params[:functional_test][:expected_results]
     @functional_test = current_domain.functional_tests.new(functional_test_params)
     if @functional_test.save
-      dry_test_run = @functional_test.enqueue_dry_run!
+      dry_test_run = @functional_test.perform_dry_run_later!
       render turbo_stream: turbo_stream.replace(
         "functional_test_form",
         partial: 'test_runs/show',
@@ -60,25 +60,25 @@ class FunctionalTestsController < LoggedInController
       should_run_dry_test_run = functional_test.saved_changes['puppeteer_script'] || functional_test.saved_changes['expected_results'] || params[:force_validation]
       if should_run_dry_test_run
         functional_test.update_column :passed_dry_run, false
-        dry_test_run = functional_test.enqueue_dry_run!
+        dry_test_run = functional_test.perform_dry_run_later!
         current_user.broadcast_notification("Validating test can run successfully...")
         render turbo_stream: turbo_stream.replace(
-          "functional_test_#{functional_test.uid}",
-          partial: 'test_runs/show',
+          params[:turbo_frame] || "functional_test_#{functional_test.uid}",
+          partial: params[:turbo_partial] || 'test_runs/show',
           locals: { functional_test: functional_test, test_run: dry_test_run }
         )
       else
         current_user.broadcast_notification("Test updated.")
         render turbo_stream: turbo_stream.replace(
-          "functional_test_#{functional_test.uid}",
-          partial: 'functional_tests/show',
+          params[:turbo_frame] || "functional_test_#{functional_test.uid}",
+          partial: params[:turbo_partial] || 'functional_tests/show',
           locals: { functional_test: functional_test }
         )
       end
     else
       render turbo_stream: turbo_stream.replace(
         "functional_test_form",
-        partial: 'functional_test/form',
+        partial: 'functional_tests/form',
         locals: { functional_test: functional_test, errors: functional_test.errors.full_messages }
       )
     end

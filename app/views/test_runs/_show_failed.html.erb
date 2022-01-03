@@ -32,7 +32,7 @@
       </div>
       <% if has_without_tag_recording %>
         <div class='col-6'>
-          <h5>The same test passes when the tag is not present:</h5>
+          <h5>The same test <%= test_run.follow_up_test_run_without_tag.failed? ? 'also fails' : 'passes' %> when the tag is not present:</h5>
           <%= render 'puppeteer_recordings/show', puppeteer_recording: test_run.follow_up_test_run_without_tag.puppeteer_recording %>
         </div>
       <% end %>

@@ -1,7 +1,7 @@
 <#%= turbo_frame_tag "tags_to_run_functional_tests_for_functional_test_#{functional_test.uid}" do %>
   <%= form_with model: functional_test, data: { controller: "loading_form" } do |f| %>
-    <!-- <input type='hidden' name='turbo_frame' value="tags_to_run_functional_tests_for_functional_test_<%=functional_test.uid%>">
-    <input type='hidden' name='turbo_partial' value="functional_tests_to_run/form_for_functional_test"> !-->
+    <input type='hidden' name='turbo_frame' value="tags_to_run_functional_tests_for_functional_test_<%=functional_test.uid%>">
+    <input type='hidden' name='turbo_partial' value="functional_tests_to_run/form_for_functional_test">
     <div class='col-4 offset-4'>
       <div class='form-check form-switch'>
         <%= f.check_box :run_on_all_tags, class: 'form-check-input' %>

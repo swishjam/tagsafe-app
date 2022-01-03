@@ -5,6 +5,7 @@ class RunPageChangeAuditJob < ApplicationJob
     run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithoutTag)
     run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithTag)
     PageChangeAuditResultsAnalyzer.new(page_change_audit).analyze_results!
+    audit.page_change_audit_completed!
     audit.try_completion!
   end
 

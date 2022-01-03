@@ -11,15 +11,19 @@
       <div class="tagsafe-table-data" style='width: 20%'>
         <% audit = tag_version.audit_to_display %>
         <% if audit %>
-          <% if audit.include_functional_tests %>
-            <% if audit.passed_all_test_runs? %>
-              <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
-            <% else %>
-              <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
-            <% end %>
-            <span><%= audit.display_test_runs_results %></span>
-          <% else %>
+          <% if !audit.include_functional_tests %>
             <span>Tests disabled</span>
+          <% else %>
+            <% if audit.num_functional_tests_to_run.zero? %>
+              <span>No tests configured</span>
+            <% else %>
+              <% if audit.passed_all_test_runs? %>
+                <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
+              <% else %>
+                <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
+              <% end %>
+              <span><%= audit.display_test_runs_results %></span>
+            <% end %>
           <% end %>
         <% end %>
       </div>

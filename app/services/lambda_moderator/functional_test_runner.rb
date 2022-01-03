@@ -26,7 +26,7 @@ module LambdaModerator
         first_party_url: domain.url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
         third_party_tag_url_patterns_to_allow: allowed_request_urls,
-        ms_until_timeout: @options[:ms_until_timeout] || 60_000,
+        ms_until_timeout: @options[:ms_until_timeout] || 90_000,
         max_allowable_screen_recording_stop_time: @options[:max_allowable_screen_recording_stop_time] || 60_000, # testing increasing stop time...
         enable_screen_recording: (@options[:enable_screen_recording] == nil ? true : @options[:enable_screen_recording]).to_s, # true by default
         include_screen_recording_on_passing_script: (@options[:include_screen_recording_on_passing_script] || false).to_s # false by default

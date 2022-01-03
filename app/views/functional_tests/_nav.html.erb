@@ -11,10 +11,10 @@
         url: functional_test_test_runs_path(@functional_test),
         consider_current_path_pattern: '/test_runs/'
       },
-      {
-        text: "Tags enabled for #{@functional_test.run_on_all_tags ? '(all tags)' : "(#{@functional_test.tags_to_run_tests_on.count})"}",
-        url: tags_to_run_on_functional_test_path(@functional_test)
-      }
+      # {
+      #   text: "Tags enabled for #{@functional_test.run_on_all_tags ? '(all tags)' : "(#{@functional_test.tags_to_run_tests_on.count})"}",
+      #   url: tags_to_run_on_functional_test_path(@functional_test)
+      # }
     ].each do |nav_item|
   %>
     <% is_active = [nav_item[:url], nav_item[:consider_current_path]].include?(request.path) || (nav_item[:consider_current_path_pattern] && request.path.include?(nav_item[:consider_current_path_pattern])) %>

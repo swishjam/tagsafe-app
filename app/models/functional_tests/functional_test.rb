@@ -23,12 +23,13 @@ class FunctionalTest < ApplicationRecord
   attribute :passed_dry_run, default: false
   attribute :run_on_all_tags, default: false
 
-  before_save :make_empty_expected_results_nil
+  before_validation :make_empty_expected_results_nil
   after_update :check_if_run_on_all_tags_changed
   
+  validates_presence_of :title, :description, :puppeteer_script
   validate :has_return_in_script_if_expected_results_is_present
 
-  def enqueue_dry_run!
+  def perform_dry_run_later!
     dry_test_run = DryTestRun.create!(
       functional_test: self, 
       puppeteer_script_ran: puppeteer_script, 
@@ -38,7 +39,7 @@ class FunctionalTest < ApplicationRecord
     dry_test_run
   end
 
-  def enqueue_test_run_with_tag!(associated_audit:, test_run_retried_from: nil)
+  def perform_test_run_with_tag_later!(associated_audit:, test_run_retried_from: nil)
     raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
     test_run_with_tag = TestRunWithTag.create!(
       functional_test: self, 
@@ -51,7 +52,20 @@ class FunctionalTest < ApplicationRecord
     test_run_with_tag
   end
 
-  def enqueue_test_run_without_tag!(original_test_run_with_tag:, test_run_retried_from: nil)
+  def perform_test_run_with_tag_now!(associated_audit:, test_run_retried_from: nil)
+    raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
+    test_run_with_tag = TestRunWithTag.create!(
+      functional_test: self, 
+      audit: associated_audit, 
+      test_run_id_retried_from: test_run_retried_from&.id,
+      puppeteer_script_ran: puppeteer_script, 
+      expected_results: expected_results
+    )
+    RunIndividualTestRunJob.perform_now(test_run_with_tag)
+    test_run_with_tag
+  end
+
+  def perform_test_run_without_tag_later!(original_test_run_with_tag:, test_run_retried_from: nil)
     raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
     test_run_without_tag = TestRunWithoutTag.create!(
       functional_test: self, 
@@ -104,7 +118,7 @@ class FunctionalTest < ApplicationRecord
   private
 
   def make_empty_expected_results_nil
-    expected_results = nil if expected_results.blank?
+    self.expected_results = nil if self.expected_results.blank?
   end
 
   def check_if_run_on_all_tags_changed

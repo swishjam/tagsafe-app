@@ -35,19 +35,10 @@ class HtmlSnapshot < ApplicationRecord
   private
 
   def html_s3_params
-    { bucket: s3_bucket_name, key: TagsafeS3.url_to_key(html_s3_location) }
+    { bucket: TagsafeS3.url_to_bucket(html_s3_location), key: TagsafeS3.url_to_key(html_s3_location) }
   end
 
   def screenshot_s3_params
-    { bucket: s3_bucket_name, key: TagsafeS3.url_to_key(screenshot_s3_location) }
-  end
-
-  def s3_bucket_name
-    case Rails.env
-    when 'development'
-      'dev-tagsafe-html-snapshots'
-    when 'production'
-      'prod-tagsafe-html-snapshots'
-    end
+    { bucket: TagsafeS3.url_to_bucket(screenshot_s3_location), key: TagsafeS3.url_to_key(screenshot_s3_location) }
   end
 end

@@ -31,6 +31,8 @@ class RunIndividualPerformanceAuditJob < ApplicationJob
     all_individual_performance_audit_completed = !audit.failed? && audit.all_individual_performance_audits_completed?
     if all_individual_performance_audit_completed
       audit.create_delta_performance_audit!
+      audit.performance_audit_completed!
+      audit.try_completion!
     end
   end
 end

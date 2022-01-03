@@ -53,7 +53,22 @@ class Audit < ApplicationRecord
         (!include_functional_tests || completed_test_runs?) && 
         (!include_performance_audit || performance_audit_completed?)
       completed!
+      true
+    else
+      false
     end
+  end
+
+  def performance_audit_completed!
+    update_audit_details_view(now: true)
+    update_audit_table_row(now: true)
+  end
+
+  def functional_tests_completed!
+    update_audit_table_row(now: true)
+  end
+
+  def page_change_audit_completed!
   end
 
   def completed!

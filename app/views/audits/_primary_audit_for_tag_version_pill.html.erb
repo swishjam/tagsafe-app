@@ -9,11 +9,11 @@
       <span class='tagsafe-pill grey <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this release</span>
     <% end %>
   <% elsif audit.include_performance_audit %> 
-    <% if audit.pending? %>
-      <span class='tagsafe-pill tagsafe-blue place-holder-wave <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit is currently running</span>
+    <% if audit.performance_audit_pending? %>
+      <span class='tagsafe-pill tagsafe-blue place-holder-wave <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Performance audit is running</span>
     <% elsif audit.failed? %>
       <span class='tagsafe-pill red <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit failed.</span>
-    <% elsif audit.successful? %>
+    <% elsif audit.performance_audit_completed? %>
       <%= render 'audits/pill_for_audit_score', tag_version: tag_version, audit: audit, streamed: local_assigns[:streamed] %>
     <% end %>
   <% else %>

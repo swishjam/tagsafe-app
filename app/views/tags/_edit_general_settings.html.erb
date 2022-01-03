@@ -2,7 +2,9 @@
     <div class="text-center tagsafe-container">
     <div class='row'>
       <% if tag.disabled? %>
-        <h6 class='text-center mt-2'><i class="fas fa-exclamation-circle"></i> Tagsafe monitoring is disabled for this tag.</h6>
+        <div class="alert alert-danger col-10 offset-1" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Monitoring is disabled for this tag.
+        </div>
         <%= form_with model: tag, url: enable_tag_path(tag) do |f| %>
           <%= f.submit 'Enable Tagsafe Monitoring', class: 'tagsafe-btn square outline large mb-3' %>
         <% end %>

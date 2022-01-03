@@ -10,7 +10,6 @@ class DeltaPerformanceAudit < PerformanceAudit
 
   def completed!
     touch(:enqueued_at, :completed_at)
-    audit.try_completion!
   end
   
   private

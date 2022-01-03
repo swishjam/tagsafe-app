@@ -1,11 +1,15 @@
 module HtmlHelper
   class << self
     def PASSED_ICON(colorized = true)
-      "<i class='far fa-check-circle green-text'></i>".html_safe
+      "<i class='far fa-check-circle #{colorized ? 'green-text' : nil}'></i>".html_safe
     end
   
     def FAILED_ICON(colorized = true)
-      "<i class='far fa-times-circle red-text'></i>".html_safe
+      "<i class='far fa-times-circle #{colorized ? 'red-text' : nil}'></i>".html_safe
+    end
+
+    def WARNING_ICON
+      "<i class='fas fa-exclamation-triangle'></i>".html_safe
     end
   end
 
