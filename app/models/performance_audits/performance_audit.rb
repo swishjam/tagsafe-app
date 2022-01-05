@@ -94,7 +94,7 @@ class PerformanceAudit < ApplicationRecord
       raise AuditError::InvalidRetry, "Cannot retry a PerformanceAudit of type #{type}" unless is_a?(IndividualPerformanceAuditWithTag) || is_a?(IndividualPerformanceAuditWithoutTag)
       Rails.logger.info "Retrying PerformanceAudit #{id} that failed because of #{error_message}"
       audit_type = is_a?(IndividualPerformanceAuditWithTag) ? :with_tag :  :without_tag
-      RunIndividualPerformanceAuditJob.perform_later(
+      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(
         type: audit_type,
         audit: audit, 
         tag_version: audit.tag_version

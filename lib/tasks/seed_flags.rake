@@ -60,6 +60,12 @@ namespace :seed do
         slug: 'should_detect_new_releases_based_on_bytesize_changes',
         description: 'Instead of using the tag versions hashed content to determine if a new version was released, if the file changes in size',
         default_value: 'false'
+      },
+      {
+        name: 'Max functional test script execution',
+        slug: 'max_functional_test_script_execution_ms',
+        description: 'The maximum amount of time (in milliseconds) a functional test\'s script has to complete execution',
+        default_value: '20000'
       }
     ]
 

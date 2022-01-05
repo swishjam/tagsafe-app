@@ -118,6 +118,9 @@ body.logged-in {
   width: 40px;
   &:hover, &.active {
     background: $tagsafe-secondary;
+    &.light-bg {
+      background: rgb(228, 228, 228);
+    }
   }
 }
 
@@ -189,56 +192,6 @@ ul.pagination {
 a.no-decoration {
   text-decoration: none;
   color: black;
-}
-
-.tagsafe-pill {
-  width: fit-content;
-  display: inline-block;
-  padding: 5px;
-  border-radius: 999px;
-  cursor: default;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  text-align: center;
-  &.tagsafe-blue {
-    background: #cce9ff;
-    border: 1px solid $tagsafe-primary;
-  }
-  &.tagsafe-blue, &.tagsafe-blue * {
-    color: $tagsafe-primary;
-  }
-  &.green {
-    background: rgb(200, 255, 200);
-    border: 1px solid green;
-  }
-  &.green, &.green * {
-    color: green;
-  }
-  &.orange {
-    background: rgb(255, 240, 213);
-    border: 1px solid orange;
-  }
-  &.orange, &.orange * {
-    color: orange;
-  }
-  &.red {
-    background: rgb(255, 212, 212);
-    border: 1px solid red;
-  }
-  &.red, &.red * {
-    color: red;
-  }
-  &.grey {
-    background: rgb(235, 235, 235);
-    border: 1px solid grey;
-  }
-  &.grey, &.grey * {
-    color: grey;
-  }
-  .remove-btn {
-    cursor: pointer;
-  }
 }
 
 .full-screenable.expanded {

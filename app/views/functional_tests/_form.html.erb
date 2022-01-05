@@ -1,5 +1,5 @@
-<%= turbo_frame_tag 'functional_test_form' do %>
-  <%= form_with model: functional_test, class: 'new-functional-test', data: { controller: 'loading_form' } do |f| %>
+<%= turbo_frame_tag 'functional_test_form', target: '_top' do %>
+  <%= form_with model: functional_test, class: 'new-functional-test', target: '_top', data: { controller: 'loading_form' } do |f| %>
     <% if local_assigns[:force_validation_on_submit] %>
       <input type='hidden' name='force_validation' value='true'>
     <% end %>

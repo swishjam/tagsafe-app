@@ -1,7 +1,5 @@
-<!-- <div class='text-center'> !-->
-  <% if local_assigns[:type] == 'grow' %>
-    <div class="spinner-grow tagsafe-spinner-grow" role="status"></div>
-  <% else %>
-    <div class='spinner-border tagsafe-spinner <%= local_assigns[:size] ? size : 'medium' %> <%= local_assigns[:color] %>'></div>
-  <% end %>
-<!-- </div> !-->
+<% if local_assigns[:type] == 'grow' %>
+  <span class="spinner-grow tagsafe-spinner-grow" role="status" style='<%= local_assigns[:style] %>'></span>
+<% else %>
+  <span class='spinner-border tagsafe-spinner <%= local_assigns[:size] ? size : 'medium' %> <%= local_assigns[:color] %>' style='<%= local_assigns[:style] %>'></span>
+<% end %>

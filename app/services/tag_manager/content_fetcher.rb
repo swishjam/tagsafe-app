@@ -30,7 +30,7 @@ module TagManager
       HTTParty.get(@tag.full_url)
     rescue => e
     # rescue Errno::ECONNREFUSED, OpenSSL::SSL::SSLError
-      Rails.logger.info "Error fetching respsone from #{url}: #{e.inspect}"
+      Rails.logger.info "Error fetching respsone from #{@tag.full_url}: #{e.inspect}"
       OpenStruct.new(code: 0, response_time_ms: 0)
     end
 

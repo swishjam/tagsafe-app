@@ -1,4 +1,5 @@
 <%= turbo_frame_tag "#{tag.uid}_tag_chart" do %>
+  <% chart_data = chart_data || ChartHelper::TagData.new(tag: tag, metric: :tagsafe_score, start_time: 1.day.ago, end_time: Time.now).chart_data %>
   <div data-controller='chart' data-fetch-url="<%= tag_chart_path(tag, start_time: start_time, end_time: end_time, chart_metric: chart_metric.to_s) %>">
     <div class='col-12'>
       <div class='row'>

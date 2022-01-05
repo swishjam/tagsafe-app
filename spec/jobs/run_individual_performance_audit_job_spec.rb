@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RunIndividualPerformanceAuditJob do
+RSpec.describe AuditRunnerJobs::RunIndividualPerformanceAudit do
   before(:each) do
     prepare_test!
     @tag = create(:tag, domain: @domain)
@@ -11,7 +11,7 @@ RSpec.describe RunIndividualPerformanceAuditJob do
   end
 
   def perform_job
-    RunIndividualPerformanceAuditJob.perform_now(
+    AuditRunnerJobs::RunIndividualPerformanceAudit.perform_now(
       audit: @audit,
       tag_version: @tag_version, 
       lambda_sender_class: LambdaModerator::PerformanceAuditerWithTag
@@ -36,7 +36,7 @@ RSpec.describe RunIndividualPerformanceAuditJob do
     it 'calls `capture_successful_response` when the response of the sender `send!` call is successful' do
       successful_response = OpenStruct.new(successful: true, response_body: { foo: 'bar' }, error: nil)
       expect_any_instance_of(LambdaModerator::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(successful_response)
-      expect_any_instance_of(RunIndividualPerformanceAuditJob).to receive(:capture_successful_response).with({ foo: 'bar' }, @audit)
+      expect_any_instance_of(AuditRunnerJobs::RunIndividualPerformanceAudit).to receive(:capture_successful_response).with({ foo: 'bar' }, @audit)
       perform_job
     end
 

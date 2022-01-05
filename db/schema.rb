@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_02_025920) do
+ActiveRecord::Schema.define(version: 2022_01_04_014741) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -362,6 +362,7 @@ ActiveRecord::Schema.define(version: 2022_01_02_025920) do
     t.string "s3_url"
     t.integer "ms_to_stop_recording"
     t.datetime "created_at", null: false
+    t.integer "ms_available_to_stop_within"
     t.index ["initiator_type", "initiator_id"], name: "index_puppeteer_recordings_on_initiator"
     t.index ["uid"], name: "index_puppeteer_recordings_on_uid"
   end
@@ -525,6 +526,7 @@ ActiveRecord::Schema.define(version: 2022_01_02_025920) do
     t.string "error_message"
     t.string "error_type"
     t.text "error_trace"
+    t.integer "script_execution_ms"
     t.index ["audit_id"], name: "index_test_runs_on_audit_id"
     t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"

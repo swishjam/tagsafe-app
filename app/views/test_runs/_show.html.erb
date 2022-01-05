@@ -1,27 +1,31 @@
-<%= turbo_frame_tag "test_run_#{test_run.uid}" do %>
-  <div class='container mb-3'>
-    <div class='row'>
-      <div class='col-6'>
-        <% if local_assigns[:back_link] %>
-          <%= link_to back_link[:url], target: '_top' do %>
-            <i class="fas fa-arrow-left"></i> <%= back_link[:text] %>
+<%= turbo_stream_from "test_run_#{test_run.uid}_details_view_stream" %>
+
+<%= turbo_frame_tag "test_run_#{test_run.uid}", target: '_top' do %>
+  <div class='test-run-show <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+    <div class='container mb-3'>
+      <div class='row'>
+        <div class='col-6'>
+          <% if local_assigns[:back_link] %>
+            <%= link_to back_link[:url], target: '_top' do %>
+              <i class="fas fa-arrow-left"></i> <%= back_link[:text] %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
-      <div class='col-6 text-end'>
-        <% if test_run.can_retry? %>
-          <%= form_with model: test_run, url: retry_functional_test_test_run_path(test_run.functional_test, test_run), method: :post, data: { controller: 'loading_form' } do %>
-            <%= submit_loading_button 'Re-run test' %>
+        </div>
+        <div class='col-6 text-end'>
+          <% if test_run.can_retry? %>
+            <%= form_with model: test_run, url: retry_functional_test_test_run_path(test_run.functional_test, test_run, for_audit: true), method: :post, data: { controller: 'loading_form' } do %>
+              <%= submit_loading_button 'Re-run test' %>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
     </div>
+    <% if test_run.pending? %>
+      <%= render 'test_runs/show_pending', test_run: test_run, functional_test: test_run.functional_test %>
+    <% elsif test_run.failed? %>
+      <%= render 'test_runs/show_failed', test_run: test_run, functional_test: test_run.functional_test, show_form: local_assigns[:show_form], force_validation_on_submit: local_assigns[:force_validation_on_submit] %>
+    <% else %> 
+      <%= render 'test_runs/show_passed', test_run: test_run, functional_test: test_run.functional_test %>
+    <% end %>
   </div>
-  <% if test_run.pending? %>
-    <%= render 'test_runs/show_pending', test_run: test_run, functional_test: test_run.functional_test %>
-  <% elsif test_run.failed? %>
-    <%= render 'test_runs/show_failed', test_run: test_run, functional_test: test_run.functional_test, show_form: local_assigns[:show_form], force_validation_on_submit: local_assigns[:force_validation_on_submit] %>
-  <% else %> 
-    <%= render 'test_runs/show_passed', test_run: test_run, functional_test: test_run.functional_test %>
-  <% end %>
 <% end %>

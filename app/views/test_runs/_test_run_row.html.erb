@@ -1,6 +1,9 @@
-<%= turbo_frame_tag "test_run_#{test_run.uid}" do %>
-  <%= link_to show_url, class: 'no-decoration', target: '_top' do %>
-    <div class='tagsafe-table-row'>
+<%= turbo_frame_tag "test_run_#{test_run.uid}_row" do %>
+  <%= link_to local_assigns[:for_audit] ? 
+                functional_test_test_run_path(test_run.functional_test, test_run, for_audit: true) : 
+                functional_test_test_run_path(test_run.functional_test, test_run), 
+                class: 'no-decoration', target: '_top' do %>
+    <div class='tagsafe-table-row <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : 'nil'%>'>
       <% unless columns_to_exclude.include?('Date') %>
         <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.enqueued_at.formatted_short %></div>
       <% end %>
@@ -16,12 +19,21 @@
       <% unless columns_to_exclude.include?('Results') %>
         <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'>
           <% if test_run.pending? %>
-            <h6>Test is running...</h6>
-            <%= display_loading_spinner size: :tiny %>
+            <div class='tagsafe-badge light-blue medium'>
+              <%= display_loading_spinner size: :tiny, style: 'color: white;' %> <span class='text'>Test is running</span>
+            </div>
+          <% elsif test_run.inconclusive? %>
+            <div class='tagsafe-badge warning medium' data-controller='tooltip' bs-toggle='tooltip' title='The test failed, however it also failed when the tag was not present. Please update the test as it likely is no longer able to pass.'>
+              <%= HtmlHelper.QUESTION_MARK_ICON(color: 'white') %> <span class='text'>Inconclusive</span>
+            </div>
           <% elsif test_run.passed? %>
-            <span class='test-run-icon passed green-text'><i class='far fa-check-circle'></i> Passed</span>
+            <div class='tagsafe-badge passed medium'>
+              <%= HtmlHelper.PASSED_ICON(color: 'white') %> <span class='text'>Passed</span>
+            </div>
           <% elsif test_run.failed? %>
-            <span class='test-run-icon failed red-text'><i class='far fa-times-circle'></i> Failed</span>
+            <div class='tagsafe-badge failed medium'>
+              <%= HtmlHelper.FAILED_ICON(color: 'white') %> <span class='text' data-controller='tooltip' bs-toggle='tooltip' title='The test failed with an error of: <%= test_run.error_message %>'>Failed</span>
+            </div>
           <% end %>
         </div>
       <% end %>

@@ -40,11 +40,7 @@ class FunctionalTestsController < LoggedInController
     @functional_test = current_domain.functional_tests.new(functional_test_params)
     if @functional_test.save
       dry_test_run = @functional_test.perform_dry_run_later!
-      render turbo_stream: turbo_stream.replace(
-        "functional_test_form",
-        partial: 'test_runs/show',
-        locals: { functional_test: @functional_test, test_run: dry_test_run }
-      )
+      redirect_to functional_test_test_run_path(@functional_test, dry_test_run)
     else
       render :new, status: :unprocessable_entity
     end
@@ -61,17 +57,12 @@ class FunctionalTestsController < LoggedInController
       if should_run_dry_test_run
         functional_test.update_column :passed_dry_run, false
         dry_test_run = functional_test.perform_dry_run_later!
-        current_user.broadcast_notification("Validating test can run successfully...")
-        render turbo_stream: turbo_stream.replace(
-          params[:turbo_frame] || "functional_test_#{functional_test.uid}",
-          partial: params[:turbo_partial] || 'test_runs/show',
-          locals: { functional_test: functional_test, test_run: dry_test_run }
-        )
+        redirect_to functional_test_test_run_path(functional_test, dry_test_run)
       else
-        current_user.broadcast_notification("Test updated.")
+        current_user.broadcast_notification("Test updated.", notification_type: 'success')
         render turbo_stream: turbo_stream.replace(
-          params[:turbo_frame] || "functional_test_#{functional_test.uid}",
-          partial: params[:turbo_partial] || 'functional_tests/show',
+          params[:turbo_frame] || "functional_test_form",
+          partial: params[:turbo_partial] || 'functional_tests/form',
           locals: { functional_test: functional_test }
         )
       end

@@ -46,13 +46,13 @@ RSpec.describe AuditRunner do
     it 'runs a performance audit with the tag and without the tag as many times as the tag_preferences performance_audit_iterations states' do
       with_tag_audits_sent_count = 0
       without_tag_audits_sent_count = 0
-      allow(RunIndividualPerformanceAuditJob).to receive(:perform_later).with({
+      allow(AuditRunnerJobs::RunIndividualPerformanceAudit).to receive(:perform_later).with({
         audit: @runner.send(:audit),
         tag_version: @tag_version, 
         enable_tracing: false,
         lambda_sender_class: LambdaModerator::PerformanceAuditerWithTag
       }) { with_tag_audits_sent_count += 1 }
-      allow(RunIndividualPerformanceAuditJob).to receive(:perform_later).with({
+      allow(AuditRunnerJobs::RunIndividualPerformanceAudit).to receive(:perform_later).with({
         audit: @runner.send(:audit),
         tag_version: @tag_version, 
         enable_tracing: false,

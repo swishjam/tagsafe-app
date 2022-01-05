@@ -7,8 +7,16 @@ class TestRunWithTag < TestRun
     'Test Run With Tag'
   end
 
+  def pending?
+    passed.nil? || follow_up_test_run_without_tag&.pending?
+  end
+
   def conclusive?
     passed? || (failed? && follow_up_test_run_without_tag&.passed?)
+  end
+
+  def inconclusive?
+    failed? && follow_up_test_run_without_tag&.failed?
   end
 
   def retry!

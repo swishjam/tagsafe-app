@@ -17,10 +17,8 @@
               test_run: test_run,
               column_width_percent: column_width_percent, 
               columns_to_exclude: local_assigns[:columns_to_exclude] || [],
-              show_url: local_assigns[:for_audit] ? 
-                functional_test_test_run_path(test_run.functional_test, test_run, for_audit: true, tag_id: tag.id, tag_version_id: tag_version.id, audit_id: audit.id) :
-                functional_test_test_run_path(test_run.functional_test, test_run)
-              %>
+              for_audit: local_assigns[:for_audit]
+            %>
           <% end %>
         </div>
       </div>

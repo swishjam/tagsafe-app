@@ -19,7 +19,10 @@
     <% if functional_test.passed_dry_run %>
       <% if functional_test.enabled? %>
         <div class="alert alert-success" role="alert">
-          <i class="far fa-check-circle"></i> Functional test passed validation and is able to enable for tag audits.
+          <i class="far fa-check-circle"></i> Functional test passed validation
+          <% if functional_test.run_on_all_tags %>
+            and is enabled on future audits.
+          <% end %>
         </div>
         <% if functional_test.tags_to_run_tests_on.count.zero? %>
           <div class="alert alert-warning" role="alert">
@@ -27,7 +30,11 @@
           </div>
         <% end %>
       <% end %>
-      <h6>Expect the following script to run without failure <%= functional_test.expected_results ? "and return a value of '#{functional_test.expected_results}'" : nil %>:</h6>
+      <% if functional_test.expected_results %>
+        <h5>Expect the following script to run without failure and return a value of <span class='fw-bolder'>"<%= functional_test.expected_results %>"</span>:</h5>
+      <% else %>
+        <h5>Expect the following script to run without failure:</h5>
+      <% end %>
       <div class='code-mirror-container readonly' data-controller='code-mirror'>
         <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
         <div class='outter-code-mirror top'>

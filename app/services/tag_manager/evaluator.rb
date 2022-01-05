@@ -17,7 +17,7 @@ module TagManager
     end
 
     def tag_changed?
-      tag_version_detector.detected_new_tag_version?
+      @tag_changed ||= tag_version_detector.detected_new_tag_version?
     end
 
     private

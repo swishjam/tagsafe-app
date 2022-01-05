@@ -35,7 +35,7 @@ class FunctionalTest < ApplicationRecord
       puppeteer_script_ran: puppeteer_script, 
       expected_results: expected_results
     )
-    RunIndividualTestRunJob.perform_later(dry_test_run)
+    AuditRunnerJobs::RunIndividualTestRun.perform_later(dry_test_run)
     dry_test_run
   end
 
@@ -48,7 +48,7 @@ class FunctionalTest < ApplicationRecord
       puppeteer_script_ran: puppeteer_script, 
       expected_results: expected_results
     )
-    RunIndividualTestRunJob.perform_later(test_run_with_tag)
+    AuditRunnerJobs::RunIndividualTestRun.perform_later(test_run_with_tag)
     test_run_with_tag
   end
 
@@ -61,21 +61,21 @@ class FunctionalTest < ApplicationRecord
       puppeteer_script_ran: puppeteer_script, 
       expected_results: expected_results
     )
-    RunIndividualTestRunJob.perform_now(test_run_with_tag)
+    AuditRunnerJobs::RunIndividualTestRun.perform_now(test_run_with_tag)
     test_run_with_tag
   end
 
-  def perform_test_run_without_tag_later!(original_test_run_with_tag:, test_run_retried_from: nil)
+  def perform_test_run_without_tag_later!(original_test_run_with_tag:)
     raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
     test_run_without_tag = TestRunWithoutTag.create!(
       functional_test: self, 
       original_test_run_with_tag: original_test_run_with_tag,
       audit: original_test_run_with_tag.audit, 
-      test_run_id_retried_from: test_run_retried_from&.id, # can we retry test runs without tag?
+      test_run_id_retried_from: original_test_run_with_tag&.test_run_id_retried_from, # if the associated test_run_with_tag is a retry, mark this one as a retry
       puppeteer_script_ran: puppeteer_script, 
       expected_results: expected_results
     )
-    RunIndividualTestRunJob.perform_later(test_run_without_tag, { include_screen_recording_on_passing_script: true })
+    AuditRunnerJobs::RunIndividualTestRun.perform_later(test_run_without_tag, { include_screen_recording_on_passing_script: true })
     test_run_without_tag
   end
 

@@ -1,6 +1,5 @@
 class IndividualPerformanceAuditWithoutTag < PerformanceAudit
   uid_prefix 'ipawot'
-  after_update_commit { audit.update_completion_indicators }
 
   def state
     return 'completed' if success?

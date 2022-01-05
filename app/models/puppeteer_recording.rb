@@ -6,12 +6,20 @@ class PuppeteerRecording < ApplicationRecord
 
   validates_presence_of :s3_url
 
+  FAILED_TO_CAPTURE_S3_URL_VALUE = 'FAILED_TO_CAPTURE'.freeze
+
   def fetch_recording
-    @recording ||= TagsafeS3.client.get_object(s3_client_params).body.read
+    unless failed_to_capture?
+      @recording ||= TagsafeS3.client.get_object(s3_client_params).body.read
+    end
   end
 
   def purge_from_s3
     TagsafeS3.client.delete_object(s3_client_params)
+  end
+
+  def failed_to_capture?
+    s3_url == FAILED_TO_CAPTURE_S3_URL_VALUE
   end
 
   private

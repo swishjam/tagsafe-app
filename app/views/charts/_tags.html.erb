@@ -1,4 +1,12 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
+  <% 
+    chart_data = chart_data || ChartHelper::TagsData.new(
+      tags: domain.tags.includes(:tag_preferences).order('tag_preferences.enabled DESC, removed_from_site_at ASC, content_changed_at DESC').page(1).per(9), 
+      start_time: start_time, 
+      end_time: end_time, 
+      metric_key: displayed_metric
+    ).chart_data 
+  %>
   <div class='tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' data-controller='chart' data-fetch-url="<%= domain_tags_chart_path(domain, tag_ids: params[:tag_ids], start_time: start_time, end_time: end_time, metric_type: displayed_metric) %>">
     <div class='container'>
       <div class='col-12'>

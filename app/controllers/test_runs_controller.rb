@@ -34,9 +34,9 @@ class TestRunsController < LoggedInController
     @functional_test = current_domain.functional_tests.find(params[:functional_test_id])
     @test_run = @functional_test.test_runs.find(params[:id])
     if params[:for_audit]
-      @tag = current_domain.tags.find(params[:tag_id])
-      @tag_version = @tag.tag_versions.find(params[:tag_version_id])
-      @audit = @tag_version.audits.find(params[:audit_id])
+      @audit = @test_run.audit
+      @tag = @audit.tag
+      @tag_version = @audit.tag_version
       @include_audit_nav = true
       @back_link = { text: 'Back to all tests', url: test_runs_tag_tag_version_audit_path(@tag, @tag_version, @audit) }
       render_breadcrumbs(
@@ -60,8 +60,12 @@ class TestRunsController < LoggedInController
   def retry
     functional_test = current_domain.functional_tests.find(params[:functional_test_id])
     test_run = functional_test.test_runs.find(params[:id])
-    test_run.retry!
-    current_user.broadcast_notification("Re running functional test #{functional_test.title}")
-    render status: :ok
+    retried_test_run = test_run.retry!
+    current_user.broadcast_notification("Re-running functional test #{functional_test.title}")
+    if params[:for_audit]
+      redirect_to functional_test_test_run_path(functional_test, retried_test_run, for_audit: true)
+    else
+      redirect_to functional_test_test_run_path(functional_test, retried_test_run)
+    end
   end
 end

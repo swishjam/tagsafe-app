@@ -1,4 +1,5 @@
 class Audit < ApplicationRecord
+  include Streamable
   uid_prefix 'aud'
   acts_as_paranoid
 
@@ -16,7 +17,7 @@ class Audit < ApplicationRecord
 
   has_many :test_runs, dependent: :destroy
   has_many :test_runs_with_tag, class_name: 'TestRunWithTag', dependent: :destroy
-  has_many :tests_runs_without_tag, class_name: 'TestRunWithoutTag', dependent: :destroy
+  has_many :test_runs_without_tag, class_name: 'TestRunWithoutTag', dependent: :destroy
 
   has_one :page_change_audit, class_name: 'PageChangeAudit', dependent: :destroy
 
@@ -24,8 +25,8 @@ class Audit < ApplicationRecord
   # CALLBACKS #
   #############
 
-  after_create_commit -> { prepend_audit_to_list(now: true) }
-  after_create_commit -> { tag_version.update_primary_audit_pill(now: true) }
+  after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
+  # after_create_commit -> { update_primary_audit_pill_for_tag_version(tag_version: tag_version, now: true) }
 
   ##########
   # SCOPES #
@@ -50,7 +51,7 @@ class Audit < ApplicationRecord
   def try_completion!
     if !completed? && 
         (!include_page_change_audit || page_change_audit_completed?) && 
-        (!include_functional_tests || completed_test_runs?) && 
+        (!include_functional_tests || functional_tests_completed?) && 
         (!include_performance_audit || performance_audit_completed?)
       completed!
       true
@@ -60,22 +61,32 @@ class Audit < ApplicationRecord
   end
 
   def performance_audit_completed!
-    update_audit_details_view(now: true)
-    update_audit_table_row(now: true)
+    create_delta_performance_audit!
+    # performance_audit_completed? return false without a reload..
+    unless reload.try_completion!
+      update_audit_details_view(audit: self, now: true)
+      update_audit_table_row(audit: self, now: true)
+      update_tag_version_table_row(tag_version: tag_version, now: true)
+      update_tag_table_row(tag: tag, now: true)
+    end
   end
 
   def functional_tests_completed!
-    update_audit_table_row(now: true)
+    unless reload.try_completion!
+      update_audit_table_row(audit: self, now: true)
+      update_tag_version_table_row(tag_version: tag_version, now: true)
+      update_tag_table_row(tag: tag, now: true)
+    end
   end
 
   def page_change_audit_completed!
+    reload.try_completion!
   end
 
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - enqueued_at)
     make_primary! unless failed?
-    update_audit_details_view
     AuditCompletedJob.perform_later(self)
   end
 
@@ -101,11 +112,13 @@ class Audit < ApplicationRecord
   end
 
   def after_became_primary(update_views_now = false)
-    tag_version.update_primary_audit_pill(now: update_views_now)
-    tag_version.update_tag_version_table_row(now: update_views_now)
-    re_render_audit_table(now: update_views_now)
-    tag.domain.re_render_tags_chart(now: update_views_now)
-    tag.re_render_chart(now: update_views_now)
+    # update_primary_audit_pill_for_tag_version(tag_version: tag_version, now: update_views_now)
+    update_tag_table_row(tag: tag, now: update_views_now)
+    update_tag_version_table_row(tag_version: tag_version, now: update_views_now)
+    update_tag_current_stats(tag: tag, now: update_views_now)
+    re_render_audit_table(audit: self, now: update_views_now)
+    re_render_tags_chart(domain: tag.domain, now: update_views_now)
+    re_render_tag_chart(tag: tag, now: update_views_now)
     # update performance chart...
   end
 
@@ -126,16 +139,21 @@ class Audit < ApplicationRecord
     !!delta_performance_audit&.completed?
   end
 
+  def all_individual_performance_audits_completed?
+    individual_performance_audits_remaining == 0
+  end
+
   def performance_audit_pending?
     include_performance_audit && !delta_performance_audit&.completed?
   end
 
-  def completed_test_runs?
-    test_runs_with_tag.not_retries.count == num_functional_tests_to_run
+  def functional_tests_completed?
+    test_runs_with_tag.not_retries.completed.count == num_functional_tests_to_run && 
+      test_runs_with_tag.not_retries.failed.count == test_runs_without_tag.not_retries.completed.count
   end
 
-  def test_runs_pending?
-    include_functional_tests && !completed_test_runs?
+  def functional_tests_pending?
+    include_functional_tests && !functional_tests_completed?
   end
 
   def page_change_audit_completed?
@@ -186,10 +204,6 @@ class Audit < ApplicationRecord
     performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
   end
 
-  def all_individual_performance_audits_completed?
-    individual_performance_audits_remaining == 0
-  end
-
   def individual_performance_audit_percent_complete
     ((individual_performance_audits.completed_successfully.count) / (performance_audit_iterations * 2.0))*100
   end
@@ -206,64 +220,11 @@ class Audit < ApplicationRecord
     tag.functional_tests.any?
   end
 
-  def passed_all_test_runs?
+  def passed_all_functional_tests?
     test_runs_with_tag.not_retries.passed.count == num_functional_tests_to_run
   end
 
-  def display_test_runs_results
+  def display_functional_test_results
     "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run}"
-  end
-
-  ###################
-  ## TURBO STREAMS ##
-  ###################
-
-  def prepend_audit_to_list(now: false)
-    broadcast_method = now ? :broadcast_prepend_to : :broadcast_prepend_later_to
-    send(broadcast_method,
-      "tag_version_#{tag_version.uid}_audits_view_stream", 
-      target: "tag_version_#{tag_version.uid}_audits_table_rows",
-      partial: 'audits/audit_row',
-      locals: { audit: self, streamed: true }
-    )
-  end
-
-  def update_audit_details_view(now: false)
-    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-    send(broadcast_method,
-      "audit_#{uid}_details_view_stream",
-      target: "audit_#{uid}",
-      partial: 'audits/show',
-      locals: { audit: self, previous_audit: tag_version.previous_version&.primary_audit, tag: tag, tag_version: tag_version, streamed: true }
-    )
-  end
-
-  def update_audit_table_row(now: false)
-    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-    send(broadcast_method,
-      "tag_version_#{tag_version.uid}_audits_view_stream", 
-      target: "audit_#{uid}_row",
-      partial: 'audits/audit_row',
-      locals: { audit: self, streamed: true }
-    )
-  end
-
-  def re_render_audit_table(now: false)
-    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-    updated_audits_collection = tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
-    send(broadcast_method,
-      "tag_version_#{tag_version.uid}_audits_view_stream",
-      target: "tag_version_#{tag_version.uid}_audits_table",
-      partial: 'audits/audits_table',
-      locals: { tag_version: tag_version, audits: updated_audits_collection, streamed: true }
-    )
-  end
-
-  def update_completion_indicators
-    return unless ENV['INCLUDE_AUDIT_COMPLETION_INDICATOR'] == 'true'
-    broadcast_replace_to "#{id}_completion_indicator", 
-                          target: "#{id}_completion_indicator", 
-                          partial: 'audits/completion_indicator', 
-                          locals: { audit: self }
   end
 end

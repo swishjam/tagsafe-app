@@ -1,15 +1,35 @@
 module HtmlHelper
   class << self
-    def PASSED_ICON(colorized = true)
-      "<i class='far fa-check-circle #{colorized ? 'green-text' : nil}'></i>".html_safe
+    def PASSED_ICON(color: nil)
+      if color
+        "<i class='far fa-check-circle' style='color: #{color}'></i>".html_safe
+      else
+        "<i class='far fa-check-circle'></i>".html_safe
+      end
     end
   
-    def FAILED_ICON(colorized = true)
-      "<i class='far fa-times-circle #{colorized ? 'red-text' : nil}'></i>".html_safe
+    def FAILED_ICON(color: nil)
+      if color
+        "<i class='far fa-times-circle' style='color: #{color}'></i>".html_safe
+      else
+        "<i class='far fa-times-circle'></i>".html_safe
+      end
     end
 
-    def WARNING_ICON
-      "<i class='fas fa-exclamation-triangle'></i>".html_safe
+    def WARNING_ICON(color: nil)
+      if color
+        "<i class='fas fa-exclamation-triangle' style='color: #{color}'></i>".html_safe
+      else
+        "<i class='fas fa-exclamation-triangle'></i>".html_safe
+      end
+    end
+
+    def QUESTION_MARK_ICON(color: nil)
+      if color
+        "<i class='far fa-question-circle' style='color: #{color}'></i>".html_safe
+      else
+        "<i class='far fa-question-circle'></i>".html_safe
+      end
     end
   end
 
@@ -18,8 +38,8 @@ module HtmlHelper
   end
   alias submit_loading_button loading_submit_button
 
-  def display_loading_spinner(opts = {})
-    render 'partials/utils/spinner', opts
+  def display_loading_spinner(locals = {})
+    render 'partials/utils/spinner', locals
   end
   alias display_loading_icon display_loading_spinner
 end

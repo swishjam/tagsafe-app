@@ -6,7 +6,6 @@
   .notification {
     border: 1px solid black; 
     border-radius: 10px;
-    background: white;
     margin: 15px 5px 5px 5px;
     transform: matrix(1.05,0,0,1.04999995231628,0,0);
     box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
@@ -14,21 +13,32 @@
     position: relative;
     left: 35vw;
     transition: 1s;
+    background: white;
+    &.success {
+      background:rgb(205, 255, 205);
+      border: none;
+    }
+    &.error {
+      background:rgb(255, 147, 117);
+    }
     &.animate {
       left: 0;
     }
-    &.error {
-      border: 1px solid red;
-      .notification-header {
-        border-bottom: 1px solid red;
-      }
-    }
     .notification-header {
-      border-bottom: 1px solid lightgrey;
+      border-bottom: 1px solid rgb(140, 140, 140);
     }
-    .exit {
+    .exit-btn {
       vertical-align: top;
       margin-bottom: 5px;
+      padding: 5px;
+      cursor: pointer;
+      i {
+        transition: transform .7s ease-in-out;
+      }
+      &:hover i {
+        transform: rotate(180deg);
+        color: rgb(86, 86, 86);
+      }
     }
     .notification-content {
       padding: 0px 10px 10px 10px;

@@ -63,10 +63,15 @@ class User < ApplicationRecord
     notification_class.find_by(tag: tag, user: self).destroy!
   end
 
-  def broadcast_notification(msg, image: nil, error: false)
+  def broadcast_notification(msg, notification_type: 'info', image: nil, error: false)
     broadcast_prepend_to "#{id}_user_notifications_container", 
                             target: "#{id}_user_notifications_container", 
                             partial: 'partials/notification', 
-                            locals: { message: msg, image: image, error: error }
+                            locals: { 
+                              message: msg, 
+                              image: image, 
+                              error: error, 
+                              notification_type: notification_type 
+                            }
   end
 end

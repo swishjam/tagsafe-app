@@ -36,26 +36,7 @@
     </div>
     <!-- <div class='tagsafe-table-data' style='width: 15%'><#%= audit.execution_reason.name %></div> !-->
     <div class='tagsafe-table-data' style='width: 26%'>
-      <% if audit.include_functional_tests %>
-        <% if audit.num_functional_tests_to_run.zero? %>
-          No tests configured.
-        <% else %>
-          <% if !audit.completed_test_runs? %>
-            Tests in progress.
-          <% else %>
-            <% if audit.passed_all_test_runs? %>
-              <span class='test-run-icon passed m-1'><i class='far fa-check-circle green-text'></i></span>
-            <% else %>
-              <span class='test-run-icon failed m-1'><i class='far fa-times-circle red-text'></i></span>
-            <% end %>
-            <span><%= audit.display_test_runs_results %></span>
-          <% end %>
-        <% end %>
-      <% else %>
-        <span class='fs-6' data-controller='tooltip' data-bs-toggle='tooltip' title='At the time this audit was run, functional tests were disabled. Run a new audit with functional tests enabled in order to run your test suite against the tag.'>
-          Tests disabled
-        </span>
-      <% end %>
+      <%= render 'test_runs/test_results_for_audit', audit: audit %>
     </div>
     <div class='tagsafe-table-data' style='width: 23%'><%= audit.page_url.full_url %></div>
     <div class='tagsafe-table-data justify-content-end' style='width: 11%'>

@@ -2,6 +2,8 @@ class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Notifier
   include Flaggable
+  include Streamable
+
   uid_prefix 'tag'
   acts_as_paranoid
 
@@ -45,8 +47,8 @@ class Tag < ApplicationRecord
   # CALLBACKS
   broadcast_notification on: :create
   after_create_commit :stream_new_tag_to_views
-  after_update_commit { update_tag_row(now: true) }
-  after_destroy_commit :remove_tag_from_from_table
+  after_update_commit { update_tag_table_row(tag: self, now: true) }
+  after_destroy_commit { remove_tag_from_from_table(tag: self) }
   after_create { TagAddedToSiteEvent.create(triggerer: self) }
   after_create :apply_defaults
 
@@ -114,10 +116,10 @@ class Tag < ApplicationRecord
   def stream_new_tag_to_views
     if domain.tags.count == 1
       # render the table empty and allow `append_tag_row_to_table` to add the new tag
-      domain.re_render_tags_table(empty: true, now: true)
-      domain.re_render_tags_chart(now: true)
+      re_render_tags_table(domain: domain, empty: true, now: true)
+      re_render_tags_chart(domain: domain, now: true)
     end
-    append_tag_row_to_table(now: true)
+    append_tag_row_to_table(tag: self, now: true)
   end
 
   def state
@@ -205,51 +207,5 @@ class Tag < ApplicationRecord
 
   def fail_rate(days_ago: 7, successful_codes: [200, 204])
     failed_requests(days_ago: days_ago, successful_codes: successful_codes) / tag_checks.more_recent_than(days_ago.days.ago).count
-  end
-
-  ###################
-  ## TURBO STREAMS ##
-  ###################
-
-  def append_tag_row_to_table(now: false)
-    broadcast_method = now ? :broadcast_append_to : :broadcast_append_later_to
-    send(broadcast_method,
-      "domain_#{domain.uid}_monitor_center_view_stream", 
-      target: "#{domain.uid}_domain_tags_table_rows", 
-      partial: 'server_loadable_partials/tags/tag_table_row', 
-      locals: { tag: self, domain: domain, streamed: true } 
-    )
-  end
-
-  def update_tag_row(now: false)
-    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-    send(broadcast_method,
-      "domain_#{domain.uid}_monitor_center_view_stream", 
-      target: "#{domain.uid}_domain_tags_table_row_#{uid}",
-      partial: 'server_loadable_partials/tags/tag_table_row',
-      locals: { tag: self, domain: domain, streamed: true }
-    )
-  end
-
-  def re_render_chart(now: false)
-    return if ENV['DISABLE_CHART_UPDATE_STREAMS'] == 'true'
-    broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-    chart_data_getter = ChartHelper::TagData.new(tag: self, metric: :tagsafe_score, start_time: 1.day.ago, end_time: Time.now)
-    send(broadcast_method,
-      "tag_#{uid}_details_view_stream",
-      target: "#{uid}_tag_chart",
-      partial: 'charts/tag',
-      locals: {
-        chart_data: chart_data_getter.chart_data,
-        chart_metric: :tagsafe_score,
-        start_time: 1.day.ago,
-        end_time: Time.now,
-        streamed: true
-      }
-    )
-  end
-
-  def remove_tag_from_from_table
-    broadcast_remove_to "domain_#{domain.uid}_monitor_center_view_stream", target: "#{domain.uid}_domain_tags_table_row_#{uid}"
   end
 end
