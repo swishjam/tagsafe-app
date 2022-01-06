@@ -39,25 +39,19 @@ module TagManager
     end
 
     def js_file
-      @js_file ||= write_content_to_file(@content, local_file_location(:compiled))
+      return @js_file if @js_file
+      @js_file = File.open(local_file_location(:compiled), "w") 
+      @js_file.puts @content.force_encoding('UTF-8')
+      @js_file.close
+      @js_file
     end
 
     def formatted_js_file
       return @formatted_js_file if @formatted_js_file
-      TagManager::JsBeautifier.new(
+      @formatted_js_file = TagManager::JsBeautifier.new(
         read_file: local_file_location(:compiled), 
         output_file: local_file_location(:formatted)
       ).beautify!
-      @formatted_js_file = File.open(local_file_location(:formatted))
-      @formatted_js_file.close
-      @formatted_js_file
-    end
-
-    def write_content_to_file(content, local_filename)
-      file = File.open(local_filename, "w") 
-      file.puts content.force_encoding('UTF-8')
-      file.close
-      file
     end
 
     def db_filename(suffix)

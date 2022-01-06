@@ -45,9 +45,9 @@
     <% end %>
   </div>
   <% if tag.enabled? %>
-    <div class='text-center mt-5 tagsafe-container'>
+    <div class='text-center mt-5 tagsafe-container p-3'>
       <%= form_with model: tag, url: disable_tag_path(tag) do |f| %>
-        <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large mt-3' %>
+        <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large' %>
       <% end %>
     </div>
   <% end %>

@@ -178,7 +178,8 @@ form[data-controller=loading_form] {
   cursor: default;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  // font-size: 12px;
+  font-size: 1rem;
   text-align: center;
   &.tagsafe-primary-purple {
     background: rgb(235, 238, 255);

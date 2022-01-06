@@ -20,6 +20,10 @@ class FunctionalTestError
   class InvalidType < StandardError; end;
 end
 
+class HtmlSnapshotError
+  class SnapshotFailed < StandardError; end;
+end
+
 class AuditError
   class InvalidRetry < StandardError; end;
   class InvalidPrimary < StandardError; end;
