@@ -33,7 +33,7 @@ module LambdaModerator
       case @html_snapshot_klass.to_s
       when 'HtmlSnapshotWithTag'
         [{ 
-          url:  audit.tag_version.hosted_tagsafe_instrumented_js_file_url, 
+          url:  audit.tag_version.js_file_url, 
           load_type: 'async' 
         }]
       when 'HtmlSnapshotWithoutTag'

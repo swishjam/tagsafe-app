@@ -17,7 +17,7 @@
       <% if audit.failed? %>
         <span class="tagsafe-pill red">Failed</span>
       <% elsif audit.performance_audit_pending? %>
-        <span class="tagsafe-pill tagsafe-blue placeholder-wave">Audit in progress</span>
+        <span class="tagsafe-pill tagsafe-primary-purple placeholder-wave">Audit in progress</span>
         <%= render 'audits/completion_indicator', audit: audit %>
       <% else %>
         <% if !audit.include_performance_audit %>

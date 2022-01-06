@@ -171,19 +171,20 @@ form[data-controller=loading_form] {
 
 .tagsafe-pill {
   width: fit-content;
-  display: inline-block;
-  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0px 5px 0px 5px;
   border-radius: 999px;
   cursor: default;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 12px;
   text-align: center;
-  &.tagsafe-blue {
-    background: #cce9ff;
+  &.tagsafe-primary-purple {
+    background: rgb(235, 238, 255);
     border: 1px solid $tagsafe-primary;
   }
-  &.tagsafe-blue, &.tagsafe-blue * {
+  &.tagsafe-primary-purple, &.tagsafe-primary-purple * {
     color: $tagsafe-primary;
   }
   &.green {

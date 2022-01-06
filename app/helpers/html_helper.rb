@@ -1,34 +1,44 @@
 module HtmlHelper
   class << self
     def PASSED_ICON(color: nil)
-      if color
-        "<i class='far fa-check-circle' style='color: #{color}'></i>".html_safe
-      else
-        "<i class='far fa-check-circle'></i>".html_safe
-      end
+      font_awesome_icon('far fa-check-circle', color: color)
     end
   
     def FAILED_ICON(color: nil)
-      if color
-        "<i class='far fa-times-circle' style='color: #{color}'></i>".html_safe
-      else
-        "<i class='far fa-times-circle'></i>".html_safe
-      end
+      font_awesome_icon('far fa-times-circle', color: color)
     end
 
     def WARNING_ICON(color: nil)
-      if color
-        "<i class='fas fa-exclamation-triangle' style='color: #{color}'></i>".html_safe
-      else
-        "<i class='fas fa-exclamation-triangle'></i>".html_safe
-      end
+      font_awesome_icon('fas fa-exclamation-triangle', color: color)
     end
 
     def QUESTION_MARK_ICON(color: nil)
+      font_awesome_icon('far fa-question-circle', color: color)
+    end
+
+    def CODE_FILE_ICON(color: nil)
+      font_awesome_icon('far fa-file-code', color: color)
+    end
+
+    def HTTP_REQUEST_ICON(color: nil)
+      font_awesome_icon("fas fa-exchange-alt", color: color)
+    end
+
+    def DOCUMENT_FILE_ICON(color: nil)
+      font_awesome_icon('far fa-file-alt', color: color)
+    end
+
+    def JAVASCRIPT_ICON(color: nil)
+      font_awesome_icon('<i class="fab fa-js-square"></i>', color: color)
+    end
+
+    private
+
+    def font_awesome_icon(klass, color: nil)
       if color
-        "<i class='far fa-question-circle' style='color: #{color}'></i>".html_safe
+        "<i class='#{klass}' style='color: #{color}'></i>".html_safe
       else
-        "<i class='far fa-question-circle'></i>".html_safe
+        "<i class='#{klass}'></i>".html_safe
       end
     end
   end

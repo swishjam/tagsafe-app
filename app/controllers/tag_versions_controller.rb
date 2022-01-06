@@ -53,10 +53,4 @@ class TagVersionsController < LoggedInController
     tag_version = tag.tag_versions.find(params[:id])
     render plain: tag_version.content
   end
-
-  def tagsafe_instrumented_js
-    tag = current_domain.tags.find(params[:tag_id])
-    tag_version = tag.tag_versions.find(params[:id])
-    render plain: tag_version.tagsafe_instrumented_content
-  end
 end

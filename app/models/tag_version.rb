@@ -7,7 +7,7 @@ class TagVersion < ApplicationRecord
   belongs_to :tag
   has_many :audits, dependent: :destroy
   has_one_attached :js_file, service: :tag_version_s3
-  has_one_attached :tagsafe_instrumented_js_file, service: :tag_version_s3
+  has_one_attached :formatted_js_file, service: :tag_version_s3
   
   scope :most_recent, -> { where(most_recent: true) }
 
@@ -47,20 +47,6 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def hosted_js_file_url(cloudfront_url = ENV['USE_CLOUDFRONT_CDN_FOR_JS_FILES'] == 'true')
-    return js_file.url unless cloudfront_url
-    parsed_url = URI.parse(js_file.url)
-    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
-    parsed_url.to_s
-  end
-
-  def hosted_tagsafe_instrumented_js_file_url(cloudfront_url = ENV['USE_CLOUDFRONT_CDN_FOR_JS_FILES'] == 'true')
-    return tagsafe_instrumented_js_file.url unless cloudfront_url
-    parsed_url = URI.parse(tagsafe_instrumented_js_file.url)
-    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
-    parsed_url.to_s
-  end
-
   def perform_audit_later(execution_reason:, url_to_audit:, options: {})
     AuditRunner.new(
       audit: nil,
@@ -73,6 +59,22 @@ class TagVersion < ApplicationRecord
 
   def perform_audit_later_on_all_urls(execution_reason, options = {})
     tag.urls_to_audit.each{ |url_to_audit| perform_audit_later(url_to_audit: url_to_audit, execution_reason: execution_reason, options: options) }
+  end
+
+  def js_file_url(formatted: false, use_cloudfront_url: ENV['USE_CLOUDFRONT_CDN_FOR_JS_FILES'] == 'true')
+    javascript_file = formatted ? formatted_js_file : js_file
+    return javascript_file.url unless use_cloudfront_url
+    parsed_url = URI.parse(javascript_file.url)
+    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
+    parsed_url.to_s
+  end
+
+  def content(formatted: false)
+    if formatted
+      @formatted_content ||= formatted_js_file.download
+    else
+      @content ||= js_file.download
+    end
   end
 
   def audit_to_display
@@ -117,14 +119,6 @@ class TagVersion < ApplicationRecord
 
   def next_version
     tag.tag_versions.most_recent_first.more_recent_than(created_at).limit(1).first
-  end
-
-  def content
-    @content ||= js_file.download
-  end
-
-  def tagsafe_instrumented_content
-    @tagsafe_instrumented_content ||= tagsafe_instrumented_js_file.download
   end
 
   def image_url

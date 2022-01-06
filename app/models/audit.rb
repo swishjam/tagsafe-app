@@ -60,9 +60,16 @@ class Audit < ApplicationRecord
     end
   end
 
+  def completed!
+    touch(:completed_at)
+    update_column(:seconds_to_complete, completed_at - enqueued_at)
+    make_primary! unless failed?
+    AuditCompletedJob.perform_later(self)
+  end
+
   def performance_audit_completed!
     create_delta_performance_audit!
-    # performance_audit_completed? return false without a reload..
+    # performance_audit_completed? returns false without a reload..
     unless reload.try_completion!
       update_audit_details_view(audit: self, now: true)
       update_audit_table_row(audit: self, now: true)
@@ -81,13 +88,6 @@ class Audit < ApplicationRecord
 
   def page_change_audit_completed!
     reload.try_completion!
-  end
-
-  def completed!
-    touch(:completed_at)
-    update_column(:seconds_to_complete, completed_at - enqueued_at)
-    make_primary! unless failed?
-    AuditCompletedJob.perform_later(self)
   end
 
   def error!(msg)

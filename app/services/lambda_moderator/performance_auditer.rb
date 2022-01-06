@@ -54,7 +54,7 @@ module LambdaModerator
       case @type
       when :with_tag
         # TODO: make load_type specific to the type of tag
-        [{ url:  @tag_version.hosted_tagsafe_instrumented_js_file_url, load_type: 'async' }]
+        [{ url:  @tag_version.js_file_url, load_type: 'async' }]
       when :without_tag
         []
       when nil

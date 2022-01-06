@@ -48,7 +48,7 @@
               daa-bs-toggle='tooltip'
               data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
               title="<%= safe_resource_name %>">
-          <span class='tagsafe-pill <%= {'img' => 'tagsafe-blue', 'css' => 'green', 'script' => 'red', 'xmlhttprequest' => 'orange', 'link' => 'grey'}[plr.initiator_type] %>' style='font-size: 9px; padding: 2px 5px 2px 5px;'><%= plr.initiator_type %></span>
+          <span style='height: 15px; width: 15px;' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= plr.initiator_type %>"><%= plr.resource_type_icon_html %></span>
           <%= safe_resource_name %>
         </div>
       <% end %>
@@ -57,7 +57,7 @@
         <% blocked_resources.each do |resource| %>
           <% unless performance_audit_type == 'with_tag' && resource.url == tag.full_url %>
             <div class='page-load-resource-name blocked-resource'>
-              <span class='tagsafe-pill <%= {'img' => 'tagsafe-blue', 'css' => 'green', 'script' => 'red', 'xmlhttprequest' => 'orange', 'link' => 'grey'}[resource.resource_type] %>' style='font-size: 9px; padding: 2px 5px 2px 5px;'><%= resource.resource_type %></span>
+              <span style='height: 15px; width: 15px;' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= resource.resource_type %>"><%= resource.resource_type_icon_html %></span>
               <%= resource.url %>
             </div>
           <% end %>

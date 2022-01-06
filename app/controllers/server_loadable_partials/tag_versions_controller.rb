@@ -15,8 +15,8 @@ module ServerLoadablePartials
       tag_version = tag.tag_versions.includes(:tag).find(params[:id])
       previous_tag_version = tag_version.previous_version
       diff_analyzer = DiffAnalyzer.new(
-        new_content: tag_version.content, 
-        previous_content: previous_tag_version&.content,
+        new_content: tag_version.content(formatted: true),
+        previous_content: previous_tag_version&.content(formatted: true),
         num_lines_of_context: params[:num_lines_of_context] || 7,
         include_diff_info: true
       )

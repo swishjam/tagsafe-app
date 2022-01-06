@@ -20,7 +20,7 @@
             <td><%= crawl.found_tags.count %></td>
             <td style='word-break: break-word;'>
               <% if crawl.pending? %>
-                <div class='tagsafe-pill tagsafe-blue placeholder-wave'>Crawling...</div>
+                <div class='tagsafe-pill tagsafe-primary-purple placeholder-wave'>Crawling...</div>
               <% else %>
                 <%= crawl.error_message || 'Success' %>
               <% end %>

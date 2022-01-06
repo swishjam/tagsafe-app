@@ -39,7 +39,7 @@ module LambdaModerator
       when 'TestRunWithoutTag'
         []
       when 'TestRunWithTag'
-        [{ url:  tag_version.hosted_tagsafe_instrumented_js_file_url, load_type: 'async' }]
+        [{ url:  tag_version.js_file_url, load_type: 'async' }]
       end
     end
 
