@@ -50,17 +50,18 @@ gem 'aws-sdk-s3'
 gem 'aws-sdk-lambda'
 gem 'aws-sdk-cloudwatchlogs'
 
-gem 'httparty'
 gem 'resque'
 gem 'resque-scheduler'
 gem 'active_scheduler'
+gem 'hirefire-resource'
+
+gem 'httparty'
 gem 'acts_as_paranoid'
 
 gem "chartkick"
 gem "groupdate"
 gem 'diffy'
-# gem 'codemirror-rails'
-# gem 'eslintrb'
+
 gem 'slack-ruby-client'
 # gem 'celluloid-io', require: ['celluloid/current', 'celluloid/io']
 gem 'async-websocket', '~> 0.8.0'
