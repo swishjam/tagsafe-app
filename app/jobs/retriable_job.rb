@@ -1,7 +1,6 @@
 module RetriableJob
   def self.included(base)
     base.rescue_from StandardError do |exception|
-      binding.pry
       # executions includes the initial attempt
       if executions <= 3
         Resque.logger.warn "RetriableJob WARNING: Retrying #{self.class.to_s} for the #{executions} time after it failed with an error of #{exception.inspect}"
