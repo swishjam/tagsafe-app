@@ -6,7 +6,7 @@
     <div class='tagsafe-table-row <%= audit.nil? ? nil : 'clickable' %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
       <div class="tagsafe-table-data" style='width: 25%'><%= tag_version.created_at.formatted_short %></div>
       <div class="tagsafe-table-data" style='width: 20%'>
-        <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag_version %>
+        <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: tag_version.audit_to_display %>
       </div>
       <div class="tagsafe-table-data" style='width: 20%'>
         <%= render 'test_runs/test_results_for_audit', audit: audit %>

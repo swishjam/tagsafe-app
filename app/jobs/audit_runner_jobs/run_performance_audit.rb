@@ -1,5 +1,6 @@
 module AuditRunnerJobs
   class RunPerformanceAudit < ApplicationJob
+    include RetriableJob
     queue_as :performance_audit_runner_queue
 
     def perform(audit)

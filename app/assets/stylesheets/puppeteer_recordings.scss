@@ -52,11 +52,11 @@
       &.other-audit-is-greater-than { z-index: 1; }
       &.other-audit-is-less-than { z-index: 3; }
     }
-    &:hover .performance-recording-metric-visual-comparison.other-audit-is-greater-than {
+    &.completed:hover .performance-recording-metric-visual-comparison.other-audit-is-greater-than {
       background: rgb(255, 143, 143);
       border: 1px dashed grey;
     }
-    &:hover .performance-recording-metric-visual-comparison.other-audit-is-less-than {
+    &.completed:hover .performance-recording-metric-visual-comparison.other-audit-is-less-than {
       background: $tagsafe-secondary;
       border: 1px dashed grey;
     }

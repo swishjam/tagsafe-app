@@ -1,0 +1,42 @@
+<% if audit.nil? %>
+  <% if tag.removed_from_site? %>
+    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Tag removed from site</span>
+  <% elsif tag.disabled? %>
+    <span class='tagsafe-pill red small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Tag monitoring disabled</span>
+  <% else %>
+    <span class='tagsafe-pill grey small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this release</span>
+  <% end %>
+<% elsif audit.include_performance_audit %> 
+  <% if audit.performance_audit_pending? %>
+    <span class='tagsafe-pill pulsate <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Pending</span>
+  <% elsif audit.failed? %>
+    <span class='tagsafe-pill red <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit failed.</span>
+  <% elsif audit.performance_audit_completed? %>
+    <% 
+      color = audit.delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : 
+                audit.delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red'
+    %>
+    <span class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+      <% current_score = audit.delta_performance_audit.tagsafe_score.round(2) %> 
+      <%= current_score %>
+      <% if local_assigns[:compare_to_previous_score] %>
+        <% previous_primary_audit = audit.tag_version.previous_version&.primary_audit %>
+        <% if previous_primary_audit %>
+          <% previous_score = previous_primary_audit.delta_performance_audit.tagsafe_score.round(2) %>
+          <% diff_in_score = (current_score - previous_score).round(2) %>
+          <% icon_class = diff_in_score.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
+          <span style='font-size: 0.75rem'
+                class='ms-1'
+                data-controller='tooltip'
+                data-bs-toggle='tooltip'
+                title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous version.">
+                <i class="<%=icon_class%>"></i> 
+                <%= diff_in_score %>
+          </span>
+        <% end %>
+      <% end %>
+    </span>
+  <% end %>
+<% else %>
+  <span class='tagsafe-pill grey <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Performance audit not run</span>
+<% end %>

@@ -28,10 +28,11 @@ class TagVersionsController < LoggedInController
   def begin_audit
     tag = current_domain.tags.find(params[:tag_id])
     tag_version = tag.tag_versions.find(params[:id])
+    urls_to_audit = tag.urls_to_audit.includes(:page_url)
     render turbo_stream: turbo_stream.replace(
       'server_loadable_modal_content',
       partial: 'begin_audit',
-      locals: { tag: tag, tag_version: tag_version }
+      locals: { tag: tag, tag_version: tag_version, urls_to_audit: urls_to_audit }
     )
   end
 

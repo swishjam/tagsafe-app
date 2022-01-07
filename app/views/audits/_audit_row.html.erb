@@ -14,25 +14,7 @@
   <%= link_to performance_audit_tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration d-flex', style: 'width: 81%', target: '_top' do %>
     <div class='tagsafe-table-data' style='width: 26%'><%= audit.created_at.formatted_short %></div>
     <div class='tagsafe-table-data' style='width: 26%'>
-      <% if audit.failed? %>
-        <span class="tagsafe-pill red">Failed</span>
-      <% elsif audit.performance_audit_pending? %>
-        <span class="tagsafe-pill tagsafe-primary-purple placeholder-wave">Audit in progress</span>
-        <%= render 'audits/completion_indicator', audit: audit %>
-      <% else %>
-        <% if !audit.include_performance_audit %>
-          <span class='fs-6' data-controller='tooltip' data-bs-toggle='tooltip' title='At the time this audit was run, performance audits were disabled. Run a new audit with performance audits enabled in order to generate a Tagsafe Score'>
-            Performance audit disabled
-          </span>
-        <% elsif audit.delta_performance_audit %>
-          <% score = audit.delta_performance_audit.tagsafe_score.round(2) %>
-          <div class='tagsafe-pill <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red' %>' style='width: 50%;'>
-            <%= score %>
-          </div>
-        <% else %>
-          NO DELTA PERFORMANCE AUDIT. TODO: HOW DO WE GET HERE? RETURNS NIL IN THE `audit.update_audit_details_view` METHOD
-        <% end %>
-      <% end %>
+      <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit %>
     </div>
     <!-- <div class='tagsafe-table-data' style='width: 15%'><#%= audit.execution_reason.name %></div> !-->
     <div class='tagsafe-table-data' style='width: 26%'>

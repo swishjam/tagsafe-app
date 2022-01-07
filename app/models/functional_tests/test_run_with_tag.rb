@@ -3,6 +3,9 @@ class TestRunWithTag < TestRun
   has_one :follow_up_test_run_without_tag, class_name: 'TestRunWithoutTag', foreign_key: :original_test_run_with_tag_id
   has_one :test_run_without_tag, foreign_key: :original_test_run_with_tag_id
 
+  scope :inconclusive, -> { joins(:follow_up_test_run_without_tag).with_tag.where(passed: false, follow_up_test_run_without_tag: { passed: false }) }
+  scope :conclusive, -> { joins(:follow_up_test_run_without_tag).where(passed: false, follow_up_test_run_without_tag: { passed: true }).or(passed) }
+
   def self.friendly_class_name
     'Test Run With Tag'
   end

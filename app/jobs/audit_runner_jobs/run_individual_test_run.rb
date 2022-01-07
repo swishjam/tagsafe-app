@@ -1,21 +1,24 @@
 module AuditRunnerJobs
   class RunIndividualTestRun < ApplicationJob
+    include RetriableJob
     queue_as :functional_tests_queue
     
     def perform(test_run, options = {})
-      response = LambdaModerator::FunctionalTestRunner.new(test_run, options).send!
-      resp_body = response.response_body
-      update_test_run_with_response_body(test_run, resp_body)
-      if resp_body['passed']
-        test_run.passed!
-      else
-        test_run.failed!(
-          message: resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'],
-          type: resp_body['errorType'],
-          trace: resp_body['trace']
-        )
+      ActiveRecord::Base.transaction do
+        response = LambdaModerator::FunctionalTestRunner.new(test_run, options).send!
+        resp_body = response.response_body
+        update_test_run_with_response_body(test_run, resp_body)
+        if resp_body['passed']
+          test_run.passed!
+        else
+          test_run.failed!(
+            message: resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'],
+            type: resp_body['errorType'],
+            trace: resp_body['trace']
+          )
+        end
+        test_run.audit.functional_tests_completed! if !test_run.is_a?(DryTestRun) && test_run.audit.functional_tests_completed?
       end
-      test_run.audit.functional_tests_completed! if !test_run.is_a?(DryTestRun) && test_run.audit.functional_tests_completed?
     end
 
     def update_test_run_with_response_body(test_run, response_body)

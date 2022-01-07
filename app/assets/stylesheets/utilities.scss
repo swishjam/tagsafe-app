@@ -173,52 +173,48 @@ form[data-controller=loading_form] {
   width: fit-content;
   display: inline-flex;
   align-items: center;
-  padding: 0px 5px 0px 5px;
+  justify-content: center;
+  padding: 5px 10px 5px 10px;
   border-radius: 999px;
   cursor: default;
   text-overflow: ellipsis;
   white-space: nowrap;
-  // font-size: 12px;
   font-size: 1rem;
-  text-align: center;
-  &.tagsafe-primary-purple {
-    background: rgb(235, 238, 255);
-    border: 1px solid $tagsafe-primary;
+  font-weight: 700;
+  &.small-text {
+    font-size: 0.75rem;
   }
-  &.tagsafe-primary-purple, &.tagsafe-primary-purple * {
+  &.pulsate { 
     color: $tagsafe-primary;
+    * { color: $tagsafe-primary; } 
+    -webkit-animation: loading-pill-pulsate 1500ms linear 1500ms infinite; 
+    animation: loading-pill-pulsate 1500ms linear 1500ms infinite; 
   }
-  &.green {
-    background: rgb(200, 255, 200);
-    border: 1px solid green;
-  }
-  &.green, &.green * {
-    color: green;
-  }
-  &.orange {
-    background: rgb(255, 240, 213);
-    border: 1px solid orange;
-  }
-  &.orange, &.orange * {
-    color: orange;
-  }
-  &.red {
-    background: rgb(255, 212, 212);
-    border: 1px solid red;
-  }
-  &.red, &.red * {
-    color: red;
-  }
-  &.grey {
-    background: rgb(235, 235, 235);
-    border: 1px solid grey;
-  }
-  &.grey, &.grey * {
-    color: grey;
-  }
-  .remove-btn {
-    cursor: pointer;
-  }
+
+  &.tagsafe-primary-purple { background: rgb(235, 238, 255) }
+  &.tagsafe-primary-purple, &.tagsafe-primary-purple * { color: $tagsafe-primary }
+
+  &.green { background: rgb(200, 255, 200) }
+  &.green, &.green * { color: green }
+
+  &.orange { background: rgb(255, 240, 213) }
+  &.orange, &.orange * { color: orange }
+
+  &.red { background: rgb(255, 212, 212) }
+  &.red, &.red * { color: red }
+
+  &.grey { background: rgb(235, 235, 235) }
+  &.grey, &.grey * { color: grey }
+}
+
+@-webkit-keyframes loading-pill-pulsate {
+  0%,100% { background: rgb(209, 216, 255) }
+  50% { background: rgb(231, 235, 254) }
+}
+
+@keyframes loading-pill-pulsate {
+  0%,100% { background: rgb(209, 216, 255) }
+  50% { background: rgb(249, 250, 255) }
 }
 
 .tagsafe-badge {
@@ -294,4 +290,15 @@ form[data-controller=loading_form] {
   cursor: pointer;
   width: 275px;
   text-align: center;
+}
+
+.spinnable-close-button, .spinnable-remove-button {
+  cursor: pointer;
+  i {
+    transition: transform .7s ease-in-out;
+  }
+  &:hover i {
+    transform: rotate(180deg);
+    color: rgb(86, 86, 86);
+  }
 }

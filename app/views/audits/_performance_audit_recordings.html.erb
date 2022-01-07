@@ -63,7 +63,7 @@
     </div>
 
     <div class='row performance-audit-visuals-row'>
-      <div class='video-performance-progress-visuals-container p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
+      <div class='video-performance-progress-visuals-container running p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
         <% with_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
           <div class='performance-recording-metric-visual-container'>
             <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
@@ -103,7 +103,7 @@
         <% end %>
       </div>
 
-      <div class='video-performance-progress-visuals-container p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
+      <div class='video-performance-progress-visuals-container running p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
         <% without_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
           <div class='performance-recording-metric-visual-container'>
             <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>

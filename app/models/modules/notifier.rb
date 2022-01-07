@@ -29,14 +29,12 @@ module Notifier
 
     def send_notification_on_create
       img = self.respond_to?(:image_url) ? self.image_url : nil
-      after_create_commit { broadcast_notification!(after_create_notification_msg, img) }
+      after_create_commit { broadcast_notification_to_all!(after_create_notification_msg, img) }
     end
   end
 
   module InstanceMethods
-    private
-
-    def broadcast_notification!(message, img = nil)
+    def broadcast_notification_to_all!(message, img = nil)
       broadcast_prepend_to "#{domain_id}_domain_notifications_container", 
                             target: "#{domain_id}_domain_notifications_container", 
                             partial: 'partials/notification', 

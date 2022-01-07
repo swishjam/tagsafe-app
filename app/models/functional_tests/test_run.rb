@@ -16,6 +16,13 @@ class TestRun < ApplicationRecord
   scope :retries, -> { where.not(test_run_id_retried_from: nil) }
   scope :not_retries, -> { where(test_run_id_retried_from: nil) }
 
+  scope :with_tag, -> { where(type: 'TestRunWithTag') }
+  scope :without_tag, -> { where(type: 'TestRunWithoutTag') }
+  scope :dry_runs, -> { where(type: 'DryTestRun') }
+
+  scope :conclusive, -> { all }
+  scope :inconclusive, -> { none }
+
   def executed_lambda_function
     ExecutedLambdaFunction.find_by(parent_type: 'TestRun', parent_id: id)
   end

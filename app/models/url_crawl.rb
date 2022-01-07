@@ -24,7 +24,7 @@ class UrlCrawl < ApplicationRecord
 
   def found_tag!(
     tag_url,
-    load_type:,
+    load_type: nil,
     enabled: ENV['NEW_TAGS_ARE_ENABLED_BY_DEFAULT'] == 'true', 
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,

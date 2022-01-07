@@ -252,8 +252,7 @@ module Streamable
     end
 
     def stream_remove!(now:, stream:, target:)
-      broadcast_method = now ? :broadcast_remove_to : :broadcast_remove_later_to
-      send(broadcast_method, stream, target: target)
+      send(:broadcast_remove_to, stream, target: target)
     end
   end
 end

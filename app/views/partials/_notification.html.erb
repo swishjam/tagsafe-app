@@ -1,7 +1,7 @@
 <div class='notification <%= local_assigns[:notification_type] %> <%= local_assigns[:error] ? 'error' : nil %>' data-controller='notification'>
   <div class='p-2'>
     <div class='notification-header'>
-      <span class='exit-btn' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
+      <span class='exit-btn spinnable-close-button' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
       <% if local_assigns[:title] %>
         <span class='notification-title'><%= title %></span>
       <% end %>

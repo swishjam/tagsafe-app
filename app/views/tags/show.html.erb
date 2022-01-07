@@ -4,17 +4,23 @@
 <h5 class="page-title with-sub-title">Tag Details</h6>
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 
-<div class='tagsafe-container'>
-  <%= render 'tags/current_stats', tag: @tag %>
-</div>
+<% if @tag.enabled? %>
+  <div class='tagsafe-container'>
+    <%= render 'tags/current_stats', tag: @tag %>
+  </div>
+<% end %>
 
 <div class="tagsafe-container" style="padding-top: 5px;">
   <div class="row" style="margin-bottom: 5px;">
     <div class="col-12">
       <% if @tag.removed_from_site? %>
-        <h6 class='text-center mt-2'><i class="fas fa-exclamation-circle"></i> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
+        <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
+        </div>
       <% elsif @tag.disabled? %>
-        <h6 class='text-center mt-2'><i class="fas fa-exclamation-circle"></i> Tagsafe monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %></h6>
+      <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %>
+        </div>
       <% end %>
       <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
         <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -5,17 +5,22 @@
         <div class='tag-img-thumbnail-container'>
           <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
         </div>
-        <div class='tag-name-container' style="word-break: break-all"><%= tag.try_friendly_name %></div>
+        <div class='tag-name-container' 
+              style="overflow: hidden; text-overflow: ellipsis; word-break: normal"
+              data-controller='tooltip'
+              data-bs-toggle='tooltip'
+              title="<%=tag.try_friendly_name%>"><%= tag.try_friendly_name %></div>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
-        <% if tag.current_version %>
-          <%= render 'audits/primary_audit_for_tag_version_pill', tag: tag, tag_version: tag.current_version %>
-        <% else %>
+        <% audit_to_display = tag.current_version&.audit_to_display %>
+        <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit_to_display %>
+      </div>
+      <div class='tagsafe-table-data' style='width: 17%'>
+        <% if audit_to_display.nil? %>
           --
+        <% else %>
+          <%= render 'test_runs/test_results_for_audit', audit: audit_to_display %>
         <% end %>
-      </div>
-      <div class='tagsafe-table-data' style='width: 17%'>
-        <%= render 'test_runs/test_results_for_audit', audit: tag.current_version&.audit_to_display %>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'><%= tag.content_changed_at&.formatted_short || 'No releases' %></div>
       <div class='tagsafe-table-data text-end' style='width: 5%'>

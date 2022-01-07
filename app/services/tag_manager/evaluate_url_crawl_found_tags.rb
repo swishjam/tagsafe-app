@@ -50,12 +50,12 @@ module TagManager
         })
       else
         # new tag
-        @url_crawl.found_tag!(tag_url, load_type: load_type, initial_crawl: @initial_crawl)
+        @url_crawl.found_tag!(tag_url, initial_crawl: @initial_crawl)
       end
     end
 
     def update_tags_no_longer_present_as_removed_from_site!
-      return if ENV['REMOVE_TAGS_IN_URL_CRAWLS'] == 'false'
+      return unless Flag.flag_is_true(@domain, 'remove_tags_no_longer_present_in_url_crawls')
       tag_urls_that_were_previously_active_on_this_page_url.each do |tag_url|
         tag = @domain.tags.find_by(full_url: tag_url)
         TagRemovedFromSiteEvent.create!(triggerer: tag)

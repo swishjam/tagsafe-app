@@ -116,9 +116,13 @@ export default class extends Controller {
     if(completed) {
       this[targetIdentifier].classList.add('completed');
       this[targetIdentifier].classList.remove('running');
+      this[targetIdentifier].parentElement.classList.add('completed');
+      this[targetIdentifier].parentElement.classList.remove('running');
     } else {
       this[targetIdentifier].classList.add('running');
       this[targetIdentifier].classList.remove('completed');
+      this[targetIdentifier].parentElement.classList.add('running');
+      this[targetIdentifier].parentElement.classList.remove('completed');
     }
   }
 

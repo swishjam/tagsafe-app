@@ -31,14 +31,6 @@
       vertical-align: top;
       margin-bottom: 5px;
       padding: 5px;
-      cursor: pointer;
-      i {
-        transition: transform .7s ease-in-out;
-      }
-      &:hover i {
-        transform: rotate(180deg);
-        color: rgb(86, 86, 86);
-      }
     }
     .notification-content {
       padding: 0px 10px 10px 10px;

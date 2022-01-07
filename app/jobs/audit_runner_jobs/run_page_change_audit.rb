@@ -1,12 +1,8 @@
 module AuditRunnerJobs
   class RunPageChangeAudit < ApplicationJob
-    def perform(audit)
-      run_full_page_change_audit!(audit)
-    # rescue HtmlSnapshotError::SnapshotFailed => e
-    #   run_full_page_change_audit!(audit)
-    end
+    include RetriableJob
 
-    def run_full_page_change_audit!(audit)
+    def perform(audit)
       page_change_audit = PageChangeAudit.create(audit: audit)
       run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithoutTag)
       run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithoutTag)

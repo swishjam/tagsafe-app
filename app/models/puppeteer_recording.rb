@@ -15,7 +15,9 @@ class PuppeteerRecording < ApplicationRecord
   end
 
   def purge_from_s3
-    TagsafeS3.client.delete_object(s3_client_params)
+    unless failed_to_capture?
+      TagsafeS3.client.delete_object(s3_client_params)
+    end
   end
 
   def failed_to_capture?

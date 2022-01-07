@@ -1,7 +1,7 @@
 <%= turbo_frame_tag 'server_loadable_modal_content', class: 'display-form-loading', data: { modal_title: 'Run audit' } do %>
   <% if local_assigns[:audits_enqueued] %>
     <div class='mb-5'>
-      <h3 class='inline-message mt-5 mb-5'>Performing <%= audits_enqueued.count %> <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
+      <h3 class='inline-message mt-5 mb-5'>Performing <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
       <% if audits_enqueued.count > 1 %>
         <% audits_enqueued.each do |audit| %>
           <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
@@ -11,15 +11,21 @@
       <% end %>
     </div>
   <% else %>
-    <h3>Audit <%= tag.try_friendly_name %></h3>
     <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'loading_form' } do |f| %>
-      <% tag.urls_to_audit.includes(:page_url).each do |url_to_audit| %>
-        <div class="form-check form-switch w-fit m-auto">
-          <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.page_url.full_url %></label>
-          <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
-        </div>
-      <% end %>
-      <div class='button-divider text-end'>
+      <div class='modal-content-body'>
+        <h3>Audit <%= tag.try_friendly_name %></h3>
+        <% if urls_to_audit.count == 1 %>
+          <input name='urls_to_audit[]' id="url_to_audit_<%= urls_to_audit.first.id %>" value="<%= urls_to_audit.first.id %>" type='hidden'>
+        <% else %>
+          <% urls_to_audit.each do |url_to_audit| %>
+            <div class="form-check form-switch w-fit m-auto">
+              <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.page_url.full_url %></label>
+              <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class='modal-content-footer text-end'>
         <%= loading_submit_button 'Run audit' %>
       </div>
     <% end %>

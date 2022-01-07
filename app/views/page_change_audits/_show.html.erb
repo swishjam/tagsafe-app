@@ -33,7 +33,7 @@
   </div>
   <% if !page_change_audit.tag_causes_page_changes %>    
     <div class='col-12 text-center'>
-      <h5><%= HtmlHelper.PASSED_ICON(color: 'green') %> Tag does not impact the page's HTML.</h5>
+      <h5><%= HtmlHelper.PASSED_ICON(color: 'green') %> Tag does not make any changes to the page's HTML.</h5>
     </div>
   <% else %>
     <style><%= Diffy::CSS %></style>

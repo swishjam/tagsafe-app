@@ -66,6 +66,12 @@ namespace :seed do
         slug: 'max_functional_test_script_execution_ms',
         description: 'The maximum amount of time (in milliseconds) a functional test\'s script has to complete execution',
         default_value: '20000'
+      },
+      {
+        name: 'Should remove tags when no longer present in URL crawl results',
+        slug: 'remove_tags_no_longer_present_in_url_crawls',
+        description: 'When value is true, if a URL crawl no longer has a tag that it previously had, mark the tag as `remove-from-site`',
+        default_value: 'false'
       }
     ]
 

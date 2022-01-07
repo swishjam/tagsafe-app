@@ -225,6 +225,6 @@ class Audit < ApplicationRecord
   end
 
   def display_functional_test_results
-    "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run}"
+    "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run - test_runs_with_tag.not_retries.inconclusive.count}"
   end
 end
