@@ -23,40 +23,7 @@ class PerformanceAudit < ApplicationRecord
   scope :failed, -> { completed.where.not(error_message: nil) }
   scope :completed_successfully, -> { completed.where(error_message: nil) }
 
-  CHARTABLE_COLUMNS = [
-    {
-      title: 'DOM Complete',
-      column: :dom_complete
-    },
-    {
-      title: 'DOM Interactive',
-      column: :dom_interactive
-    },
-    {
-      title: 'First Contentful Paint',
-      column: :first_contentful_paint
-    },
-    {
-      title: 'DOM Content Loaded',
-      column: :dom_content_loaded
-    },
-    {
-      title: 'Script Duration',
-      column: :script_duration
-    },
-    {
-      title: 'Layout Duration',
-      column: :layout_duration
-    },
-    {
-      title: 'Task Duration',
-      column: :task_duration
-    },
-    {
-      title: 'Tagsafe Score',
-      column: :tagsafe_score
-    }
-  ].freeze
+  CHARTABLE_COLUMNS = [{ title: 'DOM Complete', column: :dom_complete }, { title: 'DOM Interactive', column: :dom_interactive }, { title: 'First Contentful Paint', column: :first_contentful_paint }, { title: 'DOM Content Loaded', column: :dom_content_loaded }, { title: 'Script Duration', column: :script_duration }, { title: 'Layout Duration', column: :layout_duration }, { title: 'Task Duration', column: :task_duration }, { title: 'Tagsafe Score', column: :tagsafe_score }].freeze
   
   def executed_lambda_function
     ExecutedLambdaFunction.find_by(parent_id: id, parent_type: 'PerformanceAudit')
