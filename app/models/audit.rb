@@ -37,8 +37,8 @@ class Audit < ApplicationRecord
 
   scope :pending_performance_audit, -> { where(seconds_to_complete: nil) }
   scope :completed_performance_audit, -> { where.not(seconds_to_complete: nil) }
-  scope :failed_performance_audit, -> { where.not(error_message: nil) }
-  scope :successful_performance_audit, -> { completed.where(error_message: nil) }
+  scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
+  scope :successful_performance_audit, -> { completed.where(performance_audit_error_message: nil) }
 
   scope :pending, -> { pending_performance_audit }
   scope :completed, -> { completed_performance_audit }
