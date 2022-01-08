@@ -188,6 +188,14 @@ class Audit < ApplicationRecord
     PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
   end
 
+  def run_next_individual_performance_audit(audit_type)
+    num_remaining_audits_for_type = audit_type == :with_tag ? num_individual_performance_audits_with_tag_remaining : num_individual_performance_audits_without_tag_remaining
+    if num_remaining_audits_for_type.zero?
+    else
+      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: self, tag_version: tag_version)
+    end
+  end
+
   def previous_primary_audit(force = false)
     return @previous_primary_audit if @previous_primary_audit && !force
     @previous_primary_audit = tag.audits.joins(:tag_version).primary.where('tag_versions.created_at < ?', tag_version.created_at).limit(1).first

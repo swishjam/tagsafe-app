@@ -1,6 +1,8 @@
 class NewTagVersionJob < ApplicationJob
   def perform(tag_version)
-    NotificationModerator::NewTagVersionNotifier.new(tag_version).notify!
+    if ENV['SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB'] == 'true'
+      NotificationModerator::NewTagVersionNotifier.new(tag_version).notify!
+    end
     if tag_version.should_throttle_audit?
       tag_version.throttle_audit!
     else

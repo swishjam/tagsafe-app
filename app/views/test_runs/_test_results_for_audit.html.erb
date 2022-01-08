@@ -1,9 +1,9 @@
 <% if audit %>
   <% if !audit.include_functional_tests %>
-    <span class='fw-bolder fs-6'>Tests disabled</span>
+    <span class='tagsafe-pill grey'>Tests disabled</span>
   <% else %>
     <% if audit.num_functional_tests_to_run.zero? %>
-      <span class='fw-bolder fs-6'>No tests configured</span>
+      <span class='tagsafe-pill grey'>No tests configured</span>
     <% else %>
       <% if audit.functional_tests_pending? %>
         <span class='tagsafe-pill pulsate'>Pending</span>

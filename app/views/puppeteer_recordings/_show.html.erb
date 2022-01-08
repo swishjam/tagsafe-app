@@ -1,13 +1,17 @@
 <!-- <div data-controller='video-js' class='video-js-wrapper p-3'> !-->
-<div class='video-js-wrapper'>
-  <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+<% if puppeteer_recording.failed_to_capture? %>
+  <h5>Unexpected error occurred and was unable to capture playback recording.</h5>
+<% else %>
+  <div class='video-js-wrapper'>
+    <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
 
-  <div class='video-js-container'>
-    <video-js class='m-auto' id="<%= puppeteer_recording.uid %>">
-      <source src="<%= puppeteer_recording.s3_url %>" type="video/mp4" />
-    </video-js>
-    <div class='playback-time'></div>
+    <div class='video-js-container'>
+      <video-js class='m-auto' id="<%= puppeteer_recording.uid %>">
+        <source src="<%= puppeteer_recording.s3_url %>" type="video/mp4" />
+      </video-js>
+      <div class='playback-time'></div>
+    </div>
+    <script>videojs(document.querySelector('video-js#<%= puppeteer_recording.uid %>'), { controls: true, fluid: true, poster: '#' })</script>
   </div>
-  <script>videojs(document.querySelector('video-js#<%= puppeteer_recording.uid %>'), { controls: true, fluid: true, poster: '#' })</script>
-</div>
+<% end %>

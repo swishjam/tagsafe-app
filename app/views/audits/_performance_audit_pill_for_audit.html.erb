@@ -19,7 +19,7 @@
     <span class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
       <% current_score = audit.delta_performance_audit.tagsafe_score.round(2) %> 
       <%= current_score %>
-      <% if local_assigns[:compare_to_previous_score] %>
+      <% unless local_assigns[:compare_to_previous_score] == false %>
         <% previous_primary_audit = audit.tag_version.previous_version&.primary_audit %>
         <% if previous_primary_audit %>
           <% previous_score = previous_primary_audit.delta_performance_audit.tagsafe_score.round(2) %>

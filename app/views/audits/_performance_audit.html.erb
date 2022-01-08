@@ -159,9 +159,9 @@
       </div>
     <% end %>
   <% end %>
-  <% unless !audit.include_performance_audit || 
-            audit.performance_audit_with_tag_used_for_scoring&.puppeteer_recording.nil? || 
-            audit.performance_audit_without_tag_used_for_scoring&.puppeteer_recording.nil? %>
+  <% if audit.include_performance_audit &&
+            audit.performance_audit_with_tag_used_for_scoring&.puppeteer_recording&.captured_successfully? &&
+            audit.performance_audit_without_tag_used_for_scoring&.puppeteer_recording&.captured_successfully? %>
     <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: audit.performance_audit_with_tag_used_for_scoring,

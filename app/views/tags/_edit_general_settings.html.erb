@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "#{tag.id}_edit_general_settings" do %>
-    <div class="text-center tagsafe-container">
+  <div class="text-center tagsafe-container">
     <div class='row'>
       <% if tag.disabled? %>
         <div class="alert alert-danger col-10 offset-1" role="alert">
@@ -30,18 +30,21 @@
           <label for='friendly_name'>Tag Nickname (ie: Google Analytics)</label>
           <button type='submit' class='tagsafe-btn square'>Update</button>
         </div>
-        <%= f.fields_for :tag_preferences_attributes, tag.tag_preferences do |ff| %>
+
+        <!--
+        <#%= f.fields_for :tag_preferences_attributes, tag.tag_preferences do |ff| %>
           <div class="form-check form-switch w-fit m-auto mt-3">
-            <%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
+            <#%= ff.label :consider_query_param_changes_new_tag, class: 'form-check-label' %>
             <i data-controller='tooltip'
                 data-bs-toggle="tooltip"
                 data-placement="top"
                 title="Select this option to consider each time the query params change a new tag has been added to <%= current_domain.url %>."
                 class="far fa-question-circle"></i>
-            <%= ff.check_box :consider_query_param_changes_new_tag, checked: tag.tag_preferences.consider_query_param_changes_new_tag, class: 'form-check-input' %>
+            <#%= ff.check_box :consider_query_param_changes_new_tag, checked: tag.tag_preferences.consider_query_param_changes_new_tag, class: 'form-check-input' %>
           </div>
-        </div>
-      <% end %>
+        <#% end %>
+        !-->
+      </div>
     <% end %>
   </div>
   <% if tag.enabled? %>

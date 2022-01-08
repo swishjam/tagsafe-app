@@ -24,6 +24,10 @@ class PuppeteerRecording < ApplicationRecord
     s3_url == FAILED_TO_CAPTURE_S3_URL_VALUE
   end
 
+  def captured_successfully?
+    s3_url && !failed_to_capture?
+  end
+
   private
 
   def s3_client_params
