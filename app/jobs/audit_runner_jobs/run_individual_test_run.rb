@@ -17,7 +17,6 @@ module AuditRunnerJobs
             trace: resp_body['trace']
           )
         end
-        test_run.audit.functional_tests_completed! if !test_run.is_a?(DryTestRun) && test_run.audit.reload.functional_tests_completed?
       end
     end
 

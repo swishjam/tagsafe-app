@@ -5,7 +5,7 @@ class AuditsController < LoggedInController
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
   def index
-    @audits = @tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
+    @audits = @tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits)
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
@@ -16,7 +16,7 @@ class AuditsController < LoggedInController
   def make_primary
     @audit.make_primary!
     current_user.broadcast_notification("Primary audit updated for #{@audit.tag.try_friendly_name} version #{audit.tag_version.sha}", image: audit.tag.try_image_url)
-    updated_audits_collection = @audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
+    updated_audits_collection = @audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits)
     render turbo_stream: turbo_stream.replace(
       "tag_version_#{@audit.tag_version.uid}_audits_table",
       partial: 'audits/audits_table',

@@ -26,7 +26,6 @@ class Audit < ApplicationRecord
   #############
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
-  # after_create_commit -> { update_primary_audit_pill_for_tag_version(tag_version: tag_version, now: true) }
 
   ##########
   # SCOPES #
@@ -35,24 +34,31 @@ class Audit < ApplicationRecord
   scope :primary, -> { where(primary: true) }
   scope :not_primary, -> { where(primary: false) }
 
-  scope :pending_performance_audit, -> { where(seconds_to_complete: nil) }
-  scope :completed_performance_audit, -> { where.not(seconds_to_complete: nil) }
-  scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
-  scope :successful_performance_audit, -> { completed.where(performance_audit_error_message: nil) }
-
-  scope :pending, -> { pending_performance_audit }
-  scope :completed, -> { completed_performance_audit }
-  scope :failed, -> { failed_performance_audit }
-  scope :successful, -> { successful_performance_audit }
+  scope :completed, -> { where.not(seconds_to_complete: nil) }
+  scope :pending, -> { where(seconds_to_complete: nil) }
 
   scope :throttled, -> { where(throttled: true) }
   scope :not_throttled, -> { where(throttled: false) }
 
+  scope :performance_audits_disabled, -> { where(include_performance_audit: false) }
+  scope :performance_audits_enabled, -> { where(include_performance_audit: true) }
+  scope :pending_performance_audit, -> { performance_audits_enabled.where(performance_audit_completed_at: nil) }
+  scope :completed_performance_audit, -> { performance_audits_enabled.where.not(performance_audit_completed_at: nil) }
+  scope :successful_performance_audit, -> { completed.where(performance_audit_error_message: nil) }
+  scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
+
+  scope :functional_tests_disabled, -> { where(include_functional_tests: false) }
+  scope :functional_tests_enabled, -> { where(include_functional_tests: true) }
+  scope :pending_functional_tests, -> { functional_tests_enabled.where(functional_tests_completed_at: nil ) }
+  scope :completed_functional_tests, -> { functional_tests_enabled.where.not(functional_tests_completed_at: nil ) }
+
+  scope :page_change_audit_disabled, -> { where(include_page_change_audit: false) }
+  scope :page_change_audit_enabled, -> { where(include_page_change_audit: true) }
+  scope :pending_page_change_audit, -> { page_change_audit_enabled.where(page_change_audit_completed_at: nil) }
+  scope :completed_page_change_audit, -> { page_change_audit_enabled.where.not(page_change_audit_completed_at: nil) }
+
   def try_completion!
-    if !completed? && 
-        (!include_page_change_audit || page_change_audit_completed?) && 
-        (!include_functional_tests || functional_tests_completed?) && 
-        (!include_performance_audit || performance_audit_completed?)
+    if seconds_to_complete.nil? && completed?
       completed!
       true
     else
@@ -61,14 +67,14 @@ class Audit < ApplicationRecord
   end
 
   def completed!
-    touch(:completed_at)
-    update_column(:seconds_to_complete, completed_at - enqueued_at)
+    update_column(:seconds_to_complete, Time.now - enqueued_suite_at)
     make_primary! unless performance_audit_failed?
     AuditCompletedJob.perform_later(self)
   end
 
   def performance_audit_completed!
     create_delta_performance_audit! unless performance_audit_failed? || !delta_performance_audit.nil?
+    update(performance_audit_completed_at: Time.now)
     update_performance_audit_details_view(audit: self, now: true)
     return if reload.try_completion!
     # performance_audit_completed? returns false without a reload..
@@ -78,6 +84,7 @@ class Audit < ApplicationRecord
   end
 
   def functional_tests_completed!
+    update(functional_tests_completed_at: Time.now)
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
     update_tag_version_table_row(tag_version: tag_version, now: true)
@@ -85,6 +92,7 @@ class Audit < ApplicationRecord
   end
 
   def page_change_audit_completed!
+    update(page_change_audit_completed_at: Time.now)
     reload.try_completion!
   end
 
@@ -117,7 +125,7 @@ class Audit < ApplicationRecord
     re_render_audit_table(audit: self, now: update_views_now)
     re_render_tags_chart(domain: tag.domain, now: update_views_now)
     re_render_tag_chart(tag: tag, now: update_views_now)
-    # update performance chart...
+    # update performance chart?...
   end
 
   ############
@@ -130,24 +138,31 @@ class Audit < ApplicationRecord
   end
 
   def completed?
-    !completed_at.nil?
+    (!include_performance_audit || performance_audit_completed?) && 
+      (!include_functional_tests || functional_tests_completed?) && 
+      (!include_page_change_audit || page_change_audit_completed?)
+  end
+
+  def pending?
+    !completed?
   end
 
   def performance_audit_completed?
-    performance_audit_failed? || !!delta_performance_audit&.completed?
+    include_performance_audit && !performance_audit_completed_at.nil?
+  end
+
+  def performance_audit_pending?
+    include_performance_audit && !performance_audit_completed?
   end
 
   def all_individual_performance_audits_completed?
     num_individual_performance_audits_remaining == 0
   end
 
-  def performance_audit_pending?
-    include_performance_audit && !delta_performance_audit&.completed?
-  end
-
   def functional_tests_completed?
-    test_runs_with_tag.not_retries.completed.count == num_functional_tests_to_run && 
-      test_runs_with_tag.not_retries.failed.count == test_runs_without_tag.not_retries.completed.count
+    include_functional_tests && !functional_tests_completed_at.nil?
+    # test_runs_with_tag.not_retries.completed.count == num_functional_tests_to_run && 
+    #   test_runs_with_tag.not_retries.failed.count == test_runs_without_tag.not_retries.completed.count
   end
 
   def functional_tests_pending?
@@ -155,7 +170,7 @@ class Audit < ApplicationRecord
   end
 
   def page_change_audit_completed?
-    !!page_change_audit&.completed?
+    include_page_change_audit && !page_change_audit_completed_at.nil?
   end
 
   def page_change_audit_pending?
@@ -168,10 +183,6 @@ class Audit < ApplicationRecord
 
   def performance_audit_failed?
     !performance_audit_error_message.nil?
-  end
-
-  def pending?
-    !completed?
   end
 
   def primary?
@@ -245,6 +256,14 @@ class Audit < ApplicationRecord
     tag.functional_tests.any?
   end
 
+  def num_functional_tests_to_run_remaining
+    num_functional_tests_to_run_including_without_tag_validation_runs - (test_runs_with_tag.not_retries.completed.count + test_runs_with_tag.not_retries.failed.count)
+  end
+
+  def completed_all_functional_tests?
+    num_functional_tests_to_run_remaining.zero?
+  end
+
   def passed_all_functional_tests?
     test_runs_with_tag.not_retries.passed.count == num_functional_tests_to_run
   end
@@ -253,7 +272,14 @@ class Audit < ApplicationRecord
     "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run - test_runs_with_tag.not_retries.inconclusive.count}"
   end
 
+  def num_functional_tests_to_run_including_without_tag_validation_runs
+    num_functional_tests_to_run + test_runs_with_tag.failed.not_retries.count
+  end
+
   def functional_tests_percent_complete
-    (test_runs_with_tag.not_retries.completed.count.to_f / num_functional_tests_to_run.to_f)*100.0
+    total_num_tests_completed = test_runs_with_tag.passed.not_retries.count + 
+                                  test_runs_with_tag.failed.not_retries.count + 
+                                  test_runs_without_tag.completed.not_retries.count 
+    (total_num_tests_completed.to_f / num_functional_tests_to_run_including_without_tag_validation_runs.to_f)*100.0
   end
 end

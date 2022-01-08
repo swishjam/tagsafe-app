@@ -5,7 +5,7 @@
         style='<%= percent_complete.zero? ? nil : gradient_style %>'
         data-controller='tooltip'
         data-bs-toggle='tooltip'
-        title="Audit has completed <%= audit.test_runs_with_tag.not_retries.completed.count %> of the <%= audit.num_functional_tests_to_run %> functional tests.">
+        title="Audit has completed <%= audit.test_runs_with_tag.not_retries.completed.count %> of the <%= audit.num_functional_tests_to_run_including_without_tag_validation_runs %> functional tests.">
       Running
       </span>
 <% end %>

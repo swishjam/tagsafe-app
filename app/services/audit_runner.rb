@@ -17,7 +17,7 @@ class AuditRunner
   end
 
   def run!
-    audit.update(enqueued_at: DateTime.now)
+    audit.update(enqueued_suite_at: DateTime.now)
     enqueue_performance_audit!
     enqueue_functional_tests!
     enqueue_page_change_audit!

@@ -12,7 +12,7 @@
     <div class='tagsafe-table-body'>
       <%= turbo_frame_tag "tag_version_#{tag_version.uid}_audits_table_rows" do %>
         <%= render partial: 'audits/audit_row', 
-                    collection: tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits), 
+                    collection: tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits), 
                     as: :audit, 
                     locals: { streamed: local_assigns[:streamed] } 
         %>

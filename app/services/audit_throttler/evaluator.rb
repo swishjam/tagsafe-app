@@ -16,7 +16,7 @@ module AuditThrottler
         tag_version: @tag_version,
         execution_reason: ExecutionReason.NEW_TAG_VERSION,
         primary: true,
-        enqueued_at: DateTime.now
+        enqueued_suite_at: DateTime.now
         # seconds_to_complete: 0
       )
     end

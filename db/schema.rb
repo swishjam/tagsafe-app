@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_07_222010) do
+ActiveRecord::Schema.define(version: 2022_01_08_212506) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -44,14 +44,12 @@ ActiveRecord::Schema.define(version: 2022_01_07_222010) do
     t.string "uid"
     t.integer "execution_reason_id"
     t.boolean "primary"
-    t.timestamp "enqueued_at"
     t.timestamp "created_at"
     t.boolean "throttled", default: false
     t.float "seconds_to_complete"
     t.integer "tag_version_id"
     t.integer "tag_id"
     t.integer "performance_audit_iterations"
-    t.timestamp "completed_at"
     t.datetime "deleted_at"
     t.string "performance_audit_error_message"
     t.integer "performance_audit_calculator_id"
@@ -61,6 +59,10 @@ ActiveRecord::Schema.define(version: 2022_01_07_222010) do
     t.boolean "include_performance_audit"
     t.boolean "include_functional_tests"
     t.integer "num_functional_tests_to_run"
+    t.timestamp "enqueued_suite_at"
+    t.timestamp "performance_audit_completed_at"
+    t.timestamp "page_change_audit_completed_at"
+    t.timestamp "functional_tests_completed_at"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"

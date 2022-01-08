@@ -68,7 +68,7 @@
                 impact_result: audit.delta_performance_audit.dom_complete,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_complete : nil,
                 unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag,
@@ -76,7 +76,7 @@
                 impact_result: audit.delta_performance_audit.dom_interactive,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_interactive : nil,
                 unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
             </div>
             <div class="row">
@@ -86,7 +86,7 @@
                 impact_result: audit.delta_performance_audit.first_contentful_paint,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.first_contentful_paint : nil,
                 unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
@@ -94,7 +94,7 @@
                 impact_result: audit.delta_performance_audit.task_duration,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.task_duration : nil,
                 unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
             </div>
             <div class="row">
@@ -104,7 +104,7 @@
                 impact_result: audit.delta_performance_audit.script_duration,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.script_duration : nil,
                 unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
@@ -112,7 +112,7 @@
                 impact_result: audit.delta_performance_audit.layout_duration,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.layout_duration : nil,
                 unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
             </div>
             <div class='row'>
@@ -122,7 +122,7 @@
                   impact_result: audit.delta_performance_audit.dom_content_loaded,
                   previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_content_loaded : nil,
                   unit: 'ms',
-                  previous_timestamp: previous_audit ? previous_audit.enqueued_at : nil
+                  previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
                 } %>
               <div class="metric-row col-md-12 col-lg-6">
                 <div class='metric col-12'>
@@ -142,7 +142,7 @@
                             <span data-controller='tooltip'
                                   data-bs-toggle="tooltip"
                                   data-placement="top"
-                                  title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on File Size' was <%=number_to_human_size(tag_version.previous_version.bytes)%> (<%= previous_audit ? previous_audit.enqueued_at : nil %>)." 
+                                  title="The previous version of <%= tag.try_friendly_name %>'s 'Impact on File Size' was <%=number_to_human_size(tag_version.previous_version.bytes)%> (<%= previous_audit ? previous_audit.enqueued_suite_at : nil %>)." 
                                   class="<%= tag_version.change_in_bytes.positive? ? 'bad positive' : 'good negative' %>-change change-in-value">
                               <%= tag_version.change_in_bytes.positive? ? '+' : nil %><%= number_to_human_size(tag_version.change_in_bytes) %>
                               (<%= number_with_delimiter(((tag_version.change_in_bytes/tag_version.previous_version.bytes)*100).round(2)) %>%)

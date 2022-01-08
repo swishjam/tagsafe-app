@@ -29,11 +29,6 @@ module AuditRunnerJobs
         logs: response_data['logs'],
         error: response_data['error'] || response_data['errorMessage']
       ).capture_results!
-      # audit.reload # just in case
-      # all_individual_performance_audit_completed = !audit.performance_audit_failed? && audit.all_individual_performance_audits_completed?
-      # if all_individual_performance_audit_completed
-      #   audit.performance_audit_completed!
-      # end
     end
   end
 end
