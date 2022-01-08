@@ -33,16 +33,18 @@ class TestRunWithTag < TestRun
 
   def after_passed
     update_audit_test_run_row(test_run: self, now: true)
-    update_audit_table_row(audit: audit, now: true)
-    update_tag_version_table_row(tag_version: audit.tag_version, now: true)
-    update_tag_table_row(tag: audit.tag, now: true)
+    update_audit_functional_tests_completion_indicator(audit: audit, now: true)
+    # update_audit_table_row(audit: audit, now: true)
+    # update_tag_version_table_row(tag_version: audit.tag_version, now: true)
+    # update_tag_table_row(tag: audit.tag, now: true)
   end
 
   def after_failed
     functional_test.perform_test_run_without_tag_later!(original_test_run_with_tag: self)
     update_audit_test_run_row(test_run: self, now: true) 
-    update_audit_table_row(audit: audit, now: true)
-    update_tag_version_table_row(tag_version: audit.tag_version, now: true)
-    update_tag_table_row(tag: audit.tag, now: true)
+    update_audit_functional_tests_completion_indicator(audit: audit, now: true)
+    # update_audit_table_row(audit: audit, now: true)
+    # update_tag_version_table_row(tag_version: audit.tag_version, now: true)
+    # update_tag_table_row(tag: audit.tag, now: true)
   end
 end

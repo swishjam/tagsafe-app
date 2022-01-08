@@ -37,9 +37,10 @@
         <% end %>
       <% elsif audit.performance_audit_pending? %>
         <h5>Performance audit is currently running.</h5>
-        <%= display_loading_icon type: :grow %>
+        <!-- <#%= display_loading_icon type: :grow %> !-->
         <div class='m-auto text-center w-fit'>
-          <%= render 'audits/completion_indicator', audit: audit %>
+          <%= turbo_stream_from "audit_#{audit.uid}_pending_performance_audit_pill_stream" %>
+          <%= render 'audits/pending_performance_audit_pill', audit: audit %>
         </div>
       <% elsif audit.delta_performance_audit %>
         <div data-controller='audit-results-expander'>

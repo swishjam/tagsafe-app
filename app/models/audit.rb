@@ -138,7 +138,7 @@ class Audit < ApplicationRecord
   end
 
   def all_individual_performance_audits_completed?
-    individual_performance_audits_remaining == 0
+    num_individual_performance_audits_remaining == 0
   end
 
   def performance_audit_pending?
@@ -188,11 +188,22 @@ class Audit < ApplicationRecord
     PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
   end
 
-  def run_next_individual_performance_audit(audit_type)
+  def enqueue_next_individual_performance_audit_if_necessary!(audit_type)
     num_remaining_audits_for_type = audit_type == :with_tag ? num_individual_performance_audits_with_tag_remaining : num_individual_performance_audits_without_tag_remaining
     if num_remaining_audits_for_type.zero?
-    else
+      Rails.logger.info "Audit #{id} completed performance audits for #{audit_type}"
+      if num_individual_performance_audits_remaining.zero?
+        Rails.logger.info "All performance audits are completed!"
+        performance_audit_completed!
+      else
+        Rails.logger.info "Still has #{num_individual_performance_audits_remaining} to complete, letting other audit_type handle it."
+      end
+    elsif individual_performance_audits.failed.count <= maximum_individual_performance_audit_attempts
+      Rails.logger.info "Enqueuing next #{audit_type} performance audit for Audit #{id}, #{num_remaining_audits_for_type} remaining to complete."
       AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: self, tag_version: tag_version)
+    else
+      Rails.logger.info "Reached maximum performance audit retry count of #{maximum_individual_performance_audit_attempts}, stopping audit."
+      performance_audit_error!("Reached maximum performance audit retry count of #{maximum_individual_performance_audit_attempts}, stopping audit.")
     end
   end
 
@@ -206,7 +217,7 @@ class Audit < ApplicationRecord
     # individual_performance_audits_with_tag + individual_performance_audits_without_tag
   end
 
-  def individual_performance_audits_remaining
+  def num_individual_performance_audits_remaining
     performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
   end
 
@@ -240,5 +251,9 @@ class Audit < ApplicationRecord
 
   def display_functional_test_results
     "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run - test_runs_with_tag.not_retries.inconclusive.count}"
+  end
+
+  def functional_tests_percent_complete
+    (test_runs_with_tag.not_retries.completed.count.to_f / num_functional_tests_to_run.to_f)*100.0
   end
 end

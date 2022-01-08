@@ -28,7 +28,11 @@
         </div>
         <div class='col-4 text-center'>
           <h6>DOM Changes Reponsible For</h6>
-          <h6 class='fw-bold'><%= primary_audit&.page_change_audit&.absolute_changes %></h6>
+          <% if primary_audit&.include_page_change_audit? %>
+            <h6 class='fw-bold'><%= primary_audit&.page_change_audit&.absolute_changes %></h6>
+          <% else %>
+            <h6 class='fw-bold'>N/A</h6>
+          <% end %>
         </div>
       </div>
       <div class='row text-center mt-5'>

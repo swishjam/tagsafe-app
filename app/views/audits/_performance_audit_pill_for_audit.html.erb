@@ -8,9 +8,10 @@
   <% end %>
 <% elsif audit.include_performance_audit %> 
   <% if audit.performance_audit_failed? %>
-    <span class='tagsafe-pill red <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit failed.</span>
+    <span class='tagsafe-pill red small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit failed.</span>
   <% elsif audit.performance_audit_pending? %>
-    <span class='tagsafe-pill pulsate <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Pending</span>
+    <%= turbo_stream_from "audit_#{audit.uid}_pending_performance_audit_pill_stream" %>
+    <%= render 'audits/pending_performance_audit_pill', audit: audit %>
   <% elsif audit.performance_audit_completed? %>
     <% 
       color = audit.delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : 

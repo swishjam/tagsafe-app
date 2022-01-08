@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "audit_#{audit.uid}_pending_functional_tests_pill" do %>
+  <% percent_complete = audit.functional_tests_percent_complete %>
+  <% gradient_style = "background:-moz-linear-gradient(left, rgb(209, 216, 255) #{percent_complete}%, white #{100 - percent_complete}%); background:-webkit-linear-gradient(left, rgb(209, 216, 255) #{percent_complete}%, white #{100 - percent_complete}%); background:-o-linear-gradient(left, rgb(209, 216, 255) #{percent_complete}%, white #{100 - percent_complete}%); background:-linear-gradient(left, rgb(209, 216, 255) #{percent_complete}%, white #{100 - percent_complete}%);" %>
+  <span id="audit-<%=audit.uid %>-performance-audit-progress" class='tagsafe-pill loading-indicator <%= percent_complete.zero? ? 'pulsate-border' : nil%> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'
+        style='<%= percent_complete.zero? ? nil : gradient_style %>'
+        data-controller='tooltip'
+        data-bs-toggle='tooltip'
+        title="Audit has completed <%= audit.test_runs_with_tag.not_retries.completed.count %> of the <%= audit.num_functional_tests_to_run %> functional tests.">
+      Running
+      </span>
+<% end %>

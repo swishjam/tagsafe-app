@@ -10,6 +10,8 @@ class AuditRunner
     @include_page_load_resources = options[:include_page_load_resources] != nil ? options[:include_page_load_resources] : true
     @include_page_change_audit = options[:include_page_change_audit] != nil ? options[:include_page_change_audit] : true
     @include_functional_tests = options[:include_functional_tests] != nil ? options[:include_functional_tests] : true
+    
+    @num_performance_audits_by_type_to_enqueue_simulataneously = 1
 
     @audit = audit || create_audit
   end
@@ -26,7 +28,10 @@ class AuditRunner
 
   def enqueue_performance_audit!
     if @include_performance_audit
-      AuditRunnerJobs::RunPerformanceAudit.perform_later(audit)
+      @num_performance_audits_by_type_to_enqueue_simulataneously.times do
+        audit.enqueue_next_individual_performance_audit_if_necessary!(:with_tag)
+        audit.enqueue_next_individual_performance_audit_if_necessary!(:without_tag)
+      end
     end
   end
 

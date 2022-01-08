@@ -139,6 +139,16 @@ module Streamable
       )
     end
 
+    def update_performance_audit_completion_indicator(audit:, now: false)
+      stream_replace!(
+        now: now,
+        stream: "audit_#{audit.uid}_pending_performance_audit_pill_stream",
+        target: "audit_#{audit.uid}_pending_performance_audit_pill",
+        partial: "audits/pending_performance_audit_pill",
+        locals: { audit: audit }
+      )
+    end
+
     def update_audit_table_row(audit:, now: false)
       stream_replace!(
         now: now,
@@ -192,6 +202,16 @@ module Streamable
         target: "test_run_#{test_run.uid}",
         partial: "test_runs/show",
         locals: { test_run: test_run }
+      )
+    end
+
+    def update_audit_functional_tests_completion_indicator(audit:, now: false)
+      stream_replace!(
+        now: now,
+        stream: "audit_#{audit.uid}_pending_functional_tests_pill_stream",
+        target: "audit_#{audit.uid}_pending_functional_tests_pill",
+        partial: "test_runs/pending_pill_for_audit",
+        locals: { audit: audit }
       )
     end
 

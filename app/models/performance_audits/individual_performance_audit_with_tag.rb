@@ -7,6 +7,10 @@ class IndividualPerformanceAuditWithTag < PerformanceAudit
     return 'failed' if failed?
   end
 
+  def symbolized_audit_type
+    :with_tag
+  end
+
   def cloudwatch_logs
     self.class.cloudwatch_client.get_log_events({
       log_group_name: "/aws/lambda/performance-auditer-#{ENV['LAMBDA_ENVIRONMENT'] || Rails.env}-runPerformanceAudit",

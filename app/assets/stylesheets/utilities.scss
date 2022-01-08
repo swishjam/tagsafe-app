@@ -193,6 +193,16 @@ form[data-controller=loading_form] {
     -webkit-animation: loading-pill-pulsate 1500ms linear 1500ms infinite; 
     animation: loading-pill-pulsate 1500ms linear 1500ms infinite; 
   }
+  &.pulsate-border {
+    -webkit-animation: loading-pill-border-pulsate 1500ms linear 1500ms infinite; 
+    animation: loading-pill-border-pulsate 1500ms linear 1500ms infinite; 
+  }
+
+  &.loading-indicator { 
+    transition: background 500ms; 
+    color: $tagsafe-primary;
+    border: 1px solid $tagsafe-primary;
+  }
 
   &.tagsafe-primary-purple { background: rgb(235, 238, 255) }
   &.tagsafe-primary-purple, &.tagsafe-primary-purple * { color: $tagsafe-primary }
@@ -219,6 +229,18 @@ form[data-controller=loading_form] {
   0%,100% { background: rgb(209, 216, 255) }
   50% { background: rgb(231, 235, 254) }
 }
+
+@-webkit-keyframes loading-pill-border-pulsate {
+  0%,100% { background: 3px solid rgb(209, 216, 255) }
+  50% { background: 3px solid rgb(231, 235, 254) }
+}
+
+@keyframes loading-pill-border-pulsate {
+  0%,100% { border: 3px solid rgb(209, 216, 255) }
+  50% { border: 3px solid rgb(231, 235, 254) }
+}
+
+
 
 .tagsafe-badge {
   font-size: 12px;

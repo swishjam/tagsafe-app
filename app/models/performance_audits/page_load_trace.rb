@@ -1,3 +1,3 @@
-class PageLoadTrace < ApplicationRecord
-  belongs_to :performance_audit
-end
+# class PageLoadTrace < ApplicationRecord
+#   belongs_to :performance_audit
+# end

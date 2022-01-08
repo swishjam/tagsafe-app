@@ -1,4 +1,5 @@
 class PerformanceAudit < ApplicationRecord
+  include Streamable
   acts_as_paranoid
   
   belongs_to :audit, optional: false
@@ -32,6 +33,10 @@ class PerformanceAudit < ApplicationRecord
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - enqueued_at)
+    unless is_a?(DeltaPerformanceAudit)
+      update_performance_audit_completion_indicator(audit: audit, now: true)
+      audit.enqueue_next_individual_performance_audit_if_necessary!(symbolized_audit_type)
+    end
   end
 
   def error!(msg)
