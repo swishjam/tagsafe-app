@@ -6,7 +6,6 @@
           <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
         </div>
         <div class='tag-name-container' 
-              style="overflow: hidden; text-overflow: ellipsis; word-break: normal"
               data-controller='tooltip'
               data-bs-toggle='tooltip'
               title="<%=tag.try_friendly_name%>"><%= tag.try_friendly_name %></div>

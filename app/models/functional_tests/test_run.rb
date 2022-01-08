@@ -69,7 +69,6 @@ class TestRun < ApplicationRecord
   def passed!
     update!(passed: true)
     update_test_run_details_view(test_run: self, now: true)
-    update_audit_test_run_row(test_run: self, now: true)
     after_passed if respond_to?(:after_passed)
   end
 
@@ -77,7 +76,6 @@ class TestRun < ApplicationRecord
     trace = [] unless ((trace || [])[0] || "").match(/-callableScript-[0-9]*\.js/)
     update!(passed: false, error_message: message, error_type: type, error_trace: trace.join("\n"))
     update_test_run_details_view(test_run: self, now: true)
-    update_audit_test_run_row(test_run: self, now: true)
     after_failed if respond_to?(:after_failed)
   end
 

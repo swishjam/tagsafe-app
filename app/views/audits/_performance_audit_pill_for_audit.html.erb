@@ -1,16 +1,16 @@
 <% if audit.nil? %>
   <% if tag.removed_from_site? %>
-    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Tag removed from site</span>
+    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Removed from site</span>
   <% elsif tag.disabled? %>
-    <span class='tagsafe-pill red small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Tag monitoring disabled</span>
+    <span class='tagsafe-pill red small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Monitoring disabled</span>
   <% else %>
     <span class='tagsafe-pill grey small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this release</span>
   <% end %>
 <% elsif audit.include_performance_audit %> 
-  <% if audit.performance_audit_pending? %>
-    <span class='tagsafe-pill pulsate <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Pending</span>
-  <% elsif audit.failed? %>
+  <% if audit.performance_audit_failed? %>
     <span class='tagsafe-pill red <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Audit failed.</span>
+  <% elsif audit.performance_audit_pending? %>
+    <span class='tagsafe-pill pulsate <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Pending</span>
   <% elsif audit.performance_audit_completed? %>
     <% 
       color = audit.delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : 

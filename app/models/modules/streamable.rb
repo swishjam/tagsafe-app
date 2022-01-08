@@ -15,7 +15,7 @@ module Streamable
         stream: "domain_#{domain.uid}_monitor_center_view_stream",
         target: "#{domain.uid}_domain_tags_table",
         partial: 'server_loadable_partials/tags/tag_table',
-        locals: { domain: self, tags: empty ? [] : domain.tags.page(1).per(9), allow_empty_table: true }
+        locals: { domain: domain, tags: empty ? [] : domain.tags.page(1).per(9), allow_empty_table: true }
       )
     end
 
@@ -31,8 +31,7 @@ module Streamable
           chart_data: nil,
           displayed_metric: :tagsafe_score, 
           start_time: 1.day.ago, 
-          end_time: Time.now, 
-          streamed: true 
+          end_time: Time.now
         }
       )
     end
@@ -47,7 +46,7 @@ module Streamable
         stream: "domain_#{tag.domain.uid}_monitor_center_view_stream",
         target: "#{tag.domain.uid}_domain_tags_table_rows", 
         partial: 'server_loadable_partials/tags/tag_table_row', 
-        locals: { tag: tag, domain: tag.domain, streamed: true } 
+        locals: { tag: tag, domain: tag.domain } 
       )
     end
 
@@ -57,7 +56,7 @@ module Streamable
         stream: "domain_#{tag.domain.uid}_monitor_center_view_stream", 
         target: "#{tag.domain.uid}_domain_tags_table_row_#{tag.uid}",
         partial: 'server_loadable_partials/tags/tag_table_row',
-        locals: { tag: tag, domain: tag.domain, streamed: true }
+        locals: { tag: tag, domain: tag.domain }
       )
     end
 
@@ -67,7 +66,7 @@ module Streamable
         stream: "tag_#{tag.uid}_details_view_stream",
         target: "tag_#{tag.uid}_current_stats",
         partial: 'tags/current_stats',
-        locals: { tag: tag, streamed: true }
+        locals: { tag: tag }
       )
     end
   
@@ -83,8 +82,7 @@ module Streamable
           chart_data: nil,
           chart_metric: :tagsafe_score,
           start_time: 1.day.ago,
-          end_time: Time.now,
-          streamed: true
+          end_time: Time.now
         }
       )
     end
@@ -103,19 +101,9 @@ module Streamable
         stream: "tag_#{tag_version.tag.uid}_details_view_stream",
         target: "tag_#{tag_version.tag.uid}_tag_versions_table_rows",
         partial: 'server_loadable_partials/tag_versions/tag_version_row',
-        locals: { tag_version: tag_version, tag: tag_version.tag, streamed: true }
+        locals: { tag_version: tag_version, tag: tag_version.tag }
       )
     end
-
-    # def update_primary_audit_pill_for_tag_version(tag_version:, now: false)
-    #   stream_replace!(
-    #     now: now, 
-    #     stream: "domain_#{tag_version.tag.domain.uid}_monitor_center_view_stream", 
-    #     target: "tag_version_#{tag_version.uid}_primary_audit_pill", 
-    #     partial: 'audits/primary_audit_for_tag_version_pill',
-    #     locals: { tag_version: tag_version, tag: tag_version.tag, streamed: true }
-    #   )
-    # end
 
     def update_tag_version_table_row(tag_version:, now: false)
       stream_replace!(
@@ -123,7 +111,7 @@ module Streamable
         stream: "tag_#{tag_version.tag.uid}_details_view_stream",
         target: "tag_version_#{tag_version.uid}_row",
         partial: 'server_loadable_partials/tag_versions/tag_version_row',
-        locals: { tag_version: tag_version, tag: tag_version.tag, streamed: true }
+        locals: { tag_version: tag_version, tag: tag_version.tag }
       )
     end
 
@@ -137,17 +125,17 @@ module Streamable
         stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream", 
         target: "tag_version_#{audit.tag_version.uid}_audits_table_rows",
         partial: 'audits/audit_row',
-        locals: { audit: audit, streamed: true }
+        locals: { audit: audit }
       )
     end
 
-    def update_audit_details_view(audit:, now: false)
+    def update_performance_audit_details_view(audit:, now: false)
       stream_replace!(
         now: now,
         stream: "audit_#{audit.uid}_details_view_stream",
-        target: "audit_#{audit.uid}",
-        partial: 'audits/show',
-        locals: { audit: self, previous_audit: audit.tag_version.previous_version&.primary_audit, tag: audit.tag, tag_version: audit.tag_version, streamed: true }
+        target: "audit_#{audit.uid}_performance_audit",
+        partial: 'audits/performance_audit',
+        locals: { audit: audit.reload, previous_audit: audit.tag_version.previous_version&.primary_audit, tag: audit.tag, tag_version: audit.tag_version }
       )
     end
 
@@ -157,7 +145,7 @@ module Streamable
         stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream", 
         target: "audit_#{audit.uid}_row",
         partial: 'audits/audit_row',
-        locals: { audit: audit, streamed: true }
+        locals: { audit: audit }
       )
     end
 
@@ -168,36 +156,13 @@ module Streamable
         stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream",
         target: "tag_version_#{audit.tag_version.uid}_audits_table",
         partial: 'audits/audits_table',
-        locals: { tag_version: audit.tag_version, streamed: true }
+        locals: { tag_version: audit.tag_version }
       )
     end
 
     ############################
     ## FunctionalTest streams ##
     ############################
-
-
-    # broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-    # partial = if failed?
-    #             'test_runs/show_failed'
-    #           elsif pending?
-    #             'test_runs/show_pending'
-    #           elsif passed?
-    #             'test_runs/show_passed'
-    #           end
-    # stream_replace!(
-    #   now: now,
-    #   stream: "new_functional_test_view_stream",
-    #   target: "test_run_#{uid}",
-    #   partial: partial,
-    #   locals: { functional_test: functional_test, test_run: self, streamed: true }
-    # )
-    # send(broadcast_method,
-    #   "functional_test_#{functional_test.uid}_show_view_stream",
-    #   target: "test_run_#{uid}",
-    #   partial: partial,
-    #   locals: { functional_test: functional_test, test_run: self, streamed: true }
-    # )
 
     def update_audit_test_run_row(test_run:, now: false)
       if test_run.is_a?(TestRunWithTag)
@@ -210,8 +175,7 @@ module Streamable
             columns_to_exclude: ['Date', 'Type of Test'],
             test_run: test_run,
             column_width_percent: 100/3, 
-            for_audit: true,
-            streamed: true
+            for_audit: true
           }
         )
       end
@@ -227,10 +191,7 @@ module Streamable
         stream: "test_run_#{test_run.uid}_details_view_stream",
         target: "test_run_#{test_run.uid}",
         partial: "test_runs/show",
-        locals: {
-          test_run: test_run,
-          streamed: true
-        }
+        locals: { test_run: test_run }
       )
     end
 
@@ -238,17 +199,17 @@ module Streamable
 
     def stream_replace!(now:, stream:, target:, partial:, locals: {})
       broadcast_method = now ? :broadcast_replace_to : :broadcast_replace_later_to
-      send(broadcast_method, stream, target: target, partial: partial, locals: locals)
+      send(broadcast_method, stream, target: target, partial: partial, locals: locals.merge(streamed: true))
     end
 
     def stream_append!(now:, stream:, target:, partial:, locals: {})
       broadcast_method = now ? :broadcast_append_to : :broadcast_append_later_to
-      send(broadcast_method, stream, target: target, partial: partial, locals: locals)
+      send(broadcast_method, stream, target: target, partial: partial, locals: locals.merge(streamed: true))
     end
 
     def stream_prepend!(now:, stream:, target:, partial:, locals: {})
       broadcast_method = now ? :broadcast_prepend_to : :broadcast_prepend_later_to
-      send(broadcast_method, stream, target: target, partial: partial, locals: locals)
+      send(broadcast_method, stream, target: target, partial: partial, locals: locals.merge(streamed: true))
     end
 
     def stream_remove!(now:, stream:, target:)

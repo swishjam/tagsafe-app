@@ -181,6 +181,9 @@ form[data-controller=loading_form] {
   white-space: nowrap;
   font-size: 1rem;
   font-weight: 700;
+  .text {
+    margin-left: 0.25rem;
+  }
   &.small-text {
     font-size: 0.75rem;
   }

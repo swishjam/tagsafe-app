@@ -37,7 +37,7 @@ class PerformanceAudit < ApplicationRecord
   def error!(msg)
     update!(error_message: msg)
     completed!
-    try_retry!
+    # try_retry!
   end
 
   def completed?
@@ -55,23 +55,24 @@ class PerformanceAudit < ApplicationRecord
   def success?
     completed? && !failed?
   end
+  alias successful? success?
 
-  def try_retry!(force = false)
-    if should_retry? || force
-      raise AuditError::InvalidRetry, "Cannot retry a PerformanceAudit of type #{type}" unless is_a?(IndividualPerformanceAuditWithTag) || is_a?(IndividualPerformanceAuditWithoutTag)
-      Rails.logger.info "Retrying PerformanceAudit #{id} that failed because of #{error_message}"
-      audit_type = is_a?(IndividualPerformanceAuditWithTag) ? :with_tag :  :without_tag
-      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(
-        type: audit_type,
-        audit: audit, 
-        tag_version: audit.tag_version
-      )
-    else
-      audit.error!("Haulting Performance Audit retries on audit due to exceeding max retry count of #{audit.maximum_individual_performance_audit_attempts}")
-    end
-  end
+  # def try_retry!(force = false)
+  #   if should_retry? || force
+  #     raise AuditError::InvalidRetry, "Cannot retry a PerformanceAudit of type #{type}" unless is_a?(IndividualPerformanceAuditWithTag) || is_a?(IndividualPerformanceAuditWithoutTag)
+  #     Rails.logger.info "Retrying PerformanceAudit #{id} that failed because of #{error_message}"
+  #     audit_type = is_a?(IndividualPerformanceAuditWithTag) ? :with_tag :  :without_tag
+  #     AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(
+  #       type: audit_type,
+  #       audit: audit, 
+  #       tag_version: audit.tag_version
+  #     )
+  #   else
+  #     audit.performance_audit_error!("Haulting Performance Audit retries on audit due to exceeding max retry count of #{audit.maximum_individual_performance_audit_attempts}")
+  #   end
+  # end
 
-  def should_retry?
-    audit.individual_performance_audits.failed.count < audit.maximum_individual_performance_audit_attempts
-  end
+  # def should_retry?
+  #   audit.individual_performance_audits.failed.count <= audit.maximum_individual_performance_audit_attempts
+  # end
 end

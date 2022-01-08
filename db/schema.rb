@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_04_014741) do
+ActiveRecord::Schema.define(version: 2022_01_07_222010) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2022_01_04_014741) do
     t.integer "performance_audit_iterations"
     t.timestamp "completed_at"
     t.datetime "deleted_at"
-    t.string "error_message"
+    t.string "performance_audit_error_message"
     t.integer "performance_audit_calculator_id"
     t.bigint "page_url_id"
     t.boolean "include_page_load_resources"

@@ -58,7 +58,7 @@
     </div>
     <%= render 'partials/inline_errors', errors: functional_test.errors.full_messages || local_assigns[:errors] %>
     <div class='col-12 text-center mt-3'>
-      <%= submit_loading_button "#{local_assigns[:force_validation] ? 'Run test validation' : 'Update test'}", button_class: 'large' %>
+      <%= submit_loading_button "#{local_assigns[:button_text] || local_assigns[:force_validation] ? 'Run test validation' : 'Update test'}", button_class: 'large' %>
     </div>
   <% end %>
 <% end %>

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "audit_#{audit.uid}" do %>
+<%= turbo_frame_tag "audit_#{audit.uid}_performance_audit" do %>
   <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>">
     <% if !audit.include_performance_audit %>
       <h6>Performance audits were disabled for this audit</h6>
@@ -27,19 +27,17 @@
             %>
             <!-- <#%= render 'partials/utils/help_tooltip', message: "Tagsafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
           </div>
-          <% if tag_version.audits.count > 1 %>
-            <p class='mt-2'>This is one of <%= tag_version.audits.count %> audits perfomed on this version of the tag. <%= link_to 'View all', tag_tag_version_audits_path(tag, tag_version), target: '_top' %></p>
-          <% end %>
         </div>
       </div>
-      <% if audit.failed? %>
+      <% if audit.performance_audit_failed? %>
         <p>Performance audit failed:</p>
-        <p><%= audit.error_message %></p>
+        <p><%= audit.performance_audit_error_message %></p>
         <% audit.individual_performance_audits.failed.each do |perf_audit| %>
           <p><%= perf_audit.error_message %></p>
         <% end %>
       <% elsif audit.performance_audit_pending? %>
-        <span>Performance audit is currently running.</span>
+        <h5>Performance audit is currently running.</h5>
+        <%= display_loading_icon type: :grow %>
         <div class='m-auto text-center w-fit'>
           <%= render 'audits/completion_indicator', audit: audit %>
         </div>
@@ -164,7 +162,7 @@
   <% unless !audit.include_performance_audit || 
             audit.performance_audit_with_tag_used_for_scoring&.puppeteer_recording.nil? || 
             audit.performance_audit_without_tag_used_for_scoring&.puppeteer_recording.nil? %>
-    <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5">
+    <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: audit.performance_audit_with_tag_used_for_scoring,
                   performance_audit_without_tag: audit.performance_audit_without_tag_used_for_scoring %>

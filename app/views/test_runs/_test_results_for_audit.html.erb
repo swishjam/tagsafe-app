@@ -8,9 +8,9 @@
       <% if audit.functional_tests_pending? %>
         <span class='tagsafe-pill pulsate'>Pending</span>
       <% elsif audit.passed_all_functional_tests? %>
-        <div class='tagsafe-pill green'><%= HtmlHelper.PASSED_ICON %> <span class='ms-1'><%= audit.display_functional_test_results %></span></div>
+        <div class='tagsafe-pill green'><%= HtmlHelper.PASSED_ICON %> <span class='text'><%= audit.display_functional_test_results %></span></div>
       <% else %>
-        <div class='tagsafe-pill red'><%= HtmlHelper.FAILED_ICON %> <span class='ms-1'><%= audit.display_functional_test_results %></span></div>
+        <div class='tagsafe-pill red'><%= HtmlHelper.FAILED_ICON %> <span class='text'><%= audit.display_functional_test_results %></span></div>
       <% end %>
     <% end %>
   <% end %>

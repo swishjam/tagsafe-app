@@ -1,7 +1,7 @@
 <div class='text-center'>
   <h2><%= HtmlHelper.PASSED_ICON(color: 'green') %> Test passed.</h2>
   <% if functional_test.expected_results %>
-    <h5>Test returned the expected value of <%= functional_test.expected_results %></h5>
+    <h5>Test returned the expected value of <span class='fw-bolder italic'>"<%= functional_test.expected_results %>"</span></h5>
   <% else %>
     <h5>Test completed without failure</h5>
   <% end %>

@@ -7,7 +7,9 @@
           <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
         <% end %>
       <% else %>
-        <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), target: '_top' %>
+        <div class='modal-content-footer text-end'>
+          <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), class:'tagsafe-btn large', target: '_top' %>
+        </div>
       <% end %>
     </div>
   <% else %>

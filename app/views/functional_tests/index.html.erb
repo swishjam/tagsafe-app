@@ -1,13 +1,13 @@
 <h5 class="page-title">Functional Tests</h6>
 
 <div class='tagsafe-container container'>
-  <div class='row'>
-    <div class='col-12 text-end mb-3'>
-      <%= link_to 'New Test', new_functional_test_path, class: 'tagsafe-btn large' %>
+  <% if @functional_tests.any? %>
+    <div class='row'>
+      <div class='col-12 text-end mb-3'>
+        <%= link_to 'New Test', new_functional_test_path, class: 'tagsafe-btn large' %>
+      </div>
     </div>
-  </div>
-  <div class='row'>
-    <% if @functional_tests.any? %>
+    <div class='row'>
       <div class='tagsafe-table'>
         <div class='tagsafe-table-head tagsafe-row'>
           <div class='tagsafe-table-header' style='width: 25%'>Test</div>
@@ -38,8 +38,13 @@
           <% end %>
         </div>
       </div>
-    <% else %>
-      <h4 class='text-center'>No functional tests configured.</h4>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <div class='row'>
+      <div class='col-12 text-center'>
+        <h4 class='mb-3'>No functional tests configured.</h4>
+        <%= link_to 'Create your first test now', new_functional_test_path, class: 'tagsafe-btn large' %>
+      </div>
+    </div>
+  <% end %>
 </div>

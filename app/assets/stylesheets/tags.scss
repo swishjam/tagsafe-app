@@ -65,5 +65,8 @@ body.tags {
   .tag-name-container {
     width: calc(100% - 65px);
     display: inline-block;
+    // overflow: hidden; 
+    // text-overflow: ellipsis; breaks table alignment
+    // word-break: normal
   }
 }

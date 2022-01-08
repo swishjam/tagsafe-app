@@ -17,7 +17,7 @@ module AuditRunnerJobs
             trace: resp_body['trace']
           )
         end
-        test_run.audit.functional_tests_completed! if !test_run.is_a?(DryTestRun) && test_run.audit.functional_tests_completed?
+        test_run.audit.functional_tests_completed! if !test_run.is_a?(DryTestRun) && test_run.audit.reload.functional_tests_completed?
       end
     end
 
@@ -36,6 +36,10 @@ module AuditRunnerJobs
         }
       end
       test_run.update!(update_attrs)
+    end
+
+    def self.on_retriable_job_failure(exception, test_run, options)
+      test_run.failed!('An unexpected error occurred.')
     end
   end
 end

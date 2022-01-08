@@ -63,36 +63,34 @@ class Audit < ApplicationRecord
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - enqueued_at)
-    make_primary! unless failed?
+    make_primary! unless performance_audit_failed?
     AuditCompletedJob.perform_later(self)
   end
 
   def performance_audit_completed!
-    create_delta_performance_audit!
+    create_delta_performance_audit! unless performance_audit_failed? || !delta_performance_audit.nil?
+    update_performance_audit_details_view(audit: self, now: true)
+    return if reload.try_completion!
     # performance_audit_completed? returns false without a reload..
-    unless reload.try_completion!
-      update_audit_details_view(audit: self, now: true)
-      update_audit_table_row(audit: self, now: true)
-      update_tag_version_table_row(tag_version: tag_version, now: true)
-      update_tag_table_row(tag: tag, now: true)
-    end
+    update_audit_table_row(audit: self, now: true)
+    update_tag_version_table_row(tag_version: tag_version, now: true)
+    update_tag_table_row(tag: tag, now: true)
   end
 
   def functional_tests_completed!
-    unless reload.try_completion!
-      update_audit_table_row(audit: self, now: true)
-      update_tag_version_table_row(tag_version: tag_version, now: true)
-      update_tag_table_row(tag: tag, now: true)
-    end
+    return if reload.try_completion!
+    update_audit_table_row(audit: self, now: true)
+    update_tag_version_table_row(tag_version: tag_version, now: true)
+    update_tag_table_row(tag: tag, now: true)
   end
 
   def page_change_audit_completed!
     reload.try_completion!
   end
 
-  def error!(msg)
-    update!(error_message: msg)
-    completed!
+  def performance_audit_error!(msg)
+    update!(performance_audit_error_message: msg)
+    performance_audit_completed!
   end
 
   def performance_audit_with_tag_used_for_scoring
@@ -128,7 +126,7 @@ class Audit < ApplicationRecord
 
   def state
     pending? ? 'pending' :
-      failed? ? 'failed' : 'complete'
+      performance_audit_failed? ? 'failed' : 'complete'
   end
 
   def completed?
@@ -136,7 +134,7 @@ class Audit < ApplicationRecord
   end
 
   def performance_audit_completed?
-    !!delta_performance_audit&.completed?
+    performance_audit_failed? || !!delta_performance_audit&.completed?
   end
 
   def all_individual_performance_audits_completed?
@@ -165,11 +163,11 @@ class Audit < ApplicationRecord
   end
 
   def successful?
-    !failed? && completed?
+    !performance_audit_failed? && completed?
   end
 
-  def failed?
-    !error_message.nil?
+  def performance_audit_failed?
+    !performance_audit_error_message.nil?
   end
 
   def pending?
@@ -202,6 +200,14 @@ class Audit < ApplicationRecord
 
   def individual_performance_audits_remaining
     performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
+  end
+
+  def num_individual_performance_audits_with_tag_remaining
+    performance_audit_iterations - individual_performance_audits_with_tag.completed_successfully.count
+  end
+
+  def num_individual_performance_audits_without_tag_remaining
+    performance_audit_iterations - individual_performance_audits_without_tag.completed_successfully.count
   end
 
   def individual_performance_audit_percent_complete

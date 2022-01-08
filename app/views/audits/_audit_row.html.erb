@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_row", class: "tagsafe-table-row clickable #{audit.is_primary? && streamed ? 'tagsafe-illuminate' : nil}" do %>
   <div class='tagsafe-table-data' style='width: 19%'>
-    <% unless audit.pending? || audit.failed? %>
+    <% unless audit.pending? || audit.performance_audit_failed? %>
       <% if audit.is_primary? %>
         <button class='tagsafe-btn white-text' style='font-size: 12px'>Primary Audit</button>
       <% else %>
