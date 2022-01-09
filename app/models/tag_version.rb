@@ -86,7 +86,7 @@ class TagVersion < ApplicationRecord
   end
 
   def most_recent_failed_audit
-    audits.failed.limit(1).first
+    audits.failed_performance_audit.limit(1).first
   end
 
   def has_pending_audit?
