@@ -1,9 +1,9 @@
 class UrlCrawl < ApplicationRecord
+  include HasExecutedLambdaFunction
   acts_as_paranoid
   
   belongs_to :domain
   belongs_to :page_url
-  # has_one :executed_lambda_function
   has_many :found_tags, class_name: 'Tag', foreign_key: :found_on_url_crawl_id
   alias tags_found found_tags
 
@@ -60,10 +60,6 @@ class UrlCrawl < ApplicationRecord
       Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
       Resque.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
     end
-  end
-
-  def executed_lambda_function
-    ExecutedLambdaFunction.find_by(parent_id: id, parent_type: self.class.to_s)
   end
 
   # def unremove_tag_from_site!(tag)

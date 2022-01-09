@@ -1,5 +1,6 @@
 class TestRun < ApplicationRecord
   include Streamable
+  include HasExecutedLambdaFunction
   
   belongs_to :functional_test
   belongs_to :test_run_retried_from, foreign_key: :test_run_id_retried_from, class_name: 'TestRun', optional: true
@@ -22,10 +23,6 @@ class TestRun < ApplicationRecord
 
   scope :conclusive, -> { all }
   scope :inconclusive, -> { none }
-
-  def executed_lambda_function
-    ExecutedLambdaFunction.find_by(parent_type: 'TestRun', parent_id: id)
-  end
 
   def status
     pending? ? 'running' :

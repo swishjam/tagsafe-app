@@ -1,4 +1,5 @@
 class HtmlSnapshot < ApplicationRecord
+  include HasExecutedLambdaFunction
   belongs_to :page_change_audit
 
   scope :completed, -> { where.not(completed_at: nil) }
