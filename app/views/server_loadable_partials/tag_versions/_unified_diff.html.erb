@@ -3,6 +3,7 @@
   <div class='col-12 mb-3'>
     <div class='row'>
       <div class='col-8 text-start'>
+        <h6 class='mb-0'>There were <span class='fw-bolder'><%= num_additions %> additions</span> and <span class='fw-bolder'><%= num_deletions %> deletions</span> in this release.</h6>
         <div class='git-changes-visual-container'>
           <span class='num-additions-text'>+<%= num_additions %></span> <span class='num-deletions-text'>-<%= num_deletions %></span>
           <div class='git-changes-visual-squares-container' data-controller='tooltip' data-bs-toggle='tooltip' title='<%= num_additions + num_deletions %> lines changed: <%= num_additions %> additions & <%= num_deletions %> deletions.'>

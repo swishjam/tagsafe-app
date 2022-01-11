@@ -1,7 +1,8 @@
-clean_out_retention_data:
+re_enqueue_failed_jobs:
   class: Schedule::ReEnqueueFailedJobs
   cron: "*/1 * * * *" # every 1 minute
   queue: "default_queue"
+  description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
 one_minute_check_scripts:
   class: Schedule::TagCheckJobs::OneMinuteInterval
   cron: "*/1 * * * *" # every 1 minute

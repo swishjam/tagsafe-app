@@ -5,7 +5,7 @@
                 class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : 'nil'%>'>
       <% unless columns_to_exclude.include?('Date') %>
-        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.enqueued_at.formatted_short %></div>
+        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.enqueued_at&.formatted_short || 'Enqueued' %></div>
       <% end %>
       <% unless columns_to_exclude.include?('Test') %>
         <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.functional_test.title %> <%= test_run.is_retry? ? "(retry)" : nil %></div>
