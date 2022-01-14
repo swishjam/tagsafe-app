@@ -52,19 +52,6 @@ class FunctionalTest < ApplicationRecord
     test_run_with_tag
   end
 
-  def perform_test_run_with_tag_now!(associated_audit:, test_run_retried_from: nil)
-    raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
-    test_run_with_tag = TestRunWithTag.create!(
-      functional_test: self, 
-      audit: associated_audit, 
-      test_run_id_retried_from: test_run_retried_from&.id,
-      puppeteer_script_ran: puppeteer_script, 
-      expected_results: expected_results
-    )
-    AuditRunnerJobs::RunIndividualTestRun.perform_now(test_run_with_tag)
-    test_run_with_tag
-  end
-
   def perform_test_run_without_tag_later!(original_test_run_with_tag:)
     raise StandardError, "Cannot run a test run unless functional test has passed a dry run first" unless passed_dry_run
     test_run_without_tag = TestRunWithoutTag.create!(

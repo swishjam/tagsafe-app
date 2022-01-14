@@ -3,23 +3,107 @@ body.welcome {
     font-family: 'Alfa Slab One', cursive;
   }
   .main-header {
-    font-size: 4em;
+    @media (min-width: 1201px) {
+      font-size: 4em;
+    }
+    @media (max-width: 1200px) {
+      font-size: 3em;
+    }
     margin-bottom: 0.5em;
+    .emphasized {
+      color: $tagsafe-primary;
+      background: $tagsafe-secondary;
+      font-style: italic;
+    }
   }
   .sub-header {
     font-size: 1.5em;
     margin-bottom: 0.5em;
-    font-weight: 300;
+    color: $dark-grey-text;
+    font-weight: 500;
   }
   .splash-container {
     // border-bottom: 1px solid black;
+    font-family: 'Rubik', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 50px;
-    height: calc(100vh - 66px);
-    background: $tagsafe-secondary;
+    min-height: 100vh;
+    &.three-quarter {
+      height: 85vh;
+    }
+    &.slivered {
+      height: 95vh;
+    }
+    &.ts-bg {
+      background: $tagsafe-secondary;
+    }
+  }
+  .dashboard-img-container {
+    margin-top: -250px;
+    img {
+      transition: 500ms transform;
+      &:hover {
+        transform: scale(1.5);
+      }
+    }
+  }
+  .feature-row {
+    margin: 40px 0 40px 0;
+    align-items: center;
+    .feature-screengrab-img-container {
+      transition: 500ms transform;
+      &:hover {
+        transform: scale(1.5);
+      }
+    }
+  }
+  .screengrabs-container {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+      .screengrab-img-container {
+        position: relative;
+        display: inline-block;
+        width: 12%;
+        &:not(:first-of-type) {
+          margin-left: -5%;
+        }
+        &:hover {
+          z-index: 11 !important;
+          .screengrab-img-wrapper {
+            transform: skew(0deg, 0deg);
+            box-shadow: grey 20px 20px 13px 1px;
+            transform: scale(5);
+          }
+          .description {
+            transform: scale(5);
+            display: inherit;
+          }
+        }
+        .description {
+          display: none;
+          font-size: 12px;
+          background: black;
+          opacity: 0.4;
+          color: white;
+          text-align: center;
+          padding: 5px;
+        }
+        .screengrab-img-wrapper {
+          padding: 5px;
+          background: white;
+          cursor: pointer;
+          transform: skew(-25deg, 0deg);
+          border-radius: 10px;
+          // border: 1px solid lightgrey;
+          box-shadow: grey 20px 20px 20px 1px;
+          transition: 500ms all;
+        }
+      }
+    // }
   }
   .learn-more-form {
     input[name=email] {
