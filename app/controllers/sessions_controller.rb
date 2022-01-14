@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   layout 'logged_out_layout'
 
   def new
+    redirect_to tags_path if current_user
     @hide_logged_out_nav = true
   end
 
