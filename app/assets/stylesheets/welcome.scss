@@ -31,6 +31,9 @@ body.welcome {
     text-align: center;
     padding: 50px;
     min-height: 100vh;
+    // &:first-of-type {
+    //   padding-top: 70px;
+    // }
     &.three-quarter {
       height: 85vh;
     }
@@ -42,7 +45,7 @@ body.welcome {
     }
   }
   .dashboard-img-container {
-    margin-top: -250px;
+    // margin-top: -250px;
     img {
       transition: 500ms transform;
       &:hover {
