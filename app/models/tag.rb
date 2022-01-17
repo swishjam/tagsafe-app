@@ -9,7 +9,7 @@ class Tag < ApplicationRecord
 
   # RELATIONS
   belongs_to :domain
-  belongs_to :tag_image, optional: true
+  belongs_to :tag_identifying_data, optional: true
   belongs_to :found_on_page_url, class_name: 'PageUrl'
   belongs_to :found_on_url_crawl, class_name: 'UrlCrawl'
   
@@ -38,8 +38,6 @@ class Tag < ApplicationRecord
   has_one :tag_preferences, class_name: 'TagPreference', dependent: :destroy
   accepts_nested_attributes_for :tag_preferences
 
-  has_one_attached :image, service: :tag_image_s3
-
   # VALIDATIONS
   validates_presence_of :full_url
   validates_uniqueness_of :full_url, scope: :domain_id, conditions: -> { where(deleted_at: nil) }
@@ -53,6 +51,8 @@ class Tag < ApplicationRecord
   after_create :apply_defaults
 
   # SCOPES
+  default_scope { includes(:tag_identifying_data) }
+  
   scope :enabled, -> { where_tag_preferences({ enabled: true }) }
   scope :disabled, -> { where_tag_preferences({ enabled: false }) }
   
@@ -100,6 +100,10 @@ class Tag < ApplicationRecord
     find_without_query_params(url, include_removed_tags: true)
   end
 
+  def find_and_apply_tag_identifying_data
+    update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
+  end
+
   def url_scheme
     URI.parse(full_url).scheme
   end
@@ -109,7 +113,8 @@ class Tag < ApplicationRecord
   end
 
   def apply_defaults
-    TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
+    # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
+    find_and_apply_tag_identifying_data
     domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
   end
 
@@ -168,7 +173,8 @@ class Tag < ApplicationRecord
   end
 
   def try_friendly_name
-    friendly_name || url_based_on_preferences
+    # friendly_name || url_based_on_preferences
+    tag_identifying_data&.name || url_based_on_preferences
   end
 
   def url_based_on_preferences
@@ -180,8 +186,7 @@ class Tag < ApplicationRecord
   end
 
   def try_image_url
-    image.attached? ? rails_blob_url(image, host: ENV['CURRENT_HOST']) : 
-      !tag_image_id.nil? ? tag_image.image.url : 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
+    tag_identifying_data&.image&.attached? ? rails_blob_url(tag_identifying_data.image, host: ENV['CURRENT_HOST']) : 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
   end
   alias image_url try_image_url
 

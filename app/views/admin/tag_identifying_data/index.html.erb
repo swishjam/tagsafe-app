@@ -1,0 +1,36 @@
+<div class="text-center col-10 offset-1">
+  <form action="<%= admin_tag_identifying_data_path %>" method='GET'>
+    <input name='q' class='form-control' placeholder='search'>
+    <input type='submit' class='tagsafe-btn' value='Search'>
+  </form>
+  <table class="table table-hover col-12 text-start" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 30%">Name</th>
+        <th scope="col" style="width: 10%">Company</th>
+        <th scope="col" style="width: 30%">Homepage</th>
+        <th scope="col" style="width: 10%">Category</th>
+        <th scope="col" style="width: 10%">Num URL Patterns</th>
+        <th scope="col" style="width: 10%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tag_identifying_data.each do |tag_identifying_data| %>
+        <tr>
+          <td>
+            <% if tag_identifying_data.image.attached? %>
+              <%= image_tag url_for(tag_identifying_data.image), class: 'tag-thumbnail' %>
+            <% end %>
+            <%= tag_identifying_data.name %>
+          </td>
+          <td><%= tag_identifying_data.company %></td>
+          <td><%= tag_identifying_data.homepage %></td>
+          <td><%= tag_identifying_data.category %></td>
+          <td><%= tag_identifying_data.tag_identifying_data_domains.count %></td>
+          <td><%= link_to 'View/Edit', admin_tag_identifying_datum_path(tag_identifying_data) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @tag_identifying_data %>
+</div>

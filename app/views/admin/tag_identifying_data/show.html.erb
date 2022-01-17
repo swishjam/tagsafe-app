@@ -1,0 +1,27 @@
+<div class="text-center col-10 offset-1">
+  <h1><%= @tag_identifying_data.name %></h1>
+  <a href="<%=@tag_identifying_data.homepage%>" target='_blank'><%= @tag_identifying_data.homepage %></a>
+  <% if @tag_identifying_data.image.attached? %>
+    <%= image_tag url_for(@tag_identifying_data.image), style: "width: 400px; height: 400px" %>
+  <% end %>
+  <%= form_with model: @tag_identifying_data, url: admin_tag_identifying_datum_path(@tag_identifying_data) do |f| %>
+    <%= f.file_field :image %>
+    <%= f.submit 'Upload Image', class: 'tagsafe-btn' %>
+  <% end %>
+
+  <div class="text-center">
+    <h5>URL Patterns</h5>
+    <ul class="list-group">
+      <% @tag_identifying_data.tag_identifying_data_domains.each do |tag_identifying_data_domain| %>
+        <li class="list-group-item"><%= tag_identifying_data_domain.url_pattern %></li>
+      <% end %>
+    </ul>
+
+    <h5>Tags</h5>
+    <ul>
+      <% @tag_identifying_data.tags.each do |tag| %>
+        <li><%= tag.full_url %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

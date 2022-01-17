@@ -8,7 +8,7 @@
         <div class='tag-name-container' 
               data-controller='tooltip'
               data-bs-toggle='tooltip'
-              title="<%=tag.try_friendly_name%>"><%= tag.try_friendly_name %></div>
+              title="<%=tag.full_url%>"><%= tag.try_friendly_name %></div>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
         <% audit_to_display = tag.current_version&.audit_to_display %>

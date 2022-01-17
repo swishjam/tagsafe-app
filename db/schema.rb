@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_16_210350) do
+ActiveRecord::Schema.define(version: 2022_01_17_171458) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -435,6 +435,24 @@ ActiveRecord::Schema.define(version: 2022_01_16_210350) do
     t.index ["uid"], name: "index_tag_checks_on_uid"
   end
 
+  create_table "tag_identifying_data", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "name"
+    t.string "company"
+    t.string "homepage"
+    t.string "category"
+    t.index ["uid"], name: "index_tag_identifying_data_on_uid"
+  end
+
+  create_table "tag_identifying_data_domains", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "tag_identifying_data_id"
+    t.string "url_pattern"
+    t.index ["tag_identifying_data_id"], name: "index_tag_identifying_data_domains_on_tag_identifying_data_id"
+    t.index ["uid"], name: "index_tag_identifying_data_domains_on_uid"
+    t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
+  end
+
   create_table "tag_image_domain_lookup_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "url_pattern"
@@ -495,9 +513,11 @@ ActiveRecord::Schema.define(version: 2022_01_16_210350) do
     t.datetime "deleted_at"
     t.bigint "found_on_page_url_id"
     t.bigint "found_on_url_crawl_id"
+    t.bigint "tag_identifying_data_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
+    t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
   end

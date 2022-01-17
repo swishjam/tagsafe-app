@@ -1,8 +1,0 @@
-<h5 class="page-title" style="margin-bottom: 0;">Tag Settings</h5>
-<h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
-
-<%= render partial: 'edit_tag_nav', locals: { tag: @tag } %>
-
-<div class="text-center tagsafe-container">
-  <%= render 'urls_to_audit/index', domain: current_domain, tag: @tag, urls_to_audit: @tag.urls_to_audit %>
-</div>

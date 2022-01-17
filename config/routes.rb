@@ -114,15 +114,15 @@ Rails.application.routes.draw do
     resources :flags, only: [:index, :show] do
       resources :object_flags
     end
-    resources :tag_images do
-      member do
-        post :apply_to_tags
-      end
-      collection do
-        post :apply_all_to_tags
-      end
-      resources :tag_image_domain_lookup_patterns, only: [:create, :destroy]
-    end
+    resources :tag_identifying_data
+      # member do
+      #   post :apply_to_tags
+      # end
+      # collection do
+      #   post :apply_all_to_tags
+      # end
+      # resources :tag_image_domain_lookup_patterns, only: [:create, :destroy]
+    # end
   end
 
   namespace :server_loadable_partials do
