@@ -8,8 +8,8 @@ class AuditRunner
     
     @include_performance_audit = options[:include_performance_audit] != nil ? options[:include_performance_audit] : true
     @include_page_load_resources = options[:include_page_load_resources] != nil ? options[:include_page_load_resources] : true
-    @include_page_change_audit = options[:include_page_change_audit] != nil ? options[:include_page_change_audit] : false
-    @include_functional_tests = options[:include_functional_tests] != nil ? options[:include_functional_tests] : false
+    @include_page_change_audit = options[:include_page_change_audit] != nil ? options[:include_page_change_audit] : true
+    @include_functional_tests = options[:include_functional_tests] != nil ? options[:include_functional_tests] : true
 
     @audit = audit || create_audit
   end
