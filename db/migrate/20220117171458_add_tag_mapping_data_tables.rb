@@ -13,7 +13,8 @@ class AddTagMappingDataTables < ActiveRecord::Migration[6.1]
       t.references :tag_identifying_data
       t.string :url_pattern, index: true
     end
-
+    drop_table :tag_images
+    drop_table :tag_image_domain_lookup_patterns
     add_reference :tags, :tag_identifying_data
   end
 

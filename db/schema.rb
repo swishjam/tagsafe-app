@@ -453,21 +453,6 @@ ActiveRecord::Schema.define(version: 2022_01_17_171458) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
-  create_table "tag_image_domain_lookup_patterns", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid"
-    t.string "url_pattern"
-    t.integer "tag_image_id"
-    t.index ["tag_image_id"], name: "index_tag_image_domain_lookup_patterns_on_tag_image_id"
-    t.index ["uid"], name: "index_tag_image_domain_lookup_patterns_on_uid"
-  end
-
-  create_table "tag_images", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["uid"], name: "index_tag_images_on_uid"
-  end
-
   create_table "tag_preferences", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "url_to_audit"
