@@ -5,7 +5,8 @@ module AuditRunnerJobs
     NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS = (ENV['NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS'] || 1).to_i
 
     def perform(audit)
-      generate_cached_responses(audit)
+      # TODO: cached responses are inaccurate, do not use until we figure out the Lambda function
+      # generate_cached_responses(audit)
       NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS.times do
         audit.enqueue_next_individual_performance_audit_if_necessary!(:with_tag)
         audit.enqueue_next_individual_performance_audit_if_necessary!(:without_tag)
