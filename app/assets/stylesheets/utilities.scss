@@ -97,6 +97,7 @@ a.no-decoration {
   cursor: pointer;
   border-radius: 999px;
   text-decoration: none !important;
+  width: fit-content;
   &:not(.outline) {
     color: white !important;
   }

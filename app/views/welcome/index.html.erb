@@ -27,40 +27,49 @@
     </div>
   </div>
 
-  <div class="splash-container ts-bg">
+  <div class='scroll-buffer' id='why'></div>
+  <div class="splash-container ts-bg fit-content why-tagsafe-container">
     <div class="container-fluid">
       <div class="col-12">
         <div class="row">
-          <h1 class="alfa-slab">Why do I need visiblity into my third party tags?</h1>
+          <h1 class="alfa-slab mb-5">Why Tagsafe?</h1>
         </div>
-      </div>
-      <div class="col-6 offset-3 dashboard-img-container">
-        <img src="/screengrabs/dashboard.png" class="img-fluid">
       </div>
       <div class="col-12">
         <div class="row">
-          <div class="col-4">
-            <h3 class="alfa-slab">Loss of control</h3>
+          <div class="col-12 col-md-4">
+            <div class='icon-container'>
+              <img src='/icons/visibility.png'>
+            </div>
+            <h3 class="alfa-slab">Visbility</h3>
             <p>
-              When you place a third party tag on your site, you enable your tag provider to release changes to your site whenever they please. You wouldn't let your own developers make changes without a rigorous approval process, why do we allow our third party tags to do so?
+              Third party tags are the #1 blind spot of your web application, gain insight into what they're doing with Tagsafe.
             </p>
           </div>
-          <div class="col-4">
-            <h3 class="alfa-slab">Constantly changing</h3>
+          <div class="col-12 col-md-4">
+            <div class='icon-container'>
+              <img src='/icons/control.png'>
+            </div>
+            <h3 class="alfa-slab">Control</h3>
             <p>
-              Our third party tag providers are <i>constantly</i> releasing updates to their tags with zero notice or warning to the site owners. This makes it impossible to stay in front of and maintain a stable website.
+              Gain back control over your tags and stop falling victim to third party releases you otherwise would be blind to.
             </p>
           </div>
-          <div class="col-4">
-            <h3 class="alfa-slab">Large reprucussions</h3>
+          <div class="col-12 col-md-4">
+            <div class='icon-container'>
+              <img src='/icons/performance.png'>
+            </div>
+            <h3 class="alfa-slab">Mitigate Impact</h3>
             <p>
-              Third party tags often account for the majority of the bloat on your website. This results in slow page loads, frustrated users, negative SEO impacts, and even breaking functionality to your site.
+              Monitor your tags to ensure they aren't degrading your site's performance, functionality, or security.
             </p>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
+  <div class='scroll-buffer' id='how'></div>
   <div class="splash-container">
     <div class="container-fluid">
       <h1 class="alfa-slab">How it works</h1>
@@ -70,7 +79,7 @@
         </div>
         <div class="col-sm-12 col-md-6">
           <h2 class="feature-title alfa-slab">Realtime monitoring</h2>
-          <p class="feature-description">Tagsafe is able to monitor exactly when your tag providers push changes to your site, and in turn ensure those releases don't have a negative impact. Access a full version control-like history of your tags' releases, enabling you to point to the exact lines of code that were changed.</p>
+          <p class="feature-description">Tagsafe monitors exactly when your tag providers push changes to your site and ensure those releases don't have a negative impact to your site. Access a full version control-like history of your tags' releases, enabling you to point to the exact lines of code that introduced issues.</p>
         </div>
       </div>
       <div class="row feature-row">
@@ -81,7 +90,7 @@
           <h2 class="feature-title alfa-slab">Performance impact</h2>
           <p class="feature-description">Always know the exact performance impact a tag has on your site, attribute exactly how much a tag is slowing down your site, reference the Tagsafe-generated "health score", and playback a side-by-side comparison of the visual impact to your site.</p>
         </div>
-        <div class="d-sm-none d-md-flex col-md-6 feature-screengrab-img-container">
+        <div class="d-none d-md-flex col-md-6 feature-screengrab-img-container">
           <img src="/screengrabs/shadowed/performance-group.png" class="img-fluid feature-screengrab-img">
         </div>
       </div>
@@ -97,28 +106,12 @@
     </div>
   </div>
 
-  <!--
-    <div class='screengrabs-container'>
-      <#% [
-        { file: 'git-diff.png', description: 'Tagsafe keeps a git-like history of each and every change made to your tag.' },
-        { file: 'test-results.png' },
-        { file: 'performance-playback.png' },
-        { file: 'performance-audit.png' },
-        { file: 'uptime.png' },
-        { file: 'test-suite.png' },
-        { file: 'page-change-detection.png' },
-        { file: 'waterfall-with-tag.png' },
-        { file: 'metric-monitoring.png' }
-      ].each_with_index do |img, i| %>
-        <div class='screengrab-img-container' style='z-index: <#%= 10 - i %>'>
-          <div class='screengrab-img-wrapper'>
-            <img src='/assets/screengrabs/<#%= img[:file] %>' class='img-fluid'>
-          </div>
-          <#% if img[:description] %>
-            <div class='description'><#%= img[:description] %></div>
-          <#% end %>
-        </div>
-      <#% end %>
+  <div class='scroll-buffer' id='contact'></div>
+  <div class="splash-container ts-bg fit-content">
+    <div class="container-fluid">
+      <h1 class="alfa-slab">Contact us</h1>
+      <h2 class='sub-header'>Questions? Comments? Get in touch.</h2>
+      <a href='mailto:hello@tagsafe.io'>hello@tagsafe.io</a>
     </div>
-  !-->
+  </div>
 </div>
