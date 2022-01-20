@@ -1,15 +1,15 @@
 <% unless @hide_logged_out_nav %>
-  <nav class="navbar navbar-expand-md navbar-light sticky-top logged-out-nav" style='padding: 0.5rem'>
+  <nav class="navbar navbar-expand-md navbar-light logged-out-nav" data-controller='sticky-nav'>
     <div class="container-fluid">
-      <a class="navbar-brand" href="/"><%= image_tag '/tagsafe-logo-with-words.svg', style: 'height: 40px' %></a>
+      <a class="navbar-brand" href="#" data-controller='smooth-scroll' data-anchor='home'><%= image_tag '/tagsafe-logo-with-words.svg', style: 'height: 40px' %></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='why' data-offset='66' >Why Tagsafe?</a></li>
-          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='how' data-offset='66' >How it works</a></li>
-          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='contact' data-offset='66' >Contact</a></li>
+          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='why' data-scroll-offset='66'>Why Tagsafe?</a></li>
+          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='how' data-scroll-offset='66'>How it works</a></li>
+          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='contact' data-scroll-offset='66'>Contact</a></li>
         </ul>
         <a href="/login" class=" nav-link tagsafe-btn outline m-1">Log In</a>
         <a href="/registrations/new" class=" nav-link tagsafe-btn m-1">Get Started</a>

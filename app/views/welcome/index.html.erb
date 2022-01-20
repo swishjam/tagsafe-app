@@ -1,5 +1,5 @@
 <div id="content">
-  <div class="splash-container">
+  <div class="splash-container" id='home'>
     <div class="container-fluid">
       <div class="col-12">
         <div class="row">
@@ -7,7 +7,9 @@
             <div class="container">
               <div class="row">
                 <div class="col-12">
-                  <h1 class="main-header alfa-slab">Take <span class="emphasized">control</span> over your third party tags.</h1>
+                  <h1 class="main-header alfa-slab">
+                    Take control over your third party tags.
+                  </h1>
                 </div>
               </div>
               <div class="row">
@@ -27,8 +29,7 @@
     </div>
   </div>
 
-  <div class='scroll-buffer' id='why'></div>
-  <div class="splash-container ts-bg fit-content why-tagsafe-container">
+  <div class="splash-container ts-bg fit-content why-tagsafe-container" id='why'>
     <div class="container-fluid">
       <div class="col-12">
         <div class="row">
@@ -59,7 +60,7 @@
             <div class='icon-container'>
               <img src='/icons/performance.png'>
             </div>
-            <h3 class="alfa-slab">Mitigate Impact</h3>
+            <h3 class="alfa-slab">Stability</h3>
             <p>
               Monitor your tags to ensure they aren't degrading your site's performance, functionality, or security.
             </p>
@@ -69,48 +70,69 @@
     </div>
   </div>
   
-  <div class='scroll-buffer' id='how'></div>
-  <div class="splash-container">
+  <div class="splash-container" id='how'>
     <div class="container-fluid">
       <h1 class="alfa-slab">How it works</h1>
+      
       <div class="row feature-row">
+        <h2 class="d-md-none feature-title alfa-slab">Realtime monitoring</h2>
         <div class="col-sm-12 col-md-6 feature-screengrab-img-container">
-          <img src="/screengrabs/shadowed/real-time-monitoring.png" class="img-fluid feature-screengrab-img">
+          <div class='notifications-carousel-container'>
+            <img src="/screengrabs/shadowed/slack-notifications.png" class="img-fluid feature-screengrab-img" data-controller='notification-carousel' data-num-items='3'>
+          </div>
         </div>
+
         <div class="col-sm-12 col-md-6">
-          <h2 class="feature-title alfa-slab">Realtime monitoring</h2>
-          <p class="feature-description">Tagsafe monitors exactly when your tag providers push changes to your site and ensure those releases don't have a negative impact to your site. Access a full version control-like history of your tags' releases, enabling you to point to the exact lines of code that introduced issues.</p>
+          <h2 class="d-none d-md-inline feature-title alfa-slab">Realtime monitoring</h2>
+          <p class="feature-description">Tagsafe monitors exactly when your tag providers push changes to your site and ensure those releases don't have a negative impact.</p>
         </div>
       </div>
+
       <div class="row feature-row">
-        <div class="d-sm-flex d-md-none col-sm-12 feature-screengrab-img-container">
+        <div class="d-none d-md-inline col-md-6">
+          <h2 class="feature-title alfa-slab">Version history</h2>
+          <p class="feature-description">View what changes were made in each third party release with a full "git diff" view and refer back to historical releases.</p>
+        </div>
+
+        <h2 class="d-md-none feature-title alfa-slab">Version history</h2>
+        <div class="col-sm-12 col-md-6 feature-screengrab-img-container">
+          <img src="/screengrabs/shadowed/git-diff.png" class="img-fluid feature-screengrab-img">
+        </div>
+        <p class="d-md-none feature-description">View what changes were made in each third party release with a full "git diff" view, and refer back to historical releases.</p>
+      </div>
+      
+      <div class="row feature-row">
+        <h2 class="d-md-none feature-title alfa-slab">Performance impact</h2>
+        <div class="col-sm-12 col-md-6 feature-screengrab-img-container">
           <img src="/screengrabs/shadowed/performance-group.png" class="img-fluid feature-screengrab-img">
         </div>
+
         <div class="col-sm-12 col-md-6">
-          <h2 class="feature-title alfa-slab">Performance impact</h2>
-          <p class="feature-description">Always know the exact performance impact a tag has on your site, attribute precisely how much a tag is slowing down your site, reference the Tagsafe-generated "health score", and playback a side-by-side comparison of the visual impact to your site.</p>
-        </div>
-        <div class="d-none d-md-flex col-md-6 feature-screengrab-img-container">
-          <img src="/screengrabs/shadowed/performance-group.png" class="img-fluid feature-screengrab-img">
+          <h2 class="d-none d-md-inline feature-title alfa-slab">Performance impact</h2>
+          <p class="feature-description">Attribute precisely how much a tag is slowing down your site, reference the Tagsafe-generated "health score", and playback a side-by-side comparison of the visual impact to your site.</p>
         </div>
       </div>
+
       <div class="row feature-row">
+        <div class="d-none d-md-inline col-md-6">
+          <h2 class="feature-title alfa-slab">End-to-end tests</h2>
+          <p class="feature-description">Run full end-to-end tests with Tagsafe to ensure none of your tags are breaking any functionality on your site, and never fall victim to a rogue third party release again.</p>
+        </div>
+
+        <h2 class="d-md-none feature-title alfa-slab">End-to-end tests</h2>
         <div class="col-sm-12 col-md-6 feature-screengrab-img-container">
           <img src="/screengrabs/shadowed/tests-group.png" class="img-fluid feature-screengrab-img">
         </div>
-        <div class="col-sm-12 col-md-6">
-          <h2 class="feature-title alfa-slab">Functional tests</h2>
-          <p class="feature-description">Run full end-to-end tests with Tagsafe to ensure none of your tags are breaking any functionality on your site, and ensure you never fall victim to a rogue third party release again.</p>
-        </div>
+        <p class="d-md-none feature-description">Run full end-to-end tests with Tagsafe to ensure none of your tags are breaking any functionality on your site, and never fall victim to a rogue third party release again.</p>
       </div>
+      
     </div>
   </div>
 
-  <div class='scroll-buffer' id='contact'></div>
-  <div class="splash-container ts-bg fit-content">
+  <div class="splash-container ts-bg fit-content" id='contact'>
     <div class="container-fluid">
       <h1 class="alfa-slab">Contact us</h1>
-      <h2 class='sub-header'>Questions? Comments? Get in touch.</h2>
+      <h2 class='sub-header'>Want to learn more? Get in touch.</h2>
       <a href='mailto:hello@tagsafe.io'>hello@tagsafe.io</a>
     </div>
   </div>
