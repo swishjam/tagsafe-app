@@ -7,7 +7,7 @@
   <br/>
   <%= @tag_version.created_at.formatted_short %> tag change
 </h6>
-<div class="tagsafe-container text-center" data-controller='primary-audits'>
+<div class="tagsafe-container text-center">
   <div class="col-12 text-end">
     <%= render 'tag_versions/dropdown', tag: @tag, tag_version: @tag_version %>
   </div>

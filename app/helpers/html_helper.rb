@@ -52,4 +52,8 @@ module HtmlHelper
     render 'partials/utils/spinner', locals
   end
   alias display_loading_icon display_loading_spinner
+
+  def asset_cdn_url(path)
+    "#{ENV['ASSET_CDN_DOMAIN']}#{path}"
+  end
 end

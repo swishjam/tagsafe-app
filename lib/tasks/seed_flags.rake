@@ -47,7 +47,7 @@ namespace :seed do
         name: 'Strip all images in Performance Audits',
         slug: 'strip_all_images_in_performance_audits',
         description: 'Removes all img tags from the audited page when running performance audits.',
-        default_value: 'true'
+        default_value: 'false'
       }, 
       {
         name: 'Throw an error if DOM Complete is zero in Performance Audits',
