@@ -204,6 +204,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    image_optimizer (1.9.0)
     io-like (0.3.1)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
@@ -442,6 +443,7 @@ DEPENDENCIES
   hirefire-resource
   hotwire-rails
   httparty
+  image_optimizer
   jbuilder (~> 2.5)
   jquery-rails
   kaminari

@@ -3,7 +3,7 @@
     <div class="navigation <%= @collapsed_navigation ? 'collapsed' : nil %>" data-side-navigation-target='leftHandNav' data-action='click->side-navigation#leftHandNavClick'>
       <%= link_to tags_path do %>
         <div class="logo-container">
-          <%= image_tag '/tagsafe-logo.svg', class: 'enlarge-slightly-on-hover img-fluid' %>
+          <%= image_tag asset_cdn_url('/tagsafe-logo.svg'), class: 'enlarge-slightly-on-hover img-fluid' %>
         </div>
       <% end %>
       <ul>

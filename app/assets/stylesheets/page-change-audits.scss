@@ -2,7 +2,10 @@
   border-radius: 5px;
   .simulated-browser-window {
     border: 1px solid grey;
-    overflow: scroll;
+    overflow-y: scroll;
+    img {
+      width: 100%;
+    }
   }
   &:not(.expanded) {
     max-height: 22vw;
@@ -13,12 +16,20 @@
         height: 6px;
       }
     }
+    .simulated-browser-window {
+      height: calc(22vw - 12px);
+    }
   }
-  &.expanded .simulated-browser-toolbar {
-    height: 20px;
-    .simulated-browser-button {
-      width: 10px;
-      height: 10px;
+  &.expanded {
+    .simulated-browser-toolbar {
+      height: 20px;
+      .simulated-browser-button {
+        width: 10px;
+        height: 10px;
+      }
+    }
+    .simulated-browser-window {
+      height: calc(95vh - 22px);
     }
   }
   .simulated-browser-toolbar {

@@ -182,8 +182,11 @@ form[data-controller=loading_form] {
   white-space: nowrap;
   font-size: 1rem;
   font-weight: 700;
+  overflow: hidden;
+  position: relative;
   .text {
     margin-left: 0.25rem;
+    z-index: 1;
   }
   &.small-text {
     font-size: 0.75rem;
@@ -197,6 +200,13 @@ form[data-controller=loading_form] {
   &.pulsate-border {
     -webkit-animation: loading-pill-border-pulsate 1500ms linear 1500ms infinite; 
     animation: loading-pill-border-pulsate 1500ms linear 1500ms infinite; 
+  }
+  .fill {
+    z-index: 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: $tagsafe-secondary;
   }
 
   &.loading-indicator { 

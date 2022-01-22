@@ -209,7 +209,7 @@ class Audit < ApplicationRecord
       else
         Rails.logger.info "Still has #{num_individual_performance_audits_remaining} to complete, letting other audit_type handle it."
       end
-    elsif individual_performance_audits.failed.count <= maximum_individual_performance_audit_attempts
+    elsif individual_performance_audits.failed.count < maximum_individual_performance_audit_attempts
       Rails.logger.info "Enqueuing next #{audit_type} performance audit for Audit #{id}, #{num_remaining_audits_for_type} remaining to complete."
       AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: self, tag_version: tag_version)
     else
@@ -260,12 +260,16 @@ class Audit < ApplicationRecord
     num_functional_tests_to_run_including_without_tag_validation_runs - (test_runs_with_tag.not_retries.completed.count + test_runs_with_tag.not_retries.failed.count)
   end
 
+  def num_inconclusive_functional_tests
+    test_runs_with_tag.inconclusive.count
+  end
+
   def completed_all_functional_tests?
     num_functional_tests_to_run_remaining.zero?
   end
 
   def passed_all_functional_tests?
-    test_runs_with_tag.not_retries.passed.count == num_functional_tests_to_run
+    test_runs_with_tag.not_retries.passed.count + num_inconclusive_functional_tests == num_functional_tests_to_run
   end
 
   def display_functional_test_results
