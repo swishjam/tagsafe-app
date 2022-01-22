@@ -13,7 +13,7 @@
       <% end %>
     </div>
   <% else %>
-    <%= form_with url: run_audit_tag_tag_version_path(tag, tag_version), data: { controller: 'loading_form' } do |f| %>
+    <%= form_with url: create_audit_path(tag, tag_version), method: :post, data: { controller: 'loading_form' } do |f| %>
       <div class='modal-content-body'>
         <h3>Audit <%= tag.try_friendly_name %></h3>
         <% if urls_to_audit.count == 1 %>

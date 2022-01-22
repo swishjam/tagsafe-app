@@ -40,6 +40,14 @@ module ApplicationHelper
     session.delete(:current_organization_id)
   end
 
+  def stream_modal(partial:, turbo_frame_name: 'server_loadable_modal', locals: {})
+    render turbo_stream: turbo_stream.replace(
+      turbo_frame_name,
+      partial: partial,
+      locals: locals
+    )
+  end
+
   def permitted_to_view?(*models, raise_error: false)
     models.each do |model|
       case model.class.to_s

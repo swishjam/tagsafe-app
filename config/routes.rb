@@ -74,8 +74,8 @@ Rails.application.routes.draw do
     resources :tag_preferences, only: [:edit, :update]
     resources :tag_versions, only: [:show, :index] do
       member do
-        get :begin_audit
-        post :run_audit
+        # get :begin_audit
+        # post :run_audit
         get :content
         get :git_diff
         get :js
@@ -83,7 +83,7 @@ Rails.application.routes.draw do
         get :tagsafe_instrumented_js
         get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
-      resources :audits, only: [:show, :index] do
+      resources :audits, only: [:show, :index, :new, :create] do
         member do
           get :performance_audit
           get :test_runs

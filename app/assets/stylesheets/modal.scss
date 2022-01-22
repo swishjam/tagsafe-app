@@ -24,18 +24,24 @@
     position: absolute;
     max-width: 80%;
     min-width: 60%;
+    min-height: 40%;
+    max-height: 80%;
     // min-height: 40%;
     .tagsafe-modal-header {
+      height: 50px;
+      display: flex;
+      align-items: center;
       .close {
         position: absolute;
         top: 5px;
         left: 5px;
       }
       .tagsafe-modal-title {
-        margin: 15px 0px 15px 60px;
+        margin: 10px 0px 10px 60px;
+        font-size: 20px;
       }
     }
-    .tagsafe-modal-header-divider {
+    .tagsafe-modal-divider {
       border-bottom: 1px solid lightgrey;
       margin: 0px 15px 0px 15px;
     }
@@ -46,6 +52,7 @@
     }
     .tagsafe-modal-content {
       padding: 15px;
+      height: calc(100% - 30px);
     }
   }
 }

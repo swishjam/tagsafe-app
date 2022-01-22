@@ -4,12 +4,12 @@ class AuditRunner
     @url_to_audit_id = url_to_audit_id
     @tag = @tag_version.tag
     @execution_reason = execution_reason
-    # @options = options
+    @options = options
     
-    @include_performance_audit = options[:include_performance_audit] != nil ? options[:include_performance_audit] : true
-    @include_page_load_resources = options[:include_page_load_resources] != nil ? options[:include_page_load_resources] : true
-    @include_page_change_audit = options[:include_page_change_audit] != nil ? options[:include_page_change_audit] : true
-    @include_functional_tests = options[:include_functional_tests] != nil ? options[:include_functional_tests] : true
+    @include_performance_audit = @options[:include_performance_audit] != nil ? @options[:include_performance_audit] : true
+    @include_page_load_resources = @options[:include_page_load_resources] != nil ? @options[:include_page_load_resources] : true
+    @include_page_change_audit = @options[:include_page_change_audit] != nil ? @options[:include_page_change_audit] : true
+    @include_functional_tests = @options[:include_functional_tests] != nil ? @options[:include_functional_tests] : true
 
     @audit = audit || create_audit
   end
@@ -26,19 +26,19 @@ class AuditRunner
 
   def enqueue_performance_audit!
     if @include_performance_audit
-      AuditRunnerJobs::RunPerformanceAudit.perform_later(audit)
+      AuditRunnerJobs::RunPerformanceAudit.perform_later(audit, @options[:performance_audit_options] || {})
     end
   end
 
   def enqueue_page_change_audit!
     if @include_page_change_audit
-      AuditRunnerJobs::RunPageChangeAudit.perform_later(audit)
+      AuditRunnerJobs::RunPageChangeAudit.perform_later(audit, @options[:page_change_audit_options] || {})
     end
   end
 
   def enqueue_functional_tests!
     if @include_functional_tests
-      AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(audit)
+      AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(audit, @options[:functional_tests_options] || {})
     end
   end
 

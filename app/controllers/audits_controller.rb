@@ -1,7 +1,7 @@
 class AuditsController < LoggedInController
   SHOW_VIEWS = %i[show performance_audit test_runs test_run page_change_audit waterfall git_diff]
   before_action :find_tag_and_tag_version
-  before_action :find_audit, except: :index
+  before_action :find_audit, except: %i[index new create]
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
   def index
@@ -11,6 +11,34 @@ class AuditsController < LoggedInController
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       { text: "Version #{@tag_version.sha} audits", active: true }
     )
+  end
+
+  def new
+    tag = current_domain.tags.find(params[:tag_id])
+    tag_version = tag.tag_versions.find(params[:tag_version_id])
+    urls_to_audit = tag.urls_to_audit.includes(:page_url)
+    stream_modal(partial: 'audits/new', locals: { tag: tag, tag_version: tag_version, urls_to_audit: urls_to_audit })
+  end
+
+  def create
+    tag = current_domain.tags.find(params[:tag_id])
+    tag_version = tag.tag_versions.find(params[:tag_version_id])
+    audits_enqueued = tag.urls_to_audit.where(id: params[:urls_to_audit]).map do |url_to_audit|
+      tag_version.perform_audit_later(
+        execution_reason: ExecutionReason.MANUAL,
+        url_to_audit: url_to_audit, 
+        options: {
+          include_performance_audit: params[:config][:include_performance_audit] == 'true' ? true : false,
+          include_page_change_audit: params[:config][:include_page_change_audit] == 'true' ? true : false,
+          include_functional_tests: params[:config][:include_functional_tests] == 'true' ? true : false,
+          include_page_load_resources: params[:config][:include_page_load_resources] == 'true' ? true : false,
+          performance_audit_options: {
+            strip_all_images_in_performance_audits: params[:config][:performance_audit_settings][:strip_all_images_in_performance_audits] == 'true' ? true : false
+          }
+        }
+      )
+    end
+    stream_modal(partial: 'audits/new', locals: { tag: tag, tag_version: tag_version, audits_enqueued: audits_enqueued })
   end
 
   def make_primary

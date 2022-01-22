@@ -199,7 +199,7 @@ class Audit < ApplicationRecord
     PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
   end
 
-  def enqueue_next_individual_performance_audit_if_necessary!(audit_type)
+  def enqueue_next_individual_performance_audit_if_necessary!(audit_type, options = {})
     num_remaining_audits_for_type = audit_type == :with_tag ? num_individual_performance_audits_with_tag_remaining : num_individual_performance_audits_without_tag_remaining
     if num_remaining_audits_for_type.zero?
       Rails.logger.info "Audit #{id} completed performance audits for #{audit_type}"
@@ -211,7 +211,7 @@ class Audit < ApplicationRecord
       end
     elsif individual_performance_audits.failed.count < maximum_individual_performance_audit_attempts
       Rails.logger.info "Enqueuing next #{audit_type} performance audit for Audit #{id}, #{num_remaining_audits_for_type} remaining to complete."
-      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: self, tag_version: tag_version)
+      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: self, tag_version: tag_version, options: options)
     else
       Rails.logger.info "Reached maximum performance audit retry count of #{maximum_individual_performance_audit_attempts}, stopping audit."
       performance_audit_error!("Reached maximum performance audit retry count of #{maximum_individual_performance_audit_attempts}, stopping audit.")

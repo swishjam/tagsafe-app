@@ -2,7 +2,7 @@ module AuditRunnerJobs
   class RunPageChangeAudit < ApplicationJob
     include RetriableJob
 
-    def perform(audit)
+    def perform(audit, options = {})
       page_change_audit = PageChangeAudit.create(audit: audit)
       run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithoutTag)
       run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithoutTag)

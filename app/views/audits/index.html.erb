@@ -15,8 +15,8 @@
     <%= render 'audits_table', tag_version: @tag_version, audits: @audits %>
   <% else %>
     <h3>No audits have been run on this tag version.</h3>
-    <%= link_to begin_audit_tag_tag_version_path(@tag, @tag_version), class: 'tagsafe-btn outline', data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal_content' } do %>
-      <i class="fas fa-sync-alt"></i> Run audit
+    <%= link_to new_tag_tag_version_audit_path(tag, tag_version), class: 'dropdown-item', data: { controller: 'modal_trigger', } do %>
+      <i class="fas fa-sync-alt"></i> Re-run audit
     <% end %>
   <% end %>
 </div>

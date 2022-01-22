@@ -56,4 +56,40 @@ module HtmlHelper
   def asset_cdn_url(path)
     "#{ENV['ASSET_CDN_DOMAIN']}#{path}"
   end
+
+  def create_audit_path(tag, tag_version)
+    "/tags/#{tag.id}/tag_versions/#{tag_version.id}/audits"
+  end
+
+  def modal_link(modal_html_path, klass: nil, text: nil, &block)
+    link = if text
+            link_to text, modal_html_path, class: klass, data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal' }
+           else
+             inner_html = capture(&block)
+             link_to(modal_html_path, class: klass, data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal' }) { inner_html }
+           end
+    link.html_safe
+  end
+
+  def render_as_modal(title:, turbo_frame_name: 'server_loadable_modal', &block)
+    provided_html = capture(&block)    
+    combined_html = <<-HTML
+      <div id='server-loadable-modal-container' class='tagsafe-modal-container show' data-controller='server-loadable-modal'>
+        <div class='tagsafe-modal-backdrop'>
+        </div>
+        <div id='server-loadable-modal' class='tagsafe-modal'>
+          <div class='tagsafe-modal-header text-start'>
+            <span class='tagsafe-circular-btn close' data-action='click->server-loadable-modal#hide'><i class='fa fa-times'></i></span>
+            <h4 class='tagsafe-modal-title' data-confirmation-modal-target='title'>#{title}</h4>
+          </div>
+          <div class='tagsafe-modal-divider'>
+          </div>
+          <div class='tagsafe-modal-content'>
+            #{provided_html}
+          </div>
+        </div>
+      </div>
+    HTML
+    turbo_frame_tag(turbo_frame_name) { combined_html.html_safe }
+  end
 end
