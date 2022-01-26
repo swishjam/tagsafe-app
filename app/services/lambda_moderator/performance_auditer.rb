@@ -8,13 +8,6 @@ module LambdaModerator
       @audit = audit
       @tag_version = tag_version
       @executed_lambda_function_parent = individual_performance_audit
-      
-      # @include_page_load_resources = option_or_flag_for(options, 'include_page_load_resources')
-      @include_page_load_resources = audit.include_page_load_resources.to_s
-      @inline_injected_script_tags = option_or_flag_for(options, 'inline_injected_script_tags')
-      @strip_all_css_in_performance_audits = option_or_flag_for(options, 'strip_all_css_in_performance_audits')
-      @strip_all_images_in_performance_audits = option_or_flag_for(options, 'strip_all_images_in_performance_audits')
-      @throw_error_if_dom_complete_is_zero = option_or_flag_for(options, 'performance_audit_throw_error_if_dom_complete_is_zero')
     end
 
     def individual_performance_audit
@@ -38,11 +31,12 @@ module LambdaModerator
           puppeteer_page_wait_until: 'networkidle2',
           puppeteer_page_timeout_ms: 0,
           enable_screen_recording: 'true',
-          throw_error_if_dom_complete_is_zero: @throw_error_if_dom_complete_is_zero,
-          include_page_load_resources: @include_page_load_resources,
-          inline_injected_script_tags: @inline_injected_script_tags,
-          strip_all_images: @strip_all_images_in_performance_audits,
-          strip_all_css: @strip_all_css_in_performance_audits
+          throw_error_if_dom_complete_is_zero: @audit.performance_audit_configuration.throw_error_if_dom_complete_is_zero.to_s,
+          include_page_load_resources: @audit.include_page_load_resources.to_s,
+          include_page_tracing: @audit.performance_audit_configuration.include_page_tracing.to_s,
+          inline_injected_script_tags: @audit.performance_audit_configuration.inline_injected_script_tags.to_s,
+          strip_all_images: @audit.performance_audit_configuration.strip_all_images.to_s,
+          strip_all_css: false.to_s
         }
       }
     end
@@ -63,10 +57,6 @@ module LambdaModerator
       else
         raise PerformanceAuditError::InvalidType, "PerformanceAuditer called with an invalid type of #{@type}, valid values are :with_tag or :without_tag"
       end
-    end
-
-    def option_or_flag_for(options, flag_slug)
-      (!options[flag_slug.to_sym].nil? ? options[flag_slug.to_sym] : Flag.flag_is_true_for_objects(tag, tag.domain, tag.domain.organization, slug: flag_slug.to_s)).to_s
     end
 
     def required_payload_arguments

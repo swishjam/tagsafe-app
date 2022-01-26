@@ -4,6 +4,7 @@ module PerformanceAuditManager
     def initialize(
       individual_performance_audit:, 
       results:, 
+      page_trace_s3_url:,
       puppeteer_recording:,
       blocked_resources:,
       logs:,
@@ -12,6 +13,7 @@ module PerformanceAuditManager
       @individual_performance_audit = individual_performance_audit
       # when lambda function times out, results are nil but is still a 200 response code
       @results = results || {}
+      @page_trace_s3_url = page_trace_s3_url
       @puppeteer_recording = puppeteer_recording || {}
       @blocked_resources = blocked_resources || []
       @logs = logs || ''
@@ -44,10 +46,11 @@ module PerformanceAuditManager
         script_duration: @results['ScriptDuration'],
         task_duration: @results['TaskDuration'],
         tagsafe_score: calculate_tagsafe_score_for_performance_audit,
+        page_trace_s3_url: @page_trace_s3_url,
         page_load_resources_attributes:  formatted_page_load_resources,
         blocked_resources_attributes: @blocked_resources
       }
-      attrs[:performance_audit_log_attributes] = { logs: @logs } unless @logs.nil?
+      attrs[:performance_audit_log_attributes] = { logs: @logs } unless @logs.nil? || @logs.blank?
       attrs[:puppeteer_recording_attributes] = @puppeteer_recording unless @puppeteer_recording.nil? || @puppeteer_recording['s3_url'].nil?
       attrs
     end

@@ -24,6 +24,7 @@ module AuditRunnerJobs
       PerformanceAuditManager::ResultsCapturer.new(
         individual_performance_audit: individual_performance_audit,
         results: response_data['results'], 
+        page_trace_s3_url: response_data['tracing_results_s3_url'],
         puppeteer_recording: response_data['screen_recording'],
         blocked_resources: response_data['blocked_resources'],
         logs: response_data['logs'],

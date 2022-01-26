@@ -28,12 +28,15 @@ class AuditsController < LoggedInController
         execution_reason: ExecutionReason.MANUAL,
         url_to_audit: url_to_audit, 
         options: {
-          include_performance_audit: params[:config][:include_performance_audit] == 'true' ? true : false,
-          include_page_change_audit: params[:config][:include_page_change_audit] == 'true' ? true : false,
-          include_functional_tests: params[:config][:include_functional_tests] == 'true' ? true : false,
-          include_page_load_resources: params[:config][:include_page_load_resources] == 'true' ? true : false,
-          performance_audit_options: {
-            strip_all_images_in_performance_audits: params[:config][:performance_audit_settings][:strip_all_images_in_performance_audits] == 'true' ? true : false
+          include_performance_audit: params.dig(:config, :include_performance_audit) == 'true',
+          include_page_change_audit: params.dig(:config, :include_page_change_audit) == 'true',
+          include_functional_tests: params.dig(:config, :include_functional_tests) == 'true',
+          include_page_load_resources: params.dig(:config, :include_page_load_resources) == 'true',
+          performance_audit_configuration: {
+            include_page_tracing: params.dig(:config, :performance_audit_settings, :include_page_trace) == 'true',
+            strip_all_images: params.dig(:config, :performance_audit_settings, :strip_all_images) == 'true',
+            throw_error_if_dom_complete_is_zero: true,
+            inline_injected_script_tags: false
           }
         }
       )

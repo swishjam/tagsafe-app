@@ -35,7 +35,7 @@ class DeltaPerformanceAudit < PerformanceAudit
 
   def valid_individual_performance_audits
     unless audit.all_individual_performance_audits_completed?
-      errors.add(:base, "Cannot create DeltaPerformanceAudit unless the Audit has successfully completed all #{audit.performance_audit_iterations*2} Performance Audits")
+      errors.add(:base, "Cannot create DeltaPerformanceAudit unless the Audit has successfully completed all #{audit.performance_audit_configuration.performance_audit_iterations*2} Performance Audits")
     end
   end
 end

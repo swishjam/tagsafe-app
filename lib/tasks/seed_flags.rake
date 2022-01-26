@@ -72,6 +72,12 @@ namespace :seed do
         slug: 'remove_tags_no_longer_present_in_url_crawls',
         description: 'When value is true, if a URL crawl no longer has a tag that it previously had, mark the tag as `remove-from-site`',
         default_value: 'false'
+      },
+      {
+        name: 'Include page tracing in performance audits',
+        slug: 'include_page_tracing',
+        description: 'When value is true, performance audits will include a page trace JSON stored in s3',
+        default_value: 'true'
       }
     ]
 

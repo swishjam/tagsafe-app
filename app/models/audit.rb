@@ -9,6 +9,8 @@ class Audit < ApplicationRecord
   belongs_to :page_url
   belongs_to :performance_audit_calculator
 
+  has_one :performance_audit_configuration
+  accepts_nested_attributes_for :performance_audit_configuration
   has_many :performance_audits, dependent: :destroy
   # has_many :blocked_resources, through: :performance_audits
   has_one :delta_performance_audit, class_name: 'DeltaPerformanceAudit', dependent: :destroy
@@ -229,19 +231,19 @@ class Audit < ApplicationRecord
   end
 
   def num_individual_performance_audits_remaining
-    performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
+    performance_audit_configuration.performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
   end
 
   def num_individual_performance_audits_with_tag_remaining
-    performance_audit_iterations - individual_performance_audits_with_tag.completed_successfully.count
+    performance_audit_configuration.performance_audit_iterations - individual_performance_audits_with_tag.completed_successfully.count
   end
 
   def num_individual_performance_audits_without_tag_remaining
-    performance_audit_iterations - individual_performance_audits_without_tag.completed_successfully.count
+    performance_audit_configuration.performance_audit_iterations - individual_performance_audits_without_tag.completed_successfully.count
   end
 
   def individual_performance_audit_percent_complete
-    ((individual_performance_audits.completed_successfully.count) / (performance_audit_iterations * 2.0))*100
+    ((individual_performance_audits.completed_successfully.count) / (performance_audit_configuration.performance_audit_iterations * 2.0))*100
   end
 
   def maximum_individual_performance_audit_attempts

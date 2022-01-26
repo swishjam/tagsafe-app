@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_17_171458) do
+ActiveRecord::Schema.define(version: 2022_01_26_022407) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -295,6 +295,7 @@ ActiveRecord::Schema.define(version: 2022_01_17_171458) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "uid"
     t.boolean "should_scan_for_tags"
+    t.string "screenshot_s3_url"
     t.index ["domain_id"], name: "index_page_urls_on_domain_id"
     t.index ["full_url"], name: "index_page_urls_on_full_url"
     t.index ["hostname"], name: "index_page_urls_on_hostname"
@@ -323,6 +324,18 @@ ActiveRecord::Schema.define(version: 2022_01_17_171458) do
     t.integer "script_duration_score_decrement_amount"
     t.integer "byte_size_score_decrement_amount"
     t.index ["domain_id"], name: "index_performance_audit_calculators_on_domain_id"
+  end
+
+  create_table "performance_audit_configurations", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "audit_id"
+    t.integer "performance_audit_iterations"
+    t.boolean "strip_all_images"
+    t.boolean "include_page_tracing"
+    t.boolean "throw_error_if_dom_complete_is_zero"
+    t.boolean "inline_injected_script_tags"
+    t.string "uid"
+    t.index ["audit_id"], name: "index_performance_audit_configurations_on_audit_id"
+    t.index ["uid"], name: "index_performance_audit_configurations_on_uid"
   end
 
   create_table "performance_audit_logs", charset: "utf8mb3", force: :cascade do |t|
@@ -354,6 +367,7 @@ ActiveRecord::Schema.define(version: 2022_01_17_171458) do
     t.datetime "deleted_at"
     t.boolean "used_for_scoring", default: false
     t.float "dom_content_loaded"
+    t.string "page_trace_s3_url"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end

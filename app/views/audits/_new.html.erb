@@ -1,17 +1,16 @@
 <%= render_as_modal title: 'Run audit' do %>
   <% if local_assigns[:audits_enqueued] %>
-    <div class='mb-5'>
-      <h3 class='inline-message mt-5 mb-5'>Performing <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
-      <% if audits_enqueued.count > 1 %>
-        <% audits_enqueued.each do |audit| %>
-          <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
-        <% end %>
-      <% else %>
-        <div class='modal-content-footer text-end'>
-          <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), class:'tagsafe-btn large', target: '_top' %>
-        </div>
+    <h3 class='inline-message mt-5 mb-5'>Performing <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
+    <% if audits_enqueued.count > 1 %>
+      <% audits_enqueued.each do |audit| %>
+        <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
       <% end %>
-    </div>
+    <% else %>
+      <div class='tagsafe-modal-divider mt-3 mb-3'></div>
+      <div class='modal-content-footer text-end'>
+        <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), class:'tagsafe-btn', target: '_top' %>
+      </div>
+    <% end %>
   <% else %>
     <%= form_with url: create_audit_path(tag, tag_version), method: :post, data: { controller: 'loading_form' } do |f| %>
       <div class='modal-content-body'>
@@ -47,8 +46,12 @@
           <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' checked='checked'>
         </div>
         <div class='form-check form-switch w-fit m-auto'>
+          <label class='form-check-label' for='include_page_trace'>Include performance page trace?</label>
+          <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' checked='checked'>
+        </div>
+        <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='strip_all_images_in_performance_audits'>Strip all images?</label>
-          <input name='config[performance_audit_settings][strip_all_images_in_performance_audits]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' checked='checked'>
         </div>
       </div>
       <div class='tagsafe-modal-divider mt-3 mb-3'></div>
