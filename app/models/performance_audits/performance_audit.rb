@@ -5,6 +5,7 @@ class PerformanceAudit < ApplicationRecord
   
   belongs_to :audit, optional: false
   has_one :puppeteer_recording, as: :initiator, dependent: :destroy
+  has_many :filmstrip_screenshots, foreign_key: :performance_audit_id, dependent: :destroy
   has_many :blocked_resources, dependent: :destroy
   has_many :page_load_resources, foreign_key: :performance_audit_id, dependent: :destroy
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy

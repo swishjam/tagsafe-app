@@ -57,32 +57,27 @@ class TagsController < LoggedInController
   end
 
   def enable
-    tag = current_domain.tags.find(params[:id])
-    tag.tag_preferences.update!(enabled: true)
-    current_user.broadcast_notification("Tag monitoring is now enabled for #{tag.try_friendly_name}", image: tag.try_image_url)
-    render turbo_stream: turbo_stream.replace(
-      "#{tag.id}_edit_general_settings",
-      partial: 'edit_general_settings',
-      locals: { tag: tag }
-    )
+    @tag = current_domain.tags.find(params[:id])
+    @tag.tag_preferences.update!(enabled: true) unless @tag.enabled?
+    current_user.broadcast_notification("Tag monitoring is now enabled for #{@tag.try_friendly_name}", image: @tag.try_image_url)
+    render :edit
+    # render turbo_stream: turbo_stream.replace(
+    #   "#{tag.id}_edit_general_settings",
+    #   partial: 'edit_general_settings',
+    #   locals: { tag: tag }
+    # )
   end
 
   def disable
-    tag = current_domain.tags.find(params[:id])
-    tag.tag_preferences.update!(enabled: false)
-    current_user.broadcast_notification("Tag monitoring is now disabled for #{tag.try_friendly_name}", image: tag.try_image_url)
-    render turbo_stream: turbo_stream.replace(
-      "#{tag.id}_edit_general_settings",
-      partial: 'edit_general_settings',
-      locals: { tag: tag }
-    )
-  end
-
-  def breakdown
-    most_recent_crawl = UrlCrawl.completed.successful.most_recent
-    @first_party_bytes = most_recent_crawl.num_first_party_bytes
-    @third_party_bytes = most_recent_crawl.num_third_party_bytes
-    @tag_versions = TagVersion.where(most_recent: true).includes(:tag).where(tag: current_domain.tags.is_third_party_tag.still_on_site)
+    @tag = current_domain.tags.find(params[:id])
+    @tag.tag_preferences.update!(enabled: false) unless @tag.disabled?
+    current_user.broadcast_notification("Tag monitoring is now disabled for #{@tag.try_friendly_name}", image: @tag.try_image_url)
+    render :edit
+    # render turbo_stream: turbo_stream.replace(
+    #   "#{tag.id}_edit_general_settings",
+    #   partial: 'edit_general_settings',
+    #   locals: { tag: tag }
+    # )
   end
 
   private

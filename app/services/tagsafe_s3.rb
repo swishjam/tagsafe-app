@@ -8,6 +8,14 @@ class TagsafeS3
       )
     end
 
+    def get_object_by_s3_url(s3_url)
+      client.get_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+    end
+
+    def delete_object_by_s3_url(s3_url)
+      client.delete_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+    end
+
     def url_to_bucket(s3_url)
       URI.parse(s3_url).hostname.split('.')[0]
     end

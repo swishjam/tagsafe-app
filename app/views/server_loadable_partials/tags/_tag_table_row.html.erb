@@ -18,7 +18,7 @@
         <% if audit_to_display.nil? %>
           --
         <% else %>
-          <%= render 'test_runs/test_results_for_audit', audit: audit_to_display %>
+          <%= render 'test_runs/test_results_pill_for_audit', audit: audit_to_display %>
         <% end %>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'><%= tag.content_changed_at&.formatted_short || 'No releases' %></div>

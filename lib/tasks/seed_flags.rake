@@ -78,6 +78,12 @@ namespace :seed do
         slug: 'include_page_tracing',
         description: 'When value is true, performance audits will include a page trace JSON stored in s3',
         default_value: 'true'
+      },
+      {
+        name: 'Override initial HTML request with manipulated page in performance audits',
+        slug: 'override_initial_html_request_with_manipulated_page',
+        description: 'When value is true, we will intercept initial HTML request in performance audits and replace it with a manipulated version of the page.',
+        default_value: 'true'
       }
     ]
 

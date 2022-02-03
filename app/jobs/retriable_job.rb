@@ -1,5 +1,6 @@
 module RetriableJob
   def self.included(base)
+    return if ENV['DONT_RETRY_JOBS']
     base.rescue_from StandardError do |exception|
       # executions includes the initial attempt
       if executions <= 3

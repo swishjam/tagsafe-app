@@ -11,9 +11,9 @@
     "test": "test"
   },
   "dependencies": {
-    "js-beautify": "^1.14.0"
+    "js-beautify": "^1.14.0",
+    "tracium": "^0.2.1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -11,10 +11,12 @@ class AuditRunner
   end
 
   def run!
-    audit.update(enqueued_suite_at: DateTime.now)
-    enqueue_performance_audit!
-    enqueue_functional_tests!
-    enqueue_page_change_audit!
+    if audit.valid?
+      audit.update(enqueued_suite_at: DateTime.now)
+      enqueue_performance_audit!
+      enqueue_functional_tests!
+      enqueue_page_change_audit!
+    end
     audit
   end
 
@@ -39,7 +41,7 @@ class AuditRunner
   end
 
   def audit
-    @audit ||= Audit.create!(
+    @audit ||= Audit.create(
       tag: @tag,
       tag_version: @tag_version,
       page_url: url_to_audit.page_url,
@@ -50,13 +52,16 @@ class AuditRunner
       include_page_load_resources: option_value_for(:include_page_load_resources, true),
       include_page_change_audit: option_value_for(:include_page_change_audit, true),
       include_functional_tests: option_value_for(:include_functional_tests, true),
-      num_functional_tests_to_run: @include_functional_tests ? @tag.functional_tests.enabled.count : 0,
+      num_functional_tests_to_run: option_value_for(:include_functional_tests, true) ? @tag.functional_tests.enabled.count : 0,
       performance_audit_configuration_attributes: {
         performance_audit_iterations: tag_preferences.performance_audit_iterations,
-        strip_all_images: performance_audit_configuration_for([:strip_all_images], true),
-        include_page_tracing: performance_audit_configuration_for([:include_page_tracing], true),
-        throw_error_if_dom_complete_is_zero: performance_audit_configuration_for([:throw_error_if_dom_complete_is_zero], true),
-        inline_injected_script_tags: performance_audit_configuration_for([:inline_injected_script_tags], false)
+        strip_all_images: performance_audit_configuration_for(:strip_all_images, true),
+        include_page_tracing: performance_audit_configuration_for(:include_page_tracing, true),
+        throw_error_if_dom_complete_is_zero: performance_audit_configuration_for(:throw_error_if_dom_complete_is_zero, true),
+        inline_injected_script_tags: performance_audit_configuration_for(:inline_injected_script_tags, false),
+        scroll_page: performance_audit_configuration_for(:scroll_page, false),
+        enable_screen_recording: performance_audit_configuration_for(:enable_screen_recording, true),
+        override_initial_html_request_with_manipulated_page: performance_audit_configuration_for(:override_initial_html_request_with_manipulated_page, Flag.flag_is_true(@tag.domain, 'override_initial_html_request_with_manipulated_page'))
       }
     )
   end

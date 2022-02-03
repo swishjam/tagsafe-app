@@ -8,7 +8,7 @@
           <% end %>
       <% elsif most_recent_crawl.pending? %>
         <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
-      <% elsif %>
+      <% else %>
         <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
       <% end %>
     </div>

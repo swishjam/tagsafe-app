@@ -1,7 +1,7 @@
 re_enqueue_failed_jobs:
   class: Schedule::ReEnqueueFailedJobs
   cron: "*/1 * * * *" # every 1 minute
-  queue: "default_queue"
+  queue: "tag_checker_queue" # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
   description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
 one_minute_check_scripts:
   class: Schedule::TagCheckJobs::OneMinuteInterval

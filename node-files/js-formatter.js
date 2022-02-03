@@ -1,5 +1,5 @@
 const beautify = require('js-beautify').js,
-    fs = require('fs');
+      fs = require('fs');
 
 const args = process.argv.slice(2);
 const readFile = args[0];

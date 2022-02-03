@@ -9,6 +9,7 @@ class TagSafeScorer
     @script_duration = script_duration
     @layout_duration = layout_duration
     @byte_size = byte_size
+    ensure_no_nil_metrics!
   end
 
   def score!
@@ -31,6 +32,12 @@ class TagSafeScorer
   end
 
   private
+
+  def ensure_no_nil_metrics!
+    %i[dom_complete dom_content_loaded dom_interactive first_contentful_paint task_duration script_duration layout_duration byte_size].each do |metric|
+      raise StandardError, "Cannt calculate Tagsafe Score, #{metric} is nil" if instance_variable_get("@#{metric.to_s}").nil?
+    end
+  end
 
   def weight_for_key(metric_key)
     @performance_audit_calculator["#{metric_key}_weight".to_sym]

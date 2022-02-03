@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_022407) do
+ActiveRecord::Schema.define(version: 2022_02_03_022031) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -137,6 +137,14 @@ ActiveRecord::Schema.define(version: 2022_01_26_022407) do
     t.string "uid"
     t.string "name"
     t.index ["uid"], name: "index_execution_reasons_on_uid"
+  end
+
+  create_table "filmstrip_screenshots", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "performance_audit_id"
+    t.string "uid"
+    t.integer "timestamp"
+    t.index ["performance_audit_id"], name: "index_filmstrip_screenshots_on_performance_audit_id"
+    t.index ["uid"], name: "index_filmstrip_screenshots_on_uid"
   end
 
   create_table "flags", charset: "utf8mb3", force: :cascade do |t|
@@ -334,6 +342,9 @@ ActiveRecord::Schema.define(version: 2022_01_26_022407) do
     t.boolean "throw_error_if_dom_complete_is_zero"
     t.boolean "inline_injected_script_tags"
     t.string "uid"
+    t.boolean "scroll_page"
+    t.boolean "enable_screen_recording"
+    t.boolean "override_initial_html_request_with_manipulated_page"
     t.index ["audit_id"], name: "index_performance_audit_configurations_on_audit_id"
     t.index ["uid"], name: "index_performance_audit_configurations_on_uid"
   end

@@ -1,29 +1,31 @@
 <h5 class="page-title" style="margin-bottom: 0;">Tag Settings</h5>
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 
-<div class='tagsafe-container col-10 offset-1 text-center'>
-  <div class='row'>
-    <% if @tag.disabled? %>
-      <div class="alert alert-danger col-10 offset-1" role="alert">
-        <%= HtmlHelper.WARNING_ICON %> Monitoring is disabled for this tag.
-      </div>
-      <%= form_with model: @tag, url: enable_tag_path(@tag) do |f| %>
-        <%= f.submit 'Enable Tagsafe Monitoring', class: 'tagsafe-btn square outline large mb-3' %>
+<%= turbo_frame_tag "tag_#{@tag.uid}_settings" do %>
+  <div class='tagsafe-container col-10 offset-1 text-center'>
+    <div class='row'>
+      <% if @tag.disabled? %>
+        <div class="alert alert-danger col-10 offset-1" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Monitoring is disabled for this tag.
+        </div>
+        <%= form_with model: @tag, url: enable_tag_path(@tag) do |f| %>
+          <%= f.submit 'Enable Tagsafe Monitoring', class: 'tagsafe-btn square outline large mb-3' %>
+        <% end %>
+      <% elsif %>
+        <% if @tag.removed_from_site? %>
+          <h6 class='text-center mt-2 mb-3'><i class="fas fa-exclamation-circle"></i> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
+        <% end %>
       <% end %>
-    <% elsif %>
-      <% if @tag.removed_from_site? %>
-        <h6 class='text-center mt-2 mb-3'><i class="fas fa-exclamation-circle"></i> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
-      <% end %>
-    <% end %>
+    </div>
+
+    <%= render 'urls_to_audit/index', domain: current_domain, tag: @tag, urls_to_audit: @tag.urls_to_audit %>
   </div>
 
-  <%= render 'urls_to_audit/index', domain: current_domain, tag: @tag, urls_to_audit: @tag.urls_to_audit %>
-</div>
-
-<% if @tag.enabled? %>
-  <div class='text-center mt-5 tagsafe-container col-10 offset-1 p-3'>
-    <%= form_with model: @tag, url: disable_tag_path(@tag) do |f| %>
-      <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large' %>
-    <% end %>
-  </div>
+  <% if @tag.enabled? %>
+    <div class='text-center mt-5 tagsafe-container col-10 offset-1 p-3'>
+      <%= form_with model: @tag, url: disable_tag_path(@tag) do |f| %>
+        <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large' %>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

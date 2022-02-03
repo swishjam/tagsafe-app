@@ -28,13 +28,15 @@ module LambdaModerator
         cached_responses_s3_key: @audit.performance_audit_cached_responses_s3_url ? TagsafeS3.url_to_key(@audit.performance_audit_cached_responses_s3_url) : nil,
         third_party_tag_url_patterns_to_allow: tag.domain.non_third_party_url_patterns.collect(&:pattern),
         options: {
-          puppeteer_page_wait_until: 'networkidle2',
+          override_initial_html_request_with_manipulated_page: @audit.performance_audit_configuration.override_initial_html_request_with_manipulated_page.to_s,
+          # puppeteer_page_wait_until: 'networkidle2',
           puppeteer_page_timeout_ms: 0,
-          enable_screen_recording: 'true',
+          enable_screen_recording: @audit.performance_audit_configuration.enable_screen_recording.to_s,
           throw_error_if_dom_complete_is_zero: @audit.performance_audit_configuration.throw_error_if_dom_complete_is_zero.to_s,
           include_page_load_resources: @audit.include_page_load_resources.to_s,
           include_page_tracing: @audit.performance_audit_configuration.include_page_tracing.to_s,
           inline_injected_script_tags: @audit.performance_audit_configuration.inline_injected_script_tags.to_s,
+          scroll_page: @audit.performance_audit_configuration.scroll_page.to_s,
           strip_all_images: @audit.performance_audit_configuration.strip_all_images.to_s,
           strip_all_css: false.to_s
         }

@@ -6,8 +6,11 @@ module TagManager
     end
 
     def beautify!(as_file_object: true)
-      system "node format-js #{@read_file} #{@output_file}"
-      as_file_object ? File.new(@output_file) : @output_file
+      if system "node node-files/js-formatter #{@read_file} #{@output_file}"
+        as_file_object ? File.new(@output_file) : @output_file
+      else
+        raise StandardError, "js-formatted failed!"
+      end
     end
   end
 end

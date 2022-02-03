@@ -23,9 +23,7 @@ class Audit < ApplicationRecord
 
   has_one :page_change_audit, class_name: 'PageChangeAudit', dependent: :destroy
 
-  #############
-  # CALLBACKS #
-  #############
+  validate :has_at_least_one_type_of_audit_enabled
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
 
@@ -287,5 +285,13 @@ class Audit < ApplicationRecord
                                   test_runs_with_tag.failed.not_retries.count + 
                                   test_runs_without_tag.completed.not_retries.count 
     (total_num_tests_completed.to_f / num_functional_tests_to_run_including_without_tag_validation_runs.to_f)*100.0
+  end
+
+  private
+
+  def has_at_least_one_type_of_audit_enabled
+    if !include_functional_tests && !include_page_change_audit && !include_performance_audit
+      errors.add(:base, "An audit must have either performance audits, functional tests, or page change audits enabled.")
+    end
   end
 end

@@ -33,11 +33,13 @@ module PerformanceAuditManager
     private
 
     def update_individual_performance_audits_results_with_results!
-      individual_performance_audit.update(update_attrs)
+      individual_performance_audit.update!(performance_audit_attrs)
+      individual_performance_audit.update(performance_audit_children_attrs)
+      # PerformancePageTrace::PerformanceAuditFilmstripUploader.new(individual_performance_audit).upload! unless individual_performance_audit.page_trace_s3_url.blank?
     end
 
-    def update_attrs
-      attrs = {
+    def performance_audit_attrs
+      {
         dom_complete: @results['DOMComplete'],
         dom_content_loaded: @results['DOMContentLoaded'],
         dom_interactive: @results['DOMInteractive'],
@@ -46,9 +48,14 @@ module PerformanceAuditManager
         script_duration: @results['ScriptDuration'],
         task_duration: @results['TaskDuration'],
         tagsafe_score: calculate_tagsafe_score_for_performance_audit,
-        page_trace_s3_url: @page_trace_s3_url,
-        page_load_resources_attributes:  formatted_page_load_resources,
-        blocked_resources_attributes: @blocked_resources
+        page_trace_s3_url: @page_trace_s3_url
+      }
+    end
+
+    def performance_audit_children_attrs
+      attrs = {
+        page_load_resources_attributes: formatted_page_load_resources,
+        blocked_resources_attributes: @blocked_resources.select{ |resource| resource['url'].present? && !resource['url'].starts_with?('data:image/') }
       }
       attrs[:performance_audit_log_attributes] = { logs: @logs } unless @logs.nil? || @logs.blank?
       attrs[:puppeteer_recording_attributes] = @puppeteer_recording unless @puppeteer_recording.nil? || @puppeteer_recording['s3_url'].nil?
