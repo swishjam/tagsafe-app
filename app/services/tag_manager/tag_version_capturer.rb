@@ -1,8 +1,9 @@
 module TagManager
   class TagVersionCapturer
-    def initialize(tag, content, hashed_content: nil)
+    def initialize(tag:, content:, tag_check:, hashed_content: nil)
       @tag = tag
       @content = content
+      @tag_check = tag_check
       @hashed_content = hashed_content || TagManager::Hasher.hash!(@content)
     end
 
@@ -11,6 +12,7 @@ module TagManager
       tag_version.js_file.attach(tag_version_js_file_data)
       tag_version.formatted_js_file.attach(tag_version_formatted_js_file_data)
       remove_temp_files
+      tag_version
     end
 
     private
@@ -18,7 +20,8 @@ module TagManager
     def tag_version_data
       {
         hashed_content: @hashed_content,
-        bytes: @content.bytesize
+        bytes: @content.bytesize,
+        tag_check_captured_with: @tag_check
       }
     end
 

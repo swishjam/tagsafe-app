@@ -9,8 +9,9 @@ module TagManager
     def evaluate!
       if tag_changed?
         tag_version = TagManager::TagVersionCapturer.new(
-          @tag, 
-          fetched_tag_content,
+          tag: @tag, 
+          content: fetched_tag_content,
+          tag_check: fetcher.tag_check,
           hashed_content: tag_version_detector.new_hashed_content
         ).capture_new_tag_version!
         unless ENV['SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB'] == 'true'

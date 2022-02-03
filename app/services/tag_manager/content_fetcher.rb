@@ -1,10 +1,9 @@
 module TagManager
   class ContentFetcher
-    attr_accessor :response
+    attr_accessor :response, :tag_check
     
-    def initialize(tag, capture_tag_check: true)
+    def initialize(tag)
       @tag = tag
-      @capture_tag_check = capture_tag_check
     end
 
     def fetch!
@@ -35,8 +34,8 @@ module TagManager
     end
 
     def capture_tag_check_if_necessary!(response_time, response_code)
-      if @capture_tag_check && @tag.tag_preferences.should_log_tag_checks
-        TagCheck.create(response_time_ms: response_time, response_code: response_code, tag: @tag)
+      if @tag.tag_preferences.should_log_tag_checks
+        @tag_check = TagCheck.create(response_time_ms: response_time, response_code: response_code, tag: @tag)
       end
     end
   end

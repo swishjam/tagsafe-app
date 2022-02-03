@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_022031) do
+ActiveRecord::Schema.define(version: 2022_02_03_031646) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -503,6 +503,8 @@ ActiveRecord::Schema.define(version: 2022_02_03_022031) do
     t.boolean "most_recent"
     t.integer "tag_id"
     t.datetime "deleted_at"
+    t.bigint "tag_check_captured_with_id"
+    t.index ["tag_check_captured_with_id"], name: "index_tag_versions_on_tag_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
   end

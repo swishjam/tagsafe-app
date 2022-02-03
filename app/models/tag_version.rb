@@ -5,6 +5,7 @@ class TagVersion < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :tag
+  belongs_to :tag_check_captured_with, class_name: 'TagCheck'
   has_many :audits, dependent: :destroy
   has_one_attached :js_file, service: :tag_version_s3
   has_one_attached :formatted_js_file, service: :tag_version_s3
