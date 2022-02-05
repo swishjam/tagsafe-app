@@ -200,6 +200,7 @@ class Audit < ApplicationRecord
   end
 
   def enqueue_next_individual_performance_audit_if_necessary!(audit_type, options = {})
+    reload # try this to see if it fixes bug where we never reach performance_audit_completed! due to race conditions in multiple jobs performing performance audits at the same time
     num_remaining_audits_for_type = audit_type == :with_tag ? num_individual_performance_audits_with_tag_remaining : num_individual_performance_audits_without_tag_remaining
     if num_remaining_audits_for_type.zero?
       Rails.logger.info "Audit #{id} completed performance audits for #{audit_type}"

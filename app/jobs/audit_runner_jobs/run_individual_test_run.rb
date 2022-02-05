@@ -38,7 +38,7 @@ module AuditRunnerJobs
     end
 
     def self.on_retriable_job_failure(exception, test_run, options)
-      test_run.failed!('An unexpected error occurred.')
+      test_run.failed!(message: 'An unexpected error occurred.')
     end
   end
 end

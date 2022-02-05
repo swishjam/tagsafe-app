@@ -21,7 +21,7 @@ module TagManager
     private
 
     def should_detect_changes_based_on_bytesize_changes?
-      Flag.flag_is_true_for_objects(@tag, @tag.domain, @tag.domain.organization, slug: 'should_detect_new_releases_based_on_bytesize_changes')
+      Flag.flag_is_true_for_objects(@tag, @tag.domain, slug: 'should_detect_new_releases_based_on_bytesize_changes')
     end
 
     def hash_changed?

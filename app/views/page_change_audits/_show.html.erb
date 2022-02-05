@@ -42,8 +42,10 @@
         <div class='col-6'>
           <% if page_change_audit.absolute_deletions > 0 %>
             <h5><%= HtmlHelper.FAILED_ICON(color: 'red') %> Caused <%= page_change_audit.absolute_deletions %> deletions to the page's HTML</h5>
+            <div class='content'><%= deletions_html.html_safe %></div>
+          <% else %>
+            <h5><%= HtmlHelper.PASSED_ICON(color: 'green') %> Caused no deletions to the page's HTML</h5>
           <% end %>
-          <div class='content'><%= deletions_html.html_safe %></div>
         </div>
         <div class='col-6'>
           <% if page_change_audit.absolute_additions > 0 %>

@@ -17,8 +17,10 @@ class PageChangeAuditsController < ApplicationController
         tag_version: tag_version,
         audit: audit,
         page_change_audit: page_change_audit,
-        additions_html: page_change_audit.absolute_changes > 0 ? diff_analyzer.html_split_diff_additions : '',
-        deletions_html: page_change_audit.absolute_changes > 0 ? diff_analyzer.html_split_diff_deletions : '',
+        # additions_html: page_change_audit.absolute_changes > 0 ? diff_analyzer.html_split_diff_additions : '',
+        # deletions_html: page_change_audit.absolute_changes > 0 ? diff_analyzer.html_split_diff_deletions : '',
+        additions_html: page_change_audit.absolute_additions.zero? ? '' : diff_analyzer.html_split_diff_additions,
+        deletions_html: page_change_audit.absolute_deletions.zero? ? '' : diff_analyzer.html_split_diff_deletions,
         additions_count: page_change_audit.absolute_additions,
         deletions_count: page_change_audit.absolute_deletions
       }
