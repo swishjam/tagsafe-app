@@ -17,7 +17,6 @@ module PerformancePageTrace
     def upload_screenshot(screenshot)
       formatted_image_data(screenshot, local_image_file)
       # filmstrip_screenshot = FilmstripScreenshot.create(performance_audit: @performance_audit)
-      # binding.pry
       # filmstrip_screenshot.image.attach(formatted_image_data(screenshot))
       # File.delete(Rails.root.join('tmp', "#{@performance_audit.uid}-filmstrip-screenshot-#{screenshot.ts}.png"))
     end

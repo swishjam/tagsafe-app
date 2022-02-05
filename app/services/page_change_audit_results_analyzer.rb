@@ -16,7 +16,7 @@ class PageChangeAuditResultsAnalyzer
       num_deletions_between_without_tag_snapshots: control_additions,
       num_additions_between_with_tag_snapshot_without_tag_snapshot: variable_additions,
       num_deletions_between_with_tag_snapshot_without_tag_snapshot: variable_deletions,
-      tag_causes_page_changes: control_additions != variable_additions && control_deletions != variable_deletions
+      tag_causes_page_changes: control_additions != variable_additions || control_deletions != variable_deletions
     )
   end
 

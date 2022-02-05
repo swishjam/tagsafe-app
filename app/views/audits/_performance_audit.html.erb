@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_performance_audit" do %>
   <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>">
     <% if !audit.include_performance_audit %>
-      <h6>Performance audits were disabled for this audit</h6>
+      <h4>Performance audits were disabled for this audit</h4>
     <% else %>
       <div class="row">
         <div class="col-12">

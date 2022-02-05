@@ -68,7 +68,7 @@ class Audit < ApplicationRecord
 
   def completed!
     update_column(:seconds_to_complete, Time.now - enqueued_suite_at)
-    make_primary! unless performance_audit_failed?
+    make_primary! unless performance_audit_failed? || performance_audit_disabled?
     AuditCompletedJob.perform_later(self)
   end
 
@@ -183,6 +183,10 @@ class Audit < ApplicationRecord
 
   def performance_audit_failed?
     !performance_audit_error_message.nil?
+  end
+
+  def performance_audit_disabled?
+    !include_performance_audit
   end
 
   def primary?

@@ -79,7 +79,7 @@ Rails.application.routes.draw do
         get :content
         get :git_diff
         get :js
-        get '/js.js' => 'tag_versions#js'
+        get '/js.js' => 'tag_versions#js', as: :raw_js
         get :tagsafe_instrumented_js
         get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end

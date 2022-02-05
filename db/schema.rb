@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_031646) do
+ActiveRecord::Schema.define(version: 2022_02_05_170258) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -261,6 +261,7 @@ ActiveRecord::Schema.define(version: 2022_02_03_031646) do
     t.integer "num_deletions_between_without_tag_snapshots"
     t.integer "num_additions_between_with_tag_snapshot_without_tag_snapshot"
     t.integer "num_deletions_between_with_tag_snapshot_without_tag_snapshot"
+    t.string "initial_html_content_s3_url"
     t.index ["audit_id"], name: "index_page_change_audits_on_audit_id"
     t.index ["uid"], name: "index_page_change_audits_on_uid"
   end

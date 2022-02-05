@@ -30,25 +30,26 @@ module ServerLoadablePartials
     private
 
     def render_unified_diff(tag, tag_version, diff_analyzer)
-      render turbo_stream: turbo_stream.replace(
-        "#{tag_version.uid}_diff",
-        partial: 'server_loadable_partials/tag_versions/unified_diff',
-        locals: { 
-          tag: tag, 
-          tag_version: tag_version, 
+      locals = Rails.cache.fetch("#{tag_version.uid}-unified-git-diff") do
+        {
+          tag: tag,
+          tag_version: tag_version,
           diff_html: diff_analyzer.html_unified_diff,
           num_additions: diff_analyzer.num_additions,
           num_deletions: diff_analyzer.num_deletions,
           total_changes: diff_analyzer.total_changes
         }
+      end
+      render turbo_stream: turbo_stream.replace(
+        "#{tag_version.uid}_diff",
+        partial: 'server_loadable_partials/tag_versions/unified_diff',
+        locals: locals
       )
     end
 
     def render_split_diff(tag, tag_version, diff_analyzer)
-      render turbo_stream: turbo_stream.replace(
-        "#{tag_version.uid}_diff",
-        partial: 'server_loadable_partials/tag_versions/split_diff',
-        locals: { 
+      locals = Rails.cache.fetch("#{tag_version.uid}-split-git-diff") do 
+        { 
           tag: tag, 
           tag_version: tag_version, 
           additions_html: diff_analyzer.html_split_diff_additions, 
@@ -57,6 +58,11 @@ module ServerLoadablePartials
           num_deletions: diff_analyzer.num_deletions,
           total_changes: diff_analyzer.total_changes
         }
+      end
+      render turbo_stream: turbo_stream.replace(
+        "#{tag_version.uid}_diff",
+        partial: 'server_loadable_partials/tag_versions/split_diff',
+        locals: locals
       )
     end
   end

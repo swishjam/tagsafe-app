@@ -25,30 +25,6 @@ class TagVersionsController < LoggedInController
     @number_of_tags = current_domain.tags.is_third_party_tag.enabled.count
   end
 
-  # def begin_audit
-  #   tag = current_domain.tags.find(params[:tag_id])
-  #   tag_version = tag.tag_versions.find(params[:id])
-  #   urls_to_audit = tag.urls_to_audit.includes(:page_url)
-  #   render turbo_stream: turbo_stream.replace(
-  #     'server_loadable_modal_content',
-  #     partial: 'begin_audit',
-  #     locals: { tag: tag, tag_version: tag_version, urls_to_audit: urls_to_audit }
-  #   )
-  # end
-
-  # def run_audit
-  #   tag = current_domain.tags.find(params[:tag_id])
-  #   tag_version = tag.tag_versions.find(params[:id])
-  #   audits_enqueued = UrlToAudit.where(id: params[:urls_to_audit]).map do |url_to_audit|
-  #     tag_version.perform_audit_later(execution_reason: ExecutionReason.MANUAL, url_to_audit: url_to_audit, options: {})
-  #   end
-  #   render turbo_stream: turbo_stream.replace(
-  #     'server_loadable_modal_content',
-  #     partial: 'begin_audit',
-  #     locals: { tag: tag, tag_version: tag_version, audits_enqueued: audits_enqueued }
-  #   )
-  # end
-
   def js
     tag = current_domain.tags.find(params[:tag_id])
     tag_version = tag.tag_versions.find(params[:id])

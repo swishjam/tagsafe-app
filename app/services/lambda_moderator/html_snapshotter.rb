@@ -24,6 +24,7 @@ module LambdaModerator
     def request_payload
       {
         url: audit.page_url.full_url,
+        initial_html_content_s3_key: @page_change_audit.initial_html_content_s3_key,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
         third_party_tag_url_patterns_to_allow: allowed_request_urls
       }

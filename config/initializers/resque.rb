@@ -6,7 +6,7 @@ Resque::Server.use(Rack::Auth::Basic) do |user, password|
   password === ENV['RESQUE_PASSWORD']
 end
 
-Rails.logger.info "Setting Resque's redis to #{ENV['REDIS_URL'] || 'losthost:6379'}"
+Rails.logger.info "Setting Resque's redis to #{ENV['REDIS_URL'] || 'redis://localhost:6379'}"
 Resque.redis = { url: ENV['REDIS_URL'] || 'redis://localhost:6379', ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }}
 
 Resque.logger = Logger.new(STDOUT)

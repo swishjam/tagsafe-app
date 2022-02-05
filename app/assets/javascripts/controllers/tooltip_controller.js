@@ -2,6 +2,10 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   connect() {
-    new bootstrap.Tooltip(this.element)
+    this.tooltip = new bootstrap.Tooltip(this.element);
+  }
+
+  disconnect() {
+    this.tooltip.dispose();
   }
 }
