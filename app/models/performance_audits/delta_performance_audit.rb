@@ -11,6 +11,10 @@ class DeltaPerformanceAudit < PerformanceAudit
   def completed!
     touch(:enqueued_at, :completed_at)
   end
+
+  def tagsafe_score_metric_deduction(metric)
+    scorer.performance_metric_deduction(metric.to_sym)&.round(2)
+  end
   
   private
 

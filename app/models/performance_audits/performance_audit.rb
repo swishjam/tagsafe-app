@@ -31,7 +31,7 @@ class PerformanceAudit < ApplicationRecord
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - enqueued_at)
-    unless is_a?(DeltaPerformanceAudit)
+    unless is_a?(DeltaPerformanceAudit) 
       update_performance_audit_completion_indicator(audit: audit, now: true)
       audit.enqueue_next_individual_performance_audit_if_necessary!(symbolized_audit_type)
     end
@@ -40,7 +40,6 @@ class PerformanceAudit < ApplicationRecord
   def error!(msg)
     update!(error_message: msg)
     completed!
-    # try_retry!
   end
 
   def completed?
@@ -59,23 +58,4 @@ class PerformanceAudit < ApplicationRecord
     completed? && !failed?
   end
   alias successful? success?
-
-  # def try_retry!(force = false)
-  #   if should_retry? || force
-  #     raise AuditError::InvalidRetry, "Cannot retry a PerformanceAudit of type #{type}" unless is_a?(IndividualPerformanceAuditWithTag) || is_a?(IndividualPerformanceAuditWithoutTag)
-  #     Rails.logger.info "Retrying PerformanceAudit #{id} that failed because of #{error_message}"
-  #     audit_type = is_a?(IndividualPerformanceAuditWithTag) ? :with_tag :  :without_tag
-  #     AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(
-  #       type: audit_type,
-  #       audit: audit, 
-  #       tag_version: audit.tag_version
-  #     )
-  #   else
-  #     audit.performance_audit_error!("Haulting Performance Audit retries on audit due to exceeding max retry count of #{audit.maximum_individual_performance_audit_attempts}")
-  #   end
-  # end
-
-  # def should_retry?
-  #   audit.individual_performance_audits.failed.count <= audit.maximum_individual_performance_audit_attempts
-  # end
 end

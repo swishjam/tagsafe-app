@@ -56,8 +56,16 @@
             </div>
           </div>
           <div class='row'>
-            <div class='col-12 text-start'>
+            <div class='col-6 text-start'>
               <b>Impact on Metrics:</b>
+            </div>
+            <div class='col-6 text-end'>
+              <span class='tagsafe-circular-btn' data-audit-results-expander-target='expandBtn' data-action='click->audit-results-expander#expandMetrics'>
+                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+              </span>
+              <span class='tagsafe-circular-btn hidden' data-audit-results-expander-target='collapseBtn' data-action='click->audit-results-expander#collapseMetrics'>
+                <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+              </span>
             </div>
           </div>
           <div data-audit-results-expander-target='metricsContainer' class="performance-metrics-container minimized">
@@ -67,6 +75,7 @@
                 metric_title: 'DOM Complete',
                 impact_result: audit.delta_performance_audit.dom_complete,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_complete : nil,
+                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:dom_complete),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -75,6 +84,7 @@
                 metric_title: 'DOM Interactive',
                 impact_result: audit.delta_performance_audit.dom_interactive,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_interactive : nil,
+                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:dom_interactive),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -85,6 +95,7 @@
                 metric_title: 'First Contentful Paint',
                 impact_result: audit.delta_performance_audit.first_contentful_paint,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.first_contentful_paint : nil,
+                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:first_contentful_paint),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -93,6 +104,7 @@
                 metric_title: 'Task Duration Time',
                 impact_result: audit.delta_performance_audit.task_duration,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.task_duration : nil,
+                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:task_duration),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -103,6 +115,7 @@
                 metric_title: 'Script Duration',
                 impact_result: audit.delta_performance_audit.script_duration,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.script_duration : nil,
+                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:script_duration),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -111,6 +124,7 @@
                 metric_title: 'Layout Duration',
                 impact_result: audit.delta_performance_audit.layout_duration,
                 previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.layout_duration : nil,
+                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:layout_duration),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -121,6 +135,7 @@
                   metric_title: 'DOM Content Loaded',
                   impact_result: audit.delta_performance_audit.dom_content_loaded,
                   previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_content_loaded : nil,
+                  tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:dom_content_loaded),
                   unit: 'ms',
                   previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
                 } %>

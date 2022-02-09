@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_170258) do
+ActiveRecord::Schema.define(version: 2022_02_09_010915) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 2022_02_05_170258) do
     t.timestamp "performance_audit_completed_at"
     t.timestamp "page_change_audit_completed_at"
     t.timestamp "functional_tests_completed_at"
-    t.string "performance_audit_cached_responses_s3_url"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
@@ -346,6 +345,7 @@ ActiveRecord::Schema.define(version: 2022_02_05_170258) do
     t.boolean "scroll_page"
     t.boolean "enable_screen_recording"
     t.boolean "override_initial_html_request_with_manipulated_page"
+    t.string "cached_responses_s3_url"
     t.index ["audit_id"], name: "index_performance_audit_configurations_on_audit_id"
     t.index ["uid"], name: "index_performance_audit_configurations_on_uid"
   end

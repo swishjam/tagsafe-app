@@ -25,8 +25,8 @@ module LambdaModerator
         page_url_to_perform_audit_on: @audit.page_url.full_url,
         first_party_request_url: tag.domain.parsed_domain_url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
-        cached_responses_s3_key: @audit.performance_audit_cached_responses_s3_url ? TagsafeS3.url_to_key(@audit.performance_audit_cached_responses_s3_url) : nil,
         third_party_tag_url_patterns_to_allow: tag.domain.non_third_party_url_patterns.collect(&:pattern),
+        cached_responses_s3_key: @audit.performance_audit_configuration.cached_responses_s3_key,
         options: {
           override_initial_html_request_with_manipulated_page: @audit.performance_audit_configuration.override_initial_html_request_with_manipulated_page.to_s,
           # puppeteer_page_wait_until: 'networkidle2',

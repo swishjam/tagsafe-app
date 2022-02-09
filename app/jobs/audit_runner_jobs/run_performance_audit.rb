@@ -5,8 +5,7 @@ module AuditRunnerJobs
     NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS = (ENV['NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS'] || 1).to_i
 
     def perform(audit, options = {})
-      # TODO: cached responses are inaccurate, do not use until we figure out the Lambda function
-      # generate_cached_responses(audit)
+      generate_cached_responses(audit) unless ENV['DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES']
       NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS.times do
         audit.enqueue_next_individual_performance_audit_if_necessary!(:with_tag, options)
         audit.enqueue_next_individual_performance_audit_if_necessary!(:without_tag, options)
@@ -18,11 +17,11 @@ module AuditRunnerJobs
       if response.response_body['errorMessage'] || !response.successful
         raise StandardError, response.response_body['errorMessage'] || response.error
       else
-        audit.update!(performance_audit_cached_responses_s3_url: response.response_body['cached_responses_s3_location'])
+        audit.performance_audit_configuration.update!(cached_responses_s3_url: response.response_body['cached_responses_s3_location'])
       end
     end
 
-    def self.on_retriable_job_failure(exception, audit)
+    def self.on_retriable_job_failure(exception, audit, options = {})
       audit.performance_audit_error!(exception.message)
     end
   end
