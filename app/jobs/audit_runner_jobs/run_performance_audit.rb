@@ -2,13 +2,20 @@ module AuditRunnerJobs
   class RunPerformanceAudit < ApplicationJob
     include RetriableJob
     queue_as :performance_audit_runner_queue
+
+    DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES = Util.env_is_true('DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES')
+    SHOULD_ENQUEUE_PERFORMANCE_AUDITS_SIMULTANEOUSLY = Util.env_is_true('ENQUEUE_INDIVIDUAL_PERFORMANCE_AUDITS_SIMULTANEOUSLY')
     NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS = (ENV['NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS'] || 1).to_i
 
     def perform(audit, options = {})
-      generate_cached_responses(audit) unless ENV['DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES']
-      NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS.times do
-        audit.enqueue_next_individual_performance_audit_if_necessary!(:with_tag, options)
-        audit.enqueue_next_individual_performance_audit_if_necessary!(:without_tag, options)
+      generate_cached_responses(audit) unless DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES
+      if SHOULD_ENQUEUE_PERFORMANCE_AUDITS_SIMULTANEOUSLY
+        NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS.times do
+          audit.enqueue_next_performance_audit!(IndividualPerformanceAuditWithoutTag.SYMBOLIZED_AUDIT_TYPE)
+          audit.enqueue_next_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
+        end
+      else
+        audit.enqueue_next_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
       end
     end
 

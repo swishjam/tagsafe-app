@@ -1,6 +1,6 @@
 <%= turbo_frame_tag dom_id(tag_preference) do %>
   <%= form_for tag_preference, url: tag_tag_preference_path(tag, tag_preference) do |f| %>
-    <% if ENV['AUDIT_THROTTLING_ENABLED'] == 'true' %>
+    <% if Util.env_is_true('AUDIT_THROTTLING_ENABLED') %>
       <div data-controller='toggle-visibility'>
         <div class="form-check form-switch w-fit m-auto">
           <input type='checkbox' class='form-check-input' id='throttle-toggle' data-toggle-visibility-target='toggler' checked="<%= !tag_preference.throttle_minute_threshold.nil? || tag_preference.throttle_minute_threshold.zero? %>">

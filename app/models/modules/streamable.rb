@@ -20,7 +20,7 @@ module Streamable
     end
 
     def re_render_tags_chart(domain:, now: false)
-      return if ENV['DISABLE_CHART_UPDATE_STREAMS'] == 'true'
+      return if Util.env_is_true('DISABLE_CHART_UPDATE_STREAMS')
       stream_replace!(
         now: now,
         stream: "domain_#{domain.uid}_monitor_center_view_stream",
@@ -71,7 +71,7 @@ module Streamable
     end
   
     def re_render_tag_chart(tag:, now: false)
-      return if ENV['DISABLE_CHART_UPDATE_STREAMS'] == 'true'
+      return if Util.env_is_true('DISABLE_CHART_UPDATE_STREAMS')
       # chart_data_getter = ChartHelper::TagData.new(tag: tag, metric: :tagsafe_score, start_time: 1.day.ago, end_time: Time.now)
       stream_replace!(
         now: now,

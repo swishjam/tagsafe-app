@@ -24,19 +24,23 @@ class AuditRunner
 
   def enqueue_performance_audit!
     if audit.include_performance_audit
-      AuditRunnerJobs::RunPerformanceAudit.perform_later(audit, @options[:performance_audit_options] || {})
+      # all performance options should now be persisted in the PerformanceAuditConfiguration
+      # AuditRunnerJobs::RunPerformanceAudit.perform_later(audit, @options[:performance_audit_options] || {})
+      AuditRunnerJobs::RunPerformanceAudit.perform_later(audit)
     end
   end
 
   def enqueue_page_change_audit!
     if audit.include_page_change_audit
-      AuditRunnerJobs::RunPageChangeAudit.perform_later(audit, @options[:page_change_audit_options] || {})
+      # AuditRunnerJobs::RunPageChangeAudit.perform_later(audit, @options[:page_change_audit_options] || {})
+      AuditRunnerJobs::RunPageChangeAudit.perform_later(audit)
     end
   end
 
   def enqueue_functional_tests!
     if audit.include_functional_tests
-      AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(audit, @options[:functional_tests_options] || {})
+      # AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(audit, @options[:functional_tests_options] || {})
+      AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(audit)
     end
   end
 

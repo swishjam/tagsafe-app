@@ -1,3 +1,5 @@
+require 'open-uri'
+
 def run_identifying_data_migration(identifying_json)
   tag_identifying_datas_created = 0
   tag_identifying_datas_updated = 0
@@ -11,6 +13,10 @@ def run_identifying_data_migration(identifying_json)
         homepage: tag_identifying_json_data['homepage'],
         category: tag_identifying_json_data.dig('categories', 0)
       )
+      if tag_identifying_json_data['image_url']
+         downloaded_image = open(tag_identifying_json_data['image_url'])
+         existing_identifying_data.image.attach(io: downloaded_image, filename: tag_identifying_json_data['name'].gsub(' ', '_').downcase)
+      end
       tag_identifying_datas_updated += 1
       puts "#{existing_identifying_data.name} already exists so we updated it!"
       tag_identifying_json_data['domains'].each do |domain_pattern|
@@ -28,6 +34,10 @@ def run_identifying_data_migration(identifying_json)
         homepage: tag_identifying_json_data['homepage'],
         category: tag_identifying_json_data.dig('categories', 0)
       )
+      if tag_identifying_json_data['image_url']
+         downloaded_image = open(tag_identifying_json_data['image_url'])
+         tid.image.attach(io: downloaded_image, filename: tag_identifying_json_data['name'].gsub(' ', '_').downcase)
+      end
       tag_identifying_datas_created += 1
       puts "Created #{tid.name}!"
       tag_identifying_json_data['domains'].each do |domain_pattern|
@@ -37,7 +47,7 @@ def run_identifying_data_migration(identifying_json)
       end
     end
   end
-  puts "Completed identifying data seed. Created #{tag_identifying_datas_created} TagIdentifyingDatas, updated #{tag_identifying_datas_updated} TagIdentifyingDatas, and created #{tag_identifying_data_domains_created} TagIdentifyingDataDomains"
+  puts "Completed identifying data seed. Created #{tag_identifying_datas_created} new TagIdentifyingDatas, updated #{tag_identifying_datas_updated} TagIdentifyingDatas, and created #{tag_identifying_data_domains_created} new TagIdentifyingDataDomains"
 end
 
 JSON_DATA = [
@@ -279,6 +289,7 @@ JSON_DATA = [
   {
      "name"=>"Google Tag Manager",
      "company"=>"Google",
+     "image_url"=>"https://cdn.freelogovectors.net/wp-content/uploads/2020/11/google-tag-manager-logo.png",
      "homepage"=>"https://marketingplatform.google.com/about/tag-manager/",
      "categories"=>[
         "tag-manager"
@@ -534,6 +545,7 @@ JSON_DATA = [
   {
      "name"=>"Adobe Tag Manager",
      "company"=>"Adobe",
+   #   "image_url"=>"https://martech.org/wp-content/uploads/2013/07/adobe-logo-180px.jpeg",
      "homepage"=>"https://www.adobe.com/experience-platform/",
      "categories"=>[
         "tag-manager"
@@ -1017,6 +1029,7 @@ JSON_DATA = [
   {
      "name"=>"Optimizely",
      "homepage"=>"https://www.optimizely.com/",
+     "image_url"=>"https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/jpyi4oel8oo87i5zs95h",
      "categories"=>[
         "analytics"
      ],
@@ -8717,6 +8730,7 @@ JSON_DATA = [
   },
   {
      "name"=>"Gigya",
+     "image_url" => "https://seekvectorlogo.com/wp-content/uploads/2018/12/gigya-vector-logo-small.png",
      "categories"=>[
         "analytics"
      ],
@@ -20229,6 +20243,7 @@ JSON_DATA = [
   {
      "name"=>"Quantum Metric",
      "homepage"=>"https://www.quantummetric.com/",
+     "image_url"=>"https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/z90agv2oycklmbxevcfs",
      "categories"=>[
         "analytics"
      ],
@@ -21790,7 +21805,7 @@ JSON_DATA = [
 ]
 
 namespace :seed do
-  task :tag_identifying_data => :environment do |_, args|
-    run_identifying_data_migration(JSON_DATA)
-  end
+   task :tag_identifying_data => :environment do |_, args|
+      run_identifying_data_migration(JSON_DATA)
+   end
 end

@@ -33,7 +33,7 @@ class PerformanceAudit < ApplicationRecord
     update_column(:seconds_to_complete, completed_at - enqueued_at)
     unless is_a?(DeltaPerformanceAudit) 
       update_performance_audit_completion_indicator(audit: audit, now: true)
-      audit.enqueue_next_individual_performance_audit_if_necessary!(symbolized_audit_type)
+      audit.enqueue_next_performance_audit!(symbolized_audit_type)
     end
   end
 

@@ -62,7 +62,7 @@ class TagVersion < ApplicationRecord
     tag.urls_to_audit.each{ |url_to_audit| perform_audit_later(url_to_audit: url_to_audit, execution_reason: execution_reason, options: options) }
   end
 
-  def js_file_url(formatted: false, use_cloudfront_url: ENV['USE_CLOUDFRONT_CDN_FOR_JS_FILES'] == 'true')
+  def js_file_url(formatted: false, use_cloudfront_url: Util.env_is_true('USE_CLOUDFRONT_CDN_FOR_JS_FILES'))
     javascript_file = formatted ? formatted_js_file : js_file
     return javascript_file.url unless use_cloudfront_url
     parsed_url = URI.parse(javascript_file.url)

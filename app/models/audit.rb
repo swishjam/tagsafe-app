@@ -9,7 +9,7 @@ class Audit < ApplicationRecord
   belongs_to :page_url
   belongs_to :performance_audit_calculator
 
-  has_one :performance_audit_configuration
+  has_one :performance_audit_configuration, dependent: :destroy
   accepts_nested_attributes_for :performance_audit_configuration
   has_many :performance_audits, dependent: :destroy
   # has_many :blocked_resources, through: :performance_audits
@@ -203,28 +203,12 @@ class Audit < ApplicationRecord
     PerformanceAuditManager::DeltaPerformanceAuditCreator.new(self).create_delta_audit!
   end
 
-  def enqueue_next_individual_performance_audit_if_necessary!(audit_type, options = {})
-    reload # try this to see if it fixes bug where we never reach performance_audit_completed! due to race conditions in multiple jobs performing performance audits at the same time
-    num_remaining_audits_for_type = audit_type == :with_tag ? num_individual_performance_audits_with_tag_remaining : num_individual_performance_audits_without_tag_remaining
-    if num_remaining_audits_for_type.zero?
-      Rails.logger.info "Audit #{id} completed performance audits for #{audit_type}"
-      if num_individual_performance_audits_remaining.zero?
-        Rails.logger.info "All performance audits are completed!"
-        performance_audit_completed!
-      else
-        Rails.logger.info "Still has #{num_individual_performance_audits_remaining} to complete, letting other audit_type handle it."
-      end
-    elsif individual_performance_audits.failed.count < maximum_individual_performance_audit_attempts
-      Rails.logger.info "Enqueuing next #{audit_type} performance audit for Audit #{id}, #{num_remaining_audits_for_type} remaining to complete."
-      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: self, tag_version: tag_version, options: options)
-    else
-      Rails.logger.info "Reached maximum performance audit retry count of #{maximum_individual_performance_audit_attempts}, stopping audit."
-      performance_audit_error!("Reached maximum performance audit retry count of #{maximum_individual_performance_audit_attempts}, stopping audit.")
-    end
+  def enqueue_next_performance_audit!(performance_audit_type_just_completed)
+    PerformanceAuditManager::AuditEnqueuer.new(self, performance_audit_type_just_completed).enqueue_next_performance_audit!
   end
 
-  def previous_primary_audit(force = false)
-    return @previous_primary_audit if @previous_primary_audit && !force
+  def previous_primary_audit(disable_cache = false)
+    return @previous_primary_audit if @previous_primary_audit && !disable_cache
     @previous_primary_audit = tag.audits.joins(:tag_version).primary.where('tag_versions.created_at < ?', tag_version.created_at).limit(1).first
   end
 
@@ -250,7 +234,7 @@ class Audit < ApplicationRecord
   end
 
   def maximum_individual_performance_audit_attempts
-    Flag.flag_value_for_objects(tag, tag.domain, tag.domain.organization, slug: 'max_individual_performance_audit_retries').to_i
+    Flag.flag_value_for_objects(tag, tag.domain, slug: 'max_individual_performance_audit_retries').to_i
   end
 
   ######################

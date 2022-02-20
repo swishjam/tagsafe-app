@@ -1,14 +1,18 @@
 class IndividualPerformanceAuditWithoutTag < PerformanceAudit
   uid_prefix 'ipawot'
 
+  def self.SYMBOLIZED_AUDIT_TYPE
+    :without_tag
+  end
+
+  def symbolized_audit_type
+    self.class.SYMBOLIZED_AUDIT_TYPE
+  end
+
   def state
     return 'completed' if success?
     return 'pending' if pending?
     return 'failed' if failed?
-  end
-
-  def symbolized_audit_type
-    :without_tag
   end
 
   def cloudwatch_logs
