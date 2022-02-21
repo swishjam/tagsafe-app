@@ -5,4 +5,9 @@ class TagCheck < ApplicationRecord
 
   scope :successful, -> { where(response_code: 200) }
   scope :failed, -> { where.not(response_code: 200) }
+  scope :captured_new_tag_version, -> { joins(:tag_version).where.not(tag_version: nil) }
+
+  def captured_new_tag_version?
+    tag_version.present?
+  end
 end

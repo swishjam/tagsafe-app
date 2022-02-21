@@ -1526,6 +1526,7 @@ JSON_DATA = [
   {
      "name"=>"Segment",
      "homepage"=>"https://segment.com/",
+     "image_url" => "https://www.kindpng.com/picc/m/361-3615385_nightmare-segment-logo-png-transparent-png.png",
      "categories"=>[
         "analytics"
      ],
@@ -1776,6 +1777,7 @@ JSON_DATA = [
   {
      "name"=>"New Relic",
      "homepage"=>"https://newrelic.com/",
+     "image_url"=>"https://cdn.freebiesupply.com/logos/large/2x/new-relic-logo-png-transparent.png",
      "categories"=>[
         "utility"
      ],
@@ -4156,6 +4158,7 @@ JSON_DATA = [
   {
      "name"=>"Amplitude Mobile Analytics",
      "company"=>"Amplitude",
+     "image_url"=>"https://i.pinimg.com/originals/89/17/0d/89170de8a18409d8735dcdf413d86dba.png",
      "categories"=>[
         "analytics"
      ],
