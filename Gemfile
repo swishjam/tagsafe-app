@@ -71,6 +71,7 @@ gem 'sendgrid-ruby'
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem "sentry-resque"
 
 gem 'image_optimizer'
 
