@@ -3,26 +3,19 @@ module AuditRunnerJobs
     include RetriableJob
     queue_as :performance_audit_runner_queue
 
-    DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES = Util.env_is_true('DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES')
-    SHOULD_ENQUEUE_PERFORMANCE_AUDITS_SIMULTANEOUSLY = Util.env_is_true('ENQUEUE_INDIVIDUAL_PERFORMANCE_AUDITS_SIMULTANEOUSLY')
-    NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS = (ENV['NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS'] || 1).to_i
-
     def perform(audit, options = {})
-      generate_cached_responses(audit) unless DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES
-      if SHOULD_ENQUEUE_PERFORMANCE_AUDITS_SIMULTANEOUSLY
-        NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS.times do
-          audit.enqueue_next_performance_audit!(IndividualPerformanceAuditWithoutTag.SYMBOLIZED_AUDIT_TYPE)
-          audit.enqueue_next_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
-        end
-      else
-        audit.enqueue_next_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
-      end
+      generate_cached_responses(audit) unless Util.env_is_true('DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES')
+      PerformanceAuditManager::AuditEnqueuer.new(audit).enqueue_initial_performance_audits!
     end
 
-    def generate_cached_responses(audit)
+    def generate_cached_responses(audit, attempt_num = 1)
       response = LambdaModerator::PerformanceAuditCacher.new(audit: audit, tag_version: audit.tag_version).send!
       if response.response_body['errorMessage'] || !response.successful
-        raise StandardError, response.response_body['errorMessage'] || response.error
+        if attempt_num <= 3
+          generate_cached_responses(audit, attempt_num + 1)
+        else
+          audit.performance_audit_error!(response.response_body['errorMessage'] || response.error || "An unexpected error occurrred.")
+        end
       else
         audit.performance_audit_configuration.update!(cached_responses_s3_url: response.response_body['cached_responses_s3_location'])
       end

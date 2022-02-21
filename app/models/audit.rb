@@ -237,6 +237,26 @@ class Audit < ApplicationRecord
     Flag.flag_value_for_objects(tag, tag.domain, slug: 'max_individual_performance_audit_retries').to_i
   end
 
+  def performance_audit_with_tag_std_dev_for(metric)
+    return nil if individual_performance_audits_with_tag.completed_successfully.none?
+    Statistics.std_dev(individual_performance_audits_with_tag.completed_successfully.map{ |ipa| ipa.send(metric) })
+  end
+
+  def performance_audit_without_tag_std_dev_for(metric)
+    return nil if individual_performance_audits_with_tag.completed_successfully.none?
+    Statistics.std_dev(individual_performance_audits_with_tag.completed_successfully.map{ |ipa| ipa.send(metric) })
+  end
+
+  def performance_audit_with_tag_variance_for(metric)
+    return nil if individual_performance_audits_without_tag.completed_successfully.none?
+    Statistics.variance(individual_performance_audits_with_tag.completed_successfully.map{ |ipa| ipa.send(metric) })
+  end
+
+  def performance_audit_without_tag_variance_for(metric)
+    return nil if individual_performance_audits_without_tag.completed_successfully.none?
+    Statistics.variance(individual_performance_audits_with_tag.completed_successfully.map{ |ipa| ipa.send(metric) })
+  end
+
   ######################
   ## FUNCTIONAL TESTS ##
   ######################

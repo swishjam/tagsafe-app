@@ -142,8 +142,8 @@
               <div class="metric-row col-md-12 col-lg-6">
                 <div class='metric col-12'>
                   <%
-                    impact_result = audit.tag_version.bytesize
-                    previous_impact_result = audit.tag_version.previous_version
+                    impact_result = audit.tag_version.bytes
+                    previous_impact_result = audit.tag_version.previous_version&.bytes
                     tagsafe_score_deduction = audit.delta_performance_audit.tagsafe_score_metric_deduction(:byte_size)
                   %>
                   <div class='row'>
@@ -156,8 +156,8 @@
                       <% else %>
                         <% tooltip_title = "The #{audit.tag.try_friendly_name} tag is #{number_to_human_size(impact_result)} in size." %>
                         <% diff_in_metric = impact_result - (previous_impact_result || 0) %>
-                        <% unless previous_impact_result.nil? %>
-                          <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{diff_in_metric.abs.round(2)} #{unit} from the previous version." %>
+                        <% unless previous_impact_result.nil? || diff_in_metric.zero? %>
+                          <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{number_to_human_size(diff_in_metric.abs.round(2))} from the previous version." %>
                         <% end %>
                         <div data-controller='tooltip'
                               data-bs-toggle='tooltip'

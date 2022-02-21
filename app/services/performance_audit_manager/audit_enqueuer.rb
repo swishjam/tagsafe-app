@@ -5,6 +5,17 @@ module PerformanceAuditManager
       @audit = audit.reload
       @performance_audit_type_just_completed = performance_audit_type_just_completed
     end
+
+    def enqueue_initial_performance_audits!
+      if Util.env_is_true('ENQUEUE_INDIVIDUAL_PERFORMANCE_AUDITS_SIMULTANEOUSLY')
+        (ENV['NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS'] || 1).to_i.times do
+          enqueue_individual_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
+          enqueue_individual_performance_audit!(IndividualPerformanceAuditWithoutTag.SYMBOLIZED_AUDIT_TYPE)
+        end
+      else
+        enqueue_individual_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
+      end
+    end
     
     def enqueue_next_performance_audit!(audit_type_to_enqueue = nil)
       if @audit.num_individual_performance_audits_remaining.zero?

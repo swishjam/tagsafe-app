@@ -15,7 +15,7 @@ class PageLoadResource < ApplicationRecord
 
   def resource_type_icon_html
     {
-      'img' => "<img src='#{name}' style='position: relative'>".html_safe,
+      'img' => "<img src='#{name.starts_with?('/') ? performance_audit.audit.tag.domain.parsed_domain_url + name : name}' style='position: relative; height: 100%; max-width: 100px;'>".html_safe,
       'css' => HtmlHelper.CODE_FILE_ICON(color: 'purple'),
       'link' => HtmlHelper.CODE_FILE_ICON(color: 'purple'),
       'script' => HtmlHelper.CODE_FILE_ICON(color: 'orange'),

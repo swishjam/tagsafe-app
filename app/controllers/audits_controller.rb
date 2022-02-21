@@ -81,7 +81,7 @@ class AuditsController < LoggedInController
   def render_breadcrumbs_for_show_views
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
-      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} details" },
+      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       { url: tag_tag_version_audits_path(@tag, @tag_version), text: "Version #{@tag_version.sha} audits" },
       { text: "#{@audit.created_at.formatted_short} audit", active: true }
     )

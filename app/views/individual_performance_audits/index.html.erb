@@ -10,13 +10,47 @@
       <div class='row'>
         <div class='col-6'>
           <h5>Performance audits with tag</h5>
-          <% @audits_with_tag.each_with_index do |audit, i| %>
+          <h6>STD Deviation</h6>
+          <span class='d-block'>DOM Complete STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:dom_complete)) %></span>
+          <span class='d-block'>DOM Content Loaded STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:dom_content_loaded)) %></span>
+          <span class='d-block'>DOM Interactive STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:dom_interactive)) %></span>
+          <span class='d-block'>First Contentful Paint STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:first_contentful_paint)) %></span>
+          <span class='d-block'>Script Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:script_duration)) %></span>
+          <span class='d-block'>Task Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:task_duration)) %></span>
+          <span class='d-block'>Layout Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:layout_duration)) %></span>
+          <h6>Variance</h6>
+          <span class='d-block'>DOM Complete Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:dom_complete)) %></span>
+          <span class='d-block'>DOM Content Loaded Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:dom_content_loaded)) %></span>
+          <span class='d-block'>DOM Interactive Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:dom_interactive)) %></span>
+          <span class='d-block'>First Contentful Paint Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:first_contentful_paint)) %></span>
+          <span class='d-block'>Script Duration Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:script_duration)) %></span>
+          <span class='d-block'>Task Duration Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:task_duration)) %></span>
+          <span class='d-block'>Layout Duration Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:layout_duration)) %></span>
+          <br/><br/>
+          <% @audits_with_tag.each do |audit| %>
             <%= render 'individual_performance_audit', individual_performance_audit: audit %>
           <% end %>
         </div>
         <div class='col-6'>
           <h5>Performance audits without tag</h5>
-          <% @audits_without_tag.each_with_index do |audit, i| %>
+          <h6>STD Deviation</h6>
+          <span class='d-block'>DOM Complete STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:dom_complete)) %></span>
+          <span class='d-block'>DOM Content Loaded STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:dom_content_loaded)) %></span>
+          <span class='d-block'>DOM Interactive STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:dom_interactive)) %></span>
+          <span class='d-block'>First Contentful Paint STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:first_contentful_paint)) %></span>
+          <span class='d-block'>Script Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:script_duration)) %></span>
+          <span class='d-block'>Task Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:task_duration)) %></span>
+          <span class='d-block'>Layout Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:layout_duration)) %></span>
+          <h6>Variance</h6>
+          <span class='d-block'>DOM Complete Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:dom_complete)) %></span>
+          <span class='d-block'>DOM Content Loaded Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:dom_content_loaded)) %></span>
+          <span class='d-block'>DOM Interactive Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:dom_interactive)) %></span>
+          <span class='d-block'>First Contentful Paint Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:first_contentful_paint)) %></span>
+          <span class='d-block'>Script Duration Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:script_duration)) %></span>
+          <span class='d-block'>Task Duration Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:task_duration)) %></span>
+          <span class='d-block'>Layout Duration Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:layout_duration)) %></span>
+          <br/><br/>
+          <% @audits_without_tag.each do |audit| %>
             <%= render 'individual_performance_audit', individual_performance_audit: audit %>
           <% end %>
         </div>
