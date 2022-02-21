@@ -59,7 +59,7 @@ namespace :seed do
         name: 'Determine new tag versions by bytesize instead of hashed content',
         slug: 'should_detect_new_releases_based_on_bytesize_changes',
         description: 'Instead of using the tag versions hashed content to determine if a new version was released, if the file changes in size',
-        default_value: 'false'
+        default_value: 'true'
       },
       {
         name: 'Max functional test script execution',

@@ -6,12 +6,17 @@ module TagManager
     end
 
     def detected_new_tag_version?
-      return true if @tag.has_no_versions?
-      auto_set_bytesize_changes_flag_based_on_tag_version_frequency_if_necessary!
-      if should_detect_changes_based_on_bytesize_changes?
-        bytesize_changed?
+      if @fetched_content.nil?
+        Rails.logger.error "`NewTagVersionDetector` `detected_new_tag_version?` called with @fetched_content of `nil`, skipping..."
+        return false
       else
-        hash_changed?
+        return true if @tag.has_no_versions?
+        auto_set_bytesize_changes_flag_based_on_tag_version_frequency_if_necessary! if Util.env_is_true('AUTO_DETECT_TAG_VERSION_BYTE_SIZE_CHANGES')
+        if should_detect_changes_based_on_bytesize_changes?
+          bytesize_changed?
+        else
+          hash_changed?
+        end
       end
     end
 

@@ -20,7 +20,8 @@ module TagManager
       start_seconds = Time.now
       response = safe_fetch
       response_time_ms = (Time.now - start_seconds)*1000
-      @response_code = response.code
+      # is 404 the right response code if response body is nil?
+      @response_code = response.body.nil? ? 404 : response.code
       capture_tag_check_if_necessary!(response_time_ms, @response_code)
       response.body
     end
