@@ -2,7 +2,7 @@ class TagIdentifyingData < ApplicationRecord
   self.table_name = :tag_identifying_data
   has_one_attached :image, service: :tag_image_s3
   has_many :tags
-  has_many :tag_identifying_data_domains
+  has_many :tag_identifying_data_domains, dependent: :destroy
 
   def self.for_tag(tag)
      split_domain = tag.url_domain.split('.')

@@ -1,55 +1,5 @@
 require 'open-uri'
 
-def run_identifying_data_migration(identifying_json)
-  tag_identifying_datas_created = 0
-  tag_identifying_datas_updated = 0
-  tag_identifying_data_domains_created = 0
-
-  identifying_json.each do |tag_identifying_json_data|
-    existing_identifying_data = TagIdentifyingData.find_by(name: tag_identifying_json_data['name'])
-    if existing_identifying_data
-      existing_identifying_data.update!(
-        company: tag_identifying_json_data['company'],
-        homepage: tag_identifying_json_data['homepage'],
-        category: tag_identifying_json_data.dig('categories', 0)
-      )
-      if tag_identifying_json_data['image_url']
-         downloaded_image = open(tag_identifying_json_data['image_url'])
-         existing_identifying_data.image.attach(io: downloaded_image, filename: tag_identifying_json_data['name'].gsub(' ', '_').downcase)
-      end
-      tag_identifying_datas_updated += 1
-      puts "#{existing_identifying_data.name} already exists so we updated it!"
-      tag_identifying_json_data['domains'].each do |domain_pattern|
-        existing_identifying_data_domain = existing_identifying_data.tag_identifying_data_domains.find_by(url_pattern: domain_pattern)
-        unless existing_identifying_data_domain
-          TagIdentifyingDataDomain.create!(url_pattern: domain_pattern, tag_identifying_data: existing_identifying_data)
-          tag_identifying_data_domains_created += 1
-          puts "#{domain_pattern} URL pattern didnt existing previously so added it to #{existing_identifying_data.name}!"
-        end
-      end
-    else
-      tid = TagIdentifyingData.create!(
-        name: tag_identifying_json_data['name'],
-        company: tag_identifying_json_data['company'],
-        homepage: tag_identifying_json_data['homepage'],
-        category: tag_identifying_json_data.dig('categories', 0)
-      )
-      if tag_identifying_json_data['image_url']
-         downloaded_image = open(tag_identifying_json_data['image_url'])
-         tid.image.attach(io: downloaded_image, filename: tag_identifying_json_data['name'].gsub(' ', '_').downcase)
-      end
-      tag_identifying_datas_created += 1
-      puts "Created #{tid.name}!"
-      tag_identifying_json_data['domains'].each do |domain_pattern|
-        TagIdentifyingDataDomain.create!(url_pattern: domain_pattern, tag_identifying_data: tid)
-        tag_identifying_data_domains_created += 1
-        puts "Added #{domain_pattern} URL pattern to #{tid.name}!"
-      end
-    end
-  end
-  puts "Completed identifying data seed. Created #{tag_identifying_datas_created} new TagIdentifyingDatas, updated #{tag_identifying_datas_updated} TagIdentifyingDatas, and created #{tag_identifying_data_domains_created} new TagIdentifyingDataDomains"
-end
-
 JSON_DATA = [
   {
      "name"=>"Google/Doubleclick Ads",
@@ -545,7 +495,7 @@ JSON_DATA = [
   {
      "name"=>"Adobe Tag Manager",
      "company"=>"Adobe",
-   #   "image_url"=>"https://martech.org/wp-content/uploads/2013/07/adobe-logo-180px.jpeg",
+     "image_url"=>"https://dv-website.s3.amazonaws.com/uploads/2011/11/adobe-logo.jpg",
      "homepage"=>"https://www.adobe.com/experience-platform/",
      "categories"=>[
         "tag-manager"
@@ -21804,8 +21754,100 @@ JSON_DATA = [
   }
 ]
 
+class TagIdentifyingDataSeeder
+   def initialize(json_data)
+      @identifying_json = json_data
+      @tag_identifying_datas_created = 0
+      @tag_identifying_datas_updated = 0
+      @tag_identifying_data_photos_created = 0
+      @tag_identifying_data_photos_updated = 0
+      @tag_identifying_data_domains_created = 0
+   end
+
+   def seed_data!
+      @identifying_json.each do |tag_identifying_json_data|
+         puts '.'
+         tag_identifying_data = TagIdentifyingData.find_by(name: tag_identifying_json_data['name'])
+         if tag_identifying_data
+            update_tag_identifying_data(tag_identifying_data, tag_identifying_json_data)
+         else
+            tag_identifying_data = create_new_tag_identifying_data(tag_identifying_json_data)
+         end
+         set_image_for_tag_identifying_data_if_necessary(tag_identifying_data, tag_identifying_json_data['image_url'])
+         tag_identifying_json_data['domains'].each do |domain_pattern|
+            add_tag_identifying_data_domain_if_necessary(tag_identifying_data, domain_pattern)
+         end
+      end
+      puts "Completed identifying data seed."
+      puts "Created #{@tag_identifying_datas_created} new TagIdentifyingDatas."
+      puts "Updated #{@tag_identifying_datas_updated} existing TagIdentifyingDatas."
+      puts "Created #{@tag_identifying_data_domains_created} new TagIdentifyingDataDomains"
+      puts "Created #{@tag_identifying_data_photos_created} new TagIdentifyingData Photos."
+      puts "Updated #{@tag_identifying_data_photos_updated} existing TagIdentifyingData Photos."
+   end
+
+   private
+
+   def create_new_tag_identifying_data(json_data)
+      @tag_identifying_datas_created += 1
+      puts "Creating new TagIdentifyingData: #{json_data['name']}."
+      TagIdentifyingData.create!(
+         name: json_data['name'],
+         company: json_data['company'],
+         homepage: json_data['homepage'],
+         category: json_data.dig('categories', 0)
+       )
+   end
+   
+   def update_tag_identifying_data(existing_identifying_data, json_data)
+      og_name = existing_identifying_data.name
+      og_company = existing_identifying_data.company
+      og_homepage = existing_identifying_data.homepage
+      og_category = existing_identifying_data.category
+      existing_identifying_data.update!(
+         company: json_data['company'],
+         homepage: json_data['homepage'],
+         category: json_data.dig('categories', 0)
+       )
+       if og_name != existing_identifying_data.name || 
+            og_company != existing_identifying_data.company ||
+            og_homepage != existing_identifying_data.homepage || 
+            og_category != existing_identifying_data.category
+         @tag_identifying_datas_updated += 1
+         puts "Updated TagIdentifyingData: #{existing_identifying_data.name}."
+       end
+       existing_identifying_data
+   end
+   
+   def set_image_for_tag_identifying_data_if_necessary(tid, image_url)
+      return if image_url.nil?
+      filename = image_url.gsub(':', '_').gsub('/', '_').gsub('.', '_').downcase
+      if !tid.image.attached?
+         puts "Adding image to #{tid.name}."
+         downloaded_image = open(image_url)
+         tid.image.attach(io: downloaded_image, filename: filename)
+         @tag_identifying_data_photos_created += 1
+      elsif tid.image.filename.to_s != filename
+         puts "Updating #{tid.name} image."
+         tid.image.destroy!
+         downloaded_image = open(image_url)
+         tid.image.attach(io: downloaded_image, filename: filename)
+         @tag_identifying_data_photos_updated += 1
+      end
+   end
+   
+   def add_tag_identifying_data_domain_if_necessary(tid, domain_pattern)
+      existing_identifying_data_domain = tid.tag_identifying_data_domains.find_by(url_pattern: domain_pattern)
+      unless existing_identifying_data_domain
+         puts "Adding #{domain_pattern} to #{tid.name}."
+         TagIdentifyingDataDomain.create!(url_pattern: domain_pattern, tag_identifying_data: tid)
+         @tag_identifying_data_domains_created += 1
+      end
+   end
+end
+
 namespace :seed do
    task :tag_identifying_data => :environment do |_, args|
-      run_identifying_data_migration(JSON_DATA)
+      TagIdentifyingDataSeeder.new(JSON_DATA).seed_data!
    end
 end
