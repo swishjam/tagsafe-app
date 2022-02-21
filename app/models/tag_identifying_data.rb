@@ -6,8 +6,12 @@ class TagIdentifyingData < ApplicationRecord
 
   def self.for_tag(tag)
      split_domain = tag.url_domain.split('.')
-     split_domain[0] = '*'
-     domain_url_pattern_for_tag = split_domain.join('.')
-    joins(:tag_identifying_data_domains).find_by("tag_identifying_data_domains.url_pattern = ? OR tag_identifying_data_domains.url_pattern = ?", tag.url_domain, domain_url_pattern_for_tag)
+     domain_url_pattern_for_tag = "*.#{split_domain[split_domain.length - 2..].join('.')}"
+    joins(:tag_identifying_data_domains).find_by("
+      tag_identifying_data_domains.url_pattern = ? OR 
+      tag_identifying_data_domains.url_pattern = ?", 
+      tag.url_domain, 
+      domain_url_pattern_for_tag
+    )
   end
 end
