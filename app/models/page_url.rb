@@ -32,12 +32,12 @@ class PageUrl < ApplicationRecord
   end
 
   def crawl_later(initial_crawl = false)
-    crawl = url_crawls.create!(domain_id: domain_id)
+    crawl = url_crawls.create!(domain_id: domain_id, enqueued_at: Time.now)
     CrawlUrlJob.perform_later(crawl, initial_crawl: initial_crawl)
   end
   
   def crawl_now(initial_crawl = false)
-    crawl = url_crawls.create!(domain_id: domain_id)
+    crawl = url_crawls.create!(domain_id: domain_id, enqueued_at: Time.now)
     CrawlUrlJob.perform_now(crawl, initial_crawl: initial_crawl)
   end
 

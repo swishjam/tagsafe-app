@@ -24,7 +24,7 @@
       </div>
       <div class='col-4 text-end'>
         <a href='#' class='git-diff-split-unified-btn'>Unified</button>
-        <%= link_to 'Unified', diff_server_loadable_partials_tag_tag_version_path(tag, tag_version, diff_type: 'split'), class: 'git-diff-split-unified-btn selected' %>
+        <%= link_to 'Split', diff_server_loadable_partials_tag_tag_version_path(tag, tag_version, diff_type: 'split'), class: 'git-diff-split-unified-btn selected' %>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
       </div>!-->
       <div class="content" data-controller='tag_version_diff' data-diff-type='unified'>
         <div class='diff-container'>
-          <%= diff_html.html_safe %>
+          <%= diff_html %>
         </div>
       </div>
       <!--<div class='expand-container'>

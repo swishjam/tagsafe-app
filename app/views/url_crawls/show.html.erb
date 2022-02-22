@@ -16,7 +16,7 @@
         <tbody>
           <% @url_crawl.found_tags.each do |tag| %>
             <tr>
-              <td style='word-break: break-word;'><%= tag.try_friendly_name %></td>
+              <td style='word-break: break-word;'><%= tag.try_friendly_name %> (<%= tag.url_based_on_preferences %>)</td>
               <td><%= link_to 'View Tag Details', tag_path(tag) %></td>
             </tr>
           <% end %>

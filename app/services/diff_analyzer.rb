@@ -52,12 +52,9 @@ class DiffAnalyzer
     @num_additions = 0
     @num_deletions = 0
     diffy_diff.each do |line|
-      case line.strip[0]
-      when '+' then @num_additions += 1
-      when '-' then @num_deletions +=1
-      # case line
-      # when /^\+\s/ then @num_additions += 1
-      # when /^-\s/ then @num_deletions +=1
+      case line
+      when /^\+\s/ then @num_additions += 1
+      when /^-\s/ then @num_deletions +=1
       end
     end
     @metrics_calculated = true

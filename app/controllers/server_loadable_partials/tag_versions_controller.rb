@@ -34,7 +34,7 @@ module ServerLoadablePartials
         {
           tag: tag,
           tag_version: tag_version,
-          diff_html: diff_analyzer.html_unified_diff,
+          diff_html: diff_analyzer.html_unified_diff&.html_safe,
           num_additions: diff_analyzer.num_additions,
           num_deletions: diff_analyzer.num_deletions,
           total_changes: diff_analyzer.total_changes
@@ -52,8 +52,8 @@ module ServerLoadablePartials
         { 
           tag: tag, 
           tag_version: tag_version, 
-          additions_html: diff_analyzer.html_split_diff_additions, 
-          deletions_html: diff_analyzer.html_split_diff_deletions,
+          additions_html: diff_analyzer.html_split_diff_additions&.html_safe, 
+          deletions_html: diff_analyzer.html_split_diff_deletions&.html_safe,
           num_additions: diff_analyzer.num_additions,
           num_deletions: diff_analyzer.num_deletions,
           total_changes: diff_analyzer.total_changes

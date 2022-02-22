@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_09_010915) do
+ActiveRecord::Schema.define(version: 2022_02_22_002915) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -456,6 +456,10 @@ ActiveRecord::Schema.define(version: 2022_02_09_010915) do
     t.timestamp "created_at"
     t.integer "tag_id"
     t.integer "tag_check_region_id"
+    t.boolean "content_has_detectable_changes"
+    t.boolean "content_is_the_same_as_a_previous_version"
+    t.boolean "bytesize_changed"
+    t.boolean "hash_changed"
     t.index ["tag_check_region_id"], name: "index_tag_checks_on_tag_check_region_id"
     t.index ["tag_id"], name: "index_tag_checks_on_tag_id"
     t.index ["uid"], name: "index_tag_checks_on_uid"

@@ -4,6 +4,7 @@ JSON_DATA = [
   {
      "name"=>"Google/Doubleclick Ads",
      "company"=>"Google",
+     "image_url"=>"https://pnggrid.com/wp-content/uploads/2021/07/Google-Ads-Logo-Transparent.png",
      "homepage"=>"https://www.doubleclickbygoogle.com/",
      "categories"=>[
         "ad"
@@ -58,6 +59,7 @@ JSON_DATA = [
   {
      "name"=>"Facebook",
      "homepage"=>"https://www.facebook.com",
+     "image_url"=>"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/800px-2021_Facebook_icon.svg.png",
      "categories"=>[
         "social"
      ],
@@ -196,6 +198,7 @@ JSON_DATA = [
   {
      "name"=>"Google Analytics",
      "company"=>"Google",
+     "image_url"=>"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/GAnalytics.svg/1200px-GAnalytics.svg.png",
      "homepage"=>"https://www.google.com/analytics/analytics/",
      "categories"=>[
         "analytics"
@@ -526,6 +529,7 @@ JSON_DATA = [
   },
   {
      "name"=>"Cloudflare CDN",
+     "image_url"=>"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Cloudflare_Logo.png/1200px-Cloudflare_Logo.png",
      "homepage"=>"https://cdnjs.com/",
      "categories"=>[
         "cdn"
@@ -537,6 +541,7 @@ JSON_DATA = [
   },
   {
      "name"=>"Cloudflare",
+     "image_url"=>"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Cloudflare_Logo.png/1200px-Cloudflare_Logo.png",
      "homepage"=>"https://www.cloudflare.com/website-optimization/",
      "categories"=>[
         "utility"
@@ -1761,6 +1766,7 @@ JSON_DATA = [
   {
      "name"=>"Pinterest",
      "homepage"=>"https://pinterest.com/",
+     "image_url"=>"https://i.pinimg.com/originals/d3/d1/75/d3d175e560ae133f1ed5cd4ec173751a.png",
      "categories"=>[
         "social"
      ],
@@ -4579,6 +4585,7 @@ JSON_DATA = [
   },
   {
      "name"=>"Bazaarvoice",
+     "image_url"=>"https://yt3.ggpht.com/PGHqAbzBjLaBsMWXM0D63ztCL6d0WHYb3w5VJlZElRBtLlNa6hyYP1aMz6xxQZJpUrWKt6MgOA=s900-c-k-c0x00ffffff-no-rj",
      "categories"=>[
         "analytics"
      ],
@@ -4838,6 +4845,7 @@ JSON_DATA = [
   },
   {
      "name"=>"Blue Triangle Technologies",
+     "image_url"=>"https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/qlof1fosl76b9khxdvt4",
      "categories"=>[
         "analytics"
      ],
@@ -10058,6 +10066,7 @@ JSON_DATA = [
   },
   {
      "name"=>"Kampyle",
+     "image_url"=>"https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_1080,q_100,w_1080/v1/gcs/platform-data-medalliaevents/event_banners/medallia_shorthand_color.png",
      "categories"=>[
         "analytics"
      ],
@@ -17002,6 +17011,7 @@ JSON_DATA = [
   {
      "name"=>"Twitter Online Conversion Tracking",
      "company"=>"Twitter",
+     "image_url"=>"https://static01.nyt.com/images/2014/08/10/magazine/10wmt/10wmt-superJumbo-v4.jpg",
      "categories"=>[
         "ad"
      ],
@@ -17016,6 +17026,7 @@ JSON_DATA = [
   {
      "name"=>"Twitter Short URL",
      "company"=>"Twitter",
+     "image_url"=>"https://static01.nyt.com/images/2014/08/10/magazine/10wmt/10wmt-superJumbo-v4.jpg",
      "categories"=>[
         "social"
      ],

@@ -14,7 +14,8 @@ module LambdaModerator
     private
 
     def set_enqueued_timestamp
-      url_crawl.update!(enqueued_at: Time.now)
+      # moving this to `page_url.crawl_later`
+      # url_crawl.update!(enqueued_at: Time.now)
     end
 
     def request_payload
