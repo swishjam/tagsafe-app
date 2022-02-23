@@ -41,9 +41,18 @@
         font-size: 20px;
       }
     }
-    .tagsafe-modal-divider {
-      border-bottom: 1px solid lightgrey;
-      margin: 0px 15px 0px 15px;
+    .modal-content-footer-container {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      .modal-content-footer-content {
+        padding: 0px 25px 25px 25px;
+      }
+      .tagsafe-modal-divider {
+        border-bottom: 1px solid lightgrey;
+        margin: 0px 15px 0px 15px;
+      }
     }
     .button-divider {
       border-top: 1px solid lightgrey;

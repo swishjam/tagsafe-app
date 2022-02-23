@@ -54,9 +54,11 @@
           <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' checked='checked'>
         </div>
       </div>
-      <div class='tagsafe-modal-divider mt-3 mb-3'></div>
-      <div class='modal-content-footer text-end'>
-        <%= loading_submit_button 'Run audit' %>
+      <div class='modal-content-footer-container text-end'>
+        <div class='tagsafe-modal-divider mt-3 mb-3'></div>
+        <div class='modal-content-footer-content'>
+          <%= loading_submit_button 'Run audit' %>
+        </div>
       </div>
     <% end %>
   <% end %>

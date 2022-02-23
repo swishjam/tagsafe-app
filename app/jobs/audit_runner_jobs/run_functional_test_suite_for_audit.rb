@@ -9,7 +9,7 @@ module AuditRunnerJobs
         if tests_to_run.any?
           audit.tag.functional_tests.enabled.each{ |functional_test| functional_test.perform_test_run_with_tag_later!(associated_audit: audit) }
         else
-          audit.audit.functional_tests_completed!
+          audit.functional_tests_completed!
         end
       end
     end

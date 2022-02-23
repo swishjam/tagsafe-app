@@ -4,7 +4,7 @@
 <h5 class="page-title with-sub-title">Tag Details</h6>
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 
-<% if @tag.enabled? %>
+<% if @tag.enabled? && @tag.current_version&.primary_audit %>
   <div class='tagsafe-container'>
     <%= render 'tags/current_stats', tag: @tag %>
   </div>

@@ -30,6 +30,10 @@ class TagVersion < ApplicationRecord
     "A new version of #{tag.try_friendly_name} has been detected."
   end
 
+  def notification_image_url
+    tag.try_image_url
+  end
+
   # for Notifier
   def domain_id
     tag.domain_id

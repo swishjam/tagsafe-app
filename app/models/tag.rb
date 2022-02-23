@@ -113,6 +113,10 @@ class Tag < ApplicationRecord
     "A new tag has been detected: #{full_url}"
   end
 
+  def notification_image_url
+    try_image_url
+  end
+
   def apply_defaults
     # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
     find_and_apply_tag_identifying_data

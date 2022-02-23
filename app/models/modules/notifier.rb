@@ -28,8 +28,10 @@ module Notifier
     end
 
     def send_notification_on_create
-      img = self.respond_to?(:image_url) ? self.image_url : nil
-      after_create_commit { broadcast_notification_to_all!(after_create_notification_msg, img) }
+      after_create_commit { 
+        broadcast_notification_to_all!(after_create_notification_msg, notification_image_url)
+        # broadcast_notification_to_all!(after_create_notification_msg, img)
+      }
     end
   end
 
