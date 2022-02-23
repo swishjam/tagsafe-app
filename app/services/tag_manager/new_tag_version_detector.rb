@@ -21,27 +21,26 @@ module TagManager
     end
 
     def bytesize_changed?
-      # return nil unless should_detect_changes_based_on_bytesize_changes?
+      return true if @tag.has_no_versions?
       @bytesize_changed ||= @fetched_content.bytesize != @tag.current_version.bytes
     end
 
     def hash_changed?
-      # return nil if should_detect_changes_based_on_bytesize_changes?
+      return true if @tag.has_no_versions?
       @hash_changed ||= new_hashed_content != @tag.current_version.hashed_content
     end
 
     def content_has_detectable_changes?
       return true if Util.env_is_true('DONT_REQUIRE_DETECTABLE_DIFFERENCES_IN_CONTENT_FOR_NEW_TAG_VERSION_DETECTION')
+      return true if @tag.has_no_versions?
       @content_has_detectable_changes ||= DiffAnalyzer.new(new_content: @fetched_content, previous_content: @tag.current_version.content).total_changes > 0
     end
 
     # TODO: how can we group many tag versions to indicate there's several currently released tag versions
     # and detect when a new version is released outside of that set?
     def fetched_content_is_the_same_as_a_previous_version?
-      # does this tag have a tag version with the same content that was created within the last 14 days?
-      # if it's older than 14 days ago then it will be considered a new tag version
       return true if Util.env_is_true('DONT_CHECK_IF_TAG_HAS_SAME_CONTENT_IN_PREVIOUS_RELEASE_FOR_NEW_TAG_VERSION_DETECTION')
-      @fetched_content_is_the_same_as_a_previous_version ||= @tag.tag_versions.more_recent_than(14.days.ago).where(hashed_content: new_hashed_content).exists?
+      @fetched_content_is_the_same_as_a_previous_version ||= @tag.tag_versions.most_recent_first.where(hashed_content: new_hashed_content).limit(5).any?
     end
 
     private

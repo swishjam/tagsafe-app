@@ -52,24 +52,28 @@ class AuditRunner
       execution_reason: @execution_reason,
       primary: false,
       performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
-      include_performance_audit: option_value_for(:include_performance_audit, true),
-      include_page_load_resources: option_value_for(:include_page_load_resources, true),
-      include_page_change_audit: option_value_for(:include_page_change_audit, true),
-      include_functional_tests: option_value_for(:include_functional_tests, true),
+      include_performance_audit: option_value_for(:include_performance_audit, default_audit_configuration.include_performance_audit),
+      include_page_load_resources: option_value_for(:include_page_load_resources, default_audit_configuration.include_page_load_resources),
+      include_page_change_audit: option_value_for(:include_page_change_audit, default_audit_configuration.include_page_change_audit),
+      include_functional_tests: option_value_for(:include_functional_tests, default_audit_configuration.include_functional_tests),
       num_functional_tests_to_run: option_value_for(:include_functional_tests, true) ? @tag.functional_tests.enabled.count : 0,
       performance_audit_configuration_attributes: {
         performance_audit_iterations: tag_preferences.performance_audit_iterations,
-        strip_all_images: performance_audit_configuration_for(:strip_all_images, true),
-        include_page_tracing: performance_audit_configuration_for(:include_page_tracing, true),
-        throw_error_if_dom_complete_is_zero: performance_audit_configuration_for(:throw_error_if_dom_complete_is_zero, true),
-        inline_injected_script_tags: performance_audit_configuration_for(:inline_injected_script_tags, false),
-        scroll_page: performance_audit_configuration_for(:scroll_page, false),
-        enable_screen_recording: performance_audit_configuration_for(:enable_screen_recording, true),
-        override_initial_html_request_with_manipulated_page: performance_audit_configuration_for(:override_initial_html_request_with_manipulated_page, Flag.flag_is_true(@tag.domain, 'override_initial_html_request_with_manipulated_page'))
+        strip_all_images: performance_audit_configuration_for(:strip_all_images, default_audit_configuration.perf_audit_strip_all_images),
+        include_page_tracing: performance_audit_configuration_for(:include_page_tracing, default_audit_configuration.perf_audit_include_page_tracing),
+        throw_error_if_dom_complete_is_zero: performance_audit_configuration_for(:throw_error_if_dom_complete_is_zero, default_audit_configuration.perf_audit_throw_error_if_dom_complete_is_zero),
+        inline_injected_script_tags: performance_audit_configuration_for(:inline_injected_script_tags, default_audit_configuration.perf_audit_inline_injected_script_tags),
+        scroll_page: performance_audit_configuration_for(:scroll_page, default_audit_configuration.perf_audit_scroll_page),
+        enable_screen_recording: performance_audit_configuration_for(:enable_screen_recording, default_audit_configuration.perf_audit_enable_screen_recording),
+        override_initial_html_request_with_manipulated_page: performance_audit_configuration_for(:override_initial_html_request_with_manipulated_page, default_audit_configuration.override_initial_html_request_with_manipulated_page)
       }
     )
   end
   alias create_audit audit
+
+  def default_audit_configuration
+    @tag.default_audit_configuration || @tag.domain.default_audit_configuration
+  end
   
   def tag_preferences
     @tag_preferences ||= @tag.tag_preferences

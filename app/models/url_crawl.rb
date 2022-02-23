@@ -4,6 +4,7 @@ class UrlCrawl < ApplicationRecord
   
   belongs_to :domain
   belongs_to :page_url
+  has_many :retrieved_urls, class_name: 'UrlCrawlRetrievedUrl', dependent: :destroy
   has_many :found_tags, class_name: 'Tag', foreign_key: :found_on_url_crawl_id
   alias tags_found found_tags
 

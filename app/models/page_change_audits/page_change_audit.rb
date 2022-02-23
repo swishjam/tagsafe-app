@@ -23,6 +23,11 @@ class PageChangeAudit < ApplicationRecord
     audit.page_change_audit_completed!
   end
 
+  def failed!(msg)
+    update!(error_message: msg)
+    completed!
+  end
+
   def completed?
     !num_additions_between_without_tag_snapshots.nil?
   end

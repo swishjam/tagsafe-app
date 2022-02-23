@@ -35,6 +35,7 @@ class Tag < ApplicationRecord
   has_many :new_tag_version_email_subscribers, class_name: 'NewTagVersionEmailSubscriber', dependent: :destroy
   has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber', dependent: :destroy
 
+  has_one :default_audit_configuration, as: :parent, class_name: 'DefaultAuditConfiguration', dependent: :destroy
   has_one :tag_preferences, class_name: 'TagPreference', dependent: :destroy
   accepts_nested_attributes_for :tag_preferences
 

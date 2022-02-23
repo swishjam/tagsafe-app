@@ -11,7 +11,10 @@ module TagManager
       if @url_crawl.completed? # just in case?
         Rails.logger.warn "Already processed URL Crawl #{@url_crawl.id}, bypassing..."
       else
-        @tag_urls_and_load_types.each{ |tag_url, load_type| add_tag_to_domain_if_not_already_present(tag_url, load_type) }
+        @tag_urls_and_load_types.each do |tag_url, load_type| 
+          @url_crawl.retrieved_urls.create!(url: tag_url)
+          add_tag_to_domain_if_not_already_present(tag_url, load_type)
+        end
         # update_tags_no_longer_present_as_removed_from_site!
         @url_crawl.completed!
       end

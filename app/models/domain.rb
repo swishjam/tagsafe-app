@@ -5,6 +5,7 @@ class Domain < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :organization
+  has_one :default_audit_configuration, as: :parent, class_name: 'DefaultAuditConfiguration', dependent: :destroy
   has_many :page_urls, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :functional_tests
@@ -16,7 +17,7 @@ class Domain < ApplicationRecord
 
   before_validation :strip_pathname_from_url
   before_validation :add_default_page_url
-  after_create_commit :add_default_performance_audit_calculator
+  after_create_commit :add_defaults
 
   def parsed_domain_url
     u = URI.parse(url)
@@ -27,8 +28,9 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def add_default_performance_audit_calculator
+  def add_defaults
     PerformanceAuditCalculator.create_default_calculator(self)
+    DefaultAuditConfiguration.create_default_for_domain(self)
   end
 
   def add_default_page_url

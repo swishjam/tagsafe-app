@@ -16,7 +16,7 @@
         <% @url_crawls.each do |crawl| %>
           <tr>
             <td style='word-break: break-word;'><%= crawl.enqueued_at.formatted_short %></td>
-            <td style='word-break: break-word;'><%= crawl.url %></td>
+            <td style='word-break: break-word;'><%= crawl.page_url.full_url %></td>
             <td><%= crawl.found_tags.count %></td>
             <td style='word-break: break-word;'>
               <% if crawl.pending? %>

@@ -8,7 +8,7 @@ module TagManager
 
     def evaluate!
       update_tag_check_with_tag_version_detection_results!
-      if tag_released_new_tag_version?
+      if detected_new_tag_version?
         tag_version = capture_new_tag_version!
         unless Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB_INSTEAD_OF_TAG_CHECK_INTERVAL_JOB')
           NotificationModerator::NewTagVersionNotifier.new(tag_version).notify!
@@ -16,7 +16,7 @@ module TagManager
       end
     end
 
-    def tag_released_new_tag_version?
+    def detected_new_tag_version?
       @tag_changed ||= tag_version_detector.detected_new_tag_version?
     end
 

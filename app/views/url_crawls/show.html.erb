@@ -5,11 +5,24 @@
     <% if @url_crawl.failed? %>
       <h4><%= @url_crawl.error_message %></h4>
     <% else %>
-      <h4>Tags found:</h4>
+      <h4>Tags URLs returned:</h4>
       <table class="table table-hover col-12 text-start" style="table-layout: fixed">
         <thead>
           <tr>
-            <th scope="col" style="width: 80%">Tag found</th>
+            <th scope="col" style="width: 100%">Tag returned</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @url_crawl.retrieved_urls.each do |retrieved_url| %>
+            <tr><td style='word-break: break-word;'><%= retrieved_url %></td></tr>
+          <% end %>
+        </tbody>
+      </table>
+      <h4>Tags created:</h4>
+      <table class="table table-hover col-12 text-start" style="table-layout: fixed">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 80%">Tag created</th>
             <th scope="col" style="width: 20%"></th>
           </tr>
         </thead>
@@ -22,7 +35,6 @@
           <% end %>
         </tbody>
       </table>
-      <table>
     <% end %>
   </div>
 </div>

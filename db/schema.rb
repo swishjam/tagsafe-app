@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_22_002915) do
+ActiveRecord::Schema.define(version: 2022_02_23_005509) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -79,6 +79,27 @@ ActiveRecord::Schema.define(version: 2022_02_22_002915) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["performance_audit_id"], name: "index_blocked_resources_on_performance_audit_id"
+  end
+
+  create_table "default_audit_configuration", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "parent_type"
+    t.bigint "parent_id"
+    t.boolean "include_performance_audit"
+    t.boolean "include_page_load_resources"
+    t.boolean "include_page_change_audit"
+    t.boolean "include_functional_tests"
+    t.integer "num_functional_tests_to_run"
+    t.integer "num_perf_audit_iterations"
+    t.boolean "perf_audit_strip_all_images"
+    t.boolean "perf_audit_include_page_tracing"
+    t.boolean "perf_audit_throw_error_if_dom_complete_is_zero"
+    t.boolean "perf_audit_inline_injected_script_tags"
+    t.boolean "perf_audit_scroll_page"
+    t.boolean "perf_audit_enable_screen_recording"
+    t.boolean "perf_audit_override_initial_html_request_with_manipulated_page"
+    t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
+    t.index ["uid"], name: "index_default_audit_configuration_on_uid"
   end
 
   create_table "domains", charset: "utf8mb3", force: :cascade do |t|
@@ -261,6 +282,7 @@ ActiveRecord::Schema.define(version: 2022_02_22_002915) do
     t.integer "num_additions_between_with_tag_snapshot_without_tag_snapshot"
     t.integer "num_deletions_between_with_tag_snapshot_without_tag_snapshot"
     t.string "initial_html_content_s3_url"
+    t.string "error_message"
     t.index ["audit_id"], name: "index_page_change_audits_on_audit_id"
     t.index ["uid"], name: "index_page_change_audits_on_uid"
   end
@@ -572,6 +594,14 @@ ActiveRecord::Schema.define(version: 2022_02_22_002915) do
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
     t.index ["test_run_id_retried_from"], name: "index_test_runs_on_test_run_id_retried_from"
     t.index ["uid"], name: "index_test_runs_on_uid"
+  end
+
+  create_table "url_crawl_retrieved_urls", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "url_crawl_id"
+    t.text "url"
+    t.index ["uid"], name: "index_url_crawl_retrieved_urls_on_uid"
+    t.index ["url_crawl_id"], name: "index_url_crawl_retrieved_urls_on_url_crawl_id"
   end
 
   create_table "url_crawls", charset: "utf8mb3", force: :cascade do |t|

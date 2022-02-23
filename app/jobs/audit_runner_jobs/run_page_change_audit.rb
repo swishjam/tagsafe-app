@@ -20,5 +20,10 @@ module AuditRunnerJobs
         raise HtmlSnapshotError::SnapshotFailed, "`HtmlSnapshotter` lambda sender failed: #{resp['errorMessage'] || resp['error']}"
       end
     end
+
+    def self.on_retriable_job_failure(exception, audit, options)
+      Rails.logger.error "`AuditRunnerJobs::RunPageChangeAudit` failed: #{exception.message}"
+      audit.page_change_audit.failed!('An unexpected error occurred.')
+    end
   end
 end
