@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <% @url_crawl.retrieved_urls.each do |retrieved_url| %>
-            <tr><td style='word-break: break-word;'><%= retrieved_url %></td></tr>
+            <tr><td style='word-break: break-word;'><%= retrieved_url.url %></td></tr>
           <% end %>
         </tbody>
       </table>

@@ -65,7 +65,7 @@ class AuditRunner
         inline_injected_script_tags: performance_audit_configuration_for(:inline_injected_script_tags, default_audit_configuration.perf_audit_inline_injected_script_tags),
         scroll_page: performance_audit_configuration_for(:scroll_page, default_audit_configuration.perf_audit_scroll_page),
         enable_screen_recording: performance_audit_configuration_for(:enable_screen_recording, default_audit_configuration.perf_audit_enable_screen_recording),
-        override_initial_html_request_with_manipulated_page: performance_audit_configuration_for(:override_initial_html_request_with_manipulated_page, default_audit_configuration.override_initial_html_request_with_manipulated_page)
+        override_initial_html_request_with_manipulated_page: performance_audit_configuration_for(:override_initial_html_request_with_manipulated_page, default_audit_configuration.perf_audit_override_initial_html_request_with_manipulated_page)
       }
     )
   end

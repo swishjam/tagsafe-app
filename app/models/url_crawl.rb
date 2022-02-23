@@ -12,6 +12,7 @@ class UrlCrawl < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :failed, -> { where.not(error_message: nil) }
   scope :successful, -> { completed.where(error_message: nil ) }
+  scope :resulted_in_created_tags, -> { includes(:found_tags).where(found_tags: { id: nil }) }
 
   after_create_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain } }
   after_update_commit do
@@ -29,7 +30,6 @@ class UrlCrawl < ApplicationRecord
     enabled: Util.env_is_true('NEW_TAGS_ARE_ENABLED_BY_DEFAULT'), 
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
-    initial_crawl: false,
     should_log_tag_checks: true,
     consider_query_param_changes_new_tag: false,
     performance_audit_iterations: Flag.flag_value_for_objects(domain, domain.organization, slug: 'num_performance_audit_iterations').to_i
@@ -55,7 +55,7 @@ class UrlCrawl < ApplicationRecord
     if tag.save
       url_to_audit = tag.urls_to_audit.create(page_url: page_url)
       # url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
-      AfterTagCreationJob.perform_later(tag, initial_crawl)
+      AfterTagCreationJob.perform_later(tag)
       tag
     else
       Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
@@ -103,5 +103,9 @@ class UrlCrawl < ApplicationRecord
   def errored!(error_msg)
     update(error_message: error_msg)
     completed!
+  end
+
+  def is_first_crawl_for_domain_with_found_tags?
+    domain.url_crawls.older_than(enqueued_at).resulted_in_created_tags.empty?
   end
 end

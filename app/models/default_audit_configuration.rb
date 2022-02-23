@@ -2,6 +2,8 @@ class DefaultAuditConfiguration < ApplicationRecord
   self.table_name = :default_audit_configuration
   belongs_to :parent, polymorphic: true
 
+  before_destroy :cant_destroy_domain_parent
+
   def self.create_default_for_domain(domain)
     create!(
       parent: domain,
@@ -18,5 +20,13 @@ class DefaultAuditConfiguration < ApplicationRecord
       perf_audit_enable_screen_recording: true,
       perf_audit_override_initial_html_request_with_manipulated_page: true
     )
+  end
+
+  private
+
+  def cant_destroy_domain_parent
+    if parent.is_a?(Domain)
+      errors.add(:base, "Cannot destroy the Default Audit Configuration for domain.")
+    end
   end
 end

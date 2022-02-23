@@ -31,14 +31,14 @@ class PageUrl < ApplicationRecord
     should_scan_for_tags
   end
 
-  def crawl_later(initial_crawl = false)
+  def crawl_later
     crawl = url_crawls.create!(domain_id: domain_id, enqueued_at: Time.now)
-    CrawlUrlJob.perform_later(crawl, initial_crawl: initial_crawl)
+    CrawlUrlJob.perform_later(crawl)
   end
   
-  def crawl_now(initial_crawl = false)
+  def crawl_now
     crawl = url_crawls.create!(domain_id: domain_id, enqueued_at: Time.now)
-    CrawlUrlJob.perform_now(crawl, initial_crawl: initial_crawl)
+    CrawlUrlJob.perform_now(crawl)
   end
 
   def take_screenshot!(purge_previous = true)

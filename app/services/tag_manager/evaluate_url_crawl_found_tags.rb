@@ -1,10 +1,9 @@
 module TagManager
   class EvaluateUrlCrawlFoundTags
-    def initialize(url_crawl:, tag_urls:, initial_crawl:)
+    def initialize(url_crawl:, tag_urls:)
       @url_crawl = url_crawl
       @domain = @url_crawl.domain
       @tag_urls_and_load_types = tag_urls
-      @initial_crawl = initial_crawl
     end
 
     def evaluate!
@@ -27,7 +26,7 @@ module TagManager
       if existing_tag
         Resque.logger.info "URL Crawl returned tag #{tag_url} but Domain #{@domain.url} already has it, skipping..."
       else
-        @url_crawl.found_tag!(tag_url, initial_crawl: @initial_crawl)
+        @url_crawl.found_tag!(tag_url)
       end
     end
 
@@ -62,7 +61,7 @@ module TagManager
     #     })
     #   else
     #     # new tag
-    #     @url_crawl.found_tag!(tag_url, initial_crawl: @initial_crawl)
+    #     @url_crawl.found_tag!(tag_url)
     #   end
     # end
 

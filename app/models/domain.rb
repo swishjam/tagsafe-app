@@ -63,9 +63,8 @@ class Domain < ApplicationRecord
     tags.third_party_tags_that_shouldnt_be_blocked.collect(&:full_url)
   end
 
-  def crawl_and_capture_domains_tags(initial_crawl = false)
-    page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_later(initial_crawl) }
-    # urls_to_crawl.each{ |url_to_crawl| url_to_crawl.crawl_later(initial_crawl) }
+  def crawl_and_capture_domains_tags
+    page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_later }
   end
 
   def should_capture_tag?(url)
