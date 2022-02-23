@@ -1,6 +1,15 @@
 require 'open-uri'
 
 JSON_DATA = [
+   {
+      "name"=>"ThirdPartyTag.com",
+      "company"=>"Third Party Tag inc",
+      "image_url"=>"https://icons.iconarchive.com/icons/google/noto-emoji-activities/1024/52707-party-popper-icon.png",
+      "homepage"=>"https://www.thirdpartytag.com",
+      "domains"=>[
+         "www.thirdpartytag.com"
+      ]
+   },
   {
      "name"=>"Google/Doubleclick Ads",
      "company"=>"Google",
@@ -1075,6 +1084,7 @@ JSON_DATA = [
   {
      "name"=>"JSDelivr CDN",
      "homepage"=>"https://www.jsdelivr.com/",
+     "image_url"=>"https://camo.githubusercontent.com/ef61c154fec4fa5b935957f63561fd15bbd7713c9ae381b955a4dadcdc5457a3/68747470733a2f2f7777772e6a7364656c6976722e636f6d2f696d672f69636f6e5f323536783235362e706e67",
      "categories"=>[
         "cdn"
      ],
