@@ -43,32 +43,32 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
 
   describe '#create_delta_audit!' do
     it 'creates a DeltaPerformanceAudit on the Audit with correct values' do
-      expect(@audit.delta_performance_audit).to be(nil)
+      expect(@audit.preferred_delta_performance_audit).to be(nil)
       @creator.create_delta_audit!
       @audit.reload
-      expect(@audit.delta_performance_audit).to_not be(nil)
-      expect(@audit.delta_performance_audit.dom_complete).to be(@expected_delta_results[:dom_complete])
-      expect(@audit.delta_performance_audit.dom_interactive).to be(@expected_delta_results[:dom_interactive])
-      expect(@audit.delta_performance_audit.first_contentful_paint).to be(@expected_delta_results[:first_contentful_paint])
-      expect(@audit.delta_performance_audit.script_duration).to be(@expected_delta_results[:script_duration])
-      expect(@audit.delta_performance_audit.layout_duration).to be(@expected_delta_results[:layout_duration])
-      expect(@audit.delta_performance_audit.layout_duration).to be(@expected_delta_results[:layout_duration])
+      expect(@audit.preferred_delta_performance_audit).to_not be(nil)
+      expect(@audit.preferred_delta_performance_audit.dom_complete).to be(@expected_delta_results[:dom_complete])
+      expect(@audit.preferred_delta_performance_audit.dom_interactive).to be(@expected_delta_results[:dom_interactive])
+      expect(@audit.preferred_delta_performance_audit.first_contentful_paint).to be(@expected_delta_results[:first_contentful_paint])
+      expect(@audit.preferred_delta_performance_audit.script_duration).to be(@expected_delta_results[:script_duration])
+      expect(@audit.preferred_delta_performance_audit.layout_duration).to be(@expected_delta_results[:layout_duration])
+      expect(@audit.preferred_delta_performance_audit.layout_duration).to be(@expected_delta_results[:layout_duration])
     end
   end
 
   describe '#tagsafe_score_from_delta_results' do
-    it 'calls score! on the TagSafeScorer with the correct arguments' do
-      expect(TagSafeScorer).to receive(:new).with(
+    it 'calls score! on the TagsafeScorer with the correct arguments' do
+      expect(TagsafeScorer).to receive(:new).with(
         @expected_delta_results.merge(byte_size: @tag_version.bytes)
       ).exactly(:once).and_call_original
-      expect_any_instance_of(TagSafeScorer).to receive(:score!).exactly(:once)
+      expect_any_instance_of(TagsafeScorer).to receive(:score!).exactly(:once)
       @creator.send(:tagsafe_score_from_delta_results, @expected_delta_results)
     end
   end
 
   describe '#median_individual_audit_with_tag' do
     before(:each) { @audit.individual_performance_audits.destroy_all }
-    it 'returns audit\'s median IndividualPerformanceAuditWithTag by TagSafe score when theres 3 indiviual performance audits' do
+    it 'returns audit\'s median PerformanceAuditWithTag by TagSafe score when theres 3 indiviual performance audits' do
       first_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 10)
       second_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 12)
       third_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 14)
@@ -78,7 +78,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
       expect(creator.send(:median_individual_audit_with_tag)).to eq(second_individual_audit_with_tag)
     end
 
-    it 'returns audit\'s median IndividualPerformanceAuditWithTag by TagSafe score when theres 5 indiviual performance audits' do
+    it 'returns audit\'s median PerformanceAuditWithTag by TagSafe score when theres 5 indiviual performance audits' do
       fifth_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 18)
       first_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 10)
       third_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 14)
@@ -90,7 +90,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
       expect(creator.send(:median_individual_audit_with_tag)).to eq(third_individual_audit_with_tag)
     end
 
-    it 'returns Audit\'s median (the lowest of the two medians) IndividualPerformanceAuditWithTag by TagSafe score when theres 4 indiviual performance audits' do
+    it 'returns Audit\'s median (the lowest of the two medians) PerformanceAuditWithTag by TagSafe score when theres 4 indiviual performance audits' do
       second_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 12)
       fourth_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 16)
       third_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 14)
@@ -101,7 +101,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
       expect(creator.send(:median_individual_audit_with_tag)).to eq(second_individual_audit_with_tag)
     end
     
-    it 'returns audit\'s median (the lowest of the two medians) IndividualPerformanceAuditWithTag by TagSafe score when theres 8 indiviual performance audits' do
+    it 'returns audit\'s median (the lowest of the two medians) PerformanceAuditWithTag by TagSafe score when theres 8 indiviual performance audits' do
       third_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 14)
       first_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 10)
       second_individual_audit_with_tag = create(:individual_performance_audit_with_tag, audit: @audit, tagsafe_score: 12)
@@ -119,7 +119,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
 
   describe '#median_individual_audit_without_tag' do
     before(:each) { @audit.individual_performance_audits.destroy_all }
-    it 'returns audit\'s median IndividualPerformanceAuditWithoutTag by TagSafe score when theres 3 indiviual performance audits' do
+    it 'returns audit\'s median PerformanceAuditWithoutTag by TagSafe score when theres 3 indiviual performance audits' do
       first_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 10)
       second_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 12)
       third_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 14)
@@ -129,7 +129,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
       expect(creator.send(:median_individual_audit_without_tag)).to eq(second_individual_audit_with_tag)
     end
 
-    it 'returns audit\'s median IndividualPerformanceAuditWithTag by TagSafe score when theres 5 indiviual performance audits' do
+    it 'returns audit\'s median PerformanceAuditWithTag by TagSafe score when theres 5 indiviual performance audits' do
       fifth_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 18)
       first_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 10)
       third_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 14)
@@ -141,7 +141,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
       expect(creator.send(:median_individual_audit_without_tag)).to eq(third_individual_audit_with_tag)
     end
 
-    it 'returns audit\'s median IndividualPerformanceAuditWithTag by TagSafe score when theres 4 indiviual performance audits' do
+    it 'returns audit\'s median PerformanceAuditWithTag by TagSafe score when theres 4 indiviual performance audits' do
       second_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 12)
       fourth_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 16)
       third_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 14)
@@ -152,7 +152,7 @@ RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
       expect(creator.send(:median_individual_audit_without_tag)).to eq(second_individual_audit_with_tag)
     end
     
-    it 'returns audit\'s median IndividualPerformanceAuditWithTag by TagSafe score when theres 8 indiviual performance audits' do
+    it 'returns audit\'s median PerformanceAuditWithTag by TagSafe score when theres 8 indiviual performance audits' do
       third_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 14)
       first_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 10)
       second_individual_audit_with_tag = create(:individual_performance_audit_without_tag, audit: @audit, tagsafe_score: 12)

@@ -3,20 +3,17 @@ module AuditRunnerJobs
     include RetriableJob
     queue_as :performance_audit_runner_queue
     
-    def perform(type:, audit:, tag_version:, options: {})
-      ActiveRecord::Base.transaction do
-        performance_auditer = LambdaModerator::PerformanceAuditer.new(
-          type: type,
-          audit: audit, 
-          tag_version: tag_version, 
-          options: options
-        )
-        response = performance_auditer.send!
-        if response.successful
-          capture_successful_response(response.response_body, performance_auditer.individual_performance_audit, audit)
-        else
-          performance_auditer.individual_performance_audit.error!(response.error)
-        end
+    def perform(audit:, perform_audit_with_tag:, options: {})
+      performance_auditer = LambdaModerator::PerformanceAuditer.new(
+        audit: audit,
+        perform_audit_with_tag: perform_audit_with_tag,
+        options: options
+      )
+      response = performance_auditer.send!
+      if response.successful
+        capture_successful_response(response.response_body, performance_auditer.individual_performance_audit, audit)
+      else
+        performance_auditer.individual_performance_audit.error!(response.error)
       end
     end
 

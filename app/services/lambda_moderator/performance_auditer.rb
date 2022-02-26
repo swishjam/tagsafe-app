@@ -3,22 +3,21 @@ module LambdaModerator
     lambda_service 'performance-auditer'
     lambda_function 'runPerformanceAudit'
 
-    def initialize(type:, audit:, tag_version:, options: {})
-      @type = type
+    def initialize(audit:, perform_audit_with_tag:, options: {})
       @audit = audit
-      @tag_version = tag_version
+      @perform_audit_with_tag = perform_audit_with_tag
       @executed_lambda_function_parent = individual_performance_audit
     end
 
     def individual_performance_audit
-      @individual_performance_audit ||= individual_performance_audit_klass.create(audit: @audit, enqueued_at: Time.now)
+      @individual_performance_audit ||= IndividualPerformanceAudit.create!(
+        audit: @audit,
+        audit_performed_with_tag: @perform_audit_with_tag,
+        # enqueued_at: Time.now
+      )
     end
   
     private
-
-    def individual_performance_audit_klass
-      @type == :with_tag ? IndividualPerformanceAuditWithTag : IndividualPerformanceAuditWithoutTag
-    end
   
     def request_payload
       {
@@ -44,21 +43,16 @@ module LambdaModerator
     end
 
     def tag
-      @tag ||= @tag_version.tag
+      @tag ||= tag_version.tag
+    end
+
+    def tag_version
+      @tag_version ||= @audit.tag_version
     end
 
     def script_injection_rules
-      case @type
-      when :with_tag
-        # TODO: make load_type specific to the type of tag
-        [{ url:  @tag_version.js_file_url, load_type: 'async' }]
-      when :without_tag
-        []
-      when nil
-        raise PerformanceAuditError::InvalidType, "PerformanceAuditer called without a `type`, must pass a type of either `:with_tag` or `:without_tag`"
-      else
-        raise PerformanceAuditError::InvalidType, "PerformanceAuditer called with an invalid type of #{@type}, valid values are :with_tag or :without_tag"
-      end
+      return [] unless @perform_audit_with_tag
+      [{ url:  tag_version.js_file_url, load_type: 'async' }]
     end
 
     def required_payload_arguments

@@ -7,5 +7,6 @@ export default class extends Controller {
 
   showModal() {
     document.querySelector('#server-loadable-modal-container').classList.add('show');
+    document.body.classList.add('locked');
   }
 }

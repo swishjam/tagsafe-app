@@ -47,10 +47,10 @@
           </p>
         <% end %>
         <% audit = tag.current_version&.primary_audit %>
-        <% unless audit&.delta_performance_audit.nil? %>
+        <% unless audit&.preferred_delta_performance_audit.nil? %>
           <%= render partial: 'partials/progress_ring', locals: { 
-            score: audit.delta_performance_audit.tagsafe_score, 
-            change_in_score: audit.delta_performance_audit.change_in_metric(:tagsafe_score)
+            score: audit.preferred_delta_performance_audit.tagsafe_score, 
+            change_in_score: audit.preferred_delta_performance_audit.change_in_metric(:tagsafe_score)
           } %>
         <% else %>
           <!-- if there isn't a primary audit, just grab the first/only audit !-->

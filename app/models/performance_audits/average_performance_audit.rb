@@ -1,0 +1,2 @@
+class AveragePerformanceAudit < PerformanceAudit
+end

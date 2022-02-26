@@ -13,10 +13,13 @@ class Tag < ApplicationRecord
   belongs_to :found_on_page_url, class_name: 'PageUrl'
   belongs_to :found_on_url_crawl, class_name: 'UrlCrawl'
   
-  has_many :audits, -> { order('created_at DESC') }, dependent: :destroy  
-  has_many :tag_versions, -> { order('created_at DESC') }, dependent: :destroy
+  # has_many :audits, -> { order('created_at DESC') }, dependent: :destroy  
+  has_many :audits, dependent: :destroy  
+  # has_many :tag_versions, -> { order('created_at DESC') }, dependent: :destroy
+  has_many :tag_versions, dependent: :destroy
   has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
-  has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
+  # has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
+  has_many :tag_checks, dependent: :destroy
   has_many :urls_to_audit, class_name: 'UrlToAudit', dependent: :destroy
   has_many :functional_tests_to_run, class_name: 'FunctionalTestToRun', dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
@@ -145,6 +148,10 @@ class Tag < ApplicationRecord
     tag_versions.where(most_recent: true).limit(1).first
   end
   alias current_version most_recent_version
+
+  def first_version
+    tag_versions.most_recent_last.limit(1).first
+  end
 
   def has_no_versions?
     most_recent_version.nil?

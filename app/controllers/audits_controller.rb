@@ -17,7 +17,12 @@ class AuditsController < LoggedInController
     tag = current_domain.tags.find(params[:tag_id])
     tag_version = tag.tag_versions.find(params[:tag_version_id])
     urls_to_audit = tag.urls_to_audit.includes(:page_url)
-    stream_modal(partial: 'audits/new', locals: { tag: tag, tag_version: tag_version, urls_to_audit: urls_to_audit })
+    stream_modal(partial: 'audits/new', locals: { 
+      tag: tag, 
+      tag_version: tag_version, 
+      urls_to_audit: urls_to_audit,
+      default_audit_configuration: tag.default_audit_configuration || current_domain.default_audit_configuration
+    })
   end
 
   def create
@@ -56,8 +61,8 @@ class AuditsController < LoggedInController
   end
 
   def cloudwatch_logs
-    @performance_audits_with_tag = @audit.individual_performance_audits_with_tag
-    @performance_audits_without_tag = @audit.individual_performance_audits_without_tag
+    @performance_audits_with_tag = @audit.performance_audits_with_tag
+    @performance_audits_without_tag = @audit.performance_audits_without_tag
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },

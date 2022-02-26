@@ -4,19 +4,17 @@ module AuditRunnerJobs
     queue_as :functional_tests_queue
     
     def perform(test_run, options = {})
-      ActiveRecord::Base.transaction do
-        response = LambdaModerator::FunctionalTestRunner.new(test_run, options).send!
-        resp_body = response.response_body
-        update_test_run_with_response_body(test_run, resp_body)
-        if resp_body['passed']
-          test_run.passed!
-        else
-          test_run.failed!(
-            message: resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'],
-            type: resp_body['errorType'],
-            trace: resp_body['trace']
-          )
-        end
+      response = LambdaModerator::FunctionalTestRunner.new(test_run, options).send!
+      resp_body = response.response_body
+      update_test_run_with_response_body(test_run, resp_body)
+      if resp_body['passed']
+        test_run.passed!
+      else
+        test_run.failed!(
+          message: resp_body['errorMessage'] || resp_body.dig('failure', 'message') || resp_body['script_results'],
+          type: resp_body['errorType'],
+          trace: resp_body['trace']
+        )
       end
     end
 

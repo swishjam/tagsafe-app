@@ -1,7 +1,7 @@
 <div class="row" data-controller='audit_logs'>
   <div class="col-6 tagsafe-logs-container">
     <h5 class="text-center audit-type-title">Results With <%= @tag.try_friendly_name %></h5>
-    <% @individual_performance_audits_with_tag.each do |audit| %>
+    <% @performance_audits_with_tag.each do |audit| %>
       <div class="log-container">
         <%= audit.performance_audit_log&.logs&.html_safe %>
       </div>
@@ -9,7 +9,7 @@
   </div>
   <div class="col-6 tagsafe-logs-container">
     <h5 class="text-center audit-type-title">Results Without <%= @tag.try_friendly_name %></h5>
-    <% @individual_performance_audits_without_tag.each do |audit| %>
+    <% @performance_audits_without_tag.each do |audit| %>
       <div class="log-container">
         <%= audit.performance_audit_log&.logs&.html_safe %>
       </div>

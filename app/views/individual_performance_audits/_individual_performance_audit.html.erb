@@ -1,11 +1,13 @@
-<div class='individual-audit mb-3' style='<%= individual_performance_audit.used_for_scoring ? 'border: 1px solid black' : nil %>'>
-  <% if individual_performance_audit.failed? %>
+<div class='individual-audit mb-3'>
+  <% if !individual_performance_audit.is_a?(DeltaPerformanceAudit) && individual_performance_audit.failed? %>
     <span class='d-block'><%= individual_performance_audit.error_message %></span>
-  <% elsif individual_performance_audit.pending? %>
+  <% elsif !individual_performance_audit.is_a?(DeltaPerformanceAudit) && individual_performance_audit.pending? %>
     <span class='d-block'>Currently running</span>
     <span class='d-block'>Began <%= time_ago_in_words(individual_performance_audit.enqueued_at) %> ago</span>
   <% else %>
-    <span class='d-block fw-bold'>Tagsafe Score: <%= individual_performance_audit.tagsafe_score %></span>
+    <% if individual_performance_audit.is_a?(DeltaPerformanceAudit) %>
+      <span class='d-block fw-bold'>Tagsafe Score: <%= number_with_delimiter(individual_performance_audit.tagsafe_score) %></span>
+    <% end %>
     <span class='d-block'>DOM Complete: <%= number_with_delimiter(individual_performance_audit.dom_complete) %> ms</span>
     <span class='d-block'>DOM Content Loaded: <%= number_with_delimiter(individual_performance_audit.dom_content_loaded) %> ms</span>
     <span class='d-block'>DOM Interactive: <%= number_with_delimiter(individual_performance_audit.dom_interactive) %> ms</span>

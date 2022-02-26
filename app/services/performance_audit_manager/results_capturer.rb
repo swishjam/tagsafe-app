@@ -35,7 +35,6 @@ module PerformanceAuditManager
     def update_individual_performance_audits_results_with_results!
       individual_performance_audit.update!(performance_audit_attrs)
       individual_performance_audit.update(performance_audit_children_attrs)
-      # PerformancePageTrace::PerformanceAuditFilmstripUploader.new(individual_performance_audit).upload! unless individual_performance_audit.page_trace_s3_url.blank?
     end
 
     def performance_audit_attrs
@@ -47,7 +46,6 @@ module PerformanceAuditManager
         layout_duration: @results['LayoutDuration'],
         script_duration: @results['ScriptDuration'],
         task_duration: @results['TaskDuration'],
-        tagsafe_score: calculate_tagsafe_score_for_performance_audit,
         page_trace_s3_url: @page_trace_s3_url
       }
     end
@@ -73,21 +71,6 @@ module PerformanceAuditManager
           initiator_type: resource['initiatorType']
         }
       end
-    end
-
-    def calculate_tagsafe_score_for_performance_audit
-      return nil if @error
-      @tagsafe_score ||= TagSafeScorer.new(
-        performance_audit_calculator: @individual_performance_audit.audit.tag.domain.current_performance_audit_calculator,
-        dom_complete: @results['DOMComplete'],
-        dom_content_loaded: @results['DOMContentLoaded'],
-        dom_interactive: @results['DOMInteractive'],
-        first_contentful_paint: @results['FirstContentfulPaint'],
-        layout_duration: @results['LayoutDuration'],
-        script_duration: @results['ScriptDuration'],
-        task_duration: @results['TaskDuration'],
-        byte_size: audit.tag_version.bytes
-      ).score!
     end
 
     def audit

@@ -16,7 +16,7 @@ class PageLoadResourcesController < LoggedInController
     audit = tag.audits.find(params[:audit_id])
     
     raise StandardError, 'Must pass `performance_audit_type` URL parameter' if params[:performance_audit_type].nil?
-    perf_audit_getter_method = params[:performance_audit_type] == 'with_tag' ? :performance_audit_with_tag_used_for_scoring : :performance_audit_without_tag_used_for_scoring
+    perf_audit_getter_method = params[:performance_audit_type] == 'with_tag' ? :median_individual_performance_audit_with_tag : :median_individual_performance_audit_without_tag
     perf_audit = audit.send(perf_audit_getter_method)
     
     resources = perf_audit.page_load_resources.display_for_waterfall.order(fetch_start: :ASC)

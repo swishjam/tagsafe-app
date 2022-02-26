@@ -2,7 +2,7 @@ module ServerLoadablePartials
   class TagVersionsController < BaseController
     def index
       tag = current_domain.tags.find(params[:tag_id])
-      tag_versions = tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
+      tag_versions = tag.tag_versions.most_recent_first.page(params[:page] || 1).per(params[:per_page] || 10)
       render turbo_stream: turbo_stream.replace(
         "tag_#{tag.uid}_tag_versions_table",
         partial: 'server_loadable_partials/tag_versions/table',

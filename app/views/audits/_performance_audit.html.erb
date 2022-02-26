@@ -42,15 +42,15 @@
           <%= turbo_stream_from "audit_#{audit.uid}_pending_performance_audit_pill_stream" %>
           <%= render 'audits/pending_performance_audit_pill', audit: audit %>
         </div>
-      <% elsif audit.delta_performance_audit %>
+      <% elsif audit.preferred_delta_performance_audit %>
         <div data-controller='audit-results-expander'>
           <div class="row">
             <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>
               <h4>Tagsafe Score</h4>
               <%= render partial: 'partials/progress_ring', 
                           locals: { 
-                            score: audit.delta_performance_audit.tagsafe_score,
-                            change_in_score: previous_audit ? audit.delta_performance_audit.tagsafe_score - previous_audit.delta_performance_audit.tagsafe_score : nil
+                            score: audit.preferred_delta_performance_audit.tagsafe_score,
+                            change_in_score: previous_audit ? audit.preferred_delta_performance_audit.tagsafe_score - previous_audit.preferred_delta_performance_audit.tagsafe_score : nil
                           } 
                 %>
             </div>
@@ -73,18 +73,18 @@
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
                 metric_title: 'DOM Complete',
-                impact_result: audit.delta_performance_audit.dom_complete,
-                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_complete : nil,
-                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:dom_complete),
+                impact_result: audit.preferred_delta_performance_audit.dom_complete_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_complete_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:dom_complete),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag,
                 metric_title: 'DOM Interactive',
-                impact_result: audit.delta_performance_audit.dom_interactive,
-                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_interactive : nil,
-                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:dom_interactive),
+                impact_result: audit.preferred_delta_performance_audit.dom_interactive_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_interactive_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:dom_interactive),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -93,18 +93,18 @@
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
                 metric_title: 'First Contentful Paint',
-                impact_result: audit.delta_performance_audit.first_contentful_paint,
-                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.first_contentful_paint : nil,
-                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:first_contentful_paint),
+                impact_result: audit.preferred_delta_performance_audit.first_contentful_paint_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.first_contentful_paint_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:first_contentful_paint),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
                 metric_title: 'Task Duration Time',
-                impact_result: audit.delta_performance_audit.task_duration,
-                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.task_duration : nil,
-                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:task_duration),
+                impact_result: audit.preferred_delta_performance_audit.task_duration_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.task_duration_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:task_duration),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -113,18 +113,18 @@
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
                 metric_title: 'Script Duration',
-                impact_result: audit.delta_performance_audit.script_duration,
-                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.script_duration : nil,
-                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:script_duration),
+                impact_result: audit.preferred_delta_performance_audit.script_duration_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.script_duration_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:script_duration),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
                 metric_title: 'Layout Duration',
-                impact_result: audit.delta_performance_audit.layout_duration,
-                previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.layout_duration : nil,
-                tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:layout_duration),
+                impact_result: audit.preferred_delta_performance_audit.layout_duration_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.layout_duration_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:layout_duration),
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -133,9 +133,9 @@
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                   tag: tag, 
                   metric_title: 'DOM Content Loaded',
-                  impact_result: audit.delta_performance_audit.dom_content_loaded,
-                  previous_impact_result: previous_audit ? previous_audit.delta_performance_audit.dom_content_loaded : nil,
-                  tagsafe_score_deduction: audit.delta_performance_audit.tagsafe_score_metric_deduction(:dom_content_loaded),
+                  impact_result: audit.preferred_delta_performance_audit.dom_content_loaded_delta,
+                  previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_content_loaded_delta : nil,
+                  tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:dom_content_loaded),
                   unit: 'ms',
                   previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
                 } %>
@@ -144,7 +144,7 @@
                   <%
                     impact_result = audit.tag_version.bytes
                     previous_impact_result = audit.tag_version.previous_version&.bytes
-                    tagsafe_score_deduction = audit.delta_performance_audit.tagsafe_score_metric_deduction(:byte_size)
+                    tagsafe_score_deduction = audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:byte_size)
                   %>
                   <div class='row'>
                     <div class="col-6 metric-title">
@@ -182,8 +182,8 @@
                         <div class='impact-to-tagsafe-score'
                               data-controller='tooltip'
                               data-bs-toggle='tooltip'
-                              title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction || 0 %> points.">
-                          <%= "- #{tagsafe_score_deduction}" || 0.0 %> Tagsafe Score impact
+                              title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
+                          <%= "- #{tagsafe_score_deduction&.round(2)}" || 0.0 %> Tagsafe Score impact
                         </div>
                       <% end %>
                     </div>
@@ -198,12 +198,12 @@
     <% end %>
   <% end %>
   <% if audit.include_performance_audit &&
-            audit.performance_audit_with_tag_used_for_scoring&.puppeteer_recording&.captured_successfully? &&
-            audit.performance_audit_without_tag_used_for_scoring&.puppeteer_recording&.captured_successfully? %>
+            audit.median_individual_performance_audit_with_tag&.puppeteer_recording&.captured_successfully? &&
+            audit.median_individual_performance_audit_without_tag&.puppeteer_recording&.captured_successfully? %>
     <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
-                  performance_audit_with_tag: audit.performance_audit_with_tag_used_for_scoring,
-                  performance_audit_without_tag: audit.performance_audit_without_tag_used_for_scoring %>
+                  performance_audit_with_tag: audit.median_individual_performance_audit_with_tag,
+                  performance_audit_without_tag: audit.median_individual_performance_audit_without_tag %>
     </div>
   <% end %>
 <% end %>

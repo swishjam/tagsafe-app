@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TagSafeScorer do
+RSpec.describe TagsafeScorer do
   before(:each) do
     create_execution_reasons
     script = create(:script)
@@ -25,7 +25,7 @@ RSpec.describe TagSafeScorer do
       performance_audit_metric_type: PerformanceAuditMetricType.by_key('FirstContentfulPaint').first, 
       result: 50
     )
-    @scorer = TagSafeScorer.new(@delta_performance_audit)
+    @scorer = TagsafeScorer.new(@delta_performance_audit)
   end
 
   describe '#record_score!' do
@@ -36,7 +36,7 @@ RSpec.describe TagSafeScorer do
     end
 
     it 'raises an InvalidPerformanceAudit error if it is not a DeltaPerformanceAudit' do
-      expect{ TagSafeScorer.new(@performance_audit_with_tag).record_score! }.to raise_error(TagSafeScorer::InvalidPerformanceAudit)
+      expect{ TagsafeScorer.new(@performance_audit_with_tag).record_score! }.to raise_error(TagsafeScorer::InvalidPerformanceAudit)
     end
   end
 

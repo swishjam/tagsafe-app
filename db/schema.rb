@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_23_005509) do
+ActiveRecord::Schema.define(version: 2022_02_23_185909) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -100,6 +100,28 @@ ActiveRecord::Schema.define(version: 2022_02_23_005509) do
     t.boolean "perf_audit_override_initial_html_request_with_manipulated_page"
     t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
     t.index ["uid"], name: "index_default_audit_configuration_on_uid"
+  end
+
+  create_table "delta_performance_audits", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "type"
+    t.bigint "audit_id"
+    t.bigint "performance_audit_with_tag_id"
+    t.bigint "performance_audit_without_tag_id"
+    t.float "dom_complete_delta"
+    t.float "dom_content_loaded_delta"
+    t.float "dom_interactive_delta"
+    t.float "first_contentful_paint_delta"
+    t.float "script_duration_delta"
+    t.float "layout_duration_delta"
+    t.float "task_duration_delta"
+    t.float "tagsafe_score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
+    t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
+    t.index ["performance_audit_without_tag_id"], name: "index_dpa_performance_audit_without_tag_id"
+    t.index ["uid"], name: "index_delta_performance_audits_on_uid"
   end
 
   create_table "domains", charset: "utf8mb3", force: :cascade do |t|
@@ -392,16 +414,13 @@ ActiveRecord::Schema.define(version: 2022_02_23_005509) do
     t.float "script_duration"
     t.float "layout_duration"
     t.float "task_duration"
-    t.float "tagsafe_score"
-    t.float "tagsafe_score_standard_deviation"
-    t.timestamp "enqueued_at"
     t.timestamp "completed_at"
     t.text "error_message"
     t.float "seconds_to_complete"
     t.datetime "deleted_at"
-    t.boolean "used_for_scoring", default: false
     t.float "dom_content_loaded"
     t.string "page_trace_s3_url"
+    t.boolean "audit_performed_with_tag"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end

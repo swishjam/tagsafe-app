@@ -5,39 +5,49 @@ module ChartHelper
       @start_time = start_time
       @end_time = end_time
       @metric_key = metric_key
-      # TODO: add_first_timestamp_to_charge_data so the first data point in chart_data 
-      # is always the exact start_time, not the TagVersion created_at
-      add_current_timestamp_to_chart_data
+      @chart_data = {}
     end
   
     def chart_data
-      @chart_data ||= tags_primary_delta_performance_audits.map do |friendly_name, delta_performance_audits|
-        {
-          name: friendly_name,
-          data: delta_performance_audits.collect{ |dpa| [dpa.audit.tag_version.created_at, dpa[@metric_key]] }
-        }
-      end
+      format_chart_data!
     end
 
     private
 
+    def format_chart_data!
+      add_current_timestamp_to_chart_data
+      add_tag_versions_from_within_timeframes_primary_audits
+      add_starting_timestamps_if_necessary
+      @chart_data.values
+    end
+
     def add_current_timestamp_to_chart_data
-      chart_data.each do |tag_data|
-        unless tag_data[:data].empty?
-          tag_data[:data] << [DateTime.now, tag_data[:data][0][1]]
+      @tags.map do |tag|
+        current_primary_audit = tag.current_version&.primary_audit || tag.current_version&.previous_version&.primary_audit
+        unless current_primary_audit.nil?
+          @chart_data[tag] = { name: tag.try_friendly_name, data: [[DateTime.now, current_primary_audit.average_delta_performance_audit[@metric_key]]] }
         end
       end
     end
 
-    def tags_primary_delta_performance_audits
-      @performance_audits ||= DeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
-                                                    .where(audits: { tag_id: @tags.collect(&:id), primary: true })
-                                                    .more_recent_than_or_equal_to(@start_time, timestamp_column: 'tag_versions.created_at')
-                                                    .older_than_or_equal_to(@end_time, timestamp_column: 'tag_versions.created_at')
-                                                    .order('tag_versions.created_at ASC')
-                                                    .group_by{ |dpa| dpa.audit.tag.try_friendly_name }
-                                                    # .where("audits.tag_id IN ?", @tags.collect(&:id))
+    def add_tag_versions_from_within_timeframes_primary_audits
+      AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
+                                    .where(audits: { tag_id: @tags.collect(&:id), primary: true })
+                                    .more_recent_than_or_equal_to(@start_time, timestamp_column: 'tag_versions.created_at')
+                                    .older_than_or_equal_to(@end_time, timestamp_column: 'tag_versions.created_at')
+                                    .order('tag_versions.created_at ASC')
+                                    .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
+        chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.tag_version.created_at, dpa[@metric_key]] }
+        @chart_data[tag][:data].concat(chart_data_for_tag)
+      end
+    end
 
+    def add_starting_timestamps_if_necessary
+      @chart_data.each do |tag, chart_data_hash|
+        unless tag.first_version.created_at > @start_time
+          chart_data_hash[:data] << [@start_time, chart_data_hash[:data].last[1]]
+        end
+      end
     end
   end
 end

@@ -2,8 +2,8 @@ class PerformanceAuditLogsController < LoggedInController
   def index
     @audit = Audit.find(params[:audit_id])
     permitted_to_view?(@audit)
-    @individual_performance_audits_with_tag = @audit.individual_performance_audits_with_tag.includes(:performance_audit_log)
-    @individual_performance_audits_without_tag = @audit.individual_performance_audits_without_tag.includes(:performance_audit_log)
+    @performance_audits_with_tag = @audit.performance_audits_with_tag.includes(:performance_audit_log)
+    @performance_audits_without_tag = @audit.performance_audits_without_tag.includes(:performance_audit_log)
     @tag = Tag.find(params[:tag_id])
     @tag_version = TagVersion.find(params[:tag_version_id])
     # render_breadcrumbs(

@@ -13,7 +13,6 @@ RSpec.describe AuditRunnerJobs::RunIndividualPerformanceAudit do
   def perform_job
     AuditRunnerJobs::RunIndividualPerformanceAudit.perform_now(
       audit: @audit,
-      tag_version: @tag_version, 
       lambda_sender_class: LambdaModerator::PerformanceAuditerWithTag
     )
   end
@@ -43,7 +42,7 @@ RSpec.describe AuditRunnerJobs::RunIndividualPerformanceAudit do
     it 'calls `error!` on the lambda_sender_class individual_performance_audit when the response of the sender `send!` call is unsuccessful' do
       unsuccessful_response = OpenStruct.new(successful: false, response_body: { foo: 'bar' }, error: 'Oops! An error occurred.')
       expect_any_instance_of(LambdaModerator::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(unsuccessful_response)
-      expect_any_instance_of(IndividualPerformanceAuditWithTag).to receive(:error!).with('Oops! An error occurred.').exactly(:once)
+      expect_any_instance_of(PerformanceAuditWithTag).to receive(:error!).with('Oops! An error occurred.').exactly(:once)
       perform_job
     end
   end

@@ -1,23 +1,23 @@
 module PerformanceAuditManager
   class AuditEnqueuer
-    def initialize(audit, performance_audit_type_just_completed = nil)
+    def initialize(audit, performance_audit_just_completed_included_tag = nil)
       # reload to see if it fixes bug where we never reach performance_audit_completed! due to race conditions in simulataneous performance audits
       @audit = audit.reload
-      @performance_audit_type_just_completed = performance_audit_type_just_completed
+      @performance_audit_just_completed_included_tag = performance_audit_just_completed_included_tag
     end
 
     def enqueue_initial_performance_audits!
       if Util.env_is_true('ENQUEUE_INDIVIDUAL_PERFORMANCE_AUDITS_SIMULTANEOUSLY')
         (ENV['NUM_SIMULTAENOUS_INDIVIDUAL_PERFORMANCE_AUDITS'] || 1).to_i.times do
-          enqueue_individual_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
-          enqueue_individual_performance_audit!(IndividualPerformanceAuditWithoutTag.SYMBOLIZED_AUDIT_TYPE)
+          enqueue_individual_performance_audit_with_tag!
+          enqueue_individual_performance_audit_without_tag!
         end
       else
-        enqueue_individual_performance_audit!(IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE)
+        enqueue_individual_performance_audit_with_tag!
       end
     end
     
-    def enqueue_next_performance_audit!(audit_type_to_enqueue = nil)
+    def enqueue_next_performance_audit!
       if @audit.num_individual_performance_audits_remaining.zero?
         @audit.performance_audit_completed!
       elsif @audit.individual_performance_audits.failed.count >= @audit.maximum_individual_performance_audit_attempts
@@ -34,24 +34,24 @@ module PerformanceAuditManager
     private
 
     def enqueue_next_individual_performance_audit_simutaneously!
-      enqueue_individual_performance_audit!(@performance_audit_type_just_completed)
+      @performance_audit_just_completed_included_tag ? enqueue_individual_performance_audit_with_tag! :  enqueue_individual_performance_audit_without_tag!
     end
 
     def enqueue_next_individual_performance_audit_one_by_one!
-      next_audit_type = @performance_audit_type_just_completed == IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE ? IndividualPerformanceAuditWithoutTag.SYMBOLIZED_AUDIT_TYPE : IndividualPerformanceAuditWithTag.SYMBOLIZED_AUDIT_TYPE
-      if completed_all_individual_performance_audits_for_type?(next_audit_type)
-        next_audit_type = @performance_audit_type_just_completed
-      end
-      enqueue_individual_performance_audit!(next_audit_type)
+      include_tag_in_next_audit = completed_all_individual_performance_audits_for_type?(!@performance_audit_just_completed_included_tag) ? @performance_audit_just_completed_included_tag : !@performance_audit_just_completed_included_tag
+      include_tag_in_next_audit ? enqueue_individual_performance_audit_with_tag! : enqueue_individual_performance_audit_without_tag!
     end
 
-    def completed_all_individual_performance_audits_for_type?(audit_type)
-      @audit.send(:"num_individual_performance_audits_#{audit_type}_remaining").zero?
+    def completed_all_individual_performance_audits_for_type?(with_tag)
+      @audit.send(:"num_individual_performance_audits_#{with_tag ? :with_tag : :without_tag}_remaining").zero?
     end
 
-    def enqueue_individual_performance_audit!(audit_type)
-      Rails.logger.info "Enqueuing next #{audit_type} performance audit for Audit #{@audit.uid}, #{@audit.num_individual_performance_audits_remaining} remaining to complete."
-      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(type: audit_type, audit: @audit, tag_version: @audit.tag_version)
+    def enqueue_individual_performance_audit_with_tag!
+      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(audit: @audit, perform_audit_with_tag: true)
+    end
+
+    def enqueue_individual_performance_audit_without_tag!
+      AuditRunnerJobs::RunIndividualPerformanceAudit.perform_later(audit: @audit, perform_audit_with_tag: false)
     end
 
     def audit_reached_maximum_failed_performance_audits!

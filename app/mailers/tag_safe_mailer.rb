@@ -47,14 +47,14 @@ class TagSafeMailer < SendgridTemplateMailer
       @to_email = user.email
       @from_email = 'notifications@tagsafe.io'
       @template_name = :audit_completed
-      change_in_score = audit.delta_performance_audit.change_in_metric(:tagsafe_score)
+      change_in_score = audit.preferred_delta_performance_audit.change_in_metric(:tagsafe_score)
       @variable_json = {
         tag_name: audit.tag.try_friendly_name,
-        tagsafe_score: audit.delta_performance_audit.tagsafe_score
+        tagsafe_score: audit.preferred_delta_performance_audit.tagsafe_score
       }
       if change_in_score
         @variable_json[:change_in_score_description] = <<~DESCRIPTION
-          This is a#{change_in_score.positive? ? 'n increase' : ' decrease'} from the previous TagSafe score of #{audit.delta_performance_audit.previous_metric_result(:tagsafe_score)}
+          This is a#{change_in_score.positive? ? 'n increase' : ' decrease'} from the previous TagSafe score of #{audit.preferred_delta_performance_audit.previous_metric_result(:tagsafe_score)}
         DESCRIPTION
       end
       send!

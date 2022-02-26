@@ -36,8 +36,8 @@
           <div class='impact-to-tagsafe-score'
                 data-controller='tooltip'
                 data-bs-toggle='tooltip'
-                title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction || 0 %> points.">
-            <%= "- #{tagsafe_score_deduction}" || 0.0 %> Tagsafe Score impact
+                title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
+            <%= "- #{tagsafe_score_deduction&.round(2)}" || 0.0 %> Tagsafe Score impact
           </div>
         <% end %>
       </div>

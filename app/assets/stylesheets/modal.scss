@@ -24,9 +24,8 @@
     position: absolute;
     max-width: 80%;
     min-width: 60%;
-    min-height: 40%;
-    max-height: 80%;
     // min-height: 40%;
+    // max-height: 80%;
     .tagsafe-modal-header {
       height: 50px;
       display: flex;
@@ -41,27 +40,18 @@
         font-size: 20px;
       }
     }
-    .modal-content-footer-container {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      .modal-content-footer-content {
-        padding: 0px 25px 25px 25px;
-      }
-      .tagsafe-modal-divider {
-        border-bottom: 1px solid lightgrey;
-        margin: 0px 15px 0px 15px;
-      }
+    .tagsafe-modal-footer {
+      padding: 0px 25px 15px 25px;
     }
-    .button-divider {
-      border-top: 1px solid lightgrey;
-      margin-top: 15px;
-      padding-top: 15px;
+    .tagsafe-modal-divider {
+      border-bottom: 1px solid lightgrey;
+      margin: 0px 15px 15px 15px;
     }
-    .tagsafe-modal-content {
+    .tagsafe-modal-body {
       padding: 15px;
-      height: calc(100% - 30px);
+      // height: calc(100% - 30px);
+      max-height: 60vh;
+      overflow-y: scroll;
     }
   }
 }

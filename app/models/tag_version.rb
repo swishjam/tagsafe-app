@@ -115,7 +115,7 @@ class TagVersion < ApplicationRecord
   end
 
   def tagsafe_score
-    primary_audit&.delta_performance_audit&.tagsafe_score
+    primary_audit&.preferred_delta_performance_audit&.tagsafe_score
   end
 
   def previous_version

@@ -84,9 +84,7 @@ module HtmlHelper
           </div>
           <div class='tagsafe-modal-divider'>
           </div>
-          <div class='tagsafe-modal-content'>
-            #{provided_html}
-          </div>
+          #{provided_html}
         </div>
       </div>
     HTML

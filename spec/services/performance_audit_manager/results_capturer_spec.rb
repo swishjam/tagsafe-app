@@ -88,8 +88,8 @@ RSpec.describe PerformanceAuditManager::ResultsCapturer do
   end
 
   describe '#calculate_tagsafe_score_for_performance_audit' do
-    it 'initializes a TagSafeScorer and calls score!' do
-      expect(TagSafeScorer).to receive(:new).with({
+    it 'initializes a TagsafeScorer and calls score!' do
+      expect(TagsafeScorer).to receive(:new).with({
         dom_complete: 100,
         dom_content_loaded: 100,
         dom_interactive: 100,
@@ -99,7 +99,7 @@ RSpec.describe PerformanceAuditManager::ResultsCapturer do
         task_duration: 100,
         byte_size: @individual_performance_audit.audit.tag_version.bytes
       }).exactly(:once).and_call_original
-      expect_any_instance_of(TagSafeScorer).to receive(:score!).exactly(:once)
+      expect_any_instance_of(TagsafeScorer).to receive(:score!).exactly(:once)
       @evaluator.send(:calculate_tagsafe_score_for_performance_audit)
     end
   end

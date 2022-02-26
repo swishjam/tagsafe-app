@@ -38,8 +38,7 @@ module Schedule
     def purge_individual_performance_audits_not_user_for_scoring_for_tag(tag)
       individual_performance_audits = PerformanceAudit.joins(:audit)
                                                         .where(
-                                                          used_for_scoring: false, 
-                                                          type: %w[IndividualPerformanceAuditWithTag IndividualPerformanceAuditWithoutTag], 
+                                                          type: IndividualPerformanceAudit.to_s,
                                                           audit: tag.audits
                                                         ).offset(INDIVIDUAL_PERFORMANCE_AUDITS_NOT_USED_FOR_SCORING_OFFSET_BY_TAG)
       Rails.logger.info "DATA PURGE JOB: purging #{individual_performance_audits.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) individual performance audits not used for scoring (keeping #{INDIVIDUAL_PERFORMANCE_AUDITS_NOT_USED_FOR_SCORING_OFFSET_BY_TAG} of them)."

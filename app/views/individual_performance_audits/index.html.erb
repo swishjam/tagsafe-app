@@ -3,58 +3,113 @@
   <h6 class="page-sub-title mb-0"><%= @tag.try_friendly_name %></h6>
   <h6 class="page-sub-title"><%= @audit.created_at.formatted_short %> Audit</h6>
 
-  <div class='tagsafe-container'>
-    <% if @audits_with_tag.empty? %>
-      <h4>Individual performance audits not captured for this audit.</h4>
-    <% else %>
-      <div class='row'>
-        <div class='col-6'>
-          <h5>Performance audits with tag</h5>
-          <h6>STD Deviation</h6>
-          <span class='d-block'>DOM Complete STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:dom_complete)) %></span>
-          <span class='d-block'>DOM Content Loaded STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:dom_content_loaded)) %></span>
-          <span class='d-block'>DOM Interactive STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:dom_interactive)) %></span>
-          <span class='d-block'>First Contentful Paint STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:first_contentful_paint)) %></span>
-          <span class='d-block'>Script Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:script_duration)) %></span>
-          <span class='d-block'>Task Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:task_duration)) %></span>
-          <span class='d-block'>Layout Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_with_tag_std_dev_for(:layout_duration)) %></span>
-          <h6>Variance</h6>
-          <span class='d-block'>DOM Complete Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:dom_complete)) %></span>
-          <span class='d-block'>DOM Content Loaded Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:dom_content_loaded)) %></span>
-          <span class='d-block'>DOM Interactive Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:dom_interactive)) %></span>
-          <span class='d-block'>First Contentful Paint Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:first_contentful_paint)) %></span>
-          <span class='d-block'>Script Duration Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:script_duration)) %></span>
-          <span class='d-block'>Task Duration Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:task_duration)) %></span>
-          <span class='d-block'>Layout Duration Variance: <%= number_with_delimiter(@audit.performance_audit_with_tag_variance_for(:layout_duration)) %></span>
-          <br/><br/>
-          <% @audits_with_tag.each do |audit| %>
-            <%= render 'individual_performance_audit', individual_performance_audit: audit %>
-          <% end %>
-        </div>
-        <div class='col-6'>
-          <h5>Performance audits without tag</h5>
-          <h6>STD Deviation</h6>
-          <span class='d-block'>DOM Complete STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:dom_complete)) %></span>
-          <span class='d-block'>DOM Content Loaded STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:dom_content_loaded)) %></span>
-          <span class='d-block'>DOM Interactive STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:dom_interactive)) %></span>
-          <span class='d-block'>First Contentful Paint STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:first_contentful_paint)) %></span>
-          <span class='d-block'>Script Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:script_duration)) %></span>
-          <span class='d-block'>Task Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:task_duration)) %></span>
-          <span class='d-block'>Layout Duration STD Deviation: <%= number_with_delimiter(@audit.performance_audit_without_tag_std_dev_for(:layout_duration)) %></span>
-          <h6>Variance</h6>
-          <span class='d-block'>DOM Complete Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:dom_complete)) %></span>
-          <span class='d-block'>DOM Content Loaded Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:dom_content_loaded)) %></span>
-          <span class='d-block'>DOM Interactive Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:dom_interactive)) %></span>
-          <span class='d-block'>First Contentful Paint Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:first_contentful_paint)) %></span>
-          <span class='d-block'>Script Duration Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:script_duration)) %></span>
-          <span class='d-block'>Task Duration Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:task_duration)) %></span>
-          <span class='d-block'>Layout Duration Variance: <%= number_with_delimiter(@audit.performance_audit_without_tag_variance_for(:layout_duration)) %></span>
-          <br/><br/>
-          <% @audits_without_tag.each do |audit| %>
-            <%= render 'individual_performance_audit', individual_performance_audit: audit %>
-          <% end %>
-        </div>
+  <div class='tagsafe-container container'>
+    <div class='row mb-3'>
+      <h5>Audit Precision</h5>
+      <h6 class='fw-bold'>Tagsafe Score Confidence Range: <%= @audit.confidence_calculator.tagsafe_score_confidence_range %> (+/- <%= @audit.confidence_calculator.tagsafe_score_confidence_plus_minus %>)</h6>
+      <div class='col-6'>
+        <h5>With tag</h5>        
+        <h6 class='fw-bold'>Standard Deviation:</h6>
+        <span class='d-block'>DOM Complete: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:dom_complete) %></span>
+        <span class='d-block'>DOM Content Loaded: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:dom_content_loaded) %></span>
+        <span class='d-block'>DOM Interactive: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:dom_interactive) %></span>
+        <span class='d-block'>First Contentful Paint: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:first_contentful_paint) %></span>
+        <span class='d-block'>Script Duration: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:script_duration) %></span>
+        <span class='d-block'>Task Duration: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:task_duration) %></span>
+        <span class='d-block'>Layout Duration: <%= @audit.confidence_calculator.performance_audit_with_tag_std_dev_for(:layout_duration) %></span>
+        <h6 class='fw-bold mt-2'>Variance:</h6>
+        <span class='d-block'>DOM Complete: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:dom_complete) %></span>
+        <span class='d-block'>DOM Content Loaded: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:dom_content_loaded) %></span>
+        <span class='d-block'>DOM Interactive: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:dom_interactive) %></span>
+        <span class='d-block'>First Contentful Paint: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:first_contentful_paint) %></span>
+        <span class='d-block'>Script Duration: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:script_duration) %></span>
+        <span class='d-block'>Task Duration: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:task_duration) %></span>
+        <span class='d-block'>Layout Duration: <%= @audit.confidence_calculator.performance_audit_with_tag_variance_for(:layout_duration) %></span>
       </div>
-    <% end %>
+      <div class='col-6'>
+        <h5>Without tag</h5>
+        <h6 class='fw-bold'>Standard Deviation:</h6>
+        <span class='d-block'>DOM Complete: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:dom_complete) %></span>
+        <span class='d-block'>DOM Content Loaded: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:dom_content_loaded) %></span>
+        <span class='d-block'>DOM Interactive: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:dom_interactive) %></span>
+        <span class='d-block'>First Contentful Paint: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:first_contentful_paint) %></span>
+        <span class='d-block'>Script Duration: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:script_duration) %></span>
+        <span class='d-block'>Task Duration: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:task_duration) %></span>
+        <span class='d-block'>Layout Duration: <%= @audit.confidence_calculator.performance_audit_without_tag_std_dev_for(:layout_duration) %></span>
+        <h6 class='fw-bold mt-2'>Variance:</h6>
+        <span class='d-block'>DOM Complete: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:dom_complete) %></span>
+        <span class='d-block'>DOM Content Loaded: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:dom_content_loaded) %></span>
+        <span class='d-block'>DOM Interactive: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:dom_interactive) %></span>
+        <span class='d-block'>First Contentful Paint: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:first_contentful_paint) %></span>
+        <span class='d-block'>Script Duration: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:script_duration) %></span>
+        <span class='d-block'>Task Duration: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:task_duration) %></span>
+        <span class='d-block'>Layout Duration: <%= @audit.confidence_calculator.performance_audit_without_tag_variance_for(:layout_duration) %></span>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-4'>
+        <h5>Performance audits with tag</h5>
+        <h6>Average</h6>
+        <%= render 'individual_performance_audit', individual_performance_audit: @average_delta_audit.performance_audit_with_tag %>
+        <h6>Median</h6>
+        <%= render 'individual_performance_audit', individual_performance_audit: @median_delta_audit.performance_audit_with_tag %>
+        <% if @individual_delta_audits.any? %>
+          <h6>Others</h6>
+          <% @individual_delta_audits.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit.performance_audit_with_tag %>
+          <% end %>
+        <% end %>
+        <% if @pending_individual_audits.with_tag.any? %>
+          <h6>Pending</h6>
+          <% @pending_individual_audits.with_tag.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit.performance_audit_with_tag %>
+          <% end %>
+        <% end %>
+        <% if @failed_individual_audits.with_tag.any? %>
+          <h6>Failed</h6>
+          <% @failed_individual_audits.with_tag.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit.performance_audit_with_tag %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class='col-4'>
+        <h5>Delta performance audit</h5>
+        <h6>Average</h6>
+        <%= render 'individual_performance_audit', individual_performance_audit: @average_delta_audit %>
+        <h6>Median</h6>
+        <%= render 'individual_performance_audit', individual_performance_audit: @median_delta_audit %>
+        <% if @individual_delta_audits.any? %>
+          <h6>Others</h6>
+          <% @individual_delta_audits.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class='col-4'>
+        <h5>Performance audits without tag</h5>
+        <h6>Average</h6>
+        <%= render 'individual_performance_audit', individual_performance_audit: @average_delta_audit.performance_audit_without_tag %>
+        <h6>Median</h6>
+        <%= render 'individual_performance_audit', individual_performance_audit: @median_delta_audit.performance_audit_without_tag %>
+        <% if @individual_delta_audits.any? %>
+          <h6>Others</h6>
+          <% @individual_delta_audits.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit.performance_audit_without_tag %>
+          <% end %>
+        <% end %>
+        <% if @pending_individual_audits.without_tag.any? %>
+          <h6>Pending</h6>
+          <% @pending_individual_audits.without_tag.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit.performance_audit_with_tag %>
+          <% end %>
+        <% end %>
+        <% if @failed_individual_audits.without_tag.any? %>
+          <h6>Failed</h6>
+          <% @failed_individual_audits.without_tag.each do |individual_delta_audit| %>
+            <%= render 'individual_performance_audit', individual_performance_audit: individual_delta_audit.performance_audit_with_tag %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,20 +1,25 @@
 <%= render_as_modal title: 'Run audit' do %>
   <% if local_assigns[:audits_enqueued] %>
-    <h3 class='inline-message mt-5 mb-5'>Performing <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
     <% if audits_enqueued.count > 1 %>
-      <% audits_enqueued.each do |audit| %>
-        <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
-      <% end %>
+      <div class='tagsafe-modal-body'>
+        <h3 class='inline-message mt-5 mb-5'>Performing <%= local_assigns[:audits_enqueued].count %> audits on <%= tag.try_friendly_name %></h3>
+        <% audits_enqueued.each do |audit| %>
+          <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
+        <% end %>
+      </div>
     <% else %>
-      <div class='tagsafe-modal-divider mt-3 mb-3'></div>
-      <div class='modal-content-footer text-end'>
+      <div class='tagsafe-modal-body'>
+        <h3 class='inline-message mt-5 mb-5'>Performing audit on <%= tag.try_friendly_name %></h3>
+      </div>
+      <div class='tagsafe-modal-divider'></div>
+      <div class='tagsafe-modal-footer text-end'>
         <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), class:'tagsafe-btn', target: '_top' %>
       </div>
     <% end %>
   <% else %>
     <%= form_with url: create_audit_path(tag, tag_version), method: :post, data: { controller: 'loading_form' } do |f| %>
-      <div class='modal-content-body'>
-        <h3>Audit <%= tag.try_friendly_name %></h3>
+      <div class='tagsafe-modal-body'>
+        <h3>Run audit on your <%= tag.try_friendly_name %> tag?</h3>
         <% if urls_to_audit.count == 1 %>
           <input name='urls_to_audit[]' id="url_to_audit_<%= urls_to_audit.first.id %>" value="<%= urls_to_audit.first.id %>" type='hidden'>
         <% else %>
@@ -25,40 +30,36 @@
             </div>
           <% end %>
         <% end %>
-      </div>
-      <div class='configure-audit-settings'>
         <h5>Audit configuration:</h5>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='include_performance_audit'>Run performance audit?</label>
-          <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_performance_audit ? "checked='checked'" : nil %>>
         </div>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
-          <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_page_change_audit ? "checked='checked'" : nil %>>
         </div>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
-          <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_functional_tests ? "checked='checked'" : nil %>>
         </div>
-        <h5>Performance audit settings:</h5>
+        <h5 class='mt-2'>Performance audit settings:</h5>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
-          <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_page_load_resources ? "checked='checked'" : nil %>>
         </div>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='include_page_trace'>Include performance page trace?</label>
-          <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.perf_audit_include_page_tracing ? "checked='checked'" : nil %>>
         </div>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='strip_all_images_in_performance_audits'>Strip all images?</label>
-          <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' checked='checked'>
+          <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.perf_audit_strip_all_images ? "checked='checked'" : nil %>>
         </div>
       </div>
-      <div class='modal-content-footer-container text-end'>
-        <div class='tagsafe-modal-divider mt-3 mb-3'></div>
-        <div class='modal-content-footer-content'>
-          <%= loading_submit_button 'Run audit' %>
-        </div>
+      <div class='tagsafe-modal-divider'></div>
+      <div class='tagsafe-modal-footer text-end'>
+        <%= loading_submit_button 'Run audit' %>
       </div>
     <% end %>
   <% end %>

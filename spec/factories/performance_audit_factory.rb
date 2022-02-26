@@ -6,11 +6,11 @@ FactoryBot.define do
 
   factory :individual_performance_audit_with_tag do
     association :audit
-    type { 'IndividualPerformanceAuditWithTag' }
+    type { 'PerformanceAuditWithTag' }
   end
 
   factory :individual_performance_audit_without_tag do
     association :audit
-    type { 'IndividualPerformanceAuditWithoutTag' }
+    type { 'PerformanceAuditWithoutTag' }
   end
 end

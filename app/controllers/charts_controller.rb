@@ -9,7 +9,7 @@ class ChartsController < ApplicationController
     if params[:tag_ids]
       tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
       tags = current_domain.tags.includes(:tag_preferences).where(id: tag_ids)
-      include_metric_select = params[:include_metric_selector] == 'true'
+      include_metric_select = params[:include_metric_select] == 'true'
       chart_data_getter = ChartHelper::TagsData.new(
         tags: tags, 
         start_time: start_time,
@@ -21,6 +21,7 @@ class ChartsController < ApplicationController
         partial: 'charts/tags',
         locals: { 
           chart_data: chart_data_getter.chart_data, 
+          include_metric_select: params[:include_metric_select],
           domain: current_domain, 
           displayed_metric: displayed_metric,
           start_time: start_time,
@@ -34,6 +35,7 @@ class ChartsController < ApplicationController
         locals: { 
           chart_data: [], 
           displayed_metric: :tagsafe_score,
+          include_metric_select: params[:include_metric_select],
           domain: current_domain,
           start_time: start_time,
           end_time: end_time 
@@ -60,6 +62,7 @@ class ChartsController < ApplicationController
         chart_data: chart_data_getter.chart_data, 
         tag: tag, 
         chart_metric: chart_metric, 
+        display_metric: chart_data_getter.tooltip_title,
         start_time: start_time, 
         end_time: end_time 
       }

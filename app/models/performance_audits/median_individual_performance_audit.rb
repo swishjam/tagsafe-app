@@ -1,0 +1,2 @@
+class MedianIndividualPerformanceAudit < PerformanceAudit
+end
