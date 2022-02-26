@@ -5,6 +5,7 @@ module ChartHelper
       @metric_key = metric
       @start_time = start_time
       @end_time = end_time
+      @chart_data_for_provided_metric = { name: tooltip_title, data: [] }
     end
     
     def chart_data
@@ -27,10 +28,7 @@ module ChartHelper
     def add_current_timestamp_to_chart_data
       current_primary_audit = @tag.current_version&.primary_audit || @tag.current_version&.previous_version&.primary_audit
       unless current_primary_audit.nil?
-        @chart_data_for_provided_metric = { 
-          name: tooltip_title, 
-          data: [ [DateTime.now, current_primary_audit.average_delta_performance_audit[@metric_key]] ]
-        }
+        @chart_data_for_provided_metric[:data] << [DateTime.now, current_primary_audit.average_delta_performance_audit[@metric_key]]
       end
     end
 
