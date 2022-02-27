@@ -1,5 +1,8 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :authorize!, only: :accept
+  skip_before_action :authorize!, only: [:accept, :redeem]
+  skip_before_action :ensure_organization, only: [:accept, :redeem]
+  skip_before_action :ensure_domain, only: [:accept, :redeem]
+  layout 'logged_out_layout', only: :accept
 
   def new
     @user_invite = UserInvite.new
@@ -29,7 +32,8 @@ class UserInvitesController < LoggedInController
   def accept
     @user = User.new
     @user_invite = UserInvite.includes(:organization).find_by(token: params[:token])
-    unless @user_invite.reedemable?
+    @hide_logged_out_nav = true
+    unless @user_invite.redeemable?
       display_toast_error("Invite expired. Please request a new invite from your admin.")
       redirect_to root_path
     end
@@ -37,19 +41,21 @@ class UserInvitesController < LoggedInController
 
   def redeem
     invite = UserInvite.find_by(token: params[:token])
-    if invite.reedemable?
+    binding.pry
+    if invite.redeemable?
       user = User.create(user_params)
+      binding.pry
       if user.valid?
         invite.redeem!(user)
-        display_toast_message("Invite accepted successfully. Welcome to s!")
+        log_user_in(user)
         redirect_to tags_path
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer
       end
     else
-      display_toast_error("Invite expired. Please request a new invite from your admin.")
-      redirect_to root_path
+      display_inline_error("Invite expired. Please request a new invite from your admin.")
+      redirect_to request.referrer
     end
   end
 

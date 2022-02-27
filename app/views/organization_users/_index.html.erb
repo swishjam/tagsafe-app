@@ -15,7 +15,10 @@
             <div class='tagsafe-table-data' style='width: 25%'><%= ou.user.email %></div>
             <div class='tagsafe-table-data' style='width: 25%'><%= ou.user.created_at.formatted_long %></div>
             <div class='tagsafe-table-data' style='width: 25%'>
-              <%= link_to 'Remove user', organization_user_path(ou), method: :delete, data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %>
+              <% if ou.user_id != current_user.id %>
+                <%= modal_link destroy_organization_user_modal_path(ou), text: 'Remove User' %>
+                <!-- <#%= link_to 'Remove user', organization_user_path(ou), method: :delete, data: { confirm: "Remove #{ou.user.email} from #{current_organization.name}?" } %> !-->
+              <% end %>
             </div>
           </div>
         <% end %>

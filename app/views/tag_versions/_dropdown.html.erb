@@ -20,7 +20,7 @@
       <% end %>
     <% end %>
     <% if !local_assigns[:audit].nil? && audit.performance_audits.any? %>
-      <%= link_to "View individual performance audits (#{audit.performance_audit_configuration.performance_audit_iterations})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
+      <%= link_to "View individual performance audits (#{audit.performance_audit_configuration.num_performance_audit_iterations})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
     <% end %>
     <% if local_assigns[:additional_menu_items] %>
       <% additional_menu_items.each do |menu_item| %>

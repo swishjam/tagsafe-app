@@ -54,7 +54,7 @@ class AuditRunner
       include_functional_tests: option_value_for(:include_functional_tests, default_audit_configuration.include_functional_tests),
       num_functional_tests_to_run: option_value_for(:include_functional_tests, true) ? @tag.functional_tests.enabled.count : 0,
       performance_audit_configuration_attributes: {
-        performance_audit_iterations: tag_preferences.performance_audit_iterations,
+        num_performance_audit_iterations: performance_audit_configuration_for(:num_perf_audit_iterations, default_audit_configuration.num_perf_audit_iterations),
         strip_all_images: performance_audit_configuration_for(:strip_all_images, default_audit_configuration.perf_audit_strip_all_images),
         include_page_tracing: performance_audit_configuration_for(:include_page_tracing, default_audit_configuration.perf_audit_include_page_tracing),
         throw_error_if_dom_complete_is_zero: performance_audit_configuration_for(:throw_error_if_dom_complete_is_zero, default_audit_configuration.perf_audit_throw_error_if_dom_complete_is_zero),

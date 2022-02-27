@@ -225,30 +225,30 @@ class Audit < ApplicationRecord
 
   def num_individual_performance_audits_remaining
     return 0 if performance_audit_completed?
-    performance_audit_configuration.performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
+    performance_audit_configuration.num_performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
   end
 
   def num_individual_performance_audits_with_tag_remaining
     return 0 if performance_audit_completed?
-    performance_audit_configuration.performance_audit_iterations - individual_performance_audits_with_tag.completed_successfully.count
+    performance_audit_configuration.num_performance_audit_iterations - individual_performance_audits_with_tag.completed_successfully.count
   end
 
   def num_individual_performance_audits_without_tag_remaining
     return 0 if performance_audit_completed?
-    performance_audit_configuration.performance_audit_iterations - individual_performance_audits_without_tag.completed_successfully.count
+    performance_audit_configuration.num_performance_audit_iterations - individual_performance_audits_without_tag.completed_successfully.count
   end
 
   def individual_performance_audit_percent_complete
     return 100 if performance_audit_completed?
-    ((individual_performance_audits.completed_successfully.count) / (performance_audit_configuration.performance_audit_iterations * 2.0))*100
+    ((individual_performance_audits.completed_successfully.count) / (performance_audit_configuration.num_performance_audit_iterations * 2.0))*100
   end
 
   def maximum_individual_performance_audit_attempts
     Flag.flag_value_for_objects(tag, tag.domain, slug: 'max_individual_performance_audit_retries').to_i
   end
 
-  def confidence_calculator
-    PerformanceAuditManager::ConfidenceCalculator.new(self)
+  def confidence_calculator(aggregate_results_for_all_audits_on_tag_version: false)
+    PerformanceAuditManager::ConfidenceCalculator.new(self, aggregate_results_for_all_audits_on_tag_version: aggregate_results_for_all_audits_on_tag_version)
   end
 
   ######################

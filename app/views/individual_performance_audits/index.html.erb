@@ -7,6 +7,7 @@
     <div class='row mb-3'>
       <h5>Audit Precision</h5>
       <h6 class='fw-bold'>Tagsafe Score Confidence Range: <%= @audit.confidence_calculator.tagsafe_score_confidence_range %> (+/- <%= @audit.confidence_calculator.tagsafe_score_confidence_plus_minus %>)</h6>
+      <h6 class='fw-bold'>Tagsafe Score Confidence Range aggregated across all <%= @audit.tag_version.total_num_delta_performance_audits_performed_across_all_audits %> Delta Performance Audits generated: <%= @audit.confidence_calculator(aggregate_results_for_all_audits_on_tag_version: true).tagsafe_score_confidence_range %> (+/- <%= @audit.confidence_calculator(aggregate_results_for_all_audits_on_tag_version: true).tagsafe_score_confidence_plus_minus %>)</h6>
       <div class='col-6'>
         <h5>With tag</h5>        
         <h6 class='fw-bold'>Standard Deviation:</h6>

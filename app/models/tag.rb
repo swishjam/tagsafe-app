@@ -218,11 +218,15 @@ class Tag < ApplicationRecord
     tag_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
   end
 
-  def failed_requests(days_ago: 7, successful_codes: [200, 204])
+  def total_num_of_requests(days_ago: 7)
+    tag_checks.more_recent_than(days_ago.days.ago).count
+  end
+
+  def num_failed_requests(days_ago: 7, successful_codes: [200, 204])
     tag_checks.more_recent_than(days_ago.days.ago).where.not(response_code: successful_codes).count
   end
 
   def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    failed_requests(days_ago: days_ago, successful_codes: successful_codes) / tag_checks.more_recent_than(days_ago.days.ago).count
+    (num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f / total_num_of_requests(days_ago: days_ago) * 100).round(2)
   end
 end

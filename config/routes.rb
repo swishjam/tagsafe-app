@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   put '/update_current_organization/:uid' => 'organizations#update_current_organization', as: :update_current_organization
   
   resources :organization_users, only: [:destroy]
+  get "/organization_users/:id/destroy_modal" => 'organization_users#destroy_modal', as: :destroy_organization_user_modal
   resources :user_invites, only: [:new, :create]
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite

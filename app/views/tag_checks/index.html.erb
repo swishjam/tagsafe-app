@@ -28,8 +28,11 @@
           <td data-bs-toggle="tooltip" data-placement="top" title="<%= tag.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag.try_friendly_name %></td>
           <td><%= number_to_human(tag.average_response_time(days_ago: @days_ago), units: { unit: 'ms', thousand: 'seconds' }) %></td>
           <td><%= number_to_human(tag.max_response_time(days_ago: @days_ago), units: { unit: 'ms', thousand: 'seconds' }) %></td>
-          <td><%= tag.failed_requests(days_ago: @days_ago) %></td>
-          <td><%= tag.fail_rate(days_ago: @days_ago) %>%</td>
+          <td><%= tag.num_failed_requests(days_ago: @days_ago) %></td>
+          <td>
+            <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= tag.num_failed_requests %> of the last <%= tag.total_num_of_requests %> have failed over the last 7 days.">
+            <%= tag.fail_rate(days_ago: @days_ago) %>%
+          </td>
           <td>
             <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn">
               <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

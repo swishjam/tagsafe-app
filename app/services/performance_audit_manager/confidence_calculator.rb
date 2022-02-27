@@ -1,21 +1,16 @@
 module PerformanceAuditManager
   class ConfidenceCalculator
-    def initialize(audit)
+    def initialize(audit, aggregate_results_for_all_audits_on_tag_version: false)
       @audit = audit
+      @aggregate_results_for_all_audits_on_tag_version = aggregate_results_for_all_audits_on_tag_version
     end
 
-    def tagsafe_score_confidence_range
-      @tagsafe_score_confidence_range ||= begin
-        tagsafe_scores = @audit.delta_performance_audits.collect(&:tagsafe_score)
-        MathHelpers::SmallSampleConfidenceRange.new(tagsafe_scores).range
-      end
+    def tagsafe_score_confidence_range(round = true)
+      @tagsafe_score_confidence_range ||= MathHelpers::SmallSampleConfidenceRange.new(all_tagsafe_scores_generated).range(round)
     end
 
-    def tagsafe_score_confidence_plus_minus
-      @tagsafe_score_confidence_plus_minus ||= begin
-        tagsafe_scores = @audit.delta_performance_audits.collect(&:tagsafe_score)
-        MathHelpers::SmallSampleConfidenceRange.new(tagsafe_scores).plus_minus
-      end
+    def tagsafe_score_confidence_plus_minus(round = true)
+      @tagsafe_score_confidence_plus_minus ||= MathHelpers::SmallSampleConfidenceRange.new(all_tagsafe_scores_generated).plus_minus(round)
     end
 
     def performance_audit_with_tag_confidence_range_for_metric(metric)
@@ -64,12 +59,30 @@ module PerformanceAuditManager
 
     private
 
+    def all_tagsafe_scores_generated
+      @all_tagsafe_scores_generated ||= @aggregate_results_for_all_audits_on_tag_version ? 
+                                          @audit.tag_version.audits.map{ |audit| audit.delta_performance_audits.collect(&:tagsafe_score) }.flatten :
+                                          @audit.delta_performance_audits.collect(&:tagsafe_score)
+    end
+
     def successful_performance_audits_with_tag
-      @successful_performance_audits_with_tag ||= @audit.individual_and_median_performance_audits_with_tag.completed_successfully
+      @successful_performance_audits_with_tag ||= begin
+        if @aggregate_results_for_all_audits_on_tag_version
+          @audit.tag_version.audits.map{ |audit| audit.individual_and_median_performance_audits_with_tag.completed_successfully }.flatten
+        else
+          @audit.individual_and_median_performance_audits_with_tag.completed_successfully
+        end
+      end
     end
 
     def successful_performance_audits_without_tag
-      @successful_performance_audits_without_tag ||= @audit.individual_and_median_performance_audits_without_tag.completed_successfully
+      @successful_performance_audits_without_tag ||= begin
+        if @aggregate_results_for_all_audits_on_tag_version
+          @audit.tag_version.audits.map{ |audit| audit.individual_and_median_performance_audits_without_tag.completed_successfully }.flatten
+        else
+          @audit.individual_and_median_performance_audits_without_tag.completed_successfully
+        end
+      end
     end
   end
 end

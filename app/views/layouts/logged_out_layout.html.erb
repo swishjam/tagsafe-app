@@ -27,7 +27,7 @@
     <%= render 'partials/third_party_tags/amplitude_script' %>
   </head>
 
-  <body class="<%=controller_name%>">
+  <body class="logged-out <%=controller_name%> <%= action_name %>">
     <div class="container-fluid">
       <%= render partial: 'partials/logged_out_nav' %>
       <div id="content">

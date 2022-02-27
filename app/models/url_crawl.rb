@@ -31,8 +31,7 @@ class UrlCrawl < ApplicationRecord
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
     should_log_tag_checks: true,
-    consider_query_param_changes_new_tag: false,
-    performance_audit_iterations: Flag.flag_value_for_objects(domain, domain.organization, slug: 'num_performance_audit_iterations').to_i
+    consider_query_param_changes_new_tag: false
   )
     parsed_url = URI.parse(tag_url)
     tag = found_tags.new(
@@ -41,15 +40,15 @@ class UrlCrawl < ApplicationRecord
       url_domain: parsed_url.host,
       url_path: parsed_url.path,
       url_query_param: parsed_url.query,
-      load_type: load_type,
+      # load_type: load_type,
+      load_type: 'async',
       found_on_page_url: page_url,
       tag_preferences_attributes: {
         enabled: enabled,
         is_allowed_third_party_tag: is_allowed_third_party_tag,
         is_third_party_tag: is_third_party_tag,
         should_log_tag_checks: should_log_tag_checks,
-        consider_query_param_changes_new_tag: consider_query_param_changes_new_tag,
-        performance_audit_iterations: performance_audit_iterations
+        consider_query_param_changes_new_tag: consider_query_param_changes_new_tag
       }
     )
     if tag.save

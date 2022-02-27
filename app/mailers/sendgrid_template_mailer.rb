@@ -5,7 +5,7 @@ class SendgridTemplateMailer
   class << self
     TEMPLATE_ID_DICTIONARY = {
       welcome: "d-79b391be0eba4a6492f2c7eda4fc9a6d",
-      user_invite: "d-dab9d8be361e4c0eb05428b63b1c4136",
+      user_invite: "d-bebad09b57fa4c0aa850cbed2734513c", # updated
       new_tag: "d-49852daabc35489b95bb4d45e93ff10c", # updated
       audit_completed: "d-2dd39f47bfcb4b0f857ad86158721c7b",
       new_tag_version: "d-588eaf33c727495b8e64c6113d64449c", # updated
@@ -32,6 +32,7 @@ class SendgridTemplateMailer
       }
       Rails.logger.info "Sending #{@template_name} (#{TEMPLATE_ID_DICTIONARY[@template_name]}) email to #{@to_email}"
       resp = sg_api.client.mail._("send").post(request_body: data)
+      binding.pry
       Rails.logger.error "Sendgrid Post err: #{resp.status_code} - #{resp.body}" unless resp.status_code.to_i < 300
     end
 

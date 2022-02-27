@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_23_185909) do
+ActiveRecord::Schema.define(version: 2022_02_26_172352) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 2022_02_23_185909) do
     t.float "seconds_to_complete"
     t.integer "tag_version_id"
     t.integer "tag_id"
-    t.integer "performance_audit_iterations"
     t.datetime "deleted_at"
     t.string "performance_audit_error_message"
     t.integer "performance_audit_calculator_id"
@@ -380,7 +379,7 @@ ActiveRecord::Schema.define(version: 2022_02_23_185909) do
 
   create_table "performance_audit_configurations", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "audit_id"
-    t.integer "performance_audit_iterations"
+    t.integer "num_performance_audit_iterations"
     t.boolean "strip_all_images"
     t.boolean "include_page_tracing"
     t.boolean "throw_error_if_dom_complete_is_zero"
@@ -527,7 +526,6 @@ ActiveRecord::Schema.define(version: 2022_02_23_185909) do
   create_table "tag_preferences", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "url_to_audit"
-    t.integer "performance_audit_iterations"
     t.integer "tag_id"
     t.boolean "enabled"
     t.boolean "is_allowed_third_party_tag"

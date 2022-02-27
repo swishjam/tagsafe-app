@@ -142,8 +142,8 @@
               <div class="metric-row col-md-12 col-lg-6">
                 <div class='metric col-12'>
                   <%
-                    impact_result = audit.tag_version.bytes
-                    previous_impact_result = audit.tag_version.previous_version&.bytes
+                    current_bytes = audit.tag_version.bytes
+                    previous_version_bytes = audit.tag_version.previous_version&.bytes
                     tagsafe_score_deduction = audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:byte_size)
                   %>
                   <div class='row'>
@@ -151,41 +151,37 @@
                       File Size
                     </div>
                     <div class="col-6 metric-value">
-                      <% if impact_result.zero? %>
-                        <span class='default-cursor'>No Impact</span>
-                      <% else %>
-                        <% tooltip_title = "The #{audit.tag.try_friendly_name} tag is #{number_to_human_size(impact_result)} in size." %>
-                        <% diff_in_metric = impact_result - (previous_impact_result || 0) %>
-                        <% unless previous_impact_result.nil? || diff_in_metric.zero? %>
-                          <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{number_to_human_size(diff_in_metric.abs.round(2))} from the previous version." %>
-                        <% end %>
-                        <div data-controller='tooltip'
-                              data-bs-toggle='tooltip'
-                              title="<%= tooltip_title %>" 
-                              class="current-value default-cursor">
-                          <%= number_to_human_size(impact_result.round(2)) %>
-                          <% unless previous_impact_result.nil? %>
-                            <% if diff_in_metric.zero? %>
-                              (No Change)
-                            <% else %>
-                              <span class="<%= diff_in_metric.positive? ? 'red-text' : 'green-text' %>" style='font-size: 12px'>
-                                <% icon_class = diff_in_metric.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
-                                <i class="<%= icon_class %>"></i>
-                                <%= number_to_human_size(diff_in_metric.abs) %>
-                                <% unless previous_impact_result.zero? || impact_result.zero? %>
-                                  (<%= ((diff_in_metric/previous_impact_result)*100).round(2) %>%)
-                                <% end %>
-                              </span>
-                            <% end %>
-                          <% end %>
-                        </div>
-                        <div class='impact-to-tagsafe-score'
-                              data-controller='tooltip'
-                              data-bs-toggle='tooltip'
-                              title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
-                          <%= "- #{tagsafe_score_deduction&.round(2)}" || 0.0 %> Tagsafe Score impact
-                        </div>
+                      <% tooltip_title = "The #{audit.tag.try_friendly_name} tag is #{number_to_human_size(current_bytes)} in size." %>
+                      <% diff_in_bytes = current_bytes - (previous_version_bytes || 0) %>
+                      <% unless previous_version_bytes.nil? || diff_in_bytes.zero? %>
+                        <% tooltip_title += ", #{diff_in_bytes.positive? ? 'an increase' : 'a decrease'} of #{number_to_human_size(diff_in_bytes.abs.round(2))} from the previous version." %>
                       <% end %>
+                      <div data-controller='tooltip'
+                            data-bs-toggle='tooltip'
+                            title="<%= tooltip_title %>" 
+                            class="current-value default-cursor">
+                        <%= number_to_human_size(current_bytes.round(2)) %>
+                        <% unless previous_version_bytes.nil? %>
+                          <% if diff_in_bytes.zero? %>
+                            (No Change)
+                          <% else %>
+                            <span class="<%= diff_in_bytes.positive? ? 'red-text' : 'green-text' %>" style='font-size: 12px'>
+                              <% icon_class = diff_in_bytes.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
+                              <i class="<%= icon_class %>"></i>
+                              <%= number_to_human_size(diff_in_bytes.abs) %>
+                              <% unless previous_version_bytes.zero? || current_bytes.zero? %>
+                                (<%= ((diff_in_bytes.to_f/previous_version_bytes)*100).round(2) %>%)
+                              <% end %>
+                            </span>
+                          <% end %>
+                        <% end %>
+                      </div>
+                      <div class='impact-to-tagsafe-score'
+                            data-controller='tooltip'
+                            data-bs-toggle='tooltip'
+                            title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
+                        <%= "- #{tagsafe_score_deduction&.round(2)}" || 0.0 %> Tagsafe Score impact
+                      </div>
                     </div>
                   </div>
                 </div>

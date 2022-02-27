@@ -43,7 +43,7 @@ module ChartHelper
     end
 
     def add_starting_timestamps_if_necessary
-      unless @tag.first_version.created_at > @start_time
+      unless @tag.first_version.created_at > @start_time || @chart_data_for_provided_metric[:data].empty?
         @chart_data_for_provided_metric[:data] << [@start_time, @chart_data_for_provided_metric[:data].last[1]]
       end
     end

@@ -5,20 +5,24 @@ module MathHelpers
       @confidence_percent = confidence_percent
     end
 
-    def range
-      "#{low_end} - #{high_end}"
+    def range(round = true)
+      "#{low_end(round)} - #{high_end(round)}"
     end
 
-    def plus_minus
-      @plus_minus ||= approximated_std_dev * num_std_deviations_for_confidence_level
+    def plus_minus(round = true)
+      @plus_minus ||= (approximated_std_dev * num_std_deviations_for_confidence_level).round(round ? 3 : 20)
     end
 
-    def low_end
-      @low_end ||= mean - plus_minus
+    def mean
+      @mean ||= MathHelpers::Statistics.mean(@data_points)
     end
 
-    def high_end
-      @high_end ||= mean + plus_minus
+    def low_end(round = true)
+      @low_end ||= (mean - plus_minus).round(round ? 3 : 20)
+    end
+
+    def high_end(round = true)
+      @high_end ||= (mean + plus_minus).round(round ? 3 : 20)
     end
 
     private
@@ -34,10 +38,6 @@ module MathHelpers
 
     def sample_std_dev
       @sample_std_dev ||= MathHelpers::Statistics.std_dev(@data_points, sample: true)
-    end
-
-    def mean
-      @mean ||= MathHelpers::Statistics.mean(@data_points)
     end
 
     def self.T_TABLE
@@ -62,14 +62,25 @@ module MathHelpers
           2.1098, 
           2.1009, 
           2.0930, 
-          2.0860
+          2.0860,
+          2.0796,
+          2.0739,
+          2.0686,
+          2.0639,
+          2.0596,
+          2.0555,
+          2.0518,
+          2.0484,
+          2.0452,
+          2.0423
         ]
       }
     end
   end
 end
 
-
+# https://www.tdistributiontable.com/
+# https://www.tutorialspoint.com/statistics/t_distribution_table.htm
 # One Tail	 0.05	    0.025 	  0.01    	0.005
 # Two Tails	 0.1	    0.05    	0.02    	0.01
 # Sample Size
@@ -93,3 +104,23 @@ end
 # 18	       1.7341	  2.1009	  2.5524	  2.8784
 # 19	       1.7291	  2.0930	  2.5395	  2.8609
 # 20	       1.7247	  2.0860	  2.5280	  2.8454
+# 21         1.7207  	2.0796  	2.5176  	2.8314
+# 22         1.7172  	2.0739  	2.5083  	2.8188
+# 23         1.7139  	2.0686  	2.4998  	2.8073
+# 24         1.7109  	2.0639  	2.4922  	2.7970
+# 25         1.7081  	2.0596  	2.4851  	2.7874
+# 26         1.7056  	2.0555  	2.4786  	2.7787
+# 27         1.7033  	2.0518  	2.4727  	2.7707
+# 28         1.7011  	2.0484  	2.4671  	2.7633
+# 29         1.6991  	2.0452  	2.4620  	2.7564
+# 30         1.6973  	2.0423  	2.4572  	2.7500
+# 31         1.6955  	2.0395  	2.4528  	2.7440
+# 32         1.6939  	2.0369  	2.4487  	2.7385
+# 33         1.6924  	2.0345  	2.4448  	2.7333
+# 34         1.6909  	2.0322  	2.4411  	2.7284
+# 35         1.6896  	2.0301  	2.4377  	2.7238
+# 36         1.6883  	2.0281  	2.4345  	2.7195
+# 37         1.6871  	2.0262  	2.4315  	2.7154
+# 38         1.6859  	2.0244  	2.4286  	2.7115
+# 39         1.6849  	2.0227  	2.4258  	2.7079
+# 40         1.6839  	2.0211  	2.4233  	2.7045

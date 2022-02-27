@@ -79,6 +79,7 @@ module Streamable
         target: "#{tag.uid}_tag_chart",
         partial: 'charts/tag',
         locals: {
+          tag: tag,
           chart_data: nil,
           chart_metric: :tagsafe_score,
           start_time: 1.day.ago,

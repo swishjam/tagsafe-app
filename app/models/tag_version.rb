@@ -114,6 +114,10 @@ class TagVersion < ApplicationRecord
     audits.primary.limit(1).first
   end
 
+  def total_num_delta_performance_audits_performed_across_all_audits
+    audits.includes(:performance_audit_configuration).collect{ |a| a.performance_audit_configuration.num_performance_audit_iterations }.inject(:+)
+  end
+
   def tagsafe_score
     primary_audit&.preferred_delta_performance_audit&.tagsafe_score
   end

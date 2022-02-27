@@ -25,7 +25,7 @@ class TagSafeMailer < SendgridTemplateMailer
       @template_name = :user_invite
       @variable_json = {
         organization_name: user_invite.organization.name,
-        accept_invite_url: "#{ENV['CURRENT_HOST']}/invite/#{user_invite.token}/accept",
+        accept_invite_url: mail_safe_url("/invite/#{user_invite.token}/accept"),
         inviter_name: user_invite.invited_by_user.full_name
       }
       send!
@@ -38,7 +38,7 @@ class TagSafeMailer < SendgridTemplateMailer
       @variable_json = { 
         tag_name: tag.try_friendly_name,
         site_url: tag.domain.url,
-        tag_version_tagsafe_url: "#{ENV['CURRENT_HOST']}/tags/#{tag.id}"
+        tag_version_tagsafe_url: mail_safe_url("/tags/#{tag.id}")
       }
       send!
     end
@@ -67,9 +67,15 @@ class TagSafeMailer < SendgridTemplateMailer
       @variable_json = {
         new_tag_url: tag.full_url,
         site_url: tag.domain.url,
-        new_tag_tagsafe_url: "#{ENV['CURRENT_HOST']}/tags/#{tag.id}/edit"
+        new_tag_tagsafe_url: mail_safe_url("/tags/#{tag.id}/edit")
       }
       send!
+    end
+
+    private
+
+    def mail_safe_url(path)
+      "#{ENV['CURRENT_HOST'] || 'https://www.tagsafe.io'}#{path}"
     end
   end
 end

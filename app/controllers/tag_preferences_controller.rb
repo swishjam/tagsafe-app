@@ -28,7 +28,6 @@ class TagPreferencesController < LoggedInController
 
   def tag_preference_params
     params.require(:tag_preference).permit(
-      :performance_audit_iterations, 
       :enabled, 
       :is_allowed_third_party_tag, 
       :is_third_party_tag, 
