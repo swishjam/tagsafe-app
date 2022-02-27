@@ -28,6 +28,10 @@ class PageChangeAudit < ApplicationRecord
     completed!
   end
 
+  def completed_successfully?
+    completed? && !failed?
+  end
+
   def completed?
     !num_additions_between_without_tag_snapshots.nil?
   end
@@ -36,15 +40,22 @@ class PageChangeAudit < ApplicationRecord
     !completed?
   end
 
+  def failed?
+    !error_message.nil?
+  end
+
   def absolute_additions
+    return unless completed?
     num_additions_between_with_tag_snapshot_without_tag_snapshot - num_additions_between_without_tag_snapshots
   end
 
   def absolute_deletions
+    return unless completed?
     num_deletions_between_with_tag_snapshot_without_tag_snapshot - num_deletions_between_without_tag_snapshots
   end
 
   def absolute_changes
+    return unless completed?
     absolute_additions + absolute_deletions
   end
 

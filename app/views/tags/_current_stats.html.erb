@@ -20,7 +20,7 @@
         </div>
         <div class='col-4 text-center'>
           <h6>Test results:</h6>
-          <% if primary_audit&.include_functional_tests && primary_audit&.num_functional_tests_to_run.positive? %>
+          <% if primary_audit.include_functional_tests && primary_audit.num_functional_tests_to_run.positive? %>
             <h6 class='fw-bolder'><%= primary_audit.passed_all_functional_tests? ? HtmlHelper.PASSED_ICON(color: 'green') : HtmlHelper.FAILED_ICON(color: 'red') %> <%= primary_audit&.display_functional_test_results %></h6>
           <% else %>
             <h6 class='fw-bolder'>N/A</h6>
@@ -28,8 +28,8 @@
         </div>
         <div class='col-4 text-center'>
           <h6>DOM Changes Reponsible For</h6>
-          <% if primary_audit&.include_page_change_audit? %>
-            <h6 class='fw-bold'><%= primary_audit&.page_change_audit&.absolute_changes %></h6>
+          <% if primary_audit.include_page_change_audit? && primary_audit.page_change_audit&.completed_successfully? %>
+            <h6 class='fw-bold'><%= primary_audit.page_change_audit&.absolute_changes %></h6>
           <% else %>
             <h6 class='fw-bold'>N/A</h6>
           <% end %>
@@ -38,31 +38,31 @@
       <div class='row text-center mt-5'>
         <div class='col-2'>
           <h6>DOM Complete</h6>
-          <% dom_complete_impact = primary_audit&.preferred_delta_performance_audit&.dom_complete_delta %>
+          <% dom_complete_impact = primary_audit.preferred_delta_performance_audit&.dom_complete_delta %>
           <h6 class='fw-bold'><%= dom_complete_impact > 0 ? "Adds #{number_to_human(dom_complete_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
         </div>
         <div class='col-2'>
-          <% dom_interactive_impact = primary_audit&.preferred_delta_performance_audit&.dom_interactive_delta %>
+          <% dom_interactive_impact = primary_audit.preferred_delta_performance_audit&.dom_interactive_delta %>
           <h6>DOM Interactive</h6>
           <h6 class='fw-bold'><%= dom_interactive_impact > 0 ? "Adds #{number_to_human(dom_interactive_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
         </div>
         <div class='col-2'>
-          <% first_contentful_paint_impact = primary_audit&.preferred_delta_performance_audit&.first_contentful_paint_delta %>
+          <% first_contentful_paint_impact = primary_audit.preferred_delta_performance_audit&.first_contentful_paint_delta %>
           <h6>First Contentful Paint</h6>
           <h6 class='fw-bold'><%= first_contentful_paint_impact > 0 ? "Adds #{number_to_human(first_contentful_paint_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
         </div>
         <div class='col-2'>
-          <% script_duration_impact = primary_audit&.preferred_delta_performance_audit&.script_duration_delta %>
+          <% script_duration_impact = primary_audit.preferred_delta_performance_audit&.script_duration_delta %>
           <h6>Script Duration</h6>
           <h6 class='fw-bold'><%= script_duration_impact > 0 ? "Adds #{number_to_human(script_duration_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
         </div>
         <div class='col-2'>
-          <% layout_duration_impact = primary_audit&.preferred_delta_performance_audit&.layout_duration_delta %>
+          <% layout_duration_impact = primary_audit.preferred_delta_performance_audit&.layout_duration_delta %>
           <h6>Layout Duration</h6>
           <h6 class='fw-bold'><%= layout_duration_impact > 0 ? "Adds #{number_to_human(layout_duration_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
         </div>
         <div class='col-2'>
-          <% task_duration_impact = primary_audit&.preferred_delta_performance_audit&.task_duration_delta %>
+          <% task_duration_impact = primary_audit.preferred_delta_performance_audit&.task_duration_delta %>
           <h6>Task Duration</h6>
           <h6 class='fw-bold'><%= task_duration_impact > 0 ? "Adds #{number_to_human(task_duration_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
         </div>
