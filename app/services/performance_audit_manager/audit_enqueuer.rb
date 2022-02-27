@@ -18,7 +18,7 @@ module PerformanceAuditManager
     end
     
     def enqueue_next_performance_audit!
-      if @audit.num_individual_performance_audits_remaining.zero?
+      if @audit.num_individual_performance_audits_remaining <= 0
         @audit.performance_audit_completed!
       elsif @audit.individual_performance_audits.failed.count >= @audit.maximum_individual_performance_audit_attempts
         audit_reached_maximum_failed_performance_audits!
@@ -43,7 +43,7 @@ module PerformanceAuditManager
     end
 
     def completed_all_individual_performance_audits_for_type?(with_tag)
-      @audit.send(:"num_individual_performance_audits_#{with_tag ? :with_tag : :without_tag}_remaining").zero?
+      @audit.send(:"num_individual_performance_audits_#{with_tag ? :with_tag : :without_tag}_remaining") <= 0
     end
 
     def enqueue_individual_performance_audit_with_tag!
