@@ -13,11 +13,17 @@ module PerformanceAuditManager
 
     def create_delta_performance_audit_for_individual_performance_audits!
       without_tag_audits = @audit.individual_performance_audits_without_tag.most_recent_first.to_a
-      with_tag_audits = @audit.individual_performance_audits_with_tag.most_recent_first.to_a
+      with_tag_audits = @audit.individual_performance_audits_with_tag.most_recent_first.to_a\
+      if without_tag_audits.count != with_tag_audits.count
+        Rails.logger.warn "Audit #{@audit.uid} has an uneven amount of performance audits with and without tag"
+      end
       with_tag_audits.each_with_index do |with_tag_audit, i|
-        IndividualDeltaPerformanceAudit.create!(
-          calculate_and_format_delta_results_for(with_tag_audit, without_tag_audits[i])
-        )
+        without_tag_audit = without_tag_audits[i]
+        unless without_tag_audit.nil?
+          IndividualDeltaPerformanceAudit.create!(
+            calculate_and_format_delta_results_for(with_tag_audit, without_tag_audit)
+          )
+        end
       end
     end
 
@@ -49,7 +55,7 @@ module PerformanceAuditManager
       delta = with_tag_performance_audit.send(column) - without_tag_performance_audit.send(column)
       delta < 0 ? 0.0 : delta
     rescue => e
-      raise StandardError, "Cannot calculate delta for #{column}: #{e}"
+      raise StandardError, "Cannot calculate delta for #{column} on audit #{@audit.uid}: #{e}"
     end
 
     def tagsafe_score_from_delta_results(results)
