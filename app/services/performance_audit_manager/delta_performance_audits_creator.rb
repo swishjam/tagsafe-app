@@ -13,7 +13,7 @@ module PerformanceAuditManager
 
     def create_delta_performance_audit_for_individual_performance_audits!
       without_tag_audits = @audit.individual_performance_audits_without_tag.most_recent_first.to_a
-      with_tag_audits = @audit.individual_performance_audits_with_tag.most_recent_first.to_a\
+      with_tag_audits = @audit.individual_performance_audits_with_tag.most_recent_first.to_a
       if without_tag_audits.count != with_tag_audits.count
         Rails.logger.warn "Audit #{@audit.uid} has an uneven amount of performance audits with and without tag"
       end
