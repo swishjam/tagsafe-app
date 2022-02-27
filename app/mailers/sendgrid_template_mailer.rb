@@ -32,7 +32,6 @@ class SendgridTemplateMailer
       }
       Rails.logger.info "Sending #{@template_name} (#{TEMPLATE_ID_DICTIONARY[@template_name]}) email to #{@to_email}"
       resp = sg_api.client.mail._("send").post(request_body: data)
-      binding.pry
       Rails.logger.error "Sendgrid Post err: #{resp.status_code} - #{resp.body}" unless resp.status_code.to_i < 300
     end
 

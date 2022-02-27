@@ -21786,6 +21786,7 @@ class TagIdentifyingDataSeeder
       @tag_identifying_data_photos_created = 0
       @tag_identifying_data_photos_updated = 0
       @tag_identifying_data_domains_created = 0
+      @errors = []
    end
 
    def seed_data!
@@ -21808,6 +21809,7 @@ class TagIdentifyingDataSeeder
       puts "Created #{@tag_identifying_data_domains_created} new TagIdentifyingDataDomains"
       puts "Created #{@tag_identifying_data_photos_created} new TagIdentifyingData Photos."
       puts "Updated #{@tag_identifying_data_photos_updated} existing TagIdentifyingData Photos."
+      puts "#{@errors.count} errors encountered: #{@errors.join(' \n')}"
    end
 
    private
@@ -21858,6 +21860,9 @@ class TagIdentifyingDataSeeder
          tid.image.attach(io: downloaded_image, filename: filename)
          @tag_identifying_data_photos_updated += 1
       end
+   rescue => e
+      puts "ERROR: Unable to add image for #{tid.name}: #{e.message}"
+      @errors << e.message
    end
    
    def add_tag_identifying_data_domain_if_necessary(tid, domain_pattern)

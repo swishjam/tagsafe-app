@@ -34,17 +34,17 @@ class UserInvitesController < LoggedInController
     @user_invite = UserInvite.includes(:organization).find_by(token: params[:token])
     @hide_logged_out_nav = true
     unless @user_invite.redeemable?
-      display_toast_error("Invite expired. Please request a new invite from your admin.")
+      display_inline_error("Invite expired. Please request a new invite from your admin.")
       redirect_to root_path
     end
   end
 
   def redeem
+    # TODO: this assumes a new user will always be created
+    # need to take into account users that already have a Tagsafe account
     invite = UserInvite.find_by(token: params[:token])
-    binding.pry
     if invite.redeemable?
       user = User.create(user_params)
-      binding.pry
       if user.valid?
         invite.redeem!(user)
         log_user_in(user)
