@@ -11,9 +11,9 @@ module LambdaModerator
       @executed_lambda_function_parent = test_run
     end
 
-    def before_send
-      test_run.update!(enqueued_at: Time.now)
-    end
+    # def before_send
+    #   test_run.update!(enqueued_at: Time.now)
+    # end
 
     def after_send
       test_run.update!(completed_at: Time.now)

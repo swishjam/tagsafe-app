@@ -13,7 +13,7 @@ class DefaultAuditConfiguration < ApplicationRecord
       include_functional_tests: true,
       num_perf_audit_iterations: 3,
       perf_audit_strip_all_images: true,
-      perf_audit_include_page_tracing: false,
+      perf_audit_include_page_tracing: true,
       perf_audit_throw_error_if_dom_complete_is_zero: true,
       perf_audit_inline_injected_script_tags: false,
       perf_audit_scroll_page: false,

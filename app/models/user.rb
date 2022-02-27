@@ -66,7 +66,7 @@ class User < ApplicationRecord
   def broadcast_notification(msg, notification_type: 'info', image: nil, error: false)
     broadcast_prepend_to "#{id}_user_notifications_container", 
                             target: "#{id}_user_notifications_container", 
-                            partial: 'partials/notification', 
+                            partial: 'partials/notification',
                             locals: { 
                               message: msg, 
                               image: image, 

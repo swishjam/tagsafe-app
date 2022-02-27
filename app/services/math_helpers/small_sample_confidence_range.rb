@@ -29,7 +29,7 @@ module MathHelpers
 
     def num_std_deviations_for_confidence_level
       # make it 0 index, and n - 1 for sample size
-      @num_std_deviations_for_confidence_level ||= self.class.T_TABLE[@confidence_percent][@data_points.count - 2]
+      @num_std_deviations_for_confidence_level ||= self.class.T_TABLE[@confidence_percent][@data_points.count - 2] || self.class.T_TABLE[@confidence_percent].last
     end
 
     def approximated_std_dev
@@ -72,7 +72,17 @@ module MathHelpers
           2.0518,
           2.0484,
           2.0452,
-          2.0423
+          2.0423,
+          2.0395,
+          2.0369,
+          2.0345,
+          2.0322,
+          2.0301,
+          2.0281,
+          2.0262,
+          2.0244,
+          2.0227,
+          2.0211
         ]
       }
     end

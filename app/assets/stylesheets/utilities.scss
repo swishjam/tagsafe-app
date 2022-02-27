@@ -145,6 +145,24 @@ a.no-decoration {
   }
 }
 
+.tagsafe-circular-btn {
+  display: inline-flex;
+  border-radius: 50%;
+  cursor: pointer;
+  width: fit-content;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  &:hover, &.active {
+    background: $tagsafe-secondary;
+    &.light-bg {
+      background: rgb(228, 228, 228);
+    }
+  }
+}
+
 
 form[data-controller=loading_form] {
   .loading-button {

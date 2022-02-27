@@ -3,29 +3,29 @@
     <% if !audit.include_performance_audit %>
       <h4>Performance audits were disabled for this audit</h4>
     <% else %>
-      <div class="row">
-        <div class="col-12">
-          <% if audit.is_primary? %>
-            <%= link_to tag_tag_version_audits_path(tag, tag_version) do %>
-              <span data-controller='tooltip'
-                    data-bs-toggle="tooltip"
-                    data-placement="right"
-                    title="This tag version of <%=tag.try_friendly_name%> has <%=tag_version.audits.count%> audits performed on it. This is the primary audit, 
-                    which is used in comparisons and calculations between tag versions. Click this badge to edit the primary audit."
-                    class="badge bg-info"
-                    style="float: left;">
-                <i class="far fa-star"></i>
-              </span>
+      <div class="col-12">
+        <div class='row'>
+          <div class='col-6'>
+            <% if audit.is_primary? %>
+              <%= link_to tag_tag_version_audits_path(tag, tag_version) do %>
+                <span data-controller='tooltip'
+                      data-bs-toggle="tooltip"
+                      data-placement="right"
+                      title="This tag version of <%=tag.try_friendly_name%> has <%=tag_version.audits.count%> audits performed on it. This is the primary audit, 
+                      which is used in comparisons and calculations between tag versions. Click this badge to edit the primary audit."
+                      class="badge bg-info"
+                      style="float: left;">
+                  <i class="far fa-star"></i>
+                </span>
+              <% end %>
             <% end %>
-          <% end %>
-          <div class='row text-end'>
-            <%= render 'tag_versions/dropdown', 
-                        tag: tag, 
-                        tag_version: tag_version, 
-                        audit: audit,
-                        exclude_urls: [git_diff_tag_tag_version_path(tag, tag_version)]
-            %>
-            <!-- <#%= render 'partials/utils/help_tooltip', message: "Tagsafe measures how much impact the tag has on your page performance. The metrics below are how much each performance metric #{tag.try_friendly_name} is responsible for." %> !-->
+          </div>
+          <div class='col-6 text-end'>
+            <div class='w-fit float-end' data-controller='tooltip' data-bs-toggle='tooltip' title='Re-run audit'>
+              <%= modal_link new_tag_tag_version_audit_path(tag, tag_version), klass: 'tagsafe-btn w-fit' do %>
+                <i class="fas fa-sync-alt"></i>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>

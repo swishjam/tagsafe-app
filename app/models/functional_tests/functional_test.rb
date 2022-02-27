@@ -33,7 +33,8 @@ class FunctionalTest < ApplicationRecord
     dry_test_run = DryTestRun.create!(
       functional_test: self, 
       puppeteer_script_ran: puppeteer_script, 
-      expected_results: expected_results
+      expected_results: expected_results,
+      enqueued_at: Time.now
     )
     AuditRunnerJobs::RunIndividualTestRun.perform_later(dry_test_run)
     dry_test_run
@@ -46,7 +47,8 @@ class FunctionalTest < ApplicationRecord
       audit: associated_audit, 
       test_run_id_retried_from: test_run_retried_from&.id,
       puppeteer_script_ran: puppeteer_script, 
-      expected_results: expected_results
+      expected_results: expected_results,
+      enqueued_at: Time.now
     )
     AuditRunnerJobs::RunIndividualTestRun.perform_later(test_run_with_tag)
     test_run_with_tag
@@ -60,14 +62,11 @@ class FunctionalTest < ApplicationRecord
       audit: original_test_run_with_tag.audit, 
       test_run_id_retried_from: original_test_run_with_tag&.test_run_id_retried_from, # if the associated test_run_with_tag is a retry, mark this one as a retry
       puppeteer_script_ran: puppeteer_script, 
-      expected_results: expected_results
+      expected_results: expected_results,
+      enqueued_at: Time.now
     )
     AuditRunnerJobs::RunIndividualTestRun.perform_later(test_run_without_tag, { include_screen_recording_on_passing_script: true })
     test_run_without_tag
-  end
-
-  def enqueue_test_run!(test_run_klass: TestRunWithTag, associated_audit:, options: {})
-
   end
 
   def disable!

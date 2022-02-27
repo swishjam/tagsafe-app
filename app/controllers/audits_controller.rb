@@ -38,8 +38,9 @@ class AuditsController < LoggedInController
           include_functional_tests: params.dig(:config, :include_functional_tests) == 'true',
           include_page_load_resources: params.dig(:config, :include_page_load_resources) == 'true',
           performance_audit_configuration: {
-            include_page_tracing: params.dig(:config, :performance_audit_settings, :include_page_trace) == 'true',
+            # include_page_tracing: params.dig(:config, :performance_audit_settings, :include_page_trace) == 'true',
             strip_all_images: params.dig(:config, :performance_audit_settings, :strip_all_images) == 'true',
+            enable_screen_recording: params.dig(:config, :performance_audit_settings, :enable_screen_recording) == 'true',
             throw_error_if_dom_complete_is_zero: true,
             inline_injected_script_tags: false
           }

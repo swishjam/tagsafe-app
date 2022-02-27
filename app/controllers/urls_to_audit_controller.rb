@@ -11,7 +11,7 @@ class UrlsToAuditController < LoggedInController
     else
       url_to_audit = tag.urls_to_audit.new(page_url: page_url)
       if url_to_audit.save
-        current_user.broadcast_notification("Added #{page_url.full_url} to tag's audit URL list.")
+        current_user.broadcast_notification("Added #{page_url.full_url} to tag's audit URL list.", image: tag.try_image_url)
         render turbo_stream: turbo_stream.replace(
           "tag_#{tag.uid}_urls_to_audit",
           partial: 'urls_to_audit/index',

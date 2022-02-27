@@ -45,7 +45,7 @@
           <textarea class='code-mirror-text opening-async-function hidden' data-controller='code-mirror' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true'>(async () => {</textarea>
         </div>
         <div class='user-input-code-mirror'>
-          <%= f.text_area :puppeteer_script, class: 'code-mirror-textarea hidden', data: { controller: 'code-mirror', code_mirror_target: 'codeMirrorTextarea', value: "#{functional_test.puppeteer_script || "// Simple example test that ensures the tag does not impact the title of the page \r\nawait TS.PAGE.goto('#{current_domain.url}');\r\nreturn await TS.PAGE.title();"}" } %>
+          <%= f.text_area :puppeteer_script, class: 'code-mirror-textarea hidden', data: { controller: 'code-mirror', code_mirror_target: 'codeMirrorTextarea', value: "#{functional_test.puppeteer_script || "// Simple example test that ensures the tag does not impact the title of the page \r\nawait TS.PAGE.goto('#{current_domain.url}');\r\nawait TS.WAIT_FOR_TAG();\r\nreturn await TS.PAGE.title();"}" } %>
         </div>
         <div class='outter-code-mirror bottom'>
           <textarea class='code-mirror-text closing-async-function  hidden' data-controller='code-mirror' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true'>})();</textarea>
