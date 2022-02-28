@@ -85,7 +85,7 @@ class Audit < ApplicationRecord
   def completed!
     update_column(:seconds_to_complete, Time.now - enqueued_suite_at)
     make_primary! unless performance_audit_failed? || performance_audit_disabled?
-    AuditCompletedJob.perform_later(self)
+    send_audit_completed_notifications_if_necessary
   end
 
   def performance_audit_completed!
@@ -138,6 +138,11 @@ class Audit < ApplicationRecord
     re_render_tags_chart(domain: tag.domain, now: update_views_now)
     re_render_tag_chart(tag: tag, now: update_views_now)
     # update performance chart?...
+  end
+
+  def send_audit_completed_notifications_if_necessary
+    return if execution_reason == ExecutionReason.INITIAL_AUDIT
+    NotificationModerator::AuditNotifier.new(self).notify!
   end
 
   ############

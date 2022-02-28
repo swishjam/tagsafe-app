@@ -38,6 +38,8 @@ module PerformanceAuditManager
     end
 
     def enqueue_next_individual_performance_audit_one_by_one!
+      # TODO: simplify this, maybe we just have with-tag audits enqueue with-tag audits,
+      # without-tag audits enqueue without-tag audits instead of trying to alternate?
       include_tag_in_next_audit = completed_all_individual_performance_audits_for_type?(!@performance_audit_just_completed_included_tag) ? @performance_audit_just_completed_included_tag : !@performance_audit_just_completed_included_tag
       include_tag_in_next_audit ? enqueue_individual_performance_audit_with_tag! : enqueue_individual_performance_audit_without_tag!
     end

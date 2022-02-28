@@ -8,8 +8,8 @@ class DefaultAuditConfiguration < ApplicationRecord
     create!(
       parent: domain,
       include_performance_audit: true,
-      include_page_load_resources: true,
-      include_page_change_audit: true,
+      include_page_load_resources: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
+      include_page_change_audit: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
       include_functional_tests: true,
       num_perf_audit_iterations: 3,
       perf_audit_strip_all_images: true,

@@ -1,10 +1,10 @@
 module TagManager
   class TagVersionCapturer
-    def initialize(tag:, content:, tag_check:, hashed_content: nil)
+    def initialize(tag:, content:, tag_check:, hashed_content:)
       @tag = tag
       @content = content
       @tag_check = tag_check
-      @hashed_content = hashed_content || TagManager::Hasher.hash!(@content)
+      @hashed_content = hashed_content
     end
 
     def capture_new_tag_version!
