@@ -79,6 +79,8 @@ class Tag < ApplicationRecord
   scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.enabled }
   scope :should_run_tag_checks, -> { enabled.still_on_site.is_third_party_tag }
   scope :chartable, -> { is_third_party_tag.still_on_site.not_allowed_third_party_tag }
+  scope :has_content, -> { where(has_content: true) }
+  scope :doesnt_have_content, -> { where(has_content: false) }
 
   scope :one_minute_interval_checks, -> { all }
   # etc...

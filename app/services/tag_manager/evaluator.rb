@@ -10,7 +10,10 @@ module TagManager
       sentry_transaction = Sentry.start_transaction(op: "TagManager::Evalutor.evaluate!")
       fetch_tag_content!
       capture_tag_check_if_necessary!
-      if detected_new_tag_version?
+      if fetched_tag_content.nil?
+        @tag.update!(has_content: false) if @tag.has_content
+      elsif detected_new_tag_version?
+        @tag.update!(has_content: true) unless @tag.has_content
         @tag_version = capture_new_tag_version!
         unless @tag_version.nil? || Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB_INSTEAD_OF_TAG_CHECK_INTERVAL_JOB')
           NotificationModerator::NewTagVersionNotifier.new(@tag_version).notify!

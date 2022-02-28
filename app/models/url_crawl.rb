@@ -31,7 +31,8 @@ class UrlCrawl < ApplicationRecord
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
     should_log_tag_checks: true,
-    consider_query_param_changes_new_tag: false
+    consider_query_param_changes_new_tag: false,
+    has_content: true
   )
     parsed_url = URI.parse(tag_url)
     tag = found_tags.new(
@@ -43,6 +44,7 @@ class UrlCrawl < ApplicationRecord
       # load_type: load_type,
       load_type: 'async',
       found_on_page_url: page_url,
+      has_content: has_content,
       tag_preferences_attributes: {
         enabled: enabled,
         is_allowed_third_party_tag: is_allowed_third_party_tag,

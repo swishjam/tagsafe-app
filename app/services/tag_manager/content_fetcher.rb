@@ -20,7 +20,7 @@ module TagManager
       start_seconds = Time.now
       response = safely_fetch_content_from_endpoint
       @response_time_ms = (Time.now - start_seconds)*1000
-      @response_code = response.body.nil? ? 404 : response.code
+      @response_code = response.code
       @response_body = response.body
     end
 
