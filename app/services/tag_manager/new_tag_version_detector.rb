@@ -12,42 +12,54 @@ module TagManager
     end
 
     def new_hashed_content
-      return if @fetched_content.nil?
-      @new_hashed_content ||= TagManager::Hasher.hash!(@fetched_content)
+      @new_hashed_content ||= begin
+        return if @fetched_content.nil?
+        TagManager::Hasher.hash!(@fetched_content)
+      end
     end
 
     def bytesize_changed?
-      return true if @tag.has_no_versions?
-      return false if @fetched_content.nil?
-      @bytesize_changed ||= @fetched_content.bytesize != @tag.current_version.bytes
+      @bytesize_changed ||= begin
+        return true if @tag.has_no_versions?
+        return false if @fetched_content.nil?
+        @fetched_content.bytesize != @tag.current_version.bytes
+      end
     end
 
     def hash_changed?
-      return true if @tag.has_no_versions?
-      return false if @fetched_content.nil?
-      @hash_changed ||= new_hashed_content != @tag.current_version.hashed_content
+      @hash_changed ||= begin
+        return true if @tag.has_no_versions?
+        return false if @fetched_content.nil?
+        new_hashed_content != @tag.current_version.hashed_content
+      end
     end
 
     def content_has_detectable_changes?
-      return true if Util.env_is_true('DONT_REQUIRE_DETECTABLE_DIFFERENCES_IN_CONTENT_FOR_NEW_TAG_VERSION_DETECTION')
-      return true if @tag.has_no_versions?
-      return false if @fetched_content.nil?
-      @content_has_detectable_changes ||= DiffAnalyzer.new(new_content: @fetched_content, previous_content: @tag.current_version.content).total_changes > 0
+      @content_has_detectable_changes ||= begin
+        return true if @tag.has_no_versions?
+        return false if @fetched_content.nil?
+        return true if Util.env_is_true('DONT_REQUIRE_DETECTABLE_DIFFERENCES_IN_CONTENT_FOR_NEW_TAG_VERSION_DETECTION')
+        DiffAnalyzer.new(new_content: @fetched_content, previous_content: @tag.current_version.content).total_changes > 0
+      end
     end
 
     # TODO: how can we group many tag versions to indicate there's several currently released tag versions
     # and detect when a new version is released outside of that set?
     def fetched_content_is_the_same_as_a_previous_version?
-      return true if Util.env_is_true('DONT_CHECK_IF_TAG_HAS_SAME_CONTENT_IN_PREVIOUS_RELEASE_FOR_NEW_TAG_VERSION_DETECTION')
-      @fetched_content_is_the_same_as_a_previous_version ||= @tag.tag_versions.most_recent_first.where(hashed_content: new_hashed_content).limit(5).any?
+      @fetched_content_is_the_same_as_a_previous_version ||= begin
+        return true if Util.env_is_true('DONT_CHECK_IF_TAG_HAS_SAME_CONTENT_IN_PREVIOUS_RELEASE_FOR_NEW_TAG_VERSION_DETECTION')
+        @tag.tag_versions.most_recent_first.where(hashed_content: new_hashed_content).limit(5).any?
+      end
     end
 
     private
 
     def detected_new_tag_version_based_on_detection_configuration?
-      return false if !content_has_detectable_changes?
-      return false if fetched_content_is_the_same_as_a_previous_version?
-      should_detect_changes_based_on_bytesize_changes? ? bytesize_changed? : hash_changed?
+      @detected_new_tag_version_based_on_detection_configuration ||= begin
+        return false if !content_has_detectable_changes?
+        return false if fetched_content_is_the_same_as_a_previous_version?
+        should_detect_changes_based_on_bytesize_changes? ? bytesize_changed? : hash_changed?
+      end
     end
 
     def auto_set_bytesize_changes_flag_based_on_tag_version_frequency_if_necessary!

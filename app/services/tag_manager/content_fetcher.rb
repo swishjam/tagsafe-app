@@ -1,13 +1,13 @@
 module TagManager
   class ContentFetcher
-    attr_accessor :response, :tag_check
+    attr_accessor :response_body, :response_code, :response_time_ms
     
     def initialize(tag)
       @tag = tag
     end
 
     def fetch!
-      fetch_with_meta_data
+      fetch_content_with_timing
     end
 
     def success?
@@ -16,28 +16,21 @@ module TagManager
 
     private
 
-    def fetch_with_meta_data
+    def fetch_content_with_timing
       start_seconds = Time.now
-      response = safe_fetch
-      response_time_ms = (Time.now - start_seconds)*1000
-      # is 404 the right response code if response body is nil?
+      response = safely_fetch_content_from_endpoint
+      @response_time_ms = (Time.now - start_seconds)*1000
       @response_code = response.body.nil? ? 404 : response.code
-      capture_tag_check_if_necessary!(response_time_ms, @response_code)
-      response.body
+      @response_body = response.body
     end
 
-    def safe_fetch
+    def safely_fetch_content_from_endpoint
       HTTParty.get(@tag.full_url)
     rescue => e
     # rescue Errno::ECONNREFUSED, OpenSSL::SSL::SSLError
-      Rails.logger.info "Error fetching respsone from #{@tag.full_url}: #{e.inspect}"
-      OpenStruct.new(code: 0, response_time_ms: 0)
-    end
-
-    def capture_tag_check_if_necessary!(response_time, response_code)
-      if @tag.tag_preferences.should_log_tag_checks
-        @tag_check = TagCheck.create(response_time_ms: response_time, response_code: response_code, tag: @tag)
-      end
+      Sentry.capture_exception(e)
+      Rails.logger.error "Error fetching respsone from #{@tag.full_url}: #{e.inspect}"
+      OpenStruct.new(code: 0, response_time_ms: 0, body: nil)
     end
   end
 end

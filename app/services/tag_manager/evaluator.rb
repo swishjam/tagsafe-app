@@ -7,13 +7,16 @@ module TagManager
     end
 
     def evaluate!
-      update_tag_check_with_tag_version_detection_results!
+      sentry_transaction = Sentry.start_transaction(op: "TagManager::Evalutor.evaluate!")
+      fetch_tag_content!
+      capture_tag_check_if_necessary!
       if detected_new_tag_version?
-        tag_version = capture_new_tag_version!
-        unless Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB_INSTEAD_OF_TAG_CHECK_INTERVAL_JOB')
-          NotificationModerator::NewTagVersionNotifier.new(tag_version).notify!
+        @tag_version = capture_new_tag_version!
+        unless @tag_version.nil? || Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB_INSTEAD_OF_TAG_CHECK_INTERVAL_JOB')
+          NotificationModerator::NewTagVersionNotifier.new(@tag_version).notify!
         end
       end
+      sentry_transaction.finish
     end
 
     def detected_new_tag_version?
@@ -26,25 +29,30 @@ module TagManager
       TagManager::TagVersionCapturer.new(
         tag: @tag, 
         content: fetched_tag_content,
-        tag_check: fetcher.tag_check,
+        tag_check: captured_tag_check,
         hashed_content: tag_version_detector.new_hashed_content
       ).capture_new_tag_version!
     end
 
-    def update_tag_check_with_tag_version_detection_results!
-      fetch_tag_content!
-      fetcher.tag_check.update!(
-        content_has_detectable_changes: tag_version_detector.content_has_detectable_changes?,
-        content_is_the_same_as_a_previous_version: tag_version_detector.fetched_content_is_the_same_as_a_previous_version?,
-        bytesize_changed: tag_version_detector.bytesize_changed?,
-        hash_changed: tag_version_detector.hash_changed?
-      )
+    def capture_tag_check_if_necessary!
+      @tag_check ||= begin
+        return unless @tag.tag_preferences.should_log_tag_checks
+        @tag.tag_checks.create!(
+          response_time_ms: fetcher.response_time_ms, 
+          response_code: fetcher.response_code,
+          content_has_detectable_changes: tag_version_detector.content_has_detectable_changes?,
+          content_is_the_same_as_a_previous_version: tag_version_detector.fetched_content_is_the_same_as_a_previous_version?,
+          bytesize_changed: tag_version_detector.bytesize_changed?,
+          hash_changed: tag_version_detector.hash_changed?
+        )
+      end
     end
+    alias captured_tag_check capture_tag_check_if_necessary!
 
-    def fetched_tag_content
+    def fetch_tag_content!
       @tag_content ||= fetcher.fetch!
     end
-    alias fetch_tag_content! fetched_tag_content
+    alias fetched_tag_content fetch_tag_content!
 
     def fetcher
       @fetcher ||= TagManager::ContentFetcher.new(@tag)

@@ -24,6 +24,7 @@ class TagVersion < ApplicationRecord
     update_tag_table_row(tag: tag, now: true)
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
     NewTagVersionJob.perform_later(self)
+    # broadcast_new_tag_version_notification_to_all_users
   end
 
   def after_create_notification_msg

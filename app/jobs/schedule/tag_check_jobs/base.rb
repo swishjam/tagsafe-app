@@ -9,8 +9,14 @@ module Schedule
         new_tag_version_count = 0
         Tag.send(interval_scope).should_run_tag_checks.each do |tag|
           tag_check_count += 1
-          evaluator = tag.run_tag_check!
-          new_tag_version_count += 1 if evaluator.detected_new_tag_version?
+          begin
+            evaluator = tag.run_tag_check!
+            new_tag_version_count += 1 if evaluator.detected_new_tag_version?
+            sentry_transaction.finish!
+          rescue => e
+            Rails.logger.error "UNABLE TO EVALUATE TAG CHECK FOR TAG #{tag.uid}: #{e.message}"
+            Sentry.capture_exception(e)
+          end
         end
         Resque.logger.info "#{self.class} evaluated #{tag_check_count} tags in #{Time.new - start} seconds and captured #{new_tag_version_count} new TagVersions."
       end

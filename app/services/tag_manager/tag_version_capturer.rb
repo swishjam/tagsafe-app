@@ -8,6 +8,12 @@ module TagManager
     end
 
     def capture_new_tag_version!
+      if @content.nil?
+        msg = "TagVersionCapturer `capture_new_tag_version!` called with @content = nil for Tag #{@tag.uid}"
+        Rails.logger.error msg
+        Sentry.capture_message(msg)
+        return
+      end
       tag_version = @tag.tag_versions.create!(tag_version_data)
       tag_version.js_file.attach(tag_version_js_file_data)
       tag_version.formatted_js_file.attach(tag_version_formatted_js_file_data)
