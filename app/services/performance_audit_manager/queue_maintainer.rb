@@ -46,18 +46,18 @@ module PerformanceAuditManager
 
     def completed_performance_audit_based_on_config?
       if @audit.performance_audit_configuration.completion_indicator_type == PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE
-        completed_minimum_required_performance_audits? && reached_required_tagsafe_score_confidence_interval?
+        completed_minimum_required_performance_audits? && reached_required_tagsafe_score_confidence_range?
       else
         @audit.delta_performance_audits.count >= @audit.performance_audit_configuration.num_performance_audits_to_run
       end
     end
 
     def completed_minimum_required_performance_audits?
-      @audit.delta_performance_audits.count >= 15
+      @audit.delta_performance_audits.count >= Flag.flag_value_for_objects(@audit.tag, @audit.tag.domain, slug: 'minimum_performance_audit_sets_to_meet_completion_criteria').to_i
     end
 
-    def reached_required_tagsafe_score_confidence_interval?
-      tagsafe_score_confidence_range <= @audit.required_tagsafe_score_confidence_interval
+    def reached_required_tagsafe_score_confidence_range?
+      tagsafe_score_confidence_range <= Flag.flag_value_for_objects(@audit.tag, @audit.tag.domain, slug: 'performance_audit_tagsafe_score_confidence_range_completion_criteria').to_i
     end
 
     def reached_maximum_total_successful_performance_audits?

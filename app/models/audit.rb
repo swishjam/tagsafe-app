@@ -269,10 +269,6 @@ class Audit < ApplicationRecord
     PerformanceAuditManager::ConfidenceCalculator.new(self)
   end
 
-  def required_tagsafe_score_confidence_interval
-    5
-  end
-
   def previous_primary_audit(disable_cache = false)
     return @previous_primary_audit if @previous_primary_audit && !disable_cache
     @previous_primary_audit = tag.audits.joins(:tag_version).primary.where('tag_versions.created_at < ?', tag_version.created_at).limit(1).first

@@ -90,6 +90,18 @@ namespace :seed do
         slug: 'maximum_total_successful_performance_audit_sets',
         description: "Will hault a Performance Audit when it reaches this number whether we are confident in the Tagsafe Score or not.",
         default_value: '15'
+      }, 
+      {
+        name: 'Minimum number of performance audits required for performance audit to complete',
+        slug: 'minimum_performance_audit_sets_to_meet_completion_criteria',
+        description: 'A performance audit must complete at least this many sets before being even being considered completed.',
+        default_value: '3'
+      },
+      {
+        name: 'Required performance audit Tagsafe Score confidence range',
+        slug: 'performance_audit_tagsafe_score_confidence_range_completion_criteria',
+        description: 'A performance audit will not be completed until we are 95% sure the Tagsafe Score is +/- this number.',
+        default_value: '5'
       }
     ]
 
