@@ -12,7 +12,7 @@ class TagVersion < ApplicationRecord
   
   scope :most_recent, -> { where(most_recent: true) }
 
-  broadcast_notification on: :create
+  # broadcast_notification on: :create
   after_create :after_creation
   # after_destroy :purge_js_file
 
@@ -23,21 +23,8 @@ class TagVersion < ApplicationRecord
     make_most_recent!
     update_tag_table_row(tag: tag, now: true)
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
+    send_new_tag_version_notifications!
     NewTagVersionJob.perform_later(self)
-    # broadcast_new_tag_version_notification_to_all_users
-  end
-
-  def after_create_notification_msg
-    "A new version of #{tag.try_friendly_name} has been detected."
-  end
-
-  def notification_image_url
-    tag.try_image_url
-  end
-
-  # for Notifier
-  def domain_id
-    tag.domain_id
   end
 
   def sha
@@ -53,10 +40,23 @@ class TagVersion < ApplicationRecord
     most_recent
   end
 
-  def perform_audit_later(execution_reason:, url_to_audit:, options: {})
+  def send_new_tag_version_notifications!
+    stream_notification_to_all_domain_users(
+      domain: tag.domain,
+      partial: "tag_versions/new_notification",
+      partial_locals: { tag_version: self },
+      img: tag.try_image_url,
+      timestamp: created_at.formatted_short
+    )
+    unless Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB')
+      NotificationModerator::NewTagVersionNotifier.new(self).notify!
+    end
+  end
+
+  def perform_audit_later(execution_reason:, initiated_by_user: nil, url_to_audit:, options: {})
     AuditRunner.new(
-      audit: nil,
       tag_version: self,
+      initiated_by_user: initiated_by_user,
       url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
       options: options
@@ -116,7 +116,7 @@ class TagVersion < ApplicationRecord
   end
 
   def total_num_delta_performance_audits_performed_across_all_audits
-    audits.includes(:performance_audit_configuration).collect{ |a| a.performance_audit_configuration.num_performance_audit_iterations }.inject(:+)
+    audits.includes(:performance_audit_configuration).collect{ |a| a.performance_audit_configuration.num_performance_audits_to_run }.inject(:+)
   end
 
   def tagsafe_score

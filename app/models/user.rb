@@ -6,9 +6,10 @@ class User < ApplicationRecord
   has_many :organization_users, dependent: :destroy
   has_many :organizations, through: :organization_users
   # has_and_belongs_to_many :roles
-  has_many :roles_users, class_name: 'RoleUser', dependent: :destroy
+  has_many :roles_users, class_name: RoleUser.to_s, dependent: :destroy
   has_many :roles, through: :roles_users
-  has_many :created_functional_tests, class_name: 'FunctionalTest', foreign_key: :created_by_user_id
+  has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
+  has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_user_id
 
   has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
   has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'
@@ -63,15 +64,19 @@ class User < ApplicationRecord
     notification_class.find_by(tag: tag, user: self).destroy!
   end
 
-  def broadcast_notification(msg, notification_type: 'info', image: nil, error: false)
-    broadcast_prepend_to "#{id}_user_notifications_container", 
-                            target: "#{id}_user_notifications_container", 
-                            partial: 'partials/notification',
-                            locals: { 
-                              message: msg, 
-                              image: image, 
-                              error: error, 
-                              notification_type: notification_type 
-                            }
+  # def broadcast_notification(msg, notification_type: 'info', image: nil, error: false)
+  def broadcast_notification(message: nil, partial: nil, partial_locals: {}, image: nil, timestamp: nil)
+    broadcast_prepend_to(
+      "#{id}_user_notifications_container", 
+      target: "#{id}_user_notifications_container", 
+      partial: 'partials/notification',
+      locals: { 
+        message: message, 
+        partial: partial,
+        image: image,
+        timestamp: timestamp,
+        partial_locals: partial_locals
+      }
+    )
   end
 end

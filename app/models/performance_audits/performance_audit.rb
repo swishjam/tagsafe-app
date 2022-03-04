@@ -19,28 +19,36 @@ class PerformanceAudit < ApplicationRecord
   scope :by_tag_ids, -> (tag_ids) { joins(:audit).where(audits: { tag_id: tag_ids })}
   scope :with_tags, -> (tag_ids) { includes(audit: :tag).where(audits: { tag_id: tag_ids }) }
 
-  scope :with_tag, -> { where(audit_performed_with_tag: true) }
-  scope :without_tag, -> { where(audit_performed_with_tag: false) }
+  scope :with_tag, -> { where(type: [IndividualPerformanceAuditWithTag.to_s, MedianIndividualPerformanceAuditWithTag.to_s, AveragePerformanceAuditWithTag.to_s]) }
+  scope :without_tag, -> { where(type: [IndividualPerformanceAuditWithoutTag.to_s, MedianIndividualPerformanceAuditWithoutTag.to_s, AveragePerformanceAuditWithoutTag.to_s]) }
   scope :pending, -> { where(completed_at: nil) }
   scope :completed, -> { where.not(completed_at: nil) }
   scope :failed, -> { completed.where.not(error_message: nil) }
   scope :completed_successfully, -> { completed.where(error_message: nil) }
 
-  def delta_performance_audit
-    if audited_with_tag?
-      DeltaPerformanceAudit.find_by(perform_audit_with_tag_id: id)
-    else
-      DeltaPerformanceAudit.find_by(perform_audit_without_tag_id: id)
-    end
+  def self.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE
+    'tagsafe_score_confidence_range'
   end
+
+  def self.NUM_ITERATIONS_COMPLETION_INDICATOR_TYPE
+    'num_iterations'
+  end
+
+  # def delta_performance_audit
+  #   if audited_with_tag?
+  #     DeltaPerformanceAudit.find_by(perform_audit_with_tag_id: id)
+  #   else
+  #     DeltaPerformanceAudit.find_by(perform_audit_without_tag_id: id)
+  #   end
+  # end
   
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - created_at)
     update_performance_audit_completion_indicator(audit: audit, now: true)
-    if is_a?(IndividualPerformanceAudit)
-      audit.enqueue_next_performance_audit!(audit_performed_with_tag)
-    end
+    # if is_a?(IndividualPerformanceAudit)
+    #   audit.try_to_enqueue_next_performance_audit!(self)
+    # end
   end
 
   def error!(msg)
@@ -52,15 +60,15 @@ class PerformanceAudit < ApplicationRecord
     audited_with_tag? ? :with_tag : :without_tag
   end
 
-  def audited_with_tag?
-    audit_performed_with_tag
-  end
-  alias with_tag? audited_with_tag?
+  # def audited_with_tag?
+  #   audit_performed_with_tag
+  # end
+  # alias with_tag? audited_with_tag?
 
-  def audited_without_tag?
-    !audit_performed_with_tag
-  end
-  alias without_tag? audited_without_tag?
+  # def audited_without_tag?
+  #   !audit_performed_with_tag
+  # end
+  # alias without_tag? audited_without_tag?
 
   def completed?
     !completed_at.nil?

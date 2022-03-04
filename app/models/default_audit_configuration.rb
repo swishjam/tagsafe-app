@@ -1,5 +1,5 @@
 class DefaultAuditConfiguration < ApplicationRecord
-  self.table_name = :default_audit_configuration
+  # self.table_name = :default_audit_configuration
   belongs_to :parent, polymorphic: true
 
   before_destroy :cant_destroy_domain_parent
@@ -11,7 +11,9 @@ class DefaultAuditConfiguration < ApplicationRecord
       include_page_load_resources: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
       include_page_change_audit: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
       include_functional_tests: true,
-      num_perf_audit_iterations: 3,
+      # num_perf_audits_to_run: 3,
+      perf_audit_completion_indicator_type: PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE,
+      perf_audit_required_tagsafe_score_range: (ENV['PERFORMANCE_AUDIT_DEFAULT_REQUIRED_TAGSAFE_SCORE_RANGE'] || 5.0).to_f,
       perf_audit_strip_all_images: true,
       perf_audit_include_page_tracing: true,
       perf_audit_throw_error_if_dom_complete_is_zero: true,

@@ -1,2 +1,0 @@
-class MedianIndividualPerformanceAudit < PerformanceAudit
-end

@@ -13,9 +13,9 @@ class TagPreferencesController < LoggedInController
   def update
     tag_preference = TagPreference.includes(:tag).find(params[:id])
     if tag_preference.update(tag_preference_params)
-      current_user.broadcast_notification("Updated #{tag_preference.tag.try_friendly_name}", image: tag_preference.tag.try_image_url)
+      current_user.broadcast_notification(message: "Updated #{tag_preference.tag.try_friendly_name}", image: tag_preference.tag.try_image_url)
     else
-      current_user.broadcast_notification("Cannot update tag. #{tag_preference.errors.full_messages.join(' ')}", image: tag_preference.tag.try_image_url)
+      current_user.broadcast_notification(message: "Cannot update tag. #{tag_preference.errors.full_messages.join(' ')}", image: tag_preference.tag.try_image_url)
     end
     render turbo_stream: turbo_stream.replace(
       tag_preference,

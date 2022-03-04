@@ -5,10 +5,12 @@ module PerformanceAuditManager
     end
 
     def find_and_apply_median_audits!
-      calculated_median_delta_performance_audit.performance_audit_with_tag.update!(type: MedianIndividualPerformanceAudit.to_s)
-      calculated_median_delta_performance_audit.performance_audit_without_tag.update!(type: MedianIndividualPerformanceAudit.to_s)
+      calculated_median_delta_performance_audit.performance_audit_with_tag.update!(type: MedianIndividualPerformanceAuditWithTag.to_s)
+      calculated_median_delta_performance_audit.performance_audit_without_tag.update!(type: MedianIndividualPerformanceAuditWithoutTag.to_s)
       calculated_median_delta_performance_audit.update!(type: MedianDeltaPerformanceAudit.to_s)
     end
+
+    private
 
     def calculated_median_delta_performance_audit
       @median_delta_performance_audit ||= begin

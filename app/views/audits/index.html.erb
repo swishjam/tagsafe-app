@@ -11,12 +11,5 @@
   <div class="col-12 text-end">
     <%= render 'tag_versions/dropdown', tag: @tag, tag_version: @tag_version %>
   </div>
-  <% if @audits.any? %>
-    <%= render 'audits_table', tag_version: @tag_version, audits: @audits %>
-  <% else %>
-    <h3>No audits have been run on this tag version.</h3>
-    <%= link_to new_tag_tag_version_audit_path(@tag, @tag_version), class: 'tagsafe-btn', data: { controller: 'modal_trigger', } do %>
-      <i class="fas fa-sync-alt"></i> Re-run audit
-    <% end %>
-  <% end %>
+  <%= render 'audits_table', tag: @tag, tag_version: @tag_version, audits: @audits %>
 </div>

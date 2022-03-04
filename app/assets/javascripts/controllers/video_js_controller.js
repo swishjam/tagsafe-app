@@ -4,7 +4,6 @@ export default class extends Controller {
   static targets = ['video'];
 
   connect() {
-    debugger;
     this.player = videojs(this.videoTarget, {
       controls: this.videoTarget.getAttribute('controls') === 'true',
       autoplay: this.videoTarget.getAttribute('data-autoplay'),

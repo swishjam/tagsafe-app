@@ -84,6 +84,12 @@ namespace :seed do
         slug: 'override_initial_html_request_with_manipulated_page',
         description: 'When value is true, we will intercept initial HTML request in performance audits and replace it with a manipulated version of the page.',
         default_value: 'true'
+      },
+      {
+        name: 'Maximum total successful performance audits allowed before completing an audit',
+        slug: 'maximum_total_successful_performance_audit_sets',
+        description: "Will hault a Performance Audit when it reaches this number whether we are confident in the Tagsafe Score or not.",
+        default_value: '15'
       }
     ]
 

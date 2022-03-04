@@ -32,13 +32,10 @@
       margin-bottom: 5px;
       padding: 5px;
     }
-    .notification-content {
+    .notification-body {
       padding: 0px 10px 10px 10px;
       display: flex;
       align-items: center;
-      .tag-thumbnail {
-        margin-right: 10px;
-      }
     }
   }
 }

@@ -84,7 +84,12 @@ module HtmlHelper
           </div>
           <div class='tagsafe-modal-divider'>
           </div>
-          #{provided_html}
+          <div class="tagsafe-modal-dynamic-content">
+            #{provided_html}
+          </div>
+          <div class="tagsafe-modal-loading-container hidden mb-3">
+            <span class='spinner-border tagsafe-spinner medium'></span>
+          </div>
         </div>
       </div>
     HTML

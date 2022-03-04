@@ -4,7 +4,6 @@ export default class extends Controller {
   static targets = ['toggler', 'elToToggle'];
 
   connect() {
-    debugger;
     this.togglerTarget.addEventListener('change', () => this._toggleEl());
   }
 

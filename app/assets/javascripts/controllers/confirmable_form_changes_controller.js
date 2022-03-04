@@ -22,7 +22,6 @@ export default class ConfirmableFormChangesController extends Controller {
   }
 
   confirmChange(e) {
-    debugger;
     this.confirmationModalController.setFormUrl(this._urlForChangedInput(e.target));
     this.confirmationModalController.setFormMethod(this.confirmationRequestMethod);
     this.confirmationModalController.setConfirmationText(this.confirmationText);

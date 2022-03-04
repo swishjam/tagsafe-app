@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_172806) do
+ActiveRecord::Schema.define(version: 2022_03_03_181519) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -62,7 +62,11 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
     t.timestamp "performance_audit_completed_at"
     t.timestamp "page_change_audit_completed_at"
     t.timestamp "functional_tests_completed_at"
+    t.float "tagsafe_score_confidence_range"
+    t.integer "num_performance_audit_sets_ran"
+    t.bigint "initiated_by_user_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
+    t.index ["initiated_by_user_id"], name: "index_audits_on_initiated_by_user_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
@@ -80,7 +84,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
     t.index ["performance_audit_id"], name: "index_blocked_resources_on_performance_audit_id"
   end
 
-  create_table "default_audit_configuration", charset: "utf8mb3", force: :cascade do |t|
+  create_table "default_audit_configurations", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "parent_type"
     t.bigint "parent_id"
@@ -89,7 +93,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
     t.boolean "include_page_change_audit"
     t.boolean "include_functional_tests"
     t.integer "num_functional_tests_to_run"
-    t.integer "num_perf_audit_iterations"
+    t.integer "num_perf_audits_to_run"
     t.boolean "perf_audit_strip_all_images"
     t.boolean "perf_audit_include_page_tracing"
     t.boolean "perf_audit_throw_error_if_dom_complete_is_zero"
@@ -97,8 +101,10 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
     t.boolean "perf_audit_scroll_page"
     t.boolean "perf_audit_enable_screen_recording"
     t.boolean "perf_audit_override_initial_html_request_with_manipulated_page"
+    t.string "perf_audit_completion_indicator_type"
+    t.float "perf_audit_required_tagsafe_score_range"
     t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
-    t.index ["uid"], name: "index_default_audit_configuration_on_uid"
+    t.index ["uid"], name: "index_default_audit_configurations_on_uid"
   end
 
   create_table "delta_performance_audits", charset: "utf8mb3", force: :cascade do |t|
@@ -117,6 +123,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
     t.float "tagsafe_score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_outlier"
     t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
     t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
     t.index ["performance_audit_without_tag_id"], name: "index_dpa_performance_audit_without_tag_id"
@@ -379,7 +386,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
 
   create_table "performance_audit_configurations", charset: "utf8mb3", force: :cascade do |t|
     t.bigint "audit_id"
-    t.integer "num_performance_audit_iterations"
+    t.integer "num_performance_audits_to_run"
     t.boolean "strip_all_images"
     t.boolean "include_page_tracing"
     t.boolean "throw_error_if_dom_complete_is_zero"
@@ -389,6 +396,8 @@ ActiveRecord::Schema.define(version: 2022_02_28_172806) do
     t.boolean "enable_screen_recording"
     t.boolean "override_initial_html_request_with_manipulated_page"
     t.string "cached_responses_s3_url"
+    t.string "completion_indicator_type"
+    t.float "required_tagsafe_score_range"
     t.index ["audit_id"], name: "index_performance_audit_configurations_on_audit_id"
     t.index ["uid"], name: "index_performance_audit_configurations_on_uid"
   end

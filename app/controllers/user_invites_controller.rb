@@ -14,7 +14,7 @@ class UserInvitesController < LoggedInController
   def create
     invite = current_user.invite_user_to_organization!(params[:user_invite][:email], current_organization)
     if invite.valid?
-      current_user.broadcast_notification("Invite sent to #{params[:user_invite][:email]}")
+      current_user.broadcast_notification(message: "Invite sent to #{params[:user_invite][:email]}")
       render turbo_stream: turbo_stream.replace(
         "organization_#{current_organization.uid}_pending_invites",
         partial: 'user_invites/index',

@@ -3,18 +3,14 @@ module LambdaModerator
     lambda_service 'performance-auditer'
     lambda_function 'runPerformanceAudit'
 
-    def initialize(audit:, perform_audit_with_tag:, options: {})
+    def initialize(audit:, performance_audit_klass:, options: {})
       @audit = audit
-      @perform_audit_with_tag = perform_audit_with_tag
+      @performance_audit_klass = performance_audit_klass
       @executed_lambda_function_parent = individual_performance_audit
     end
 
     def individual_performance_audit
-      @individual_performance_audit ||= IndividualPerformanceAudit.create!(
-        audit: @audit,
-        audit_performed_with_tag: @perform_audit_with_tag,
-        # enqueued_at: Time.now
-      )
+      @individual_performance_audit ||= @performance_audit_klass.create!(audit: @audit)
     end
   
     private
@@ -51,7 +47,7 @@ module LambdaModerator
     end
 
     def script_injection_rules
-      return [] unless @perform_audit_with_tag
+      return [] unless individual_performance_audit.is_a?(IndividualPerformanceAuditWithTag)
       [{ url:  tag_version.js_file_url, load_type: 'async' }]
     end
 

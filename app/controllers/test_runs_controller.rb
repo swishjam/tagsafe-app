@@ -61,7 +61,7 @@ class TestRunsController < LoggedInController
     functional_test = current_domain.functional_tests.find(params[:functional_test_id])
     test_run = functional_test.test_runs.find(params[:id])
     retried_test_run = test_run.retry!
-    current_user.broadcast_notification("Re-running functional test #{functional_test.title}")
+    current_user.broadcast_notification(message: "Re-running functional test #{functional_test.title}")
     if params[:for_audit]
       redirect_to functional_test_test_run_path(functional_test, retried_test_run, for_audit: true)
     else

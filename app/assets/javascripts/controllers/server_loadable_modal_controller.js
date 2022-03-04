@@ -12,7 +12,8 @@ export default class extends Controller {
   }
 
   _clearModalContent() {
-    // this.element.querySelector('.tagsafe-modal-title').innerText = null;
-    // this.element.querySelector('.tagsafe-modal-body').innerHTML = "<div class='text-center'><span class='spinner-border tagsafe-spinner medium'></span></div>";
+    this.element.querySelector('.tagsafe-modal-title').innerText = null;
+    this.element.querySelector('.tagsafe-modal-dynamic-content').innerHTML = null;
+    this.element.querySelector('.tagsafe-modal-loading-container').classList.remove('hidden');
   }
 }

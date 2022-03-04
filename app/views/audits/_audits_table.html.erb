@@ -12,11 +12,20 @@
     <div class='tagsafe-table-body'>
       <%= turbo_frame_tag "tag_version_#{tag_version.uid}_audits_table_rows" do %>
         <%= render partial: 'audits/audit_row', 
-                    collection: tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits), 
+                    # collection: tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits), 
+                    collection: audits,
                     as: :audit, 
                     locals: { streamed: local_assigns[:streamed] } 
         %>
       <% end %>
     </div>
   </div>
+  <% if audits.none? %>
+    <div class='mt-5'>
+      <h4 class='mb-3'>No audits for this tag version, run one now?</h4>
+      <%= link_to new_tag_tag_version_audit_path(tag, tag_version), class: 'tagsafe-btn', data: { controller: 'modal_trigger', } do %>
+        <i class="fas fa-sync-alt"></i> Run audit
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

@@ -8,6 +8,23 @@ module Streamable
     ## Domain streams ##
     ####################
 
+    def stream_notification_to_all_domain_users(domain:, now: true, message: nil, partial: nil, partial_locals: {}, img: nil, timestamp: nil)
+      raise "Must provide either `partial` or `message` param" if message == nil && partial == nil
+      stream_prepend!(
+        now: true,
+        stream: "#{domain.id}_domain_notifications_container", 
+        target: "#{domain.id}_domain_notifications_container", 
+        partial: 'partials/notification', 
+        locals: { 
+          message: message, 
+          partial: partial,
+          image: img,
+          timestamp: timestamp,
+          partial_locals: partial_locals
+        }
+      )
+    end
+
     # really should just be used after the first Tag is created during onboarding
     def re_render_tags_table(domain:, empty: false, now: false)
       stream_replace!(
@@ -160,14 +177,18 @@ module Streamable
       )
     end
 
-    def re_render_audit_table(audit:, now: false)
-      # updated_audits_collection = audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_at).includes(:performance_audits)
+    def re_render_audit_table(tag_version:, now: false)
+      updated_audits_collection = tag_version.audits.order(primary: :DESC).most_recent_first.includes(:performance_audits)
       stream_replace!(
         now: now,
-        stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream",
-        target: "tag_version_#{audit.tag_version.uid}_audits_table",
+        stream: "tag_version_#{tag_version.uid}_audits_view_stream",
+        target: "tag_version_#{tag_version.uid}_audits_table",
         partial: 'audits/audits_table',
-        locals: { tag_version: audit.tag_version }
+        locals: { 
+          audits: updated_audits_collection,
+          tag_version: tag_version, 
+          tag: tag_version.tag
+        }
       )
     end
 

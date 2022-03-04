@@ -4,8 +4,8 @@ module AuditRunnerJobs
     queue_as :performance_audit_runner_queue
 
     def perform(audit, options = {})
-      # generate_cached_responses(audit) unless Util.env_is_true('DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES')
-      PerformanceAuditManager::AuditEnqueuer.new(audit).enqueue_initial_performance_audits!
+      generate_cached_responses(audit) unless Util.env_is_true('DONT_CACHE_PERFORMANCE_AUDIT_RESPONSES')
+      PerformanceAuditManager::QueueMaintainer.new(audit).enqueue_next_set_of_performance_audits_or_mark_as_completed!
     end
 
     def generate_cached_responses(audit, attempt_num = 1)

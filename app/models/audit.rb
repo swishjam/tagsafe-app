@@ -3,6 +3,7 @@ class Audit < ApplicationRecord
   uid_prefix 'aud'
   acts_as_paranoid
 
+  belongs_to :initiated_by_user, class_name: User.to_s, optional: true
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason
@@ -14,24 +15,53 @@ class Audit < ApplicationRecord
 
   has_many :performance_audits, dependent: :destroy
   
-  has_many :individual_performance_audits
-  has_many :individual_performance_audits_with_tag, -> { with_tag }, class_name: IndividualPerformanceAudit.to_s
-  has_many :individual_performance_audits_without_tag, -> { without_tag }, class_name: IndividualPerformanceAudit.to_s
+  has_many :individual_performance_audits_with_tag, class_name: IndividualPerformanceAuditWithTag.to_s
+  has_many :individual_performance_audits_without_tag, class_name: IndividualPerformanceAuditWithoutTag.to_s
+  has_many :individual_performance_audits, -> { 
+      where(type: [
+        IndividualPerformanceAuditWithTag.to_s, 
+        IndividualPerformanceAuditWithoutTag.to_s
+      ]) 
+    }, class_name: PerformanceAudit.to_s
 
-  has_one :median_individual_performance_audit_with_tag, -> { with_tag }, class_name: MedianIndividualPerformanceAudit.to_s
-  has_one :median_individual_performance_audit_without_tag, -> { without_tag }, class_name: MedianIndividualPerformanceAudit.to_s
+  has_one :median_individual_performance_audit_with_tag, class_name: MedianIndividualPerformanceAuditWithTag.to_s
+  has_one :median_individual_performance_audit_without_tag, class_name: MedianIndividualPerformanceAuditWithoutTag.to_s
   
-  has_many :individual_and_median_performance_audits, -> { where(type: [MedianIndividualPerformanceAudit.to_s, IndividualPerformanceAudit.to_s]) }, class_name: PerformanceAudit.to_s
-  has_many :individual_and_median_performance_audits_with_tag, -> { with_tag.where(type: [MedianIndividualPerformanceAudit.to_s, IndividualPerformanceAudit.to_s]) }, class_name: PerformanceAudit.to_s
-  has_many :individual_and_median_performance_audits_without_tag, -> { without_tag.where(type: [MedianIndividualPerformanceAudit.to_s, IndividualPerformanceAudit.to_s]) }, class_name: PerformanceAudit.to_s
+  has_many :individual_and_median_performance_audits, -> { 
+      where(type: [
+          MedianIndividualPerformanceAuditWithTag.to_s, 
+          MedianIndividualPerformanceAuditWithoutTag.to_s, 
+          IndividualPerformanceAuditWithTag.to_s,
+          IndividualPerformanceAuditWithoutTag.to_s
+        ]) 
+      }, class_name: PerformanceAudit.to_s
+  has_many :individual_and_median_performance_audits_with_tag, -> { 
+      where(type: [
+        MedianIndividualPerformanceAuditWithTag.to_s, 
+        IndividualPerformanceAuditWithTag.to_s
+      ]) 
+    }, class_name: PerformanceAudit.to_s
+  has_many :individual_and_median_performance_audits_without_tag, -> { 
+      where(type: [
+        MedianIndividualPerformanceAuditWithoutTag.to_s, 
+        IndividualPerformanceAuditWithoutTag.to_s
+      ]) 
+    }, class_name: PerformanceAudit.to_s
 
-  has_one :average_performance_audit_with_tag, -> { with_tag }, class_name: AveragePerformanceAudit.to_s
-  has_one :average_performance_audit_without_tag, -> { without_tag }, class_name: AveragePerformanceAudit.to_s
+  has_one :average_performance_audit_with_tag, class_name: AveragePerformanceAuditWithTag.to_s
+  has_one :average_performance_audit_without_tag, class_name: AveragePerformanceAuditWithoutTag.to_s
 
   has_many :delta_performance_audits, dependent: :destroy
-  has_one :average_delta_performance_audit, class_name: AverageDeltaPerformanceAudit.to_s, dependent: :destroy
-  has_one :median_delta_performance_audit, class_name: MedianDeltaPerformanceAudit.to_s, dependent: :destroy
-  has_many :individual_delta_performance_audits, class_name: IndividualDeltaPerformanceAudit.to_s, dependent: :destroy
+  has_one :average_delta_performance_audit, class_name: AverageDeltaPerformanceAudit.to_s
+  has_one :median_delta_performance_audit, class_name: MedianDeltaPerformanceAudit.to_s
+  has_many :individual_delta_performance_audits, class_name: IndividualDeltaPerformanceAudit.to_s
+  # has_many :all_delta_performance_audits, -> { 
+  #     where(type: [
+  #       AverageDeltaPerformanceAudit.to_s, 
+  #       MedianDeltaPerformanceAudit.to_s, 
+  #       IndividualDeltaPerformanceAudit.to_s
+  #     ]) 
+  #   }, class_name: DeltaPerformanceAudit.to_s
 
   has_many :test_runs, dependent: :destroy
   has_many :test_runs_with_tag, class_name: TestRunWithTag.to_s
@@ -42,6 +72,7 @@ class Audit < ApplicationRecord
   validate :has_at_least_one_type_of_audit_enabled
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
+  after_create_commit :enqueue_configured_audit_types
 
   ##########
   # SCOPES #
@@ -83,18 +114,18 @@ class Audit < ApplicationRecord
   end
 
   def completed!
-    update_column(:seconds_to_complete, Time.now - enqueued_suite_at)
+    update_column(:seconds_to_complete, Time.now - created_at)
     make_primary! unless performance_audit_failed? || performance_audit_disabled?
     send_audit_completed_notifications_if_necessary
   end
 
-  def performance_audit_completed!
+  def performance_audit_completed!(tagsafe_score_confidence_range)
     unless performance_audit_failed?
+      update(num_performance_audit_sets_ran: delta_performance_audits.count)
       PerformanceAuditManager::AveragePerformanceAuditsCreator.new(self).create_average_performance_audits!
-      PerformanceAuditManager::DeltaPerformanceAuditsCreator.new(self).create_delta_performance_audits!
       PerformanceAuditManager::MedianPerformanceAuditsCreator.new(self).find_and_apply_median_audits!
     end
-    update(performance_audit_completed_at: Time.now)
+    update(performance_audit_completed_at: Time.now, tagsafe_score_confidence_range: tagsafe_score_confidence_range)
     update_performance_audit_details_view(audit: self, now: true)
     return if reload.try_completion!
     # performance_audit_completed? returns false without a reload..
@@ -118,7 +149,7 @@ class Audit < ApplicationRecord
 
   def performance_audit_error!(msg)
     update!(performance_audit_error_message: msg)
-    performance_audit_completed!
+    performance_audit_completed!(nil)
   end
 
   def make_primary!
@@ -134,15 +165,30 @@ class Audit < ApplicationRecord
     update_tag_table_row(tag: tag, now: update_views_now)
     update_tag_version_table_row(tag_version: tag_version, now: update_views_now)
     update_tag_current_stats(tag: tag, now: update_views_now)
-    re_render_audit_table(audit: self, now: update_views_now)
+    re_render_audit_table(tag_version: tag_version, now: update_views_now)
     re_render_tags_chart(domain: tag.domain, now: update_views_now)
     re_render_tag_chart(tag: tag, now: update_views_now)
     # update performance chart?...
   end
 
   def send_audit_completed_notifications_if_necessary
-    return if execution_reason == ExecutionReason.INITIAL_AUDIT
-    NotificationModerator::AuditNotifier.new(self).notify!
+    unless initiated_by_user.nil?
+      initiated_by_user.broadcast_notification(
+        timestamp: Time.now.strftime("%m/%d/%y @ %l:%M %P %Z"),
+        image: self.tag.try_image_url,
+        partial: 'audits/completed_notification',
+        partial_locals: { audit: self }
+      )
+    end
+    if execution_reason != ExecutionReason.INITIAL_AUDIT
+      NotificationModerator::AuditNotifier.new(self).notify!
+    end
+  end
+
+  def enqueue_configured_audit_types
+    AuditRunnerJobs::RunPerformanceAudit.perform_later(self) if include_performance_audit
+    AuditRunnerJobs::RunPageChangeAudit.perform_later(self) if include_page_change_audit
+    AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(self) if include_functional_tests
   end
 
   ############
@@ -219,8 +265,12 @@ class Audit < ApplicationRecord
     average_delta_performance_audit
   end
 
-  def enqueue_next_performance_audit!(performance_audit_just_completed_included_tag)
-    PerformanceAuditManager::AuditEnqueuer.new(self, performance_audit_just_completed_included_tag).enqueue_next_performance_audit!
+  def confidence_calculator
+    PerformanceAuditManager::ConfidenceCalculator.new(self)
+  end
+
+  def required_tagsafe_score_confidence_interval
+    5
   end
 
   def previous_primary_audit(disable_cache = false)
@@ -230,30 +280,35 @@ class Audit < ApplicationRecord
 
   def num_individual_performance_audits_remaining
     return 0 if performance_audit_completed?
-    performance_audit_configuration.num_performance_audit_iterations * 2 - individual_performance_audits.completed_successfully.count
+    performance_audit_configuration.num_performance_audits_to_run * 2 - individual_performance_audits.completed_successfully.count
   end
 
   def num_individual_performance_audits_with_tag_remaining
     return 0 if performance_audit_completed?
-    performance_audit_configuration.num_performance_audit_iterations - individual_performance_audits_with_tag.completed_successfully.count
+    performance_audit_configuration.num_performance_audits_to_run - individual_performance_audits_with_tag.completed_successfully.count
   end
 
   def num_individual_performance_audits_without_tag_remaining
     return 0 if performance_audit_completed?
-    performance_audit_configuration.num_performance_audit_iterations - individual_performance_audits_without_tag.completed_successfully.count
+    performance_audit_configuration.num_performance_audits_to_run - individual_performance_audits_without_tag.completed_successfully.count
   end
 
   def individual_performance_audit_percent_complete
     return 100 if performance_audit_completed?
-    ((individual_performance_audits.completed_successfully.count) / (performance_audit_configuration.num_performance_audit_iterations * 2.0))*100
+    if performance_audit_configuration.completion_indicator_type == PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE
+      points_away_from_reaching_confidence = confidence_calculator.tagsafe_score_confidence_plus_minus - performance_audit_configuration.required_tagsafe_score_range
+      100 - (points_away_from_reaching_confidence * 10)
+    else
+      (delta_performance_audits.count / performance_audit_configuration.num_performance_audits_to_run)*100
+    end
+  end
+
+  def reached_maximum_failed_performance_audits?
+    individual_performance_audits.failed.count >= maximum_individual_performance_audit_attempts
   end
 
   def maximum_individual_performance_audit_attempts
     Flag.flag_value_for_objects(tag, tag.domain, slug: 'max_individual_performance_audit_retries').to_i
-  end
-
-  def confidence_calculator(aggregate_results_for_all_audits_on_tag_version: false)
-    PerformanceAuditManager::ConfidenceCalculator.new(self, aggregate_results_for_all_audits_on_tag_version: aggregate_results_for_all_audits_on_tag_version)
   end
 
   ######################

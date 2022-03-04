@@ -1,2 +1,0 @@
-class AveragePerformanceAudit < PerformanceAudit
-end

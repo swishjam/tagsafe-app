@@ -1,10 +1,13 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_pending_performance_audit_pill" do %>
-  <% percent_complete = audit.individual_performance_audit_percent_complete %>
-  <div id="audit-<%=audit.uid %>-performance-audit-progress" class='tagsafe-pill loading-indicator <%= percent_complete.zero? ? 'pulsate-border' : nil%> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'
+  <!-- <#% percent_complete = audit.individual_performance_audit_percent_complete %> !-->
+  <!-- <div id="audit-<%=audit.uid %>-performance-audit-progress" class='tagsafe-pill loading-indicator <#%= percent_complete.zero? ? 'pulsate-border' : nil%> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' !-->
+  <div id="audit-<%=audit.uid %>-performance-audit-progress" class='tagsafe-pill loading-indicator <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'
         data-controller='tooltip'
         data-bs-toggle='tooltip'
-        title="Performance audit is <%= percent_complete.to_i %>% complete.">
-      <div class='fill' style='height: <%= percent_complete %>%'></div>
+        title="<%= audit.delta_performance_audits.count %> performane audits completed, 95% confidence within <%= audit.confidence_calculator.tagsafe_score_confidence_plus_minus %> points of Tagsafe score being generated."
+        title="Performance audit is <#%= percent_complete.to_i %>% complete.">
+      <!-- <div class='fill' style='height: <#%= percent_complete %>%'></div> !-->
+      <div class='fill'></div>
       <span class='text'>Running</span>
   </div>
 <% end %>

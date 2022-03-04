@@ -3,7 +3,7 @@
     <span class='d-block'><%= individual_performance_audit.error_message %></span>
   <% elsif !individual_performance_audit.is_a?(DeltaPerformanceAudit) && individual_performance_audit.pending? %>
     <span class='d-block'>Currently running</span>
-    <span class='d-block'>Began <%= time_ago_in_words(individual_performance_audit.enqueued_at) %> ago</span>
+    <span class='d-block'>Began <%= time_ago_in_words(individual_performance_audit.created_at) %> ago</span>
   <% else %>
     <% if individual_performance_audit.is_a?(DeltaPerformanceAudit) %>
       <span class='d-block fw-bold'>Tagsafe Score: <%= number_with_delimiter(individual_performance_audit.tagsafe_score) %></span>

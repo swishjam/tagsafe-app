@@ -5,12 +5,17 @@ module PerformanceAuditManager
     end
 
     def create_average_performance_audits!
-      AveragePerformanceAudit.create!(
-        avg_perf_audit_attrs(@audit.individual_performance_audits_with_tag.completed_successfully).merge!(audit_performed_with_tag: true)
+      average_performance_audit_with_tag = AveragePerformanceAuditWithTag.create!(
+        avg_perf_audit_attrs(@audit.individual_performance_audits_with_tag.completed_successfully)
       )
-      AveragePerformanceAudit.create!(
+      average_performance_audit_without_tag = AveragePerformanceAuditWithoutTag.create!(
         avg_perf_audit_attrs(@audit.individual_performance_audits_without_tag.completed_successfully).merge!(audit_performed_with_tag: false)
       )
+      PerformanceAuditManager::DeltaPerformanceAuditCreator.new(
+        performance_audit_with_tag: average_performance_audit_with_tag,
+        performance_audit_without_tag: average_performance_audit_without_tag,
+        delta_performance_audit_klass: AverageDeltaPerformanceAudit
+      ).create_delta_performance_audit!
     end
 
     private

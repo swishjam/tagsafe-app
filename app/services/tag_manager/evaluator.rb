@@ -14,10 +14,7 @@ module TagManager
         @tag.update!(has_content: false) if @tag.has_content
       elsif detected_new_tag_version?
         @tag.update!(has_content: true) unless @tag.has_content
-        @tag_version = capture_new_tag_version!
-        unless @tag_version.nil? || Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB_INSTEAD_OF_TAG_CHECK_INTERVAL_JOB')
-          NotificationModerator::NewTagVersionNotifier.new(@tag_version).notify!
-        end
+        capture_new_tag_version!
       end
       sentry_transaction.finish
     end

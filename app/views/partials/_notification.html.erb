@@ -5,14 +5,25 @@
       <% if local_assigns[:title] %>
         <span class='notification-title'><%= title %></span>
       <% end %>
+      <% if local_assigns[:timestamp] %>
+        <span class='notification-timestamp float-end'><%= timestamp %></span>
+      <% end %>
     </div>
   </div>
-  <div class='col-12'>
-    <div class='notification-content'>
+  <div class='col-12 container notification-body'>
+    <div class='row'>
       <% if local_assigns[:image] %>
-        <%= image_tag image, class: 'tag-thumbnail' %>
+        <div class='d-flex align-items-center' style='width: 75px;'>
+          <%= image_tag image, class: 'tag-thumbnail border' %>
+        </div>
       <% end %>
-      <span class='notification-message'><%= message %></span>
+      <div class='notification-content' style='width: <%= local_assigns[:image] ? 'calc(100% - 75px);' : '100%' %>'>
+        <% if local_assigns[:partial] %>
+          <%= render partial, partial_locals %>
+        <% else %>
+          <span class='notification-message'><%= message %></span>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

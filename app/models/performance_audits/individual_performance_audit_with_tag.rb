@@ -1,4 +1,6 @@
-class IndividualPerformanceAudit < PerformanceAudit
+class IndividualPerformanceAuditWithTag < PerformanceAudit
+  has_one :delta_performance_audit, foreign_key: :performance_audit_with_tag_id
+  
   def state
     return 'completed' if success?
     return 'pending' if pending?

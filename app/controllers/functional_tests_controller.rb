@@ -59,7 +59,7 @@ class FunctionalTestsController < LoggedInController
         dry_test_run = functional_test.perform_dry_run_later!
         redirect_to functional_test_test_run_path(functional_test, dry_test_run)
       else
-        current_user.broadcast_notification("Test updated.", notification_type: 'success')
+        current_user.broadcast_notification(message: "Test updated.")
         render turbo_stream: turbo_stream.replace(
           params[:turbo_frame] || "functional_test_form",
           partial: params[:turbo_partial] || 'functional_tests/form',
@@ -79,10 +79,10 @@ class FunctionalTestsController < LoggedInController
     functional_test = current_domain.functional_tests.find(params[:id])
     if functional_test.enabled?
       functional_test.disable!
-      current_user.broadcast_notification("Test '#{functional_test.title}' disabled.")
+      current_user.broadcast_notification(message: "Test '#{functional_test.title}' disabled.")
     else
       functional_test.enable!
-      current_user.broadcast_notification("Test '#{functional_test.title}' enabled.")
+      current_user.broadcast_notification(message: "Test '#{functional_test.title}' enabled.")
     end
     render turbo_stream: turbo_stream.replace(
       "functional_test_#{functional_test.uid}",
