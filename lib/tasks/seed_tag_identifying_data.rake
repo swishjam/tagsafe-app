@@ -11099,6 +11099,18 @@ JSON_DATA = [
      ]
   },
   {
+      "name"=>"Medallia",
+      "homepage"=>"https://www.medallia.com",
+      "image_url"=>"https://hoteltechreport.com/products/medallia/logo",
+      "categories"=>[
+         "analytics"
+      ],
+      "domains"=>[
+         "*.medallia.com",
+         "*.medallia.ca"
+      ]
+  },
+  {
      "name"=>"Media IQ",
      "categories"=>[
         "analytics"

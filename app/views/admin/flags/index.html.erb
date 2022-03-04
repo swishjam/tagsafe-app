@@ -1,38 +1,46 @@
-<div class='tagsafe-container col-10 offset-1'>
-  <div class='tagsafe-table'>
-    <div class='tagsafe-table-head tagsafe-table-row'>
-      <div class='tagsafe-table-header' style='width: 25%'>
-        Flag
-      </div>
-      <div class='tagsafe-table-header' style='width: 25%'>
-        Description
-      </div>
-      <div class='tagsafe-table-header' style='width: 25%'>
-        Default Value
-      </div>
-      <div class='tagsafe-table-header' style='width: 25%'>
-        # Objects Enabled
-      </div>
-    </div>
-    <div class='tagsafe-table-body'>
-      <% @flags.each do |flag| %>
-        <%= link_to admin_flag_path(flag), class: 'no-decoration' do %>
-          <div class='tagsafe-table-row'>
-            <div class='tagsafe-table-data' style='width: 25%'>
-              <%= flag.name %>
+<div class='container'>
+  <div class='row'>
+    <div class='col-12'>
+      <div class='row'>
+        <div class='tagsafe-container col-10 offset-1'>
+          <div class='tagsafe-table'>
+            <div class='tagsafe-table-head tagsafe-table-row'>
+              <div class='tagsafe-table-header' style='width: 25%'>
+                Flag
+              </div>
+              <div class='tagsafe-table-header' style='width: 25%'>
+                Description
+              </div>
+              <div class='tagsafe-table-header' style='width: 25%'>
+                Default Value
+              </div>
+              <div class='tagsafe-table-header' style='width: 25%'>
+                # Objects Enabled
+              </div>
             </div>
-            <div class='tagsafe-table-data' style='width: 25%'>
-              <%= flag.description %>
-            </div>
-            <div class='tagsafe-table-data' style='width: 25%'>
-              <%= flag.default_value %>
-            </div>
-            <div class='tagsafe-table-data' style='width: 25%'>
-              <%= flag.object_flags.count %>
+            <div class='tagsafe-table-body'>
+              <% @flags.each do |flag| %>
+                <%= link_to admin_flag_path(flag), class: 'no-decoration' do %>
+                  <div class='tagsafe-table-row'>
+                    <div class='tagsafe-table-data' style='width: 25%'>
+                      <%= flag.name %>
+                    </div>
+                    <div class='tagsafe-table-data' style='width: 25%'>
+                      <%= flag.description %>
+                    </div>
+                    <div class='tagsafe-table-data' style='width: 25%'>
+                      <%= flag.default_value %>
+                    </div>
+                    <div class='tagsafe-table-data' style='width: 25%'>
+                      <%= flag.object_flags.count %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
             </div>
           </div>
-        <% end %>
-      <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

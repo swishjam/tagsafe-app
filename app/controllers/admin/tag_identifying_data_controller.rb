@@ -2,10 +2,11 @@ module Admin
   class TagIdentifyingDataController < BaseController
     def index
       if params[:q]
-        @tag_identifying_data = TagIdentifyingData.includes(:tag_identifying_data_domains)
+        @tag_identifying_data = TagIdentifyingData.joins(:tag_identifying_data_domains)
                                                   .where("name like ?", "%#{params[:q]}%")
                                                   .order(name: :asc)
                                                   .page(params[:page] || 1).per(params[:per_page] || 9)
+                                                  # .where("name like ? OR tag_identifying_domains.url_pattern like ?", "%#{params[:q]}%", "%#{params[:q]}%")
       else
         @tag_identifying_data = TagIdentifyingData.includes(:tag_identifying_data_domains)
                                                   .all

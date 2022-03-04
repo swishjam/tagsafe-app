@@ -8,6 +8,10 @@ class TagsController < LoggedInController
     )
   end
 
+  def uptime
+    @tag = current_domain.tags.find(params[:id])
+  end
+
   def edit
     @tag = current_domain.tags.find(params[:id])
     render_breadcrumbs(

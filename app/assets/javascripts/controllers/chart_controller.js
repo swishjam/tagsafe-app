@@ -4,6 +4,10 @@ export default class extends Controller {
   static targets = ['datepicker'];
 
   connect() {
+    this._initializeDatepicker();
+  }
+
+  _initializeDatepicker() {
     $(this.datepickerTarget).daterangepicker({
       timePicker: true,
       startDate: moment(this.datepickerTarget.getAttribute('data-start')),

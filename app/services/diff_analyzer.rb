@@ -48,15 +48,19 @@ class DiffAnalyzer
   private
 
   def calculate_metrics
-    return true if @metrics_calculated
+    return if @metrics_calculated
     @num_additions = 0
     @num_deletions = 0
     diffy_diff.each do |line|
       case line
-      when /^\+\s/ then @num_additions += 1
-      when /^-\s/ then @num_deletions +=1
+      # when /^\+\s/ then @num_additions += 1
+      # when /^-\s/ then @num_deletions +=1
+      when /^\+/ then @num_additions += 1
+      when /^-/ then @num_deletions +=1
       end
     end
+    @num_additions -= 1 if @include_diff_info
+    @num_deletions -= 1 if @include_diff_info
     @metrics_calculated = true
   end
 

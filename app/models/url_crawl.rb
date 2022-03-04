@@ -45,6 +45,7 @@ class UrlCrawl < ApplicationRecord
       load_type: 'async',
       found_on_page_url: page_url,
       has_content: has_content,
+      last_seen_in_url_crawl_at: Time.now,
       tag_preferences_attributes: {
         enabled: enabled,
         is_allowed_third_party_tag: is_allowed_third_party_tag,

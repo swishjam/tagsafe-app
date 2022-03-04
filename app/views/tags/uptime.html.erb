@@ -1,0 +1,12 @@
+<!-- <#%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %> !-->
+
+<h5 class="page-title with-sub-title">Tag Uptime</h6>
+<h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
+
+<%= turbo_frame_tag "tag_#{@tag.uid}_uptime", src: tag_uptime_data_path(@tag) do %>
+  <div class="tagsafe-container">
+    <div class='text-center'>
+      <%= display_loading_spinner %>
+    </div>
+  </div>
+<% end %>

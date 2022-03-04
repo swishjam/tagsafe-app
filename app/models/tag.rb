@@ -106,8 +106,10 @@ class Tag < ApplicationRecord
     find_without_query_params(url, include_removed_tags: true)
   end
 
-  def find_and_apply_tag_identifying_data
-    update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
+  def find_and_apply_tag_identifying_data(force_update = false)
+    unless tag_identifying_data.present? || force_update
+      update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
+    end
   end
 
   def url_scheme

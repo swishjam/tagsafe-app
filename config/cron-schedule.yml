@@ -14,6 +14,10 @@ re_scan_domains:
   description: "Scans each domain for any new third party tags."
   # queue: "crawl_url_for_tags_queue"
   queue: "default_queue"
+mark_tags_removed_from_site:
+  class: Schedule::MarkTagsRemovedFromSiteJob
+  cron: "0 0 * * *" # every night at midnight
+  queue: "default_queue"
 clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every night at midnight

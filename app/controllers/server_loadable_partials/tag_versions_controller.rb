@@ -12,7 +12,7 @@ module ServerLoadablePartials
 
     def diff
       tag = current_domain.tags.find(params[:tag_id])
-      tag_version = tag.tag_versions.includes(:tag).find(params[:id])
+      tag_version = tag.tag_versions.find(params[:id])
       previous_tag_version = tag_version.previous_version
       diff_analyzer = DiffAnalyzer.new(
         new_content: tag_version.content(formatted: true),
@@ -25,6 +25,20 @@ module ServerLoadablePartials
       else
         render_unified_diff(tag, tag_version, diff_analyzer)
       end
+    end
+
+    def live_comparison
+      tag = current_domain.tags.find(params[:tag_id])
+      tag_version = tag.tag_versions.find(params[:id])
+      live_content = TagManager::ContentFetcher.new(tag).fetch!
+      formatted_content = TagManager::JsBeautifier.beautify_string!(live_content)
+      diff_analyzer = DiffAnalyzer.new(
+        new_content: formatted_content,
+        previous_content: tag_version.content(formatted: true),
+        num_lines_of_context: params[:num_lines_of_context] || 7,
+        include_diff_info: true
+      )
+      render_split_diff(tag, tag_version, diff_analyzer)
     end
 
     private

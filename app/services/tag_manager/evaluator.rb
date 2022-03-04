@@ -1,6 +1,6 @@
 module TagManager
   class Evaluator
-    attr_accessor :tag_version
+    attr_accessor :tag_version, :tag_check
 
     def initialize(tag)
       @tag = tag
@@ -20,7 +20,7 @@ module TagManager
     end
 
     def detected_new_tag_version?
-      @tag_changed ||= tag_version_detector.detected_new_tag_version?
+      @detected_new_tag_version ||= tag_version_detector.detected_new_tag_version?
     end
 
     private
@@ -40,6 +40,7 @@ module TagManager
         @tag.tag_checks.create!(
           response_time_ms: fetcher.response_time_ms, 
           response_code: fetcher.response_code,
+          captured_new_tag_version: tag_version_detector.detected_new_tag_version?,
           content_has_detectable_changes: tag_version_detector.content_has_detectable_changes?,
           content_is_the_same_as_a_previous_version: tag_version_detector.fetched_content_is_the_same_as_a_previous_version?,
           bytesize_changed: tag_version_detector.bytesize_changed?,

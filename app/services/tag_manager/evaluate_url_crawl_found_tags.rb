@@ -22,9 +22,9 @@ module TagManager
     private
 
     def add_tag_to_domain_if_not_already_present(tag_url, _load_type)
-      existing_tag = @domain.tags.find_without_query_params(tag_url)
+      existing_tag = @domain.tags.find_without_query_params(tag_url, include_removed_tags: true)
       if existing_tag
-        Resque.logger.info "URL Crawl returned tag #{tag_url} but Domain #{@domain.url} already has it, skipping..."
+        existing_tag.update!(last_seen_in_url_crawl_at: Time.now, removed_from_site_at: nil)
       else
         @url_crawl.found_tag!(tag_url)
       end

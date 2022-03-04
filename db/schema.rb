@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_03_181519) do
+ActiveRecord::Schema.define(version: 2022_03_04_171147) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -509,6 +509,7 @@ ActiveRecord::Schema.define(version: 2022_03_03_181519) do
     t.boolean "content_is_the_same_as_a_previous_version"
     t.boolean "bytesize_changed"
     t.boolean "hash_changed"
+    t.boolean "captured_new_tag_version"
     t.index ["tag_check_region_id"], name: "index_tag_checks_on_tag_check_region_id"
     t.index ["tag_id"], name: "index_tag_checks_on_tag_id"
     t.index ["uid"], name: "index_tag_checks_on_uid"
@@ -580,6 +581,7 @@ ActiveRecord::Schema.define(version: 2022_03_03_181519) do
     t.bigint "found_on_url_crawl_id"
     t.bigint "tag_identifying_data_id"
     t.boolean "has_content"
+    t.timestamp "last_seen_in_url_crawl_at"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   get '/change_log' => 'tag_versions#index'
   get '/uptime' => 'tag_checks#index'
+  get '/uptime/:tag_id' => 'tag_checks#tag', as: :tag_uptime_data
   get '/performance' => 'performance#index'
   get '/breakdown' => 'tags#breakdown'
 
@@ -61,6 +62,7 @@ Rails.application.routes.draw do
 
   resources :tags do
     member do
+      get :uptime
       patch :disable
       patch :enable
     end
@@ -75,8 +77,7 @@ Rails.application.routes.draw do
     resources :tag_preferences, only: [:edit, :update]
     resources :tag_versions, only: [:show, :index] do
       member do
-        # get :begin_audit
-        # post :run_audit
+        get '/live_comparison' => 'tag_versions#live_comparison'
         get :content
         get :git_diff
         get :js
@@ -131,6 +132,7 @@ Rails.application.routes.draw do
       resources :tag_versions, only: :index do
         member do
           get :diff
+          get :live_comparison
         end
       end
     end

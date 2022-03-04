@@ -4,7 +4,6 @@ class PerformanceAudit < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :audit, optional: false
-  # has_one :delta_performance_audit, -> (perf_audit) { foreign_key: :"performance_audit_#{perf_audit.symbolized_audit_type}_id" }
   has_one :puppeteer_recording, as: :initiator, dependent: :destroy
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
   has_many :blocked_resources, dependent: :destroy

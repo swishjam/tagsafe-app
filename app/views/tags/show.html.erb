@@ -1,5 +1,4 @@
 <%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %>
-<meta name='stream' content="tag_<%=@tag.uid%>_details_view_stream">
 
 <h5 class="page-title with-sub-title">Tag Details</h6>
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>

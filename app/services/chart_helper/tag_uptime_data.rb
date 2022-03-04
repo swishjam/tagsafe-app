@@ -1,29 +1,32 @@
 module ChartHelper
   class TagUptimeData
-    def initialize(tags, start_time:, end_time:)
-      @tags = tags
+    def initialize(tag_checks, start_time: 1.day.ago, end_time: Time.now)
+      @tag_checks = tag_checks
       @start_time = start_time
       @end_time = end_time
-      # @time_ago = time_ago
     end
 
     def chart_data
-      @tags.map do |tag|
-        { 
-          name: tag.try_friendly_name,
-          data: tag_check_data(tag)
-        }
-      end
+      [
+        response_time_data,
+        success_data
+      ]
     end
 
     private
+
+    def response_time_data
+      {
+        name: 'Response Time (ms)',
+        data: @tag_checks.collect{ |check| [check.created_at, check.response_time_ms] }
+      }
+    end
     
-    def tag_check_data(tag)
-      # tag.tag_checks.more_recent_than(@time_ago).collect{ |check| [check.created_at, check.response_time_ms] }
-      tag.tag_checks.more_recent_than(@start_time)
-                    .older_than(@end_time)
-                    .order('created_at ASC')
-                    .collect{ |check| [check.created_at, check.response_time_ms] }
+    def success_data
+      {
+        name: 'Failed Requests',
+        data: @tag_checks.failed.collect{ |check| [check.created_at, check.response_code] }
+      }
     end
   end
 end

@@ -72,8 +72,8 @@ class ChartsController < ApplicationController
   def tag_uptime
     @start_time = params[:start_time].to_datetime
     @end_time = params[:end_time].to_datetime
-    tags = Tag.where(id: params[:tag_ids])
-    chart_data_getter = ChartHelper::TagUptimeData.new(tags, start_time: @start_time, end_time: @end_time)
+    tags = current_domain.tags.where(id: params[:tag_ids])
+    chart_data_getter = ChartHelper::TagsUptimeData.new(tags, start_time: @start_time, end_time: @end_time)
     @chart_data = chart_data_getter.chart_data
   end
 
