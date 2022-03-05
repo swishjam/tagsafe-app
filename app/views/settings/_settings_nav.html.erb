@@ -1,8 +1,10 @@
 <div class='settings-sub-nav'>
   <% 
     nav_items = [
+      { path: settings_path, text: 'Global Settings' },
       { path: settings_tag_management_path, text: 'Tag Management' },
-      { path: settings_audit_settings_path, text: 'Audit Settings' }
+      { path: url_crawls_path, text: 'Tag Syncs' },
+      # { path: settings_audit_settings_path, text: 'Audit Settings' }
     ].each do |nav| 
   %>
     <% klass = request.path == nav[:path] ? 'current sub-nav-link' : 'sub-nav-link' %>

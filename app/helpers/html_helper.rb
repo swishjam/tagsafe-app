@@ -43,8 +43,13 @@ module HtmlHelper
     end
   end
 
-  def loading_submit_button(btn_text, button_class: nil)
-    "<button type='submit' class='tagsafe-btn loading-button #{button_class}'><span class='submit-text'>#{btn_text}</span>#{display_loading_icon color: 'white', size: 'small'}</button>".html_safe
+  def loading_submit_button(btn_text = nil, button_class: nil, &block)
+    "<button type='submit' class='tagsafe-btn loading-button #{button_class}'>
+      <span class='submit-text'>
+        #{block_given? ? capture(&block) : btn_text}
+      </span>
+      #{display_loading_icon color: 'white', size: 'small'}
+    </button>".html_safe
   end
   alias submit_loading_button loading_submit_button
 

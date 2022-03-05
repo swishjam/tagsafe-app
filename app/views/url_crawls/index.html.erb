@@ -1,5 +1,7 @@
-<h4 class="page-title with-sub-title">Crawls for third party tags</h4>
-<h5 class='page-sub-title'>Crawl Log</h5>
+<h4 class="page-title with-sub-title">Settings</h4>
+<h5 class='page-sub-title'>Third party tag syncs</h5>
+<%= render 'settings/settings_nav' %>
+
 <div class="tagsafe-container text-center">
   <div class='col-12'>
     <table class="table table-hover col-12 text-center" style="table-layout: fixed">
@@ -25,7 +27,7 @@
                 <%= crawl.error_message || 'Success' %>
               <% end %>
             </td>
-            <td><%= link_to 'View Details', domain_url_crawl_path(current_domain, crawl) %></td>
+            <td><%= link_to 'View Details', url_crawl_path(crawl) %></td>
           </tr>
         <% end %>
       </tbody>

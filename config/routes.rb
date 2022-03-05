@@ -37,12 +37,6 @@ Rails.application.routes.draw do
         post '/create_or_update' => 'page_urls#create_or_update'
       end
     end
-
-    resources :url_crawls, only: [:index, :show] do
-      member do
-        get :executed_lambda_function
-      end
-    end
     resources :non_third_party_url_patterns, only: [:create, :destroy]
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
@@ -97,6 +91,7 @@ Rails.application.routes.draw do
           post :make_primary
         end
         resources :individual_performance_audits, only: :index
+        get '/performance_stats' => 'individual_performance_audits#index'
         # turbo frame src endpoints
         get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
         get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
@@ -108,6 +103,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :default_audit_configuration, only: [:create, :update]
 
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
@@ -138,8 +134,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/settings' => 'settings#global_settings'
   get '/settings/tag_management' => 'settings#tag_management'
   get '/settings/audit_settings' => 'settings#audit_settings'
+  resources :url_crawls, only: [:index, :show]
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   get '/charts/domain/:domain_id' => 'charts#tags', as: :domain_tags_chart

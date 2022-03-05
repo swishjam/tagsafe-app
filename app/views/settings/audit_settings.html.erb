@@ -8,7 +8,7 @@
         Actions
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li class='dropdown-item'><%= link_to 'View crawl log', domain_url_crawls_path(current_domain), class: 'no-decoration' %></li>
+        <li class='dropdown-item'><%= link_to 'View crawl log', url_crawls_path, class: 'no-decoration' %></li>
         <li class='dropdown-item'>
           <%= form_for current_domain, url: crawl_domain_path(current_domain) do |f| %>
             <span data-controller='feaux_form_submit_button' class='pointer'>Initiate crawl for tags</span>

@@ -1,6 +1,0 @@
-<%= turbo_stream_from "#{domain.id}_current_crawl" %>
-<%= turbo_frame_tag "#{domain.id}_current_crawl" do %>
-  <% if domain.crawl_in_progress? %>
-    <div class='currently-crawling-message'><%= domain.url_crawls.pending.count %> crawls are in progress.</div>
-  <% end %>
-<% end %>

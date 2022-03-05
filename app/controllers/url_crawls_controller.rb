@@ -9,7 +9,7 @@ class UrlCrawlsController < LoggedInController
   def show
     @url_crawl = current_domain.url_crawls.find(params[:id])
     render_breadcrumbs(
-      { text: 'URL Crawls', url: domain_url_crawls_path(current_domain) },
+      { text: 'URL Crawls', url: url_crawls_path },
       { text: 'URL Crawl', active: true }
     )
   end

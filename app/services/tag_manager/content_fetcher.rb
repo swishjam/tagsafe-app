@@ -30,7 +30,7 @@ module TagManager
     # rescue Errno::ECONNREFUSED, OpenSSL::SSL::SSLError
       Sentry.capture_exception(e)
       Rails.logger.error "Error fetching respsone from #{@tag.full_url}: #{e.inspect}"
-      OpenStruct.new(code: 0, response_time_ms: 0, body: nil)
+      OpenStruct.new(code: 504, body: nil)
     end
   end
 end
