@@ -136,7 +136,6 @@ Rails.application.routes.draw do
 
   get '/settings' => 'settings#global_settings'
   get '/settings/tag_management' => 'settings#tag_management'
-  get '/settings/audit_settings' => 'settings#audit_settings'
   resources :url_crawls, only: [:index, :show]
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 

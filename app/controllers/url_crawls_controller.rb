@@ -3,7 +3,7 @@ class UrlCrawlsController < LoggedInController
     @url_crawls = current_domain.url_crawls
                                   .most_recent_first(timestamp_column: :enqueued_at)
                                   .includes(:found_tags)
-                                  .page(params[:page] || 1).per(params[:per_page || 10])
+                                  .page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def show

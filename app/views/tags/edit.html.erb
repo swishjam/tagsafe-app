@@ -2,58 +2,53 @@
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 
 <%= turbo_frame_tag "tag_#{@tag.uid}_settings" do %>
-  <div class='tagsafe-container col-10 offset-1 text-center'>
-    <div class='row'>
-      <% if @tag.disabled? %>
-        <div class="alert alert-danger col-10 offset-1" role="alert">
-          <%= HtmlHelper.WARNING_ICON %> Monitoring is disabled for this tag.
+  <div class="tagsafe-container p-5">
+    <% if @tag.disabled? %>
+      <div class='text-center mb-3'>
+        <div class="alert alert-danger" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Tagsafe monitoring is disabled.
         </div>
         <%= form_with model: @tag, url: enable_tag_path(@tag) do |f| %>
           <%= f.submit 'Enable Tagsafe Monitoring', class: 'tagsafe-btn large mb-3' %>
         <% end %>
-      <% elsif %>
-        <% if @tag.removed_from_site? %>
-          <h6 class='text-center mt-2 mb-3'><i class="fas fa-exclamation-circle"></i> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
-        <% end %>
+        <hr/>
+      </div>
+    <% elsif %>
+      <% if @tag.removed_from_site? %>
+        <div class="alert alert-warning col-10 offset-1" role="alert">
+          <i class="fas fa-exclamation-circle"></i> Tag was removed from <%= current_domain.url %> <%= @tag.removed_from_site_at.formatted_long %></h6>
+        </div>
       <% end %>
-    </div>
+    <% end %>
 
-    <%= render 'urls_to_audit/index', domain: current_domain, tag: @tag, urls_to_audit: @tag.urls_to_audit %>
+    <div class='row mt-5'>
+      <div class='col-4 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>URLs to audit</span>
+          <span class='settings-description d-block'>Which URLs Tagsafe should perform audits on for this tag.</span>
+        </div>
+      </div>
+      <div class='col-8 d-flex align-items-center'>
+        <%= render 'urls_to_audit/index', domain: current_domain, tag: @tag, urls_to_audit: @tag.urls_to_audit %>
+      </div>
+    </div>
     
     <% if @tag.enabled? %>
-      <div class='text-center col-10 offset-1 p-3'>
-        <hr/>
-        <%= form_with model: @tag, url: disable_tag_path(@tag), data: { controller: 'submit-form-changes' } do |f| %>
-          <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn red' %>
-          <!-- <#%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large' %> !-->
-        <% end %>
+      <hr/>
+      <div class='row'>
+        <div class='col-4 d-flex align-items-center'>
+          <div class='d-block'>
+            <span class='settings-title d-block fw-bolder'>Disable Tagsafe monitoring</span>
+            <span class='settings-description d-block'>Tagsafe will no longer monitor when <%= @tag.try_friendly_name %> makes new releases, or run automated audits.</span>
+          </div>
+        </div>
+        <div class='col-8 d-flex align-items-center justify-content-end'>
+          <%= form_with model: @tag, url: disable_tag_path(@tag), data: { controller: 'submit-form-changes' } do |f| %>
+            <%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn red' %>
+            <!-- <#%= f.submit 'Disable Tagsafe Monitoring', class: 'tagsafe-btn square outline red large' %> !-->
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>
 <% end %>
-
-<style>
-  .form-check-input.red:focus~.custom-control-label::before {
-    border-color: red !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 47, 69, 0.25) !important;
-  }
-
-  .form-check-input.red:checked~.custom-control-label::before {
-    border-color: red !important;
-    background-color: red !important;
-  }
-
-  .form-check-input.red:active~.custom-control-label::before {
-    background-color: red !important;
-    border-color: red !important;
-  }
-
-  .form-check-input.red:focus:not(:checked)~.custom-control-label::before {
-    border-color: red !important;
-  }
-
-  .form-check-input.red-green:not(:disabled):active~.custom-control-label::before {
-    background-color: red !important;
-    border-color: red !important;
-  }
-</style>
