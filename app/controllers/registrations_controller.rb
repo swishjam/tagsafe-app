@@ -10,7 +10,6 @@ class RegistrationsController < LoggedOutController
     @user = User.new(user_params)
     if params[:invite_code] == ENV['INVITE_CODE']
       if @user.save
-        Role.USER_ADMIN.assign_to(@user)
         log_user_in(@user)
         redirect_to new_domain_path
       else

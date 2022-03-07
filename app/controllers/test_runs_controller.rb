@@ -1,7 +1,9 @@
 class TestRunsController < LoggedInController
   def index
     @functional_test = current_domain.functional_tests.find(params[:functional_test_id])
-    @test_runs = @functional_test.test_runs.most_recent_first(timestamp_column: :enqueued_at)
+    @test_runs = @functional_test.test_runs
+                                  .most_recent_first(timestamp_column: :enqueued_at)
+                                  .page(params[:page] || 1).per(params[:per_page] || 20)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path },
       { text: "Test Suite", url: functional_tests_path },
