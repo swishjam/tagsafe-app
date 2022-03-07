@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_04_171147) do
+ActiveRecord::Schema.define(version: 2022_03_06_221847) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -103,6 +103,13 @@ ActiveRecord::Schema.define(version: 2022_03_04_171147) do
     t.boolean "perf_audit_override_initial_html_request_with_manipulated_page"
     t.string "perf_audit_completion_indicator_type"
     t.float "perf_audit_required_tagsafe_score_range"
+    t.integer "minimum_num_performance_audit_sets"
+    t.integer "maximum_num_performance_audit_sets"
+    t.boolean "fail_performance_audit_when_confidence_range_not_met"
+    t.boolean "enable_monitoring_on_new_tags"
+    t.integer "perf_audit_minimum_num_sets"
+    t.integer "perf_audit_maximum_num_sets"
+    t.boolean "perf_audit_fail_when_confidence_range_not_met"
     t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
     t.index ["uid"], name: "index_default_audit_configurations_on_uid"
   end
@@ -398,6 +405,9 @@ ActiveRecord::Schema.define(version: 2022_03_04_171147) do
     t.string "cached_responses_s3_url"
     t.string "completion_indicator_type"
     t.float "required_tagsafe_score_range"
+    t.integer "minimum_num_sets"
+    t.integer "maximum_num_sets"
+    t.boolean "fail_when_confidence_range_not_met"
     t.index ["audit_id"], name: "index_performance_audit_configurations_on_audit_id"
     t.index ["uid"], name: "index_performance_audit_configurations_on_uid"
   end
@@ -544,6 +554,7 @@ ActiveRecord::Schema.define(version: 2022_03_04_171147) do
     t.boolean "consider_query_param_changes_new_tag"
     t.integer "throttle_minute_threshold"
     t.datetime "deleted_at"
+    t.integer "tag_check_minute_interval"
     t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
     t.index ["uid"], name: "index_tag_preferences_on_uid"
   end

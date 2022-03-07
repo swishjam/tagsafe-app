@@ -31,7 +31,9 @@ class AuditRunner
       num_functional_tests_to_run: option_value_for(:include_functional_tests, true) ? @tag.functional_tests.enabled.count : 0,
       performance_audit_configuration_attributes: {
         completion_indicator_type: performance_audit_completion_indicator_type,
-        # num_performance_audit_iterations: performance_audit_configuration_for(:num_perf_audit_iterations, default_audit_configuration.num_perf_audit_iterations),
+        minimum_num_sets: performance_audit_configuration_for(:minimum_num_sets, default_audit_configuration.perf_audit_minimum_num_sets),
+        maximum_num_sets: performance_audit_configuration_for(:minimum_num_sets, default_audit_configuration.perf_audit_maximum_num_sets),
+        fail_when_confidence_range_not_met: performance_audit_configuration_for(:fail_when_confidence_range_not_met, default_audit_configuration.perf_audit_fail_when_confidence_range_not_met),
         num_performance_audits_to_run: performance_audit_completion_indicator_type == PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE ? nil : performance_audit_configuration_for(:num_performance_audits_to_run, default_audit_configuration.num_perf_audits_to_run),
         required_tagsafe_score_range: performance_audit_completion_indicator_type == PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE ? performance_audit_configuration_for(:required_tagsafe_score_range, default_audit_configuration.perf_audit_required_tagsafe_score_range) : nil,
         strip_all_images: performance_audit_configuration_for(:strip_all_images, default_audit_configuration.perf_audit_strip_all_images),

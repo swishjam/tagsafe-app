@@ -83,6 +83,13 @@ class Tag < ApplicationRecord
   scope :doesnt_have_content, -> { where(has_content: false) }
 
   scope :one_minute_interval_checks, -> { all }
+  scope :fifteen_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 15) }
+  scope :thirty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 30) }
+  scope :sixty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 60) }
+  scope :three_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 180) }
+  scope :six_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 360) }
+  scope :twelve_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 720) }
+  scope :twenty_hour_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1440) }
   # etc...
 
   def self.where_tag_preferences(where_clause)
@@ -170,6 +177,10 @@ class Tag < ApplicationRecord
 
   def removed_from_site?
     !removed_from_site_at.nil?
+  end
+
+  def mark_as_removed_from_site!(removed_timestamp = Time.now)
+    update!(removed_from_site_at: removed_timestamp)
   end
 
   def enabled?

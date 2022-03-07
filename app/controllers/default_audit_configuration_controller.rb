@@ -9,10 +9,4 @@ class DefaultAuditConfigurationController < LoggedInController
     end
     head :ok
   end
-
-  private
-
-  def include_performance_audit_params
-    params.require(:default_audit_configuration).permit(:include_performance_audit)
-  end
 end

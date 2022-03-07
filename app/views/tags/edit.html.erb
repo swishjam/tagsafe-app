@@ -32,6 +32,29 @@
         <%= render 'urls_to_audit/index', domain: current_domain, tag: @tag, urls_to_audit: @tag.urls_to_audit %>
       </div>
     </div>
+
+    <hr/>
+    <div class='row mt-5'>
+      <div class='col-4 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Tag Monitoring Interval</span>
+          <span class='settings-description d-block'>At what interval Tagsafe should monitor this tag. This impacts how quickly Tagsafe identifies new releases, and how frequently uptime metrics are measured.</span>
+        </div>
+      </div>
+      <div class='col-8 d-flex align-items-center'>
+        <%= form_with model: @tag.tag_preferences, url: tag_tag_preference_path(@tag, @tag.tag_preferences), html: { class: 'm-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+          <select name='tag_preference[tag_check_minute_interval]' class='form-select'>
+            <% TagPreference::TAG_CHECK_INTERVALS.each do |interval| %>
+              <% if interval[:value] == @tag.tag_preferences.tag_check_minute_interval %>
+                <option value="<%=interval[:value] %>" selected="selected"><%= interval[:name] %></option>
+              <% else %>
+                <option value="<%=interval[:value] %>"><%= interval[:name] %></option>
+              <% end %>
+            <% end %>
+          </select>
+        <% end %>
+      </div>
+    </div>
     
     <% if @tag.enabled? %>
       <hr/>

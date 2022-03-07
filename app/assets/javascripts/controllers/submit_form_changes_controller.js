@@ -3,6 +3,7 @@ import { Controller } from 'stimulus'
 export default class extends Controller {
   changeActionDictionary = {
     'select': 'change',
+    'select-one': 'change',
     'checkbox': 'change',
     'radio': 'change',
     'number': 'blur',

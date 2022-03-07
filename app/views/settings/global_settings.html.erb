@@ -149,17 +149,56 @@
     </div>
   </div>
 
-  <!--
   <hr/>
   <div class='row'>
     <div class='col-4'>
       <div class='d-block'>
         <span class='settings-title d-block fw-bolder'>Minimum performance audits per audit</span>
-        <span class='settings-description d-block'>In order to ensure confident results, each audit runs several performance audits. Set the minimum number of performance audits run before being eligible to complete (other critieria must be met on top of this).</span>
+        <span class='settings-description d-block'>Don't consider a performance audit eligible to be completed unless it reaches at least this many performance audit sets, on top of the Tagsafe Score confidence range.</span>
       </div>
     </div>
     <div class='col-8'>
+      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <div class='d-flex'>
+          <%= f.number_field :perf_audit_minimum_num_sets, class: 'form-control' %>
+          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+        </div>
+      <% end %>
     </div>
   </div>
-  !-->
+
+  <hr/>
+  <div class='row'>
+    <div class='col-4'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Maximum performance audits per audit</span>
+        <span class='settings-description d-block'>Stop running performance audits once this many sets have been run, no matter what the Tagsafe Score confidence range is.</span>
+      </div>
+    </div>
+    <div class='col-8'>
+      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <div class='d-flex'>
+          <%= f.number_field :perf_audit_maximum_num_sets, class: 'form-control' %>
+          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+    <hr/>
+  <div class='row'>
+    <div class='col-4'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Fail performance audit when Tagsafe Score confidence range is not met</span>
+        <span class='settings-description d-block'>If performance audit does not reach the specified Tagsafe Score confidence range, mark it as failed. When this is disabled, the audit will complete and a Tagsafe Score will be generated despite not meeting the desired Confidence Range.</span>
+      </div>
+    </div>
+    <div class='col-8'>
+      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <div class='form-check form-switch'>
+          <%= f.check_box :perf_audit_fail_when_confidence_range_not_met, class: 'form-check-input pointer', style: 'transform: scale(2)' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

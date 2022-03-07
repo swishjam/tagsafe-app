@@ -13,7 +13,7 @@ module PerformanceAuditManager
         outlier_identifier.mark_outliers!
         @audit.performance_audit_completed!(calculate_tagsafe_score_confidence_range!)
       elsif reached_maximum_total_successful_performance_audits?
-        @audit.performance_audit_completed!(tagsafe_score_confidence_range)
+        reached_maximum_total_successful_performance_audits!
       else
         generate_performance_audit_set!
         self.class.new(@audit).enqueue_next_set_of_performance_audits_or_mark_as_completed!
@@ -39,8 +39,8 @@ module PerformanceAuditManager
         outlier_identifier.mark_outliers!
         calculate_tagsafe_score_confidence_range!
         meets_completion_criteria = completed_performance_audit_based_on_config?
+        outlier_identifier.un_mark_any_marked_outliers!
       end
-      outlier_identifier.un_mark_any_marked_outliers!
       meets_completion_criteria
     end
 
@@ -53,15 +53,23 @@ module PerformanceAuditManager
     end
 
     def completed_minimum_required_performance_audits?
-      @audit.delta_performance_audits.count >= Flag.flag_value_for_objects(@audit.tag, @audit.tag.domain, slug: 'minimum_performance_audit_sets_to_meet_completion_criteria').to_i
+      @audit.delta_performance_audits.count >= @audit.performance_audit_configuration.minimum_num_sets
     end
 
     def reached_required_tagsafe_score_confidence_range?
-      tagsafe_score_confidence_range <= Flag.flag_value_for_objects(@audit.tag, @audit.tag.domain, slug: 'performance_audit_tagsafe_score_confidence_range_completion_criteria').to_i
+      @audit.delta_performance_audits.count >= @audit.performance_audit_configuration.required_tagsafe_score_range
     end
 
     def reached_maximum_total_successful_performance_audits?
-      @audit.delta_performance_audits.count >= Flag.flag_value_for_objects(@audit.tag, @audit.tag.domain, slug: 'maximum_total_successful_performance_audit_sets').to_i
+      @audit.delta_performance_audits.count >= @audit.performance_audit_configuration.maximum_num_sets
+    end
+
+    def reached_maximum_total_successful_performance_audits!
+      if @audit.performance_audit_configuration.fail_when_confidence_range_not_met
+        @audit.performance_audit_error!("Tagsafe Score confidence range is #{tagsafe_score_confidence_range} when it needed to be within #{@audit.performance_audit_configuration.required_tagsafe_score_range} after #{@audit.performance_audit_configuration.maximum_num_sets} performance audits")
+      else
+        @audit.performance_audit_completed!(tagsafe_score_confidence_range)
+      end
     end
 
     def tagsafe_score_confidence_range
