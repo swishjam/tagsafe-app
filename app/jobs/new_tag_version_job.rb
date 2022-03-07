@@ -8,6 +8,6 @@ class NewTagVersionJob < ApplicationJob
     else
       tag_version.perform_audit_later_on_all_urls(tag_version.first_version? ? ExecutionReason.INITIAL_AUDIT : ExecutionReason.NEW_TAG_VERSION)
     end
-    DataRetention::TagVersions.new(tag_version).purge!
+    # DataRetention::TagVersions.new(tag_version).purge!
   end
 end

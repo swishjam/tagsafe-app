@@ -57,7 +57,7 @@ module PerformanceAuditManager
     end
 
     def reached_required_tagsafe_score_confidence_range?
-      @audit.delta_performance_audits.count >= @audit.performance_audit_configuration.required_tagsafe_score_range
+      tagsafe_score_confidence_range <= @audit.performance_audit_configuration.required_tagsafe_score_range
     end
 
     def reached_maximum_total_successful_performance_audits?

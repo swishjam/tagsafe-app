@@ -46,7 +46,7 @@ module LambdaModerator
     end
 
     def option_or_flag_for(options, flag_slug)
-      (!options[flag_slug.to_sym].nil? ? options[flag_slug.to_sym] : Flag.flag_is_true_for_objects(tag, tag.domain, tag.domain.organization, slug: flag_slug.to_s)).to_s
+      (!options[flag_slug.to_sym].nil? ? options[flag_slug.to_sym] : Flag.flag_is_true_for_objects(tag, tag.domain, slug: flag_slug.to_s)).to_s
     end
 
     def required_payload_arguments

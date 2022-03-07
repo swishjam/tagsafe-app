@@ -42,7 +42,7 @@ body.locked {
   }
 }
 
-body.logged-in {
+body.logged-in:not(.domains) {
   background-color: #eeeeee;
   font-family: 'Rubik', sans-serif;
   #content {

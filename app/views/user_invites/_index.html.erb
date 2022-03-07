@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "organization_#{current_organization.uid}_pending_invites" do %>
+<%= turbo_frame_tag "domain_#{domain.uid}_#{invite_list_type}_invites" do %>
   <h3 class='text-center tagsafe-font'>Pending invites</h3>
   <% if user_invites.any? %>
     <div class='tagsafe-table'>

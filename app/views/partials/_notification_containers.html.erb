@@ -5,7 +5,9 @@
     <% end %>
   <% end %>
 
-  <%= turbo_stream_from "#{current_user.id}_user_notifications_container" %>
-  <%= turbo_frame_tag "#{current_user.id}_user_notifications_container" do %>
+  <% if current_user %>
+    <%= turbo_stream_from "#{current_user.id}_user_notifications_container" %>
+    <%= turbo_frame_tag "#{current_user.id}_user_notifications_container" do %>
+    <% end %>
   <% end %>
 </div>

@@ -14,6 +14,6 @@ class SlackNotificationSubscriber < ApplicationRecord
   end
 
   def slack_client
-    @slack_client ||= tag.domain.organization.slack_client
+    @slack_client ||= tag.domain.slack_client
   end
 end

@@ -4,8 +4,10 @@ class Domain < ApplicationRecord
   uid_prefix 'dom'
   acts_as_paranoid
 
-  belongs_to :organization
   has_one :default_audit_configuration, as: :parent, class_name: 'DefaultAuditConfiguration', dependent: :destroy
+  has_many :domain_users
+  has_many :users, through: :domain_users
+  has_many :user_invites
   has_many :page_urls, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :functional_tests
@@ -77,8 +79,23 @@ class Domain < ApplicationRecord
 
   def user_can_initiate_crawl?(user)
     return false if user.nil?
-    organization.users.include?(user)
+    users.include?(user)
   end
+
+  # def has_multiple_domains?
+  #   domains.count > 1
+  # end
+
+  def add_user(user)
+    users << user
+  end
+
+  def remove_user(user)
+    if ou = domain_users.find_by(user_id: user.id)
+      ou.destroy!
+    end
+  end
+
 
   #################
   ## VALIDATIONS ##

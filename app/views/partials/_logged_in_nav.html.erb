@@ -38,26 +38,11 @@
         <div class="dropdown-menu navigation-profile-dropdown">
           <div class='dropdown-title text-center'>
             <div><%= current_user.full_name %></div>
-            <div><%= current_organization.name %></div>
             <div><%= current_domain.url %></div>
           </div>
-          <% if current_user.belongs_to_multiple_organizations? %>
+          <% if current_user.belongs_to_multiple_domains? %>
             <div class='dropdown-divider'></div>
-            <% current_user.organizations.each do |org| %>
-              <div class='toggle-link <%= org == current_organization ? 'selected' : nil %>'>
-                <% if org == current_organization %>
-                  <%= org.name %>
-                <% else %>
-                  <%= form_with model: org, url: update_current_organization_path(org.uid), method: :put do |f| %>
-                    <span data-controller='feaux_form_submit_button'><%= org.name %></span>
-                  <% end %>
-                <% end %>
-              </div>
-            <% end %>
-          <% end %>
-          <% if current_organization.has_multiple_domains? %>
-            <div class='dropdown-divider'></div>
-            <% current_organization.domains.each do |domain| %>
+            <% current_user.domains.each do |domain| %>
               <div class='toggle-link <%= domain == current_domain ? 'selected' : nil %>'>
                 <% if domain == current_domain %>
                   <%= domain.url %>

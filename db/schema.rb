@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_06_221847) do
+ActiveRecord::Schema.define(version: 2022_03_07_031220) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -137,16 +137,32 @@ ActiveRecord::Schema.define(version: 2022_03_06_221847) do
     t.index ["uid"], name: "index_delta_performance_audits_on_uid"
   end
 
+  create_table "domain_users", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.integer "user_id"
+    t.integer "domain_id"
+    t.index ["domain_id"], name: "index_domain_users_on_domain_id"
+    t.index ["uid"], name: "index_domain_users_on_uid"
+    t.index ["user_id"], name: "index_domain_users_on_user_id"
+  end
+
+  create_table "domain_users_roles", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid", null: false
+    t.integer "domain_user_id"
+    t.integer "role_id"
+    t.index ["domain_user_id"], name: "index_domain_users_roles_on_domain_user_id"
+    t.index ["role_id"], name: "index_domain_users_roles_on_role_id"
+    t.index ["uid"], name: "index_domain_users_roles_on_uid"
+  end
+
   create_table "domains", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
-    t.integer "organization_id"
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.integer "current_performance_audit_calculator_id"
     t.index ["current_performance_audit_calculator_id"], name: "index_domains_on_current_performance_audit_calculator_id"
-    t.index ["organization_id"], name: "index_domains_on_organization_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -286,15 +302,6 @@ ActiveRecord::Schema.define(version: 2022_03_06_221847) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["flag_id"], name: "index_object_flags_on_flag_id"
     t.index ["object_type", "object_id"], name: "index_object_flags_on_object"
-  end
-
-  create_table "organization_users", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid"
-    t.integer "user_id"
-    t.integer "organization_id"
-    t.index ["organization_id"], name: "index_organization_users_on_organization_id"
-    t.index ["uid"], name: "index_organization_users_on_uid"
-    t.index ["user_id"], name: "index_organization_users_on_user_id"
   end
 
   create_table "organizations", charset: "utf8mb3", force: :cascade do |t|
@@ -459,15 +466,6 @@ ActiveRecord::Schema.define(version: 2022_03_06_221847) do
     t.string "uid"
     t.string "name"
     t.index ["uid"], name: "index_roles_on_uid"
-  end
-
-  create_table "roles_users", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid", null: false
-    t.integer "user_id"
-    t.integer "role_id"
-    t.index ["role_id"], name: "index_roles_users_on_role_id"
-    t.index ["uid"], name: "index_roles_users_on_uid"
-    t.index ["user_id"], name: "index_roles_users_on_user_id"
   end
 
   create_table "scripts", charset: "utf8mb3", force: :cascade do |t|
@@ -691,15 +689,15 @@ ActiveRecord::Schema.define(version: 2022_03_06_221847) do
 
   create_table "user_invites", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
-    t.integer "organization_id"
+    t.integer "domain_id"
     t.string "email"
     t.string "token"
     t.timestamp "expires_at"
     t.timestamp "created_at"
     t.integer "invited_by_user_id"
     t.timestamp "redeemed_at"
+    t.index ["domain_id"], name: "index_user_invites_on_domain_id"
     t.index ["invited_by_user_id"], name: "index_user_invites_on_invited_by_user_id"
-    t.index ["organization_id"], name: "index_user_invites_on_organization_id"
     t.index ["uid"], name: "index_user_invites_on_uid"
   end
 

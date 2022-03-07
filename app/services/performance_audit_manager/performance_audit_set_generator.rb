@@ -44,7 +44,7 @@ module PerformanceAuditManager
         capture_successful_response(response.response_body, performance_auditer.individual_performance_audit)
         performance_auditer.individual_performance_audit
       else
-        performance_audit_failed(performance_audit.individual_performance_audit, response.error)
+        performance_audit_failed(performance_auditer.individual_performance_audit, response.error)
       end
     end
 

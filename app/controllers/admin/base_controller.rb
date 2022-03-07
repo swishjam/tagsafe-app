@@ -5,7 +5,7 @@ module Admin
     before_action :hide_side_navigation
   
     def verify_admin
-      redirect_to root_path unless current_user.is_tagsafe_admin?
+      redirect_to root_path unless current_user.is_tagsafe_admin?(current_domain)
     end
 
     def hide_side_navigation

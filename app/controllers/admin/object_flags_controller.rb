@@ -19,8 +19,6 @@ module Admin
     def create
       uid_prefix = params[:object_uid].split('_')[0]
       object = case uid_prefix
-                when 'org'
-                  Organization.find_by(uid: params[:object_uid])
                 when 'dom'
                   Domain.find_by(uid: params[:object_uid])
                 when 'tag'

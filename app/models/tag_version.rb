@@ -41,13 +41,15 @@ class TagVersion < ApplicationRecord
   end
 
   def send_new_tag_version_notifications!
-    stream_notification_to_all_domain_users(
-      domain: tag.domain,
-      partial: "tag_versions/new_notification",
-      partial_locals: { tag_version: self },
-      img: tag.try_image_url,
-      timestamp: created_at.formatted_short
-    )
+    unless first_version?
+      stream_notification_to_all_domain_users(
+        domain: tag.domain,
+        partial: "tag_versions/new_notification",
+        partial_locals: { tag_version: self },
+        img: tag.try_image_url,
+        timestamp: created_at.formatted_short
+      )
+    end
     unless Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB')
       NotificationModerator::NewTagVersionNotifier.new(self).notify!
     end

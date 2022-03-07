@@ -9,6 +9,14 @@ class DeltaPerformanceAudit < ApplicationRecord
   TAGSAFE_SCORE_THRESHOLDS = { good: 90, warn: 80 }
   CHARTABLE_COLUMNS = [{ title: 'DOM Complete', column: :dom_complete_delta }, { title: 'DOM Interactive', column: :dom_interactive_delta }, { title: 'First Contentful Paint', column: :first_contentful_paint_delta }, { title: 'DOM Content Loaded', column: :dom_content_loaded_delta }, { title: 'Script Duration', column: :script_duration_delta }, { title: 'Layout Duration', column: :layout_duration_delta }, { title: 'Task Duration', column: :task_duration_delta }, { title: 'Tagsafe Score', column: :tagsafe_score }].freeze
 
+  def self.TYPES
+    %w[
+      AverageDeltaPerformanceAudit
+      IndividualDeltaPerformanceAudit
+      MedianDeltaPerformanceAudit
+    ]
+  end
+
 %i[
     dom_complete dom_content_loaded dom_interactive first_contentful_paint script_duration task_duration layout_duration
   ].each do |metric|

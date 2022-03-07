@@ -2,7 +2,6 @@ class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
   before_action :authorize!
-  before_action :ensure_organization
   before_action :ensure_domain
 
   def authorize!
@@ -11,10 +10,6 @@ class LoggedInController < ApplicationController
       session[:redirect_url] = request.original_url
       redirect_to login_path 
     end
-  end
-
-  def ensure_organization
-    redirect_to new_organization_path if current_organization.nil?
   end
 
   def ensure_domain

@@ -1,12 +1,14 @@
+<%= turbo_stream_from "domain_#{current_domain.uid}_user_invites_stream" %>
+
 <div class="col-4 offset-4 m-auto card tagsafe-container text-center">
   <h1 class='tagsafe-font'>Invite team members</h1>
-  <%= render 'form', organization: current_organization %>
+  <%= render 'form', domain: current_domain %>
 </div>
 
 <div class='tagsafe-container' style='margin-top: 15px;'>
-  <%= render 'organization_users/index', organization_users: @organization_users %>
+  <%= render 'domain_users/index', domain: current_domain, domain_users: @domain_users, invite_list_type: :existing %>
 </div>
 
 <div class='tagsafe-container' style='margin-top: 15px;'>
-  <%= render 'index', user_invites: @pending_invites %>
+  <%= render 'index', domain: current_domain, user_invites: @pending_invites, invite_list_type: :pending %>
 </div>

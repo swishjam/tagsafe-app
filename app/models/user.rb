@@ -3,11 +3,8 @@ class User < ApplicationRecord
   has_secure_password
   acts_as_paranoid
 
-  has_many :organization_users, dependent: :destroy
-  has_many :organizations, through: :organization_users
-  # has_and_belongs_to_many :roles
-  has_many :roles_users, class_name: RoleUser.to_s, dependent: :destroy
-  has_many :roles, through: :roles_users
+  has_many :domain_users, dependent: :destroy
+  has_many :domains, through: :domain_users
   has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
   has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_user_id
 
@@ -27,16 +24,24 @@ class User < ApplicationRecord
     first_name[0] + last_name[0]
   end
 
-  def is_user_admin?
-    roles.include? Role.USER_ADMIN
+  def is_user_admin?(domain)
+    has_role_for_domain?(domain, Role.USER_ADMIN)
   end
 
-  def is_tagsafe_admin?
-    roles.include? Role.TAGSAFE_ADMIN
+  def is_tagsafe_admin?(domain)
+    has_role_for_domain?(domain, Role.TAGSAFE_ADMIN)
   end
 
-  def belongs_to_multiple_organizations?
-    organizations.count > 1
+  def has_role_for_domain?(domain, role)
+    DomainUserRole.where(domain_user: domain_user_for(domain), role: role).exists?
+  end
+
+  def domain_user_for(domain)
+    domain_users.find_by(domain: domain)
+  end
+
+  def belongs_to_multiple_domains?
+    domains.count > 1
   end
 
   def send_welcome_email
@@ -44,12 +49,12 @@ class User < ApplicationRecord
     # TagSafeMailer.send_welcome_email(self)
   end
 
-  def can_remove_user_from_organization?(organization)
-    organizations.include? organization
+  def can_remove_user_from_domain?(domain)
+    domains.include? domain
   end
 
-  def invite_user_to_organization!(email_to_invite, organization)
-    UserInvite.invite!(email_to_invite, organization, self)
+  def invite_user_to_domain!(email_to_invite, domain)
+    UserInvite.invite!(email_to_invite, domain, self)
   end
 
   def subscribed_to_notification?(notification_class, tag)

@@ -24,8 +24,8 @@ class TagSafeMailer < SendgridTemplateMailer
       @from_email = "notifications@tagsafe.io"
       @template_name = :user_invite
       @variable_json = {
-        organization_name: user_invite.organization.name,
-        accept_invite_url: mail_safe_url("/invite/#{user_invite.token}/accept"),
+        domain_url: user_invite.domain.url,
+        accept_invite_url: mail_safe_url("/user_invites/#{user_invite.token}/accept"),
         inviter_name: user_invite.invited_by_user.full_name
       }
       send!

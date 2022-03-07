@@ -7,37 +7,24 @@ module ApplicationHelper
   end
 
   def current_domain
-    @current_domain ||= session[:current_domain_id] ? current_organization&.domains&.find(session[:current_domain_id]) : current_organization&.domains&.first
+    @current_domain ||= session[:current_domain_id] ? current_user&.domains&.find(session[:current_domain_id]) : current_user&.domains&.first
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
   end
 
   def set_current_domain_for_user(user, domain)
-    raise 'Cannot update domain to user that does not belong to it' unless user.organizations.collect{ |org| org.domains }.flatten!.include? domain
+    raise 'Cannot update domain to user that does not belong to it' unless user.domains.include? domain
     session[:current_domain_id] = domain.id
   end
 
-  def current_organization
-    @current_organization ||= session[:current_organization_id] ? Organization.find(session[:current_organization_id]) : current_user && current_user.organizations.first
-  rescue ActiveRecord::RecordNotFound => e
-    log_user_out
-  end
-
-  def set_current_organization_for_user(user, organization)
-    raise 'Cannot update organization to user that does not belong to it' unless user.organizations.include? organization
-    session[:current_organization_id] = organization.id
-  end
-
-  def log_user_in(user, organization = user.organizations&.first, domain = organization&.domains&.first)
+  def log_user_in(user, domain = user.domains.first)
     session[:user_id] = user.id
-    session[:current_organization_id] = organization&.id
     session[:current_domain_id] = domain&.id
   end
 
   def log_user_out
     session.delete(:user_id)
     session.delete(:current_domain_id)
-    session.delete(:current_organization_id)
   end
 
   def stream_modal(partial:, turbo_frame_name: 'server_loadable_modal', locals: {})

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "organization_#{organization.uid}_invite_form" do %>
+<%= turbo_frame_tag "domain_#{domain.uid}_invite_form" do %>
   <%= form_for UserInvite.new, data: { controller: 'loading_form' } do |f| %>
     <div class="form-floating">
       <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>

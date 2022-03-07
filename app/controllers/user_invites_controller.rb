@@ -1,37 +1,32 @@
 class UserInvitesController < LoggedInController
   skip_before_action :authorize!, only: [:accept, :redeem]
-  skip_before_action :ensure_organization, only: [:accept, :redeem]
   skip_before_action :ensure_domain, only: [:accept, :redeem]
   layout 'logged_out_layout', only: :accept
 
   def new
     @user_invite = UserInvite.new
-    # @organization_users = OrganizationUser.includes(:user).where(organization_id: current_organization.id).where.not(user_id: current_user.id)
-    @organization_users = current_organization.organization_users.includes(:user)
-    @pending_invites = current_organization.user_invites.not_redeemed
+    @domain_users = current_domain.domain_users.includes(:user)
+    @pending_invites = current_domain.user_invites.not_redeemed
   end
 
   def create
-    invite = current_user.invite_user_to_organization!(params[:user_invite][:email], current_organization)
+    invite = current_user.invite_user_to_domain!(params[:user_invite][:email], current_domain)
     if invite.valid?
       current_user.broadcast_notification(message: "Invite sent to #{params[:user_invite][:email]}")
-      render turbo_stream: turbo_stream.replace(
-        "organization_#{current_organization.uid}_pending_invites",
-        partial: 'user_invites/index',
-        locals: { user_invites: current_organization.user_invites.not_redeemed }
-      )
-    else
-      render turbo_stream: turbo_stream.replace(
-        "organization_#{current_organization.uid}_invite_form",
-        partial: 'user_invites/form',
-        locals: { errors: invite.errors.full_messages }
-      )
     end
+    render turbo_stream: turbo_stream.replace(
+      "domain_#{current_domain.uid}_invite_form",
+      partial: 'user_invites/form',
+      locals: { 
+        domain: current_domain,
+        errors: invite.errors.full_messages 
+      }
+    )
   end
 
   def accept
     @user = User.new
-    @user_invite = UserInvite.includes(:organization).find_by(token: params[:token])
+    @user_invite = UserInvite.includes(:domain).find_by(token: params[:token])
     @hide_logged_out_nav = true
     unless @user_invite.redeemable?
       display_inline_error("Invite expired. Please request a new invite from your admin.")

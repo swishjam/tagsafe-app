@@ -14,8 +14,8 @@ module NotificationModerator
     private
 
     def notify_email_subscribers
-      # TODO: rework this to only send to email subscribers, not all organization users
-      users_to_notify = @tag_version.tag.domain.organization.users
+      # TODO: rework this to only send to email subscribers, not all domain users
+      users_to_notify = @tag_version.tag.domain.users
       Resque.logger.info "Sending #{users_to_notify.count} email notification of new tag version for #{@tag_version.tag.try_friendly_name}"
       start = Time.now
       users_to_notify.each do |user|

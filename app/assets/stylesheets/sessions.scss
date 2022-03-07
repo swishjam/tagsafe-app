@@ -1,4 +1,4 @@
-body.sessions, body.registrations, body.organizations, body.domains.new, body.user_invites.accept {
+body.sessions, body.registrations, body.domains, body.user_invites.accept {
   background: $tagsafe-secondary;
   #content {
     background: $tagsafe-secondary;
@@ -8,7 +8,7 @@ body.sessions, body.registrations, body.organizations, body.domains.new, body.us
     justify-content: center;
     padding: 25px;
   }
-  .form-card {
-    max-width: 500px;
-  }
+  // .form-card {
+  //   max-width: 500px;
+  // }
 }

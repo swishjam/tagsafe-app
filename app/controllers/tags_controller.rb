@@ -32,8 +32,8 @@ class TagsController < LoggedInController
 
   def notification_settings
     @tag = current_domain.tags.find(params[:tag_id])
-    if current_organization.completed_slack_setup?
-      @slack_channels_options = current_organization.slack_client.get_channels['channels'].map { |channel| channel['name'] }
+    if current_domain.completed_slack_setup?
+      @slack_channels_options = current_domain.slack_client.get_channels['channels'].map { |channel| channel['name'] }
     end
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 

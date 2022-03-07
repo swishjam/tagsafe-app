@@ -12,7 +12,7 @@ class RegistrationsController < LoggedOutController
       if @user.save
         Role.USER_ADMIN.assign_to(@user)
         log_user_in(@user)
-        redirect_to new_organization_path
+        redirect_to new_domain_path
       else
         display_inline_errors(@user.errors.full_messages)
         @hide_logged_out_nav = true

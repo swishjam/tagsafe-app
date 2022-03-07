@@ -15,8 +15,6 @@ class PerformanceAudit < ApplicationRecord
 
   scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }
-  scope :by_tag_ids, -> (tag_ids) { joins(:audit).where(audits: { tag_id: tag_ids })}
-  scope :with_tags, -> (tag_ids) { includes(audit: :tag).where(audits: { tag_id: tag_ids }) }
 
   scope :with_tag, -> { where(type: [IndividualPerformanceAuditWithTag.to_s, MedianIndividualPerformanceAuditWithTag.to_s, AveragePerformanceAuditWithTag.to_s]) }
   scope :without_tag, -> { where(type: [IndividualPerformanceAuditWithoutTag.to_s, MedianIndividualPerformanceAuditWithoutTag.to_s, AveragePerformanceAuditWithoutTag.to_s]) }
@@ -24,6 +22,17 @@ class PerformanceAudit < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :failed, -> { completed.where.not(error_message: nil) }
   scope :completed_successfully, -> { completed.where(error_message: nil) }
+
+  def self.TYPES
+    %w[
+      AveragePerformanceAuditWithoutTag
+      AveragePerformanceAuditWithTag
+      IndividualPerformanceAuditWithoutTag
+      IndividualPerformanceAuditWithTag
+      MedianIndividualPerformanceAuditWithoutTag
+      MedianIndividualPerformanceAuditWithTag
+    ]
+  end
 
   def self.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE
     'tagsafe_score_confidence_range'

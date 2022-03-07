@@ -4,8 +4,6 @@ class ObjectFlag < ApplicationRecord
 
   def display_name
     case object_type
-    when 'Organization'
-      "#{object.name} (Organization)"
     when 'Domain'
       "#{object.url} (Domain)"
     when 'Tag'

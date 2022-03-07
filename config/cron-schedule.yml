@@ -3,11 +3,6 @@ re_enqueue_failed_jobs:
   cron: "*/1 * * * *" # every 1 minute
   queue: "tag_checker_queue" # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
   description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
-one_minute_check_scripts:
-  class: Schedule::TagCheckJobs::OneMinuteInterval
-  cron: "*/1 * * * *" # every 1 minute
-  description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
-  queue: "tag_checker_queue"
 re_scan_domains:
   class: Schedule::CrawlUrlsJob
   cron: "0 */1 * * *" # every 1 hour
@@ -22,3 +17,37 @@ clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every night at midnight
   queue: "default_queue"
+
+one_minute_check_scripts:
+  class: Schedule::TagCheckJobs::OneMinuteInterval
+  cron: "*/1 * * * *" # every 1 minute
+  description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
+  queue: "tag_checker_queue"
+fifteen_minute_check_scripts:
+  class: Schedule::TagCheckJobs::FifteenMinuteInterval
+  cron: "*/15 * * * *" # every 15th minute
+  queue: "tag_checker_queue"
+thirty_minute_check_scripts:
+  class: Schedule::TagCheckJobs::ThirtyMinuteInterval
+  cron: "*/30 * * * *" # every 30th minute
+  queue: "tag_checker_queue"
+one_hour_check_scripts:
+  class: Schedule::TagCheckJobs::OneHourInterval
+  cron: "0 * * * *" # every hour
+  queue: "tag_checker_queue"
+three_hour_check_scripts:
+  class: Schedule::TagCheckJobs::ThreeHourInterval
+  cron: "0 0,3,6,9,12,15,18,21 * * *" # midnight, 3, 6, 9, noon, 3, 6, 9
+  queue: "tag_checker_queue"
+six_hour_check_scripts:
+  class: Schedule::TagCheckJobs::SixHourInterval
+  cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
+  queue: "tag_checker_queue"
+twelve_hour_check_scripts:
+  class: Schedule::TagCheckJobs::TwelveHourInterval
+  cron: "0 0,12 * * *" # midnight, noon
+  queue: "tag_checker_queue"
+twenty_four_hour_check_scripts:
+  class: Schedule::TagCheckJobs::TwentyFourHourInterval
+  cron: "0 0 * * *" # midnight
+  queue: "tag_checker_queue"

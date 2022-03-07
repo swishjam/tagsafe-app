@@ -6,14 +6,14 @@
   </div>
 
   <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center form-card m-auto">
-    <h3>Join <%= @user_invite.organization.name %></h3>
+    <h3 class='tagsafe-font mb-5'>Join <%= @user_invite.domain.url %> on Tagsafe</h3>
     <%= form_for @user, url: redeem_invite_path(@user_invite.token), data: { controller: 'loading_form' } do |f| %>
       <div class='form-floating m-2'>
-        <%= f.text_field :first_name, class: 'form-control' %>
+        <%= f.text_field :first_name, class: 'form-control', placeholder: 'John' %>
         <%= f.label :first_name %>
       </div>
       <div class='form-floating m-2'>
-        <%= f.text_field :last_name, class: 'form-control' %>
+        <%= f.text_field :last_name, class: 'form-control', placeholder: 'Smith' %>
         <%= f.label :last_name %>
       </div>
       <div class='form-floating m-2'>

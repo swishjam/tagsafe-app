@@ -1,5 +1,5 @@
 class UserInvite < ApplicationRecord  
-  belongs_to :organization
+  belongs_to :domain
   belongs_to :invited_by_user, class_name: 'User'
 
   scope :redeemable, -> { where('redeemed_at = ? AND expires_at < ?', nil, DateTime.now) }
@@ -8,14 +8,15 @@ class UserInvite < ApplicationRecord
   scope :expired, -> { where('expires_at >= ?', DateTime.now) }
   scope :not_expired, -> { where('expires_at < ?', DateTime.now) }
 
-  after_create :send_invite!
+  after_create_commit :send_invite!
+  after_create_commit :re_render_pending_invite_list
 
   validate :user_doesnt_exist
   validate :user_doesnt_have_pending_invite
 
-  def self.invite!(email, organization, invited_by_user)
+  def self.invite!(email, domain, invited_by_user)
     create!(
-      organization: organization,
+      domain: domain,
       email: email,
       invited_by_user: invited_by_user,
       expires_at: DateTime.now + 1.day,
@@ -24,7 +25,7 @@ class UserInvite < ApplicationRecord
   end
 
   def redeem!(new_user)
-    new_user.organizations << organization
+    new_user.domains << domain
     touch(:redeemed_at)
   end
 
@@ -40,16 +41,29 @@ class UserInvite < ApplicationRecord
     TagSafeMailer.send_user_invite_email(self)
   end
 
+  def re_render_pending_invite_list
+    broadcast_replace_to(
+      "domain_#{domain.uid}_user_invites_stream",
+      target: "domain_#{domain.uid}_pending_invites",
+      partial: 'user_invites/index',
+      locals: { 
+        domain: domain,
+        invite_list_type: :pending,
+        user_invites: domain.user_invites.not_redeemed 
+      }
+    )
+  end
+
   private
 
   def user_doesnt_exist
-    if organization.users.find_by(email: email)
-      errors.add(:base, "User already belongs to #{organization.name}.")
+    if domain.users.find_by(email: email)
+      errors.add(:base, "User already belongs to #{domain.url}.")
     end
   end
 
   def user_doesnt_have_pending_invite
-    if organization.user_invites.redeemable.find_by(email: email)
+    if domain.user_invites.redeemable.find_by(email: email)
       errors.add(:base, "User already has a pending invite.")
     end
   end

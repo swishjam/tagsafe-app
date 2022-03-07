@@ -3,7 +3,7 @@ class DomainsController < LoggedInController
 
   def new
     @domain = Domain.new
-    if current_organization.nil? || current_domain.nil?
+    if current_domain.nil?
       # if user got into a weird state
       @hide_navigation = true
     else
@@ -12,14 +12,16 @@ class DomainsController < LoggedInController
   end
   
   def create
-    params[:domain][:organization_id] = current_organization.id
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
     @domain = Domain.new(domain_params)
     if @domain.save
+      current_user.domains << @domain
       set_current_domain_for_user(current_user, @domain)
+      Role.USER_ADMIN.apply_to_domain_user(current_user.domain_user_for(@domain))
       redirect_to tags_path
     else
       display_inline_errors(@domain.errors.full_messages)
+      @hide_navigation = true
       render :new, status: :unprocessable_entity
     end
   end
@@ -53,6 +55,6 @@ class DomainsController < LoggedInController
   private
 
   def domain_params
-    params.require(:domain).permit(:url, :organization_id)
+    params.require(:domain).permit(:url)
   end
 end

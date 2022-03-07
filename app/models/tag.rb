@@ -82,14 +82,15 @@ class Tag < ApplicationRecord
   scope :has_content, -> { where(has_content: true) }
   scope :doesnt_have_content, -> { where(has_content: false) }
 
-  scope :one_minute_interval_checks, -> { all }
+  # scope :one_minute_interval_checks, -> { all }
+  scope :one_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1) }
   scope :fifteen_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 15) }
   scope :thirty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 30) }
-  scope :sixty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 60) }
+  scope :one_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 60) }
   scope :three_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 180) }
   scope :six_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 360) }
   scope :twelve_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 720) }
-  scope :twenty_hour_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1440) }
+  scope :twenty_four_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1440) }
   # etc...
 
   def self.where_tag_preferences(where_clause)
