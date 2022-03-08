@@ -77,7 +77,7 @@ class TagsafeMailer < SendgridTemplateMailer
         template_variables: {
           new_tag_url: tag.full_url,
           new_tag_name: tag.try_friendly_name,
-          new_tag_image_url: tag.try_image_url.
+          new_tag_image_url: tag.try_image_url,
           domain_url: tag.domain.url,
           new_tag_tagsafe_url: mail_safe_url("/tags/#{tag.id}")
         }
