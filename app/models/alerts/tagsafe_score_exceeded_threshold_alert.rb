@@ -1,0 +1,2 @@
+class TagsafeScoreExceededThreshold < TriggeredAlert
+end

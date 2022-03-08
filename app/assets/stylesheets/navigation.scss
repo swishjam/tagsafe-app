@@ -1,10 +1,10 @@
 .navigation {
   &.collapsed {
-    margin-left: -14%;
+    margin-left: -15%;
     // cursor: pointer;
   }
   transition: 500ms margin-left;
-  width: 15%;
+  width: 16%;
   left: 0;
   background-color: white;
   color: $dark-grey-text;
@@ -92,7 +92,7 @@
     left: 1%;
   }
   &.hide-btn {
-    left: 15%;
+    left: 16%;
   }
   top: 0;
   position: fixed;

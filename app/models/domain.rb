@@ -4,13 +4,13 @@ class Domain < ApplicationRecord
   uid_prefix 'dom'
   acts_as_paranoid
 
-  has_one :default_audit_configuration, as: :parent, class_name: 'DefaultAuditConfiguration', dependent: :destroy
-  has_many :domain_users
+  has_one :default_audit_configuration, as: :parent, class_name: DefaultAuditConfiguration.to_s, dependent: :destroy
+  has_many :domain_users, dependent: :destroy
   has_many :users, through: :domain_users
-  has_many :user_invites
+  has_many :user_invites, dependent: :destroy
   has_many :page_urls, dependent: :destroy
   has_many :tags, dependent: :destroy
-  has_many :functional_tests
+  has_many :functional_tests, dependent: :destroy
   has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
@@ -81,10 +81,6 @@ class Domain < ApplicationRecord
     return false if user.nil?
     users.include?(user)
   end
-
-  # def has_multiple_domains?
-  #   domains.count > 1
-  # end
 
   def add_user(user)
     users << user

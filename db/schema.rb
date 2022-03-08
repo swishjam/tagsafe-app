@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_07_031220) do
+ActiveRecord::Schema.define(version: 2022_03_07_172217) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -40,6 +40,28 @@ ActiveRecord::Schema.define(version: 2022_03_07_031220) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "alert_configurations", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_user_id"
+    t.bigint "domain_id"
+    t.bigint "tag_id"
+    t.boolean "alert_on_new_tags"
+    t.boolean "alert_on_removed_tags"
+    t.boolean "alert_on_new_tag_versions"
+    t.boolean "alert_on_new_tag_version_audit_completions"
+    t.boolean "alert_on_tagsafe_score_exceeded_thresholds"
+    t.boolean "alert_on_slow_tag_response_times"
+    t.float "tagsafe_score_threshold"
+    t.float "tagsafe_score_percent_drop_threshold"
+    t.float "tag_slow_response_time_ms_threshold"
+    t.float "tag_slow_response_time_percent_increase_threshold"
+    t.integer "num_slow_responses_before_alert"
+    t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
+    t.index ["domain_user_id"], name: "index_alert_configurations_on_domain_user_id"
+    t.index ["tag_id"], name: "index_alert_configurations_on_tag_id"
+    t.index ["uid"], name: "index_alert_configurations_on_uid"
+  end
+
   create_table "audits", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.integer "execution_reason_id"
@@ -64,9 +86,9 @@ ActiveRecord::Schema.define(version: 2022_03_07_031220) do
     t.timestamp "functional_tests_completed_at"
     t.float "tagsafe_score_confidence_range"
     t.integer "num_performance_audit_sets_ran"
-    t.bigint "initiated_by_user_id"
+    t.bigint "initiated_by_domain_user_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
-    t.index ["initiated_by_user_id"], name: "index_audits_on_initiated_by_user_id"
+    t.index ["initiated_by_domain_user_id"], name: "index_audits_on_initiated_by_domain_user_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
     t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
@@ -632,6 +654,29 @@ ActiveRecord::Schema.define(version: 2022_03_07_031220) do
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
     t.index ["test_run_id_retried_from"], name: "index_test_runs_on_test_run_id_retried_from"
     t.index ["uid"], name: "index_test_runs_on_uid"
+  end
+
+  create_table "triggered_alert_domain_users", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "triggered_alert_id"
+    t.bigint "domain_user_id"
+    t.index ["domain_user_id"], name: "index_triggered_alert_domain_users_on_domain_user_id"
+    t.index ["triggered_alert_id"], name: "index_triggered_alert_domain_users_on_triggered_alert_id"
+    t.index ["uid"], name: "index_triggered_alert_domain_users_on_uid"
+  end
+
+  create_table "triggered_alerts", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "type"
+    t.bigint "tag_id"
+    t.string "initiating_record_type"
+    t.bigint "initiating_record_id"
+    t.text "triggered_reason_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["initiating_record_type", "initiating_record_id"], name: "index_triggered_alerts_on_initiating_record"
+    t.index ["tag_id"], name: "index_triggered_alerts_on_tag_id"
+    t.index ["uid"], name: "index_triggered_alerts_on_uid"
   end
 
   create_table "url_crawl_retrieved_urls", charset: "utf8mb3", force: :cascade do |t|

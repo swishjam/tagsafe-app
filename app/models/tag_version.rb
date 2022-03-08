@@ -49,16 +49,14 @@ class TagVersion < ApplicationRecord
         img: tag.try_image_url,
         timestamp: created_at.formatted_short
       )
-    end
-    unless Util.env_is_true('SEND_NEW_TAG_VERSION_NOTIFICATIONS_IN_NEW_TAG_VERSION_JOB')
-      NotificationModerator::NewTagVersionNotifier.new(self).notify!
+      NewTagVersionAlert.create!(tag: tag, initiating_record: self)
     end
   end
 
-  def perform_audit_later(execution_reason:, initiated_by_user: nil, url_to_audit:, options: {})
+  def perform_audit_later(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
     AuditRunner.new(
       tag_version: self,
-      initiated_by_user: initiated_by_user,
+      initiated_by_domain_user: initiated_by_domain_user,
       url_to_audit_id: url_to_audit.id,
       execution_reason: execution_reason,
       options: options

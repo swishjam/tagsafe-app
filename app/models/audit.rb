@@ -3,7 +3,7 @@ class Audit < ApplicationRecord
   uid_prefix 'aud'
   acts_as_paranoid
 
-  belongs_to :initiated_by_user, class_name: User.to_s, optional: true
+  belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason
@@ -127,8 +127,8 @@ class Audit < ApplicationRecord
     end
     update(performance_audit_completed_at: Time.now, tagsafe_score_confidence_range: tagsafe_score_confidence_range)
     update_performance_audit_details_view(audit: self, now: true)
+    purge_non_median_performance_audit_recordings!
     return if reload.try_completion!
-    # performance_audit_completed? returns false without a reload..
     update_audit_table_row(audit: self, now: true)
     update_tag_version_table_row(tag_version: tag_version, now: true)
     update_tag_table_row(tag: tag, now: true)
@@ -172,8 +172,8 @@ class Audit < ApplicationRecord
   end
 
   def send_audit_completed_notifications_if_necessary
-    unless initiated_by_user.nil?
-      initiated_by_user.broadcast_notification(
+    unless initiated_by_domain_user.nil?
+      initiated_by_domain_user.user.broadcast_notification(
         timestamp: Time.now.strftime("%m/%d/%y @ %l:%M %P %Z"),
         image: self.tag.try_image_url,
         partial: 'audits/completed_notification',
@@ -267,6 +267,11 @@ class Audit < ApplicationRecord
 
   def confidence_calculator
     PerformanceAuditManager::ConfidenceCalculator.new(self)
+  end
+
+  def purge_non_median_performance_audit_recordings!
+    return if Util.env_is_true('DONT_PURGE_NON_MEDIAN_PERFORMANCE_AUDIT_RECORDINGS')
+    performance_audits.where(type: [IndividualPerformanceAuditWithoutTag.to_s, IndividualPerformanceAuditWithTag.to_s]).each{ |perf_audit| perf_audit.puppeteer_recording&.purge_from_s3 }
   end
 
   def previous_primary_audit(disable_cache = false)

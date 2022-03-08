@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   root 'welcome#index'
-  post '/learn_more' => 'welcome#learn_more'
 
   require 'resque/server'
   mount Resque::Server.new, at: '/queue'
 
-  # TODO: make my routes more Rails-y
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy', as: :logout
@@ -13,8 +11,6 @@ Rails.application.routes.draw do
   get '/demo' => 'demo#index'
 
   resources :registrations, only: [:new, :create]
-  # resources :organizations, only: [:new, :create]
-  # put '/update_current_organization/:uid' => 'organizations#update_current_organization', as: :update_current_organization
   
   resources :domain_users, only: [:destroy]
   get "/domain_users/:id/destroy_modal" => 'domain_users#destroy_modal', as: :destroy_domain_user_modal
@@ -26,7 +22,10 @@ Rails.application.routes.draw do
   get '/uptime' => 'tag_checks#index'
   get '/uptime/:tag_id' => 'tag_checks#tag', as: :tag_uptime_data
   get '/performance' => 'performance#index'
-  get '/breakdown' => 'tags#breakdown'
+
+  get '/alerts' => 'triggered_alerts#index', as: :alerts
+  get '/alerts/:id' => 'triggered_alerts#show', as: :alert
+  resources :alert_configurations, only: [:show, :create, :update]
 
   resources :domains, only: [:create, :update, :new] do
     member do

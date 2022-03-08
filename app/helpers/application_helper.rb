@@ -12,6 +12,10 @@ module ApplicationHelper
     log_user_out
   end
 
+  def current_domain_user
+    @current_domain_user ||= current_user.domain_user_for(current_domain)
+  end
+
   def set_current_domain_for_user(user, domain)
     raise 'Cannot update domain to user that does not belong to it' unless user.domains.include? domain
     session[:current_domain_id] = domain.id

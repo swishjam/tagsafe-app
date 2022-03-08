@@ -15,7 +15,7 @@ class PageUrl < ApplicationRecord
 
   validate :is_part_of_domain_url
   validate :at_least_one_scannable_url, on: :update
-  validates_uniqueness_of :full_url, scope: :domain_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists on #{domain.full_url}."}
+  validates_uniqueness_of :full_url, scope: :domain_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists on #{domain.url}."}
 
   def self.create_or_find_by_url(domain, url, should_scan_for_tags: false)
     existing_page_url = domain.page_urls.find_by_unsanitized_url(url)

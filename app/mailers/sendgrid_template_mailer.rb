@@ -12,25 +12,18 @@ class SendgridTemplateMailer
       generic: 'd-7493482135c6422e8909702051fb4615' # updated
     }
     
-    def send!
-      raise TagSafeMailerError::InvalidArgumentsError, "Missing required SendgridTemplateMailer arguments. Must include `@to_email`, `@variable_json`, `@from_email`, and `@template_name`" if @to_email.nil? || @variable_json.nil? || @from_email.nil? || @template_name.nil?
+    def send!(to:, from:, template_variables:, template_name:)
       data = {
         "personalizations": [
           {
-            "to": [
-              {
-                "email": "#{@to_email}"
-              }
-            ],
-            "dynamic_template_data": @variable_json
+            "dynamic_template_data": template_variables,
+            "to": [{ "email": to }]
           }
         ],
-        "from": {
-          "email": "#{@from_email}"
-        },
-        "template_id": "#{TEMPLATE_ID_DICTIONARY[@template_name]}"
+        "from": { "email": from },
+        "template_id": "#{TEMPLATE_ID_DICTIONARY[template_name]}"
       }
-      Rails.logger.info "Sending #{@template_name} (#{TEMPLATE_ID_DICTIONARY[@template_name]}) email to #{@to_email}"
+      Rails.logger.info "Sending #{template_name} (#{TEMPLATE_ID_DICTIONARY[template_name]}) email to #{to}"
       resp = sg_api.client.mail._("send").post(request_body: data)
       Rails.logger.error "Sendgrid Post err: #{resp.status_code} - #{resp.body}" unless resp.status_code.to_i < 300
     end

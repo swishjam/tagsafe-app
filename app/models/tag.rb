@@ -10,33 +10,32 @@ class Tag < ApplicationRecord
   # RELATIONS
   belongs_to :domain
   belongs_to :tag_identifying_data, optional: true
-  belongs_to :found_on_page_url, class_name: 'PageUrl'
-  belongs_to :found_on_url_crawl, class_name: 'UrlCrawl'
+  belongs_to :found_on_page_url, class_name: PageUrl.to_s
+  belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s
   
-  # has_many :audits, -> { order('created_at DESC') }, dependent: :destroy  
   has_many :audits, dependent: :destroy  
-  # has_many :tag_versions, -> { order('created_at DESC') }, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
-  has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
-  # has_many :tag_checks, -> { order('created_at DESC') }, dependent: :destroy
   has_many :tag_checks, dependent: :destroy
-  has_many :urls_to_audit, class_name: 'UrlToAudit', dependent: :destroy
-  has_many :functional_tests_to_run, class_name: 'FunctionalTestToRun', dependent: :destroy
+  has_many :urls_to_audit, class_name: UrlToAudit.to_s, dependent: :destroy
+  has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
+  has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
   
   has_many :events, as: :triggerer, dependent: :destroy
-  has_many :added_to_site_events, class_name: 'TagAddedToSiteEvent'
-  has_many :removed_from_site_events, class_name: 'TagRemovedFromSiteEvent'
-  has_many :query_param_change_events, class_name: 'TagUrlQueryParamChangedEvent'
-  
-  has_many :slack_notification_subscribers, dependent: :destroy
-  has_many :new_tag_slack_notifications, dependent: :destroy
-  has_many :new_tag_version_slack_notifications, dependent: :destroy
-  has_many :audit_completed_slack_notifications, dependent: :destroy
+  has_many :added_to_site_events, class_name: TagAddedToSiteEvent.to_s
+  has_many :removed_from_site_events, class_name: TagRemovedFromSiteEvent.to_s
+  has_many :query_param_change_events, class_name: TagUrlQueryParamsChangedEvent.to_s
 
-  has_many :email_notification_subscribers, dependent: :destroy
-  has_many :new_tag_version_email_subscribers, class_name: 'NewTagVersionEmailSubscriber', dependent: :destroy
-  has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber', dependent: :destroy
+  has_many :triggered_alerts
+  
+  # has_many :slack_notification_subscribers, dependent: :destroy
+  # has_many :new_tag_slack_notifications, dependent: :destroy
+  # has_many :new_tag_version_slack_notifications, dependent: :destroy
+  # has_many :audit_completed_slack_notifications, dependent: :destroy
+
+  # has_many :email_notification_subscribers, dependent: :destroy
+  # has_many :new_tag_version_email_subscribers, class_name: 'NewTagVersionEmailSubscriber', dependent: :destroy
+  # has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber', dependent: :destroy
 
   has_one :default_audit_configuration, as: :parent, class_name: 'DefaultAuditConfiguration', dependent: :destroy
   has_one :tag_preferences, class_name: 'TagPreference', dependent: :destroy
@@ -51,8 +50,9 @@ class Tag < ApplicationRecord
   after_create_commit :stream_new_tag_to_views
   after_update_commit { update_tag_table_row(tag: self, now: true) }
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
-  after_create { TagAddedToSiteEvent.create(triggerer: self) }
-  after_create :apply_defaults
+  after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
+  after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
+  after_create_commit :apply_defaults
 
   # SCOPES
   default_scope { includes(:tag_identifying_data) }
@@ -182,6 +182,7 @@ class Tag < ApplicationRecord
 
   def mark_as_removed_from_site!(removed_timestamp = Time.now)
     update!(removed_from_site_at: removed_timestamp)
+    RemovedTagAlert.create!(tag: self, initiating_record: self)
   end
 
   def enabled?
@@ -214,7 +215,7 @@ class Tag < ApplicationRecord
   end
 
   def try_image_url
-    tag_identifying_data&.image&.attached? ? rails_blob_url(tag_identifying_data.image, host: ENV['CURRENT_HOST']) : 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
+    tag_identifying_data&.image&.url || 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
   end
   alias image_url try_image_url
 

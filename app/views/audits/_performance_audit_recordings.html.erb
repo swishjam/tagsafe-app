@@ -1,151 +1,155 @@
-<link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
-<script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+<% if performance_audit_with_tag.puppeteer_recording.captured_successfully? &&
+            performance_audit_without_tag.puppeteer_recording.captured_successfully?
+%>
+  <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
 
-<div class='container performance-audit-recording-container' data-controller='tandem-video-player'>
-  <div class='col-12 text-center'>
-    <button class='tagsafe-btn large' data-tandem-video-player-target='playBtn' data-action='tandem-video-player#playAllVideos'><i class="far fa-play-circle"></i> Play</button>
-    <button class='tagsafe-btn large hidden' data-tandem-video-player-target='rePlayBtn' data-action='tandem-video-player#replayAllVideos'><i class="fas fa-sync-alt"></i> Re-Play</button>
-    <button class='tagsafe-btn large hidden' data-tandem-video-player-target='pauseBtn' data-action='tandem-video-player#pauseAllVideos'><i class="far fa-pause-circle"></i> Pause</button>
-  </div>
-  <div class='col-12 text-center mt-3'>
-    <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='0.25'>0.25 x</button>
-    <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='0.50'>0.50 x</button>
-    <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='0.75'>0.75 x</button>
-    <button class='tagsafe-btn small active' data-action='tandem-video-player#updatePlaybackRate' data-rate='1'>1.0 x</button>
-    <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='1.25'>1.25 x</button>
-    <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='1.5'>1.5 x</button>
-    <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='1.75'>1.75 x</button>
-  </div>
-  <div class='col-12 mt-5'>
-    <div class='row video-players-row align-items-end'>
-      
-      <div class='text-center p-0' style='width: 42.5%'>
-        <h4>Page load with tag present:</h4>
-        <% largest_timestamp = 0 %>
-        <% 
-          with_tag_timestamp_callbacks = [:dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric|
-            timestamp = performance_audit_with_tag[metric]
-            largest_timestamp = timestamp if timestamp > largest_timestamp
-            { metric: metric, timestamp: timestamp }
-          end 
-        %>
-        <div class='video-js-wrapper'>
-          <div class='video-js-container' data-tandem-video-player-target='withTagVideoContainer'>
-            <video-js class='m-auto' data-tandem-video-player-target='withTagVideoPlayer' data-timestamp-callbacks="<%= with_tag_timestamp_callbacks.to_json %>">
-              <source src="<%= performance_audit_with_tag.puppeteer_recording.s3_url %>" type="video/mp4" />
-            </video-js>
-            <div class='playback-time' data-tandem-video-player-target='withTagVideoTimer'></div>
-          </div>
-        </div>
-      </div>
-
-      <div class='performance-metric-visuals-spacer' style='width: 15%'>
-      </div>
-
-      <div class='text-center p-0' style='width: 42.5%'>
-        <h4>Page load without tag present:</h4>
-        <% 
-          without_tag_timestamp_callbacks = [:dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric| 
-            timestamp = performance_audit_without_tag[metric]
-            largest_timestamp = timestamp if timestamp > largest_timestamp
-            { metric: metric, timestamp: timestamp }
-          end 
-        %>
-        <div class='video-js-wrapper'>
-          <div class='video-js-container' data-tandem-video-player-target='withoutTagVideoContainer'>
-            <video-js class='m-auto' data-tandem-video-player-target='withoutTagVideoPlayer' data-timestamp-callbacks="<%= without_tag_timestamp_callbacks.to_json %>">
-              <source src="<%= performance_audit_without_tag.puppeteer_recording.s3_url %>" type="video/mp4" />
-            </video-js>
-            <div class='playback-time' data-tandem-video-player-target='withoutTagVideoTimer'></div>
-          </div>
-        </div>
-      </div>
+  <div class='container performance-audit-recording-container' data-controller='tandem-video-player'>
+    <div class='col-12 text-center'>
+      <button class='tagsafe-btn large' data-tandem-video-player-target='playBtn' data-action='tandem-video-player#playAllVideos'><i class="far fa-play-circle"></i> Play</button>
+      <button class='tagsafe-btn large hidden' data-tandem-video-player-target='rePlayBtn' data-action='tandem-video-player#replayAllVideos'><i class="fas fa-sync-alt"></i> Re-Play</button>
+      <button class='tagsafe-btn large hidden' data-tandem-video-player-target='pauseBtn' data-action='tandem-video-player#pauseAllVideos'><i class="far fa-pause-circle"></i> Pause</button>
     </div>
-
-    <div class='row performance-audit-visuals-row'>
-      <div class='video-performance-progress-visuals-container running p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
-        <% with_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
-          <div class='performance-recording-metric-visual-container'>
-            <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
-            <div class='<%= metric_and_timestamp[:metric] %>-progress-visual performance-recording-metric-visual'
-                  style='right: 0'
-                  data-tandem-video-player-target='<%= metric_and_timestamp[:metric].to_s %>WithTagVisual'
-                  data-controller='tooltip'
-                  data-bs-toggle='tooltip'
-                  title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>">
-            </div>
-            <% other_audits_timestamp = performance_audit_without_tag[metric_and_timestamp[:metric]] %>
-            <% if other_audits_timestamp > metric_and_timestamp[:timestamp] %>
-              <div class='performance-recording-metric-visual-comparison other-audit-is-greater-than' 
-                    data-controller='tooltip'
-                    data-bs-toggle='tooltip'
-                    title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
-                    style='right: 0; width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
-              </div>
-            <% else %>
-              <div class='performance-recording-metric-visual-comparison other-audit-is-less-than' 
-                    data-controller='tooltip'
-                    data-bs-toggle='tooltip'
-                    title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
-                    style='right: 0; width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-
-      <div class='video-performance-progress-visuals-titles-container p-0' style='width: 15%' data-tandem-video-player-target='performanceVisualsTitleContainer'>
-        <% without_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
-          <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
+    <div class='col-12 text-center mt-3'>
+      <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='0.25'>0.25 x</button>
+      <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='0.50'>0.50 x</button>
+      <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='0.75'>0.75 x</button>
+      <button class='tagsafe-btn small active' data-action='tandem-video-player#updatePlaybackRate' data-rate='1'>1.0 x</button>
+      <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='1.25'>1.25 x</button>
+      <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='1.5'>1.5 x</button>
+      <button class='tagsafe-btn small outline' data-action='tandem-video-player#updatePlaybackRate' data-rate='1.75'>1.75 x</button>
+    </div>
+    <div class='col-12 mt-5'>
+      <div class='row video-players-row align-items-end'>
+        
+        <div class='text-center p-0' style='width: 42.5%'>
+          <h4>Page load with tag present:</h4>
+          <% largest_timestamp = 0 %>
           <% 
-            metric_definitions = {
-              dom_complete: "All of the processing is complete and all of the resources on the page (images, stylesheets, javascript etc.) have finished downloading - in other words, the loading spinner has stopped spinning.",
-              dom_interactive: "Marks the point when the browser has finished parsing all of the HTML and DOM construction is complete.",
-              dom_content_loaded: "Typically marks when both the DOM and CSSOM are ready. If there is no parser blocking JavaScript then DOMContentLoaded will fire immediately after DOM Interactive.",
-              first_contentful_paint: "Occurs when a browser first renders any content from the document object model (DOM), including any text, images, non-white canvas, or scalable vector graphics (SVG) onto the page.",
-              script_duration: "Combined duration of all JavaScript execution",
-              layout_duration: "Combined durations of all page layouts.",
-              task_duration: "Combined duration of all tasks performed by the browser."
-            }
+            with_tag_timestamp_callbacks = [:dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric|
+              timestamp = performance_audit_with_tag[metric]
+              largest_timestamp = timestamp if timestamp > largest_timestamp
+              { metric: metric, timestamp: timestamp }
+            end 
           %>
-          <div class='<%= metric_and_timestamp[:metric] %>-progress-visual-title performance-recording-metric-visual-title'
-                data-controller='tooltip'
-                data-bs-toggle='tooltip'
-                title="<%= metric_definitions[metric_and_timestamp[:metric]] %>">
-            <%= human_metric %>
+          <div class='video-js-wrapper'>
+            <div class='video-js-container' data-tandem-video-player-target='withTagVideoContainer'>
+              <video-js class='m-auto' data-tandem-video-player-target='withTagVideoPlayer' data-timestamp-callbacks="<%= with_tag_timestamp_callbacks.to_json %>">
+                <source src="<%= performance_audit_with_tag.puppeteer_recording.s3_url %>" type="video/mp4" />
+              </video-js>
+              <div class='playback-time' data-tandem-video-player-target='withTagVideoTimer'></div>
+            </div>
           </div>
-        <% end %>
+        </div>
+
+        <div class='performance-metric-visuals-spacer' style='width: 15%'>
+        </div>
+
+        <div class='text-center p-0' style='width: 42.5%'>
+          <h4>Page load without tag present:</h4>
+          <% 
+            without_tag_timestamp_callbacks = [:dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric| 
+              timestamp = performance_audit_without_tag[metric]
+              largest_timestamp = timestamp if timestamp > largest_timestamp
+              { metric: metric, timestamp: timestamp }
+            end 
+          %>
+          <div class='video-js-wrapper'>
+            <div class='video-js-container' data-tandem-video-player-target='withoutTagVideoContainer'>
+              <video-js class='m-auto' data-tandem-video-player-target='withoutTagVideoPlayer' data-timestamp-callbacks="<%= without_tag_timestamp_callbacks.to_json %>">
+                <source src="<%= performance_audit_without_tag.puppeteer_recording.s3_url %>" type="video/mp4" />
+              </video-js>
+              <div class='playback-time' data-tandem-video-player-target='withoutTagVideoTimer'></div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class='video-performance-progress-visuals-container running p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
-        <% without_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
-          <div class='performance-recording-metric-visual-container'>
+      <div class='row performance-audit-visuals-row'>
+        <div class='video-performance-progress-visuals-container running p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
+          <% with_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
+            <div class='performance-recording-metric-visual-container'>
+              <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
+              <div class='<%= metric_and_timestamp[:metric] %>-progress-visual performance-recording-metric-visual'
+                    style='right: 0'
+                    data-tandem-video-player-target='<%= metric_and_timestamp[:metric].to_s %>WithTagVisual'
+                    data-controller='tooltip'
+                    data-bs-toggle='tooltip'
+                    title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>">
+              </div>
+              <% other_audits_timestamp = performance_audit_without_tag[metric_and_timestamp[:metric]] %>
+              <% if other_audits_timestamp > metric_and_timestamp[:timestamp] %>
+                <div class='performance-recording-metric-visual-comparison other-audit-is-greater-than' 
+                      data-controller='tooltip'
+                      data-bs-toggle='tooltip'
+                      title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
+                      style='right: 0; width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
+                </div>
+              <% else %>
+                <div class='performance-recording-metric-visual-comparison other-audit-is-less-than' 
+                      data-controller='tooltip'
+                      data-bs-toggle='tooltip'
+                      title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
+                      style='right: 0; width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class='video-performance-progress-visuals-titles-container p-0' style='width: 15%' data-tandem-video-player-target='performanceVisualsTitleContainer'>
+          <% without_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
             <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
-            <div class='<%= metric_and_timestamp[:metric] %>-progress-visual performance-recording-metric-visual'
-                  data-tandem-video-player-target='<%= metric_and_timestamp[:metric].to_s %>WithoutTagVisual'
+            <% 
+              metric_definitions = {
+                dom_complete: "All of the processing is complete and all of the resources on the page (images, stylesheets, javascript etc.) have finished downloading - in other words, the loading spinner has stopped spinning.",
+                dom_interactive: "Marks the point when the browser has finished parsing all of the HTML and DOM construction is complete.",
+                dom_content_loaded: "Typically marks when both the DOM and CSSOM are ready. If there is no parser blocking JavaScript then DOMContentLoaded will fire immediately after DOM Interactive.",
+                first_contentful_paint: "Occurs when a browser first renders any content from the document object model (DOM), including any text, images, non-white canvas, or scalable vector graphics (SVG) onto the page.",
+                script_duration: "Combined duration of all JavaScript execution",
+                layout_duration: "Combined durations of all page layouts.",
+                task_duration: "Combined duration of all tasks performed by the browser."
+              }
+            %>
+            <div class='<%= metric_and_timestamp[:metric] %>-progress-visual-title performance-recording-metric-visual-title'
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
-                  title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>">
+                  title="<%= metric_definitions[metric_and_timestamp[:metric]] %>">
+              <%= human_metric %>
             </div>
-            <% other_audits_timestamp = performance_audit_with_tag[metric_and_timestamp[:metric]] %>
-            <% if other_audits_timestamp > metric_and_timestamp[:timestamp] %>
-              <div class='performance-recording-metric-visual-comparison other-audit-is-greater-than' 
+          <% end %>
+        </div>
+
+        <div class='video-performance-progress-visuals-container running p-0' style='width: 42.5%' data-max-timestamp-ms="<%= largest_timestamp %>">
+          <% without_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
+            <div class='performance-recording-metric-visual-container'>
+              <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
+              <div class='<%= metric_and_timestamp[:metric] %>-progress-visual performance-recording-metric-visual'
+                    data-tandem-video-player-target='<%= metric_and_timestamp[:metric].to_s %>WithoutTagVisual'
                     data-controller='tooltip'
                     data-bs-toggle='tooltip'
-                    title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
-                    style='width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
+                    title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>">
               </div>
-            <% else %>
-              <div class='performance-recording-metric-visual-comparison other-audit-is-less-than' 
-                    data-controller='tooltip'
-                    data-bs-toggle='tooltip'
-                    title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
-                    style='width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
+              <% other_audits_timestamp = performance_audit_with_tag[metric_and_timestamp[:metric]] %>
+              <% if other_audits_timestamp > metric_and_timestamp[:timestamp] %>
+                <div class='performance-recording-metric-visual-comparison other-audit-is-greater-than' 
+                      data-controller='tooltip'
+                      data-bs-toggle='tooltip'
+                      title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
+                      style='width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
+                </div>
+              <% else %>
+                <div class='performance-recording-metric-visual-comparison other-audit-is-less-than' 
+                      data-controller='tooltip'
+                      data-bs-toggle='tooltip'
+                      title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>"
+                      style='width: <%= (other_audits_timestamp/largest_timestamp)*100 %>%'>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

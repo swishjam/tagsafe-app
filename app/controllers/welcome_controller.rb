@@ -8,7 +8,7 @@ class WelcomeController < LoggedOutController
   end
 
   def learn_more
-    TagSafeMailer.generic_email(
+    TagsafeMailer.generic_email(
       to: 'collin@tagsafe.io', 
       subject: 'User interested', 
       body: "#{params[:email]} is interested in TagSafe."

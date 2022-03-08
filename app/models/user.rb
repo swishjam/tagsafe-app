@@ -6,11 +6,11 @@ class User < ApplicationRecord
   has_many :domain_users, dependent: :destroy
   has_many :domains, through: :domain_users
   has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
-  has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_user_id
+  # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_domain_user_id
 
-  has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
-  has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'
-  has_many :audit_complete_notification_subscriptions, class_name: 'AuditCompleteNotificationSubscriber'
+  # has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
+  # has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'
+  # has_many :audit_complete_notification_subscriptions, class_name: 'AuditCompleteNotificationSubscriber'
 
   validates :email, presence: true, uniqueness: true
 
@@ -44,9 +44,13 @@ class User < ApplicationRecord
     domains.count > 1
   end
 
+  def belongs_to_domain?(domain)
+    !domain_user_for(domain).nil?
+  end
+
   def send_welcome_email
     # TODO: need to update SendGrid template
-    # TagSafeMailer.send_welcome_email(self)
+    # TagsafeMailer.send_welcome_email(self)
   end
 
   def can_remove_user_from_domain?(domain)

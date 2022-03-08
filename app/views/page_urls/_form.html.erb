@@ -2,10 +2,10 @@
   <%= f.hidden_field :should_scan_for_tags, value: local_assigns[:should_scan_for_tags] || false %>
   <div class='form-floating d-flex mb-3'>
     <%= f.text_field :full_url, class: 'form-control', value: "#{domain.url}/", placeholder: "#{domain.url}/url_with_tags" %>
-    <label for='url'>URL to sync tags from</label>
-    <%= loading_submit_button button_class: 'square small' do %>
+    <label for='url'>Page URL</label>
+    <%= loading_submit_button button_class: 'square' do %>
       <div class='d-float align-items-center'>
-        Add URL
+        Add
       </div>
     <% end %>
   </div>

@@ -52,7 +52,7 @@ body.logged-in:not(.domains) {
     float: right;
     transition: 500ms width;
     &:not(.collapsed-navigation) {
-      width: 85%;
+      width: 84%;
     }
     &.collapsed-navigation {
       width: 99%;

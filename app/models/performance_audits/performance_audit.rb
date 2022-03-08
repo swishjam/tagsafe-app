@@ -41,22 +41,11 @@ class PerformanceAudit < ApplicationRecord
   def self.NUM_ITERATIONS_COMPLETION_INDICATOR_TYPE
     'num_iterations'
   end
-
-  # def delta_performance_audit
-  #   if audited_with_tag?
-  #     DeltaPerformanceAudit.find_by(perform_audit_with_tag_id: id)
-  #   else
-  #     DeltaPerformanceAudit.find_by(perform_audit_without_tag_id: id)
-  #   end
-  # end
   
   def completed!
     touch(:completed_at)
     update_column(:seconds_to_complete, completed_at - created_at)
     update_performance_audit_completion_indicator(audit: audit, now: true)
-    # if is_a?(IndividualPerformanceAudit)
-    #   audit.try_to_enqueue_next_performance_audit!(self)
-    # end
   end
 
   def error!(msg)
@@ -67,17 +56,7 @@ class PerformanceAudit < ApplicationRecord
   def symbolized_audit_type
     audited_with_tag? ? :with_tag : :without_tag
   end
-
-  # def audited_with_tag?
-  #   audit_performed_with_tag
-  # end
-  # alias with_tag? audited_with_tag?
-
-  # def audited_without_tag?
-  #   !audit_performed_with_tag
-  # end
-  # alias without_tag? audited_without_tag?
-
+  
   def completed?
     !completed_at.nil?
   end

@@ -1,7 +1,7 @@
 class GenericTagSafeError < StandardError; end;
 class NoAccessError < StandardError; end;
 
-class TagSafeMailerError
+class TagsafeMailerError
   class InvalidArgumentsError < StandardError; end;
 end
 

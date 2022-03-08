@@ -14,17 +14,17 @@
             { path: change_log_path, text: "Change Log", icon_class: "fas fa-stream" },
             { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
             { path: performance_path, text: 'Performance', icon_class: 'fas fa-running' },
-            # { path: tags_path, text: "Manage Tags", icon_class: "fas fa-tasks" },
+            { path: alerts_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alerts'] },
             { path: new_user_invite_path, text: "Team Management", icon_class: "fas fa-users" },
             { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
           ]
         %>
         <% nav_items.each do |nav| %>
           <% additional_klass = (nav[:active_nav_path_pattern] ? nav[:active_nav_path_pattern].any?{ |pattern| request.path.include?(pattern) } : request.path == nav[:path]) ? 'current' : nil %>
-          <li class='nav-item <%= additional_klass %>'>
+          <li class='nav-item <%= additional_klass %> m-1'>
             <%= link_to nav[:path], class: "nav-link #{additional_klass}" do %>
               <span class='nav-item-icon'><i class="<%= nav[:icon_class] %>"></i></span> 
-              <span class='nav-item-text d-sm-none d-md-inline'><%= nav[:text] %></span>
+              <span class='nav-item-text d-sm-none d-md-inline ms-1'><%= nav[:text] %></span>
             <% end %>
           </li>
         <% end %>

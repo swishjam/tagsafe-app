@@ -1,6 +1,6 @@
 class UserInvite < ApplicationRecord  
   belongs_to :domain
-  belongs_to :invited_by_user, class_name: 'User'
+  belongs_to :invited_by_user, class_name: User.to_s
 
   scope :redeemable, -> { where('redeemed_at = ? AND expires_at < ?', nil, DateTime.now) }
   scope :redeemed, -> { where.not(redeemed_at: nil) }
@@ -38,7 +38,7 @@ class UserInvite < ApplicationRecord
   end
   
   def send_invite!
-    TagSafeMailer.send_user_invite_email(self)
+    TagsafeMailer.send_user_invite_email(self)
   end
 
   def re_render_pending_invite_list

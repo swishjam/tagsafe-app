@@ -193,9 +193,7 @@
       </div>
     <% end %>
   <% end %>
-  <% if audit.include_performance_audit &&
-            audit.median_individual_performance_audit_with_tag&.puppeteer_recording&.captured_successfully? &&
-            audit.median_individual_performance_audit_without_tag&.puppeteer_recording&.captured_successfully? %>
+  <% if audit.include_performance_audit %>
     <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: audit.median_individual_performance_audit_with_tag,
