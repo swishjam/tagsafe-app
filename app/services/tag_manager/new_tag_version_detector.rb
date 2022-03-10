@@ -55,7 +55,7 @@ module TagManager
     def fetched_content_is_the_same_as_a_previous_version?
       return @fetched_content_is_the_same_as_a_previous_version if defined?(@fetched_content_is_the_same_as_a_previous_version)
       @fetched_content_is_the_same_as_a_previous_version ||= begin
-        return true if Util.env_is_true('DONT_CHECK_IF_TAG_HAS_SAME_CONTENT_IN_PREVIOUS_RELEASE_FOR_NEW_TAG_VERSION_DETECTION')
+        return false if Util.env_is_true('DONT_CHECK_IF_TAG_HAS_SAME_CONTENT_IN_PREVIOUS_RELEASE_FOR_NEW_TAG_VERSION_DETECTION')
         @tag.tag_versions.most_recent_first.where(hashed_content: new_hashed_content).limit(5).any?
       end
     end

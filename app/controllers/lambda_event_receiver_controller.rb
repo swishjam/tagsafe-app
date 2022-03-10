@@ -5,5 +5,8 @@ class LambdaEventReceiverController < ApplicationController
     elf = ExecutedLambdaFunction.find(params.dig('lambda_event_receiver', 'detail', 'requestPayload', 'executed_lambda_function_id'))
     elf.response_received!(response_payload: JSON.parse(params['lambda_event_receiver'].to_json))
     head :ok
+  rescue => e
+    Sentry.capture_exception(e)
+    head :internal_server_error
   end
 end
