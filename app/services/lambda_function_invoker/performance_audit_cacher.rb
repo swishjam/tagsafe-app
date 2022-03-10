@@ -1,4 +1,4 @@
-module LambdaModerator
+module LambdaFunctionInvoker
   class PerformanceAuditCacher < Base
     lambda_service 'performance-auditer'
     lambda_function 'generateCache'

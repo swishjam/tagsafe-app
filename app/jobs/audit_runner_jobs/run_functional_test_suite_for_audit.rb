@@ -1,8 +1,5 @@
 module AuditRunnerJobs
   class RunFunctionalTestSuiteForAudit < ApplicationJob
-    include RetriableJob
-    queue_as :functional_tests_queue
-
     def perform(audit, options = {})
       tests_to_run = audit.tag.functional_tests.enabled
       if tests_to_run.any?

@@ -19,8 +19,8 @@
       <% unless columns_to_exclude.include?('Results') %>
         <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'>
           <% if test_run.pending? %>
-            <div class='tagsafe-badge light-blue medium'>
-              <%= display_loading_spinner size: :tiny, style: 'color: white;' %> <span class='text'>Test is running</span>
+            <div class='tagsafe-pill tagsafe-primary-purple'>
+              <%= display_loading_spinner size: :tiny %> <span class='text'>Test is running</span>
             </div>
           <% elsif test_run.inconclusive? %>
             <div class='tagsafe-pill orange' data-controller='tooltip' bs-toggle='tooltip' title='The test failed, however it also failed when the tag was not present. Please update the test as it likely is no longer able to pass.'>

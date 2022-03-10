@@ -1,10 +1,12 @@
 module PerformanceAuditManager
   class QueueMaintainer
+    NUM_PERFORMANCE_AUDITS_TO_RUN_SIMULTANEOUSLY = 1
+    
     def initialize(audit)
       @audit = audit
     end
     
-    def enqueue_next_set_of_performance_audits_or_mark_as_completed!
+    def run_next_set_of_performance_audits_or_mark_as_completed!
       if @audit.reached_maximum_failed_performance_audits?
         @audit.performance_audit_error!("Reached maximum performance audit retry count of #{@audit.maximum_individual_performance_audit_attempts}, stopping audit.")
       elsif completed_performance_audit_based_on_config?
@@ -15,15 +17,20 @@ module PerformanceAuditManager
       elsif reached_maximum_total_successful_performance_audits?
         reached_maximum_total_successful_performance_audits!
       else
-        generate_performance_audit_set!
-        self.class.new(@audit).enqueue_next_set_of_performance_audits_or_mark_as_completed!
+        run_next_set_of_performance_audits!
       end
     end
 
     private
 
-    def generate_performance_audit_set!
-      PerformanceAuditManager::PerformanceAuditSetGenerator.new(@audit).generate_performance_audit_set!
+    def run_next_set_of_performance_audits!
+      # TODO: cant run many performance audits at a time due to us calling `run_next_set_of_performance_audits_or_mark_as_completed!`
+      # after every result, needs to be run after the batch of audits are complete
+      # we can create a "batch identifier" so we can aggregate performance audits by batch and only run_next_set when entire batch is complete.
+      NUM_PERFORMANCE_AUDITS_TO_RUN_SIMULTANEOUSLY.times do
+        LambdaFunctionInvoker::PerformanceAuditer.new(audit: @audit, performance_audit_klass: IndividualPerformanceAuditWithTag).send!
+        LambdaFunctionInvoker::PerformanceAuditer.new(audit: @audit, performance_audit_klass: IndividualPerformanceAuditWithoutTag).send!
+      end
     end
 
     def outlier_identifier

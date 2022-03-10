@@ -14,8 +14,9 @@ class UrlCrawlsController < LoggedInController
     )
   end
 
-  def executed_lambda_function
-    @url_crawl = current_domain.url_crawls.find(params[:id])
-    @executed_lambda_function = @url_crawl.executed_lambda_function
+  def create
+    current_domain.crawl_and_capture_domains_tags
+    current_user.broadcast_notification(message: "Syncing #{current_domain.url}'s third party tags...")
+    head :no_content
   end
 end

@@ -41,10 +41,6 @@ class PageUrl < ApplicationRecord
     CrawlUrlJob.perform_now(crawl)
   end
 
-  def take_screenshot!(purge_previous = true)
-    
-  end
-
   private
 
   def scan_for_tags_if_became_scannable

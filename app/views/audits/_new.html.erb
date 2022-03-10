@@ -40,12 +40,12 @@
           <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_performance_audit ? "checked='checked'" : nil %>>
         </div>
         <div class='form-check form-switch w-fit m-auto'>
-          <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
-          <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_page_change_audit ? "checked='checked'" : nil %>>
-        </div>
-        <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
           <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_functional_tests ? "checked='checked'" : nil %>>
+        </div>
+        <div class='form-check form-switch w-fit m-auto'>
+          <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
+          <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= default_audit_configuration.include_page_change_audit ? "checked='checked'" : nil %>>
         </div>
         <h5 class='mt-4'>Performance audit settings:</h5>
         <div class='form-check form-switch w-fit m-auto'>

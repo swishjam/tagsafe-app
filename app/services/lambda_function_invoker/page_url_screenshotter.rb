@@ -1,4 +1,4 @@
-# module LambdaModerator
+# module LambdaFunctionInvoker
 #   class PageScreenshotter
 #     lambda_service 'html-snapshotter'
 #     lambda_function 'takeSnapshot'

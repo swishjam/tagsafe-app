@@ -23,6 +23,7 @@ module ChartHelper
 
     def add_current_timestamp_to_chart_data
       @tags.map do |tag|
+        # TODO: need to take into account when the two most recent tag versions dont have a primary audit, there should be a cleaner query for this.
         current_primary_audit = tag.current_version&.primary_audit || tag.current_version&.previous_version&.primary_audit
         unless current_primary_audit.nil?
           @chart_data[tag] = { name: tag.try_friendly_name, data: [[DateTime.now, current_primary_audit.average_delta_performance_audit[@metric_key]]] }
@@ -38,6 +39,7 @@ module ChartHelper
                                     .order('tag_versions.created_at ASC')
                                     .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
         chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.tag_version.created_at, dpa[@metric_key]] }
+        @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
         @chart_data[tag][:data].concat(chart_data_for_tag)
       end
     end

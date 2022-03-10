@@ -28,9 +28,6 @@ Rails.application.routes.draw do
   resources :alert_configurations, only: [:show, :create, :update]
 
   resources :domains, only: [:create, :update, :new] do
-    member do
-      patch :crawl
-    end
     resources :page_urls, only: [:update] do
       collection do
         post '/create_or_update' => 'page_urls#create_or_update'
@@ -133,9 +130,11 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'
+
   get '/settings' => 'settings#global_settings'
   get '/settings/tag_management' => 'settings#tag_management'
-  resources :url_crawls, only: [:index, :show]
+  resources :url_crawls, only: [:index, :show, :create]
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   get '/charts/domain/:domain_id' => 'charts#tags', as: :domain_tags_chart

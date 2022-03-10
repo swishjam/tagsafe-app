@@ -13,13 +13,13 @@ RSpec.describe AuditRunnerJobs::RunIndividualPerformanceAudit do
   def perform_job
     AuditRunnerJobs::RunIndividualPerformanceAudit.perform_now(
       audit: @audit,
-      lambda_sender_class: LambdaModerator::PerformanceAuditerWithTag
+      lambda_sender_class: LambdaFunctionInvoker::PerformanceAuditerWithTag
     )
   end
 
   describe '#perform_later' do
     it 'initializes the `lambda_sender_class`' do
-      expect(LambdaModerator::PerformanceAuditerWithTag).to receive(:new).with(
+      expect(LambdaFunctionInvoker::PerformanceAuditerWithTag).to receive(:new).with(
         audit: @audit, 
         tag_version: @tag_version, 
       ).exactly(:once).and_call_original
@@ -28,20 +28,20 @@ RSpec.describe AuditRunnerJobs::RunIndividualPerformanceAudit do
 
     it 'calls `send!` on an instance of the `lambda_sender_class`' do
       success_response = OpenStruct.new(successful: true, response_body: { foo: 'bar' }, error: nil)
-      expect_any_instance_of(LambdaModerator::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(success_response)
+      expect_any_instance_of(LambdaFunctionInvoker::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(success_response)
       perform_job
     end
 
     it 'calls `capture_successful_response` when the response of the sender `send!` call is successful' do
       successful_response = OpenStruct.new(successful: true, response_body: { foo: 'bar' }, error: nil)
-      expect_any_instance_of(LambdaModerator::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(successful_response)
+      expect_any_instance_of(LambdaFunctionInvoker::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(successful_response)
       expect_any_instance_of(AuditRunnerJobs::RunIndividualPerformanceAudit).to receive(:capture_successful_response).with({ foo: 'bar' }, @audit)
       perform_job
     end
 
     it 'calls `error!` on the lambda_sender_class individual_performance_audit when the response of the sender `send!` call is unsuccessful' do
       unsuccessful_response = OpenStruct.new(successful: false, response_body: { foo: 'bar' }, error: 'Oops! An error occurred.')
-      expect_any_instance_of(LambdaModerator::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(unsuccessful_response)
+      expect_any_instance_of(LambdaFunctionInvoker::PerformanceAuditerWithTag).to receive(:send!).exactly(:once).and_return(unsuccessful_response)
       expect_any_instance_of(PerformanceAuditWithTag).to receive(:error!).with('Oops! An error occurred.').exactly(:once)
       perform_job
     end

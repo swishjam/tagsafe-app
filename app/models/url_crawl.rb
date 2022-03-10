@@ -36,7 +36,7 @@ class UrlCrawl < ApplicationRecord
     has_content: true
   )
     parsed_url = URI.parse(tag_url)
-    tag = found_tags.new(
+    tag = found_tags.create!(
       domain: domain,
       full_url: tag_url,
       url_domain: parsed_url.host,
@@ -56,32 +56,12 @@ class UrlCrawl < ApplicationRecord
         consider_query_param_changes_new_tag: consider_query_param_changes_new_tag
       }
     )
-    if tag.save
-      url_to_audit = tag.urls_to_audit.create(page_url: page_url)
-      # url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
-      AfterTagCreationJob.perform_later(tag)
-      tag
-    else
-      Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
-      Resque.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{tag.errors.full_messages.join('\n')}"
-    end
+    url_to_audit = tag.urls_to_audit.create(page_url: page_url)
+    # url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
+    tag.run_tag_check_later!
+  rescue => e
+    Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{e.inspect}"
   end
-
-  # def unremove_tag_from_site!(tag)
-  #   TagRemovedFromSiteEvent.create!(triggerer: tag)
-  # end
-
-  # def query_params_changed_for_tag!(tag, new_full_url)
-  #   parsed_new_url = URI.parse(new_full_url)
-  #   TagUrlQueryParamsChangedEvent.create!(triggerer: tag, metadata: {
-  #     removed_url_query_params: url_query_param, 
-  #     added_url_query_params: parsed_new_url.query 
-  #   })
-  # end
-
-  # def tag_removed_from_site!(tag)
-  #   removed_from_site_tag_events.create!(tag: tag)
-  # end
 
   def pending?
     completed_at.nil?

@@ -1,5 +1,5 @@
 class AuditRunner
-  def initialize(initiated_by_domain_user:, tag_version:, url_to_audit_id:, execution_reason:, options: {})
+  def initialize(initiated_by_domain_user: nil, tag_version:, url_to_audit_id:, execution_reason:, options: {})
     @initiated_by_domain_user = initiated_by_domain_user
     @tag_version = tag_version
     @url_to_audit_id = url_to_audit_id
@@ -17,7 +17,7 @@ class AuditRunner
 
   def create_audit!
     @audit ||= Audit.create(
-      initiated_by_domain_user: @initiated_by_domain_user.domain_user_for(@tag.domain),
+      initiated_by_domain_user: @initiated_by_domain_user,
       tag: @tag,
       tag_version: @tag_version,
       page_url: url_to_audit.page_url,

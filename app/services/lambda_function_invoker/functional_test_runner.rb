@@ -1,26 +1,39 @@
-module LambdaModerator
+module LambdaFunctionInvoker
   class FunctionalTestRunner < Base
     lambda_service 'functional-test-runner'
     lambda_function 'run-test'
 
     attr_accessor :test_run
 
-    def initialize(test_run, options = {})
+    def initialize(test_run, options: {}, attempt_number: 1)
       @test_run = test_run
       @options = options
       @executed_lambda_function_parent = test_run
+      @attempt_number = attempt_number
     end
 
-    # def before_send
-    #   test_run.update!(enqueued_at: Time.now)
-    # end
-
-    def after_send
-      test_run.update!(completed_at: Time.now)
+    def on_lambda_failure(_error_message)
+      test_run.failed!(message: "An unexpected error occurred.")
+      unless @attempt_number >= 3
+        self.class.new(
+          TestRun.create!(
+            functional_test: test_run.functional_test, 
+            type: test_run.type, 
+            audit: test_run.associated_audit, 
+            test_run_id_retried_from: test_run.test_run_retried_from&.id, 
+            puppeteer_script_ran: test_run.puppeteer_script, 
+            expected_results: test_run.expected_results, 
+            enqueued_at: Time.now
+          ),
+          options: @options,
+          attempt_number: @attempt_number + 1
+        ).send!
+      end
     end
 
     def request_payload
       { 
+        test_run_id: test_run.id,
         puppeteer_script: test_run.puppeteer_script_ran,
         expected_results: test_run.expected_results,
         first_party_url: domain.url,

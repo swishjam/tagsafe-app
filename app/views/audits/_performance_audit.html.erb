@@ -193,7 +193,7 @@
       </div>
     <% end %>
   <% end %>
-  <% if audit.include_performance_audit %>
+  <% if audit.include_performance_audit && audit.performance_audit_configuration.enable_screen_recording && audit.performance_audit_completed? %>
     <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: audit.median_individual_performance_audit_with_tag,

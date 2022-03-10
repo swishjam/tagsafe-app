@@ -187,6 +187,7 @@ class Audit < ApplicationRecord
 
   def enqueue_configured_audit_types
     AuditRunnerJobs::RunPerformanceAudit.perform_later(self) if include_performance_audit
+    # PerformanceAuditManager::QueueMaintainer.new(audit).run_next_set_of_performance_audits_or_mark_as_completed include_performance_audit
     AuditRunnerJobs::RunPageChangeAudit.perform_later(self) if include_page_change_audit
     AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(self) if include_functional_tests
   end
