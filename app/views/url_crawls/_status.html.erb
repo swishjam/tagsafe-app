@@ -5,7 +5,7 @@
     <h3>Currently syncing third party tags from <%= url_crawl.page_url.full_url %>...</h3> <%= display_loading_spinner type: 'grow' %>
   <% elsif url_crawl.failed? %>
     <h3>Unable to sync third party tags from <%= url_crawl.page_url.full_url %>: <%= url_crawl.error_message %></h3>
-    <%= form_with url: crawl_domain_path(url_crawl.domain_id), method: :patch do |f| %>
+    <%= form_with url: url_crawls_path, method: :POST do |f| %>
       <%= f.submit 'Try Again', class: 'tagsafe-btn' %>
     <% end %>
   <% elsif url_crawl.successful? %>

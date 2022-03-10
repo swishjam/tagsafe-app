@@ -3,9 +3,10 @@
     <% most_recent_crawl = domain.url_crawls&.most_recent %>
     <div class='tagsafe-container mb-3 tagsafe-font'>
       <% if most_recent_crawl.nil? %>
-          <%= form_for current_domain, url: crawl_domain_path(current_domain) do |f| %>
-            <%= f.submit 'Sync third party tags', class: 'tagsafe-btn' %>
-          <% end %>
+        <h2>Sync your third party tags from <%= current_domain.url %></h2>
+        <%= form_with url: url_crawls_path, method: :POST do |f| %>
+          <%= f.submit 'Sync third party tags', class: 'tagsafe-btn mt-3' %>
+        <% end %>
       <% elsif most_recent_crawl.pending? %>
         <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
       <% else %>

@@ -1,4 +1,4 @@
-module LambdaModerator
+module LambdaFunctionInvoker
   class Base
     attr_accessor :executed_lambda_function_parent
     LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
@@ -9,21 +9,25 @@ module LambdaModerator
 
     def send!
       create_executed_lambda_function!
-      before_send
       response = lambda_client.invoke(invoke_params)
-      after_send
-      response_body = JSON.parse(response.payload.read)
-      update_executed_lambda_function_with_response(response.status_code, response_body)
-      successful = response.status_code.between?(199, 299)
-      OpenStruct.new(successful: successful, response_body: response_body, error: response.function_error || response_body['errorMessage'] || response_body['error'])
+      executed_lambda_function.update!(response_code: response.status_code)
+      lambda_error!(response.function_error) unless response.status_code.between?(199, 299)
     rescue => e
-      Rails.logger.error("Encountered Lambda error in #{self.class.to_s}: #{e.inspect}")
-      Resque.logger.error("Encountered Lambda error in #{self.class.to_s}: #{e.inspect}")
-      update_executed_lambda_function_with_response(0, { error: e.inspect })
-      OpenStruct.new(successful: false, response_body: { 'errorMessage' => e.message })
+      executed_lambda_function.update!(
+        response_code: 500,
+        response_payload: { 
+          errorMessage: e.message,
+          errorBacktrac: e.backtrace 
+        }
+      )
+      lambda_error!(e.message)
     end
 
     private
+
+    def lambda_error!(error_msg)
+      on_lambda_failure(error_msg) if defined?(on_lambda_failure)
+    end
 
     def lambda_client
       @lambda_client ||= Aws::Lambda::Client.new(
@@ -32,7 +36,7 @@ module LambdaModerator
         region: 'us-east-1',
         max_attempts: 1,
         retry_limit: 0,
-        http_read_timeout: @http_read_timeout || 210 # 3.5 mins for performance audits?
+        # http_read_timeout: @http_read_timeout || 210 # 3.5 mins for performance audits?
       )
     end
 
@@ -40,9 +44,15 @@ module LambdaModerator
       ensure_arguments!
       {
         function_name: lambda_invoke_function_name,
-        invocation_type: 'RequestResponse',
+        # invocation_type: 'RequestResponse',
+        invocation_type: 'Event',
         log_type: 'Tail',
-        payload: JSON.generate(request_payload)
+        payload: JSON.generate(
+          request_payload.merge!({
+            lambda_sender_klass: self.class.to_s,
+            executed_lambda_function_id: executed_lambda_function.id
+          })
+        )
       }
     end
 
@@ -64,10 +74,6 @@ module LambdaModerator
       raise LambdaFunctionError::InvalidFunctionArguments, "#{lambda_invoke_function_name} is missing #{missing_args.join(', ')} arguments" if missing_args.any?
     end
 
-    def before_send; end
-
-    def after_send; end
-
     def required_payload_arguments
       []
     end
@@ -85,16 +91,5 @@ module LambdaModerator
       )
     end
     alias create_executed_lambda_function! executed_lambda_function
-
-    def update_executed_lambda_function_with_response(status_code, response_body)
-      executed_lambda_function.update!(
-        response_code: status_code, 
-        response_payload: response_body,
-        completed_at: Time.now,
-        aws_log_stream_name: response_body && response_body['aws_log_stream_name'],
-        aws_request_id: response_body && response_body['aws_request_id'],
-        aws_trace_id: response_body && response_body['aws_trace_id']
-      )
-    end
   end
 end

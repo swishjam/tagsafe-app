@@ -30,7 +30,7 @@ class AuditsController < LoggedInController
     tag_version = tag.tag_versions.find(params[:tag_version_id])
     audits_enqueued = tag.urls_to_audit.where(id: params[:urls_to_audit]).map do |url_to_audit|
       tag_version.perform_audit_later(
-        initiated_by_domain_user: current_user,
+        initiated_by_domain_user: current_domain_user,
         execution_reason: ExecutionReason.MANUAL,
         url_to_audit: url_to_audit, 
         options: {

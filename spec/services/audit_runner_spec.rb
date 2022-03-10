@@ -50,13 +50,13 @@ RSpec.describe AuditRunner do
         audit: @runner.send(:audit),
         tag_version: @tag_version, 
         enable_tracing: false,
-        lambda_sender_class: LambdaModerator::PerformanceAuditerWithTag
+        lambda_sender_class: LambdaFunctionInvoker::PerformanceAuditerWithTag
       }) { with_tag_audits_sent_count += 1 }
       allow(AuditRunnerJobs::RunIndividualPerformanceAudit).to receive(:perform_later).with({
         audit: @runner.send(:audit),
         tag_version: @tag_version, 
         enable_tracing: false,
-        lambda_sender_class: LambdaModerator::PerformanceAuditerWithoutTag
+        lambda_sender_class: LambdaFunctionInvoker::PerformanceAuditerWithoutTag
       }) { without_tag_audits_sent_count += 1 }
       @runner.send(:run_performance_audit!)
 

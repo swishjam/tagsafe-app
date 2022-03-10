@@ -3,6 +3,11 @@
 <%= render 'settings/settings_nav' %>
 
 <div class="tagsafe-container text-center">
+  <%= form_with url: url_crawls_path, method: :POST do |f| %>
+    <button type='submit' class='tagsafe-btn circular float-end' data-controller='tooltip' data-bs-toggle='tooltip' title='Sync third party tags from <%= current_domain.url %>. Tagsafe automatically syncs tags every 15 minutes.'>
+      <i class="fa-solid fa-arrows-rotate"></i>
+    </button>
+  <% end %>
   <div class='col-12'>
     <table class="table table-hover col-12 text-center" style="table-layout: fixed">
       <thead>

@@ -176,6 +176,10 @@ class Tag < ApplicationRecord
     evaluator
   end
 
+  def run_tag_check_later!
+    RunTagCheckJob.perform_later(self)
+  end
+
   def removed_from_site?
     !removed_from_site_at.nil?
   end

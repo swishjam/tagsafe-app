@@ -24,7 +24,7 @@ class TestRunsController < LoggedInController
         tag: tag,
         tag_version: tag_version,
         audit: audit,
-        test_runs: audit.test_runs_with_tag.order(:passed),
+        test_runs: audit.test_runs_with_tag.order(:passed).page(params[:page] || 1).per(params[:per_page] || 25),
         turbo_frame_tag_name: "audit_#{audit.uid}_test_runs",
         columns_to_exclude: ['Date', 'Type of Test'],
         empty_message_html: "<h5>No functional tests were run because you don't have any tests configured for this tag, <a href='#{functional_tests_path}' target='_top'>configure them here</a>.</h5>"

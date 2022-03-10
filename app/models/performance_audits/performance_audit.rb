@@ -22,6 +22,7 @@ class PerformanceAudit < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :failed, -> { completed.where.not(error_message: nil) }
   scope :completed_successfully, -> { completed.where(error_message: nil) }
+  scope :does_not_have_delta_audit, -> { includes(:delta_performance_audit).where(delta_performance_audit: { id: nil }) }
 
   def self.TYPES
     %w[

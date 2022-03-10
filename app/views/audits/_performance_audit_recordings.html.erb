@@ -1,5 +1,5 @@
-<% if performance_audit_with_tag.puppeteer_recording.captured_successfully? &&
-            performance_audit_without_tag.puppeteer_recording.captured_successfully?
+<% if performance_audit_with_tag&.puppeteer_recording&.captured_successfully? &&
+            performance_audit_without_tag&.puppeteer_recording&.captured_successfully?
 %>
   <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
   <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>

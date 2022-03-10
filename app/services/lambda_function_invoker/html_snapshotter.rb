@@ -1,4 +1,4 @@
-module LambdaModerator
+module LambdaFunctionInvoker
   class HtmlSnapshotter < Base
     lambda_service 'html-snapshotter'
     lambda_function 'takeSnapshot'
@@ -13,16 +13,9 @@ module LambdaModerator
       @html_snapshot ||= @html_snapshot_klass.create(page_change_audit: @page_change_audit)
     end
 
-    def before_send
-      @html_snapshot.update(enqueued_at: Time.now)
-    end
-
-    def after_send
-      @html_snapshot.update(completed_at: Time.now)
-    end
-
     def request_payload
       {
+        html_snapshot_id: html_snapshot.id,
         url: audit.page_url.full_url,
         initial_html_content_s3_key: @page_change_audit.initial_html_content_s3_key,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,

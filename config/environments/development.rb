@@ -15,7 +15,7 @@ Rails.application.configure do
 
   config.action_controller.default_url_options = { host: 'localhost:3000' }
 
-  config.hosts << "e7b8-2603-8000-7401-2792-1912-6e6a-5b7c-b03c.ngrok.io"
+  config.hosts << "ebe5-2603-8000-7401-2792-c50e-5879-975a-9f92.ngrok.io"
 
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] || 'redis://localhost:6379' }
   # Enable/disable caching. By default caching is disabled.
