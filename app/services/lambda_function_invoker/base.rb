@@ -7,11 +7,11 @@ module LambdaFunctionInvoker
       attr_accessor :lambda_service_name, :lambda_function_name
     end
 
-    def send!
+    def send!(async: true)
       create_executed_lambda_function!
-      response = lambda_client.invoke(invoke_params)
+      response = lambda_client.invoke(invoke_params(async: async))
       executed_lambda_function.update!(response_code: response.status_code)
-      lambda_error!(response.function_error) unless response.status_code.between?(199, 299)
+      response.function_error ? lambda_error!(response.function_error) : response
     rescue => e
       executed_lambda_function.update!(
         response_code: 500,
@@ -22,11 +22,22 @@ module LambdaFunctionInvoker
       )
       lambda_error!(e.message)
     end
+    alias send_async! send!
+
+    def send_synchronously!
+      response = send!(async: false)
+      if response
+        response = JSON.parse(response.payload.string) 
+        executed_lambda_function.update!(response_payload: response)
+        response
+      end
+    end
 
     private
 
     def lambda_error!(error_msg)
       on_lambda_failure(error_msg) if defined?(on_lambda_failure)
+      false
     end
 
     def lambda_client
@@ -36,21 +47,22 @@ module LambdaFunctionInvoker
         region: 'us-east-1',
         max_attempts: 1,
         retry_limit: 0,
-        # http_read_timeout: @http_read_timeout || 210 # 3.5 mins for performance audits?
+        http_read_timeout: @http_read_timeout || 210 # 3.5 mins
       )
     end
 
-    def invoke_params
+    def invoke_params(async: true)
       ensure_arguments!
       {
         function_name: lambda_invoke_function_name,
-        # invocation_type: 'RequestResponse',
-        invocation_type: 'Event',
+        invocation_type: async ? 'Event' : 'RequestResponse',
         log_type: 'Tail',
         payload: JSON.generate(
           request_payload.merge!({
-            lambda_sender_klass: self.class.to_s,
-            executed_lambda_function_id: executed_lambda_function.id
+            lambda_invoker_klass: self.class.to_s,
+            executed_lambda_function_id: executed_lambda_function.id,
+            executed_lambda_function_uid: executed_lambda_function.uid,
+            ProcessReceivedLambdaEventJobQueue: 'default'
           })
         )
       }

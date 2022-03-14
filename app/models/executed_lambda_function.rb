@@ -8,8 +8,9 @@ class ExecutedLambdaFunction < ApplicationRecord
   scope :failed, -> { where.not(response_code: 202) }
   scope :successful, -> { where(response_code: 202) }
   scope :completed, -> { where.not(completed_at: nil) }
-  scope :pending_response, -> { where(completed_at: nil) }
+  scope :pending_response, -> { where(completed_at: nil).where.not(executed_at: nil) }
   scope :pending, -> { pending_response }
+  scope :potentially_never_responded, -> { pending.where('executed_at < ?', 10.minutes.ago) }
 
   validate :parent_doesnt_already_have_executed_lambda_function, on: :create
 
@@ -23,13 +24,13 @@ class ExecutedLambdaFunction < ApplicationRecord
     else
       update!(
         completed_at: Time.now,
+        ms_to_receive_response: Time.now - executed_at,
         response_code: response_code,
         response_payload: response_payload,
-        aws_log_stream_name: response_payload.dig('detail', 'responsePayload', 'aws_log_stream_name'),
-        aws_request_id: response_payload.dig('detail', 'responsePayload', 'aws_request_id'),
-        aws_trace_id: response_payload.dig('detail', 'responsePayload', 'aws_trace_id')
+        aws_log_stream_name: response_payload['aws_log_stream_name'],
+        aws_request_id: response_payload['aws_request_id'],
+        aws_trace_id: response_payload['aws_trace_id']
       )
-      ProcessReceivedLambdaEventJob.perform_later(response_payload)
     end
   end
 

@@ -1,0 +1,36 @@
+<div class='container-fluid text-center'>
+  <h4 class='page-title'>Pending Lambda Functions</h4>
+
+  <%=
+    line_chart admin_executed_lambda_functions_chart_path,
+      download: true, 
+      title: 'Lambda Functions',
+      xtitle: 'Execution Time',
+      curve: false, 
+      legend: "bottom"
+  %>
+
+  <div class='tagsafe-container'>
+    <table class="table table-hover col-12 text-start" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 30%">Sent to AWS Lambda at</th>
+          <th scope="col" style="width: 30%">Lambda Function</th>
+          <th scope="col" style="width: 30%">ExecutedLambdaFunction UID</th>
+          <th scope="col" style="width: 30%">Parent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pending_lambda_functions.each do |executed_lambda_function| %>
+          <tr>
+            <td><%= time_ago_in_words(executed_lambda_function.executed_at) %></td>
+            <td><%= executed_lambda_function.function_name %></td>
+            <td><%= executed_lambda_function.uid %></td>
+            <td><%= executed_lambda_function.parent_type %> <%= executed_lambda_function.parent_id %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @pending_lambda_functions %>
+  </div>
+</div>

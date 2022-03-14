@@ -1,5 +1,6 @@
 class Audit < ApplicationRecord
   include Streamable
+  include HasExecutedLambdaFunction
   uid_prefix 'aud'
   acts_as_paranoid
 
@@ -121,11 +122,15 @@ class Audit < ApplicationRecord
 
   def performance_audit_completed!(tagsafe_score_confidence_range)
     unless performance_audit_failed?
-      update(num_performance_audit_sets_ran: delta_performance_audits.count)
       PerformanceAuditManager::AveragePerformanceAuditsCreator.new(self).create_average_performance_audits!
       PerformanceAuditManager::MedianPerformanceAuditsCreator.new(self).find_and_apply_median_audits!
     end
-    update(performance_audit_completed_at: Time.now, tagsafe_score_confidence_range: tagsafe_score_confidence_range)
+    update(
+      performance_audit_completed_at: Time.now,
+      num_performance_audit_sets_ran: delta_performance_audits.count,
+      tagsafe_score_confidence_range: tagsafe_score_confidence_range,
+      tagsafe_score_is_confident: tagsafe_score_confidence_range && tagsafe_score_confidence_range <= performance_audit_configuration.required_tagsafe_score_range
+    )
     update_performance_audit_details_view(audit: self, now: true)
     purge_non_median_performance_audit_recordings!
     return if reload.try_completion!

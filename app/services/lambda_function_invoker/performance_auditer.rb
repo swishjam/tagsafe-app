@@ -3,14 +3,15 @@ module LambdaFunctionInvoker
     lambda_service 'performance-auditer'
     lambda_function 'runPerformanceAudit'
 
-    def initialize(audit:, performance_audit_klass:, options: {})
+    def initialize(audit:, performance_audit_klass:, batch_identifier:, options: {})
       @audit = audit
       @performance_audit_klass = performance_audit_klass
+      @batch_identifier = batch_identifier
       @executed_lambda_function_parent = individual_performance_audit
     end
 
     def individual_performance_audit
-      @individual_performance_audit ||= @performance_audit_klass.create!(audit: @audit)
+      @individual_performance_audit ||= @performance_audit_klass.create!(audit: @audit, batch_identifier: @batch_identifier)
     end
   
     private

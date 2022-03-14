@@ -9,7 +9,7 @@ module PerformanceAuditManager
         avg_perf_audit_attrs(@audit.individual_performance_audits_with_tag.completed_successfully)
       )
       average_performance_audit_without_tag = AveragePerformanceAuditWithoutTag.create!(
-        avg_perf_audit_attrs(@audit.individual_performance_audits_without_tag.completed_successfully).merge!(audit_performed_with_tag: false)
+        avg_perf_audit_attrs(@audit.individual_performance_audits_without_tag.completed_successfully)
       )
       PerformanceAuditManager::DeltaPerformanceAuditCreator.new(
         performance_audit_with_tag: average_performance_audit_with_tag,

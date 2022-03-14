@@ -23,6 +23,7 @@ class PerformanceAudit < ApplicationRecord
   scope :failed, -> { completed.where.not(error_message: nil) }
   scope :completed_successfully, -> { completed.where(error_message: nil) }
   scope :does_not_have_delta_audit, -> { includes(:delta_performance_audit).where(delta_performance_audit: { id: nil }) }
+  scope :in_batch, -> (batch_identifier) { where(batch_identifier: batch_identifier) }
 
   def self.TYPES
     %w[
@@ -44,8 +45,8 @@ class PerformanceAudit < ApplicationRecord
   end
   
   def completed!
-    touch(:completed_at)
-    update_column(:seconds_to_complete, completed_at - created_at)
+    # touch(:completed_at)
+    update!(completed_at: Time.nowm, seconds_to_complete: Time.now - created_at)
     update_performance_audit_completion_indicator(audit: audit, now: true)
   end
 

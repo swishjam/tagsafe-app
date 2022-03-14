@@ -1,6 +1,6 @@
 module PerformanceAuditManager
   class QueueMaintainer
-    NUM_PERFORMANCE_AUDITS_TO_RUN_SIMULTANEOUSLY = 1
+    NUM_PERFORMANCE_AUDITS_TO_RUN_PER_BATCH = 3
     
     def initialize(audit)
       @audit = audit
@@ -27,10 +27,22 @@ module PerformanceAuditManager
       # TODO: cant run many performance audits at a time due to us calling `run_next_set_of_performance_audits_or_mark_as_completed!`
       # after every result, needs to be run after the batch of audits are complete
       # we can create a "batch identifier" so we can aggregate performance audits by batch and only run_next_set when entire batch is complete.
-      NUM_PERFORMANCE_AUDITS_TO_RUN_SIMULTANEOUSLY.times do
-        LambdaFunctionInvoker::PerformanceAuditer.new(audit: @audit, performance_audit_klass: IndividualPerformanceAuditWithTag).send!
-        LambdaFunctionInvoker::PerformanceAuditer.new(audit: @audit, performance_audit_klass: IndividualPerformanceAuditWithoutTag).send!
+      NUM_PERFORMANCE_AUDITS_TO_RUN_PER_BATCH.times do
+        run_individual_performance_audit!(IndividualPerformanceAuditWithTag)
+        run_individual_performance_audit!(IndividualPerformanceAuditWithoutTag)
       end
+    end
+
+    def run_individual_performance_audit!(performance_audit_klass)
+      LambdaFunctionInvoker::PerformanceAuditer.new(
+        audit: @audit, 
+        performance_audit_klass: performance_audit_klass,
+        batch_identifier: performance_audit_batch_identifier
+      ).send!
+    end
+
+    def performance_audit_batch_identifier
+      @performance_audit_batch_identifier ||= ["batch", SecureRandom.hex(4)].join('-')
     end
 
     def outlier_identifier

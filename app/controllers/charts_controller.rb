@@ -81,4 +81,8 @@ class ChartsController < ApplicationController
     chart_data_getter = ChartHelper::AdminAuditPerformanceData.new
     render json: chart_data_getter.get_performance_data
   end
+
+  def admin_executed_lambda_functions
+    render json: ChartHelper::AdminExecutedLambdaFunctionsData.new.chart_data
+  end
 end

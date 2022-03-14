@@ -12,8 +12,13 @@ module PerformanceAuditManager
 
     def self.find_matching_performance_audit_and_create!(performance_audit)
       other_klass = performance_audit.is_a?(IndividualPerformanceAuditWithTag) ? IndividualPerformanceAuditWithoutTag : IndividualPerformanceAuditWithTag
-      matching_performance_audit = other_klass.does_not_have_delta_audit.completed_successfully.where(audit: performance_audit.audit).limit(1).first
-      return false if matching_performance_audit.nil?
+      matching_performance_audit = other_klass.does_not_have_delta_audit
+                                                .completed_successfully
+                                                .in_batch(performance_audit.batch_identifier)
+                                                .where(audit: performance_audit.audit)
+                                                .limit(1)
+                                                .first
+      return if matching_performance_audit.nil?
       new(
         performance_audit_with_tag: other_klass == IndividualPerformanceAuditWithTag ? matching_performance_audit : performance_audit,
         performance_audit_without_tag: other_klass == IndividualPerformanceAuditWithoutTag ? matching_performance_audit : performance_audit, 

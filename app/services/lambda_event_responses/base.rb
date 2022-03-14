@@ -7,11 +7,11 @@ module LambdaEventResponses
     end
 
     def response_payload
-      @response_payload ||= event_payload.dig('detail', 'responsePayload')
+      @response_payload ||= event_payload['responsePayload']
     end
 
     def request_payload
-      @request_payload ||= event_payload.dig('detail', 'requestPayload')
+      @request_payload ||= event_payload['requestPayload']
     end
 
     def process_results!

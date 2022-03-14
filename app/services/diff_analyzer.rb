@@ -53,14 +53,14 @@ class DiffAnalyzer
     @num_deletions = 0
     diffy_diff.each do |line|
       case line
-      # when /^\+\s/ then @num_additions += 1
-      # when /^-\s/ then @num_deletions +=1
       when /^\+/ then @num_additions += 1
       when /^-/ then @num_deletions +=1
       end
     end
     @num_additions -= 1 if @include_diff_info
     @num_deletions -= 1 if @include_diff_info
+    @num_additions < 0 ? 0 : @num_additions
+    @num_deletions < 0 ? 0 : @num_deletions
     @metrics_calculated = true
   end
 

@@ -1,8 +1,9 @@
 module TagManager
   class NewTagVersionDetector
-    def initialize(tag, fetched_content)
+    def initialize(tag, fetched_content, tag_version_to_compare_against = tag.current_version)
       @tag = tag
       @fetched_content = fetched_content
+      @tag_version_to_compare_against = tag_version_to_compare_against
     end
 
     def detected_new_tag_version?
@@ -27,7 +28,7 @@ module TagManager
       @bytesize_changed ||= begin
         return true if @tag.has_no_versions?
         return false if @fetched_content.nil?
-        @fetched_content.bytesize != @tag.current_version.bytes
+        @fetched_content.bytesize != @tag_version_to_compare_against.bytes
       end
     end
 
@@ -36,7 +37,7 @@ module TagManager
       @hash_changed ||= begin
         return true if @tag.has_no_versions?
         return false if @fetched_content.nil?
-        new_hashed_content != @tag.current_version.hashed_content
+        new_hashed_content != @tag_version_to_compare_against.hashed_content
       end
     end
 
@@ -46,7 +47,7 @@ module TagManager
         return true if @tag.has_no_versions?
         return false if @fetched_content.nil?
         return true if Util.env_is_true('DONT_REQUIRE_DETECTABLE_DIFFERENCES_IN_CONTENT_FOR_NEW_TAG_VERSION_DETECTION')
-        DiffAnalyzer.new(new_content: @fetched_content, previous_content: @tag.current_version.content, num_lines_of_context: 0).total_changes > 0
+        DiffAnalyzer.new(new_content: @fetched_content, previous_content: @tag_version_to_compare_against.content, num_lines_of_context: 0).total_changes > 0
       end
     end
 

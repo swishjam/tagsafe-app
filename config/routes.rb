@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/performance' => 'performance#index'
     get '/executed_lambda_function/for_obj/:parent_type/:parent_id' => 'executed_lambda_functions#for_obj'
+    get '/lambda_functions' => 'executed_lambda_functions#index'
     resources :flags, only: [:index, :show] do
       resources :object_flags
     end
@@ -141,4 +142,5 @@ Rails.application.routes.draw do
   get '/charts/tag/:tag_id' => 'charts#tag', as: :tag_chart
   get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime_chart
   get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
+  get '/charts/admin_lambda_functions' => 'charts#admin_executed_lambda_functions', as: :admin_executed_lambda_functions_chart
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_07_172217) do
+ActiveRecord::Schema.define(version: 2022_03_13_001445) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 2022_03_07_172217) do
     t.float "tagsafe_score_confidence_range"
     t.integer "num_performance_audit_sets_ran"
     t.bigint "initiated_by_domain_user_id"
+    t.boolean "has_confident_tagsafe_score"
+    t.boolean "tagsafe_score_is_confident"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["initiated_by_domain_user_id"], name: "index_audits_on_initiated_by_domain_user_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
@@ -223,6 +225,7 @@ ActiveRecord::Schema.define(version: 2022_03_07_172217) do
     t.string "aws_trace_id"
     t.datetime "executed_at"
     t.datetime "completed_at"
+    t.float "ms_to_receive_response"
     t.index ["parent_type", "parent_id"], name: "index_executed_lambda_functions_on_parent"
   end
 
@@ -467,7 +470,7 @@ ActiveRecord::Schema.define(version: 2022_03_07_172217) do
     t.datetime "deleted_at"
     t.float "dom_content_loaded"
     t.string "page_trace_s3_url"
-    t.boolean "audit_performed_with_tag"
+    t.string "batch_identifier"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end

@@ -60,7 +60,7 @@ module TagManager
     end
 
     def tag_version_detector
-      @tag_version_detector ||= TagManager::NewTagVersionDetector.new(@tag, fetched_tag_content)
+      @tag_version_detector ||= TagManager::NewTagVersionDetector.new(@tag, fetched_tag_content, @tag.current_version)
     end
   end
 end
