@@ -102,6 +102,12 @@ namespace :seed do
         slug: 'performance_audit_tagsafe_score_confidence_range_completion_criteria',
         description: 'A performance audit will not be completed until we are 95% sure the Tagsafe Score is +/- this number.',
         default_value: '5'
+      }, 
+      {
+        name: 'Display Tagsafe Score confidence range indicator',
+        slug: 'display_tagsafe_score_confidence_range_indicator',
+        description: 'Whether a user should see an indicator on Tagsafe Scores for when it is within or outside specified confidence range.',
+        default_value: 'false'
       }
     ]
 

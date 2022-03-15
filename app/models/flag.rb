@@ -1,4 +1,13 @@
 class Flag < ApplicationRecord
+  class Slugs
+    class << self
+      %w[
+        display_tagsafe_score_confidence_range_indicator
+      ].each do |slug|
+        define_method(slug.upcase!) { slug }
+      end
+    end
+  end
   uid_prefix 'flag'
   has_many :object_flags, dependent: :destroy
 

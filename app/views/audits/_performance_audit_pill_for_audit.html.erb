@@ -17,26 +17,45 @@
       color = audit.preferred_delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 'green' : 
                 audit.preferred_delta_performance_audit.tagsafe_score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 'orange' : 'red'
     %>
-    <span class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
-      <% current_score = audit.preferred_delta_performance_audit.tagsafe_score.round(2) %> 
-      <%= current_score %>
-      <% unless local_assigns[:compare_to_previous_score] == false %>
-        <% previous_primary_audit = audit.tag_version.previous_version&.primary_audit %>
-        <% if previous_primary_audit %>
-          <% previous_score = previous_primary_audit.preferred_delta_performance_audit.tagsafe_score.round(2) %>
-          <% diff_in_score = (current_score - previous_score).round(2) %>
-          <% icon_class = diff_in_score.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
-          <span style='font-size: 0.75rem'
-                class='ms-1'
-                data-controller='tooltip'
-                data-bs-toggle='tooltip'
-                title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous version.">
-                <i class="<%=icon_class%>"></i> 
-                <%= diff_in_score %>
+    <div class='position-relative'>
+      <div class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+        <% current_score = audit.preferred_delta_performance_audit.tagsafe_score.round(2) %> 
+        <%= current_score %>
+        <% unless local_assigns[:compare_to_previous_score] == false %>
+          <% previous_primary_audit = audit.tag_version.previous_version&.primary_audit %>
+          <% if previous_primary_audit %>
+            <% previous_score = previous_primary_audit.preferred_delta_performance_audit.tagsafe_score.round(2) %>
+            <% diff_in_score = (current_score - previous_score).round(2) %>
+            <% icon_class = diff_in_score.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
+            <span style='font-size: 0.75rem'
+                  class='ms-1'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous version.">
+                  <i class="<%=icon_class%>"></i> 
+                  <%= diff_in_score %>
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+      <% if Flag.flag_is_true(current_user, Flag::Slugs.DISPLAY_TAGSAFE_SCORE_CONFIDENCE_RANGE_INDICATOR) %>
+        <% if audit.tagsafe_score_is_confident %>
+          <span class='badge rounded-pill bg-success position-absolute top-0 start-100 translate-middle'
+                    data-controller='tooltip' 
+                    data-bs-toggle='tooltip' 
+                    title="Tagsafe score is within the confidence range specified (<%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
+            <i class="fa-solid fa-bullseye"></i>
+          </span>
+        <% else %>
+        <span class='badge rounded-pill bg-warning position-absolute top-0 start-100 translate-middle'
+                    data-controller='tooltip' 
+                    data-bs-toggle='tooltip' 
+                    title="Tagsafe score is outside of the confidence range specified (Confidence range = <%= audit.tagsafe_score_confidence_range %>, required range = <%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
+            <i class="fa-solid fa-question"></i>
           </span>
         <% end %>
       <% end %>
-    </span>
+    </div>
   <% end %>
 <% else %>
   <span class='tagsafe-pill grey small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Performance audit disabled</span>

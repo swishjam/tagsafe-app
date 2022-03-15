@@ -46,7 +46,7 @@ class PerformanceAudit < ApplicationRecord
   
   def completed!
     # touch(:completed_at)
-    update!(completed_at: Time.nowm, seconds_to_complete: Time.now - created_at)
+    update!(completed_at: Time.now, seconds_to_complete: Time.now - created_at)
     update_performance_audit_completion_indicator(audit: audit, now: true)
   end
 

@@ -20,9 +20,12 @@ module LambdaEventResponses
     private
 
     def process_result!
-      executed_lambda_function.response_received!(response_payload: lambda_event_payload['responsePayload'])
+      start_time = Time.now
+      Rails.logger.info "Beginning ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! ......"
       sentry_transaction = Sentry.start_transaction(op: "ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results!")
+      executed_lambda_function.response_received!(response_payload: lambda_event_payload['responsePayload'])
       event_results_processor_klass.new(lambda_event_payload).process_results!
+      Rails.logger.info "Completed ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! in #{Time.now - start_time} seconds"
       sentry_transaction.finish
     end
 
