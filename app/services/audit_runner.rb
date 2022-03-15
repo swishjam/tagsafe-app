@@ -31,6 +31,7 @@ class AuditRunner
       num_functional_tests_to_run: option_value_for(:include_functional_tests, true) ? @tag.functional_tests.enabled.count : 0,
       performance_audit_configuration_attributes: {
         completion_indicator_type: performance_audit_completion_indicator_type,
+        batch_size: performance_audit_configuration_for(:batch_size, default_audit_configuration.perf_audit_batch_size),
         minimum_num_sets: performance_audit_configuration_for(:minimum_num_sets, default_audit_configuration.perf_audit_minimum_num_sets),
         maximum_num_sets: performance_audit_configuration_for(:minimum_num_sets, default_audit_configuration.perf_audit_maximum_num_sets),
         fail_when_confidence_range_not_met: performance_audit_configuration_for(:fail_when_confidence_range_not_met, default_audit_configuration.perf_audit_fail_when_confidence_range_not_met),

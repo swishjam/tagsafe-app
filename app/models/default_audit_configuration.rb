@@ -13,6 +13,7 @@ class DefaultAuditConfiguration < ApplicationRecord
       include_functional_tests: true,
       enable_monitoring_on_new_tags: true,
       # num_perf_audits_to_run: 3,
+      perf_audit_batch_size: 3,
       perf_audit_minimum_num_sets: 3,
       perf_audit_maximum_num_sets: 20,
       perf_audit_fail_when_confidence_range_not_met: false,

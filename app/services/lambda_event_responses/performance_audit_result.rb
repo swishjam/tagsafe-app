@@ -47,7 +47,7 @@ module LambdaEventResponses
       unless individual_performance_audit.audit.completed?
         PerformanceAuditManager::DeltaPerformanceAuditCreator.find_matching_performance_audit_and_create!(individual_performance_audit)
         if processed_all_performance_audit_results_in_batch?
-          PerformanceAuditManager::QueueMaintainer.new(individual_performance_audit.audit).run_next_set_of_performance_audits_or_mark_as_completed!
+          PerformanceAuditManager::QueueMaintainer.new(individual_performance_audit.audit).run_next_batch_of_performance_audits_or_mark_as_completed!
         end
       end
     end
