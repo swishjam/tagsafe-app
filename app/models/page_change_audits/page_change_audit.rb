@@ -18,7 +18,7 @@ class PageChangeAudit < ApplicationRecord
   end
 
   def completed!
-    TagsafeS3.client.delete_object({ bucket: INITIAL_HTML_CONTENT_S3_BUCKET, key: initial_html_content_s3_key })
+    TagsafeAws::S3.client.delete_object({ bucket: INITIAL_HTML_CONTENT_S3_BUCKET, key: initial_html_content_s3_key })
     update!(initial_html_content_s3_url: 'PURGED')
     audit.page_change_audit_completed!
   end
@@ -60,7 +60,7 @@ class PageChangeAudit < ApplicationRecord
   end
 
   def initial_html_content_s3_key
-    TagsafeS3.url_to_key(initial_html_content_s3_url)
+    TagsafeAws::S3.url_to_key(initial_html_content_s3_url)
   end
 
   private
@@ -68,7 +68,7 @@ class PageChangeAudit < ApplicationRecord
   def set_initial_html_content
     response = HTTParty.get(audit.page_url.full_url, headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0' })
     raise StandardError, "Unable to set initial HTML content, #{audit.page_url.full_url} request was unsuccessful" unless response.success?
-    s3_obj = TagsafeS3.client.put_object({ bucket: INITIAL_HTML_CONTENT_S3_BUCKET, key: assumed_initial_html_content_s3_key, body: response.body })
+    s3_obj = TagsafeAws::S3.client.put_object({ bucket: INITIAL_HTML_CONTENT_S3_BUCKET, key: assumed_initial_html_content_s3_key, body: response.body })
     update!(initial_html_content_s3_url: "https://#{INITIAL_HTML_CONTENT_S3_BUCKET}.s3.amazonaws.com/#{assumed_initial_html_content_s3_key}")
   end
 

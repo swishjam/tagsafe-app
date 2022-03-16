@@ -19,6 +19,25 @@
     %>
     <div class='position-relative'>
       <div class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+        <% if current_user && Flag.flag_is_true(current_user, Flag::Slugs.DISPLAY_TAGSAFE_SCORE_CONFIDENCE_RANGE_INDICATOR) %>
+          <% if audit.tagsafe_score_is_confident %>
+            <span class='me-1' 
+                  style='font-size: 10px'
+                  data-controller='tooltip' 
+                  data-bs-toggle='tooltip' 
+                  title="Tagsafe score is within the confidence range specified (<%= audit.tagsafe_score_confidence_range %>)">
+              <i class="fa-solid fa-bullseye"></i>
+            </span>
+          <% else %>
+          <span class='me-1' 
+                  style='font-size: 10px'
+                  data-controller='tooltip' 
+                  data-bs-toggle='tooltip' 
+                  title="Tagsafe score is outside of the confidence range specified (Confidence range = <%= audit.tagsafe_score_confidence_range %>, required range = <%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
+              <i class="fa-solid fa-question"></i>
+            </span>
+          <% end %>
+        <% end %>
         <% current_score = audit.preferred_delta_performance_audit.tagsafe_score.round(2) %> 
         <%= current_score %>
         <% unless local_assigns[:compare_to_previous_score] == false %>
@@ -38,23 +57,6 @@
           <% end %>
         <% end %>
       </div>
-      <% if Flag.flag_is_true(current_user, Flag::Slugs.DISPLAY_TAGSAFE_SCORE_CONFIDENCE_RANGE_INDICATOR) %>
-        <% if audit.tagsafe_score_is_confident %>
-          <span class='badge rounded-pill bg-success position-absolute top-0 start-100 translate-middle'
-                    data-controller='tooltip' 
-                    data-bs-toggle='tooltip' 
-                    title="Tagsafe score is within the confidence range specified (<%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
-            <i class="fa-solid fa-bullseye"></i>
-          </span>
-        <% else %>
-        <span class='badge rounded-pill bg-warning position-absolute top-0 start-100 translate-middle'
-                    data-controller='tooltip' 
-                    data-bs-toggle='tooltip' 
-                    title="Tagsafe score is outside of the confidence range specified (Confidence range = <%= audit.tagsafe_score_confidence_range %>, required range = <%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
-            <i class="fa-solid fa-question"></i>
-          </span>
-        <% end %>
-      <% end %>
     </div>
   <% end %>
 <% else %>

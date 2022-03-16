@@ -9,19 +9,19 @@ class HtmlSnapshot < ApplicationRecord
 
   def fetch_html_content
     if html_s3_location
-      @html_content ||= TagsafeS3.get_object_by_s3_url(html_s3_location).body.read
+      @html_content ||= TagsafeAws::S3.get_object_by_s3_url(html_s3_location).body.read
     end
   end
 
   def fetch_screenshot
     if screenshot_s3_location
-      @screenshot ||= TagsafeS3.get_object_by_s3_url(screenshot_s3_location).body.read
+      @screenshot ||= TagsafeAws::S3.get_object_by_s3_url(screenshot_s3_location).body.read
     end
   end
 
   def purge_s3_files
-    TagsafeS3.delete_object_by_s3_url(html_s3_location) if html_s3_location
-    TagsafeS3.delete_object_by_s3_url(screenshot_s3_location) if screenshot_s3_location
+    TagsafeAws::S3.delete_object_by_s3_url(html_s3_location) if html_s3_location
+    TagsafeAws::S3.delete_object_by_s3_url(screenshot_s3_location) if screenshot_s3_location
     update!(html_s3_location: nil, screenshot_s3_location: nil)
   end
 

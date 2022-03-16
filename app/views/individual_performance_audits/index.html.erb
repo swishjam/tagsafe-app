@@ -75,12 +75,14 @@
         <% if @pending_individual_audits.with_tag.any? %>
           <h6>Pending (with tag)</h6>
           <% @pending_individual_audits.with_tag.each do |individual_performance_audit| %>
+            (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
         <% if @failed_individual_audits.with_tag.any? %>
           <h6>Failed (with tag)</h6>
           <% @failed_individual_audits.with_tag.each do |individual_performance_audit| %>
+            (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
@@ -89,12 +91,14 @@
         <% if @pending_individual_audits.without_tag.any? %>
           <h6>Pending (without tag)</h6>
           <% @pending_individual_audits.without_tag.each do |individual_performance_audit| %>
+            (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
         <% if @failed_individual_audits.without_tag.any? %>
           <h6>Failed (without tag)</h6>
           <% @failed_individual_audits.without_tag.each do |individual_performance_audit| %>
+            (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>

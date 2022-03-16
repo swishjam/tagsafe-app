@@ -14,10 +14,11 @@
     <table class="table table-hover col-12 text-start" style="table-layout: fixed">
       <thead>
         <tr>
-          <th scope="col" style="width: 30%">Sent to AWS Lambda at</th>
-          <th scope="col" style="width: 30%">Lambda Function</th>
-          <th scope="col" style="width: 30%">ExecutedLambdaFunction UID</th>
-          <th scope="col" style="width: 30%">Parent</th>
+          <th scope="col" style="width: 20%">Sent to AWS Lambda at</th>
+          <th scope="col" style="width: 25%">Lambda Function</th>
+          <th scope="col" style="width: 25%">ExecutedLambdaFunction UID</th>
+          <th scope="col" style="width: 20%">Parent</th>
+          <th scope="col" style="width: 10%"></th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +27,8 @@
             <td><%= time_ago_in_words(executed_lambda_function.executed_at) %></td>
             <td><%= executed_lambda_function.function_name %></td>
             <td><%= executed_lambda_function.uid %></td>
-            <td><%= executed_lambda_function.parent_type %> <%= executed_lambda_function.parent_id %></td>
+            <td><%= executed_lambda_function.parent_description %></td>
+            <td><%= link_to 'View Details', admin_lambda_function_path(executed_lambda_function) %>
           </tr>
         <% end %>
       </tbody>

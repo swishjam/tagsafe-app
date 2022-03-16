@@ -24,7 +24,7 @@ module PerformancePageTrace
 
     def trace_json
       raise PerformanceAuditError::NoPageTraceError if @performance_audit.page_trace_s3_url.blank?
-      @trace_json ||= JSON.parse TagsafeS3.get_object_by_s3_url(@performance_audit.page_trace_s3_url).body.read
+      @trace_json ||= JSON.parse TagsafeAws::S3.get_object_by_s3_url(@performance_audit.page_trace_s3_url).body.read
     end
   end
 end

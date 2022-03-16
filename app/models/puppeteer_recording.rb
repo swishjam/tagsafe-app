@@ -11,13 +11,13 @@ class PuppeteerRecording < ApplicationRecord
 
   def fetch_recording
     unless failed_to_capture? || purged?
-      @recording ||= TagsafeS3.client.get_object(s3_client_params).body.read
+      @recording ||= TagsafeAws::S3.client.get_object(s3_client_params).body.read
     end
   end
 
   def purge_from_s3(update_url_value = true)
     unless failed_to_capture? || purged?
-      TagsafeS3.client.delete_object(s3_client_params)
+      TagsafeAws::S3.client.delete_object(s3_client_params)
       update!(s3_url: PURGED_S3_URL_VALUE) if update_url_value
     end
   end
@@ -37,6 +37,6 @@ class PuppeteerRecording < ApplicationRecord
   private
 
   def s3_client_params
-    { bucket: TagsafeS3.url_to_bucket(s3_url), key: TagsafeS3.url_to_key(s3_url) }
+    { bucket: TagsafeAws::S3.url_to_bucket(s3_url), key: TagsafeAws::S3.url_to_key(s3_url) }
   end
 end

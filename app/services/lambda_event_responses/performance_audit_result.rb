@@ -45,11 +45,19 @@ module LambdaEventResponses
 
     def try_to_calculate_delta_results_and_run_next_set_of_audits!
       unless individual_performance_audit.audit.completed?
-        PerformanceAuditManager::DeltaPerformanceAuditCreator.find_matching_performance_audit_and_create!(individual_performance_audit)
-        if processed_all_performance_audit_results_in_batch?
-          PerformanceAuditManager::QueueMaintainer.new(individual_performance_audit.audit).run_next_batch_of_performance_audits_or_mark_as_completed!
-        end
+        create_delta_performance_audit_if_necessary
+        enqueue_next_batch_of_performance_audits_if_necessary
       end
+    end
+
+    def create_delta_performance_audit_if_necessary
+      return if error.present?
+      PerformanceAuditManager::DeltaPerformanceAuditCreator.find_matching_performance_audit_and_create!(individual_performance_audit)
+    end
+
+    def enqueue_next_batch_of_performance_audits_if_necessary
+      return unless processed_all_performance_audit_results_in_batch?
+      PerformanceAuditManager::QueueMaintainer.new(individual_performance_audit.audit).run_next_batch_of_performance_audits_or_mark_as_completed!
     end
 
     def processed_all_performance_audit_results_in_batch?

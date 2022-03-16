@@ -54,10 +54,6 @@ class PerformanceAudit < ApplicationRecord
     update!(error_message: msg)
     completed!
   end
-
-  def symbolized_audit_type
-    audited_with_tag? ? :with_tag : :without_tag
-  end
   
   def completed?
     !completed_at.nil?

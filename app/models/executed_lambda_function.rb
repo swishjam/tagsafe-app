@@ -52,11 +52,34 @@ class ExecutedLambdaFunction < ApplicationRecord
     !successful?
   end
 
+  def aws_log_group_name
+    case parent_type
+    when 'PerformanceAudit'
+      self.class::CloudWatchLogGroups.PERFORMANCE_AUDIT_LAMBDA_FUNCTION
+    when 'TestRun'
+      self.class::CloudWatchLogGroups.FUNCTIONAL_TEST_LAMBDA_FUNCTION
+    when 'UrlCrawl'
+      self.class::CloudWatchLogGroups.URL_CRAWL_LAMBDA_FUNCTION
+    end
+  end
+
+  def parent_description
+    "#{parent_type} (#{parent_id})"
+  end
+
   private
 
   def parent_doesnt_already_have_executed_lambda_function
     if parent.executed_lambda_function
       errors.add(:base, "Parent already has an ExecutedLambdaFunction.")
     end
+  end
+
+  class CloudWatchLogGroups
+    def self.SEND_TO_REDIS_EVENT_BUS; "/aws/events/#{Rails.env.development? ? 'dev' : Rails.env}-send-to-redis-log-group"; end;
+    def self.SEND_TO_REDIS_LAMBDA_FUNCTION; "/aws/lambda/send-#{Rails.env}-send"; end;
+    def self.PERFORMANCE_AUDIT_LAMBDA_FUNCTION; "/aws/lambda/performance-auditer-#{Rails.env}-runPerformanceAudit"; end;
+    def self.FUNCTIONAL_TEST_LAMBDA_FUNCTION; "/aws/lambda/functional-test-runner-#{Rails.env}-run-test"; end;
+    def self.URL_CRAWL_LAMBDA_FUNCTION; "/aws/lambda/url-crawler-#{Rails.env}-crawl"; end;
   end
 end

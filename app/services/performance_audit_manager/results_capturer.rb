@@ -38,13 +38,18 @@ module PerformanceAuditManager
     end
 
     def performance_audit_children_attrs
-      attrs = {
-        page_load_resources_attributes: performance_audit_result.page_load_resources.formatted,
-        blocked_resources_attributes: performance_audit_result.blocked_resources.filtered
-      }
+      attrs = {}
+      if should_capture_page_resources_attributes?
+        attrs[:page_load_resources_attributes] = performance_audit_result.page_load_resources.formatted
+        attrs[:blocked_resources_attributes] = performance_audit_result.blocked_resources.filtered
+      end
       attrs[:performance_audit_log_attributes] = { logs: performance_audit_result.logs } if performance_audit_result.has_logs?
       attrs[:puppeteer_recording_attributes] = performance_audit_result.puppeteer_recording.formatted_results if performance_audit_result.puppeteer_recording.included_and_valid?
       attrs
+    end
+
+    def should_capture_page_resources_attributes?
+      individual_performance_audit.audit.include_page_load_resources
     end
   end
 end

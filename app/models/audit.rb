@@ -220,6 +220,10 @@ class Audit < ApplicationRecord
     include_performance_audit && !performance_audit_completed_at.nil?
   end
 
+  def performance_audit_completed_successfully?
+    performance_audit_completed? && !performance_audit_failed?
+  end
+
   def performance_audit_pending?
     include_performance_audit && !performance_audit_completed?
   end

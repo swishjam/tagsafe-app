@@ -93,7 +93,6 @@ Rails.application.routes.draw do
         get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
         resources :page_change_audits, only: :show
         resources :performance_audit_logs, only: :index
-        resources :executed_lambda_functions, only: :index
         resources :page_load_resources, only: :index
         get '/waterfall' => 'page_load_resources#for_audit'
       end
@@ -105,7 +104,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/performance' => 'performance#index'
     get '/executed_lambda_function/for_obj/:parent_type/:parent_id' => 'executed_lambda_functions#for_obj'
-    get '/lambda_functions' => 'executed_lambda_functions#index'
+    resources :lambda_functions, controller: :executed_lambda_functions, only: [:index, :show]
     resources :flags, only: [:index, :show] do
       resources :object_flags
     end

@@ -1,11 +1,11 @@
 def get_img_from_s3(file)
-  TagsafeS3.client.get_object({ bucket: ENV['ASSET_S3_BUCKET'], key: File.basename(file), acl: 'public-read' })
+  TagsafeAws::S3.client.get_object({ bucket: ENV['ASSET_S3_BUCKET'], key: File.basename(file), acl: 'public-read' })
 rescue Aws::S3::Errors::NoSuchKey => e
 end
 
 def upload_local_img_to_s3(file)
   puts "Uploading #{File.basename(file)} to S3..."
-  TagsafeS3.client.put_object({ bucket: ENV['ASSET_S3_BUCKET'], key: File.basename(file), body: file })
+  TagsafeAws::S3.client.put_object({ bucket: ENV['ASSET_S3_BUCKET'], key: File.basename(file), body: file })
 end
 
 def handle_file_in_image_directory(filepath, counter_obj)

@@ -30,8 +30,9 @@
         </div>
       </div>
       <% if audit.performance_audit_failed? %>
-        <p>Performance audit failed:</p>
+        <h4>Performance audit failed:</h4>
         <p><%= audit.performance_audit_error_message %></p>
+        <h5>Errors:</h5>
         <% audit.individual_performance_audits.failed.each do |perf_audit| %>
           <p><%= perf_audit.error_message %></p>
         <% end %>
@@ -50,7 +51,10 @@
               <%= render partial: 'partials/progress_ring', 
                           locals: { 
                             score: audit.preferred_delta_performance_audit.tagsafe_score,
-                            change_in_score: previous_audit ? audit.preferred_delta_performance_audit.tagsafe_score - previous_audit.preferred_delta_performance_audit.tagsafe_score : nil
+                            change_in_score: previous_audit ? audit.preferred_delta_performance_audit.tagsafe_score - previous_audit.preferred_delta_performance_audit.tagsafe_score : nil,
+                            score_is_confident: audit.tagsafe_score_is_confident,
+                            required_confidence_range: audit.performance_audit_configuration.required_tagsafe_score_range,
+                            actual_confidence_range: audit.tagsafe_score_confidence_range
                           } 
                 %>
             </div>
@@ -190,10 +194,10 @@
             </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
-  <% end %>
-  <% if audit.include_performance_audit && audit.performance_audit_configuration.enable_screen_recording && audit.performance_audit_completed? %>
+  </div>
+  <% if audit.include_performance_audit && audit.performance_audit_configuration.enable_screen_recording && audit.performance_audit_completed_successfully? %>
     <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: audit.median_individual_performance_audit_with_tag,
