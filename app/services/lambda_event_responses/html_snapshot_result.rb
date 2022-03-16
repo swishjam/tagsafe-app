@@ -12,15 +12,16 @@ module LambdaEventResponses
       end
     end
 
+    def html_snapshot
+      @html_snapshot ||= HtmlSnapshot.find(request_payload['html_snapshot_id'])
+    end
+    alias record html_snapshot
+
     private
 
     def page_change_audit_completed_successfully?
       return false if page_change_audit.failed?
       page_change_audit.html_snapshots_without_tag.completed.count == 2 && page_change_audit.html_snapshot_with_tag&.completed?
-    end
-
-    def html_snapshot
-      @html_snapshot ||= HtmlSnapshot.find(request_payload['html_snapshot_id'])
     end
 
     def page_change_audit

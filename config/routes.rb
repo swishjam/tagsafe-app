@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
 
   get '/change_log' => 'tag_versions#index'
+  get '/audit_log' => 'audits#all', as: :audit_log
   get '/uptime' => 'tag_checks#index'
   get '/uptime/:tag_id' => 'tag_checks#tag', as: :tag_uptime_data
   get '/performance' => 'performance#index'

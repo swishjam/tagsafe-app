@@ -8,10 +8,8 @@ module LambdaEventResponses
     end
 
     def route_event_to_respective_lambda_event_response_and_process!
-      if executed_lambda_function.nil?
-        Rails.logger.warn "Received Lambda Response without an ExecutedLambdaFunction.\nsource: #{lambda_event_payload['source']}, detail-type: #{lambda_event_payload['detail-type']}"
-      elsif executed_lambda_function.already_received_response?
-        Rails.logger.warn "Received response for ExecutedLambdaFunction #{executed_lambda_function.id} (#{executed_lambda_function.parent_type} Parent #{executed_lambda_function.parent_id}) that was already received, skipping processing...."
+      if event_results_processor.record.received_lambda_response?
+        Rails.logger.warn "LambdaEventResponses::EventRouter - Received response for #{event_results_processor.record.uid} that was already received, skipping processing...."
       else
         process_result!
       end
@@ -22,15 +20,17 @@ module LambdaEventResponses
     def process_result!
       start_time = Time.now
       Rails.logger.info "Beginning ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! ......"
-      sentry_transaction = Sentry.start_transaction(op: "ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results!")
-      executed_lambda_function.response_received!(response_payload: lambda_event_payload['responsePayload'])
-      event_results_processor_klass.new(lambda_event_payload).process_results!
+      event_results_processor.record.received_lambda_response!(response_payload: lambda_event_payload['responsePayload'])
+      event_results_processor.process_results!
       Rails.logger.info "Completed ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! in #{Time.now - start_time} seconds"
-      sentry_transaction.finish
     end
 
     def executed_lambda_function
-      @executed_lambda_function ||= ExecutedLambdaFunction.find_by(id: lambda_event_payload.dig('requestPayload', 'executed_lambda_function_id'))
+      @executed_lambda_function ||= ExecutedLambdaFunction.find(id: lambda_event_payload.dig('requestPayload', 'executed_lambda_function_id'))
+    end
+
+    def event_results_processor
+      @event_results_processor ||= event_results_processor_klass.new(lambda_event_payload)
     end
 
     def event_results_processor_klass

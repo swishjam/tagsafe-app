@@ -119,6 +119,10 @@ body.logged-in:not(.domains) {
   height: 50px; 
   width: 50px; 
   border-radius: 50%; 
+  &.tiny {
+    height: 25px;
+    width: 25px;
+  }
   &.border {
     border: 1px solid lightgrey;
   }

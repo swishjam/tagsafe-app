@@ -1,5 +1,6 @@
 class UrlCrawl < ApplicationRecord
   include HasExecutedLambdaFunction
+  # include IsReliantOnLambdaFunction
   acts_as_paranoid
   
   belongs_to :domain

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_161750) do
+ActiveRecord::Schema.define(version: 2022_03_16_170451) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -89,6 +89,8 @@ ActiveRecord::Schema.define(version: 2022_03_15_161750) do
     t.bigint "initiated_by_domain_user_id"
     t.boolean "has_confident_tagsafe_score"
     t.boolean "tagsafe_score_is_confident"
+    t.bigint "domain_id"
+    t.index ["domain_id"], name: "index_audits_on_domain_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["initiated_by_domain_user_id"], name: "index_audits_on_initiated_by_domain_user_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
@@ -289,6 +291,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_161750) do
     t.timestamp "completed_at"
     t.bigint "page_change_audit_id"
     t.string "screenshot_s3_location"
+    t.datetime "lambda_response_received_at"
     t.index ["page_change_audit_id"], name: "index_html_snapshots_on_page_change_audit_id"
     t.index ["uid"], name: "index_html_snapshots_on_uid"
   end
@@ -472,6 +475,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_161750) do
     t.float "dom_content_loaded"
     t.string "page_trace_s3_url"
     t.string "batch_identifier"
+    t.datetime "lambda_response_received_at"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end
@@ -653,6 +657,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_161750) do
     t.string "error_type"
     t.text "error_trace"
     t.integer "script_execution_ms"
+    t.datetime "lambda_response_received_at"
     t.index ["audit_id"], name: "index_test_runs_on_audit_id"
     t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
@@ -703,6 +708,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_161750) do
     t.bigint "page_url_id"
     t.integer "num_first_party_bytes"
     t.integer "num_third_party_bytes"
+    t.datetime "lambda_response_received_at"
     t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
     t.index ["page_url_id"], name: "index_url_crawls_on_page_url_id"
     t.index ["uid"], name: "index_url_crawls_on_uid"

@@ -1,0 +1,7 @@
+<%= turbo_stream_from "domain_#{current_domain.uid}_audits_view_stream" %>
+
+<h5 class="page-title">Audit Log</h5>
+
+<div class="tagsafe-container text-center">
+  <%= render 'audits_table', domain: current_domain, audits: @audits, include_tag_name: true %>
+</div>

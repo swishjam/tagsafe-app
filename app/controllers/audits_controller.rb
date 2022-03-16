@@ -1,11 +1,22 @@
 class AuditsController < LoggedInController
   SHOW_VIEWS = %i[show performance_audit test_runs test_run page_change_audit waterfall git_diff]
-  before_action :find_tag_and_tag_version
-  before_action :find_audit, except: %i[index new create]
+  before_action :find_tag_and_tag_version, except: :all
+  before_action :find_audit, except: %i[all index new create]
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
+  def all
+    @audits = current_domain.audits.most_recent_first(timestamp_column: :created_at)
+                                    .includes(:performance_audits)
+                                    .page(params[:page] || 1)
+                                    .per(params[:per_page] || 20)
+  end
+
   def index
-    @audits = @tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :created_at).includes(:performance_audits)
+    @audits = @tag_version.audits.order(primary: :DESC)
+                                  .most_recent_first(timestamp_column: :created_at)
+                                  .includes(:performance_audits)
+                                  .page(params[:page] || 1)
+                                  .per(params[:per_page] || 20)
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },

@@ -28,6 +28,7 @@ module LambdaEventResponses
     def test_run
       @test_run ||= TestRun.find(request_payload['test_run_id'])
     end
+    alias record test_run
 
     def puppeteer_recording_attributes
       @puppeteer_recording_attributes ||= LambdaEventResponses::TestRunResult::PuppeteerRecording.new(response_payload['screen_recording'])

@@ -8,6 +8,7 @@ module LambdaEventResponses
     def individual_performance_audit
       @individual_performance_audit ||= PerformanceAudit.find(request_payload['individual_performance_audit_id'])
     end
+    alias record individual_performance_audit
 
     def performance_metrics
       @performance_results ||= LambdaEventResponses::PerformanceAuditResult::PerformanceMetrics.new(response_payload['results'] || {})

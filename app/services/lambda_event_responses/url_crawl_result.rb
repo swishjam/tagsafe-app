@@ -12,6 +12,7 @@ module LambdaEventResponses
     def url_crawl
       @url_crawl ||= UrlCrawl.find(request_payload['url_crawl_id'])
     end
+    alias record url_crawl
 
     def num_first_party_bytes
       @num_first_party_bytes ||= response_payload['first_party_bytes']

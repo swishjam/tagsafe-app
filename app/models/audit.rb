@@ -1,10 +1,12 @@
 class Audit < ApplicationRecord
   include Streamable
-  include HasExecutedLambdaFunction
+  # TODO: PerformanceAuditCacheGenerator has no dedicated models
+  # include HasExecutedLambdaFunction
   uid_prefix 'aud'
   acts_as_paranoid
 
   belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
+  belongs_to :domain
   belongs_to :tag_version
   belongs_to :tag
   belongs_to :execution_reason

@@ -1,6 +1,7 @@
 class PerformanceAudit < ApplicationRecord
   include Streamable
   include HasExecutedLambdaFunction
+  # include IsReliantOnLambdaFunction
   acts_as_paranoid
   
   belongs_to :audit, optional: false

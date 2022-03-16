@@ -10,6 +10,7 @@ class Domain < ApplicationRecord
   has_many :user_invites, dependent: :destroy
   has_many :page_urls, dependent: :destroy
   has_many :tags, dependent: :destroy
+  has_many :audits, dependent: :destroy
   has_many :functional_tests, dependent: :destroy
   has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy

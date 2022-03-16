@@ -1,5 +1,7 @@
 class HtmlSnapshot < ApplicationRecord
   include HasExecutedLambdaFunction
+  # include IsReliantOnLambdaFunction
+  
   belongs_to :page_change_audit
 
   scope :completed, -> { where.not(completed_at: nil) }
@@ -23,6 +25,10 @@ class HtmlSnapshot < ApplicationRecord
     TagsafeAws::S3.delete_object_by_s3_url(html_s3_location) if html_s3_location
     TagsafeAws::S3.delete_object_by_s3_url(screenshot_s3_location) if screenshot_s3_location
     update!(html_s3_location: nil, screenshot_s3_location: nil)
+  end
+
+  def received_lambda_response!
+    touch!(:lambda_response_received_at)
   end
 
   def completed?

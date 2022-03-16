@@ -15,7 +15,11 @@ module LambdaEventResponses
     end
 
     def process_results!
-      raise "`process_results!` not defined, subclass #{self.class.to_s} must implement"
+      raise NoMethodError, "`process_results!` not defined, subclass #{self.class.to_s} must implement"
+    end
+
+    def record
+      raise NoMethodError, "`record` not defined, subclass #{self.class.to_s} must implement"
     end
   end
 end

@@ -20,6 +20,7 @@ class AuditRunner
       initiated_by_domain_user: @initiated_by_domain_user,
       tag: @tag,
       tag_version: @tag_version,
+      domain: @tag.domain,
       page_url: url_to_audit.page_url,
       execution_reason: @execution_reason,
       primary: false,

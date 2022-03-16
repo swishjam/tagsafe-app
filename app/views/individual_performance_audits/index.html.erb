@@ -8,6 +8,8 @@
       <h5>Audit Precision</h5>
       <% if @audit.average_delta_performance_audit %>
         <h6 class='fw-bold'>Tagsafe Score Confidence Range: <%= @audit.average_delta_performance_audit.tagsafe_score - @audit.tagsafe_score_confidence_range %> - <%= @audit.average_delta_performance_audit.tagsafe_score + @audit.tagsafe_score_confidence_range %> (+/- <%= @audit.tagsafe_score_confidence_range %>) (<%= @audit.num_performance_audit_sets_ran %> audit sets)</h6>
+      <% else %>
+        <h6 class='fw-bold'>Current confidence range: +/- <%= @audit.confidence_calculator.tagsafe_score_confidence_plus_minus %></h6>
       <% end %>
     </div>
     <div class='row'>
@@ -76,6 +78,7 @@
           <h6>Pending (with tag)</h6>
           <% @pending_individual_audits.with_tag.each do |individual_performance_audit| %>
             (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
+            Lambda Function UID: <%= individual_performance_audit.executed_lambda_function&.uid || 'No Lambda Function...?' %><br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
@@ -83,6 +86,7 @@
           <h6>Failed (with tag)</h6>
           <% @failed_individual_audits.with_tag.each do |individual_performance_audit| %>
             (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
+            Lambda Function UID: <%= individual_performance_audit.executed_lambda_function&.uid || 'No Lambda Function...?' %><br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
@@ -92,6 +96,7 @@
           <h6>Pending (without tag)</h6>
           <% @pending_individual_audits.without_tag.each do |individual_performance_audit| %>
             (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
+            Lambda Function UID: <%= individual_performance_audit.executed_lambda_function&.uid || 'No Lambda Function...?' %><br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
@@ -99,6 +104,7 @@
           <h6>Failed (without tag)</h6>
           <% @failed_individual_audits.without_tag.each do |individual_performance_audit| %>
             (<%= individual_performance_audit.uid %> - <%= individual_performance_audit.id %>)<br/>
+            Lambda Function UID: <%= individual_performance_audit.executed_lambda_function&.uid || 'No Lambda Function...?' %><br/>
             <%= render 'individual_performance_audit', individual_performance_audit: individual_performance_audit %>
           <% end %>
         <% end %>
