@@ -178,7 +178,7 @@ module Streamable
     end
 
     def re_render_audit_table(tag_version:, now: false)
-      updated_audits_collection = tag_version.audits.order(primary: :DESC).most_recent_first.includes(:performance_audits)
+      updated_audits_collection = tag_version.audits.order(primary: :DESC).most_recent_first.includes(:performance_audits).page(1).per(20)
       stream_replace!(
         now: now,
         stream: "tag_version_#{tag_version.uid}_audits_view_stream",
