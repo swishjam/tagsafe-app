@@ -315,11 +315,7 @@ class Audit < ApplicationRecord
   end
 
   def reached_maximum_failed_performance_audits?
-    individual_performance_audits.failed.count >= maximum_individual_performance_audit_attempts
-  end
-
-  def maximum_individual_performance_audit_attempts
-    Flag.flag_value_for_objects(tag, tag.domain, slug: 'max_individual_performance_audit_retries').to_i
+    individual_performance_audits.failed.count >= performance_audit_configuration.max_failures
   end
 
   ######################

@@ -6,7 +6,7 @@ module PerformanceAuditManager
     
     def run_next_batch_of_performance_audits_or_mark_as_completed!
       if @audit.reached_maximum_failed_performance_audits?
-        @audit.performance_audit_error!("Reached maximum performance audit retry count of #{@audit.maximum_individual_performance_audit_attempts}, stopping audit.")
+        @audit.performance_audit_error!("Reached maximum performance audit retry count of #{@audit.performance_audit_configuration.max_failures}, stopping audit.")
       elsif completed_performance_audit_based_on_config?
         @audit.performance_audit_completed!(tagsafe_score_confidence_range)
       elsif would_meet_completion_criteria_after_removing_outliers?
