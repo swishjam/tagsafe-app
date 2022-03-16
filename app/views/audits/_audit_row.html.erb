@@ -18,7 +18,7 @@
   <div style='width: <%= local_assigns[:include_tag_name] ? '95%' : '81%' %>'>
     <%= link_to performance_audit_tag_tag_version_audit_path(audit.tag_id, audit.tag_version_id, audit.id), class: 'no-decoration d-flex', target: '_top' do %>
       <% if local_assigns[:include_tag_name] %>
-        <div class='tagsafe-table-data' style='width: 25%'><%= image_tag audit.tag.try_image_url, class: 'tag-thumbnail tiny bordered me-1' %><%= audit.tag.try_friendly_name %></div>
+        <div class='tagsafe-table-data' style='width: 25%'><%= image_tag audit.tag.try_image_url, class: 'tag-thumbnail tiny border me-1' %><%= audit.tag.try_friendly_name %></div>
       <% end %>
       <div class='tagsafe-table-data' style='width: 26%'><%= audit.created_at.formatted_short %></div>
       <div class='tagsafe-table-data' style='width: 26%'>

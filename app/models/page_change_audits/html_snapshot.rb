@@ -27,10 +27,6 @@ class HtmlSnapshot < ApplicationRecord
     update!(html_s3_location: nil, screenshot_s3_location: nil)
   end
 
-  def received_lambda_response!
-    touch!(:lambda_response_received_at)
-  end
-
   def completed?
     !completed_at.nil?
   end
