@@ -1,6 +1,6 @@
 module LambdaFunctionInvoker
   class FunctionalTestRunner < Base
-    lambda_service 'functional-test-runner'
+    lambda_service 'functional-tests'
     lambda_function 'run-test'
 
     attr_accessor :test_run

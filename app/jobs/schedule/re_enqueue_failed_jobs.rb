@@ -1,5 +1,8 @@
 module Schedule
   class ReEnqueueFailedJobs < ApplicationJob
+    # HACK! need to keep this in a queue with small # of jobs...
+    queue_as :tag_checker_queue
+
     def perform
       start_time = Time.now
 

@@ -27,6 +27,49 @@ class TagsafeAws
     end
   end
 
+  class Lambda
+    class << self
+      def client(http_read_timeout: 210)
+        @_client ||= Aws::Lambda::Client.new(
+          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+          region: 'us-east-1',
+          max_attempts: 1,
+          retry_limit: 0,
+          http_read_timeout: http_read_timeout
+        )
+      end
+
+      def invoke_function(function_name:, payload:, async: true)
+        client.invoke(
+          function_name: function_name,
+          invocation_type: async ? 'Event' : 'RequestResponse',
+          log_type: 'Tail',
+          payload: JSON.generate(payload)
+        )
+      end
+    end
+  end
+
+  class SQS
+    class << self
+      def client 
+        @_client ||= Aws::SQS::Client.new(
+          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+          region: 'us-east-1'
+        )
+      end
+
+      def push_message_into_queue(queue_url:, message:)
+        client.send_message({
+          queue_url: queue_url,
+          message_body: message
+        })
+      end
+    end
+  end
+
   class CloudWatch
     class << self
       def client

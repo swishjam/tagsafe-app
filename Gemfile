@@ -49,6 +49,7 @@ gem 'terser' # solves assets:precompile error: Uglifier::Error: Unexpected token
 gem 'aws-sdk-s3'
 gem 'aws-sdk-lambda'
 gem 'aws-sdk-cloudwatchlogs'
+gem 'aws-sdk-sqs'
 
 gem 'resque'
 gem 'resque-scheduler'

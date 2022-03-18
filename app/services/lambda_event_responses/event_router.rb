@@ -25,10 +25,6 @@ module LambdaEventResponses
       Rails.logger.info "Completed ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! in #{Time.now - start_time} seconds"
     end
 
-    def executed_lambda_function
-      @executed_lambda_function ||= ExecutedLambdaFunction.find(id: lambda_event_payload.dig('requestPayload', 'executed_lambda_function_id'))
-    end
-
     def event_results_processor
       @event_results_processor ||= event_results_processor_klass.new(lambda_event_payload)
     end

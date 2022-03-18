@@ -1,7 +1,7 @@
 module LambdaFunctionInvoker
   class UrlCrawler < Base
     lambda_service 'url-crawler'
-    lambda_function 'crawl'
+    lambda_function 'find-third-party-tags'
 
     attr_accessor :url_crawl
 
