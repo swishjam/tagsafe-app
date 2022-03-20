@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "url_crawl_#{url_crawl.uid}_bytes_breakdown", class: 'col-xs-12 col-md-6 text-center' do %>
+  <h4 class='js-bytes-explanation'><%= url_crawl.percent_of_js_is_third_party %>% of the javascript on <%= domain.url %> is from third party tags.</h4>
+  <div data-controller='streamed-script-tag'>
+    <%= pie_chart({ 
+      "First Party Javascript" => url_crawl.num_first_party_bytes,
+      "Third Party Javascript" => url_crawl.num_third_party_bytes 
+    }, legend: true, donut: true, thousands: ',', label: 'Bytes', download: true) %>
+  </div>
+<% end %>

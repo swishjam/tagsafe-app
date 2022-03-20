@@ -34,6 +34,22 @@ a.no-decoration {
   border: none !important;
 }
 
+.inline-input-and-btn {
+  background: white;
+  border-radius: 999px;
+  display: flex;
+  input {
+    border: none;
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+  input[type=submit], button[type=submit] {
+    max-width: 45%;
+  }
+}
+
 .tagsafe-illuminate {
   -webkit-animation: fade-box-shadow-in-then-out 1500ms linear forwards;
   animation: fade-box-shadow-in-then-out 1500ms linear forwards;

@@ -1,5 +1,5 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :authorize!, only: [:accept, :redeem]
+  # skip_before_action :authorize!, only: [:accept, :redeem]
   skip_before_action :ensure_domain, only: [:accept, :redeem]
   layout 'logged_out_layout', only: :accept
 

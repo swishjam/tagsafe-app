@@ -1,5 +1,5 @@
 <% unless @hide_navigation %>
-  <div class='navigation-wrapper' data-controller='side-navigation'>
+  <div class='navigation-wrapper <%= current_user.nil? ? 'anonymous-user' : 'authenticated-user' %>' data-controller='side-navigation'>
     <div class="navigation <%= @collapsed_navigation ? 'collapsed' : nil %>" data-side-navigation-target='leftHandNav' data-action='click->side-navigation#leftHandNavClick'>
       <%= link_to tags_path do %>
         <div class="logo-container">
@@ -20,6 +20,14 @@
             { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
           ]
         %>
+        <% if user_is_anonymous? && current_domain_audit %>
+          <li class='nav-item <%= request.path.starts_with?('/domain_audits/') ? 'current' : nil %> m-1'>
+            <%= link_to domain_audit_path(current_domain_audit.uid), class: "nav-link #{request.path.starts_with?('/domain_audits/') ? 'current' : nil}" do %>
+              <span class='nav-item-icon'><i class="fa-solid fa-window-maximize"></i></span> 
+              <span class='nav-item-text d-sm-none d-md-inline ms-1'>Third Party Impact</span>
+            <% end %>
+          </li>
+        <% end %>
         <% nav_items.each do |nav| %>
           <% additional_klass = (nav[:active_nav_path_pattern] ? nav[:active_nav_path_pattern].any?{ |pattern| request.path.include?(pattern) } : request.path == nav[:path]) ? 'current' : nil %>
           <li class='nav-item <%= additional_klass %> m-1'>
@@ -30,37 +38,39 @@
           </li>
         <% end %>
       </ul>
-      <div class="navigation-profile-container">
-        <div class='navigation-profile-trigger' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class='navigation-profile-initials'>
-            <%= current_user.initials %>
-          </span>
-        </div>
-        <div class="dropdown-menu navigation-profile-dropdown">
-          <div class='dropdown-title text-center'>
-            <div><%= current_user.full_name %></div>
-            <div><%= current_domain.url %></div>
+      <% if current_user %>
+        <div class="navigation-profile-container">
+          <div class='navigation-profile-trigger' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class='navigation-profile-initials'>
+              <%= current_user.initials %>
+            </span>
           </div>
-          <% if current_user.belongs_to_multiple_domains? %>
-            <div class='dropdown-divider'></div>
-            <% current_user.domains.each do |domain| %>
-              <div class='toggle-link <%= domain == current_domain ? 'selected' : nil %>'>
-                <% if domain == current_domain %>
-                  <%= domain.url %>
-                <% else %>
-                  <%= form_with model: domain, url: update_current_domain_path(domain.uid), method: :put do |f| %>
-                    <span data-controller='feaux_form_submit_button'><%= domain.url %></span>
+          <div class="dropdown-menu navigation-profile-dropdown">
+            <div class='dropdown-title text-center'>
+              <div><%= current_user.full_name %></div>
+              <div><%= current_domain.url %></div>
+            </div>
+            <% if current_user.belongs_to_multiple_domains? %>
+              <div class='dropdown-divider'></div>
+              <% current_user.domains.each do |domain| %>
+                <div class='toggle-link <%= domain == current_domain ? 'selected' : nil %>'>
+                  <% if domain == current_domain %>
+                    <%= domain.url %>
+                  <% else %>
+                    <%= form_with model: domain, url: update_current_domain_path(domain.uid), method: :put do |f| %>
+                      <span data-controller='feaux_form_submit_button'><%= domain.url %></span>
+                    <% end %>
                   <% end %>
-                <% end %>
-              </div>
+                </div>
+              <% end %>
             <% end %>
-          <% end %>
-          <div class='dropdown-divider'></div>
-          <div class='toggle-link'>
-            <%= link_to 'Logout', logout_path, target: '_top' %>
+            <div class='dropdown-divider'></div>
+            <div class='toggle-link'>
+              <%= link_to 'Logout', logout_path, target: '_top' %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
     
     <div class='left-hand-navigation-toggle hide-btn <%= @collapsed_navigation ? 'hidden' : nil %>' data-side-navigation-target='hideBtn' data-action='click->side-navigation#hide'>

@@ -1,10 +1,12 @@
 class PerformanceAudit < ApplicationRecord
   include Streamable
   include HasExecutedLambdaFunction
-  # include IsReliantOnLambdaFunction
+  include HasCompletedAt
+  include HasErrorMessage
   acts_as_paranoid
   
-  belongs_to :audit, optional: false
+  belongs_to :audit, optional: true
+  belongs_to :domain_audit, optional: true
   has_one :puppeteer_recording, as: :initiator, dependent: :destroy
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
   has_many :blocked_resources, dependent: :destroy
@@ -19,12 +21,11 @@ class PerformanceAudit < ApplicationRecord
 
   scope :with_tag, -> { where(type: [IndividualPerformanceAuditWithTag.to_s, MedianIndividualPerformanceAuditWithTag.to_s, AveragePerformanceAuditWithTag.to_s]) }
   scope :without_tag, -> { where(type: [IndividualPerformanceAuditWithoutTag.to_s, MedianIndividualPerformanceAuditWithoutTag.to_s, AveragePerformanceAuditWithoutTag.to_s]) }
-  scope :pending, -> { where(completed_at: nil) }
-  scope :completed, -> { where.not(completed_at: nil) }
-  scope :failed, -> { completed.where.not(error_message: nil) }
-  scope :completed_successfully, -> { completed.where(error_message: nil) }
+  scope :completed_successfully, -> { completed.successful }
   scope :does_not_have_delta_audit, -> { includes(:delta_performance_audit).where(delta_performance_audit: { id: nil }) }
   scope :in_batch, -> (batch_identifier) { where(batch_identifier: batch_identifier) }
+
+  validate :belongs_to_audit_or_domain_audit
 
   def self.TYPES
     %w[
@@ -48,7 +49,9 @@ class PerformanceAudit < ApplicationRecord
   def completed!
     # touch(:completed_at)
     update!(completed_at: Time.now, seconds_to_complete: Time.now - created_at)
-    update_performance_audit_completion_indicator(audit: audit, now: true)
+    if !is_for_domain_audit?
+      update_performance_audit_completion_indicator(audit: audit, now: true)
+    end
   end
 
   def error!(msg)
@@ -72,4 +75,16 @@ class PerformanceAudit < ApplicationRecord
     completed? && !failed?
   end
   alias successful? success?
+
+  def is_for_domain_audit?
+    domain_audit_id.present?
+  end
+
+  private
+
+  def belongs_to_audit_or_domain_audit
+    if domain_audit.nil? && audit.nil?
+      errors.add(:base, "PerformanceAudit must belong to either a DomainAudit or Audit.")
+    end
+  end
 end

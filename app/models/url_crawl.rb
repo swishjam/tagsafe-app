@@ -1,25 +1,27 @@
 class UrlCrawl < ApplicationRecord
   include HasExecutedLambdaFunction
-  # include IsReliantOnLambdaFunction
+  include HasCompletedAt
+  include HasErrorMessage
+  include Streamable
   acts_as_paranoid
   
   belongs_to :domain
   belongs_to :page_url
+  has_one :domain_audit
   has_many :retrieved_urls, class_name: 'UrlCrawlRetrievedUrl', dependent: :destroy
   has_many :found_tags, class_name: 'Tag', foreign_key: :found_on_url_crawl_id
   alias tags_found found_tags
 
-  scope :pending, -> { where(completed_at: nil) }
-  scope :completed, -> { where.not(completed_at: nil) }
-  scope :failed, -> { where.not(error_message: nil) }
-  scope :successful, -> { completed.where(error_message: nil ) }
   scope :resulted_in_created_tags, -> { includes(:found_tags).where(found_tags: { id: nil }) }
+    
+  after_create_commit { CrawlUrlJob.perform_later(self) }
+  after_update_commit { broadcast_replace_to "#{uid}_url_crawl", target: "#{uid}_url_crawl", partial: 'url_crawls/status', locals: { url_crawl: self } }
+  
+  set_seconds_to_complete_timestamp created_at_column: :enqueued_at
+  after_failure :completed!
+  after_complete :stream_to_domain_audit_view_if_necessary
 
-  # after_create_commit { broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain } }
-  after_update_commit do
-    # broadcast_replace_to "#{domain_id}_current_crawl", target: "#{domain_id}_current_crawl", partial: 'urls_to_crawl/current_crawl', locals: { domain: domain }
-    broadcast_replace_to "#{uid}_url_crawl", target: "#{uid}_url_crawl", partial: 'url_crawls/status', locals: { url_crawl: self }
-  end
+  attribute :enqueued_at, default: Time.now
 
   def self.most_recent
     most_recent_first(timestamp_column: :enqueued_at).limit(1).first
@@ -64,33 +66,20 @@ class UrlCrawl < ApplicationRecord
     Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{e.inspect}"
   end
 
-  def pending?
-    completed_at.nil?
+  def stream_to_domain_audit_view_if_necessary
+    return unless is_for_domain_audit?
+    update_domain_audit_details_view(domain_audit: domain_audit, now: true)
   end
 
-  def completed?
-    !pending?
-  end
-
-  def failed?
-    !error_message.nil?
-  end
-
-  def successful?
-    !failed? && completed?
-  end
-
-  def completed!
-    touch(:completed_at)
-    update_column(:seconds_to_complete, completed_at - enqueued_at)
-  end
-
-  def errored!(error_msg)
-    update(error_message: error_msg)
-    completed!
+  def is_for_domain_audit?
+    domain_audit.present?
   end
 
   def is_first_crawl_for_domain_with_found_tags?
     domain.url_crawls.older_than(enqueued_at).resulted_in_created_tags.empty?
+  end
+
+  def percent_of_js_is_third_party
+    ((num_third_party_bytes.to_f / (num_first_party_bytes + num_third_party_bytes))*100).round(2)
   end
 end

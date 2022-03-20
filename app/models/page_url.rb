@@ -28,28 +28,22 @@ class PageUrl < ApplicationRecord
   end
 
   def should_scan_for_tags?
-    should_scan_for_tags
+    !domain.is_generating_third_party_impact_trial && should_scan_for_tags
   end
 
-  def crawl_later
-    crawl = url_crawls.create!(domain_id: domain_id, enqueued_at: Time.now)
-    CrawlUrlJob.perform_later(crawl)
-  end
-  
-  def crawl_now
-    crawl = url_crawls.create!(domain_id: domain_id, enqueued_at: Time.now)
-    CrawlUrlJob.perform_now(crawl)
+  def crawl_for_tags!
+    url_crawls.create!(domain_id: domain_id)
   end
 
   private
 
   def scan_for_tags_if_became_scannable
     updated_to_scan = saved_changes['should_scan_for_tags'] && saved_changes['should_scan_for_tags'][1] == true
-    crawl_later if updated_to_scan
+    crawl_for_tags! if updated_to_scan
   end
 
   def scan_for_tags_if_necessary
-    crawl_later if should_scan_for_tags?
+    crawl_for_tags! if should_scan_for_tags?
   end
 
   def is_part_of_domain_url

@@ -1,7 +1,7 @@
 module PerformanceAuditManager
   class MedianPerformanceAuditsCreator
-    def initialize(audit)
-      @audit = audit
+    def initialize(audit_or_domain_audit)
+      @audit_or_domain_audit = audit_or_domain_audit
     end
 
     def find_and_apply_median_audits!
@@ -14,8 +14,8 @@ module PerformanceAuditManager
 
     def calculated_median_delta_performance_audit
       @median_delta_performance_audit ||= begin
-        count = @audit.individual_delta_performance_audits.count
-        sorted_audits = @audit.individual_delta_performance_audits.order(tagsafe_score: :DESC)
+        count = @audit_or_domain_audit.individual_delta_performance_audits.count
+        sorted_audits = @audit_or_domain_audit.individual_delta_performance_audits.order(tagsafe_score: :DESC)
         sorted_audits[count / 2]
       end
     end

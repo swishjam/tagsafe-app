@@ -1,0 +1,26 @@
+body.domain_audits {
+  rect.highcharts-background {
+    fill: #eeeeee;
+  }
+  .domain-audit-metric-container {
+    padding: 15px;
+    .domain-audit-metric-tile {
+      padding: 25px 10px 25px 10px;
+      border: 1px solid grey;
+      border-radius: 10px;
+      // display: flex;
+      // align-items: center;
+      // justify-content: center;
+      text-align: center;
+      background: white;
+      .domain-audit-metric-title {
+        display: block;
+        font-size: 18px;
+      }
+      .domain-audit-metric-body {
+        display: block;
+        font-size: 24px;
+      }
+    }
+  }
+}

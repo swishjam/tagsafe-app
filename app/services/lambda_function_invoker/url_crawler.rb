@@ -9,6 +9,7 @@ module LambdaFunctionInvoker
       @url_crawl = url_crawl
       @executed_lambda_function_parent = url_crawl
       @attempt_number = attempt_number
+      @receiver_job_queue = url_crawl.is_for_domain_audit? ? :user_waiting : :default
     end
   
     private

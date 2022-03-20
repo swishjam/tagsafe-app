@@ -17,7 +17,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="slack-app-id" content="A01HGPB713N">
   </head>
-  <body class="logged-in <%=controller_name%> <%= action_name %>">
+  <body class="logged-in <%=controller_name%> <%= action_name %> <%= current_user.nil? ? 'anonymous-user' : 'authenticated-user' %>">
+    <%= render 'partials/anonymous_user_banner' %>
     <div class="container-fluid">
       <%= render 'partials/notification_containers' %>
       <%= render 'partials/server_loadable_modal' %>

@@ -1,0 +1,20 @@
+<%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_details" do %>
+  <div class='domain-audit-breakdown-container container-fluid'>
+    <div class='col-12'>
+      <% if domain_audit.pending? || url_crawl.pending? %>
+        <div class='text-center'> 
+          <h4>Scanning <%= domain.url %> and generating performance measurement...</h4>
+          <%= display_loading_icon %>
+        </div>
+      <% else %>
+        <div class='row align-items-center'>
+          <%= render 'domain_audits/bytes_breakdown', domain: domain, url_crawl: url_crawl %>
+          <%= render 'domain_audits/performance_tiles', domain: domain, domain_audit: domain_audit, average_delta_performance_audit: average_delta_performance_audit, streamed: local_assigns[:streamed] %>
+        </div>
+        <div class='row'>
+          <%= render 'domain_audits/tag_list', domain: domain, url_crawl: url_crawl, tags: found_tags %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

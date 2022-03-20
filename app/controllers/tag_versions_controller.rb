@@ -1,5 +1,5 @@
 class TagVersionsController < LoggedInController
-  skip_before_action :authorize!, only: :content
+  # skip_before_action :authorize!, only: :content
   protect_from_forgery except: :content
 
   def git_diff

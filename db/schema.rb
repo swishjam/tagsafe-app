@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_16_170451) do
+ActiveRecord::Schema.define(version: 2022_03_20_011413) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -156,10 +156,27 @@ ActiveRecord::Schema.define(version: 2022_03_16_170451) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_outlier"
+    t.bigint "domain_audit_id"
     t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
+    t.index ["domain_audit_id"], name: "index_delta_performance_audits_on_domain_audit_id"
     t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
     t.index ["performance_audit_without_tag_id"], name: "index_dpa_performance_audit_without_tag_id"
     t.index ["uid"], name: "index_delta_performance_audits_on_uid"
+  end
+
+  create_table "domain_audits", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "page_url_id"
+    t.datetime "completed_at"
+    t.string "error_message"
+    t.bigint "url_crawl_id"
+    t.index ["domain_id"], name: "index_domain_audits_on_domain_id"
+    t.index ["page_url_id"], name: "index_domain_audits_on_page_url_id"
+    t.index ["uid"], name: "index_domain_audits_on_uid"
+    t.index ["url_crawl_id"], name: "index_domain_audits_on_url_crawl_id"
   end
 
   create_table "domain_users", charset: "utf8mb3", force: :cascade do |t|
@@ -186,8 +203,7 @@ ActiveRecord::Schema.define(version: 2022_03_16_170451) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
-    t.integer "current_performance_audit_calculator_id"
-    t.index ["current_performance_audit_calculator_id"], name: "index_domains_on_current_performance_audit_calculator_id"
+    t.boolean "is_generating_third_party_impact_trial"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -476,7 +492,9 @@ ActiveRecord::Schema.define(version: 2022_03_16_170451) do
     t.string "page_trace_s3_url"
     t.string "batch_identifier"
     t.datetime "lambda_response_received_at"
+    t.bigint "domain_audit_id"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
+    t.index ["domain_audit_id"], name: "index_performance_audits_on_domain_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end
 

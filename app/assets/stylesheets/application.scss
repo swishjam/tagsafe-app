@@ -42,6 +42,30 @@ body.locked {
   }
 }
 
+.anonymous-user-banner {
+  background: $tagsafe-primary;
+  color: white;
+  padding: 10px 75px 10px 75px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  text-align: center;
+  height: 75px;
+  a {
+    color: white;
+  }
+}
+
+body.anonymous-user #content {
+  margin-top: 75px !important;
+}
+
+body:not(.anonymous-user) #content {
+  margin-top: 0;
+}
+
 body.logged-in:not(.domains) {
   background-color: #eeeeee;
   font-family: 'Rubik', sans-serif;

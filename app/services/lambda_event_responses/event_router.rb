@@ -34,7 +34,8 @@ module LambdaEventResponses
         LambdaFunctionInvoker::PerformanceAuditer => LambdaEventResponses::PerformanceAuditResult,
         LambdaFunctionInvoker::UrlCrawler => LambdaEventResponses::UrlCrawlResult,
         LambdaFunctionInvoker::FunctionalTestRunner => LambdaEventResponses::TestRunResult,
-        LambdaFunctionInvoker::HtmlSnapshotter => LambdaEventResponses::HtmlSnapshotResult
+        LambdaFunctionInvoker::HtmlSnapshotter => LambdaEventResponses::HtmlSnapshotResult,
+        LambdaFunctionInvoker::DomainAuditer => LambdaEventResponses::DomainAuditResult
       }[lambda_function_invoker_klass]
     end
 

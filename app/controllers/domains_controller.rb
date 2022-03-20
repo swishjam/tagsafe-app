@@ -13,10 +13,11 @@ class DomainsController < LoggedInController
   
   def create
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
+    params[:domain][:is_generating_third_party_impact_trial] = false
     @domain = Domain.new(domain_params)
     if @domain.save
       current_user.domains << @domain
-      set_current_domain_for_user(current_user, @domain)
+      set_current_domain(@domain)
       Role.USER_ADMIN.apply_to_domain_user(current_user.domain_user_for(@domain))
       redirect_to tags_path
     else
@@ -40,7 +41,7 @@ class DomainsController < LoggedInController
 
   def update_current_domain
     domain = Domain.find_by!(uid: params[:uid])
-    set_current_domain_for_user(current_user, domain)
+    set_current_domain(domain)
     redirect_to tags_path
   end
 

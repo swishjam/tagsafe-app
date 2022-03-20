@@ -49,7 +49,7 @@ module PerformanceAuditManager
     end
 
     def should_capture_page_resources_attributes?
-      individual_performance_audit.audit.include_page_load_resources
+      !individual_performance_audit.is_for_domain_audit? && individual_performance_audit.audit.include_page_load_resources
     end
   end
 end

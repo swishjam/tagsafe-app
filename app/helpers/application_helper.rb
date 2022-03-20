@@ -6,19 +6,31 @@ module ApplicationHelper
     log_user_out
   end
 
+  def user_is_anonymous?
+    current_user.nil?
+  end
+
   def current_domain
-    @current_domain ||= session[:current_domain_id] ? current_user&.domains&.find(session[:current_domain_id]) : current_user&.domains&.first
+    @current_domain ||= session[:current_domain_id] ? Domain.find(session[:current_domain_id]) : current_user&.domains&.first
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
+  end
+
+  def current_domain_audit
+    return if session[:current_domain_audit_id].nil?
+    @domain_audit ||= DomainAudit.find_by(id: session[:current_domain_audit_id])
   end
 
   def current_domain_user
     @current_domain_user ||= current_user.domain_user_for(current_domain)
   end
 
-  def set_current_domain_for_user(user, domain)
-    raise 'Cannot update domain to user that does not belong to it' unless user.domains.include? domain
+  def set_current_domain(domain)
     session[:current_domain_id] = domain.id
+  end
+
+  def set_current_domain_audit(domain_audit)
+    session[:current_domain_audit_id] = domain_audit.id
   end
 
   def log_user_in(user, domain = user.domains.first)

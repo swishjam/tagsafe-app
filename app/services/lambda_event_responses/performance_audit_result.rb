@@ -45,7 +45,7 @@ module LambdaEventResponses
     private
 
     def try_to_calculate_delta_results_and_run_next_set_of_audits!
-      unless individual_performance_audit.audit.completed?
+      unless (individual_performance_audit.audit || individual_performance_audit.domain_audit).completed?
         create_delta_performance_audit_if_necessary
         enqueue_next_batch_of_performance_audits_if_necessary
       end
@@ -62,13 +62,11 @@ module LambdaEventResponses
     end
 
     def processed_all_performance_audit_results_in_batch?
-      individual_performance_audit
-                              .audit
-                              .reload
-                              .performance_audits
-                              .in_batch(individual_performance_audit.batch_identifier)
-                              .pending
-                              .none?
+      audit.reload.performance_audits.in_batch(individual_performance_audit.batch_identifier).pending.none?
+    end
+
+    def audit
+      @audit ||= individual_performance_audit.audit
     end
   end
 end

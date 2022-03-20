@@ -4,14 +4,26 @@ class RegistrationsController < LoggedOutController
   def new
     @hide_logged_out_nav = true
     @user = User.new
+    if params[:domain]
+      @domain = Domain.find_by(uid: params[:domain])
+    end
   end
 
   def create
     @user = User.new(user_params)
+    @domain = Domain.find_by(uid: params[:domain_uid]) if params[:domain_uid]
     if params[:invite_code] == ENV['INVITE_CODE']
       if @user.save
-        log_user_in(@user)
-        redirect_to new_domain_path
+        if @domain
+          @domain.add_user(@user)
+          @domain.mark_as_registered!
+          log_user_in(@user)
+          session[:domain_audit_id] = nil
+          redirect_to tags_path
+        else
+          log_user_in(@user)
+          redirect_to new_domain_path
+        end
       else
         display_inline_errors(@user.errors.full_messages)
         @hide_logged_out_nav = true
