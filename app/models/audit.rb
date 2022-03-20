@@ -269,6 +269,10 @@ class Audit < ApplicationRecord
   end
   alias is_primary? primary?
 
+  def initiated_by_user?
+    initiated_by_domain_user_id.present?
+  end
+
   ########################
   ## PERFORMANCE AUDITS ##
   ########################

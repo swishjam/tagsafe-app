@@ -7,6 +7,7 @@ module LambdaFunctionInvoker
       @audit = audit
       @performance_audit_klass = performance_audit_klass
       @executed_lambda_function_parent = individual_performance_audit
+      @receiver_job_queue = @audit.initiated_by_user? ? :user_waiting : :default
     end
 
     def individual_performance_audit

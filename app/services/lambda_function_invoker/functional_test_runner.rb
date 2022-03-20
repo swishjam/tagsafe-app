@@ -10,6 +10,7 @@ module LambdaFunctionInvoker
       @options = options
       @executed_lambda_function_parent = test_run
       @attempt_number = attempt_number
+      @receiver_job_queue = test_run.audit&.initiated_by_user? ? :user_waiting : :default
     end
 
     def on_lambda_failure(_error_message)
