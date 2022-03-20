@@ -58,7 +58,7 @@ class TagsafeMailer < SendgridTemplateMailer
       change_in_score = audit.preferred_delta_performance_audit.change_in_metric(:tagsafe_score)
       if change_in_score
         template_variables[:change_in_score_description] = <<~DESCRIPTION
-          This is a#{change_in_score.positive? ? 'n increase' : ' decrease'} from the previous TagSafe score of #{audit.preferred_delta_performance_audit.previous_metric_result(:tagsafe_score)}
+          This is a#{change_in_score.positive? ? 'n increase' : ' decrease'} from the previous Tagsafe score of #{audit.preferred_delta_performance_audit.previous_metric_result(:tagsafe_score)}
         DESCRIPTION
       end
       send!(

@@ -4,7 +4,7 @@ module LambdaFunctionInvoker
     LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
     
     class << self
-      attr_accessor :lambda_service_name, :lambda_function_name
+      attr_accessor :lambda_service_name, :lambda_function_name, :resque_queue_to_capture_results
     end
 
     def send!
@@ -26,7 +26,7 @@ module LambdaFunctionInvoker
         payload: request_payload.merge!({
           lambda_invoker_klass: self.class.to_s,
           executed_lambda_function_uid: executed_lambda_function.uid,
-          ProcessReceivedLambdaEventJobQueue: 'default'
+          ProcessReceivedLambdaEventJobQueue: receiver_job_queue
         })
       )
       update_executed_lambda_function_with_response(response)
@@ -45,6 +45,14 @@ module LambdaFunctionInvoker
 
     def self.lambda_function(name)
       self.lambda_function_name = name
+    end
+
+    def self.receiver_job_queue(queue)
+      self.resque_queue_to_capture_results = queue
+    end
+
+    def receiver_job_queue
+      @receiver_job_queue || self.class.resque_queue_to_capture_results || :default
     end
 
     def lambda_invoke_function_name

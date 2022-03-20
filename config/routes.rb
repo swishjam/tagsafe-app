@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/demo' => 'demo#index'
 
   resources :registrations, only: [:new, :create]
+  get '/register' => 'registrations#new'
   
   resources :domain_users, only: [:destroy]
   get "/domain_users/:id/destroy_modal" => 'domain_users#destroy_modal', as: :destroy_domain_user_modal
@@ -23,6 +24,8 @@ Rails.application.routes.draw do
   get '/uptime' => 'tag_checks#index'
   get '/uptime/:tag_id' => 'tag_checks#tag', as: :tag_uptime_data
   get '/performance' => 'performance#index'
+
+  resources :domain_audits, only: [:create, :show]
 
   get '/alerts' => 'triggered_alerts#index', as: :alerts
   get '/alerts/:id' => 'triggered_alerts#show', as: :alert

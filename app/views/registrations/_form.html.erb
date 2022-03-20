@@ -1,5 +1,12 @@
 <!-- <#%= turbo_frame_tag 'new_registration' do %> !-->
   <%= form_with model: user, url: registrations_path, data: { controller: 'loading_form' } do |f| %>
+    <% if local_assigns[:domain] %>
+      <div class='form-floating m-2'>
+        <input type='hidden' name="domain_uid" value="<%=domain.uid%>">
+        <input type="text" class="form-control" value="<%=domain.url%>" disabled="true">
+        <label>Site URL</label>
+      </div>
+    <% end %>
     <div class='form-floating m-2'>
       <%= f.text_field :first_name, class: 'form-control', placeholder: 'John', required: true %>
       <%= f.label :first_name %>
@@ -17,7 +24,7 @@
       <%= f.label :password %>
     </div>
     <div class='form-floating m-2'>
-      <input type='password' name='invite_code' id='invite_code' class='form-control' placeholder='ABC123' required>
+      <input type='text' name='invite_code' id='invite_code' class='form-control' placeholder='ABC123' required>
       <label for='invite_code'>Invite Code</label>
     </div>
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>

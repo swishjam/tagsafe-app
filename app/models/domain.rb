@@ -11,6 +11,7 @@ class Domain < ApplicationRecord
   has_many :page_urls, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :audits, dependent: :destroy
+  has_many :domain_audits, dependent: :destroy
   has_many :functional_tests, dependent: :destroy
   has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
@@ -19,8 +20,14 @@ class Domain < ApplicationRecord
   validates :url, presence: true, uniqueness: true
 
   before_validation :strip_pathname_from_url
-  before_validation :add_default_page_url
+  before_validation :add_default_page_url, on: :create
   after_create_commit :add_defaults
+
+  attribute :is_generating_third_party_impact_trial, default: false
+
+  scope :registered, -> { where(is_generating_third_party_impact_trial: false) }
+  scope :not_generating_third_party_impact_trial, -> { registered }
+  scope :generating_third_party_impact_trial, -> { where(is_generating_third_party_impact_trial: true) }
 
   def parsed_domain_url
     u = URI.parse(url)
@@ -37,16 +44,28 @@ class Domain < ApplicationRecord
   end
 
   def add_default_page_url
-    page_urls.new(full_url: url, should_scan_for_tags: true)
+    page_urls.new(full_url: url, should_scan_for_tags: !is_generating_third_party_impact_trial)
   end
 
   def add_url(full_url, should_scan_for_tags:)
     page_urls.create(full_url: full_url, should_scan_for_tags: should_scan_for_tags)
   end
 
+  def is_registered?
+    !is_generating_third_party_impact_trial
+  end
+
+  def mark_as_registered!
+    return if is_registered?
+    update!(is_generating_third_party_impact_trial: false)
+    page_urls.each{ |page_url| page_url.update!(should_scan_for_tags: true) }
+  end
+
   def strip_pathname_from_url
     parsed_url = URI.parse(url)
     self.url = "#{parsed_url.scheme}://#{parsed_url.hostname}"
+  rescue URI::InvalidURIError => e
+    errors.add(:base, "Invalid URL provided.")
   end
 
   def current_performance_audit_calculator
@@ -67,7 +86,7 @@ class Domain < ApplicationRecord
   end
 
   def crawl_and_capture_domains_tags
-    page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_later }
+    page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_for_tags! }
   end
 
   def should_capture_tag?(url)

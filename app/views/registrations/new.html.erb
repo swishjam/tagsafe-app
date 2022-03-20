@@ -6,15 +6,17 @@
   </div>
 
   <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center form-card m-auto">
-    <div class='step-indicators'>
-      <div class='step-indicator current'>
+    <% unless @domain.present? %>
+      <div class='step-indicators'>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
       </div>
-      <div class='step-indicator incomplete'>
-      </div>
-    </div>
-    <h3 class='tagsafe-font'>Register</h3>
+    <% end %>
+    <h1 class='tagsafe-font mb-3'>Register</h1>
     <!-- <#%= turbo_frame_tag 'new_registration' do %> !-->
-      <%= render 'form', user: @user %>
+      <%= render 'form', user: @user, domain: @domain %>
     <!-- <#% end %> !-->
   </div>
 </div>

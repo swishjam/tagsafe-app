@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "url_crawl_#{url_crawl.uid}_for_domain_audit_tags" do %>
+  <%= render 'server_loadable_partials/tags/tag_table', domain: domain, tags: tags %>
+<% end %>

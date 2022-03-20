@@ -1,0 +1,12 @@
+<%= turbo_stream_from "domain_audit_#{@domain_audit.uid}_details_stream" %>
+
+<h4 class='page-title with-sub-title'>Third Party Tag Impact</h4>
+<h5 class='page-sub-title'><%= current_domain.url %></h5>
+
+<%= render 'show', 
+            domain: current_domain, 
+            domain_audit: @domain_audit, 
+            average_delta_performance_audit: @average_delta_performance_audit,
+            url_crawl: @url_crawl, 
+            found_tags: @found_tags 
+%>

@@ -17,6 +17,10 @@ clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every night at midnight
   queue: "default_queue"
+purge_domains_generating_third_party_impact_trial:
+  class: Schedule::PurgeDomainsGeneratingThirdPartyImpactTrialJob
+  cron: "0 0 * * *"
+  queue: default_queue
 
 one_minute_check_scripts:
   class: Schedule::TagCheckJobs::OneMinuteInterval

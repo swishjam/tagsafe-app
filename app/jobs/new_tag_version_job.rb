@@ -1,5 +1,6 @@
 class NewTagVersionJob < ApplicationJob
   def perform(tag_version)
+    return if tag_version.tag.disabled?
     if tag_version.should_throttle_audit?
       tag_version.throttle_audit!
     else

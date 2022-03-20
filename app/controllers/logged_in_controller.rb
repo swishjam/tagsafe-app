@@ -1,7 +1,7 @@
 class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
-  before_action :authorize!
+  # before_action :authorize!
   before_action :ensure_domain
 
   def authorize!

@@ -1,0 +1,30 @@
+<div class='col-xs-12 col-sm-6 domain-audit-metric-container'>
+  <div class='domain-audit-metric-tile <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+    <div class='row'>
+      <div class='col-12'>
+        <span class='domain-audit-metric-title d-flex align-items-center justify-content-center'>
+          <%= title %>
+            <i class="fa-solid fa-question ms-1"
+                  style='font-size: 8px'
+                  data-controller='tooltip' 
+                  data-bs-toggle='tooltip' 
+                  title="<%= "How much do third party tags add to your #{title} metric? #{metric_help_description}" %>">
+            </i>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-12'>
+        <div class='domain-audit-metric-body'>
+          <% if metric.positive? %>
+            <span class='metric'>Adds <%= number_to_human(metric, units: { unit: 'ms', thousand: 'seconds' }) %></span>
+            (<%= metric_percent %> % of your entire <%= title %>)
+          <% else %>
+            <span class='metric'>No impact</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

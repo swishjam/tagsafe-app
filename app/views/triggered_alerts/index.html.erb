@@ -4,30 +4,37 @@
 <%= render 'triggered_alerts/nav' %>
 
 <div class='tagsafe-container'>
-  <div class='tagsafe-table'>
-    <div class='tagsafe-table-head tagsafe-table-row'>
-      <div class='tagsafe-table-header' style='width: 30%'>Tag</div>
-      <div class='tagsafe-table-header' style='width: 30%'>Alert Type</div>
-      <div class='tagsafe-table-header' style='width: 30%'>Date</div>
-      <div class='tagsafe-table-header' style='width: 10%'></div>
+  <% if user_is_anonymous? %>
+    <div class='p-5 text-center'>
+      <h4 class='mb-5'>In order to enable alerting functionality, you must be a registered user.</h4>
+      <a class='tagsafe-btn circular large' href='/register?domain=<%=current_domain.uid%>'>Sign up for free now</a>
     </div>
-    <div class='tagsafe-table-body'>
-      <% @triggered_alerts.each do |triggered_alert| %>
-        <%= link_to alert_path(triggered_alert), class: 'no-decoration' do %>
-          <div class='tagsafe-table-row clickable'>
-            <div class="tagsafe-table-data" style='width: 30%'>
-              <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail bordered me-3' %>
-              <%= triggered_alert.tag.try_friendly_name %>
+  <% else %>
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head tagsafe-table-row'>
+        <div class='tagsafe-table-header' style='width: 30%'>Tag</div>
+        <div class='tagsafe-table-header' style='width: 30%'>Alert Type</div>
+        <div class='tagsafe-table-header' style='width: 30%'>Date</div>
+        <div class='tagsafe-table-header' style='width: 10%'></div>
+      </div>
+      <div class='tagsafe-table-body'>
+        <% @triggered_alerts.each do |triggered_alert| %>
+          <%= link_to alert_path(triggered_alert), class: 'no-decoration' do %>
+            <div class='tagsafe-table-row clickable'>
+              <div class="tagsafe-table-data" style='width: 30%'>
+                <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail bordered me-3' %>
+                <%= triggered_alert.tag.try_friendly_name %>
+              </div>
+              <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.friendly_type %></div>
+              <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.created_at.formatted_short %></div>
+              <div class='tagsafe-table-data' style='width: 10%'>
+                <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
+              </div>
             </div>
-            <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.friendly_type %></div>
-            <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.created_at.formatted_short %></div>
-            <div class='tagsafe-table-data' style='width: 10%'>
-              <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
-            </div>
-          </div>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
-  </div>
-  <%= paginate @triggered_alerts %>
+    <%= paginate @triggered_alerts %>
+  <% end %>
 </div>

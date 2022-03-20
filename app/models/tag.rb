@@ -47,12 +47,14 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   broadcast_notification on: :create
-  after_create_commit :stream_new_tag_to_views
   after_update_commit { update_tag_table_row(tag: self, now: true) }
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
+  
+  after_create_commit :apply_defaults
+  after_create_commit :stream_new_tag_to_views
   after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
   after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
-  after_create_commit :apply_defaults
+  after_create_commit { run_tag_check_later! if enabled? }
 
   # SCOPES
   default_scope { includes(:tag_identifying_data) }

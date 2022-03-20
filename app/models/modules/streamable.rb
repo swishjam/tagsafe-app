@@ -192,6 +192,26 @@ module Streamable
       )
     end
 
+    #########################
+    ## DomainAudit Streams ##
+    #########################
+
+    def update_domain_audit_details_view(domain_audit:, now: false)
+      stream_replace!(
+        now: now,
+        stream: "domain_audit_#{domain_audit.uid}_details_stream",
+        target: "domain_audit_#{domain_audit.uid}_details",
+        partial: "domain_audits/show",
+        locals: {
+          domain_audit: domain_audit,
+          domain: domain,
+          average_delta_performance_audit: domain_audit.average_delta_performance_audit,
+          url_crawl: domain_audit.url_crawl,
+          found_tags: domain_audit.url_crawl.found_tags.page(1).per(50)
+        }
+      )
+    end
+
     ############################
     ## FunctionalTest streams ##
     ############################

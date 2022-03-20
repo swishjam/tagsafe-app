@@ -7,16 +7,20 @@
             <div class="container">
               <div class="row">
                 <div class="col-12">
-                  <h1 class="main-header alfa-slab">
-                    Take control over your third party tags.
-                  </h1>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
+                  <h1 class="main-header alfa-slab">Take control over your third party tags.</h1>
                   <h2 class="sub-header">
                     Gain visibility into your third party tags, monitor changes in real time, and ensure your site is not hurt by a third party release.
                   </h2>
+                  <%= form_with url: domain_audits_path, data: { controller: 'loading_form' } do |f| %>
+                    <div class='inline-input-and-btn'>
+                      <%= f.text_field :domain_url, placeholder: 'https://www.tagsafe.io', class: 'form-control' %>
+                      <%= loading_submit_button 'Measure Impact of Third Party Tags' %>
+                    </div>
+                  <% end %>
+                  <% if @domain_audit_error %>
+                    <span class='red-text d-block'><%= @domain_audit_error %></span>
+                  <% end %>
+                  <span class='domain-audit-explanation'>Enter your site's URL to measure the impact of your third party tags.</span>
                 </div>
               </div>
             </div>
