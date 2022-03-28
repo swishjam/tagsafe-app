@@ -27,23 +27,17 @@ class Tag < ApplicationRecord
   has_many :query_param_change_events, class_name: TagUrlQueryParamsChangedEvent.to_s
 
   has_many :triggered_alerts
-  
-  # has_many :slack_notification_subscribers, dependent: :destroy
-  # has_many :new_tag_slack_notifications, dependent: :destroy
-  # has_many :new_tag_version_slack_notifications, dependent: :destroy
-  # has_many :audit_completed_slack_notifications, dependent: :destroy
 
-  # has_many :email_notification_subscribers, dependent: :destroy
-  # has_many :new_tag_version_email_subscribers, class_name: 'NewTagVersionEmailSubscriber', dependent: :destroy
-  # has_many :audit_complete_notification_subscribers, class_name: 'AuditCompleteNotificationSubscriber', dependent: :destroy
-
-  has_one :default_audit_configuration, as: :parent, class_name: 'DefaultAuditConfiguration', dependent: :destroy
-  has_one :tag_preferences, class_name: 'TagPreference', dependent: :destroy
+  has_one :default_audit_configuration, as: :parent, class_name: DefaultAuditConfiguration.to_s, dependent: :destroy
+  has_one :tag_preferences, class_name: TagPreference.to_s, dependent: :destroy
   accepts_nested_attributes_for :tag_preferences
 
   # VALIDATIONS
   validates_presence_of :full_url
-  validates_uniqueness_of :full_url, scope: :domain_id, conditions: -> { where(deleted_at: nil) }
+  validates_uniqueness_of :full_url, 
+                          scope: :domain_id, 
+                          conditions: -> { where(deleted_at: nil) },
+                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" }
 
   # CALLBACKS
   broadcast_notification on: :create
@@ -54,7 +48,7 @@ class Tag < ApplicationRecord
   after_create_commit :stream_new_tag_to_views
   after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
   after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
-  after_create_commit { run_tag_check_later! if enabled? }
+  after_create_commit { run_tag_check_later! if release_monitoring_enabled? }
 
   # SCOPES
   default_scope { includes(:tag_identifying_data) }
@@ -84,7 +78,6 @@ class Tag < ApplicationRecord
   scope :has_content, -> { where(has_content: true) }
   scope :doesnt_have_content, -> { where(has_content: false) }
 
-  # scope :one_minute_interval_checks, -> { all }
   scope :one_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1) }
   scope :fifteen_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 15) }
   scope :thirty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 30) }
@@ -93,7 +86,16 @@ class Tag < ApplicationRecord
   scope :six_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 360) }
   scope :twelve_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 720) }
   scope :twenty_four_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1440) }
-  # etc...
+  scope :one_day_interval_checks, -> { twenty_four_hour_interval_checks }
+
+  scope :five_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 5) }
+  scope :fifteen_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 15) }
+  scope :thirty_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 30) }
+  scope :one_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 60) }
+  scope :three_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 180) }
+  scope :six_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 360) }
+  scope :twelve_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 720) }
+  scope :twenty_four_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 1440) }
 
   def self.where_tag_preferences(where_clause)
     joins(:tag_preferences).where(tag_preferences: where_clause)
@@ -151,7 +153,7 @@ class Tag < ApplicationRecord
 
   def state
     removed_from_site? ? 'removed' :
-      enabled? ? 'active' : 'disabled'
+      release_monitoring_enabled? ? 'active' : 'disabled'
   end
 
   def human_state
@@ -159,6 +161,7 @@ class Tag < ApplicationRecord
   end
   
   def most_recent_version
+    return nil if release_monitoring_disabled?
     tag_versions.where(most_recent: true).limit(1).first
   end
   alias current_version most_recent_version
@@ -182,6 +185,45 @@ class Tag < ApplicationRecord
     RunTagCheckJob.perform_later(self)
   end
 
+  def perform_audit_on_all_urls_on_current_tag_version!(execution_reason:, initiated_by_domain_user: nil)
+    if release_monitoring_enabled?
+      perform_audit_on_all_urls!(
+        execution_reason: execution_reason, 
+        tag_version: current_version,
+        initiated_by_domain_user: initiated_by_domain_user,
+      )
+    else
+      perform_audit_on_all_urls!(
+        execution_reason: execution_reason, 
+        initiated_by_domain_user: initiated_by_domain_user,
+        tag_version: nil
+      )
+    end
+  end
+
+  def perform_audit_on_all_urls!(execution_reason:, tag_version:, initiated_by_domain_user: nil, options: {})
+    urls_to_audit.map do |url_to_audit|
+      perform_audit!(
+        execution_reason: execution_reason,
+        tag_version: tag_version,
+        initiated_by_domain_user: initiated_by_domain_user,
+        url_to_audit: url_to_audit,
+        options: options
+      )
+    end
+  end
+
+  def perform_audit!(execution_reason:, tag_version:, initiated_by_domain_user:, url_to_audit:, options: {})
+    AuditRunner.new(
+      execution_reason: execution_reason,
+      tag: self,
+      tag_version: tag_version,
+      url_to_audit: url_to_audit,
+      initiated_by_domain_user: initiated_by_domain_user,
+      options: options
+    ).run!
+  end
+
   def removed_from_site?
     !removed_from_site_at.nil?
   end
@@ -191,8 +233,12 @@ class Tag < ApplicationRecord
     RemovedTagAlert.create!(tag: self, initiating_record: self)
   end
 
-  def enabled?
+  def release_monitoring_enabled?
     tag_preferences.enabled
+  end
+
+  def scheduled_audits_enabled?
+    !tag_preferences.scheduled_audit_minute_interval.nil?
   end
 
   def enable!
@@ -200,11 +246,32 @@ class Tag < ApplicationRecord
   end
 
   def disabled?
-    !enabled?
+    !release_monitoring_enabled?
+  end
+  alias release_monitoring_disabled? disabled?
+
+  def scheduled_audits_disabled?
+    !scheduled_audits_enabled?
   end
 
   def disable!
     tag_preferences.update!(enabled: false)
+  end
+
+  def should_roll_up_audits_by_tag_version?
+    release_monitoring_disabled? ? false : domain.default_audit_configuration.roll_up_audits_by_tag_version
+  end
+
+  def audit_to_display
+    if should_roll_up_audits_by_tag_version?
+      current_version&.audit_to_display
+    else
+      most_recent_successful_audit
+    end
+  end
+
+  def most_recent_successful_audit
+    audits.most_recent_first.completed.successful_performance_audit.limit(1).first
   end
 
   def try_friendly_name

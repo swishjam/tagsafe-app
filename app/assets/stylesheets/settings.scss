@@ -1,4 +1,4 @@
-body.settings {
+body.settings, body.tags.edit {
   table {
     tr.removed-from-site {
       background: rgb(226, 226, 226);
@@ -14,11 +14,12 @@ body.settings {
   }
   .settings-title {
     display: block;
-    font-weight: 800;
+    font-weight: 900;
     font-size: 16px;
   }
   .settings-description {
     display: block;
-    font-size: 14px;
+    font-weight: 400;
+    font-size: 12px;
   }
 }

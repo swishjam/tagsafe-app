@@ -12,6 +12,7 @@ class DefaultAuditConfiguration < ApplicationRecord
       include_page_change_audit: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
       include_functional_tests: true,
       enable_monitoring_on_new_tags: true,
+      roll_up_audits_by_tag_version: false,
       # num_perf_audits_to_run: 3,
       perf_audit_batch_size: 3,
       perf_audit_minimum_num_sets: 3,

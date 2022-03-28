@@ -1,10 +1,10 @@
 <% if audit.nil? %>
   <% if tag.removed_from_site? %>
-    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Removed from site</span>
-  <% elsif tag.disabled? %>
-    <span class='tagsafe-pill red small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Monitoring disabled</span>
-  <% else %>
+    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No longer on site</span>
+  <% elsif tag.release_monitoring_enabled? %>
     <span class='tagsafe-pill grey small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this release</span>
+  <% else %>
+    <span class='tagsafe-pill grey small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this tag</span>
   <% end %>
 <% elsif audit.include_performance_audit %> 
   <% if audit.performance_audit_failed? %>
@@ -41,16 +41,16 @@
         <% current_score = audit.preferred_delta_performance_audit.tagsafe_score.round(2) %> 
         <%= current_score %>
         <% unless local_assigns[:compare_to_previous_score] == false %>
-          <% previous_primary_audit = audit.tag_version.previous_version&.primary_audit %>
-          <% if previous_primary_audit %>
-            <% previous_score = previous_primary_audit.preferred_delta_performance_audit.tagsafe_score.round(2) %>
+          <% audit_to_compare_against = audit.audit_to_compare_with %>
+          <% if audit_to_compare_against %>
+            <% previous_score = audit_to_compare_against.preferred_delta_performance_audit.tagsafe_score.round(2) %>
             <% diff_in_score = (current_score - previous_score).round(2) %>
             <% icon_class = diff_in_score.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
             <span style='font-size: 0.75rem'
                   class='ms-1'
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
-                  title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous version.">
+                  title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous <%= tag.should_roll_up_audits_by_tag_version? ? 'version' : 'audit' %>.">
                   <i class="<%=icon_class%>"></i> 
                   <%= diff_in_score %>
             </span>

@@ -4,7 +4,7 @@
   <h4>Changes made to page's HTML:</h4>
   <% if @audit.include_page_change_audit %>
     <% if @audit.page_change_audit_completed? %>
-      <%= turbo_frame_tag "audit_#{@audit.uid}_page_change_audit", src: tag_tag_version_audit_page_change_audit_path(@tag, @tag_version, @audit, @audit.page_change_audit) do %>
+      <%= turbo_frame_tag "audit_#{@audit.uid}_page_change_audit", src: tag_audit_page_change_audit_path(@tag, @audit, @audit.page_change_audit) do %>
         <%= display_loading_spinner %>
       <% end %>
     <% else %>

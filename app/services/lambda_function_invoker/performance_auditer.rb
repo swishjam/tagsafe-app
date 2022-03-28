@@ -22,7 +22,7 @@ module LambdaFunctionInvoker
         page_url_to_perform_audit_on: @audit.page_url.full_url,
         first_party_request_url: tag.domain.parsed_domain_url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
-        third_party_tag_url_patterns_to_allow: tag.domain.non_third_party_url_patterns.collect(&:pattern),
+        third_party_tag_url_patterns_to_allow: third_party_tag_url_patterns_to_allow,
         cached_responses_s3_key: @audit.performance_audit_configuration.cached_responses_s3_key,
         options: {
           override_initial_html_request_with_manipulated_page: @audit.performance_audit_configuration.override_initial_html_request_with_manipulated_page.to_s,
@@ -41,7 +41,7 @@ module LambdaFunctionInvoker
     end
 
     def tag
-      @tag ||= tag_version.tag
+      @tag ||= @audit.tag
     end
 
     def tag_version
@@ -50,11 +50,14 @@ module LambdaFunctionInvoker
 
     def script_injection_rules
       return [] unless individual_performance_audit.is_a?(IndividualPerformanceAuditWithTag)
-      [{ url:  tag_version.js_file_url, load_type: 'async' }]
+      return [] unless @audit.run_on_tagsafe_tag_version?
+      [{ url:  tag_version.js_file_url, load_type: tag.load_type || 'async' }]
     end
 
-    def required_payload_arguments
-      %i[page_url_to_perform_audit_on third_party_tag_urls_and_rules_to_inject first_party_request_url options]
+    def third_party_tag_url_patterns_to_allow
+      patterns = tag.domain.non_third_party_url_patterns.collect(&:pattern)
+      patterns << tag.url_based_on_preferences if @audit.run_on_live_tag? && individual_performance_audit.is_a?(IndividualPerformanceAuditWithTag)
+      patterns
     end
   end
 end

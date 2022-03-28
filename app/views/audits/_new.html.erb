@@ -5,7 +5,7 @@
         <h3 class='inline-message mt-5 mb-5'>Performing <%= local_assigns[:audits_enqueued].count %> audits on <%= tag.try_friendly_name %></h3>
         <div class='tagsafe-modal-divider'></div>
         <% audits_enqueued.each do |audit| %>
-          <%= link_to "View audit on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top', class: 'd-block' %>
+          <%= link_to "View audit on #{audit.page_url.full_url}", tag_audit_path(tag, audit), target: '_top', class: 'd-block' %>
         <% end %>
       </div>
     <% else %>
@@ -14,13 +14,26 @@
       </div>
       <div class='tagsafe-modal-divider'></div>
       <div class='tagsafe-modal-footer text-end'>
-        <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), class:'tagsafe-btn', target: '_top' %>
+        <%= link_to "View audit", tag_audit_path(tag, audits_enqueued.first), class:'tagsafe-btn', target: '_top' %>
       </div>
     <% end %>
   <% else %>
-    <%= form_with url: create_audit_path(tag, tag_version), method: :post, data: { controller: 'loading_form' } do |f| %>
+    <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form' } do |f| %>
       <div class='tagsafe-modal-body'>
         <h3>Run audit on your <%= tag.try_friendly_name %> tag?</h3>
+        
+        <% unless tag_version.nil? %>
+          <% if tag_version.id == current_tag_version.id %>
+            <%= f.hidden_field :tag_version_id, value: tag_version.id %>
+          <% else %>
+            <h5>The audit you were viewing was of a past release from this tag (<%= tag_version.created_at.formatted_short %>) and is not the most recent version. Which version of the tag would you like to use for this audit?</h5>
+            <select class='form-select mb-3' name='tag_version_id'>
+              <option value="<%= tag_version.id %>">Past release from audit being viewed</option>
+              <option value="<%= current_tag_version.id %>">Currently live version (released <%= current_tag_version.created_at.formatted_short %>)</option>
+            </select>
+          <% end %>  
+        <% end %>
+        
         <% if urls_to_audit.count == 1 %>
           <input name='urls_to_audit[]' id="url_to_audit_<%= urls_to_audit.first.id %>" value="<%= urls_to_audit.first.id %>" type='hidden'>
         <% else %>

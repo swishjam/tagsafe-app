@@ -7,7 +7,7 @@ class Audit < ApplicationRecord
 
   belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
   belongs_to :domain
-  belongs_to :tag_version
+  belongs_to :tag_version, optional: true
   belongs_to :tag
   belongs_to :execution_reason
   belongs_to :page_url
@@ -122,6 +122,14 @@ class Audit < ApplicationRecord
     send_audit_completed_notifications_if_necessary
   end
 
+  def audit_to_compare_with
+    if tag.should_roll_up_audits_by_tag_version?
+      tag_version.previous_version.audit_to_display
+    else
+      tag.audits.successful_performance_audit.most_recent_first.older_than(created_at).limit(1).first
+    end
+  end
+
   def performance_audit_completed!(tagsafe_score_confidence_range)
     unless performance_audit_failed?
       PerformanceAuditManager::AveragePerformanceAuditsCreator.new(self).create_average_performance_audits!
@@ -161,6 +169,7 @@ class Audit < ApplicationRecord
 
   def make_primary!
     raise AuditError::InvalidPrimary, "audit is in a #{state} state, must be completed." unless completed?
+    return unless tag.should_roll_up_audits_by_tag_version?
     primary_audit_from_before = tag_version.primary_audit
     primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
     update!(primary: true)
@@ -194,7 +203,6 @@ class Audit < ApplicationRecord
 
   def enqueue_configured_audit_types
     AuditRunnerJobs::RunPerformanceAudit.perform_later(self) if include_performance_audit
-    # PerformanceAuditManager::QueueMaintainer.new(audit).run_next_batch_of_performance_audits_or_mark_as_completed include_performance_audit
     AuditRunnerJobs::RunPageChangeAudit.perform_later(self) if include_page_change_audit
     AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(self) if include_functional_tests
   end
@@ -271,6 +279,14 @@ class Audit < ApplicationRecord
 
   def initiated_by_user?
     initiated_by_domain_user_id.present?
+  end
+
+  def run_on_live_tag?
+    tag_version.nil?
+  end
+
+  def run_on_tagsafe_tag_version?
+    tag_version.present?
   end
 
   ########################

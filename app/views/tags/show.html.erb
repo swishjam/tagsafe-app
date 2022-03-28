@@ -3,7 +3,7 @@
 <h5 class="page-title with-sub-title">Tag Details</h6>
 <h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
 
-<% if @tag.enabled? && @tag.current_version&.primary_audit %>
+<% if @tag.audit_to_display %>
   <div class='tagsafe-container'>
     <%= render 'tags/current_stats', tag: @tag %>
   </div>
@@ -17,8 +17,8 @@
           <%= HtmlHelper.WARNING_ICON %> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
         </div>
       <% elsif @tag.disabled? %>
-      <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
-          <%= HtmlHelper.WARNING_ICON %> Monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %>
+      <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %>
         </div>
       <% end %>
       <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
@@ -26,7 +26,8 @@
           <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <%= link_to "Edit #{@tag.try_friendly_name}", edit_tag_path(@tag), class: 'dropdown-item', target: '_top' %>
+          <%= link_to "Edit #{@tag.try_friendly_name} Settings", edit_tag_path(@tag), class: 'dropdown-item', target: '_top' %>
+          <%= modal_link new_tag_audit_path(@tag, tag_version_id: @tag.release_monitoring_enabled? ? @tag.current_version.id : nil), text: "Perform Audit on #{@tag.try_friendly_name}", klass: 'dropdown-item' %>
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@
 </div>
 
 <div class="tagsafe-container">
-  <%= turbo_frame_tag "tag_#{@tag.uid}_tag_versions_table", src: server_loadable_partials_tag_tag_versions_path(@tag) do %>
+  <%= turbo_frame_tag "tag_#{@tag.uid}_audits_table", src: audits_tag_path(@tag) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
     </div>

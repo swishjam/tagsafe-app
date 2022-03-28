@@ -9,25 +9,25 @@
     [
       {
         text: 'Performance',
-        url: performance_audit_tag_tag_version_audit_path(@tag, @tag_version, @audit),
-        consider_current_path: tag_tag_version_audit_path(@tag, @tag_version, @audit)
+        url: performance_audit_tag_audit_path(@tag, @audit),
+        consider_current_path: tag_audit_path(@tag, @audit)
       },
       {
         text: "Functional Tests (#{@audit.functional_tests_pending? ? 'pending' : @audit.display_functional_test_results})",
-        url: test_runs_tag_tag_version_audit_path(@tag, @tag_version, @audit),
+        url: test_runs_tag_audit_path(@tag, @audit),
         consider_current_path_pattern: "/functional_tests/"
       },
       {
         text: 'Page Change Detection',
-        url: page_change_audit_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+        url: page_change_audit_tag_audit_path(@tag, @audit)
       },
       {
         text: 'Waterfall View',
-        url: waterfall_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+        url: waterfall_tag_audit_path(@tag, @audit)
       },
       {
         text: 'View Tag Changes',
-        url: git_diff_tag_tag_version_audit_path(@tag, @tag_version, @audit)
+        url: git_diff_tag_audit_path(@tag, @audit)
       }
     ].each do |nav_item|
   %>

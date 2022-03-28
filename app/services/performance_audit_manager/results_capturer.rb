@@ -33,7 +33,8 @@ module PerformanceAuditManager
         layout_duration: performance_audit_result.performance_metrics.layout_duration,
         script_duration: performance_audit_result.performance_metrics.script_duration,
         task_duration: performance_audit_result.performance_metrics.task_duration,
-        page_trace_s3_url: performance_audit_result.page_trace_s3_url
+        page_trace_s3_url: performance_audit_result.page_trace_s3_url,
+        bytes: performance_audit_result.bytes
       }
     end
 

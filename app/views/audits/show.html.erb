@@ -1,3 +1,3 @@
 <%= render 'show_page_header' %>
 
-<%= render 'performance_audit', tag: @tag, tag_version: @tag_version, audit: @audit, previous_audit: @tag_version&.previous_version&.primary_audit %>
+<%= render 'performance_audit', tag: @tag, tag_version: @tag_version, audit: @audit, previous_audit: @audit.audit_to_compare_with %>

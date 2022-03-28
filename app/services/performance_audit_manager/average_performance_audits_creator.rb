@@ -31,6 +31,7 @@ module PerformanceAuditManager
         script_duration: average_for(:script_duration, individual_performance_audits),
         layout_duration: average_for(:layout_duration, individual_performance_audits),
         task_duration: average_for(:task_duration, individual_performance_audits),
+        bytes: average_for(:bytes, individual_performance_audits),
         completed_at: Time.now
       }
     end

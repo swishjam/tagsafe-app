@@ -62,8 +62,8 @@ module HtmlHelper
     "#{ENV['ASSET_CDN_DOMAIN']}#{path}"
   end
 
-  def create_audit_path(tag, tag_version)
-    "/tags/#{tag.id}/tag_versions/#{tag_version.id}/audits"
+  def create_audit_path(tag)
+    "/tags/#{tag.id}/audits"
   end
 
   def modal_link(modal_html_path, klass: nil, text: nil, &block)

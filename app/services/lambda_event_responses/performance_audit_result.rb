@@ -26,6 +26,10 @@ module LambdaEventResponses
       @page_load_resources ||= LambdaEventResponses::PerformanceAuditResult::PageLoadResources.new((response_payload['results'] || {})['page_load_resources'] || [])
     end
 
+    def bytes
+      @bytes ||= individual_performance_audit.calculate_bytes || 0
+    end
+
     def logs
       @logs ||= response_payload['logs']
     end

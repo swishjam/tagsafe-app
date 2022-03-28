@@ -1,9 +1,17 @@
 class AuditRunner
-  def initialize(initiated_by_domain_user: nil, tag_version:, url_to_audit_id:, execution_reason:, options: {})
+  def initialize(
+    initiated_by_domain_user: nil, 
+    tag: nil, 
+    tag_version:,
+    use_live_version_of_tag: false,
+    url_to_audit:, 
+    execution_reason:, 
+    options: {}
+  )
     @initiated_by_domain_user = initiated_by_domain_user
     @tag_version = tag_version
-    @url_to_audit_id = url_to_audit_id
-    @tag = @tag_version.tag
+    @url_to_audit = url_to_audit
+    @tag = tag || @tag_version.tag
     @execution_reason = execution_reason
     @options = options
     @options[:performance_audit_configuration] = @options[:performance_audit_configuration] || {}
@@ -21,7 +29,7 @@ class AuditRunner
       tag: @tag,
       tag_version: @tag_version,
       domain: @tag.domain,
-      page_url: url_to_audit.page_url,
+      page_url: @url_to_audit.page_url,
       execution_reason: @execution_reason,
       primary: false,
       performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
@@ -56,10 +64,6 @@ class AuditRunner
 
   def default_audit_configuration
     @tag.default_audit_configuration || @tag.domain.default_audit_configuration
-  end
-
-  def url_to_audit
-    @url_to_audit ||= UrlToAudit.find(@url_to_audit_id)
   end
 
   def option_value_for(option, default_value)

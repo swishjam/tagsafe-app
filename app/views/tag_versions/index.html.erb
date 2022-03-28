@@ -18,8 +18,8 @@
             <td scope="row"><%= tag_version.created_at.formatted %></td>
             <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag_version.tag.try_friendly_name %></td>
             <td scope="row"><%= render 'audits/performance_audit_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display %></td>
-            <% unless tag_version.primary_audit.nil? %>
-              <td scope="row"><%= link_to "View Results", tag_tag_version_audit_path(tag_version.tag, tag_version, tag_version.primary_audit) %></td>
+            <% unless tag_version.audit_to_display.nil? %>
+              <td scope="row"><%= link_to "View Results", tag_audit_path(tag_version.tag, tag_version.audit_to_display) %></td>
             <% end %>
           </tr>
         <% end %>

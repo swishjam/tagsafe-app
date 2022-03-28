@@ -6,7 +6,7 @@ class PageLoadResourcesController < LoggedInController
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
-      { url: tag_tag_version_audits_path(@tag, @tag_version), text: "#{@tag_version.sha} Audits" },
+      { url: tag_audits_path(@tag), text: "#{@tag_version.sha} Audits" },
       { text: "#{@audit.created_at.formatted_short} Waterfall Chart", active: true },
     )
   end

@@ -47,7 +47,7 @@
 #     end
 #     most_recent = script.tag_versions.most_recent_first.first
 #     most_recent.make_most_recent!
-#     most_recent.set_script_content_changed_at_timestamp
+#     most_recent.set_script_last_released_at_timestamp
 #   end
 #   script.tag_versions
 # end

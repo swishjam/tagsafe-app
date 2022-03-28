@@ -80,7 +80,20 @@ class PerformanceAudit < ApplicationRecord
     domain_audit_id.present?
   end
 
+  def calculate_bytes
+    audit.tag_version ? audit.tag_version.bytes : fetch_live_tag_and_calculate_bytes
+  end
+
   private
+
+  def fetch_live_tag_and_calculate_bytes
+    HTTParty.get(
+      audit.tag.full_url, 
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0' }
+    ).bytesize
+  rescue => e
+    Rails.logger.error "Unable to fetch and calculate bytes for #{audit.tag.full_url}"
+  end
 
   def belongs_to_audit_or_domain_audit
     if domain_audit.nil? && audit.nil?

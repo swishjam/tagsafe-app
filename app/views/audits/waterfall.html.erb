@@ -11,14 +11,14 @@
   <% else %>
     <h3 class='text-center'>Page load waterfall breakdown</h3>
     <div class='col-12 text-start'>
-      <%= turbo_frame_tag 'page_load_resources_with_tag', src: tag_tag_version_audit_page_load_resources_path(@tag, @tag_version, @audit, performance_audit_type: 'with_tag') do %>
+      <%= turbo_frame_tag 'page_load_resources_with_tag', src: tag_audit_page_load_resources_path(@tag, @audit, performance_audit_type: 'with_tag') do %>
         <div class='text-center'>
           <%= render 'partials/utils/spinner', size: :large %>
         </div>
       <% end %>
     </div>
     <div class='col-12 text-start mt-3'>
-      <%= turbo_frame_tag 'page_load_resources_without_tag', src: tag_tag_version_audit_page_load_resources_path(@tag, @tag_version, @audit, performance_audit_type: 'without_tag') do %>
+      <%= turbo_frame_tag 'page_load_resources_without_tag', src: tag_audit_page_load_resources_path(@tag, @audit, performance_audit_type: 'without_tag') do %>
         <div class='text-center'>
           <%= render 'partials/utils/spinner', size: :large %>
         </div>

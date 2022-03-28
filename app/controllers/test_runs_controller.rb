@@ -14,15 +14,15 @@ class TestRunsController < LoggedInController
 
   def index_for_audit
     tag = current_domain.tags.find(params[:tag_id])
-    tag_version = tag.tag_versions.find(params[:tag_version_id])
-    audit = tag_version.audits.find(params[:audit_id])
+    # tag_version = tag.tag_versions.find(params[:tag_version_id])
+    audit = tag.audits.find(params[:audit_id])
     render turbo_stream: turbo_stream.replace(
       "audit_#{audit.uid}_test_runs",
       partial: 'test_runs/test_runs_table',
       locals: {
         for_audit: true,
         tag: tag,
-        tag_version: tag_version,
+        # tag_version: tag_version,
         audit: audit,
         test_runs: audit.test_runs_with_tag.order(:passed).page(params[:page] || 1).per(params[:per_page] || 25),
         turbo_frame_tag_name: "audit_#{audit.uid}_test_runs",
@@ -40,11 +40,11 @@ class TestRunsController < LoggedInController
       @tag = @audit.tag
       @tag_version = @audit.tag_version
       @include_audit_nav = true
-      @back_link = { text: 'Back to all tests', url: test_runs_tag_tag_version_audit_path(@tag, @tag_version, @audit) }
+      @back_link = { text: 'Back to all tests', url: test_runs_tag_audit_path(@tag, @audit) }
       render_breadcrumbs(
         { url: tags_path, text: "Monitor Center" },
         { url: tag_path(@tag), text: "#{@tag.try_friendly_name} details" },
-        { url: tag_tag_version_audits_path(@tag, @tag_version), text: "Version #{@tag_version.sha} audits" },
+        { url: tag_audits_path(@tag), text: "Version #{@tag_version.sha} audits" },
         { text: "#{@audit.created_at.formatted_short} audit", active: true }
       )
     else

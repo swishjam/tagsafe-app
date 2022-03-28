@@ -11,7 +11,7 @@
           <% tooltip_title = "When #{tag.try_friendly_name} is present, #{metric_title} is #{impact_result.round(2)} #{unit} #{impact_result > 0 ? 'slower' : nil}" %>
           <% diff_in_metric = impact_result - (previous_impact_result || 0) %>
           <% unless previous_impact_result.nil? %>
-            <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{diff_in_metric.abs.round(2)} #{unit} from the previous version." %>
+            <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{diff_in_metric.abs.round(2)} #{unit} from the previous audit." %>
           <% end %>
           <div data-controller='tooltip'
                 data-bs-toggle='tooltip'

@@ -138,6 +138,7 @@ module Streamable
     ###################
 
     def prepend_audit_to_list(audit:, now: false)
+      return if audit.run_on_live_tag?
       stream_prepend!(
         now: now,
         stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream", 
@@ -153,7 +154,7 @@ module Streamable
         stream: "audit_#{audit.uid}_details_view_stream",
         target: "audit_#{audit.uid}_performance_audit",
         partial: 'audits/performance_audit',
-        locals: { audit: audit.reload, previous_audit: audit.tag_version.previous_version&.primary_audit, tag: audit.tag, tag_version: audit.tag_version }
+        locals: { audit: audit.reload, previous_audit: audit.audit_to_compare_with, tag: audit.tag }
       )
     end
 
@@ -168,6 +169,7 @@ module Streamable
     end
 
     def update_audit_table_row(audit:, now: false)
+      return if audit.run_on_live_tag?
       stream_replace!(
         now: now,
         stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream", 
