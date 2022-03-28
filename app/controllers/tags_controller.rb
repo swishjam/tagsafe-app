@@ -21,6 +21,22 @@ class TagsController < LoggedInController
     )
   end
 
+  def audits
+    tag = current_domain.tags.find(params[:id])
+    audits = tag.audits.most_recent_first(timestamp_column: :created_at)
+                        .includes(:performance_audits)
+                        .page(params[:page] || 1)
+                        .per(params[:per_page] || 10)
+    render turbo_stream: turbo_stream.replace(
+      "tag_#{tag.uid}_audits_table",
+      partial: "tags/audits",
+      locals: {
+        tag: tag,
+        audits: audits
+      }
+    )
+  end
+
   def audit_settings
     @tag = current_domain.tags.find(params[:tag_id])
     render_breadcrumbs(
@@ -62,7 +78,7 @@ class TagsController < LoggedInController
 
   def enable
     @tag = current_domain.tags.find(params[:id])
-    @tag.tag_preferences.update!(enabled: true) unless @tag.enabled?
+    @tag.tag_preferences.update!(enabled: true) unless @tag.release_monitoring_enabled?
     current_user.broadcast_notification(message: "Tag monitoring is now enabled for #{@tag.try_friendly_name}", image: @tag.try_image_url)
     render :edit
     # render turbo_stream: turbo_stream.replace(

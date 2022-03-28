@@ -10,9 +10,10 @@
     <table class="table table-hover col-12" style="table-layout: fixed">
       <thead>
         <tr>
-          <th scope="col" style='width: 65%'>Tag</th>
-          <th scope="col" style='width: 12.5%'>Status</th>
-          <th scope="col" style='width: 12.5%'>Current Tagsafe Score</th>
+          <th scope="col" style='width: 50%'>Tag</th>
+          <th scope="col" style='width: 15%'>Release Monitoring</th>
+          <th scope="col" style='width: 15%'>Scheduled Audits</th>
+          <th scope="col" style='width: 15%'>Current Tagsafe Score</th>
           <th scope="col" style='width: 5%'></th>
         </tr>
       </thead>
@@ -30,13 +31,26 @@
             </td>
             <td>
               <div class='d-flex align-items-center'>
-                <span class='tagsafe-pill small-text <%= { 'active' => 'green', 'disabled' => 'red', 'removed' => 'grey' }[tag.state] %>'><%= tag.human_state %></span>
+                <% if tag.release_monitoring_enabled? %>
+                  <div class='tagsafe-pill small-text green force-content-width'>Enabled (<%= tag.tag_preferences.tag_check_minute_interval %> minute intervals)</div>
+                <% else %>
+                  <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
+                <% end %>
               </div>
             </td>
             <td>
               <div class='d-flex align-items-center'>
-                <% if tag.current_version %>
-                  <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: tag.current_version&.primary_audit %>
+                <% if tag.scheduled_audits_enabled? %>
+                  <div class='tagsafe-pill small-text green force-content-width'>Enabled (<%= tag.tag_preferences.scheduled_audit_minute_interval %> minute intervals)</div>
+                <% else %>
+                  <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
+                <% end %>
+              </div>
+            </td>
+            <td>
+              <div class='d-flex align-items-center'>
+                <% if tag.audit_to_display %>
+                  <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: tag.audit_to_display %>
                 <% end %>
               </div>
             </td>

@@ -17,7 +17,7 @@ class RemoveTagsLogic < ActiveRecord::Migration[5.2]
     add_column :tags, :url_path, :string
     add_column :tags, :url_query_param, :text
     add_column :tags, :should_log_tag_checks, :boolean
-    add_column :tags, :content_changed_at, :timestamp
+    add_column :tags, :last_released_at, :timestamp
     add_reference :tags, :tag_image
     remove_column :tags, :first_tag_version_id
     remove_column :tags, :tag_version_retention_count

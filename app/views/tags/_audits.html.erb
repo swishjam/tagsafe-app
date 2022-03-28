@@ -1,0 +1,36 @@
+<%= turbo_frame_tag "tag_#{tag.uid}_audits_table" do %>
+  <div class='tagsafe-table mt-3'>
+    <div class='tagsafe-table-head tagsafe-table-row'>
+      <div class='tagsafe-table-header' style='width: 19%'>Date of Audit</div>
+      <div class='tagsafe-table-header' style='width: 19%'>Tagsafe Score</div>
+      <div class='tagsafe-table-header' style='width: 19%'>Tests Results</div>
+      <div class='tagsafe-table-header' style='width: 26%'>Performance Audited URL</div>
+      <div class='tagsafe-table-header' style='width: 17%'>Execution Reason</div>
+    </div>
+    <div class='tagsafe-table-body'>
+      <%= turbo_frame_tag "tag_#{tag.uid}_audits_table_rows" do %>
+        <%= render partial: 'audits/audit_row', 
+                    # collection: tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits), 
+                    collection: audits,
+                    as: :audit, 
+                    locals: { 
+                      streamed: local_assigns[:streamed],
+                      include_execution_reason: true,
+                      include_tag_name: false,
+                      use_audit_date: true,
+                      hide_primary_audit_indicator: true
+                    } 
+        %>
+      <% end %>
+    </div>
+  </div>
+  <%= paginate audits %>
+  <% if audits.none? && local_assigns[:tag] %>
+    <div class='mt-5'>
+      <h4 class='mb-3'>No audits for this tag version, run one now?</h4>
+      <%= link_to new_tag_audit_path(tag), class: 'tagsafe-btn', data: { controller: 'modal_trigger' } do %>
+        <i class="fas fa-sync-alt"></i> Run audit
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

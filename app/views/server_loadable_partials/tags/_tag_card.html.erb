@@ -43,7 +43,7 @@
           </p>
         <% else %>
           <p>
-            Last change was <%= tag.content_changed_at ? time_ago_in_words(tag.content_changed_at) : 'unknown'%> ago.
+            Last change was <%= tag.last_released_at ? time_ago_in_words(tag.last_released_at) : 'unknown'%> ago.
           </p>
         <% end %>
         <% audit = tag.current_version&.primary_audit %>

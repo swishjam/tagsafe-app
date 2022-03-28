@@ -4,16 +4,16 @@
       <h3 class='inline-message mt-5 mb-5'>Performing <%= pluralize_if_necessary('audit', audits_enqueued) %> on <%= tag.try_friendly_name %></h3>
       <% if audits_enqueued.count > 1 %>
         <% audits_enqueued.each do |audit| %>
-          <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_tag_version_audit_path(tag, tag_version, audit), target: '_top' %>
+          <%= link_to "View audit being performed on #{audit.page_url.full_url}", tag_audit_path(tag, audit), target: '_top' %>
         <% end %>
       <% else %>
         <div class='modal-content-footer text-end'>
-          <%= link_to "View audit", tag_tag_version_audit_path(tag, tag_version, audits_enqueued.first), class:'tagsafe-btn large', target: '_top' %>
+          <%= link_to "View audit", tag_audit_path(tag, audits_enqueued.first), class:'tagsafe-btn large', target: '_top' %>
         </div>
       <% end %>
     </div>
   <% else %>
-    <%= form_with url: create_audit_path(tag, tag_version), method: :post, data: { controller: 'loading_form' } do |f| %>
+    <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form' } do |f| %>
       <div class='modal-content-body'>
         <h3>Audit <%= tag.try_friendly_name %></h3>
         <% if urls_to_audit.count == 1 %>

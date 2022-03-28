@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_20_011413) do
+ActiveRecord::Schema.define(version: 2022_03_27_232812) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_011413) do
     t.boolean "perf_audit_fail_when_confidence_range_not_met"
     t.integer "perf_audit_batch_size"
     t.integer "perf_audit_max_failures"
+    t.boolean "roll_up_audits_by_tag_version"
     t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
     t.index ["uid"], name: "index_default_audit_configurations_on_uid"
   end
@@ -157,6 +158,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_011413) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_outlier"
     t.bigint "domain_audit_id"
+    t.integer "bytes"
     t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
     t.index ["domain_audit_id"], name: "index_delta_performance_audits_on_domain_audit_id"
     t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
@@ -493,6 +495,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_011413) do
     t.string "batch_identifier"
     t.datetime "lambda_response_received_at"
     t.bigint "domain_audit_id"
+    t.integer "bytes"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["domain_audit_id"], name: "index_performance_audits_on_domain_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
@@ -601,6 +604,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_011413) do
     t.integer "throttle_minute_threshold"
     t.datetime "deleted_at"
     t.integer "tag_check_minute_interval"
+    t.integer "scheduled_audit_minute_interval"
     t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
     t.index ["uid"], name: "index_tag_preferences_on_uid"
   end
@@ -630,7 +634,7 @@ ActiveRecord::Schema.define(version: 2022_03_20_011413) do
     t.string "url_domain"
     t.string "url_path"
     t.text "url_query_param"
-    t.timestamp "content_changed_at"
+    t.timestamp "last_released_at
     t.integer "tag_image_id"
     t.string "load_type"
     t.datetime "deleted_at"

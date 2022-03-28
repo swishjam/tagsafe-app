@@ -4,7 +4,7 @@ class PerformanceController < LoggedInController
                             .is_third_party_tag
                             .order('enabled DESC')
                             .order('removed_from_site_at ASC')
-                            .order('content_changed_at DESC')
+                            .order('last_released_at DESC')
                             .page(params[:page] || 1).per(params[:per_page] || 9)
   end
 end

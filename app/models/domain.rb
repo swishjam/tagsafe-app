@@ -17,11 +17,12 @@ class Domain < ApplicationRecord
   has_many :url_crawls, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
 
-  validates :url, presence: true, uniqueness: true
+  validates :url, presence: true
+  validates_uniqueness_of :url, message: Proc.new { |domain| "A Tagsafe domain already exists for #{domain.url}" }
 
   before_validation :strip_pathname_from_url
   before_validation :add_default_page_url, on: :create
-  after_create_commit :add_defaults
+  after_create_commit :add_performance_audit_calculator_and_default_audit_configuration
 
   attribute :is_generating_third_party_impact_trial, default: false
 
@@ -38,7 +39,7 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def add_defaults
+  def add_performance_audit_calculator_and_default_audit_configuration
     PerformanceAuditCalculator.create_default_calculator(self)
     DefaultAuditConfiguration.create_default_for_domain(self)
   end

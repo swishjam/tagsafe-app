@@ -9,7 +9,7 @@ class PageUrl < ApplicationRecord
   scope :should_scan_for_tags, -> { where(should_scan_for_tags: true) }
   scope :should_not_scan_for_tags, -> { where(should_scan_for_tags: false) }
 
-  before_validation :enforce_valid_url
+  before_validation :enforce_url_is_valid_and_can_be_reached
   after_create :scan_for_tags_if_necessary
   after_update :scan_for_tags_if_became_scannable
 
@@ -47,7 +47,7 @@ class PageUrl < ApplicationRecord
   end
 
   def is_part_of_domain_url
-    # simplify things by not providing multiples errors, weird results if `enforce_valid_url` returns an error first
+    # simplify things by not providing multiples errors, weird results if `enforce_url_is_valid_and_can_be_reached` returns an error first
     return if errors.any? 
     if ENV['ALLOW_DIFFERENT_SUBDOMAIN_PER_DOMAIN'] == 'false'
       if domain.url_hostname != hostname
@@ -78,7 +78,7 @@ class PageUrl < ApplicationRecord
     end
   end
 
-  def enforce_valid_url
+  def enforce_url_is_valid_and_can_be_reached
     parsed_url = self.class.get_valid_parsed_url(full_url)
     self.full_url = parsed_url.to_s
     self.hostname = parsed_url.host
@@ -94,12 +94,12 @@ class PageUrl < ApplicationRecord
     http.use_ssl = uri.scheme == 'https'
     resp = http.get(uri.request_uri, { 'User-Agent' => "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" })
     case resp.class.to_s
-    when 'Net::HTTPOK', 'Net::HTTPFound'
+    when Net::HTTPOK.to_s, Net::HTTPFound.to_s
       uri
-    when 'Net::HTTPMovedPermanently'
+    when Net::HTTPMovedPermanently.to_s
       get_valid_parsed_url(resp['location'], attempt_number: attempt_number+1)
     else
-      raise InvalidUrlError, "returned a status of: #{resp.code}"
+      raise InvalidUrlError, "Returned a status of: #{resp.code}"
     end
   rescue => e
     raise InvalidUrlError, "Cannot access #{url_to_check}: #{e.message}"

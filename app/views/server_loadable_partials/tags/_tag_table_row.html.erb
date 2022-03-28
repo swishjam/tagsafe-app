@@ -11,7 +11,7 @@
               title="<%=tag.full_url%>"><%= tag.try_friendly_name %></div>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
-        <% audit_to_display = tag.current_version&.audit_to_display %>
+        <% audit_to_display = tag.audit_to_display %>
         <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit_to_display %>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
@@ -21,7 +21,7 @@
           <%= render 'test_runs/test_results_pill_for_audit', audit: audit_to_display %>
         <% end %>
       </div>
-      <div class='tagsafe-table-data' style='width: 17%'><%= tag.content_changed_at&.formatted_short || 'No releases' %></div>
+      <div class='tagsafe-table-data' style='width: 17%'><%= tag.last_released_at&.formatted_short || 'No releases' %></div>
       <div class='tagsafe-table-data text-end' style='width: 5%'>
         <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
       </div>

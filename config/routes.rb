@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   resources :tags do
     member do
       get :uptime
+      get :audits
       patch :disable
       patch :enable
     end
@@ -79,27 +80,27 @@ Rails.application.routes.draw do
         get :tagsafe_instrumented_js
         get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
-      resources :audits, only: [:show, :index, :new, :create] do
-        member do
-          get :performance_audit
-          get :test_runs
-          # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
-          get :page_change_audit
-          get :waterfall
-          get :git_diff
-          get :cloudwatch_logs
-          post :make_primary
-        end
-        resources :individual_performance_audits, only: :index
-        get '/performance_stats' => 'individual_performance_audits#index'
-        # turbo frame src endpoints
-        get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
-        get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
-        resources :page_change_audits, only: :show
-        resources :performance_audit_logs, only: :index
-        resources :page_load_resources, only: :index
-        get '/waterfall' => 'page_load_resources#for_audit'
+    end
+    resources :audits, only: [:show, :index, :new, :create] do
+      member do
+        get :performance_audit
+        get :test_runs
+        # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
+        get :page_change_audit
+        get :waterfall
+        get :git_diff
+        get :cloudwatch_logs
+        post :make_primary
       end
+      resources :individual_performance_audits, only: :index
+      get '/performance_stats' => 'individual_performance_audits#index'
+      # turbo frame src endpoints
+      get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
+      get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
+      resources :page_change_audits, only: :show
+      resources :performance_audit_logs, only: :index
+      resources :page_load_resources, only: :index
+      get '/waterfall' => 'page_load_resources#for_audit'
     end
   end
   resources :default_audit_configuration, only: [:create, :update]
@@ -138,6 +139,7 @@ Rails.application.routes.draw do
 
   get '/settings' => 'settings#global_settings'
   get '/settings/tag_management' => 'settings#tag_management'
+  get '/settings/billing' => 'settings#billing'
   resources :url_crawls, only: [:index, :show, :create]
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 

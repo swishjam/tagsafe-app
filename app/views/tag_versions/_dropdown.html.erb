@@ -15,12 +15,12 @@
       <% end %>
     <% end %>
     <% if !local_assigns[:audit].nil? && !audit.pending? %>
-      <%= link_to tag_tag_version_audit_performance_audit_logs_path(tag, tag_version, audit), class: 'dropdown-item', target: '_blank' do %>
+      <%= link_to tag_audit_performance_audit_logs_path(tag, audit), class: 'dropdown-item', target: '_blank' do %>
         <i class="far fa-file-alt"></i> View audit logs
       <% end %>
     <% end %>
     <% if !local_assigns[:audit].nil? && audit.performance_audits.any? %>
-      <%= link_to "View individual performance audits (#{audit.num_performance_audit_sets_ran})", tag_tag_version_audit_individual_performance_audits_path(tag, tag_version, audit), class: 'dropdown-item', target: '_top' %>
+      <%= link_to "View individual performance audits (#{audit.num_performance_audit_sets_ran})", tag_audit_individual_performance_audits_path(tag, audit), class: 'dropdown-item', target: '_top' %>
     <% end %>
     <% if local_assigns[:additional_menu_items] %>
       <% additional_menu_items.each do |menu_item| %>
@@ -33,7 +33,7 @@
       <% end %>
     <% end %>
     <div class="dropdown-divider"></div>
-    <%= modal_link new_tag_tag_version_audit_path(tag, tag_version), klass: 'dropdown-item' do %>
+    <%= modal_link new_tag_audit_path(tag), klass: 'dropdown-item' do %>
       <i class="fas fa-sync-alt"></i> Perform audit
     <% end %>
   </div>

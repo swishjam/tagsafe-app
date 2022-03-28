@@ -3,6 +3,9 @@ class SettingsController < LoggedInController
     @tags = current_domain.tags.joins(:tag_preferences)
                           .order('tag_preferences.enabled DESC')
                           .order('removed_from_site_at ASC')
-                          .order('content_changed_at DESC')
+                          .order('last_released_at DESC')
+  end
+
+  def billing
   end
 end

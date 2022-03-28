@@ -54,7 +54,7 @@ class DeltaPerformanceAudit < ApplicationRecord
       task_duration_delta: task_duration_delta, 
       script_duration_delta: script_duration_delta, 
       layout_duration_delta: layout_duration_delta, 
-      byte_size: audit.tag_version.bytes
+      byte_size: bytes
     )
   end
 

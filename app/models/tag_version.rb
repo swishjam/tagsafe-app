@@ -19,7 +19,7 @@ class TagVersion < ApplicationRecord
   validate :only_one_most_recent
 
   def after_creation
-    set_script_content_changed_at_timestamp
+    set_script_last_released_at_timestamp
     make_most_recent!
     update_tag_table_row(tag: tag, now: true)
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
@@ -53,18 +53,25 @@ class TagVersion < ApplicationRecord
     end
   end
 
-  def perform_audit_later(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
+  def perform_audit(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
     AuditRunner.new(
       tag_version: self,
       initiated_by_domain_user: initiated_by_domain_user,
-      url_to_audit_id: url_to_audit.id,
+      url_to_audit: url_to_audit,
       execution_reason: execution_reason,
       options: options
     ).run!
   end
 
-  def perform_audit_later_on_all_urls(execution_reason, options = {})
-    tag.urls_to_audit.each{ |url_to_audit| perform_audit_later(url_to_audit: url_to_audit, execution_reason: execution_reason, options: options) }
+  def perform_audit_on_all_urls(execution_reason:, initiated_by_domain_user: nil, options: {})
+    tag.urls_to_audit.map do |url_to_audit| 
+      perform_audit(
+        url_to_audit: url_to_audit, 
+        execution_reason: execution_reason, 
+        initiated_by_domain_user: initiated_by_domain_user,
+        options: options
+      )
+    end
   end
 
   def js_file_url(formatted: false, use_cloudfront_url: Util.env_is_true('USE_CLOUDFRONT_CDN_FOR_JS_FILES'))
@@ -135,8 +142,8 @@ class TagVersion < ApplicationRecord
     tag.try_image_url
   end
 
-  def set_script_content_changed_at_timestamp
-    tag.update(content_changed_at: created_at)
+  def set_script_last_released_at_timestamp
+    tag.update(last_released_at: created_at)
   end
 
   def first_version?

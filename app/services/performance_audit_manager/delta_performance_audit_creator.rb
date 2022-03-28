@@ -44,6 +44,7 @@ module PerformanceAuditManager
       delta_metrics.merge!({
         is_outlier: false,
         tagsafe_score: tagsafe_score_from_delta_results(delta_metrics),
+        bytes: @performance_audit_without_tag.bytes,
         performance_audit_with_tag: @performance_audit_with_tag,
         performance_audit_without_tag: @performance_audit_without_tag,
         audit: @performance_audit_without_tag.audit,
@@ -61,7 +62,7 @@ module PerformanceAuditManager
     def tagsafe_score_from_delta_results(results)
       TagsafeScorer.new({ 
         performance_audit_calculator: (@performance_audit_without_tag.audit || @performance_audit_without_tag.domain_audit).domain.current_performance_audit_calculator,
-        byte_size: @performance_audit_without_tag.is_for_domain_audit? ? 0 : @performance_audit_without_tag.audit.tag_version.bytes 
+        byte_size: @performance_audit_without_tag.is_for_domain_audit? ? 0 : @performance_audit_without_tag.bytes 
       }.merge(results)).score!
     end
   end

@@ -5,7 +5,7 @@
 <div class='tagsafe-container text-center col-10 offset-1'>
   <h4>Functional Tests</h4>
   <% if @audit.include_functional_tests %>
-    <%= turbo_frame_tag "audit_#{@audit.uid}_test_runs", src: tag_tag_version_audit_test_runs_for_audit_path(@tag, @tag_version, @audit) do %>
+    <%= turbo_frame_tag "audit_#{@audit.uid}_test_runs", src: tag_audit_test_runs_for_audit_path(@tag, @audit) do %>
       <%= display_loading_spinner %>
     <% end %>
   <% else %>

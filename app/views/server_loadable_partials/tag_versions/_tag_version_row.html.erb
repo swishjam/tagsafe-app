@@ -2,7 +2,7 @@
 <%= turbo_frame_tag "tag_version_#{tag_version.uid}_row" do %>
   <% audit = tag_version.audit_to_display %>
   <% previous_audit = tag_version.previous_version&.primary_audit %>
-  <%= link_to audit.nil? ? tag_tag_version_audits_path(tag, tag_version) : performance_audit_tag_tag_version_audit_path(tag, tag_version, audit), class: 'no-decoration', target: '_top' do %>
+  <%= link_to audit.nil? ? tag_audits_path(tag) : performance_audit_tag_audit_path(tag, audit), class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row <%= audit.nil? ? nil : 'clickable' %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
       <div class="tagsafe-table-data" style='width: 25%'><%= tag_version.created_at.formatted_short %></div>
       <div class="tagsafe-table-data" style='width: 20%'>
