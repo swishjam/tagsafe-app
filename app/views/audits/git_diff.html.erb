@@ -1,7 +1,7 @@
 <%= render 'show_page_header' %>
 
 <div class='tagsafe-container col-10 offset-1 text-center'>
-  <% if FeatureGateKeeper.new(@audit).can_view_tag_version_git_diff? %>
+  <% if FeatureGateKeeper.new(current_domain).can_view_tag_version_git_diff? %>
     <% if @audit.tag_version %>
       <% if @audit.tag_version.first_version? %>
         <h4>No changes, this is the first version of <%= @tag.try_friendly_name %>. <%= link_to 'View Entire JS', raw_js_tag_tag_version_path(@tag, @audit.tag_version), target: '_blank' %></h4>

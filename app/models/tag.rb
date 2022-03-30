@@ -237,7 +237,7 @@ class Tag < ApplicationRecord
   end
 
   def release_monitoring_enabled?
-    tag_preferences.enabled
+    tag_preferences.release_monitoring_enabled?
   end
 
   def scheduled_audits_enabled?
@@ -249,7 +249,7 @@ class Tag < ApplicationRecord
   end
 
   def disabled?
-    !release_monitoring_enabled?
+    tag_preferences.release_monitoring_disabled?
   end
   alias release_monitoring_disabled? disabled?
 

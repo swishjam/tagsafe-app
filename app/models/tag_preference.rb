@@ -4,6 +4,7 @@ class TagPreference < ApplicationRecord
   belongs_to :tag
   
   after_update :check_to_run_audit
+  after_update :check_to_update_lambda_cron_job_data_store
 
   validate :tag_check_minute_interval_is_supported_value
   validate :scheduled_audit_minute_interval_is_supported_value
@@ -30,16 +31,40 @@ class TagPreference < ApplicationRecord
     { name: '1 day', value: 1_440 },
   ].freeze
 
+  def self.SUPPORTED_TAG_CHECK_INTERVALS
+    TAG_CHECK_INTERVALS.collect{ |opt| opt[:value] }
+  end
+
+  def self.SUPPORTED_SCHEDULED_AUDIT_INTERVALS
+    SCHEDULED_AUDIT_INTERVALS.collect{ |opt| opt[:value] }
+  end
+
+  def scheduled_audits_enabled?
+    scheduled_audit_minute_interval.present?
+  end
+
+  def scheduled_audits_disabled?
+    !scheduled_audits_enabled?
+  end
+
+  def release_monitoring_enabled?
+    enabled
+  end
+
+  def release_monitoring_disabled?
+    !release_monitoring_enabled?
+  end
+
   private
 
   def tag_check_minute_interval_is_supported_value
-    if tag_check_minute_interval.present? && !TAG_CHECK_INTERVALS.map{ |opt| opt[:value] }.include?(tag_check_minute_interval)
+    if tag_check_minute_interval.present? && !self.class.SUPPORTED_TAG_CHECK_INTERVALS.include?(tag_check_minute_interval)
       errors.add(:base, "Invalid tag check interval value.")
     end
   end
 
   def scheduled_audit_minute_interval_is_supported_value
-    if scheduled_audit_minute_interval.present? && !SCHEDULED_AUDIT_INTERVALS.map{ |opt| opt[:value] }.include?(scheduled_audit_minute_interval)
+    if scheduled_audit_minute_interval.present? && !self.class.SUPPORTED_SCHEDULED_AUDIT_INTERVALS.include?(scheduled_audit_minute_interval)
       errors.add(:base, "Invalid scheduled audit interval value: #{scheduled_audit_minute_interval}.")
     end
   end
@@ -47,6 +72,14 @@ class TagPreference < ApplicationRecord
   def check_to_run_audit
     if column_changed_to('enabled', true)
       AfterTagShouldRunAuditActivationJob.perform_later(tag)
+    end
+  end
+
+  def check_to_update_lambda_cron_job_data_store
+    if saved_changes['tag_check_minute_interval']
+      LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag
+    elsif saved_changes['scheduled_audit_minute_interval']
+      LambdaCronJobDataStore::ScheduledAudits.new(tag).update_data_store_for_tag
     end
   end
 end

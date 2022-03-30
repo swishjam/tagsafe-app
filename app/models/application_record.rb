@@ -57,9 +57,7 @@ class ApplicationRecord < ActiveRecord::Base
 
     # allows us to use .send dynamically using many methods
     def chain_scopes(methods)
-      methods.inject(self) { |result, method| 
-        result.send(*method) 
-      }
+      methods.inject(self) { |result, method| result.send(*method) }
     end
   end
 end

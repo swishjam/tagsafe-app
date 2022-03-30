@@ -24,7 +24,11 @@ class TagVersion < ApplicationRecord
     update_tag_table_row(tag: tag, now: true)
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
     send_new_tag_version_notifications!
-    NewTagVersionJob.perform_later(self) unless tag.disabled?
+    unless tag.release_monitoring_disabled?
+      LambdaCronJobDataStore::ScheduledAudits.new(tag).update_data_store_for_tag
+      LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag
+      NewTagVersionJob.perform_later(self)
+    end
   end
 
   def sha
