@@ -198,6 +198,16 @@ module Streamable
     ## DomainAudit Streams ##
     #########################
 
+    def stream_billing_details_updates(domain:, default_payment_method:)
+      stream_replace!(
+        now: true,
+        stream: "domain_#{domain.uid}_billing_details_stream",
+        target: "domain_#{domain.uid}_billing_details",
+        partial: 'settings/billing_details',
+        locals: { domain: domain, default_payment_method: default_payment_method }
+      )
+    end
+
     def update_domain_audit_details_view(domain_audit:, now: false)
       stream_replace!(
         now: now,

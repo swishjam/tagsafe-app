@@ -1,5 +1,5 @@
-<% if current_user.nil? && !@disable_anonymous_user_banner %>
-  <div class='anonymous-user-banner'>
-    <span>Your Tagsafe data will be purged at midnight PST. <a href='/register?domain=<%= current_domain.uid %>'>Register for free now</a> to enable persistent data, automated audits, functional tests, alerts, and much more! <a href='/features' target='_blank'>Learn more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>.
+<% if user_is_anonymous? && !@disable_anonymous_user_banner %>
+  <div class='fixed-top-banner'>
+    <span>Your Tagsafe data will be purged at midnight PST. <a href='/register?domain=<%= current_domain.uid %>'>Register for free now</a> to enable persistent data, automated audits, functional tests, alerts, and much more! <a href='/features' target='_blank'>Learn more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>.</span>
   </div>
 <% end %>

@@ -1,0 +1,39 @@
+<%= render_as_modal title: 'Update Plan' do %>
+  <div class='tagsafe-modal-body'>
+    <% if local_assigns[:completed] %>
+      <% if upgraded %>
+        <div data-controller='streamed-script-tag'>
+          <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js" onload="confetti();"></script>
+          <h4 class='tagsafe-font' style='font-size: 34px'>Successfully upgraded to the <%= new_subscription_option.name %>.</h4>
+        </div>
+      <% else %>
+        <h4 class='tagsafe-font' style='font-size: 34px'>Successfully downgraded to the <%= new_subscription_option.name %>.</h4>
+      <% end %>
+    <% else %>
+      <div class='container subscription-categories-container'>
+        <div class='col-12'>
+          <div class='row'>
+            <div class='col-4'>
+              <%= render 'option_selector', 
+                            is_domain_current_subscription_option: domain_subscription_plan.subscription_option == SubscriptionOption.BASIC,
+                            subscription_option: SubscriptionOption.BASIC,
+                            has_payment_method: has_payment_method %>
+            </div>
+            <div class='col-4'>
+              <%= render 'option_selector', 
+                            is_domain_current_subscription_option: domain_subscription_plan.subscription_option == SubscriptionOption.STARTER,
+                            subscription_option: SubscriptionOption.STARTER,
+                            has_payment_method: has_payment_method %>
+            </div>
+            <div class='col-4'>
+              <%= render 'option_selector', 
+                            is_domain_current_subscription_option: domain_subscription_plan.subscription_option == SubscriptionOption.PRO,
+                            subscription_option: SubscriptionOption.PRO,
+                            has_payment_method: has_payment_method %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

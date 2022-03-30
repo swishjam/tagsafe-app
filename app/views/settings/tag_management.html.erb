@@ -32,7 +32,7 @@
             <td>
               <div class='d-flex align-items-center'>
                 <% if tag.release_monitoring_enabled? %>
-                  <div class='tagsafe-pill small-text green force-content-width'>Enabled (<%= tag.tag_preferences.tag_check_minute_interval %> minute intervals)</div>
+                  <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.tag_check_minute_interval %> minute intervals</div>
                 <% else %>
                   <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
                 <% end %>
@@ -41,7 +41,7 @@
             <td>
               <div class='d-flex align-items-center'>
                 <% if tag.scheduled_audits_enabled? %>
-                  <div class='tagsafe-pill small-text green force-content-width'>Enabled (<%= tag.tag_preferences.scheduled_audit_minute_interval %> minute intervals)</div>
+                  <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_minute_interval %> minute intervals</div>
                 <% else %>
                   <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
                 <% end %>

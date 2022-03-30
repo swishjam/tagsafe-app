@@ -16,10 +16,10 @@
         <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
           <%= HtmlHelper.WARNING_ICON %> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
         </div>
-      <% elsif @tag.disabled? %>
-      <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
-          <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %>
-        </div>
+      <!-- <#% elsif @tag.disabled? %>
+        <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
+          <#%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %>
+        </div> !-->
       <% end %>
       <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
         <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

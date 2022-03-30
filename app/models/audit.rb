@@ -72,7 +72,16 @@ class Audit < ApplicationRecord
 
   has_one :page_change_audit, class_name: PageChangeAudit.to_s, dependent: :destroy
 
+  ###############
+  # VALIDATIONS #
+  ###############
+
   validate :has_at_least_one_type_of_audit_enabled
+  validate :domains_subscription_plan_allows_to_create, on: :create
+
+  #############
+  # CALLBACKS #
+  #############
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
   after_create_commit :enqueue_configured_audit_types
@@ -106,6 +115,8 @@ class Audit < ApplicationRecord
   scope :page_change_audit_enabled, -> { where(include_page_change_audit: true) }
   scope :pending_page_change_audit, -> { page_change_audit_enabled.where(page_change_audit_completed_at: nil) }
   scope :completed_page_change_audit, -> { page_change_audit_enabled.where.not(page_change_audit_completed_at: nil) }
+
+  scope :billable, -> { successful_performance_audit }
 
   def try_completion!
     if seconds_to_complete.nil? && completed?
@@ -384,6 +395,17 @@ class Audit < ApplicationRecord
   def has_at_least_one_type_of_audit_enabled
     if !include_functional_tests && !include_page_change_audit && !include_performance_audit
       errors.add(:base, "An audit must have either performance audits, functional tests, or page change audits enabled.")
+    end
+  end
+
+  def domains_subscription_plan_allows_to_create
+    feature_gate_keeper = FeatureGateKeeper.new(domain)
+    if !feature_gate_keeper.can_run_audit?
+      errors.add(:base, "Reached maximum audits quota within the last 30 days for your plan, consider upgrading in order to continue running audits.")
+    elsif include_page_load_resources && !feature_gate_keeper.can_include_page_load_resources_in_audit?
+      errors.add(:base, "Cannot create audit with page load resources unless on the Pro Plan.")
+    elsif performance_audit_configuration.enable_screen_recording && !feature_gate_keeper.can_include_performance_audit_screen_recording?
+      errors.add(:base, "Cannot run performance audit with screen recording enabled unless on the Pro Plan.")
     end
   end
 end

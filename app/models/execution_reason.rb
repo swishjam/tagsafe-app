@@ -1,8 +1,4 @@
 class ExecutionReason < ApplicationRecord
-  def self.BILLABLE
-    [self.INITIAL_AUDIT, self.MANUAL, self.NEW_TAG_VERSION, self.SCHEDULED, self.ACTIVATED_TAG]
-  end
-
   def self.INITIAL_AUDIT
     @initial_audit ||= find_by!(name: 'Initial Audit')
   end

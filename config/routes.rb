@@ -135,6 +135,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :stripe_billing_portal, only: :new
+  resources :domain_subscription_option, only: [:edit, :update]
+  resources :domain_payment_methods, only: [:new, :create]
+
+  post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'
 
   get '/settings' => 'settings#global_settings'
