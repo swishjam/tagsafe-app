@@ -146,7 +146,7 @@
                 <div class='metric col-12'>
                   <%
                     current_bytes = audit.preferred_delta_performance_audit.bytes
-                    previous_version_bytes = audit.audit_to_compare_with.preferred_delta_performance_audit.bytes
+                    previous_version_bytes = audit.audit_to_compare_with&.preferred_delta_performance_audit&.bytes
                     tagsafe_score_deduction = audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:byte_size)
                   %>
                   <div class='row'>

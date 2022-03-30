@@ -1,0 +1,20 @@
+  <div class='subscription-plan'>
+    <h5 class='subscription-name <%= is_domain_current_subscription_option ? 'selected' : nil %>'><%= subscription_option.name %> (<%= number_to_currency(subscription_option.price) %>/month + usage)</h5>
+    <ul class='subscription-option-features text-start'>
+      <% subscription_option.features.each do |feature| %>
+        <li><%= feature %></li>
+      <% end %>
+    </ul>
+    <% if is_domain_current_subscription_option %>
+      <button class='tagsafe-btn outline' disabled>Current Plan</button>
+    <% else %>
+      <% if has_payment_method %>
+        <%= form_for current_domain, url: domain_subscription_option_path(current_domain), method: :PATCH, data: { controller: 'loading_form' } do |f| %>
+          <%= f.hidden_field :subscription_option_id, value: subscription_option.id %>
+          <%= loading_submit_button 'Update Plan' %>
+        <% end %>
+      <% else %>
+        <%= modal_link new_domain_payment_method_path(subscription_option_id: subscription_option.id), text: 'Update Plan', klass: 'tagsafe-btn' %>
+      <% end %>
+    <% end %>
+  </div>

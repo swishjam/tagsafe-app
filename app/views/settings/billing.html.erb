@@ -1,8 +1,48 @@
+<%= content_for :head do %>
+  <script src="https://js.stripe.com/v3/"></script>
+<% end %>
+
+<%= turbo_stream_from "domain_#{current_domain.uid}_billing_details_stream" %>
 
 <h4 class="page-title with-sub-title">Settings</h4>
 <h5 class='page-sub-title'>Billing</h5>
 <%= render 'settings/settings_nav' %>
 
-<div class='tagsafe-container'>
-  <div class='col-8'>
+<div class='tagsafe-container p-5'>
+  <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>
+  
+  <% if current_domain.selected_subscription_option.basic? %>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Audits remaining</span>
+          <span class='settings-description d-block'>While on the basic plan, you are limited to 50 audits per month.</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <%= current_domain.num_audits_remaining_this_month %>
+      </div>
+    </div>
+  <% end %>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Next subscription payment</span>
+        <span class='settings-description d-block'>Your payment method on file will automatically be charged on this date.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <% if @next_invoice.nil? %>
+       N/A
+      <% else %>
+        <div class='d-block'>
+          <span class='d-block'><%= number_to_currency(@next_invoice.amount_due / 100) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+          <%= link_to 'View Past and Upcoming Payments', new_stripe_billing_portal_path, target: '_blank' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -78,6 +78,9 @@ class Tag < ApplicationRecord
   scope :has_content, -> { where(has_content: true) }
   scope :doesnt_have_content, -> { where(has_content: false) }
 
+  scope :domain_has_active_subscription_plan, -> { includes(domain: [:subscription_plan]).where.not(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
+  scope :domain_has_delinquent_subscription_plan, -> { includes(domain: [:subscription_plan]).where(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
+
   scope :one_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1) }
   scope :fifteen_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 15) }
   scope :thirty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 30) }

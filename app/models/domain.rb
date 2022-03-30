@@ -4,6 +4,8 @@ class Domain < ApplicationRecord
   uid_prefix 'dom'
   acts_as_paranoid
 
+  # belongs_to :subscription_option
+  has_one :subscription_plan
   has_one :default_audit_configuration, as: :parent, class_name: DefaultAuditConfiguration.to_s, dependent: :destroy
   has_many :domain_users, dependent: :destroy
   has_many :users, through: :domain_users
@@ -18,11 +20,14 @@ class Domain < ApplicationRecord
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true
-  validates_uniqueness_of :url, message: Proc.new { |domain| "A Tagsafe domain already exists for #{domain.url}" }
+  # no longer enforce uniqueness on Domain URL. Any reprucussions...?
+  # validates_uniqueness_of :url, message: Proc.new { |domain| "A Tagsafe domain already exists for #{domain.url}" }
 
   before_validation :strip_pathname_from_url
   before_validation :add_default_page_url, on: :create
-  after_create_commit :add_performance_audit_calculator_and_default_audit_configuration
+  before_create :set_stripe_customer_id
+  before_create :set_default_subscription_plan_if_necessary
+  before_create :add_performance_audit_calculator_and_default_audit_configuration
 
   attribute :is_generating_third_party_impact_trial, default: false
 
@@ -50,6 +55,29 @@ class Domain < ApplicationRecord
 
   def add_url(full_url, should_scan_for_tags:)
     page_urls.create(full_url: full_url, should_scan_for_tags: should_scan_for_tags)
+  end
+
+  def set_stripe_customer_id
+    self.stripe_customer_id = generate_new_stripe_customer.id
+  end
+
+  def generate_new_stripe_customer
+    Stripe::Customer.create({ email: "domain-user@#{URI.parse(url).hostname}" })
+  end
+
+  def set_default_subscription_plan_if_necessary
+    SubscriptionOption.BASIC.apply_to_domain(self) unless subscription_plan.present?
+  end
+
+  def selected_subscription_option
+    subscription_plan.subscription_option
+  end
+
+  def num_audits_remaining_this_month
+    num_successful_and_pending_performance_audits = audits.successful_performance_audit.more_recent_than_or_equal_to(DateTime.now.beginning_of_month).count + 
+                                                      audits.pending_performance_audit.more_recent_than_or_equal_to(DateTime.now.beginning_of_month).count
+    remaining = 50 - num_successful_and_pending_performance_audits
+    remaining.negative? ? 0 : remaining
   end
 
   def is_registered?

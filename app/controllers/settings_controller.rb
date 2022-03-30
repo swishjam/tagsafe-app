@@ -7,5 +7,8 @@ class SettingsController < LoggedInController
   end
 
   def billing
+    @customer = Stripe::Customer.retrieve({ id: current_domain.stripe_customer_id, expand: ['invoice_settings.default_payment_method'] })
+    @default_payment_method = @customer.invoice_settings.default_payment_method
+    @next_invoice = current_domain.selected_subscription_option.basic? ? nil : Stripe::Invoice.upcoming({ customer: current_domain.stripe_customer_id, expand: ['lines.data.price.product'] })
   end
 end

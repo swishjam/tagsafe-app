@@ -7,7 +7,7 @@ module Schedule
         start = Time.new
         tag_check_count = 0
         new_tag_version_count = 0
-        Tag.send(interval_scope).should_run_tag_checks.each do |tag|
+        Tag.should_run_tag_checks.domain_has_active_subscription_plan.send(interval_scope).each do |tag|
           tag_check_count += 1
           begin
             evaluator = tag.run_tag_check!

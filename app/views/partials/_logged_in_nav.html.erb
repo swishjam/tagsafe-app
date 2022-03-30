@@ -37,6 +37,14 @@
             <% end %>
           </li>
         <% end %>
+        <% if current_domain.selected_subscription_option.basic? %>
+          <li class='text-center m-1'>
+            <span data-controller='tooltip' data-bs-toggle='tooltip' title="You are limited to 50 audits per month while on the Basic Plan. Consider upgrading if you would like unlimited audits, among many other features.">
+              <i class="fa-solid fa-circle-info"></i>
+            </span>
+            <span class='ms-1'><%= current_domain.num_audits_remaining_this_month %> audits remaining this month</span>
+          </li>
+        <% end %>
       </ul>
       <% if current_user %>
         <div class="navigation-profile-container">

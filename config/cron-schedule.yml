@@ -9,6 +9,10 @@ re_scan_domains:
   description: "Scans each domain for any new third party tags."
   # queue: "crawl_url_for_tags_queue"
   queue: "default_queue"
+update_subscription_usage_records:
+  class: Schedule::UpdateSubscriptionUsageRecordsJob
+  cron: "0 1 * * *" # every night at 1 am
+  queue: "default_queue"
 mark_tags_removed_from_site:
   class: Schedule::MarkTagsRemovedFromSiteJob
   cron: "0 0 * * *" # every night at midnight
@@ -58,7 +62,7 @@ twenty_four_hour_check_scripts:
   queue: "tag_checker_queue"
 
 # ScheduledAuditJobs
-one_minute_scheduled_audits:
+five_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::FiveMinuteScheduledAuditInterval
   cron: "*/5 * * * *" # every 5th minute
   description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."

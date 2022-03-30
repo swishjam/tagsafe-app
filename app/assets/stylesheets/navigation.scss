@@ -1,8 +1,8 @@
-body.anonymous-user .navigation {
+body.with-fixed-top-banner .navigation {
   margin-top: 75px;
 }
 
-body:not(.anonymous-user) .navigation {
+body:not(.with-fixed-top-banner) .navigation {
   margin-top: 0;
 }
 

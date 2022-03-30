@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_27_232812) do
+ActiveRecord::Schema.define(version: 2022_03_28_194526) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2022_03_27_232812) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.boolean "is_generating_third_party_impact_trial"
+    t.string "stripe_customer_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -545,6 +546,37 @@ ActiveRecord::Schema.define(version: 2022_03_27_232812) do
     t.index ["uid"], name: "index_slack_settings_on_uid"
   end
 
+  create_table "subscription_options", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_flat_fee_monthly_price_id"
+    t.string "stripe_flat_fee_annual_price_id"
+    t.string "stripe_tag_check_monthly_price_id"
+    t.string "stripe_performance_audit_monthly_price_id"
+    t.string "uid"
+    t.string "stripe_functional_test_monthly_price_id"
+    t.index ["slug"], name: "index_subscription_options_on_slug"
+  end
+
+  create_table "subscription_plans", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.string "stripe_subscription_id"
+    t.string "stripe_flat_fee_subscription_item_id"
+    t.string "stripe_performance_audit_subscription_item_id"
+    t.string "stripe_tag_check_subscription_item_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_functional_test_subscription_item_id"
+    t.bigint "subscription_option_id"
+    t.string "status"
+    t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
+    t.index ["subscription_option_id"], name: "index_subscription_plans_on_subscription_option_id"
+    t.index ["uid"], name: "index_subscription_plans_on_uid"
+  end
+
   create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "url_pattern"
@@ -634,7 +666,7 @@ ActiveRecord::Schema.define(version: 2022_03_27_232812) do
     t.string "url_domain"
     t.string "url_path"
     t.text "url_query_param"
-    t.timestamp "last_released_at
+    t.timestamp "last_released_at"
     t.integer "tag_image_id"
     t.string "load_type"
     t.datetime "deleted_at"

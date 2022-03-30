@@ -1,5 +1,5 @@
 module Schedule
-  class PurgeDomainsGeneratingThirdPartyImpactTrialJob
+  class PurgeDomainsGeneratingThirdPartyImpactTrialJob < ApplicationJob
     def perform
       start_time = Time.now
       third_party_impact_trial_domains = Domain.generating_third_party_impact_trial

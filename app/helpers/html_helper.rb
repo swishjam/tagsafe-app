@@ -79,13 +79,13 @@ module HtmlHelper
   def render_as_modal(title:, turbo_frame_name: 'server_loadable_modal', &block)
     provided_html = capture(&block)    
     combined_html = <<-HTML
-      <div id='server-loadable-modal-container' class='tagsafe-modal-container show' data-controller='server-loadable-modal'>
+      <div id='server-loadable-modal-container' class="tagsafe-modal-container show #{controller_name} #{action_name}" data-controller='server-loadable-modal'>
         <div class='tagsafe-modal-backdrop'>
         </div>
         <div id='server-loadable-modal' class='tagsafe-modal'>
           <div class='tagsafe-modal-header text-start'>
             <span class='tagsafe-circular-btn close' data-action='click->server-loadable-modal#hide'><i class='fa fa-times'></i></span>
-            <h4 class='tagsafe-modal-title' data-confirmation-modal-target='title'>#{title}</h4>
+            <h4 class='tagsafe-modal-title'>#{title}</h4>
           </div>
           <div class='tagsafe-modal-divider'>
           </div>

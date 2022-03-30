@@ -42,7 +42,7 @@ body.locked {
   }
 }
 
-.anonymous-user-banner {
+.fixed-top-banner {
   background: $tagsafe-primary;
   color: white;
   padding: 10px 75px 10px 75px;
@@ -58,11 +58,11 @@ body.locked {
   }
 }
 
-body.anonymous-user #content {
+body.with-fixed-top-banner #content {
   margin-top: 75px !important;
 }
 
-body:not(.anonymous-user) #content {
+body:not(.with-fixed-top-banner) #content {
   margin-top: 0;
 }
 
