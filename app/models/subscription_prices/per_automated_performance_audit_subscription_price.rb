@@ -1,0 +1,2 @@
+class PerAutomatedPerformanceAuditSubscriptionPrice < SubscriptionPrice
+end

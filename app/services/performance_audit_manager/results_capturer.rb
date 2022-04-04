@@ -21,7 +21,8 @@ module PerformanceAuditManager
 
     def update_individual_performance_audits_results_with_results!
       individual_performance_audit.update!(performance_audit_attrs)
-      individual_performance_audit.update(performance_audit_children_attrs)
+      individual_performance_audit.update(performance_audit_children_attrs) unless performance_audit_children_attrs.empty?
+      capture_page_resources_if_necessary!
     end
 
     def performance_audit_attrs
@@ -40,13 +41,16 @@ module PerformanceAuditManager
 
     def performance_audit_children_attrs
       attrs = {}
-      if should_capture_page_resources_attributes?
-        attrs[:page_load_resources_attributes] = performance_audit_result.page_load_resources.formatted
-        attrs[:blocked_resources_attributes] = performance_audit_result.blocked_resources.filtered
-      end
-      attrs[:performance_audit_log_attributes] = { logs: performance_audit_result.logs } if performance_audit_result.has_logs?
+      # attrs[:performance_audit_log_attributes] = { logs: performance_audit_result.logs } if performance_audit_result.has_logs?
       attrs[:puppeteer_recording_attributes] = performance_audit_result.puppeteer_recording.formatted_results if performance_audit_result.puppeteer_recording.included_and_valid?
       attrs
+    end
+
+    def capture_page_resources_if_necessary!
+      if should_capture_page_resources_attributes?
+        PageLoadResource.insert_all(performance_audit_result.page_load_resources.formatted(individual_performance_audit.id))
+        BlockedResource.insert_all(performance_audit_result.blocked_resources.formatted_and_filtered(individual_performance_audit.id))
+      end
     end
 
     def should_capture_page_resources_attributes?

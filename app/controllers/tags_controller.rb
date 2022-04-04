@@ -14,6 +14,7 @@ class TagsController < LoggedInController
 
   def edit
     @tag = current_domain.tags.find(params[:id])
+    @selectable_tag_check_regions = TagCheckRegion.selectable.not_enabled_on_tag(@tag)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },

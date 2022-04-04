@@ -5,8 +5,8 @@ class Domain < ApplicationRecord
   acts_as_paranoid
 
   # belongs_to :subscription_option
-  has_one :subscription_plan
-  has_one :default_audit_configuration, as: :parent, class_name: DefaultAuditConfiguration.to_s, dependent: :destroy
+  has_many :subscription_plans, dependent: :destroy
+  has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
   has_many :domain_users, dependent: :destroy
   has_many :users, through: :domain_users
   has_many :user_invites, dependent: :destroy
@@ -25,9 +25,11 @@ class Domain < ApplicationRecord
 
   before_validation :strip_pathname_from_url
   before_validation :add_default_page_url, on: :create
-  before_create :set_stripe_customer_id
-  before_create :set_default_subscription_plan_if_necessary
-  before_create :add_performance_audit_calculator_and_default_audit_configuration
+  
+  before_create { self.stripe_customer_id = Stripe::Customer.create({ email: "domain-user@#{URI.parse(url).hostname}" }).id }
+  after_create { SubscriptionPlan.create_default(self) }
+  after_create { PerformanceAuditCalculator.create_default(self) }
+  after_create { GeneralConfiguration.create_default_for_domain(self) }
 
   attribute :is_generating_third_party_impact_trial, default: false
 
@@ -44,9 +46,8 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def add_performance_audit_calculator_and_default_audit_configuration
-    PerformanceAuditCalculator.create_default_calculator(self)
-    DefaultAuditConfiguration.create_default_for_domain(self)
+  def current_subscription_plan
+    subscription_plans.current.limit(1).first
   end
 
   def add_default_page_url
@@ -55,29 +56,6 @@ class Domain < ApplicationRecord
 
   def add_url(full_url, should_scan_for_tags:)
     page_urls.create(full_url: full_url, should_scan_for_tags: should_scan_for_tags)
-  end
-
-  def set_stripe_customer_id
-    self.stripe_customer_id = generate_new_stripe_customer.id
-  end
-
-  def generate_new_stripe_customer
-    Stripe::Customer.create({ email: "domain-user@#{URI.parse(url).hostname}" })
-  end
-
-  def set_default_subscription_plan_if_necessary
-    SubscriptionOption.BASIC.apply_to_domain(self) unless subscription_plan.present?
-  end
-
-  def selected_subscription_option
-    subscription_plan.subscription_option
-  end
-
-  def num_audits_remaining_this_month
-    num_successful_and_pending_performance_audits = audits.successful_performance_audit.more_recent_than_or_equal_to(DateTime.now.beginning_of_month).count + 
-                                                      audits.pending_performance_audit.more_recent_than_or_equal_to(DateTime.now.beginning_of_month).count
-    remaining = 50 - num_successful_and_pending_performance_audits
-    remaining.negative? ? 0 : remaining
   end
 
   def is_registered?
@@ -101,11 +79,6 @@ class Domain < ApplicationRecord
     performance_audit_calculators.currently_active.limit(1).first
   end
 
-  def disable_all_third_party_tags_during_audits
-    # ENV['DISABLE_ALL_THIRD_PARTY_TAGS_IN_AUDITS'] === 'true'
-    true
-  end
-
   def has_tag?(tag)
     tags.include?(tag)
   end
@@ -124,6 +97,10 @@ class Domain < ApplicationRecord
 
   def crawl_in_progress?
     url_crawls.pending.any?
+  end
+
+  def has_payment_method_on_file?
+    stripe_payment_method_id.present?
   end
 
   def user_can_initiate_crawl?(user)

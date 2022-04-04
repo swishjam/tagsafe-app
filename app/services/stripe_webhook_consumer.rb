@@ -57,7 +57,7 @@ class StripeWebhookConsumer
       Rails.logger.error "Cannot find Domain for Stripe Customer ID #{stripe_customer_id}, Stripe Subscription ID #{@stripe_event.dig('data', 'object', 'id')}"
     else
       subscription_status = @stripe_event.dig('data', 'object', 'status')
-      domain.subscription_plan.update_status_to(subscription_status)
+      domain.current_subscription_plan.update_status_to(subscription_status)
     end
   end
 end

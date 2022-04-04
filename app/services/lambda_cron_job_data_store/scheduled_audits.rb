@@ -50,23 +50,23 @@ module LambdaCronJobDataStore
         third_party_tag_url_patterns_to_allow: @tag.domain.non_third_party_url_patterns.collect(&:pattern),
         # cached_responses_s3_key: @audit.performance_audit_configuration.cached_responses_s3_key,
         options: {
-          override_initial_html_request_with_manipulated_page: default_audit_configuration.perf_audit_override_initial_html_request_with_manipulated_page.to_s,
+          override_initial_html_request_with_manipulated_page: configuration.perf_audit_override_initial_html_request_with_manipulated_page.to_s,
           # puppeteer_page_wait_until: 'networkidle2',
           puppeteer_page_timeout_ms: 0,
-          enable_screen_recording: default_audit_configuration.perf_audit_enable_screen_recording.to_s,
-          throw_error_if_dom_complete_is_zero: default_audit_configuration.perf_audit_throw_error_if_dom_complete_is_zero.to_s,
-          include_page_load_resources: default_audit_configuration.include_page_load_resources.to_s,
-          include_page_tracing: default_audit_configuration.perf_audit_enable_screen_recording.to_s,
-          inline_injected_script_tags: default_audit_configuration.perf_audit_inline_injected_script_tags.to_s,
-          scroll_page: default_audit_configuration.perf_audit_scroll_page.to_s,
-          strip_all_images: default_audit_configuration.perf_audit_strip_all_images.to_s,
+          enable_screen_recording: configuration.perf_audit_enable_screen_recording.to_s,
+          throw_error_if_dom_complete_is_zero: configuration.perf_audit_throw_error_if_dom_complete_is_zero.to_s,
+          include_page_load_resources: configuration.include_page_load_resources.to_s,
+          include_page_tracing: configuration.perf_audit_enable_screen_recording.to_s,
+          inline_injected_script_tags: configuration.perf_audit_inline_injected_script_tags.to_s,
+          scroll_page: configuration.perf_audit_scroll_page.to_s,
+          strip_all_images: configuration.perf_audit_strip_all_images.to_s,
           strip_all_css: false.to_s
         }
       }
     end
 
-    def default_audit_configuration
-      @default_audit_configuration ||= @tag.default_audit_configuration || @tag.domain.default_audit_configuration
+    def configuration
+      @configuration ||= @tag.tag_or_domain_configuration
     end
   end
 end

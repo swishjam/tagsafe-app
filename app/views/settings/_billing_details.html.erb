@@ -2,24 +2,6 @@
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Current Plan</span>
-        <span class='settings-description d-block'>Your current Tagsafe subscription plan.</span>
-      </div>
-    </div>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='d-block'><%= domain.subscription_plan.subscription_option.name %></span>
-        <span class='d-block'>
-          <%= modal_link edit_domain_subscription_option_path(domain), text: 'Change Plan' %>
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
         <span class='settings-title d-block fw-bolder'>Payment method</span>
         <span class='settings-description d-block'>The payment method your Tagsafe charges will incur against.</span>
       </div>

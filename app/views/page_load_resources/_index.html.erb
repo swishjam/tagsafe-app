@@ -43,7 +43,7 @@
       <% page_load_resources.each do |plr| %>
         <% safe_resource_name = plr.name_without_query_string == audited_tag_version_url ? tag.url_based_on_preferences : plr.name %>
         <div class='page-load-resource-name <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>' 
-              data-resource="<%= plr.uid %>"
+              data-resource="<%= plr.id %>"
               data-controller='tooltip'
               daa-bs-toggle='tooltip'
               data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
@@ -88,13 +88,13 @@
         <% page_load_resources.each do |plr| %>
           <div class='page-load-resource-marker-row d-flex align-items-center <%= plr.name_without_query_string == audited_tag_version_url ? 'audited-tag' : nil %>'
                 data-resource-type="<%= plr.entry_type %>"
-                data-resource="<%= plr.uid %>" 
+                data-resource="<%= plr.id %>" 
                 data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'>
             <div class='page-load-resource-marker' 
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
                   data-action='mouseover->page-load-resources#onResourceMouseover mouseout->page-load-resources#onResourceMouseout'
-                  data-resource='<%= plr.uid %>'
+                  data-resource='<%= plr.id %>'
                   title="Start: <%= number_to_human(plr.fetch_start, units: { unit: 'ms', thousand: 'seconds' }) %>. End: <%= number_to_human(plr.response_end, units: { unit: 'ms', thousand: 'seconds' }) %>. Duration: <%= number_to_human(plr.duration, units: { unit: 'ms', thousand: 'seconds' }) %>."
                   style='width: <%= plr.duration/2 %>px; margin-left: <%= plr.fetch_start/2 %>px'>
             </div>

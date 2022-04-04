@@ -77,7 +77,7 @@ class Audit < ApplicationRecord
   ###############
 
   validate :has_at_least_one_type_of_audit_enabled
-  validate :domains_subscription_plan_allows_to_create, on: :create
+  validate :has_payment_method_if_required, on: :create
 
   #############
   # CALLBACKS #
@@ -116,6 +116,7 @@ class Audit < ApplicationRecord
   scope :pending_page_change_audit, -> { page_change_audit_enabled.where(page_change_audit_completed_at: nil) }
   scope :completed_page_change_audit, -> { page_change_audit_enabled.where.not(page_change_audit_completed_at: nil) }
 
+  scope :automated, -> { where(execution_reason: ExecutionReason.automated) }
   scope :billable, -> { successful_performance_audit }
 
   def try_completion!
@@ -156,7 +157,7 @@ class Audit < ApplicationRecord
     purge_non_median_performance_audit_recordings!
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
-    update_tag_version_table_row(tag_version: tag_version, now: true)
+    # update_tag_version_table_row(tag_version: tag_version, now: true)
     update_tag_table_row(tag: tag, now: true)
   end
 
@@ -164,7 +165,7 @@ class Audit < ApplicationRecord
     update(functional_tests_completed_at: Time.now)
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
-    update_tag_version_table_row(tag_version: tag_version, now: true)
+    # update_tag_version_table_row(tag_version: tag_version, now: true)
     update_tag_table_row(tag: tag, now: true)
   end
 
@@ -190,7 +191,7 @@ class Audit < ApplicationRecord
   def after_became_primary(update_views_now = false)
     # update_primary_audit_pill_for_tag_version(tag_version: tag_version, now: update_views_now)
     update_tag_table_row(tag: tag, now: update_views_now)
-    update_tag_version_table_row(tag_version: tag_version, now: update_views_now)
+    # update_tag_version_table_row(tag_version: tag_version, now: update_views_now)
     update_tag_current_stats(tag: tag, now: update_views_now)
     re_render_audit_table(tag_version: tag_version, now: update_views_now)
     re_render_tags_chart(domain: tag.domain, now: update_views_now)
@@ -201,7 +202,6 @@ class Audit < ApplicationRecord
   def send_audit_completed_notifications_if_necessary
     unless initiated_by_domain_user.nil?
       initiated_by_domain_user.user.broadcast_notification(
-        timestamp: Time.now.strftime("%m/%d/%y @ %l:%M %P %Z"),
         image: self.tag.try_image_url,
         partial: 'audits/completed_notification',
         partial_locals: { audit: self }
@@ -295,10 +295,12 @@ class Audit < ApplicationRecord
   def run_on_live_tag?
     tag_version.nil?
   end
+  alias ran_on_live_tag? run_on_live_tag?
 
   def run_on_tagsafe_tag_version?
     tag_version.present?
   end
+  alias ran_on_tagsafe_tag_version? run_on_tagsafe_tag_version?
 
   ########################
   ## PERFORMANCE AUDITS ##
@@ -398,14 +400,16 @@ class Audit < ApplicationRecord
     end
   end
 
-  def domains_subscription_plan_allows_to_create
-    feature_gate_keeper = FeatureGateKeeper.new(domain)
-    if !feature_gate_keeper.can_run_audit?
-      errors.add(:base, "Reached maximum audits quota within the last 30 days for your plan, consider upgrading in order to continue running audits.")
-    elsif include_page_load_resources && !feature_gate_keeper.can_include_page_load_resources_in_audit?
-      errors.add(:base, "Cannot create audit with page load resources unless on the Pro Plan.")
-    elsif performance_audit_configuration.enable_screen_recording && !feature_gate_keeper.can_include_performance_audit_screen_recording?
-      errors.add(:base, "Cannot run performance audit with screen recording enabled unless on the Pro Plan.")
+  def has_payment_method_if_required
+    if ExecutionReason.billable.include?(execution_reason) && !domain.has_payment_method_on_file?
+      errors.add(:base, "Cannot run audits of #{execution_reason.name} execution type without a payment method.")
     end
+    # feature_gate_keeper = FeatureGateKeeper.new(domain)
+    #   errors.add(:base, "Reached maximum audits quota within the last 30 days for your plan, consider upgrading in order to continue running audits.")
+    # elsif include_page_load_resources && !feature_gate_keeper.can_include_page_load_resources_in_audit?
+    #   errors.add(:base, "Cannot create audit with page load resources unless on the Pro Plan.")
+    # elsif performance_audit_configuration.enable_screen_recording && !feature_gate_keeper.can_include_performance_audit_screen_recording?
+    #   errors.add(:base, "Cannot run performance audit with screen recording enabled unless on the Pro Plan.")
+    # end
   end
 end

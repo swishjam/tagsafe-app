@@ -2,16 +2,17 @@ module LambdaFunctionInvoker
   class HtmlSnapshotter < Base
     lambda_service 'html-snapshotter'
     lambda_function 'takeSnapshot'
+    consumer_klass LambdaEventResponses::HtmlSnapshotResult
 
     def initialize(page_change_audit:, html_snapshot_klass:)
       @page_change_audit = page_change_audit
       @html_snapshot_klass = html_snapshot_klass
-      @executed_lambda_function_parent = html_snapshot
     end
 
     def html_snapshot
       @html_snapshot ||= @html_snapshot_klass.create(page_change_audit: @page_change_audit)
     end
+    alias executed_lambda_function_parent html_snapshot
 
     def request_payload
       {

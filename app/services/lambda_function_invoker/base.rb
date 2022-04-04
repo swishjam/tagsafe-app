@@ -1,10 +1,9 @@
 module LambdaFunctionInvoker
   class Base
-    attr_accessor :executed_lambda_function_parent
     LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
     
     class << self
-      attr_accessor :lambda_service_name, :lambda_function_name, :resque_queue_to_capture_results
+      attr_accessor :lambda_service_name, :lambda_function_name, :tagsafe_consumer_klass, :resque_queue_to_capture_results
     end
 
     def send!
@@ -25,7 +24,8 @@ module LambdaFunctionInvoker
         async: async,
         payload: request_payload.merge!({
           lambda_invoker_klass: self.class.to_s,
-          executed_lambda_function_uid: executed_lambda_function.uid,
+          tagsafe_consumer_klass: self.class.tagsafe_consumer_klass.to_s,
+          executed_lambda_function_uid: executed_lambda_function&.uid || 'none',
           ProcessReceivedLambdaEventJobQueue: receiver_job_queue
         })
       )
@@ -51,8 +51,16 @@ module LambdaFunctionInvoker
       self.resque_queue_to_capture_results = queue
     end
 
+    def self.consumer_klass(klass)
+      self.tagsafe_consumer_klass = klass
+    end
+
+    def self.has_no_executed_lambda_function?
+      instance_variable_get(:@@has_no_executed_lambda_function)
+    end
+
     def receiver_job_queue
-      @receiver_job_queue || self.class.resque_queue_to_capture_results || :default
+      @receiver_job_queue || self.class.resque_queue_to_capture_results || :normal
     end
 
     def lambda_invoke_function_name
@@ -62,6 +70,10 @@ module LambdaFunctionInvoker
 
     def request_payload
       raise LambdaFunctionError::PayloadNotProvided, 'Subclass must implement a `request_payload` method.'
+    end
+
+    def executed_lambda_function_parent
+      raise LambdaFunctionError::InvalidInvocation, "Subclass must specify a `executed_lambda_function_parent` class method"
     end
 
     def executed_lambda_function

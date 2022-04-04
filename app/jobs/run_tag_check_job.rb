@@ -1,5 +1,5 @@
 class RunTagCheckJob < ApplicationJob
   def perform(tag)
-    tag.run_tag_check!
+    LambdaFunctionInvoker::CheckTagForNewRelease.new(tag).send!
   end
 end

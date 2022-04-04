@@ -16,6 +16,8 @@ class Tag < ApplicationRecord
   has_many :audits, dependent: :destroy  
   has_many :tag_versions, dependent: :destroy
   has_many :tag_checks, dependent: :destroy
+  has_many :tag_check_regions_to_check, dependent: :destroy, class_name: TagCheckRegionToCheck.to_s
+  has_many :tag_check_regions, through: :tag_check_regions_to_check
   has_many :urls_to_audit, class_name: UrlToAudit.to_s, dependent: :destroy
   has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
@@ -28,7 +30,7 @@ class Tag < ApplicationRecord
 
   has_many :triggered_alerts
 
-  has_one :default_audit_configuration, as: :parent, class_name: DefaultAuditConfiguration.to_s, dependent: :destroy
+  has_one :configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
   has_one :tag_preferences, class_name: TagPreference.to_s, dependent: :destroy
   accepts_nested_attributes_for :tag_preferences
 
@@ -43,6 +45,8 @@ class Tag < ApplicationRecord
   broadcast_notification on: :create
   after_update_commit { update_tag_table_row(tag: self, now: true) }
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
+  after_destroy { LambdaCronJobDataStore::TagCheckConfigurations.new(self).delete_tag_check_configuration }
+  after_destroy { LambdaCronJobDataStore::TagCheckIntervals.new(self).remove_tag_from_tag_check_interval(tag_preferences.tag_check_minute_interval) }
   
   after_create_commit :apply_defaults
   after_create_commit :stream_new_tag_to_views
@@ -53,8 +57,11 @@ class Tag < ApplicationRecord
   # SCOPES
   default_scope { includes(:tag_identifying_data) }
   
-  scope :enabled, -> { where_tag_preferences({ enabled: true }) }
-  scope :disabled, -> { where_tag_preferences({ enabled: false }) }
+  scope :release_monitoring_enabled, -> { where_tag_preferences_not({ tag_check_minute_interval: nil }) }
+  scope :release_monitoring_disabled, -> { where_tag_preferences({ tag_check_minute_interval: nil }) }
+
+  scope :scheduled_audits_enabled, -> { where_tag_preferences_not({ scheduled_audit_minute_interval: nil }) }
+  scope :scheduled_audits_disabled, -> { where_tag_preferences({ scheduled_audit_minute_interval: nil }) }
   
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :removed, -> { where.not(removed_from_site_at: nil) }
@@ -72,7 +79,7 @@ class Tag < ApplicationRecord
   scope :should_not_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: false }) }
 
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
-  scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.enabled }
+  scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.release_monitoring_enabled }
   scope :should_run_tag_checks, -> { enabled.still_on_site.is_third_party_tag }
   scope :chartable, -> { is_third_party_tag.still_on_site.not_allowed_third_party_tag }
   scope :has_content, -> { where(has_content: true) }
@@ -102,6 +109,10 @@ class Tag < ApplicationRecord
 
   def self.where_tag_preferences(where_clause)
     joins(:tag_preferences).where(tag_preferences: where_clause)
+  end
+
+  def self.where_tag_preferences_not(where_clause)
+    joins(:tag_preferences).where.not(tag_preferences: where_clause)
   end
 
   def self.find_without_query_params(url, include_removed_tags: false)
@@ -142,6 +153,7 @@ class Tag < ApplicationRecord
   def apply_defaults
     # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
     find_and_apply_tag_identifying_data
+    tag_check_regions_to_check.create(tag_check_region: TagCheckRegion.US_EAST_1)
     domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
   end
 
@@ -178,10 +190,7 @@ class Tag < ApplicationRecord
   end
 
   def run_tag_check!
-    # make sure to return the evaluator so we can read the results afterwards
-    evaluator = TagManager::Evaluator.new(self)
-    evaluator.evaluate!
-    evaluator
+    RunTagCheckJob.perform_now(self)
   end
 
   def run_tag_check_later!
@@ -261,8 +270,12 @@ class Tag < ApplicationRecord
     tag_preferences.update!(enabled: false)
   end
 
+  def tag_or_domain_configuration
+    configuration || domain.general_configuration
+  end
+
   def should_roll_up_audits_by_tag_version?
-    release_monitoring_disabled? ? false : domain.default_audit_configuration.roll_up_audits_by_tag_version
+    release_monitoring_disabled? ? false : domain.general_configuration.roll_up_audits_by_tag_version
   end
 
   def audit_to_display
@@ -274,12 +287,15 @@ class Tag < ApplicationRecord
   end
 
   def most_recent_successful_audit
-    audits.most_recent_first.completed.successful_performance_audit.limit(1).first
+    audits.most_recent_first.completed.successful_performance_audit.limit(1).first || audits.most_recent_first.pending_performance_audit.limit(1).first
+  end
+
+  def friendly_name
+    tag_identifying_data&.name
   end
 
   def try_friendly_name
-    # friendly_name || url_based_on_preferences
-    tag_identifying_data&.name || url_based_on_preferences
+    friendly_name || url_based_on_preferences
   end
 
   def url_based_on_preferences
@@ -297,6 +313,10 @@ class Tag < ApplicationRecord
 
   def domain_and_path
     "#{URI.parse(full_url).scheme}://#{url_domain}#{url_path}"
+  end
+
+  def estimated_monthly_cost
+    SubscriptionMaintainer::PriceEstimator.new(self).estimate_monthly_price
   end
 
   ################

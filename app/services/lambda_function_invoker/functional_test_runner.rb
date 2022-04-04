@@ -2,35 +2,20 @@ module LambdaFunctionInvoker
   class FunctionalTestRunner < Base
     lambda_service 'functional-tests'
     lambda_function 'run-test'
+    consumer_klass LambdaEventResponses::TestRunResult
 
     attr_accessor :test_run
 
     def initialize(test_run, options: {}, attempt_number: 1)
       @test_run = test_run
       @options = options
-      @executed_lambda_function_parent = test_run
       @attempt_number = attempt_number
-      @receiver_job_queue = test_run.audit&.initiated_by_user? ? :user_waiting : :default
+      @receiver_job_queue = test_run.is_a?(DryTestRun) ? TagsafeQueue.CRITICAL : test_run.audit.initiated_by_user? ? TagsafeQueue.CRITICAL : TagsafeQueue.NORMAL
     end
 
-    # def on_lambda_failure(_error_message)
-    #   test_run.failed!(message: "An unexpected error occurred.")
-    #   unless @attempt_number >= 3
-    #     self.class.new(
-    #       TestRun.create!(
-    #         functional_test: test_run.functional_test, 
-    #         type: test_run.type, 
-    #         audit: test_run.associated_audit, 
-    #         test_run_id_retried_from: test_run.test_run_retried_from&.id, 
-    #         puppeteer_script_ran: test_run.puppeteer_script, 
-    #         expected_results: test_run.expected_results, 
-    #         enqueued_at: Time.now
-    #       ),
-    #       options: @options,
-    #       attempt_number: @attempt_number + 1
-    #     ).send!
-    #   end
-    # end
+    def executed_lambda_function_parent
+      @test_run
+    end
 
     def request_payload
       { 
@@ -54,7 +39,7 @@ module LambdaFunctionInvoker
 
     def allowed_request_urls
       patterns = domain.non_third_party_url_patterns.collect(&:pattern)
-      patterns << tag.url_based_on_preferences if audit.run_on_live_tag? && test_run.is_a?(TestRunWithTag)
+      patterns << tag.url_based_on_preferences if test_run.is_a?(TestRunWithTag) && audit.run_on_live_tag?
       patterns
     end
 

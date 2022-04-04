@@ -1,4 +1,6 @@
 class ProcessReceivedLambdaEventJob < ApplicationJob
+  queue_as TagsafeQueue.CRITICAL
+
   def perform(lambda_event_payload)
     LambdaEventResponses::EventRouter.new(
       lambda_event_payload

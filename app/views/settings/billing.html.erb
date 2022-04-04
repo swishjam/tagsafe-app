@@ -10,21 +10,6 @@
 
 <div class='tagsafe-container p-5'>
   <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>
-  
-  <% if current_domain.selected_subscription_option.basic? %>
-    <hr/>
-    <div class='row'>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>Audits remaining</span>
-          <span class='settings-description d-block'>While on the basic plan, you are limited to 50 audits per month.</span>
-        </div>
-      </div>
-      <div class='col-6 d-flex align-items-center'>
-        <%= current_domain.num_audits_remaining_this_month %>
-      </div>
-    </div>
-  <% end %>
 
   <hr/>
   <div class='row'>
@@ -38,11 +23,38 @@
       <% if @next_invoice.nil? %>
        N/A
       <% else %>
-        <div class='d-block'>
+        <div class='d-block '>
           <span class='d-block'><%= number_to_currency(@next_invoice.amount_due / 100) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
-          <%= link_to 'View Past and Upcoming Payments', new_stripe_billing_portal_path, target: '_blank' %>
+          <!-- <#%= link_to 'View Past and Upcoming Payments', new_stripe_billing_portal_path, target: '_blank' %> !-->
         </div>
       <% end %>
     </div>
   </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Estimated next subscription payment</span>
+        <span class='settings-description d-block'>Your estimated payment amount based on your current configuration. This is not a guaranteed amount.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <% if @next_invoice.nil? %>
+       N/A
+      <% else %>
+        <div class='d-block '>
+          <span class='d-block'><%= number_to_currency(SubscriptionMaintainer::PriceEstimator.new(current_domain).estimate_monthly_price / 100) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class='tagsafe-container mt-5 p-3 text-center'>
+  <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
+  <span class='settings-description d-block'>You will be charged the remaining <%= number_to_currency(@next_invoice.amount_due / 100) %> immediately, and your configuration will be updated to no long monitor tag releases or run automated audits.</span>
+  <%= form_with model: current_domain.current_subscription_plan, url: cancel_subscription_plan_path(current_domain.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
+    <%= loading_submit_button 'Cancel', button_class: 'red mt-3' %>
+  <% end %>
 </div>

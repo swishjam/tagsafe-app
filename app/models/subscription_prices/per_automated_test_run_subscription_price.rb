@@ -1,0 +1,2 @@
+class PerAutomatedTestRunSubscriptionPrice < SubscriptionPrice
+end

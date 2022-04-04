@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_performance_audit, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_functional_tests, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_page_load_resources, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -89,7 +89,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_page_change_audit, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -106,7 +106,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :perf_audit_strip_all_images, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -123,7 +123,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :perf_audit_enable_screen_recording, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -140,7 +140,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
         <div class='d-flex'>
           <%= f.number_field :perf_audit_required_tagsafe_score_range, class: 'form-control' %>
           <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -158,7 +158,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
         <div class='d-flex'>
           <%= f.number_field :perf_audit_minimum_num_sets, class: 'form-control' %>
           <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -176,7 +176,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
         <div class='d-flex'>
           <%= f.number_field :perf_audit_maximum_num_sets, class: 'form-control' %>
           <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -194,7 +194,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.default_audit_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :perf_audit_fail_when_confidence_range_not_met, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>

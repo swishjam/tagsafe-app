@@ -1,5 +1,7 @@
 module AuditRunnerJobs
   class RunDomainAudit < ApplicationJob
+    queue_as TagsafeQueue.CRITICAL
+    
     NUM_PERFORMANCE_AUDITS_PER_DOMAIN_AUDIT = (ENV['NUM_PERFORMANCE_AUDITS_PER_DOMAIN_AUDIT'] || 3).to_i
     
     def perform(domain_audit)

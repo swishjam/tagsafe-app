@@ -44,7 +44,6 @@ class TestRunsController < LoggedInController
       render_breadcrumbs(
         { url: tags_path, text: "Monitor Center" },
         { url: tag_path(@tag), text: "#{@tag.try_friendly_name} details" },
-        { url: tag_audits_path(@tag), text: "Version #{@tag_version.sha} audits" },
         { text: "#{@audit.created_at.formatted_short} audit", active: true }
       )
     else

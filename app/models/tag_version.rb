@@ -5,17 +5,18 @@ class TagVersion < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :tag
-  belongs_to :tag_check_captured_with, class_name: 'TagCheck'
+  belongs_to :tag_check_captured_with, class_name: TagCheck.to_s
   has_many :audits, dependent: :destroy
   has_one_attached :js_file, service: :tag_version_s3
   has_one_attached :formatted_js_file, service: :tag_version_s3
   
   scope :most_recent, -> { where(most_recent: true) }
 
-  # broadcast_notification on: :create
   after_create :after_creation
-  # after_destroy :purge_js_file
+  after_destroy { LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag }
+  after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! }
 
+  validate :has_attached_js_files
   validate :only_one_most_recent
 
   def after_creation
@@ -25,8 +26,8 @@ class TagVersion < ApplicationRecord
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
     send_new_tag_version_notifications!
     unless tag.release_monitoring_disabled?
-      LambdaCronJobDataStore::ScheduledAudits.new(tag).update_data_store_for_tag
-      LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag
+      # LambdaCronJobDataStore::ScheduledAudits.new(tag).update_data_store_for_tag
+      # LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag
       NewTagVersionJob.perform_later(self)
     end
   end
@@ -173,6 +174,12 @@ class TagVersion < ApplicationRecord
   def only_one_most_recent
     if most_recent && tag.tag_versions.where(most_recent: true).count > 1
       errors.add(:base, "Cannot have multiple most_recent tag versions on a single tag.")
+    end
+  end
+
+  def has_attached_js_files
+    if js_file_url.nil? || formatted_js_file.nil?
+      errors.add(:base, "Attached JS file is required")
     end
   end
 end

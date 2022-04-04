@@ -1,22 +1,15 @@
 module TagManager
   class TagVersionCapturer
-    def initialize(tag:, content:, tag_check:, hashed_content:)
+    def initialize(tag:, content:, tag_check:, hashed_content:, bytes:)
       @tag = tag
       @content = content
       @tag_check = tag_check
       @hashed_content = hashed_content
+      @bytes = bytes
     end
 
     def capture_new_tag_version!
-      if @content.nil?
-        msg = "TagVersionCapturer `capture_new_tag_version!` called with @content = nil for Tag #{@tag.uid}"
-        Rails.logger.error msg
-        Sentry.capture_message(msg)
-        return
-      end
       tag_version = @tag.tag_versions.create!(tag_version_data)
-      tag_version.js_file.attach(tag_version_js_file_data)
-      tag_version.formatted_js_file.attach(tag_version_formatted_js_file_data)
       remove_temp_files
       tag_version
     end
@@ -26,8 +19,10 @@ module TagManager
     def tag_version_data
       {
         hashed_content: @hashed_content,
-        bytes: @content.bytesize,
-        tag_check_captured_with: @tag_check
+        bytes: @bytes,
+        tag_check_captured_with: @tag_check,
+        js_file: tag_version_js_file_data,
+        formatted_js_file: tag_version_formatted_js_file_data
       }
     end
 

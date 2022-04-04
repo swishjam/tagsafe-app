@@ -30,8 +30,8 @@ class UrlCrawl < ApplicationRecord
   def found_tag!(
     tag_url,
     load_type: nil,
-    enabled: domain.default_audit_configuration.enable_monitoring_on_new_tags, 
-    tag_check_minute_interval: domain.tags.most_recent_first.first&.tag_preferences&.tag_check_minute_interval || 1,
+    tag_check_minute_interval: domain.tags.most_recent_first.first&.tag_preferences&.tag_check_minute_interval || nil,
+    scheduled_audit_minute_interval: domain.tags.most_recent_first.first&.tag_preferences&.scheduled_audit_minute_interval || nil,
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
     should_log_tag_checks: true,
@@ -51,7 +51,6 @@ class UrlCrawl < ApplicationRecord
       has_content: has_content,
       last_seen_in_url_crawl_at: Time.now,
       tag_preferences_attributes: {
-        enabled: enabled,
         tag_check_minute_interval: tag_check_minute_interval,
         is_allowed_third_party_tag: is_allowed_third_party_tag,
         is_third_party_tag: is_third_party_tag,

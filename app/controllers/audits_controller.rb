@@ -33,7 +33,7 @@ class AuditsController < LoggedInController
       tag_version: tag_version, 
       current_tag_version: tag.current_version,
       urls_to_audit: urls_to_audit,
-      default_audit_configuration: tag.default_audit_configuration || current_domain.default_audit_configuration,
+      configuration: tag.tag_or_domain_configuration,
       feature_gate_keeper: FeatureGateKeeper.new(current_domain)
     })
   end

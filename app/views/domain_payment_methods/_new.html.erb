@@ -4,19 +4,9 @@
       <h2 class='tagsafe-font'><%= success_message %></h2>
     </div>
   <% else %>
-    <div data-controller='stripe-payment-element' data-pk="<%= ENV['STRIPE_PUBLIC_KEY'] %>" data-client-secret="<%= client_secret %>" data-subscription-option="<%= subscription_option_to_apply_on_success&.id %>">
+    <div data-controller='stripe-payment-element' data-pk="<%= ENV['STRIPE_PUBLIC_KEY'] %>" data-client-secret="<%= client_secret %>" <%= local_assigns[:should_reload] ? 'data-should-reload' : nil %>>
       <form id='payment-method-form' data-turbo='false' data-stripe-payment-element-target='paymentForm' data-controller='loading_form'>
         <div class='tagsafe-modal-body'>
-          <% if local_assigns[:include_back_button] %>
-            <div class='text-start mb-3'>
-              <%= modal_link edit_domain_subscription_option_path(current_domain) do %>
-                <i class="fa-solid fa-arrow-left"></i> Back to Plan Selection
-              <% end %>
-            </div>
-          <% end %>
-          <% if subscription_option_to_apply_on_success %>
-            <h2 class='tagsafe-font'><%= subscription_option_to_apply_on_success.name %></h2>
-          <% end %>
           <div data-stripe-payment-element-target='awaitingElementsIcon'>
             <%= display_loading_icon %>
           </div>

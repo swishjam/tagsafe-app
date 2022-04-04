@@ -4,36 +4,37 @@ class FeatureGateKeeper
   end
 
   def can_run_audit?
-    defined?(@can_run_audit) ? @can_run_audit : begin
-      return @can_run_audit = true unless domains_subscription_option.basic?
-      @can_run_audit = num_audits_remaining < 50
-    end
+    true
   end
 
-  def num_audits_remaining
-    return Float::Infinity unless domains_subscription_option.basic?
-    @num_audits_remaining ||= @domain.num_audits_remaining_this_month
+  def can_run_scheduled_audits?
+    return @can_run_scheduled_audits if defined?(@can_run_scheduled_audits)
+    domains_subscription_option.basic?
   end
 
   def can_run_functional_tests?
-    !domains_subscription_option.basic?
+    # !domains_subscription_option.basic?
+    true
   end
 
   def can_include_performance_audit_screen_recording?
-    @can_include_performance_audit_screen_recording ||= domains_subscription_option.pro? && !@domain.subscription_plan.delinquent?
+    # @can_include_performance_audit_screen_recording ||= domains_subscription_option.pro? && !@domain.current_subscription_plan.delinquent?
+    true
   end
 
   def can_view_tag_version_git_diff?
-    @can_view_tag_version_git_diff ||= domains_subscription_option.pro? && !@domain.subscription_plan.delinquent?
+    # @can_view_tag_version_git_diff ||= domains_subscription_option.pro? && !@domain.current_subscription_plan.delinquent?
+    true
   end
 
   def can_include_page_load_resources_in_audit?
-    @can_include_page_load_resources_in_audit ||= domains_subscription_option.pro? && !@domain.subscription_plan.delinquent?
+    # @can_include_page_load_resources_in_audit ||= domains_subscription_option.pro? && !@domain.current_subscription_plan.delinquent?
+    true
   end
 
   private
 
   def domains_subscription_option
-    @domains_subscription_option ||= @domain.selected_subscription_option
+    # @domains_subscription_option ||= @domain.selected_subscription_option
   end
 end
