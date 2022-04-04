@@ -1,97 +1,62 @@
 re_enqueue_failed_jobs:
   class: Schedule::ReEnqueueFailedJobs
   cron: "*/1 * * * *" # every 1 minute
-  queue: "tag_checker_queue" # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
+  queue: critical # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
   description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
 re_scan_domains:
   class: Schedule::CrawlUrlsJob
   cron: "0 */1 * * *" # every 1 hour
   description: "Scans each domain for any new third party tags."
   # queue: "crawl_url_for_tags_queue"
-  queue: "default_queue"
+  queue: "normal"
 update_subscription_usage_records:
   class: Schedule::UpdateSubscriptionUsageRecordsJob
   cron: "0 1 * * *" # every night at 1 am
-  queue: "default_queue"
+  queue: "normal"
 mark_tags_removed_from_site:
   class: Schedule::MarkTagsRemovedFromSiteJob
   cron: "0 0 * * *" # every night at midnight
-  queue: "default_queue"
+  queue: "normal"
 clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every night at midnight
-  queue: "default_queue"
+  queue: "normal"
 purge_domains_generating_third_party_impact_trial:
   class: Schedule::PurgeDomainsGeneratingThirdPartyImpactTrialJob
   cron: "0 0 * * *"
-  queue: default_queue
-
-# TagCheckJobs
-one_minute_check_scripts:
-  class: Schedule::TagCheckJobs::OneMinuteInterval
-  cron: "*/1 * * * *" # every 1 minute
-  description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
-  queue: "tag_checker_queue"
-fifteen_minute_check_scripts:
-  class: Schedule::TagCheckJobs::FifteenMinuteInterval
-  cron: "*/15 * * * *" # every 15th minute
-  queue: "tag_checker_queue"
-thirty_minute_check_scripts:
-  class: Schedule::TagCheckJobs::ThirtyMinuteInterval
-  cron: "*/30 * * * *" # every 30th minute
-  queue: "tag_checker_queue"
-one_hour_check_scripts:
-  class: Schedule::TagCheckJobs::OneHourInterval
-  cron: "0 * * * *" # every hour
-  queue: "tag_checker_queue"
-three_hour_check_scripts:
-  class: Schedule::TagCheckJobs::ThreeHourInterval
-  cron: "0 0,3,6,9,12,15,18,21 * * *" # midnight, 3, 6, 9, noon, 3, 6, 9
-  queue: "tag_checker_queue"
-six_hour_check_scripts:
-  class: Schedule::TagCheckJobs::SixHourInterval
-  cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
-  queue: "tag_checker_queue"
-twelve_hour_check_scripts:
-  class: Schedule::TagCheckJobs::TwelveHourInterval
-  cron: "0 0,12 * * *" # midnight, noon
-  queue: "tag_checker_queue"
-twenty_four_hour_check_scripts:
-  class: Schedule::TagCheckJobs::TwentyFourHourInterval
-  cron: "0 0 * * *" # midnight
-  queue: "tag_checker_queue"
+  queue: normal
 
 # ScheduledAuditJobs
 five_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::FiveMinuteScheduledAuditInterval
   cron: "*/5 * * * *" # every 5th minute
   description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
-  queue: "tag_checker_queue"
+  queue: critical
 fifteen_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::FifteenMinuteScheduledAuditInterval
   cron: "*/15 * * * *" # every 15th minute
-  queue: "tag_checker_queue"
+  queue: critical
 thirty_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::ThirtyMinuteScheduledAuditInterval
   cron: "*/30 * * * *" # every 30th minute
-  queue: "tag_checker_queue"
+  queue: critical
 one_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::OneHourScheduledAuditInterval
   cron: "0 * * * *" # every hour
-  queue: "tag_checker_queue"
+  queue: critical
 three_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::ThreeHourScheduledAuditInterval
   cron: "0 0,3,6,9,12,15,18,21 * * *" # midnight, 3, 6, 9, noon, 3, 6, 9
-  queue: "tag_checker_queue"
+  queue: critical
 six_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::SixHourScheduledAuditInterval
   cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
-  queue: "tag_checker_queue"
+  queue: critical
 twelve_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::TwelveHourScheduledAuditInterval
   cron: "0 0,12 * * *" # midnight, noon
-  queue: "tag_checker_queue"
+  queue: critical
 twenty_four_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::TwentyFourHourScheduledAuditInterval
   cron: "0 0 * * *" # midnight
-  queue: "tag_checker_queue"
+  queue: critical

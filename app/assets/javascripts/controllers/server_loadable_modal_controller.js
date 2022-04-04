@@ -1,10 +1,20 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
+  connect() {
+    this._listenForEscape();
+  }
+
   hide() {
     document.body.classList.remove('locked');
     this.element.classList.remove('show');
     this._clearModalContent();
+  }
+
+  _listenForEscape() {
+    window.addEventListener('keydown', e => {
+      if(e.keyCode === 27) this.hide();
+    })
   }
 
   _onFormSubmit() {

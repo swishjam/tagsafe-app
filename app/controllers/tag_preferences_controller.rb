@@ -13,17 +13,4 @@ class TagPreferencesController < LoggedInController
     end
     head :ok
   end
-
-  # private
-
-  # def tag_preference_params
-  #   params.require(:tag_preference).permit(
-  #     :enabled, 
-  #     :is_allowed_third_party_tag, 
-  #     :is_third_party_tag, 
-  #     :should_log_tag_checks, 
-  #     :consider_query_param_changes_new_tag, 
-  #     :throttle_minute_threshold
-  #   )
-  # end
 end

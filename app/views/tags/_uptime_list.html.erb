@@ -1,0 +1,47 @@
+<%= turbo_frame_tag "tag_#{tag.uid}_uptime_list" do %>
+  <div class='tagsafe-container mt-3'>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-12'>
+          <div class='dropdown-container float-end'>
+            <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class='display-text'><%= selected_tag_check_regions.collect(&:location).join(', ') %></span> 
+              <span class='dropdown-indicator'><i class="fa-solid fa-chevron-up"></i></span>
+            </div>
+            <div class="dropdown-menu p-3">
+              <%= form_with url: tag_uptime_list_path(tag), method: :get, html: { class: 'float-end' }, data: { controller: 'submit-form-changes' } do |f| %>
+                <% TagCheckRegion.selectable.each do |tag_check_region| %>
+                  <div class='form-switch form-check'>
+                    <input type='checkbox' name='aws_region_names[]' id="uptime-list-tag-check-region-<%=tag_check_region.id%>" value="<%= tag_check_region.aws_region_name %>" class='form-check-input pointer d-inline' <%= selected_tag_check_regions.index(tag_check_region).present? ? 'checked' : nil %>>
+                    <label for='uptime-list-tag-check-region-<%=tag_check_region.id%>'><%= tag_check_region.location %> <%= !tag.tag_check_regions.include?(tag_check_region) ? '(disabled)' : nil %></label>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="table table-hover col-12 text-start" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Response Code</th>
+          <th>Response Time (ms)</th>
+          <th>Region</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% paginated_tag_checks.each do|tag_check| %>
+          <tr>
+            <td><%= tag_check.created_at.formatted_short %></td>
+            <td><%= tag_check.response_code %></td>
+            <td><%= tag_check.response_time_ms %></td>
+            <td><%= tag_check.tag_check_region&.location %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate paginated_tag_checks %>
+  </div>
+<% end %>

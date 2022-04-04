@@ -1,4 +1,6 @@
-<%= turbo_frame_tag dom_id(tag), class: 'col-sm-12 col-md-6 col-lg-4 tag-safe-card-container' do %>
+<%
+=begin%>
+ <%= turbo_frame_tag dom_id(tag), class: 'col-sm-12 col-md-6 col-lg-4 tag-safe-card-container' do %>
   <div class="tag-safe-card tag <%= tag.removed_from_site? || !tag.tag_preferences.enabled ? 'inactive' : nil %>">
     <!-- Removing dropdown for now...
     <div class="dropdown show ellipsis-dropdown text-right">
@@ -67,4 +69,6 @@
       </div>
     <% end %>
   </div>
-<% end %>
+<% end %> 
+<%
+=end%>

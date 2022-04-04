@@ -27,13 +27,14 @@ module TagManager
         existing_tag.update!(last_seen_in_url_crawl_at: Time.now, removed_from_site_at: nil)
       else
         if @url_crawl.domain.should_capture_tag?(tag_url)
-          @url_crawl.found_tag!(tag_url, enabled: create_tags_as_enabled)
+          @url_crawl.found_tag!(tag_url)
+          # @url_crawl.found_tag!(tag_url, enabled: create_tags_as_enabled)
         end
       end
     end
 
-    def create_tags_as_enabled
-      @url_crawl.domain.is_generating_third_party_impact_trial ? false : @url_crawl.domain.default_audit_configuration.enable_monitoring_on_new_tags
-    end
+    # def create_tags_as_enabled
+    #   @url_crawl.domain.is_generating_third_party_impact_trial ? false : @url_crawl.domain.general_configuration.enable_monitoring_on_new_tags
+    # end
   end
 end

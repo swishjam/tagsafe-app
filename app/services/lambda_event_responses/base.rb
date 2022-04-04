@@ -14,6 +14,10 @@ module LambdaEventResponses
       @request_payload ||= event_payload['requestPayload']
     end
 
+    def self.has_no_executed_lambda_function?
+      false
+    end
+
     def process_results!
       raise NoMethodError, "`process_results!` not defined, subclass #{self.class.to_s} must implement"
     end

@@ -50,6 +50,23 @@ a.no-decoration {
   }
 }
 
+.dropdown-container {
+  border-bottom: 1px dashed darkgrey;
+  cursor: pointer;
+  width: fit-content;
+  .dropdown-display-container {
+    .dropdown-indicator i {
+      transition: 250ms transform;
+    }
+    &.show .dropdown-indicator i {
+      transform: rotate(180deg);
+    }
+  }
+  .dropdown-menu.show {
+    box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
+  }
+}
+
 .tagsafe-illuminate {
   -webkit-animation: fade-box-shadow-in-then-out 1500ms linear forwards;
   animation: fade-box-shadow-in-then-out 1500ms linear forwards;

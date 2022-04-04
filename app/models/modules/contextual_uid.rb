@@ -7,7 +7,7 @@ module ContextualUid
     base.extend ClassMethods
 
     base.before_validation :set_uid, on: :create
-    base.validates :uid, presence: true, uniqueness: true, unless: -> { self.class.should_skip_contextual_uid? }
+    base.validates :uid, on: :create, presence: true, uniqueness: true, unless: -> { self.class.should_skip_contextual_uid? }
     # validate_and_store_klass_and_subclasses_uid_prefixes(base)
   end
 

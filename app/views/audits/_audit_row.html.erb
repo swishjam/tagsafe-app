@@ -1,3 +1,5 @@
+<%= turbo_stream_from "audit_#{audit.uid}_row_stream" %>
+
 <%= turbo_frame_tag "audit_#{audit.uid}_row", class: "tagsafe-table-row clickable #{audit.is_primary? && streamed ? 'tagsafe-illuminate' : nil}" do %>
   <% unless local_assigns[:hide_primary_audit_indicator] %>
     <div class='tagsafe-table-data' style='width: <%= local_assigns[:include_tag_name] ? '5%' : '19%' %>'>
@@ -33,9 +35,9 @@
         <%= render 'test_runs/test_results_pill_for_audit', audit: audit %>
       </div>
       <div class='tagsafe-table-data' style='width: 28%'><%= audit.page_url.full_url %></div>
-      <% if local_assigns[:include_execution_reason] %>
-        <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
-      <% end %>
+        <!-- <#% if local_assigns[:include_execution_reason] %> !-->
+          <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
+        <!-- <#% end %> !-->
       <div class='tagsafe-table-data justify-content-end' style='width: 5%'>
         <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
       </div>

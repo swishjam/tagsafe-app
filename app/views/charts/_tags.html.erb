@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
   <% 
     chart_data = chart_data || ChartHelper::TagsData.new(
-      tags: domain.tags.includes(:tag_preferences).order('tag_preferences.enabled DESC, removed_from_site_at ASC, last_released_at DESC').page(1).per(9), 
+      tags: domain.tags.includes(:tag_preferences).order('removed_from_site_at ASC, last_released_at DESC').page(1).per(9), 
       start_time: start_time, 
       end_time: end_time, 
       metric_key: displayed_metric

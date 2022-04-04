@@ -22,7 +22,7 @@ RSpec.describe ChartHelper::TagsData do
       tag_version: tag_version, 
       tag: tag,
       audited_url: url_to_audit, 
-      execution_reason: ExecutionReason.NEW_TAG_VERSION, 
+      execution_reason: ExecutionReason.NEW_RELEASE, 
       performance_audit_calculator: @domain.current_performance_audit_calculator, 
       performance_audit_iterations: 1,
       primary: true

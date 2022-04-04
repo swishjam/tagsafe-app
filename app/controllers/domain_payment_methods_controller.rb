@@ -8,11 +8,7 @@ class DomainPaymentMethodsController < LoggedInController
     )
     stream_modal(
       partial: 'domain_payment_methods/new',
-      locals: { 
-        client_secret: setup_intent.client_secret, 
-        subscription_option_to_apply_on_success: params[:subscription_option_id].present? ? SubscriptionOption.find(params[:subscription_option_id]) : nil,
-        include_back_button: params[:subscription_option_id].present?
-      }
+      locals: { client_secret: setup_intent.client_secret, should_reload: params[:should_reload] }
     )
   end
 
@@ -23,6 +19,7 @@ class DomainPaymentMethodsController < LoggedInController
       },
       expand: ['invoice_settings.default_payment_method']
     })
+    current_domain.update!(stripe_payment_method_id: params[:stripe_payment_method_id])
     current_user.broadcast_notification(message: "Payment method updated.")
     current_domain.stream_billing_details_updates(domain: current_domain, default_payment_method: customer.invoice_settings.default_payment_method)
     stream_modal(partial: 'domain_payment_methods/new', locals: { success_message: 'Default payment method updated.' })

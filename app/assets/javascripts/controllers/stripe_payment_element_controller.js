@@ -5,7 +5,7 @@ export default class extends Controller {
   
   clientSecret = this.element.getAttribute('data-client-secret');
   publicKey = this.element.getAttribute('data-pk');
-  subscriptionOptionId = this.element.getAttribute('data-subscription-option');
+  shouldReload = this.element.getAttribute('data-should-reload');
 
   initialize() {
     this._initializeStripe();
@@ -47,26 +47,13 @@ export default class extends Controller {
       this._stopFormLoading();
       this._displayErrorMessage(result.error.message);
     } else if(result.setupIntent.status === 'succeeded') {
-      if(this.subscriptionOptionId !== '') {
-        this._createSubscription(result.setupIntent.payment_method);
-      } else {
-        this._attachPaymentMethodToCustomer(result.setupIntent.payment_method);
-      }
+      this._attachPaymentMethodToCustomer(result.setupIntent.payment_method);
     } else {
       this._stopFormLoading();
       const setupErr = result.setupIntent & result.setupIntent.last_setup_error && result.setupIntent.last_setup_error.message
       this._displayErrorMessage(setupErr || 'An unexpected error occurred.');
     }
   }
-
-  _createSubscription(paymentMethodId) {
-    return fetch(`/domain_subscription_option/${window.currentDomainUid}?stripe_payment_method_id=${paymentMethodId}&domain[subscription_option_id]=${this.subscriptionOptionId}`, {
-      method: 'PATCH',
-      headers: { 
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content 
-      }
-    })
-  };
 
   _attachPaymentMethodToCustomer(paymentMethodId) {
     fetch(`/domain_payment_methods?stripe_payment_method_id=${paymentMethodId}`, {
@@ -75,7 +62,11 @@ export default class extends Controller {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
       }
     }).then(_response => {
-      this._closeModal();
+      if(this.shouldReload) {
+        window.location.pathname = window.location.pathname;
+      } else {
+        this._closeModal();
+      }
     })
   }
 

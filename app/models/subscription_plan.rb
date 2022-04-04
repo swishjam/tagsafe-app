@@ -1,6 +1,32 @@
 class SubscriptionPlan < ApplicationRecord
   belongs_to :domain
-  belongs_to :subscription_option
+  has_many :subscription_plan_subscription_prices, dependent: :destroy
+  accepts_nested_attributes_for :subscription_plan_subscription_prices
+  has_many :subscription_prices, through: :subscription_plan_subscription_prices
+  
+  scope :current, -> { where(current: true) }
+
+  validates_uniqueness_of :current, scope: :domain_id
+
+  def per_automated_performance_audit_subscription_price
+    subscription_prices.find_by(type: PerAutomatedPerformanceAuditSubscriptionPrice.to_s)
+  end
+
+  def per_automated_test_run_subscription_price
+    subscription_prices.find_by(type: PerAutomatedTestRunSubscriptionPrice.to_s)
+  end
+
+  def per_tag_check_subscription_price
+    subscription_prices.find_by(type: PerTagCheckSubscriptionPrice.to_s)
+  end
+
+  # def subscription_plan_subscription_price_for(subscription_price)
+  #   subscription_plan_subscription_prices.find_by(subscription_price: subscription_price)
+  # end
+
+  def stripe_subscription_item_id_for(subscription_price_klass)
+    subscription_plan_subscription_prices.joins(:subscription_price).find_by(subscription_price: { type: subscription_price_klass.to_s })&.stripe_subscription_item_id
+  end
 
   DELINQUENT_STATUSES = %w[incomplete_expired past_due unpaid]
 
@@ -22,6 +48,14 @@ class SubscriptionPlan < ApplicationRecord
   %i[active incomplete incomplete_expired trialing past_due canceled unpaid].each do |stripe_status|
     scope :"#{stripe_status}", -> { where(status: stripe_status) }
     define_method(:"#{stripe_status}?") { self.status == stripe_status }
+  end
+
+  def self.create_default(domain)
+    SubscriptionMaintainer::Applier.new(domain).apply_default_subscription_for_domain
+  end
+
+  def cancel!
+    SubscriptionMaintainer::Applier.new(domain).cancel_current_subscription!
   end
 
   def delinquent?

@@ -1,5 +1,7 @@
 module AuditRunnerJobs
   class RunFunctionalTestSuiteForAudit < ApplicationJob
+    queue_as TagsafeQueue.CRITICAL
+    
     def perform(audit, options = {})
       tests_to_run = audit.tag.functional_tests.enabled
       if tests_to_run.any?

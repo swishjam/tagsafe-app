@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   get '/change_log' => 'tag_versions#index'
   get '/audit_log' => 'audits#all', as: :audit_log
   get '/uptime' => 'tag_checks#index'
-  get '/uptime/:tag_id' => 'tag_checks#tag', as: :tag_uptime_data
+  get '/uptime/:tag_id/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
+  get '/uptime/:tag_id/list' => 'tag_checks#tag_list', as: :tag_uptime_list
   get '/performance' => 'performance#index'
 
   resources :domain_audits, only: [:create, :show]
@@ -58,14 +59,13 @@ Rails.application.routes.draw do
     member do
       get :uptime
       get :audits
-      patch :disable
-      patch :enable
     end
     get '/general' => 'tags#edit' 
     # get '/preferences' => 'tags#preferences'
     get '/audit_settings' => 'tags#audit_settings'
     get '/notification_settings' => 'tags#notification_settings'
 
+    resources :tag_check_regions_to_check, only: [:create, :destroy, :new]
     resources :urls_to_audit, only: [:create, :destroy]
     resources :slack_notification_subscribers, only: [:create, :destroy]
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
@@ -103,7 +103,7 @@ Rails.application.routes.draw do
       get '/waterfall' => 'page_load_resources#for_audit'
     end
   end
-  resources :default_audit_configuration, only: [:create, :update]
+  resources :general_configuration, only: [:create, :update]
 
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
@@ -136,8 +136,12 @@ Rails.application.routes.draw do
   end
 
   resources :stripe_billing_portal, only: :new
-  resources :domain_subscription_option, only: [:edit, :update]
   resources :domain_payment_methods, only: [:new, :create]
+  resources :subscription_plans, only: [] do
+    member do
+      patch :cancel
+    end
+  end
 
   post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'

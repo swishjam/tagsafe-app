@@ -1,0 +1,2 @@
+class PerTagCheckSubscriptionPrice < SubscriptionPrice
+end

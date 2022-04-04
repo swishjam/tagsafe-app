@@ -27,7 +27,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <%= link_to "Edit #{@tag.try_friendly_name} Settings", edit_tag_path(@tag), class: 'dropdown-item', target: '_top' %>
-          <%= modal_link new_tag_audit_path(@tag, tag_version_id: @tag.release_monitoring_enabled? ? @tag.current_version.id : nil), text: "Perform Audit on #{@tag.try_friendly_name}", klass: 'dropdown-item' %>
+          <%= modal_link new_tag_audit_path(@tag, tag_version_id: @tag.release_monitoring_enabled? ? @tag.current_version&.id : nil), text: "Perform Audit on #{@tag.try_friendly_name}", klass: 'dropdown-item' %>
         </div>
       </div>
     </div>

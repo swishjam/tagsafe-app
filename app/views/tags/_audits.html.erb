@@ -26,8 +26,8 @@
   </div>
   <%= paginate audits %>
   <% if audits.none? && local_assigns[:tag] %>
-    <div class='mt-5'>
-      <h4 class='mb-3'>No audits for this tag version, run one now?</h4>
+    <div class='p-5 text-center'>
+      <h4 class='mb-3'>No audits have been performed on this tag, run one now?</h4>
       <%= link_to new_tag_audit_path(tag), class: 'tagsafe-btn', data: { controller: 'modal_trigger' } do %>
         <i class="fas fa-sync-alt"></i> Run audit
       <% end %>

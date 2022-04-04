@@ -34,7 +34,7 @@ class PerformanceAuditCalculator < ApplicationRecord
   validate :only_one_active
   validate :sum_of_weights_equal_100
 
-  def self.create_default_calculator(domain, active = true)
+  def self.create_default(domain, active = true)
     default_args = { domain_id: domain.id, currently_active: active }
     default_args.merge!(DEFAULT_DECREMENTS.merge(DEFAULT_WEIGHTS))
     create!(default_args)

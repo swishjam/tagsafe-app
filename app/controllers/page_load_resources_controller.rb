@@ -39,7 +39,7 @@ class PageLoadResourcesController < LoggedInController
         tag: tag,
         title: "Waterfall #{params[:performance_audit_type] == 'with_tag' ? 'with' : 'without'} tag",
         performance_audit: perf_audit,
-        audited_tag_version_url: audit.tag_version.js_file_url,
+        audited_tag_version_url: audit.ran_on_live_tag? ? tag.url_based_on_preferences : audit.tag_version.js_file_url,
         performance_audit_type: params[:performance_audit_type],
         page_load_resources: resources, 
         blocked_resources: blocked_resources,

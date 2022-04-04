@@ -8,6 +8,8 @@ class ApplicationRecord < ActiveRecord::Base
   scope :more_recent_than, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} > ?", timestamp).order("#{timestamp_column.to_s} DESC") }
   scope :more_recent_than_or_equal_to, -> (timestamp, timestamp_column: :created_at) { where("#{timestamp_column} >= ?", timestamp).order("#{timestamp_column.to_s} DESC") }
 
+  scope :between, -> (start_ts, end_ts) { older_than(end_ts).more_recent_than(start_ts) }
+
   scope :most_recent_first, -> (timestamp_column: :created_at) { order("#{timestamp_column} DESC") }
   scope :most_recent_last, -> (timestamp_column: :created_at) { order("#{timestamp_column} ASC") }
   
@@ -57,9 +59,7 @@ class ApplicationRecord < ActiveRecord::Base
 
     # allows us to use .send dynamically using many methods
     def chain_scopes(methods)
-      methods.inject(self) { |result, method| 
-        result.send(*method) 
-      }
+      methods.inject(self) { |result, method| result.send(*method) }
     end
   end
 end

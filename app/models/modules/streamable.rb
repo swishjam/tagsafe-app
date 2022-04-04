@@ -123,21 +123,28 @@ module Streamable
       )
     end
 
-    def update_tag_version_table_row(tag_version:, now: false)
-      stream_replace!(
-        now: now, 
-        stream: "tag_#{tag_version.tag.uid}_details_view_stream",
-        target: "tag_version_#{tag_version.uid}_row",
-        partial: 'server_loadable_partials/tag_versions/tag_version_row',
-        locals: { tag_version: tag_version, tag: tag_version.tag }
-      )
-    end
+    # def update_tag_version_table_row(tag_version:, now: false)
+    #   stream_replace!(
+    #     now: now, 
+    #     stream: "tag_#{tag_version.tag.uid}_details_view_stream",
+    #     target: "tag_version_#{tag_version.uid}_row",
+    #     partial: 'server_loadable_partials/tag_versions/tag_version_row',
+    #     locals: { tag_version: tag_version, tag: tag_version.tag }
+    #   )
+    # end
 
     ###################
     ## Audit streams ##
     ###################
 
-    def prepend_audit_to_list(audit:, now: false)
+    def prepend_audit_to_list(audit:, hide_primary_audit_indicator: true, now: false)
+      stream_prepend!(
+        now: now,
+        stream: "tag_#{audit.tag.uid}_details_view_stream", 
+        target: "tag_#{audit.tag.uid}_audits_table_rows",
+        partial: 'audits/audit_row',
+        locals: { audit: audit, hide_primary_audit_indicator: hide_primary_audit_indicator }
+      )
       return if audit.run_on_live_tag?
       stream_prepend!(
         now: now,
@@ -168,15 +175,29 @@ module Streamable
       )
     end
 
-    def update_audit_table_row(audit:, now: false)
-      return if audit.run_on_live_tag?
+    def update_audit_table_row(audit:, hide_primary_audit_indicator: true, now: false)
       stream_replace!(
         now: now,
-        stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream", 
+        stream: "audit_#{audit.uid}_row_stream", 
         target: "audit_#{audit.uid}_row",
         partial: 'audits/audit_row',
-        locals: { audit: audit }
+        locals: { audit: audit, hide_primary_audit_indicator: hide_primary_audit_indicator }
       )
+      # stream_replace!(
+      #   now: now,
+      #   stream: "tag_#{audit.tag.uid}_details_view_stream", 
+      #   target: "audit_#{audit.uid}_row",
+      #   partial: 'audits/audit_row',
+      #   locals: { audit: audit }
+      # )
+      # return if audit.run_on_live_tag?
+      # stream_replace!(
+      #   now: now,
+      #   stream: "tag_version_#{audit.tag_version.uid}_audits_view_stream", 
+      #   target: "audit_#{audit.uid}_row",
+      #   partial: 'audits/audit_row',
+      #   locals: { audit: audit }
+      # )
     end
 
     def re_render_audit_table(tag_version:, now: false)

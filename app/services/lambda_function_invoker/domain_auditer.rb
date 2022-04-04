@@ -2,17 +2,18 @@ module LambdaFunctionInvoker
   class DomainAuditer < Base
     lambda_service 'performance-audits'
     lambda_function 'run-performance-audit'
-    receiver_job_queue :user_waiting
+    consumer_klass LambdaEventResponses::DomainAuditResult
+    receiver_job_queue TagsafeQueue.CRITICAL
 
     def initialize(domain_audit, individual_performance_audit_klass)
       @domain_audit = domain_audit
       @individual_performance_audit_klass = individual_performance_audit_klass
-      @executed_lambda_function_parent = individual_performance_audit
     end
 
     def individual_performance_audit
       @individual_performance_audit ||= @individual_performance_audit_klass.create(domain_audit: @domain_audit)
     end
+    alias executed_lambda_function individual_performance_audit
 
     def request_payload
       {

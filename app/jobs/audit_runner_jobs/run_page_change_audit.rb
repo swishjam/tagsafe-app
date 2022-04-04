@@ -1,5 +1,7 @@
 module AuditRunnerJobs
   class RunPageChangeAudit < ApplicationJob
+    queue_as TagsafeQueue.CRITICAL
+    
     def perform(audit, options = {})
       page_change_audit = PageChangeAudit.create(audit: audit)
       run_html_snapshotter_for(page_change_audit, HtmlSnapshotWithoutTag)

@@ -2,17 +2,18 @@ module LambdaFunctionInvoker
   class PerformanceAuditer < Base
     lambda_service 'performance-audits'
     lambda_function 'run-performance-audit'
+    consumer_klass LambdaEventResponses::PerformanceAuditResult
 
     def initialize(audit:, performance_audit_klass:, batch_identifier:, options: {})
       @audit = audit
       @performance_audit_klass = performance_audit_klass
-      @executed_lambda_function_parent = individual_performance_audit
-      @receiver_job_queue = @audit.initiated_by_user? ? :user_waiting : :default
+      @receiver_job_queue = @audit.initiated_by_user? ? TagsafeQueue.CRITICAL : TagsafeQueue.NORMAL
     end
 
     def individual_performance_audit
       @individual_performance_audit ||= @performance_audit_klass.create!(audit: @audit, batch_identifier: @batch_identifier)
     end
+    alias executed_lambda_function_parent individual_performance_audit
   
     private
   

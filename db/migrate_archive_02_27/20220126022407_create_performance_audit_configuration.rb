@@ -1,4 +1,4 @@
-class CreatePerformanceAuditConfiguration < ActiveRecord::Migration[6.1]
+class CreatePerformanceAuditGeneralConfiguration < ActiveRecord::Migration[6.1]
   def change
     create_table :performance_audit_configurations do |t|
       t.string :uid, index: true

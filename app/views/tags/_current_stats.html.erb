@@ -19,7 +19,7 @@
             <div class='col-4 text-center'>
               <h6>Last release:</h6>
               <% if tag.release_monitoring_enabled? %>
-                <h6 class='fw-bold'><%= tag.current_version.created_at.formatted_short %></h6>
+                <h6 class='fw-bold'><%= tag.current_version&.created_at&.formatted_short || 'No releases' %></h6>
               <% else %>
                 <h6 class='fw-bold'>Release Monitoring is Disabled</h6>
               <% end %>

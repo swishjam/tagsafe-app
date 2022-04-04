@@ -1,5 +1,6 @@
 class EmitAlertNotificationsJob < ApplicationJob
-  # queue_as :default
+  queue_as TagsafeQueue.NORMAL
+
   def perform(triggered_alert)
     triggered_alert.tag.domain.domain_users.each do |domain_user|
       alert_config = triggered_alert.tag_specific_alert_configuration_or_default(domain_user)

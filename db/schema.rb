@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_194526) do
+ActiveRecord::Schema.define(version: 2022_04_03_175519) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -105,39 +105,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
     t.bigint "performance_audit_id"
     t.text "url"
     t.string "resource_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.index ["performance_audit_id"], name: "index_blocked_resources_on_performance_audit_id"
-  end
-
-  create_table "default_audit_configurations", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid"
-    t.string "parent_type"
-    t.bigint "parent_id"
-    t.boolean "include_performance_audit"
-    t.boolean "include_page_load_resources"
-    t.boolean "include_page_change_audit"
-    t.boolean "include_functional_tests"
-    t.integer "num_functional_tests_to_run"
-    t.integer "num_perf_audits_to_run"
-    t.boolean "perf_audit_strip_all_images"
-    t.boolean "perf_audit_include_page_tracing"
-    t.boolean "perf_audit_throw_error_if_dom_complete_is_zero"
-    t.boolean "perf_audit_inline_injected_script_tags"
-    t.boolean "perf_audit_scroll_page"
-    t.boolean "perf_audit_enable_screen_recording"
-    t.boolean "perf_audit_override_initial_html_request_with_manipulated_page"
-    t.string "perf_audit_completion_indicator_type"
-    t.float "perf_audit_required_tagsafe_score_range"
-    t.boolean "enable_monitoring_on_new_tags"
-    t.integer "perf_audit_minimum_num_sets"
-    t.integer "perf_audit_maximum_num_sets"
-    t.boolean "perf_audit_fail_when_confidence_range_not_met"
-    t.integer "perf_audit_batch_size"
-    t.integer "perf_audit_max_failures"
-    t.boolean "roll_up_audits_by_tag_version"
-    t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
-    t.index ["uid"], name: "index_default_audit_configurations_on_uid"
   end
 
   create_table "delta_performance_audits", charset: "utf8mb3", force: :cascade do |t|
@@ -207,6 +175,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
     t.datetime "deleted_at"
     t.boolean "is_generating_third_party_impact_trial"
     t.string "stripe_customer_id"
+    t.string "stripe_payment_method_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -300,6 +269,37 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
     t.index ["functional_test_id"], name: "index_functional_tests_to_run_on_functional_test_id"
     t.index ["tag_id"], name: "index_functional_tests_to_run_on_tag_id"
     t.index ["uid"], name: "index_functional_tests_to_run_on_uid"
+  end
+
+  create_table "general_configurations", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "parent_type"
+    t.bigint "parent_id"
+    t.boolean "include_performance_audit"
+    t.boolean "include_page_load_resources"
+    t.boolean "include_page_change_audit"
+    t.boolean "include_functional_tests"
+    t.integer "num_functional_tests_to_run"
+    t.integer "num_perf_audits_to_run"
+    t.boolean "perf_audit_strip_all_images"
+    t.boolean "perf_audit_include_page_tracing"
+    t.boolean "perf_audit_throw_error_if_dom_complete_is_zero"
+    t.boolean "perf_audit_inline_injected_script_tags"
+    t.boolean "perf_audit_scroll_page"
+    t.boolean "perf_audit_enable_screen_recording"
+    t.boolean "perf_audit_override_initial_html_request_with_manipulated_page"
+    t.string "perf_audit_completion_indicator_type"
+    t.float "perf_audit_required_tagsafe_score_range"
+    t.boolean "enable_monitoring_on_new_tags"
+    t.integer "perf_audit_minimum_num_sets"
+    t.integer "perf_audit_maximum_num_sets"
+    t.boolean "perf_audit_fail_when_confidence_range_not_met"
+    t.integer "perf_audit_batch_size"
+    t.integer "perf_audit_max_failures"
+    t.boolean "roll_up_audits_by_tag_version"
+    t.integer "num_recent_tag_versions_to_compare_in_release_monitoring"
+    t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
+    t.index ["uid"], name: "index_general_configurations_on_uid"
   end
 
   create_table "html_snapshots", charset: "utf8mb3", force: :cascade do |t|
@@ -560,21 +560,37 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
     t.index ["slug"], name: "index_subscription_options_on_slug"
   end
 
+  create_table "subscription_plan_subscription_prices", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "subscription_plan_id"
+    t.bigint "subscription_price_id"
+    t.string "stripe_subscription_item_id"
+    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
+    t.index ["subscription_price_id"], name: "subscription_plan_subscription_prices_on_spr"
+    t.index ["uid"], name: "index_subscription_plan_subscription_prices_on_uid"
+  end
+
   create_table "subscription_plans", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.bigint "domain_id"
     t.string "stripe_subscription_id"
-    t.string "stripe_flat_fee_subscription_item_id"
-    t.string "stripe_performance_audit_subscription_item_id"
-    t.string "stripe_tag_check_subscription_item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "stripe_functional_test_subscription_item_id"
-    t.bigint "subscription_option_id"
     t.string "status"
+    t.boolean "current"
     t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
-    t.index ["subscription_option_id"], name: "index_subscription_plans_on_subscription_option_id"
     t.index ["uid"], name: "index_subscription_plans_on_uid"
+  end
+
+  create_table "subscription_prices", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "type"
+    t.string "name"
+    t.string "slug"
+    t.string "stripe_price_id"
+    t.float "price_in_cents"
+    t.index ["slug"], name: "index_subscription_prices_on_slug"
+    t.index ["uid"], name: "index_subscription_prices_on_uid"
   end
 
   create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8mb3", force: :cascade do |t|
@@ -587,6 +603,22 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
 
   create_table "tag_check_region", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "tag_check_regions", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "aws_region_name"
+    t.string "location"
+    t.index ["aws_region_name"], name: "index_tag_check_regions_on_aws_region_name"
+    t.index ["uid"], name: "index_tag_check_regions_on_uid"
+  end
+
+  create_table "tag_check_regions_to_check", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "tag_check_region_id"
+    t.string "uid"
+    t.index ["tag_check_region_id"], name: "index_tag_check_regions_to_check_on_tag_check_region_id"
+    t.index ["tag_id"], name: "index_tag_check_regions_to_check_on_tag_id"
   end
 
   create_table "tag_checks", charset: "utf8mb3", force: :cascade do |t|
@@ -626,9 +658,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
 
   create_table "tag_preferences", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
-    t.string "url_to_audit"
     t.integer "tag_id"
-    t.boolean "enabled"
     t.boolean "is_allowed_third_party_tag"
     t.boolean "is_third_party_tag"
     t.boolean "should_log_tag_checks"
@@ -659,7 +689,6 @@ ActiveRecord::Schema.define(version: 2022_03_28_194526) do
   create_table "tags", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.integer "domain_id"
-    t.string "friendly_name"
     t.timestamp "removed_from_site_at"
     t.timestamp "created_at"
     t.text "full_url"

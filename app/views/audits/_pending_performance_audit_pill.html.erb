@@ -5,7 +5,7 @@
   <div id="audit-<%=audit.uid%>-performance-audit-progress" class='tagsafe-pill tagsafe-primary-purple' class="<%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>"
         data-controller='tooltip'
         data-bs-toggle='tooltip'
-        title="<%= audit.delta_performance_audits.count %> performance audits completed, continuing until confidence threshold is reached...">
+        title="<%= audit.delta_performance_audits.count %> performance audits completed, <%= (audit.performance_audits.pending.count / 2).round %> are in flight. Continuing until confidence threshold is reached...">
         <!-- title="Performance audit is <#%= percent_complete.to_i %>% complete."> !-->
       <!-- <div class='fill' style='height: <#%= percent_complete %>%'></div> !-->
       <!-- <div class='fill'></div> !-->

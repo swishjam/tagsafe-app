@@ -1,6 +1,6 @@
-class CreateDefaultAuditConfiguration < ActiveRecord::Migration[6.1]
+class CreateDefaultAuditGeneralConfiguration < ActiveRecord::Migration[6.1]
   def change
-    create_table :default_audit_configuration do |t|
+    create_table :configuration do |t|
       t.string :uid, index: true
       t.references :parent, polymorphic: true
       t.boolean :include_performance_audit

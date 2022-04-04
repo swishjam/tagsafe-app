@@ -1,5 +1,4 @@
-class DefaultAuditConfiguration < ApplicationRecord
-  # self.table_name = :default_audit_configuration
+class GeneralConfiguration < ApplicationRecord
   belongs_to :parent, polymorphic: true
 
   before_destroy :cant_destroy_domain_parent
@@ -13,6 +12,7 @@ class DefaultAuditConfiguration < ApplicationRecord
       include_functional_tests: true,
       enable_monitoring_on_new_tags: true,
       roll_up_audits_by_tag_version: false,
+      num_recent_tag_versions_to_compare_in_release_monitoring: 5,
       # num_perf_audits_to_run: 3,
       perf_audit_batch_size: 3,
       perf_audit_minimum_num_sets: 3,
@@ -35,7 +35,7 @@ class DefaultAuditConfiguration < ApplicationRecord
 
   def cant_destroy_domain_parent
     if parent.is_a?(Domain)
-      errors.add(:base, "Cannot destroy the Default Audit Configuration for domain.")
+      errors.add(:base, "Cannot destroy the Default Audit GeneralConfiguration for domain.")
     end
   end
 end
