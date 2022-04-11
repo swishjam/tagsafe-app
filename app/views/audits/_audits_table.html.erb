@@ -1,6 +1,6 @@
 <%= turbo_frame_tag local_assigns[:domain] ? "domain_#{domain.uid}_audits_table" : "tag_version_#{tag_version.uid}_audits_table" do %>
-  <div class='tagsafe-table mt-3'>
-    <div class='tagsafe-table-head tagsafe-table-row'>
+  <div class='tagsafe-table'>
+    <div class='tagsafe-table-head tagsafe-table-row square'>
       <div class='tagsafe-table-header' style='width: <%= local_assigns[:include_tag_name] ? '5%' : '19%' %>'>
         <% unless local_assigns[:include_tag_name] %>
           Primary Audit <%= render 'partials/utils/help_tooltip', message: 'Each tag version can have many performance audits, but must have only one primary performance audit. The primary performance is used for benchmarking and comparing against previous versions.' %>

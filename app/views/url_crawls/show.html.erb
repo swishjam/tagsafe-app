@@ -1,5 +1,22 @@
-<h4 class="page-title with-sub-title"><%= @url_crawl.enqueued_at.formatted_long %> Crawl</h4>
-<h5 class='page-sub-title'><%= @url_crawl.url %></h5>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title with-sub-title">Tag Sync</h1>
+        <h2 class="page-sub-title"><%= @url_crawl.enqueued_at.formatted_short %> syncing of <%= current_domain.url %> third party tags.</h2>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= form_with url: url_crawls_path, method: :POST do |f| %>
+          <button type='submit' class='page-title-cta-btn floating-btn tagsafe-purple-bg' data-controller='tooltip' data-bs-toggle='tooltip' title='Sync third party tags from <%= current_domain.url %>. Tagsafe automatically syncs tags every hour.'>
+            <i class="fa-solid fa-arrows-rotate"></i> Sync tags
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%= render 'settings/settings_nav' %>
+</div>
+
 <div class="tagsafe-container text-center">
   <div class='col-12'>
     <% if @url_crawl.failed? %>

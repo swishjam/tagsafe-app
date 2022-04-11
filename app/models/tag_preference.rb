@@ -3,12 +3,13 @@ class TagPreference < ApplicationRecord
   
   belongs_to :tag
   
-  after_update :check_to_run_audit
-  after_update :check_to_update_lambda_cron_job_data_store
+  after_update :check_to_update_release_monitoring_preferences
+  after_create { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: nil, new_interval: tag_check_minute_interval) }
+  before_destroy { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: tag_check_minute_interval, new_interval: nil) }
 
   validate :has_payment_method_on_file_when_necessary
-  validates :tag_check_minute_interval, inclusion: { in: [nil, 1, 15, 30, 60, 180, 720, 1_440] }
-  validates :scheduled_audit_minute_interval, inclusion: { in: [nil, 5, 15, 30, 60, 180, 720, 1_440] }
+  validates :tag_check_minute_interval, inclusion: { in: [nil, 1, 15, 30, 60, 180, 360, 720, 1_440] }
+  validates :scheduled_audit_minute_interval, inclusion: { in: [nil, 5, 15, 30, 60, 180, 360, 720, 1_440] }
 
   TAG_CHECK_INTERVALS = [
     { name: '1 minute', value: 1 },
@@ -63,19 +64,10 @@ class TagPreference < ApplicationRecord
       errors.add(:base, "Must have a payment method on file in order to enable automated features (release monitoring, scheduled audits, uptime measurement).")
     end
   end
-  
-  def check_to_run_audit
-    if column_changed_to('enabled', true)
-      AfterTagShouldRunAuditActivationJob.perform_later(tag)
-    end
-  end
 
-  def check_to_update_lambda_cron_job_data_store
+  def check_to_update_release_monitoring_preferences
     if saved_changes['tag_check_minute_interval']
-      # LambdaCronJobDataStore::TagCheckConfigurations.new(tag).update_tag_check_configuration
-      tag_check_intervals_lambda_data_store = LambdaCronJobDataStore::TagCheckIntervals.new(tag)
-      tag_check_intervals_lambda_data_store.remove_tag_tag_check_configuration_from_tags_current_tag_check_regions
-      tag_check_intervals_lambda_data_store.set_tag_check_intervals_for_tags_current_tag_check_regions
+      AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: saved_changes['tag_check_minute_interval'][0], new_interval: tag_check_minute_interval)
     end
   end
 end

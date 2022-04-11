@@ -1,40 +1,56 @@
-<h4 class='page-title with-sub-title'>Alerts</h4>
-<h5 class='page-sub-title'>Your triggered alerts</h5>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class="page-title with-sub-title">Alerts</h1>
+      <h2 class="page-sub-title">Your triggered alerts</h2>
+    </div>
+  </div>
+  <% unless user_is_anonymous? %>
+    <%= render 'partials/page_navigation_items', navigation_items: [
+      { url: alerts_path, text: 'Triggered Alerts' },
+      { url: alert_configuration_path(current_domain_user.domain_alert_configuration), text: 'Alert Settings' }
+    ] %>
+  <% end %>
+</div>
 
-<%= render 'triggered_alerts/nav' %>
-
-<div class='tagsafe-container'>
+<div class='tagsafe-container p-0'>
   <% if user_is_anonymous? %>
-    <div class='p-5 text-center'>
-      <h4 class='mb-5'>In order to enable alerting functionality, you must be a registered user.</h4>
+    <div class='p-3 text-center'>
+      <h4 class='mb-4'>In order to enable alerting functionality, you must be a registered user.</h4>
       <a class='tagsafe-btn circular large' href='/register?domain=<%=current_domain.uid%>'>Sign up for free now</a>
     </div>
   <% else %>
-    <div class='tagsafe-table'>
-      <div class='tagsafe-table-head tagsafe-table-row'>
-        <div class='tagsafe-table-header' style='width: 30%'>Tag</div>
-        <div class='tagsafe-table-header' style='width: 30%'>Alert Type</div>
-        <div class='tagsafe-table-header' style='width: 30%'>Date</div>
-        <div class='tagsafe-table-header' style='width: 10%'></div>
+    <% if @triggered_alerts.none? %>
+      <div class='text-center p-5'>
+        <h4>No alerts have been triggered yet! When they do, you'll find them here.</h4>
       </div>
-      <div class='tagsafe-table-body'>
-        <% @triggered_alerts.each do |triggered_alert| %>
-          <%= link_to alert_path(triggered_alert), class: 'no-decoration' do %>
-            <div class='tagsafe-table-row clickable'>
-              <div class="tagsafe-table-data" style='width: 30%'>
-                <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail bordered me-3' %>
-                <%= triggered_alert.tag.try_friendly_name %>
+    <% else %>
+      <div class='tagsafe-table'>
+        <div class='tagsafe-table-head tagsafe-table-row square'>
+          <div class='tagsafe-table-header' style='width: 30%'>Tag</div>
+          <div class='tagsafe-table-header' style='width: 30%'>Alert Type</div>
+          <div class='tagsafe-table-header' style='width: 30%'>Date</div>
+          <div class='tagsafe-table-header' style='width: 10%'></div>
+        </div>
+        <div class='tagsafe-table-body'>
+          <% @triggered_alerts.each do |triggered_alert| %>
+            <%= link_to alert_path(triggered_alert), class: 'no-decoration' do %>
+              <div class='tagsafe-table-row clickable'>
+                <div class="tagsafe-table-data" style='width: 30%'>
+                  <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail bordered me-3' %>
+                  <%= triggered_alert.tag.try_friendly_name %>
+                </div>
+                <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.friendly_type %></div>
+                <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.created_at.formatted_short %></div>
+                <div class='tagsafe-table-data' style='width: 10%'>
+                  <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
+                </div>
               </div>
-              <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.friendly_type %></div>
-              <div class="tagsafe-table-data" style='width: 30%'><%= triggered_alert.created_at.formatted_short %></div>
-              <div class='tagsafe-table-data' style='width: 10%'>
-                <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
-              </div>
-            </div>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
-    </div>
-    <%= paginate @triggered_alerts %>
+      <%= paginate @triggered_alerts %>
+    <% end %>
   <% end %>
 </div>

@@ -2,8 +2,14 @@
   <script src="https://js.stripe.com/v3/"></script>
 <% end %>
 
-<h5 class="page-title" style="margin-bottom: 0;">Tag Settings</h5>
-<h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class="page-title with-sub-title">Tag Settings</h1>
+      <h2 class='page-sub-title'><%= @tag.try_friendly_name %></h2>
+    </div>
+  </div>
+</div>
 
 <%= turbo_frame_tag "tag_#{@tag.uid}_settings" do %>
   <div class="tagsafe-container p-5">

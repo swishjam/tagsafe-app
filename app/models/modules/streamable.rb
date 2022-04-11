@@ -12,8 +12,8 @@ module Streamable
       raise "Must provide either `partial` or `message` param" if message == nil && partial == nil
       stream_prepend!(
         now: true,
-        stream: "#{domain.id}_domain_notifications_container", 
-        target: "#{domain.id}_domain_notifications_container", 
+        stream: "domain_#{domain.uid}_notifications_container", 
+        target: "domain_#{domain.uid}_notifications_container", 
         partial: 'partials/notification', 
         locals: { 
           message: message, 
@@ -235,13 +235,7 @@ module Streamable
         stream: "domain_audit_#{domain_audit.uid}_details_stream",
         target: "domain_audit_#{domain_audit.uid}_details",
         partial: "domain_audits/show",
-        locals: {
-          domain_audit: domain_audit,
-          domain: domain,
-          average_delta_performance_audit: domain_audit.average_delta_performance_audit,
-          url_crawl: domain_audit.url_crawl,
-          found_tags: domain_audit.url_crawl.found_tags.page(1).per(50)
-        }
+        locals: { domain_audit: domain_audit }
       )
     end
 

@@ -1,72 +1,19 @@
-body.tags {
-  .generic-metrics-container {
-    margin: 15px;
-    .generic-metric-card {
-      .generic-metric-card-value {
-        font-size: 74px;
-      }
-      .generic-metric-card-title, .generic-metric-card-value {
-        font-family: 'Open Sans Condensed', sans-serif;
-      }
-    }
+.tag-img-thumbnail-container {
+  width: 60px;
+  text-align: center;
+  display: inline-block;
+}
+.tag-name-container {
+  width: calc(100% - 65px);
+  display: inline-block;
+  .tag-row-header {
+    font-size: 16px;
+    font-weight: 800;
+    color: $dark-grey-text;
   }
-  .tags {
-    .tag-safe-card-container {
-      padding: 15px;
-    }
-    .tag-safe-card {
-      background: white;
-      height: 550px;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px 3px rgba(170,170,170,.35);
-      transition: transform .25s ease-in-out, box-shadow .25s ease-in-out, border .25s ease-in-out;
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      .dropdown {
-        margin-right: 10px;
-        i {
-          color: grey;
-        }
-      }
-      .card-title {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .script-logo {
-        max-height: 180px;
-        margin-bottom: 15px;
-      }
-  
-      &:not(.inactive):hover {
-        transform: matrix(1.05,0,0,1.04999995231628,0,0);
-        box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
-        border: 1px solid #716d6d;
-      }
-      &.inactive {
-        .card-body, .card-title {
-          color: grey;
-        }
-      }
-      a {
-        height: 100%;
-      }
-    }
-  }
-
-  .tag-img-thumbnail-container {
-    width: 60px;
-    text-align: center;
-    display: inline-block;
-  }
-  .tag-name-container {
-    width: calc(100% - 65px);
-    display: inline-block;
-    // overflow: hidden; 
-    // text-overflow: ellipsis; breaks table alignment
-    // word-break: normal
+  .tag-row-sub-header {
+    font-size: 12px;
+    font-weight: 400;
+    color: $faded-grey-text;
   }
 }

@@ -51,24 +51,52 @@ class TagsafeAws
     end
   end
 
-  class SQS
+  class EventBridge
     class << self
-      def client 
-        @_client ||= Aws::SQS::Client.new(
+      def client(region)
+        Aws::EventBridge::Client.new(
           access_key_id: ENV['AWS_ACCESS_KEY_ID'],
           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          region: 'us-east-1'
+          region: region
         )
       end
 
-      def push_message_into_queue(queue_url:, message:)
-        client.send_message({
-          queue_url: queue_url,
-          message_body: message
-        })
+      def list_rules(region:, event_bus_name: 'default')
+        client(region).list_rules(event_bus_name: event_bus_name)
+      end
+
+      def get_rule(name, region:, event_bus_name: 'default')
+        client(region).describe_rule(name: name, event_bus_name: event_bus_name)
+      end
+
+      def disable_rule(name, region:, event_bus_name: 'default')
+        client(region).disable_rule(name: name, event_bus_name: event_bus_name)
+      end
+
+      def enable_rule(name, region:, event_bus_name: 'default')
+        client(region).enable_rule(name: name, event_bus_name: event_bus_name)
       end
     end
   end
+
+  # class SQS
+  #   class << self
+  #     def client 
+  #       @_client ||= Aws::SQS::Client.new(
+  #         access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+  #         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+  #         region: 'us-east-1'
+  #       )
+  #     end
+
+  #     def push_message_into_queue(queue_url:, message:)
+  #       client.send_message({
+  #         queue_url: queue_url,
+  #         message_body: message
+  #       })
+  #     end
+  #   end
+  # end
 
   class CloudWatch
     class << self

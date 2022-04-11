@@ -32,9 +32,10 @@
       <% unless @hide_navigation %>
         <%= render partial: 'partials/logged_in_nav' %>
       <% end %>
-      <div id="content" class="<%= @hide_navigation ? 'collapsed-navigation' : 'with-navigation' %>">
-        <%= render partial: 'partials/breadcrumbs' %>
-        <div id="inner-content" class="col-12">
+      <div class="content-and-nav-container d-flex">
+        <%= render 'partials/logged_in_nav' %>
+        <div id="page-content-wrapper" class="<%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>">
+          <%= render 'partials/top_level_nav_bar' %>
           <%= yield %>
         </div>
       </div>

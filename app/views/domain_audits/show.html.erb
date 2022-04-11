@@ -1,12 +1,14 @@
 <%= turbo_stream_from "domain_audit_#{@domain_audit.uid}_details_stream" %>
 
-<h4 class='page-title with-sub-title'>Third Party Tag Impact</h4>
-<h5 class='page-sub-title'><%= current_domain.url %></h5>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-12'>
+        <h1 class="page-title with-sub-title">Third Party Tag Impact</h1>
+        <h2 class="page-sub-title">What is the impact of third party tags on <%= current_domain.url %>?</h1>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= render 'show', 
-            domain: current_domain, 
-            domain_audit: @domain_audit, 
-            average_delta_performance_audit: @average_delta_performance_audit,
-            url_crawl: @url_crawl, 
-            found_tags: @found_tags 
-%>
+<%= render 'show', domain_audit: current_domain_audit %>

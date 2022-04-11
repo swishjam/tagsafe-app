@@ -1,4 +1,8 @@
 class TagsController < LoggedInController
+  def index
+    render_breadcrumbs({ text: 'Monitor Center', active: true })
+  end
+
   def show
     @tag = current_domain.tags.find(params[:id])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
@@ -6,6 +10,11 @@ class TagsController < LoggedInController
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Details", active: true }
     )
+  end
+
+  def select_tag_to_audit
+    tags = current_domain.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_domain')
+    stream_modal(partial: "tags/select_tag_to_audit", locals: { tags: tags })
   end
 
   def uptime
@@ -75,30 +84,6 @@ class TagsController < LoggedInController
       partial: 'edit_general_settings',
       locals: { tag: tag }
     )
-  end
-
-  def enable
-    @tag = current_domain.tags.find(params[:id])
-    @tag.tag_preferences.update!(enabled: true) unless @tag.release_monitoring_enabled?
-    current_user.broadcast_notification(message: "Tag monitoring is now enabled for #{@tag.try_friendly_name}", image: @tag.try_image_url)
-    render :edit
-    # render turbo_stream: turbo_stream.replace(
-    #   "#{tag.id}_edit_general_settings",
-    #   partial: 'edit_general_settings',
-    #   locals: { tag: tag }
-    # )
-  end
-
-  def disable
-    @tag = current_domain.tags.find(params[:id])
-    @tag.tag_preferences.update!(enabled: false) unless @tag.disabled?
-    current_user.broadcast_notification(message: "Tag monitoring is now disabled for #{@tag.try_friendly_name}", image: @tag.try_image_url)
-    render :edit
-    # render turbo_stream: turbo_stream.replace(
-    #   "#{tag.id}_edit_general_settings",
-    #   partial: 'edit_general_settings',
-    #   locals: { tag: tag }
-    # )
   end
 
   private

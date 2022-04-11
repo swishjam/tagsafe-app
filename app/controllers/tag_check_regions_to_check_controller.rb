@@ -1,7 +1,8 @@
 class TagCheckRegionsToCheckController < LoggedInController
   def create
     tag = current_domain.tags.find(params[:tag_id])
-    tag.tag_check_regions_to_check.create(tag_check_region_id: params[:tag_check_region_id])
+    tag_check_region_to_check = tag.tag_check_regions_to_check.create(tag_check_region_id: params[:tag_check_region_id])
+    current_user.broadcast_notification(message: "Added #{tag_check_region_to_check.tag_check_region.location} region for uptime monitoring.", image: tag.try_image_url)
     render turbo_stream: turbo_stream.replace(
       "new_tag_#{tag.uid}_tag_check_regions_to_check",
       partial: 'tag_check_regions_to_check/new',

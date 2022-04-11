@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_container" do %>
   <% if tags.none? %>
     <% most_recent_crawl = domain.url_crawls&.most_recent %>
-    <div class='tagsafe-container mb-3 tagsafe-font'>
+    <div class='text-center p-5'>
       <% if most_recent_crawl.nil? %>
         <h2>Sync your third party tags from <%= current_domain.url %></h2>
         <%= form_with url: url_crawls_path, method: :POST do |f| %>
@@ -22,14 +22,12 @@
           <%= display_loading_spinner %>
         </div>
       <% end %>
+      <div class='tagsafe-container p-0'>
+        <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
+      </div>
     <% else %>
       <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %><% end %>
+      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
     <% end %>
-
   </div>
-  <% if local_assigns[:card_format] %>
-    <%= render 'server_loadable_partials/tags/tag_cards', tags: tags, domain: domain %>
-  <% else %>
-    <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
-  <% end %>
 <% end %>

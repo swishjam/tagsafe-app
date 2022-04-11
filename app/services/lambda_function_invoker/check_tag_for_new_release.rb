@@ -4,12 +4,9 @@ module LambdaFunctionInvoker
     lambda_service 'release-monitoring'
     consumer_klass LambdaEventResponses::TagChecksResult
     receiver_job_queue TagsafeQueue.CRITICAL
+    has_no_executed_lambda_function
 
     def initialize(tag)
-      @tag = tag
-    end
-
-    def executed_lambda_function_parent
       @tag = tag
     end
 

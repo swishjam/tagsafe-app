@@ -1,6 +1,6 @@
 body.sessions, body.registrations, body.domains, body.user_invites.accept {
   background: $tagsafe-secondary;
-  #content {
+  #page-content-wrapper {
     background: $tagsafe-secondary;
     min-height: calc(100vh - 66px);
     display: flex;

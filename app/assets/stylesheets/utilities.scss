@@ -6,7 +6,7 @@
   color: $tagsafe-primary;
 }
 
-.tagsfe-secondary-font-color {
+.tagsafe-secondary-font-color {
   color: $tagsafe-secondary;
 }
 
@@ -56,6 +56,7 @@ a.no-decoration {
   width: fit-content;
   .dropdown-display-container {
     .dropdown-indicator i {
+      font-size: 12px;
       transition: 250ms transform;
     }
     &.show .dropdown-indicator i {
@@ -140,12 +141,14 @@ a.no-decoration {
   border-radius: 999px;
   text-decoration: none !important;
   width: fit-content;
+  text-align: center;
   &:not(.outline) {
     color: white !important;
   }
   &:disabled {
     background: grey;
     cursor: not-allowed;
+    border: grey;
   }
   &:not(:disabled):hover {
     background: $lighter-tagsafe-purple;
@@ -201,6 +204,39 @@ a.no-decoration {
     background: $tagsafe-secondary;
     &.light-bg {
       background: rgb(228, 228, 228);
+    }
+  }
+}
+
+.floating-btn {
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  padding: 5px 15px 5px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: $tagsafe-primary;
+  color: white;
+  border: $tagsafe-primary;
+  &:hover, &:focus, &:active {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 5px 0px rgba(87, 87, 87, 0.35);
+    transition: 0.3s box-shadow;
+    text-decoration: none;
+    color: white;
+  }
+  &.white-bg {
+    color: $dark-grey-text;
+    border: 1px solid $soft-grey-border;
+    background: white;
+    &:hover {
+      color: $dark-grey-text;
     }
   }
 }

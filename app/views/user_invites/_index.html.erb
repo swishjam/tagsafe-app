@@ -1,25 +1,26 @@
-<%= turbo_frame_tag "domain_#{domain.uid}_#{invite_list_type}_invites" do %>
-  <h3 class='text-center tagsafe-font'>Pending invites</h3>
+<%= turbo_frame_tag "domain_#{domain.uid}_#{status}_invites" do %>
   <% if user_invites.any? %>
-    <div class='tagsafe-table'>
-      <div class='tagsafe-table-head tagsafe-table-row'>
-        <div class='tagsafe-table-head' style='width: 33%;'>Invited user email</div>
-        <div class='tagsafe-table-head' style='width: 33%;'>Expires at</div>
-        <div class='tagsafe-table-head' style='width: 33%;'>Invited by</div>
-      </div>
-      <div class='tagsafe-table-body'>
-        <% user_invites.each do |invite| %>
-          <div class='tagsafe-table-row'>
-            <div class='tagsafe-table-data' style='width: 33%'><%= invite.email %></div>
-            <div class='tagsafe-table-data' style='width: 33%'><%= invite.expires_at.formatted_long %></div>
-            <div class='tagsafe-table-data' style='width: 33%'><%= invite.invited_by_user.email %></div>
-          </div>
-        <% end %>
+    <div class='tagsafe-container p-0'>
+      <div class='tagsafe-table'>
+        <div class='tagsafe-table-head tagsafe-table-row square'>
+          <div class='tagsafe-table-head' style='width: 33%;'>Invited user email</div>
+          <div class='tagsafe-table-head' style='width: 33%;'>Expires at</div>
+          <div class='tagsafe-table-head' style='width: 33%;'>Invited by</div>
+        </div>
+        <div class='tagsafe-table-body'>
+          <% user_invites.each do |invite| %>
+            <div class='tagsafe-table-row'>
+              <div class='tagsafe-table-data' style='width: 33%'><%= invite.email %></div>
+              <div class='tagsafe-table-data' style='width: 33%'><%= invite.expires_at.formatted_long %></div>
+              <div class='tagsafe-table-data' style='width: 33%'><%= invite.invited_by_user.email %></div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   <% else %>
-    <div class='text-center'>
-      <span class='empty-message'>No pending invites.</span>
+    <div class='tagsafe-container p-5 text-center'>
+      <h4 class='empty-message'>No <%= status %> invites.</h4>
     </div>
   <% end %>
 <% end %>

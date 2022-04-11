@@ -1,4 +1,15 @@
-<h5 class='page-title'>Tag Performance</h5>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title">Tag Performance</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= modal_link select_tag_to_audit_tags_path, text: 'Run Audit', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+      </div>
+    </div>
+  </div>
+</div>
 
 <% if @tags.any? %>
   <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: @tags.collect(&:id), start_time: 1.day.ago, end_time: Time.now, include_metric_select: true) do %>

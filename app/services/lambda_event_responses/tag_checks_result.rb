@@ -34,8 +34,8 @@ module LambdaEventResponses
       @lambda_response['is_for_new_tag_versions']
     end
 
-    def self.has_no_executed_lambda_function?
-      true
+    def self.has_executed_lambda_function?
+      false
     end
   end
 end

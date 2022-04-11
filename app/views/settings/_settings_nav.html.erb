@@ -1,13 +1,6 @@
-<div class='settings-sub-nav'>
-  <% 
-    nav_items = [
-      { path: settings_path, text: 'Global Settings' },
-      { path: settings_tag_management_path, text: 'Tag Management' },
-      { path: url_crawls_path, text: 'Tag Syncs' },
-      { path: settings_billing_path, text: 'Plan Settings & Billing' }
-    ].each do |nav| 
-  %>
-    <% klass = request.path == nav[:path] ? 'current sub-nav-link' : 'sub-nav-link' %>
-    <%= link_to nav[:text], nav[:path], class: klass %>
-  <% end %>
-</div>
+<%= render 'partials/page_navigation_items', navigation_items: [
+    { url: settings_path, text: 'Global Settings' },
+    { url: settings_tag_management_path, text: 'Tag Management' },
+    { url: url_crawls_path, text: 'Tag Syncs' },
+    { url: settings_billing_path, text: 'Plan Settings & Billing' }
+  ] %>

@@ -5,10 +5,17 @@
         <div class='tag-img-thumbnail-container'>
           <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
         </div>
-        <div class='tag-name-container' 
+        <div class='tag-name-container ms-3' 
               data-controller='tooltip'
               data-bs-toggle='tooltip'
-              title="<%=tag.full_url%>"><%= tag.try_friendly_name %></div>
+              title="<%=tag.full_url%>">
+          <% if tag.has_friendly_name? %>
+            <span class='tag-friendly-name tag-row-header d-block'><%= tag.friendly_name %></span>
+            <span class='tag-url tag-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+          <% else %>
+            <span class='tag-url d-block'><%= tag.url_based_on_preferences %></span>
+          <% end %>
+        </div>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
         <% audit_to_display = tag.audit_to_display %>

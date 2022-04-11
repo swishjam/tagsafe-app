@@ -4,9 +4,17 @@
 
 <%= turbo_stream_from "domain_#{current_domain.uid}_billing_details_stream" %>
 
-<h4 class="page-title with-sub-title">Settings</h4>
-<h5 class='page-sub-title'>Billing</h5>
-<%= render 'settings/settings_nav' %>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-12'>
+        <h1 class="page-title with-sub-title">Settings</h1>
+        <h2 class="page-sub-title">Subscription Plan and Billing</h2>
+      </div>
+    </div>
+  </div>
+  <%= render 'settings/settings_nav' %>
+</div>
 
 <div class='tagsafe-container p-5'>
   <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>

@@ -5,6 +5,7 @@ class TagChecksController < LoggedInController
                             .available_for_uptime
                             .order('last_released_at DESC')
                             .page(params[:page] || 1).per(params[:per_page] || 9)
+    render_breadcrumbs(text: 'Uptime', active: true)
   end
 
   def tag_chart

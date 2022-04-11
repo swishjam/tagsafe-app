@@ -1,42 +1,22 @@
 <%= turbo_stream_from "audit_#{@audit.uid}_details_view_stream" %>
 
-<h5 class="page-title with-sub-title">Audit Results</h5>
-<h6 class="page-sub-title" style='margin-bottom: 5px;'>Audited tag: <%= @tag.try_friendly_name %></h6>
-<h6 class="page-sub-title">Audited URL: <%= @audit.page_url.full_url %></h6>
-
-<div class='sliding-nav m-auto mb-3'>
-  <% 
-    [
-      {
-        text: 'Performance',
-        url: performance_audit_tag_audit_path(@tag, @audit),
-        consider_current_path: tag_audit_path(@tag, @audit)
-      },
-      {
-        text: "Functional Tests (#{@audit.functional_tests_pending? ? 'pending' : @audit.display_functional_test_results})",
-        url: test_runs_tag_audit_path(@tag, @audit),
-        consider_current_path_pattern: "/functional_tests/"
-      },
-      {
-        text: 'Page Change Detection',
-        url: page_change_audit_tag_audit_path(@tag, @audit)
-      },
-      {
-        text: 'Waterfall View',
-        url: waterfall_tag_audit_path(@tag, @audit)
-      },
-      {
-        text: 'View Tag Changes',
-        url: git_diff_tag_audit_path(@tag, @audit)
-      }
-    ].each do |nav_item|
-  %>
-    <% is_active = nav_item[:url] == request.path ||
-                                       (nav_item[:consider_current_path_pattern] && request.path.include?(nav_item[:consider_current_path_pattern])) ||
-                                       (nav_item[:consider_current_path] && request.path == nav_item[:consider_current_path])
-                                       %>
-    <%= link_to is_active ? '#' : nav_item[:url] do %>
-      <div class='sliding-nav-item <%= is_active ? 'active' : nil %>'><%= nav_item[:text] %></div>
-    <% end %>
-  <% end %>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title with-sub-title"><%= local_assigns[:page_title] || 'Audit Results' %></h1>
+        <h2 class='page-sub-title'><%= local_assigns[:page_sub_title] || "#{@audit.tag.try_friendly_name}'s impact to #{@audit.page_url.full_url}" %></h2>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to 'Re-Run Audit', new_tag_audit_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+      </div>
+    </div>
+  </div>
+    <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: performance_audit_tag_audit_path(@tag, @audit), text: 'Performance' },
+    { url: test_runs_tag_audit_path(@tag, @audit), text: 'Functional Tests' },
+    { url: page_change_audit_tag_audit_path(@tag, @audit), text: 'Page Change Detection' },
+    { url: waterfall_tag_audit_path(@tag, @audit), text: 'Page Load Waterfall' },
+    { url: git_diff_tag_audit_path(@tag, @audit), text: 'Changes Made to Tag' }
+  ] %>
 </div>

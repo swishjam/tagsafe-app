@@ -6,9 +6,22 @@ module LambdaEventResponses
     end
 
     def individual_performance_audit
-      @individual_performance_audit ||= PerformanceAudit.find(request_payload['individual_performance_audit_id'])
+      @individual_performance_audit ||= PerformanceAudit.includes(:audit).find(request_payload['individual_performance_audit_id'])
     end
     alias record individual_performance_audit
+
+    def audit
+      @audit ||= individual_performance_audit.audit
+    end
+
+    def valid?
+      return @valid if defined?(@valid)
+      @valid = error.nil? && blocked_correct_resources_for_audit_type?
+    end
+
+    def invalid?
+      !valid?
+    end
 
     def performance_metrics
       @performance_results ||= LambdaEventResponses::PerformanceAuditResult::PerformanceMetrics.new(response_payload['results'] || {})
@@ -26,8 +39,34 @@ module LambdaEventResponses
       @page_load_resources ||= LambdaEventResponses::PerformanceAuditResult::PageLoadResources.new((response_payload['results'] || {})['page_load_resources'] || [])
     end
 
+    def allowed_request_urls
+      @allowed_request_urls ||= response_payload['cached_requests'].concat(response_payload['not_cached_requests'])
+    end
+
+    def audited_tag_url
+      audit.ran_on_live_tag? ? audit.tag.url_based_on_preferences : audit.tag_version.js_file_url
+    end
+
     def bytes
       @bytes ||= individual_performance_audit.calculate_bytes || 0
+    end
+
+    def blocked_correct_resources_for_audit_type?
+      return @blocked_correct_resources_for_audit_type if defined?(@blocked_correct_resources_for_audit_type)
+      case individual_performance_audit.class.to_s
+      when IndividualPerformanceAuditWithTag.to_s
+        @blocked_correct_resources_for_audit_type = allowed_request_urls.any?{ |url| url.include?(audited_tag_url) }
+        unless @blocked_correct_resources_for_audit_type
+          @invalid_audit_error = "The #{audit.tag.url_based_on_preferences} tag was not found during the performance audit, therefore results would be inaccurate."
+        end
+      when IndividualPerformanceAuditWithoutTag.to_s
+        @blocked_correct_resources_for_audit_type = allowed_request_urls.none?{ |url| url.include?(audited_tag_url) }
+        unless @blocked_correct_resources_for_audit_type
+          @invalid_audit_error = "The #{audit.tag.url_based_on_preferences} tag was not blocked during the performance audit, therefore results would be inaccurate."
+        end
+      else
+        raise StandardError, "Invalid individual performance audit in PerformanceAuditResult: #{individual_performance_audit.class.to_s}"
+      end
     end
 
     def logs
@@ -43,7 +82,7 @@ module LambdaEventResponses
     end
 
     def error
-      @error ||= response_payload['error'] || response_payload['errorMessage']
+      @error ||= response_payload['error'] || response_payload['errorMessage'] || @invalid_audit_error
     end
 
     private

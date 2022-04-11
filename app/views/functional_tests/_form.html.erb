@@ -3,16 +3,15 @@
     <% if local_assigns[:force_validation_on_submit] %>
       <input type='hidden' name='force_validation' value='true'>
     <% end %>
-    <div class='form-floating col-6 offset-3'>
+    <div class='form-floating col-10 offset-1'>
       <%= f.text_field :title, class: 'form-control mt-3', placeholder: 'User can add to cart', required: true %>
       <label for='functional_test_title'>Name of test</label>
     </div>
-    <div class='form-floating col-6 offset-3'>
+    <div class='form-floating col-10 offset-1'>
       <%= f.text_field :description, class: 'form-control mt-3', placeholder: 'A user can navigate to the PDP page and add an item to their cart successfully', required: true %>
       <label for='functional_test_description'>Description</label>
     </div>
-    <div class='col-10 offset-1'>
-      <span class='puppeteer-script-label d-block text-center'>Test script</span>
+    <div class='col-10 offset-1 mt-3'>
       <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
@@ -52,13 +51,13 @@
         </div>
       </div>
     </div>
-    <div class='form-floating col-6 offset-3'>
+    <div class='form-floating col-10 offset-1'>
       <%= f.text_field :expected_results, class: 'form-control mt-3', placeholder: 'Expected results' %>
       <label for='functional_test_expected_results'>Expected return value of test script</label>
     </div>
     <%= render 'partials/inline_errors', errors: functional_test.errors.full_messages || local_assigns[:errors] %>
-    <div class='col-12 text-center mt-3'>
-      <%= submit_loading_button "#{local_assigns[:button_text] || local_assigns[:force_validation] ? 'Run test validation' : 'Update test'}", button_class: 'large' %>
+    <div class='col-10 offset-1 mt-3 text-end'>
+      <%= submit_loading_button "#{local_assigns[:button_text] || local_assigns[:force_validation] ? 'Validate test configuration' : 'Update test'}", button_class: 'large' %>
     </div>
   <% end %>
 <% end %>

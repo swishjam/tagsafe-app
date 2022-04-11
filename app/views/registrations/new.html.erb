@@ -1,22 +1,26 @@
-<div class='container'>
-  <div class='nav-less-tagsafe-logo-container col-12 text-center'>
-    <%= link_to root_path do %>
-      <%= image_tag asset_cdn_url('/tagsafe-logo.svg'), class: 'img-fluid mb-5 enlarge-slightly-on-hover', style: 'width: 100px; height: 100px;' %>
-    <% end %>
-  </div>
+<div class='min-viewport-height'>
+  <div class='container d-flex h-100 flex-column justify-content-center p-5'>
+    <div class='w-100 text-center'>
+      <%= link_to root_path do %>
+        <%= image_tag asset_cdn_url('/tagsafe-logo.svg'), class: 'img-fluid mb-5 enlarge-slightly-on-hover', style: 'width: 100px; height: 100px;' %>
+      <% end %>
+    </div>
 
-  <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center form-card m-auto">
-    <% unless @domain.present? %>
-      <div class='step-indicators'>
-        <div class='step-indicator current'>
-        </div>
-        <div class='step-indicator incomplete'>
-        </div>
+    <div class='w-100'>
+      <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center form-card m-auto mb-5">
+        <% unless @domain.present? %>
+          <div class='step-indicators'>
+            <div class='step-indicator current'>
+            </div>
+            <div class='step-indicator incomplete'>
+            </div>
+          </div>
+        <% end %>
+        <h1 class='tagsafe-font mb-3'>Register</h1>
+        <!-- <#%= turbo_frame_tag 'new_registration' do %> !-->
+          <%= render 'form', user: @user, domain: @domain %>
+        <!-- <#% end %> !-->
       </div>
-    <% end %>
-    <h1 class='tagsafe-font mb-3'>Register</h1>
-    <!-- <#%= turbo_frame_tag 'new_registration' do %> !-->
-      <%= render 'form', user: @user, domain: @domain %>
-    <!-- <#% end %> !-->
+    </div>
   </div>
 </div>

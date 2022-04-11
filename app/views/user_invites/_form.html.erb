@@ -1,10 +1,28 @@
-<%= turbo_frame_tag "domain_#{domain.uid}_invite_form" do %>
-  <%= form_for UserInvite.new, data: { controller: 'loading_form' } do |f| %>
-    <div class="form-floating">
-      <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>
-      <%= f.label :email, class: 'tagsafe-font' %>
+<%= render_as_modal title: 'Invite Teammate' do %>
+  <% if local_assigns[:completed] %>
+    <div class='tagsafe-modal-body'>
+      <h4>Invite sent to <%= invited_user_email %>.</h4>
     </div>
+    <div class='tagsafe-modal-divider'></div>
+    <div class='tagsafe-modal-footer'>
+      <button class='tagsafe-btn' data-action='click->server-loadable-modal#hide'>Close</button>
+    </div>
+  <% else %>
+    <%= form_for user_invite, data: { controller: 'loading_form' } do |f| %>
+      <div class='tagsafe-modal-body'>
+        <div class="form-floating">
+          <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>
+          <%= f.label :email %>
+        </div>
+        <% if user_invite.errors.any? %>
+          <span class='d-block' style='color: red'><% user_invite.errors.full_messages.join(' ') %></span>
+        <% end %>
+      </div>
 
-    <%= loading_submit_button 'Invite', button_class: 'large mt-3' %>
+      <div class='tagsafe-modal-divider'></div>
+      <div class='tagsafe-modal-footer text-end'>
+        <%= loading_submit_button 'Send Invite' %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

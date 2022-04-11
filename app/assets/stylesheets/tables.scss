@@ -18,9 +18,11 @@
   .tagsafe-table-head {
     background: lightgrey;
     color: $dark-grey-text;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
     padding: 10px;
+    &:not(.square) {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
   }
   .tagsafe-table-body {
     border: 1px solid lightgrey;

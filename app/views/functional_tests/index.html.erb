@@ -1,15 +1,28 @@
-<h5 class="page-title">Functional Tests</h6>
-
-<div class='tagsafe-container container'>
-  <% if @functional_tests.any? %>
+<div class='page-title-container'>
+  <div class='container-fluid'>
     <div class='row'>
-      <div class='col-12 text-end mb-3'>
-        <%= link_to 'New Test', new_functional_test_path, class: 'tagsafe-btn large' %>
+      <div class='col-8'>
+        <h1 class="page-title">Test Suite</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to new_functional_test_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
+          <i class="fa-solid fa-plus"></i>
+          New test
+        <% end %>
       </div>
     </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: functional_tests_path, text: 'Configured Tests' },
+    { url: all_test_runs_path, text: 'Test Run Results' }
+  ] %>
+</div>
+
+<% if @functional_tests.any? %>
+  <div class='tagsafe-container p-0'>
     <div class='row'>
       <div class='tagsafe-table'>
-        <div class='tagsafe-table-head tagsafe-row'>
+        <div class='tagsafe-table-head tagsafe-row square'>
           <div class='tagsafe-table-header' style='width: 25%'>Test</div>
           <div class='tagsafe-table-header' style='width: 35%'>Description</div>
           <div class='tagsafe-table-header' style='width: 25%'>Tags enabled on</div>
@@ -39,12 +52,13 @@
         </div>
       </div>
     </div>
-  <% else %>
-    <div class='row'>
-      <div class='col-12 text-center'>
-        <h4 class='mb-3'>No functional tests configured.</h4>
-        <%= link_to 'Create your first test now', new_functional_test_path, class: 'tagsafe-btn large' %>
-      </div>
-    </div>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <div class='p-5 text-center'>
+    <h4>No functional tests configured.</h4>
+    <%= link_to new_functional_test_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
+      <i class="fa-solid fa-plus"></i>
+      Add one now
+    <% end %>
+  </div>
+<% end %>

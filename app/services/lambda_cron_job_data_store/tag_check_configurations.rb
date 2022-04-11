@@ -6,12 +6,16 @@ module LambdaCronJobDataStore
       @tag = tag
     end
 
+    def self.delete_tag_check_configuration_by_tag_id(tag_id)
+      LambdaCronJobDataStore::Redis.client.del("#{REDIS_ROOT_KEY}:#{tag_id}")
+    end
+
     def update_tag_check_configuration
       LambdaCronJobDataStore::Redis.client.set("#{REDIS_ROOT_KEY}:#{@tag.id}", constructed_tag_check_config.to_json)
     end
 
     def delete_tag_check_configuration
-      LambdaCronJobDataStore::Redis.client.del("#{REDIS_ROOT_KEY}:#{@tag.id}")
+      self.class.delete_tag_check_configuration_by_tag_id(@tag.id)
     end
 
     def current_tag_check_configuration

@@ -12,6 +12,10 @@ class LambdaFunctionError
   class FailedLambdaInvocation < StandardError; end;
 end
 
+class LambdaEventResponseError
+  class NoConsumerKlass < StandardError; end;
+end
+
 class PerformanceAuditError
   class InvalidType < StandardError; end;
   class NoPageTraceError < StandardError; end;

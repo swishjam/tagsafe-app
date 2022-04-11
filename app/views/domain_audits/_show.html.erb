@@ -1,18 +1,27 @@
+<% content_for :head do %>
+  <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+<% end %>
+
 <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_details" do %>
   <div class='domain-audit-breakdown-container container-fluid'>
     <div class='col-12'>
-      <% if domain_audit.pending? || url_crawl.pending? %>
-        <div class='text-center'> 
-          <h4>Scanning <%= domain.url %> and generating performance measurement...</h4>
+      <% if domain_audit.url_crawl.pending? %>
+        <div class='text-center p-5'> 
+          <h4>Scanning <%= domain_audit.domain.url %> and generating performance measurement...</h4>
           <%= display_loading_icon %>
         </div>
-      <% else %>
-        <div class='row align-items-center'>
-          <%= render 'domain_audits/bytes_breakdown', domain: domain, url_crawl: url_crawl %>
-          <%= render 'domain_audits/performance_tiles', domain: domain, domain_audit: domain_audit, average_delta_performance_audit: average_delta_performance_audit, streamed: local_assigns[:streamed] %>
+      <% elsif domain_audit.url_crawl.failed? %>
+        <div class='text-center p-5'>
+          <h4>We seem to be having some trouble running Tagsafe audits on <%= domain_audit.page_url.full_url %>. Please reach out to us at <a href='mailto:help@tagsafe.io'>help@tagsafe.io</a> and we'd be happy to work with you to enable successful Tagsafe audits on your site.</h4>
         </div>
-        <div class='row'>
-          <%= render 'domain_audits/tag_list', domain: domain, url_crawl: url_crawl, tags: found_tags %>
+      <% else %>
+        <div class='tagsafe-container text-center'>
+          <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component', src: bytes_breakdown_domain_audit_path(domain_audit) do %>
+            <div class='text-center'>
+              <%= display_loading_icon %>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>

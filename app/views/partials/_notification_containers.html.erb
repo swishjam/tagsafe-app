@@ -1,13 +1,16 @@
 <div class='notifications-container d-flex flex-column'>
   <% if current_domain %>
-    <%= turbo_stream_from "#{current_domain.id}_domain_notifications_container" %>
-    <%= turbo_frame_tag "#{current_domain.id}_domain_notifications_container" do %>
+    <%= turbo_stream_from "domain_#{current_domain.uid}_notifications_container" %>
+    <%= turbo_frame_tag "domain_#{current_domain.uid}_notifications_container" do %>
     <% end %>
   <% end %>
 
   <% if current_user %>
-    <%= turbo_stream_from "#{current_user.id}_user_notifications_container" %>
-    <%= turbo_frame_tag "#{current_user.id}_user_notifications_container" do %>
+    <%= turbo_stream_from "user_#{current_user.uid}_notifications_container" %>
+    <%= turbo_frame_tag "user_#{current_user.uid}_notifications_container" do %>
     <% end %>
+  <% end %>
+
+  <%= turbo_frame_tag "request_response_notifications_container" do %>
   <% end %>
 </div>

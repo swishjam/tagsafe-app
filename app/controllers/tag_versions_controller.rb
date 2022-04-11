@@ -22,7 +22,8 @@ class TagVersionsController < LoggedInController
     #                 .where(primary: true, execution_reason: ExecutionReason.NEW_RELEASE, tag: current_domain.tags)
     #                 .most_recent_first
     #                 .page(params[:page] || 1).per(params[:per_page] || 10)
-    # @number_of_tags = current_domain.tags.is_third_party_tag.enabled.count
+    @number_of_tags = current_domain.tags.is_third_party_tag.release_monitoring_enabled.count
+    render_breadcrumbs({ text: 'Releases', active: true })
   end
 
   def js

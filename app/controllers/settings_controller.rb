@@ -1,4 +1,5 @@
 class SettingsController < LoggedInController
+  before_action { render_breadcrumbs({ text: 'Settings' }) }
   def tag_management
     @tags = current_domain.tags.joins(:tag_preferences)
                           .order('tag_preferences.tag_check_minute_interval DESC')

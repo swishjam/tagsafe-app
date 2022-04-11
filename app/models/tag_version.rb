@@ -13,8 +13,8 @@ class TagVersion < ApplicationRecord
   scope :most_recent, -> { where(most_recent: true) }
 
   after_create :after_creation
-  after_destroy { LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag }
-  after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! }
+  after_destroy { LambdaCronJobDataStore::TagCheckConfigurations.new(tag).update_tag_check_configuration unless tag.nil? }
+  after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
 
   validate :has_attached_js_files
   validate :only_one_most_recent

@@ -1,14 +1,16 @@
-<%= render 'show_page_header' %>
+<%= render 'show_page_header', page_title: "Page Load Waterfall" %>
 
-<div class='col-10 offset-1 tagsafe-container'>
-  <% if !@audit.include_page_load_resources %>
-    <h5 class='text-center'>Page load waterfall breakdown was not enabled for this audit.</h5>
-  <% elsif @audit.performance_audit_pending? %>
-    <div class='text-center'>
-      <h5>Page load waterfall is pending.</h5>
-      <%= display_loading_spinner size: :large %>
-    </div>
-  <% else %>
+<% if !@audit.include_page_load_resources %>
+  <div class='text-center p-5'>
+    <h4>Page load waterfall breakdown was not enabled for this audit.</h4>
+  </div>
+<% elsif @audit.performance_audit_pending? %>
+  <div class='text-center p-5'>
+    <h4>Page load waterfall is running.</h4>
+    <%= display_loading_spinner size: :large %>
+  </div>
+<% else %>
+  <div class='tagsafe-container'>
     <h3 class='text-center'>Page load waterfall breakdown</h3>
     <div class='col-12 text-start'>
       <%= turbo_frame_tag 'page_load_resources_with_tag', src: tag_audit_page_load_resources_path(@tag, @audit, performance_audit_type: 'with_tag') do %>
@@ -24,5 +26,5 @@
         </div>
       <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

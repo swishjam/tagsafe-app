@@ -28,14 +28,17 @@ module HasErrorMessage
       run_after_failure_callbacks!
       err_msg
     end
+    alias errored! failed!
 
     def failed?
       !successful?
     end
+    alias errored? failed?
 
     def successful?
       error_message.nil?
     end
+    alias success? successful?
 
     private
 
@@ -60,7 +63,7 @@ module HasErrorMessage
 
     def call_method_with_defined_args(method_name)
       case method(method_name).arity
-      when 0
+      when -1, 0
         send(method_name)
       else
         send(method_name, self)

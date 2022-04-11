@@ -27,7 +27,7 @@ module ChartHelper
 
     def add_current_timestamp_to_chart_data
       current_audit = @tag.audit_to_display
-      unless current_audit.nil?
+      unless current_audit.nil? || current_audit.performance_audit_pending? || current_audit.performance_audit_failed?
         @chart_data_for_provided_metric[:data] << [DateTime.now, current_audit.preferred_delta_performance_audit[@metric_key]]
       end
     end

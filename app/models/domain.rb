@@ -15,6 +15,7 @@ class Domain < ApplicationRecord
   has_many :audits, dependent: :destroy
   has_many :domain_audits, dependent: :destroy
   has_many :functional_tests, dependent: :destroy
+  has_many :test_runs, through: :functional_tests
   has_many :performance_audit_calculators, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :non_third_party_url_patterns, dependent: :destroy
@@ -23,10 +24,9 @@ class Domain < ApplicationRecord
   # no longer enforce uniqueness on Domain URL. Any reprucussions...?
   # validates_uniqueness_of :url, message: Proc.new { |domain| "A Tagsafe domain already exists for #{domain.url}" }
 
-  before_validation :strip_pathname_from_url
-  before_validation :add_default_page_url, on: :create
-  
-  before_create { self.stripe_customer_id = Stripe::Customer.create({ email: "domain-user@#{URI.parse(url).hostname}" }).id }
+  # before_create :strip_pathname_from_url_and_create_page_url
+  before_validation :strip_pathname_from_url_and_create_page_url, on: :create
+  before_create { self.stripe_customer_id = Stripe::Customer.create({ email: "domain-user@#{url_hostname}" }).id }
   after_create { SubscriptionPlan.create_default(self) }
   after_create { PerformanceAuditCalculator.create_default(self) }
   after_create { GeneralConfiguration.create_default_for_domain(self) }
@@ -50,10 +50,6 @@ class Domain < ApplicationRecord
     subscription_plans.current.limit(1).first
   end
 
-  def add_default_page_url
-    page_urls.new(full_url: url, should_scan_for_tags: !is_generating_third_party_impact_trial)
-  end
-
   def add_url(full_url, should_scan_for_tags:)
     page_urls.create(full_url: full_url, should_scan_for_tags: should_scan_for_tags)
   end
@@ -68,9 +64,9 @@ class Domain < ApplicationRecord
     page_urls.each{ |page_url| page_url.update!(should_scan_for_tags: true) }
   end
 
-  def strip_pathname_from_url
-    parsed_url = URI.parse(url)
-    self.url = "#{parsed_url.scheme}://#{parsed_url.hostname}"
+  def strip_pathname_from_url_and_create_page_url
+    page_urls.new(full_url: url, should_scan_for_tags: !is_generating_third_party_impact_trial)
+    self.url = parsed_domain_url
   rescue URI::InvalidURIError => e
     errors.add(:base, "Invalid URL provided.")
   end
@@ -88,7 +84,11 @@ class Domain < ApplicationRecord
   end
 
   def crawl_and_capture_domains_tags
-    page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_for_tags! }
+    if is_generating_third_party_impact_trial
+      page_urls.each{ |page_url| page_url.crawl_for_tags! }
+    else
+      page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_for_tags! }
+    end
   end
 
   def should_capture_tag?(url)

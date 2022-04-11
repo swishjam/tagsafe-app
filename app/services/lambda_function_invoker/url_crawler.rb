@@ -8,20 +8,18 @@ module LambdaFunctionInvoker
 
     def initialize(url_crawl)
       @url_crawl = url_crawl
-      @attempt_number = attempt_number
       @receiver_job_queue = url_crawl.is_for_domain_audit? ? TagsafeQueue.CRITICAL : TagsafeQueue.NORMAL
     end
 
-    def executed_lambda_function_parent
-      @url_crawl
-    end
+    def executed_lambda_function_parent; url_crawl; end
   
     private
 
     def request_payload
       { 
         url_crawl_id: url_crawl.id,
-        url: url_crawl.page_url.full_url 
+        url: url_crawl.page_url.full_url,
+        first_party_url_patterns: [url_crawl.page_url.hostname, url_crawl.domain.url_hostname]
       }
     end
   end

@@ -1,30 +1,26 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_table" do %>
   <% if tags.any? || local_assigns[:allow_empty_table] %>
-    <div class='col-12'>
-      <div class='tagsafe-container mt-3'>
-        <div class='tagsafe-table'>
-          <div class='tagsafe-table-head tagsafe-table-row'>
-            <div class='tagsafe-table-header' style='width: 50%'>Tag</div>
-            <div class='tagsafe-table-header' style='width: 16%'>Tagsafe Score</div>
-            <div class='tagsafe-table-header' style='width: 16%'>Tests</div>
-            <div class='tagsafe-table-header' style='width: 16%'>Last release</div>
-            <div class='tagsafe-table-header' style='width: 6%'></div>
-          </div>
-          <div class='tagsafe-table-body'>
-            <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_rows" do %>
-              <% tags.each do |tag| %>
-                <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, domain: domain %>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-
-        <% if tags.any? %>
-          <div class="pagination-container text-center">
-            <%= paginate tags %>
-          </div>
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head tagsafe-table-row square'>
+        <div class='tagsafe-table-header' style='width: 50%'>Tag</div>
+        <div class='tagsafe-table-header' style='width: 16%'>Tagsafe Score</div>
+        <div class='tagsafe-table-header' style='width: 16%'>Tests</div>
+        <div class='tagsafe-table-header' style='width: 16%'>Last release</div>
+        <div class='tagsafe-table-header' style='width: 6%'></div>
+      </div>
+      <div class='tagsafe-table-body'>
+        <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_rows" do %>
+          <% tags.each do |tag| %>
+            <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, domain: domain %>
+          <% end %>
         <% end %>
       </div>
     </div>
+
+    <% if tags.any? %>
+      <div class="pagination-container text-center">
+        <%= paginate tags %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

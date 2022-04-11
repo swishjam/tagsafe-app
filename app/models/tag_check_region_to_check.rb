@@ -5,8 +5,8 @@ class TagCheckRegionToCheck < ApplicationRecord
 
   before_destroy :ensure_not_destroying_us_east_1
 
-  after_create { LambdaCronJobDataStore::TagCheckIntervals.new(tag).add_current_tag_check_interval_configuration_to_tag_check_region(tag_check_region) }
-  after_destroy { LambdaCronJobDataStore::TagCheckIntervals.new(tag).remove_current_tag_check_interval_configuration_from_tag_check_region(tag_check_region) }
+  after_create { AfterTagsTagCheckRegionsToCheckChangedJob.perform_later(tag_id, tag_check_region_id, added: true) }
+  after_destroy { AfterTagsTagCheckRegionsToCheckChangedJob.perform_later(tag_id, tag_check_region_id, removed: true) }
 
   def user_can_destroy?
     tag_check_region != TagCheckRegion.US_EAST_1

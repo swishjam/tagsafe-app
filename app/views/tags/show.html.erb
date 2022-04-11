@@ -1,37 +1,38 @@
 <%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %>
 
-<h5 class="page-title with-sub-title">Tag Details</h6>
-<h6 class="page-sub-title"><%= @tag.try_friendly_name %></h6>
-
-<% if @tag.audit_to_display %>
-  <div class='tagsafe-container'>
-    <%= render 'tags/current_stats', tag: @tag %>
-  </div>
-<% end %>
-
-<div class="tagsafe-container" style="padding-top: 5px;">
-  <div class="row" style="margin-bottom: 5px;">
-    <div class="col-12">
-      <% if @tag.removed_from_site? %>
-        <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
-          <%= HtmlHelper.WARNING_ICON %> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
-        </div>
-      <!-- <#% elsif @tag.disabled? %>
-        <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
-          <#%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for this tag. <%= link_to 'Enable', edit_tag_path(@tag) %>
-        </div> !-->
-      <% end %>
-      <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style="float: right;">
-        <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-ellipsis-h" style="font-size: 18px;"></i>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <%= link_to "Edit #{@tag.try_friendly_name} Settings", edit_tag_path(@tag), class: 'dropdown-item', target: '_top' %>
-          <%= modal_link new_tag_audit_path(@tag, tag_version_id: @tag.release_monitoring_enabled? ? @tag.current_version&.id : nil), text: "Perform Audit on #{@tag.try_friendly_name}", klass: 'dropdown-item' %>
-        </div>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title with-sub-title">Tag Details</h1>
+        <h2 class='page-sub-title'><%= @tag.try_friendly_name %></h2>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= modal_link new_tag_audit_path(@tag), text: 'Run Audit', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+        <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3' do %>
+          <i class="fa-solid fa-gear"></i>
+        <% end %>
       </div>
     </div>
   </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { text: 'Audit Details', url: tag_path(@tag) },
+    { text: 'Tag Uptime', url: uptime_tag_path(@tag) }
+  ] %>
+</div>
+
+<%= render 'tags/current_stats', tag: @tag %>
+
+<div class="tagsafe-container">
+  <% if @tag.removed_from_site? %>
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
+          <%= HtmlHelper.WARNING_ICON %> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
+        </div>
+      </div>
+    </div>
+  <% end %>
   <%= turbo_frame_tag "#{@tag.uid}_tag_chart", src: tag_chart_path(@tag, start_time: 1.day.ago, end_time: Time.now) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
@@ -39,9 +40,9 @@
   <% end %>
 </div>
 
-<div class="tagsafe-container">
+<div class='tagsafe-container p-0'>
   <%= turbo_frame_tag "tag_#{@tag.uid}_audits_table", src: audits_tag_path(@tag) do %>
-    <div class='text-center'>
+    <div class='text-center p-5'>
       <%= display_loading_spinner %>
     </div>
   <% end %>

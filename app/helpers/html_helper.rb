@@ -75,6 +75,7 @@ module HtmlHelper
            end
     link.html_safe
   end
+  alias modal_link_to modal_link
 
   def render_as_modal(title:, turbo_frame_name: 'server_loadable_modal', &block)
     provided_html = capture(&block)    

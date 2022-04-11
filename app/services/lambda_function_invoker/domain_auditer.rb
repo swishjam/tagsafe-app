@@ -13,7 +13,7 @@ module LambdaFunctionInvoker
     def individual_performance_audit
       @individual_performance_audit ||= @individual_performance_audit_klass.create(domain_audit: @domain_audit)
     end
-    alias executed_lambda_function individual_performance_audit
+    alias executed_lambda_function_parent individual_performance_audit
 
     def request_payload
       {
@@ -30,9 +30,6 @@ module LambdaFunctionInvoker
           throw_error_if_dom_complete_is_zero: true,
           include_page_load_resources: false,
           include_page_tracing: true,
-          include_num_third_party_tags: true,
-          include_first_party_js_bytes: true,
-          include_third_party_js_bytes: true
         }
       }
     end

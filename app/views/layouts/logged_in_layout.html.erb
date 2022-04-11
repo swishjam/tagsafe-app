@@ -19,17 +19,17 @@
     <script>window.currentDomainUid = "<%= current_domain&.uid %>"</script>
   </head>
   <body class="logged-in <%=controller_name%> <%= action_name %> <%= user_is_anonymous? || current_domain&.current_subscription_plan&.delinquent? ? 'with-fixed-top-banner' : nil %>">
-    <%= render 'partials/anonymous_user_banner' %>
-    <div class="container-fluid">
+    <div class='fixed-content-container'>
+      <%= render 'partials/anonymous_user_banner' %>
       <%= render 'partials/notification_containers' %>
       <%= render 'partials/server_loadable_modal' %>
       <%= render 'partials/confirmation_modal' %>
+    </div>
+    <div class="content-and-nav-container d-flex">
       <%= render 'partials/logged_in_nav' %>
-      <div id="content" class="<%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>">
-        <%= render 'partials/breadcrumbs' %>
-        <div id="inner-content" class="col-12">
-          <%= yield %>
-        </div>
+      <div id="page-content-wrapper" class="<%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>">
+        <%= render 'partials/top_level_nav_bar' %>
+        <%= yield %>
       </div>
     </div>
     <!-- Global site tag (gtag.js) - Google Analytics -->

@@ -4,8 +4,8 @@ RSpec.describe LambdaFunctionInvoker::Base do
   module LambdaFunctionInvoker
     module Senders
       class MockSender < Base
-        lambda_service 'mock-service'
-        lambda_function 'mockFunction'
+        lambda_service = 'mock-service'
+        lambda_function = 'mockFunction'
         def request_payload; { foo: 'bar' }; end
       end
     end
@@ -56,14 +56,14 @@ RSpec.describe LambdaFunctionInvoker::Base do
 
   describe '#self.lambda_service' do
     it 'sets the lambda_service_name class variables' do
-      LambdaFunctionInvoker::Base.lambda_service 'test!'
+      LambdaFunctionInvoker::Base.lambda_service = 'test!'
       expect(LambdaFunctionInvoker::Base.lambda_service_name).to eq('test!')
     end
   end
 
   describe '#self.lambda_function' do
     it 'sets the lambda_function_name class variables' do
-      LambdaFunctionInvoker::Base.lambda_function 'test!'
+      LambdaFunctionInvoker::Base.lambda_function = 'test!'
       expect(LambdaFunctionInvoker::Base.lambda_function_name).to eq('test!')
     end
   end
@@ -72,13 +72,13 @@ RSpec.describe LambdaFunctionInvoker::Base do
     it 'throws an error if lambda_function_name is not defined' do
       @mock_sender.class.lambda_function nil
       expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaFunctionInvoker::Base::InvalidLambdaFunction)
-      @mock_sender.class.lambda_function 'mockFunction'
+      @mock_sender.class.lambda_function = 'mockFunction'
     end
 
     it 'throws an error if lambda_service_name is not defined' do
       @mock_sender.class.lambda_service nil
       expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaFunctionInvoker::Base::InvalidLambdaFunction)
-      @mock_sender.class.lambda_service 'mock-service'
+      @mock_sender.class.lambda_service = 'mock-service'
     end
 
     it 'returns the formatted Lambda function name' do

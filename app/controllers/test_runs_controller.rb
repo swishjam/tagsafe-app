@@ -27,7 +27,7 @@ class TestRunsController < LoggedInController
         test_runs: audit.test_runs_with_tag.order(:passed).page(params[:page] || 1).per(params[:per_page] || 25),
         turbo_frame_tag_name: "audit_#{audit.uid}_test_runs",
         columns_to_exclude: ['Date', 'Type of Test'],
-        empty_message_html: "<h5>No functional tests were run because you don't have any tests configured for this tag, <a href='#{functional_tests_path}' target='_top'>configure them here</a>.</h5>"
+        empty_message_html: "<h4>No functional tests were run because you don't have any tests configured for this tag, <a href='#{functional_tests_path}' target='_top'>configure them here</a>.</h4>"
       }
     )
   end
@@ -49,13 +49,20 @@ class TestRunsController < LoggedInController
     else
       @back_link = { text: 'Back to all tests', url: functional_test_test_runs_path(@functional_test) }
       render_breadcrumbs(
-        { text: 'Monitor Center', url: tags_path },
         { text: "Test Suite", url: functional_tests_path },
         { text: @functional_test.title, url: functional_test_path(@functional_test) },
         { text: "#{@functional_test.title} Test Runs", url: functional_test_test_runs_path(@functional_test) },
         { text: "Test Run Results", active: true }
       )
     end
+  end
+
+  def all
+    @test_runs = current_domain.test_runs
+                                .most_recent_first(timestamp_column: 'test_runs.completed_at')
+                                .page(params[:page] || 1)
+                                .per(params[:per_page] || 20)
+    render_breadcrumbs({ text: 'Test Suite', active: true })
   end
 
   def retry

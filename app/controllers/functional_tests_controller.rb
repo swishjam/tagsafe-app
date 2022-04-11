@@ -1,16 +1,12 @@
 class FunctionalTestsController < LoggedInController
   def index
     @functional_tests = current_domain.functional_tests.order(disabled_at: :ASC, passed_dry_run: :DESC, run_on_all_tags: :DESC)
-    render_breadcrumbs(
-      { url: tags_path, text: 'Monitor Center' },
-      { text: 'Test Suite', active: true }
-    )
+    render_breadcrumbs({ text: 'Test Suite', active: true })
   end
 
   def new
     @functional_test = current_domain.functional_tests.new
     render_breadcrumbs(
-      { url: tags_path, text: 'Monitor Center' },
       { url: functional_tests_path, text: 'Test Suite' },
       { text: 'New Functional Test', active: true }
     )
@@ -19,7 +15,6 @@ class FunctionalTestsController < LoggedInController
   def show
     @functional_test = current_domain.functional_tests.find(params[:id])
     render_breadcrumbs(
-      { url: tags_path, text: 'Monitor Center' },
       { url: functional_tests_path, text: 'Test Suite' },
       { text: @functional_test.title, active: true }
     )
@@ -28,7 +23,6 @@ class FunctionalTestsController < LoggedInController
   def tags_to_run_on
     @functional_test = current_domain.functional_tests.find(params[:id])
     render_breadcrumbs(
-      { url: tags_path, text: 'Monitor Center' },
       { url: functional_tests_path, text: 'Test Suite' },
       { text: @functional_test.title, active: true }
     )

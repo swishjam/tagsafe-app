@@ -6,22 +6,61 @@ body:not(.with-fixed-top-banner) .navigation {
   margin-top: 0;
 }
 
+#page-content-wrapper.collapsed-navigation .top-level-nav-bar{
+  width: 99vw;
+}
+
+#page-content-wrapper:not(.collapsed-navigation) .top-level-nav-bar{
+  width: 85vw;
+}
+
+.top-level-nav-bar {
+  transition: 500ms width, margin-left;
+  background: white;
+  padding: 15px 30px 15px 30px;
+  // height: 55px;
+  border-bottom: 1px solid #d2d2d2;
+  .navigation-profile-dropdown-container {
+    max-width: 100%;
+    .domain-url-line {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+    }
+    .user-name-line {
+      .user-name {
+        width: calc(100% - 20px);
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        font-size: 12px;
+      }
+      .dropdown-indicator {
+        float: right;
+        width: 20px;
+        text-align: center;
+        i {
+          color: $dark-grey-text;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
 .navigation {
   &.collapsed {
-    margin-left: -15%;
+    margin-left: -14vw;
     // cursor: pointer;
   }
   transition: 500ms margin-left;
-  width: 16%;
-  left: 0;
-  background-color: white;
-  color: $dark-grey-text;
-  float: left;
-  height: 100vh;
+  width: 15vw;
   position: fixed;
+  background-color: $tagsafe-secondary;
+  color: $dark-grey-text;
+  height: 100vh;
   padding: 10px;
   font-size: 14px;
-
+  overflow-y: scroll;
   ul {
     list-style: none;
     padding-left: 0;
@@ -31,9 +70,6 @@ body:not(.with-fixed-top-banner) .navigation {
     &.current, &:hover {
       color: white;
     }
-  }
-  .dropdown-item {
-    color: blue;
   }
   li.nav-item {
     border-radius: 20px;
@@ -53,102 +89,70 @@ body:not(.with-fixed-top-banner) .navigation {
     margin: 25px;
     text-align: center;
   }
-  .navigation-profile-container {
-    position: absolute;
-    bottom: 50px;
-    margin-left: 25%;
-    .navigation-profile-trigger {
-      &:hover {
-        background: $tagsafe-primary;
-      }
-      border-radius: 50%;
-      background: $tagsafe-primary;
-      color: white;
-      font-size: 18px;
-      height: 50px;
-      width: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: 1px solid lightgrey;
-      margin-left: 5%;
-    }
-    .navigation-profile-dropdown {
-      color: $dark-grey-text;
-      padding: 15px;
-      border-radius: 15px;
-      box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
-      .toggle-link {
-        margin: 10px 0px 10px 0px;
-        padding: 10px;
-        cursor: pointer;
-        a {
-          text-decoration: none;
-          color: $dark-grey-text;
-        }
-        &.selected, &:hover {
-          background: lightgrey;
-        }
-      }
-    }
-  }
+}
+
+body.with-fixed-top-banner .left-hand-navigation-toggle {
+  margin-top: 75px;
+}
+
+body:not(.with-fixed-top-banner) .left-hand-navigation-toggle {
+  margin-top: 0;
 }
 
 .left-hand-navigation-toggle {
   &.show-btn {
-    left: 1%;
+    left: 1vw;
+    &:hover i {
+      margin-left: 1px;
+    }
   }
   &.hide-btn {
-    left: 16%;
+    left: 15vw;
+    &:hover i {
+      margin-left: -1px;
+    }
   }
-  top: 0;
+  transition: 100ms left;
+  bottom: 0;
   position: fixed;
-  background: white;
+  background-color: $tagsafe-secondary;
   padding: 5px;
   cursor: pointer;
 }
 
 .logged-out-nav {
   padding: 0.5rem;
-  transition: 500ms background;
+  transition: 500ms background-color;
   &.transparent {
-    background: rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
   }
   &.solid-white {
     box-shadow: 0px 0px 20px 1px grey;
-    background: white;
+    background-color: white;
   }
 }
 
-.sliding-nav {
-  border-radius: 10px;
-  // background: #d5d5d5;
-  background: white;
-  width: fit-content;
-  padding: 5px;
-  a {
-    text-decoration: none;
-    color: black;
-    &:hover {
-      // color: black;
-      color: white;
-    }
-  }
-  .sliding-nav-item {
+.page-navigation-items-container {
+  background: #eeeeee;
+  padding: 0px 30px 0px 30px;
+  .page-navigation-item {
+    font-size: 16px;
+    font-weight: 600;
     width: fit-content;
     display: inline-block;
-    padding: 5px 15px 5px 15px;
-    border-radius: 10px;
-    transition: 250ms;
+    padding: 15px;
+    text-decoration: none;
+    color: $faded-grey-text;
+    transition: 250ms border-bottom, font-weight;
     &.active {
-      background: $tagsafe-primary;
-      box-shadow: 1px 1px 9px 1px darkgrey;
-      color: white;
+      border-bottom: 5px solid $tagsafe-primary;
+      font-weight: 900;
+      color: $dark-grey-text;
     }
-    &:not(.active):hover {
-      background: $lighter-tagsafe-purple;
-      box-shadow: 1px 1px 9px 1px rgb(191, 191, 191);
+    &:hover {
+      border-bottom: 5px solid $tagsafe-primary;
+      font-weight: 900;
+      color: $dark-grey-text;
     }
   }
 }

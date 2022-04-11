@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "tag_#{tag.uid}_current_stats" do %>
   <% current_audit = tag.audit_to_display %>
-  <% if current_audit %>
-    <div class='container'>
+  <% if current_audit && current_audit.performance_audit_completed? %>
+    <div class='tagsafe-container'>
       <div class='row align-items-center'>
         <div class='col-3 text-center'>
           <% previous_score = current_audit.audit_to_compare_with&.preferred_delta_performance_audit&.tagsafe_score %>

@@ -1,0 +1,22 @@
+<%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
+  <%= render 'domain_audits/progress_indicators', 
+                                      domain_audit: domain_audit,
+                                      current_view_num: 3,
+                                      back_button_text: 'Overall Performance Impact',
+                                      back_button_url: performance_impact_domain_audit_path(domain_audit),
+                                      next_button_text: 'Individual Tag Impact', 
+                                      next_button_url: tag_list_domain_audit_path(domain_audit) %>
+  <div class='loading-indicator p-5'>
+    <%= display_loading_icon %>
+  </div>
+  <div class='content'>
+    <h4>Visually watch the impact third party tags have on your site's page load.</h4>
+    <%= render 'audits/performance_audit_recordings',
+                  performance_audit_with_tag: performance_audit_with_tag,
+                  performance_audit_without_tag: performance_audit_without_tag,
+                  pluralize: true %>
+  </div>
+  <div class='loading-indicator hidden'>
+    <%= display_loading_icon %>
+  </div>
+<% end %>

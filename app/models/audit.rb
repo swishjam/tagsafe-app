@@ -306,6 +306,10 @@ class Audit < ApplicationRecord
   ## PERFORMANCE AUDITS ##
   ########################
 
+  def tagsafe_score
+    preferred_delta_performance_audit.tagsafe_score
+  end
+
   def preferred_delta_performance_audit
     average_delta_performance_audit
   end

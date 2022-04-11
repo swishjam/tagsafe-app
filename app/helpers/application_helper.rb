@@ -11,18 +11,29 @@ module ApplicationHelper
   end
 
   def current_domain
-    @current_domain ||= session[:current_domain_id] ? Domain.find(session[:current_domain_id]) : current_user&.domains&.first
+    return @current_domain if defined?(@current_domain)
+    if user_is_anonymous?
+      return unless session[:current_domain_id].present?
+      @current_domain = Domain.find(session[:current_domain_id])
+    else
+      @current_domain = session[:current_domain_id] ? current_user.domains.find(session[:current_domain_id]) : current_user.domains.first
+    end
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
   end
 
   def current_domain_audit
     return if session[:current_domain_audit_id].nil?
-    @domain_audit ||= DomainAudit.find_by(id: session[:current_domain_audit_id])
+    @domain_audit ||= DomainAudit.includes(:domain, url_crawl: :found_tags).find_by(id: session[:current_domain_audit_id])
   end
 
   def current_domain_user
+    return if current_user.nil?
     @current_domain_user ||= current_user.domain_user_for(current_domain)
+  end
+
+  def current_anonymous_user_identifier
+    session[:anonymous_user_identifier]
   end
 
   def set_current_domain(domain)
@@ -38,9 +49,15 @@ module ApplicationHelper
     session[:current_domain_id] = domain&.id
   end
 
+  def set_anonymous_user_identifier
+    session[:anonymous_user_identifier] = SecureRandom.hex(16)
+  end
+
   def log_user_out
     session.delete(:user_id)
     session.delete(:current_domain_id)
+    session.delete(:current_domain_audit_id)
+    session.delete(:anonymous_user_identifier)
   end
 
   def stream_modal(partial:, turbo_frame_name: 'server_loadable_modal', locals: {})
@@ -48,6 +65,20 @@ module ApplicationHelper
       turbo_frame_name,
       partial: partial,
       locals: locals
+    )
+  end
+
+  def respond_with_notification(message: nil, partial: nil, partial_locals: {}, image: nil, timestamp: Time.now.strftime("%m/%d/%y @ %l:%M %P %Z"))
+    render turbo_stream: turbo_stream.prepend(
+      "request_response_notifications_container",
+      partial: 'partials/notification',
+      locals: { 
+        message: message, 
+        partial: partial,
+        image: image,
+        timestamp: timestamp,
+        partial_locals: partial_locals
+      }
     )
   end
 

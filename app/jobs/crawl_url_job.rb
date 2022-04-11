@@ -1,5 +1,5 @@
 class CrawlUrlJob < ApplicationJob
-  queue_as TagsafeQueue.NORMAL
+  queue_as { arguments.first.is_for_domain_audit? ? TagsafeQueue.CRITICAL : TagsafeQueue.NORMAL }
   
   def perform(url_crawl)
     LambdaFunctionInvoker::UrlCrawler.new(url_crawl).send!

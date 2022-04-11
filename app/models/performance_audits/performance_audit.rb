@@ -81,6 +81,7 @@ class PerformanceAudit < ApplicationRecord
   end
 
   def calculate_bytes
+    return 0 if is_for_domain_audit?
     audit.tag_version ? audit.tag_version.bytes : fetch_live_tag_and_calculate_bytes
   end
 

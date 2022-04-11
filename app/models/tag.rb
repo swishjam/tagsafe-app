@@ -1,5 +1,6 @@
 class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include HasExecutedLambdaFunction
   include Notifier
   include Flaggable
   include Streamable
@@ -45,9 +46,9 @@ class Tag < ApplicationRecord
   broadcast_notification on: :create
   after_update_commit { update_tag_table_row(tag: self, now: true) }
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
-  after_destroy { LambdaCronJobDataStore::TagCheckConfigurations.new(self).delete_tag_check_configuration }
-  after_destroy { LambdaCronJobDataStore::TagCheckIntervals.new(self).remove_tag_from_tag_check_interval(tag_preferences.tag_check_minute_interval) }
-  
+  after_destroy { LambdaCronJobDataStore::TagCheckIntervals.remove_tag_id_from_every_tag_check_region(id) }
+  after_destroy { LambdaCronJobDataStore::TagCheckConfigurations.delete_tag_check_configuration_by_tag_id(id) }
+  after_create { LambdaCronJobDataStore::TagCheckConfigurations.new(self).update_tag_check_configuration }
   after_create_commit :apply_defaults
   after_create_commit :stream_new_tag_to_views
   after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
@@ -55,7 +56,7 @@ class Tag < ApplicationRecord
   after_create_commit { run_tag_check_later! if release_monitoring_enabled? }
 
   # SCOPES
-  default_scope { includes(:tag_identifying_data) }
+  default_scope { includes(:tag_identifying_data, :tag_preferences) }
   
   scope :release_monitoring_enabled, -> { where_tag_preferences_not({ tag_check_minute_interval: nil }) }
   scope :release_monitoring_disabled, -> { where_tag_preferences({ tag_check_minute_interval: nil }) }
@@ -189,7 +190,7 @@ class Tag < ApplicationRecord
     most_recent_version.nil?
   end
 
-  def run_tag_check!
+  def run_tag_check_now!
     RunTagCheckJob.perform_now(self)
   end
 
@@ -288,6 +289,10 @@ class Tag < ApplicationRecord
 
   def most_recent_successful_audit
     audits.most_recent_first.completed.successful_performance_audit.limit(1).first || audits.most_recent_first.pending_performance_audit.limit(1).first
+  end
+
+  def has_friendly_name?
+    tag_identifying_data.present?
   end
 
   def friendly_name

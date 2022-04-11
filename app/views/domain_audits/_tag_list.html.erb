@@ -1,3 +1,26 @@
-<%= turbo_frame_tag "url_crawl_#{url_crawl.uid}_for_domain_audit_tags" do %>
-  <%= render 'server_loadable_partials/tags/tag_table', domain: domain, tags: tags %>
+<%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
+  <%= render 'domain_audits/progress_indicators', 
+                                      current_view_num: domain_audit.has_puppeteer_recording? ? 4 : 3, 
+                                      domain_audit: domain_audit,
+                                      back_button_url: domain_audit.has_puppeteer_recording? ? puppeteer_recording_domain_audit_path(domain_audit) : performance_impact_domain_audit_path(domain_audit),
+                                      back_button_text: domain_audit.has_puppeteer_recording? ? 'Watch Page Load Playback' : 'Overall Performance Impact',
+                                      next_button_url: complete_domain_audit_path(domain_audit),
+                                      next_button_text: 'Complete' %>
+  <div class='loading-indicator'>
+    <%= display_loading_icon %>
+  </div>
+  <div class='content'>
+    <% if url_crawl.pending? %>
+      <h4>Scanning <%= audit.url %> for third party tags. Just a moment.</h4>
+      <%= display_loading_icon %>
+    <% else %>
+      <% if url_crawl.completed? && found_tags.any? %>
+        <h4>Tagsafe provides a single health score for each of your third party tags called a "Tagsafe Score" that attributes the exact impact a tag has to your site. We went ahead and ran an audit on your <%= tag_with_audit.try_friendly_name %> tag for you.</h4>
+        <% if tag_with_audit.audit_to_display.performance_audit_pending? %>
+          <h4>It should be complete in just a few moments.</h4>
+        <% end %>
+      <% end %>
+      <%= render 'server_loadable_partials/tags/tag_table', domain: domain, tags: found_tags %>
+    <% end %>
+  </div>
 <% end %>

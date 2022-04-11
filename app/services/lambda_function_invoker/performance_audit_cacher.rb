@@ -1,7 +1,7 @@
 # module LambdaFunctionInvoker
 #   class PerformanceAuditCacher < Base
-#     lambda_service 'performance-audits'
-#     lambda_function 'generate-cache'
+#     lambda_service = 'performance-audits'
+#     lambda_function = 'generate-cache'
 
 #     def initialize(audit:, tag_version:, options: {})
 #       @audit = audit

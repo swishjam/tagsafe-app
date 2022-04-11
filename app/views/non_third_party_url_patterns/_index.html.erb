@@ -2,8 +2,8 @@
   <%= turbo_frame_tag "#{domain.id}_non_third_party_url_patterns" do %>
     <%= form_for NonThirdPartyUrlPattern.new, url: domain_non_third_party_url_patterns_path(current_domain) do |f| %>
       <div class='form-floating d-flex mb-3'>
-        <%= f.text_field :pattern, class: 'form-control', placeholder: 'www.tagsafe-cdn.io' %>
-        <%= f.label 'URL Pattern' %>
+        <%= f.text_field :pattern, class: 'form-control', placeholder: 'www.tagsafe-assets.io' %>
+        <label for='url-pattern'>URL Pattern</label>
         <button type='submit' class='tagsafe-btn square'>Add</button>
       </div>
     <% end %>

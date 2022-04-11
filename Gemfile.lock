@@ -96,6 +96,9 @@ GEM
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
+    aws-sdk-eventbridge (1.30.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.48.0)
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sigv4 (~> 1.1)
@@ -106,9 +109,6 @@ GEM
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
-    aws-sdk-sqs (1.44.0)
-      aws-sdk-core (~> 3, >= 3.120.0)
-      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
@@ -431,9 +431,9 @@ DEPENDENCIES
   acts_as_paranoid
   async-websocket (~> 0.8.0)
   aws-sdk-cloudwatchlogs
+  aws-sdk-eventbridge
   aws-sdk-lambda
   aws-sdk-s3
-  aws-sdk-sqs
   bcrypt (~> 3.1.7)
   better_errors
   binding_of_caller

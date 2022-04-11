@@ -5,6 +5,12 @@
 
 <%= render 'functional_tests/nav' %>
 
-<div class='tagsafe-container'>
-  <%= render 'test_runs_table', test_runs: @test_runs, turbo_frame_tag_name: "functional_test_#{@functional_test.uid}_test_runs" %>
-</div>
+<% if @test_runs.any? %>
+  <div class='tagsafe-container p-0'>
+    <%= render 'test_runs_table', test_runs: @test_runs, turbo_frame_tag_name: "functional_test_#{@functional_test.uid}_test_runs" %>
+  </div>
+<% else %>
+  <div class='p-5 text-center'>
+    <h4>No tests run.</h4>
+  </div>
+<% end %>

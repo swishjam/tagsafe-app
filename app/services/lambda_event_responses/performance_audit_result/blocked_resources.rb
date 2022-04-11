@@ -5,6 +5,10 @@ module LambdaEventResponses
         @array_of_blocked_resources = array_of_blocked_resources
       end
 
+      def to_a
+        @array_of_blocked_resources
+      end
+
       def formatted_and_filtered(performance_audit_id)
         @formatted_and_filtered ||= filtered.map{ |attrs| attrs.merge!(performance_audit_id: performance_audit_id) }
       end

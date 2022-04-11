@@ -40,6 +40,11 @@ class DomainAudit < ApplicationRecord
     PerformanceAuditManager::MedianPerformanceAuditsCreator.new(self).find_and_apply_median_audits!
   end
 
+  def has_puppeteer_recording?
+    median_individual_performance_audit_with_tags&.puppeteer_recording&.captured_successfully? == true && 
+      median_individual_performance_audit_without_tags&.puppeteer_recording&.captured_successfully? == true
+  end
+
   # alias scopes for PerformanceAuditManager :/
   def individual_performance_audits_with_tag
     individual_performance_audits_with_tags

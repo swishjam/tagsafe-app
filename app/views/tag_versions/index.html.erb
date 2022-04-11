@@ -1,6 +1,18 @@
-<h3 class="page-title">Releases</h3>
-<div class="tagsafe-container text-center">
-  <% if @tag_versions.any? %>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title">Releases</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to 'Release monitoring settings', settings_tag_management_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @tag_versions.any? %>
+  <div class="tagsafe-container text-center">
     <table class="table table-hover col-12" style="table-layout: fixed">
       <thead>
         <tr>
@@ -25,11 +37,13 @@
         <% end %>
       </tbody>
     </table>
-  <% else %>
-    <p>No tag changes recorded yet</p>
-    <span>You are monitoring <%= @number_of_tags %> tags. <%= link_to 'Manage them here', tags_path %>.</span>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <div class='text-center p-5'>
+    <h3>No releases captured yet</h3>
+    <h4>You are monitoring releases for <%= @number_of_tags %> tags, <%= link_to 'Manage them here', settings_tag_management_path %>.</h4>
+  </div>
+<% end %>
 
 <div class="pagination-container text-center">
   <%= paginate @tag_versions %>

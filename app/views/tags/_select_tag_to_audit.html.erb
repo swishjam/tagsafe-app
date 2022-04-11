@@ -1,0 +1,29 @@
+<%= render_as_modal title: "Select tag to audit" do %>
+  <div data-controller='select-tag-to-audit'>
+    <%= form_with url: '#', method: :GET, data: { controller: 'loading_form', select_tag_to_audit_target: 'submitForm' } do |f| %>
+      <div class='tagsafe-modal-body'>
+        <select name='tag_id' class='form-select' data-select-tag-to-audit-target='tagSelector'>
+          <option selected disabled>Select tag to audit</option>
+          <% tags.each do |tag| %>
+            <option value="<%= tag.id %>">
+              <% if tag.has_friendly_name? %>
+                <%= tag.try_friendly_name %> (<%= tag.url_based_on_preferences %>)
+              <% else %>
+                <%= tag.url_based_on_preferences %>
+              <% end %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+      <div class='tagsafe-modal-divider'></div>
+      <div class='tagsafe-modal-footer text-end'>
+        <button type='submit' class='tagsafe-btn loading-button' data-select-tag-to-audit-target='submitBtn' disabled>
+          <span class='submit-text'>
+            Audit Configuration
+          </span>
+          <%= display_loading_icon color: 'white', size: 'small' %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_03_175519) do
+ActiveRecord::Schema.define(version: 2022_04_11_014035) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -607,9 +607,9 @@ ActiveRecord::Schema.define(version: 2022_04_03_175519) do
 
   create_table "tag_check_regions", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
-    t.string "aws_region_name"
+    t.string "aws_name"
     t.string "location"
-    t.index ["aws_region_name"], name: "index_tag_check_regions_on_aws_region_name"
+    t.index ["aws_name"], name: "index_tag_check_regions_on_aws_name"
     t.index ["uid"], name: "index_tag_check_regions_on_uid"
   end
 
@@ -619,6 +619,16 @@ ActiveRecord::Schema.define(version: 2022_04_03_175519) do
     t.string "uid"
     t.index ["tag_check_region_id"], name: "index_tag_check_regions_to_check_on_tag_check_region_id"
     t.index ["tag_id"], name: "index_tag_check_regions_to_check_on_tag_id"
+  end
+
+  create_table "tag_check_schedule_aws_event_bridge_rules", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "tag_check_region_id"
+    t.string "name"
+    t.string "associated_tag_check_minute_interval"
+    t.boolean "enabled"
+    t.index ["tag_check_region_id"], name: "index_tcsaebr_on_tag_check_region_id"
+    t.index ["uid"], name: "index_tag_check_schedule_aws_event_bridge_rules_on_uid"
   end
 
   create_table "tag_checks", charset: "utf8mb3", force: :cascade do |t|
@@ -704,6 +714,7 @@ ActiveRecord::Schema.define(version: 2022_04_03_175519) do
     t.bigint "tag_identifying_data_id"
     t.boolean "has_content"
     t.timestamp "last_seen_in_url_crawl_at"
+    t.integer "last_captured_byte_size"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"

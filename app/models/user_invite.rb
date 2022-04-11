@@ -2,6 +2,7 @@ class UserInvite < ApplicationRecord
   belongs_to :domain
   belongs_to :invited_by_user, class_name: User.to_s
 
+  scope :pending, -> { where(redeemed_at: nil) }
   scope :redeemable, -> { where('redeemed_at = ? AND expires_at < ?', nil, DateTime.now) }
   scope :redeemed, -> { where.not(redeemed_at: nil) }
   scope :not_redeemed, -> { where(redeemed_at: nil) }
@@ -29,6 +30,14 @@ class UserInvite < ApplicationRecord
     touch(:redeemed_at)
   end
 
+  def status
+    redeemed? ? 'accepted' : expired? ? 'expired' : 'pending'
+  end
+
+  def redeemed?
+    redeemed_at.present?
+  end
+
   def redeemable?
     redeemed_at.nil? && !expired?
   end
@@ -48,8 +57,8 @@ class UserInvite < ApplicationRecord
       partial: 'user_invites/index',
       locals: { 
         domain: domain,
-        invite_list_type: :pending,
-        user_invites: domain.user_invites.not_redeemed 
+        status: :pending,
+        user_invites: domain.user_invites.pending 
       }
     )
   end

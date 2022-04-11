@@ -1,0 +1,21 @@
+<%= turbo_stream_from "domain_#{current_domain.uid}_user_invites_stream" %>
+
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title with-sub-title">Team Management</h1>
+        <h1 class="page-sub-title">Pending Invites</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= modal_link new_user_invite_path, text: 'New Invite', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>        
+      </div>
+    </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: domain_users_path, text: "Teammates" },
+    { url: user_invites_path(status: :pending), text: "Pending Invites" }
+  ] %>
+</div>
+
+<%= render 'user_invites/index', domain: current_domain, user_invites: @user_invites, status: :pending %>

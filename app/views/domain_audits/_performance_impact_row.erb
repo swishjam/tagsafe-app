@@ -1,0 +1,33 @@
+<div class='col-sm-12 col-md-6 domain-audit-metric-container'>
+  <div class='domain-audit-performance-metric-row'>
+    <div class='row d-flex align-items-center'>
+      <div class='col-5 text-start'>
+        <span class='domain-audit-metric-title'>
+          <i class="fa-solid fa-question me-1"
+                style='font-size: 8px'
+                data-controller='tooltip' 
+                data-bs-toggle='tooltip' 
+                title="<%= "How much do third party tags add to your #{title} metric? #{metric_help_description}" %>"></i>
+          <% if metric_percent >= 50 %>
+            <i class="fa-solid fa-play align-middle" style='color: red; transform: rotate(-90deg); font-size: 8px;'></i>
+          <% elsif metric_percent >= 20 %>
+            <i class="fa-solid fa-square align-middle" style='color: orange; font-size: 8px;'></i>
+          <% else %>
+            <i class="fa-solid fa-circle align-middle" style='color: green; font-size: 8px;'></i>
+          <% end %>
+          <%= title %>
+        </span>
+      </div>
+      <div class='col-7 text-start'>
+        <div class='domain-audit-metric-body'>
+          <% if metric.positive? %>
+            <span class='metric d-block'>Adds <%= number_to_human(metric, units: { unit: 'ms', thousand: 'seconds' }) %></span>
+            <span class='metric d-block'><span style="font-weight: 800; color: <%= metric_percent >= 50 ? 'red' : metric_percent >= 20 ? 'orange' : 'green'%>"><%= metric_percent %>%</span> of entire <%= title %> time</span>
+          <% else %>
+            <span class='metric d-block'>No impact</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

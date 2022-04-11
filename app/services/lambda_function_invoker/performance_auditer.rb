@@ -31,7 +31,7 @@ module LambdaFunctionInvoker
           puppeteer_page_timeout_ms: 0,
           enable_screen_recording: @audit.performance_audit_configuration.enable_screen_recording.to_s,
           throw_error_if_dom_complete_is_zero: @audit.performance_audit_configuration.throw_error_if_dom_complete_is_zero.to_s,
-          include_page_load_resources: @audit.include_page_load_resources.to_s,
+          include_page_load_resources: true, # consumer will decide whether to capture them or not
           include_page_tracing: @audit.performance_audit_configuration.include_page_tracing.to_s,
           inline_injected_script_tags: @audit.performance_audit_configuration.inline_injected_script_tags.to_s,
           scroll_page: @audit.performance_audit_configuration.scroll_page.to_s,
@@ -51,14 +51,12 @@ module LambdaFunctionInvoker
 
     def script_injection_rules
       return [] unless individual_performance_audit.is_a?(IndividualPerformanceAuditWithTag)
-      return [] unless @audit.run_on_tagsafe_tag_version?
-      [{ url:  tag_version.js_file_url, load_type: tag.load_type || 'async' }]
+      js_file_url = @audit.run_on_tagsafe_tag_version? ? tag_version.js_file_url : tag.full_url
+      [{ url: js_file_url, load_type: tag.load_type || 'async' }]
     end
 
     def third_party_tag_url_patterns_to_allow
-      patterns = tag.domain.non_third_party_url_patterns.collect(&:pattern)
-      patterns << tag.url_based_on_preferences if @audit.run_on_live_tag? && individual_performance_audit.is_a?(IndividualPerformanceAuditWithTag)
-      patterns
+      tag.domain.non_third_party_url_patterns.collect(&:pattern)
     end
   end
 end

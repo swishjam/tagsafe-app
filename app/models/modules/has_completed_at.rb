@@ -53,6 +53,7 @@ module HasCompletedAt
     def completed?
       !pending?
     end
+    alias complete? completed?
 
     def pending?
       completed_at.nil?

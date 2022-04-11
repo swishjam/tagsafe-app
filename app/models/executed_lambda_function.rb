@@ -71,7 +71,7 @@ class ExecutedLambdaFunction < ApplicationRecord
 
   def parent_doesnt_already_have_executed_lambda_function
     if parent.executed_lambda_function
-      errors.add(:base, "Parent already has an ExecutedLambdaFunction.")
+      errors.add(:base, "Parent already has an ExecutedLambdaFunction (#{parent.uid}).")
     end
   end
 

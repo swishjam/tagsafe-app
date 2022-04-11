@@ -3,6 +3,8 @@ module LambdaEventResponses
     def process_results!
       if error
         url_crawl.errored!(error)
+      elsif tag_urls.none?
+        url_crawl.errored!("Unable to find any third party tags, Tagsafe crawler may be getting blocked by site.")
       else
         url_crawl.update!(num_first_party_bytes: num_first_party_bytes, num_third_party_bytes: num_third_party_bytes)
         TagManager::EvaluateUrlCrawlFoundTags.new(url_crawl: url_crawl, tag_urls: tag_urls).evaluate!

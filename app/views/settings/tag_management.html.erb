@@ -1,7 +1,15 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-12'>
+        <h1 class="page-title with-sub-title">Settings</h1>
+        <h2 class="page-sub-title">Tag Management</h2>
+      </div>
+    </div>
+  </div>
+  <%= render 'settings_nav' %>
+</div>
 
-<h4 class="page-title with-sub-title">Settings</h4>
-<h5 class='page-sub-title'>Tag Management</h5>
-<%= render partial: 'settings_nav' %>
 <div class="tagsafe-container">
   <% if current_domain.nil? %>
     <h5>You have not defined your domain(s) to monitor.</h5>

@@ -1,0 +1,50 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title with-sub-title">Team Management</h1>
+        <h2 class='page-sub-title'>Teammates</h2>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to 'New Invite', '#', class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>        
+      </div>
+    </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: domain_users_path, text: "Teammates" },
+    { url: user_invites_path(status: :pending), text: "Pending Invites" }
+  ] %>
+</div>
+
+<%= turbo_frame_tag "domain_#{current_domain.uid}_domain_users" do %>
+  <% if @domain_users.any? %>
+    <div class='tagsafe-container p-0'>
+      <div class='tagsafe-table'>
+        <div class='tagsafe-table-head tagsafe-table-row square'>
+          <div class='tagsafe-table-head' style='width: 25%;'>Name</div>
+          <div class='tagsafe-table-head' style='width: 25%;'>Email</div>
+          <div class='tagsafe-table-head' style='width: 25%;'>User since</div>
+          <div class='tagsafe-table-head' style='width: 25%;'></div>
+        </div>
+        <div class='tagsafe-table-body'>
+          <% @domain_users.each do |du| %>
+            <div class='tagsafe-table-row'>
+              <div class='tagsafe-table-data' style='width: 25%'><%= du.user.full_name %></div>
+              <div class='tagsafe-table-data' style='width: 25%'><%= du.user.email %></div>
+              <div class='tagsafe-table-data' style='width: 25%'><%= du.user.created_at.formatted_long %></div>
+              <div class='tagsafe-table-data' style='width: 25%'>
+                <% if du.user_id != current_user.id %>
+                  <%= modal_link destroy_domain_user_modal_path(du), text: 'Remove User' %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class='tagsafe-container text-center'>
+      <span class='empty-message'>You are the only Tagsafe user in <%= current_domain.url %>! Add teammates here.</span>
+    </div>
+  <% end %>
+<% end %>

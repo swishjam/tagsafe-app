@@ -13,20 +13,30 @@ Rails.application.routes.draw do
   resources :registrations, only: [:new, :create]
   get '/register' => 'registrations#new'
   
-  resources :domain_users, only: [:destroy]
+  resources :domain_users, only: [:destroy, :index]
   get "/domain_users/:id/destroy_modal" => 'domain_users#destroy_modal', as: :destroy_domain_user_modal
-  resources :user_invites, only: [:new, :create]
+  resources :user_invites, only: [:new, :create, :index]
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
 
   get '/change_log' => 'tag_versions#index'
   get '/audit_log' => 'audits#all', as: :audit_log
+  get '/test_run_log' => 'test_runs#all', as: :all_test_runs
   get '/uptime' => 'tag_checks#index'
   get '/uptime/:tag_id/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
   get '/uptime/:tag_id/list' => 'tag_checks#tag_list', as: :tag_uptime_list
   get '/performance' => 'performance#index'
 
-  resources :domain_audits, only: [:create, :show]
+  resources :domain_audits, only: [:create] do
+    member do
+      get :bytes_breakdown
+      get :performance_impact
+      get :puppeteer_recording
+      get :tag_list
+      get :complete
+    end
+  end
+  get '/third_party_impact' => 'domain_audits#show', as: :third_party_impact
 
   get '/alerts' => 'triggered_alerts#index', as: :alerts
   get '/alerts/:id' => 'triggered_alerts#show', as: :alert
@@ -59,6 +69,9 @@ Rails.application.routes.draw do
     member do
       get :uptime
       get :audits
+    end
+    collection do
+      get :select_tag_to_audit
     end
     get '/general' => 'tags#edit' 
     # get '/preferences' => 'tags#preferences'

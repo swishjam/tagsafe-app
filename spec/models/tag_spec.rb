@@ -44,13 +44,13 @@ RSpec.describe Tag, type: :model do
       create_tag_with_associations(tag_url: 'https://www.apply-defaults-test.com')
     end
 
-    it 'calls run_tag_check! if release monitoring is enabled' do
-      expect_any_instance_of(Tag).to receive(:run_tag_check!).exactly(:once)
+    it 'calls run_tag_check_now! if release monitoring is enabled' do
+      expect_any_instance_of(Tag).to receive(:run_tag_check_now!).exactly(:once)
       create_tag_with_associations(tag_url: 'https://www.run-tag-check-test-enabled.com')
     end
 
-    it 'doesnt call run_tag_check! if release monitoring is disabled' do
-      expect_any_instance_of(Tag).to_not receive(:run_tag_check!)
+    it 'doesnt call run_tag_check_now! if release monitoring is disabled' do
+      expect_any_instance_of(Tag).to_not receive(:run_tag_check_now!)
       create_tag_with_associations(tag_factory: :disabled_tag, tag_url: 'https://www.run-tag-check-test-disabled.com', )
     end
   end

@@ -69,7 +69,7 @@ module ChartHelper
 
     def add_starting_timestamps_if_necessary
       @chart_data.each do |tag, chart_data_hash|
-        unless tag.first_version.created_at > @start_time
+        unless tag.first_version.nil? || tag.first_version.created_at > @start_time
           chart_data_hash[:data] << [@start_time, chart_data_hash[:data].last[1]]
         end
       end

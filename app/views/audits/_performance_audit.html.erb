@@ -1,46 +1,30 @@
+<% content_for :head do %>
+  <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+<% end %>
+
 <%= turbo_frame_tag "audit_#{audit.uid}_performance_audit" do %>
-  <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>">
+  <div class="tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>">
     <% if !audit.include_performance_audit %>
       <h4>Performance audits were disabled for this audit</h4>
     <% else %>
-      <div class="col-12">
-        <div class='row'>
-          <div class='col-6'>
-            <% if audit.is_primary? %>
-              <%= link_to tag_audits_path(tag) do %>
-                <span data-controller='tooltip'
-                      data-bs-toggle="tooltip"
-                      data-placement="right"
-                      title="Primary audit"
-                      class="badge tagsafe-font-color"
-                      style="float: left;">
-                  <i class="far fa-star tagsafe-font-color"></i>
-                </span>
-              <% end %>
-            <% end %>
-          </div>
-          <div class='col-6 text-end'>
-            <div class='w-fit float-end' data-controller='tooltip' data-bs-toggle='tooltip' title='Re-run audit'>
-              <%= modal_link new_tag_audit_path(tag, tag_version_id: audit.tag_version&.id), klass: 'tagsafe-btn w-fit' do %>
-                <i class="fas fa-sync-alt"></i>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
       <% if audit.performance_audit_failed? %>
-        <h4>Performance audit failed:</h4>
-        <p><%= audit.performance_audit_error_message %></p>
-        <h5>Errors:</h5>
-        <% audit.individual_performance_audits.failed.each do |perf_audit| %>
-          <p><%= perf_audit.error_message %></p>
-        <% end %>
+        <div class='text-center'>
+          <h4>Performance audit failed:</h4>
+          <p><%= audit.performance_audit_error_message %></p>
+          <h5>Errors:</h5>
+          <% audit.individual_performance_audits.failed.each do |perf_audit| %>
+            <p><%= perf_audit.error_message %></p>
+          <% end %>
+        </div>
       <% elsif audit.performance_audit_pending? %>
-        <h5>Performance audit is currently running.</h5>
-        <!-- <#%= display_loading_icon type: :grow %> !-->
-        <div class='m-auto text-center w-fit'>
-          <%= turbo_stream_from "audit_#{audit.uid}_pending_performance_audit_pill_stream" %>
-          <%= render 'audits/pending_performance_audit_pill', audit: audit %>
+        <div class='text-center'>
+          <h4>Performance audit is currently running.</h4>
+          <!-- <#%= display_loading_icon type: :grow %> !-->
+          <div class='m-auto text-center w-fit'>
+            <%= turbo_stream_from "audit_#{audit.uid}_pending_performance_audit_pill_stream" %>
+            <%= render 'audits/pending_performance_audit_pill', audit: audit %>
+          </div>
         </div>
       <% elsif audit.preferred_delta_performance_audit %>
         <div data-controller='audit-results-expander'>
@@ -197,7 +181,7 @@
     <% end %>
   </div>
   <% if audit.include_performance_audit && audit.performance_audit_configuration.enable_screen_recording && audit.performance_audit_completed_successfully? %>
-    <div class="col-10 offset-1 text-center tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %> mt-5" data-controller='streamed-script-tag'>
+    <div class="tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: audit.median_individual_performance_audit_with_tag,
                   performance_audit_without_tag: audit.median_individual_performance_audit_without_tag %>

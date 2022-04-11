@@ -5,10 +5,15 @@ class AuditsController < LoggedInController
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
   def all
-    @audits = current_domain.audits.most_recent_first(timestamp_column: :created_at)
-                                    .includes(:performance_audits)
-                                    .page(params[:page] || 1)
-                                    .per(params[:per_page] || 20)
+    @audits = current_domain.audits
+                              .most_recent_first(timestamp_column: :created_at)
+                              .includes(
+                                :performance_audits, 
+                                :delta_performance_audits, 
+                                :test_runs
+                              )
+                              .page(params[:page] || 1)
+                              .per(params[:per_page] || 10)
   end
 
   def index
@@ -24,25 +29,28 @@ class AuditsController < LoggedInController
     )
   end
 
+  def show
+    redirect_to performance_audit_tag_audit_path(params[:tag_id], params[:id])
+  end
+
   def new
-    tag = current_domain.tags.find(params[:tag_id])
-    tag_version = params[:tag_version_id] ? tag.tag_versions.find(params[:tag_version_id]) : nil
-    urls_to_audit = tag.urls_to_audit.includes(:page_url)
+    tag_version = params[:tag_version_id] ? @tag.tag_versions.find(params[:tag_version_id]) : nil
+    urls_to_audit = @tag.urls_to_audit.includes(:page_url)
     stream_modal(partial: 'audits/new', locals: { 
-      tag: tag, 
+      tag: @tag, 
       tag_version: tag_version, 
-      current_tag_version: tag.current_version,
+      current_tag_version: @tag.current_version,
       urls_to_audit: urls_to_audit,
-      configuration: tag.tag_or_domain_configuration,
+      configuration: @tag.tag_or_domain_configuration,
       feature_gate_keeper: FeatureGateKeeper.new(current_domain)
     })
   end
 
   def create
-    tag = current_domain.tags.find(params[:tag_id])
-    tag_version = tag.tag_versions.find_by(id: params[:tag_version_id])
-    audits_enqueued = tag.urls_to_audit.where(id: params[:urls_to_audit]).map do |url_to_audit|
-      tag.perform_audit!(
+    # tag = current_domain.tags.find(params[:tag_id])
+    tag_version = @tag.tag_versions.find_by(id: params[:tag_version_id])
+    audits_enqueued = @tag.urls_to_audit.where(id: params[:urls_to_audit]).map do |url_to_audit|
+      @tag.perform_audit!(
         initiated_by_domain_user: current_domain_user,
         execution_reason: ExecutionReason.MANUAL,
         url_to_audit: url_to_audit,
@@ -62,8 +70,8 @@ class AuditsController < LoggedInController
         }
       )
     end
-    current_user.broadcast_notification(message: "Performing audit on #{tag.try_friendly_name}", image: tag.try_image_url)
-    stream_modal(partial: 'audits/new', locals: { tag: tag, tag_version: tag_version, audits_enqueued: audits_enqueued })
+    current_user.broadcast_notification(message: "Performing audit on #{@tag.try_friendly_name}", image: @tag.try_image_url) unless user_is_anonymous?
+    stream_modal(partial: 'audits/new', locals: { tag: @tag, tag_version: tag_version, audits_enqueued: audits_enqueued })
   end
 
   def make_primary

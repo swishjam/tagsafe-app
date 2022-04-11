@@ -75,8 +75,8 @@ class User < ApplicationRecord
 
   def broadcast_notification(message: nil, partial: nil, partial_locals: {}, image: nil, timestamp: Time.now.strftime("%m/%d/%y @ %l:%M %P %Z"))
     broadcast_prepend_to(
-      "#{id}_user_notifications_container", 
-      target: "#{id}_user_notifications_container", 
+      "user_#{uid}_notifications_container", 
+      target: "user_#{uid}_notifications_container", 
       partial: 'partials/notification',
       locals: { 
         message: message, 

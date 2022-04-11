@@ -8,18 +8,18 @@ class UrlCrawl < ApplicationRecord
   belongs_to :domain
   belongs_to :page_url
   has_one :domain_audit
-  has_many :retrieved_urls, class_name: 'UrlCrawlRetrievedUrl', dependent: :destroy
+  has_many :retrieved_urls, class_name: UrlCrawlRetrievedUrl.to_s, dependent: :destroy
   has_many :found_tags, class_name: 'Tag', foreign_key: :found_on_url_crawl_id
   alias tags_found found_tags
 
-  scope :resulted_in_created_tags, -> { includes(:found_tags).where(found_tags: { id: nil }) }
+  scope :resulted_in_created_tags, -> { includes(:found_tags).where.not(found_tags: { id: nil }) }
     
   after_create_commit { CrawlUrlJob.perform_later(self) }
   after_update_commit { broadcast_replace_to "#{uid}_url_crawl", target: "#{uid}_url_crawl", partial: 'url_crawls/status', locals: { url_crawl: self } }
   
   set_seconds_to_complete_timestamp created_at_column: :enqueued_at
   after_failure :completed!
-  after_complete :stream_to_domain_audit_view_if_necessary
+  after_complete :handle_after_complete_for_domain_audit
 
   attribute :enqueued_at, default: Time.now
 
@@ -29,9 +29,10 @@ class UrlCrawl < ApplicationRecord
 
   def found_tag!(
     tag_url,
-    load_type: nil,
-    tag_check_minute_interval: domain.tags.most_recent_first.first&.tag_preferences&.tag_check_minute_interval || nil,
-    scheduled_audit_minute_interval: domain.tags.most_recent_first.first&.tag_preferences&.scheduled_audit_minute_interval || nil,
+    byte_size:,
+    load_type: 'async',
+    tag_check_minute_interval: nil,
+    scheduled_audit_minute_interval: nil,
     is_allowed_third_party_tag: false, 
     is_third_party_tag: true,
     should_log_tag_checks: true,
@@ -45,11 +46,11 @@ class UrlCrawl < ApplicationRecord
       url_domain: parsed_url.host,
       url_path: parsed_url.path,
       url_query_param: parsed_url.query,
-      # load_type: load_type,
-      load_type: 'async',
+      load_type: load_type,
       found_on_page_url: page_url,
       has_content: has_content,
       last_seen_in_url_crawl_at: Time.now,
+      last_captured_byte_size: byte_size,
       tag_preferences_attributes: {
         tag_check_minute_interval: tag_check_minute_interval,
         is_allowed_third_party_tag: is_allowed_third_party_tag,
@@ -60,14 +61,18 @@ class UrlCrawl < ApplicationRecord
     )
     url_to_audit = tag.urls_to_audit.create(page_url: page_url)
     # url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
-    tag.run_tag_check_later!
+    # tag.run_tag_check_later!
   rescue => e
     Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{e.inspect}"
   end
 
-  def stream_to_domain_audit_view_if_necessary
+  def handle_after_complete_for_domain_audit
     return unless is_for_domain_audit?
     update_domain_audit_details_view(domain_audit: domain_audit, now: true)
+    unless found_tags.none?
+      largest_tag = found_tags.order(last_captured_byte_size: :DESC).limit(1).first
+      largest_tag.perform_audit_on_all_urls_on_current_tag_version!(execution_reason: ExecutionReason.TAGSAFE_PROVIDED)
+    end
   end
 
   def is_for_domain_audit?

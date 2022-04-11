@@ -14,5 +14,9 @@ module LambdaEventResponses
     def domain_audit
       @domain_audit ||= individual_performance_audit.domain_audit
     end
+
+    def valid?
+      error.nil?
+    end
   end
 end

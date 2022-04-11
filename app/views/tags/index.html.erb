@@ -1,10 +1,20 @@
 <%= turbo_stream_from "domain_#{current_domain.uid}_monitor_center_view_stream" %>
 
-<div class="text-center">
-  <h1 class="page-title">Monitor Center</h1>
-  <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
-    <div class='tagsafe-container'>
-      <%= display_loading_spinner size: :large %>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title">Monitor Center</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= modal_link select_tag_to_audit_tags_path, text: 'Run Audit', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>
+
+<%= turbo_frame_tag "#{current_domain.uid}_domain_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
+  <div class='text-center p-5'>
+    <%= display_loading_spinner size: :large %>
+  </div>
+<% end %>

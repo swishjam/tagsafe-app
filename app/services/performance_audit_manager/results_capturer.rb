@@ -10,7 +10,7 @@ module PerformanceAuditManager
     def capture_results!
       return if individual_performance_audit.completed?
       update_individual_performance_audits_results_with_results!
-      if performance_audit_result.error
+      if performance_audit_result.invalid?
         individual_performance_audit.error!(performance_audit_result.error)
       else
         individual_performance_audit.completed!

@@ -33,14 +33,12 @@ module LambdaFunctionInvoker
 
     def script_injection_rules
       return [] unless test_run.is_a?(TestRunWithTag)
-      return [] unless audit.run_on_tagsafe_tag_version?
-      [{ url:  tag_version.js_file_url, load_type: 'async' }]
+      js_file_url = @audit.run_on_tagsafe_tag_version? ? tag_version.js_file_url : tag.full_url
+      [{ url: js_file_url, load_type: tag.load_type || 'async' }]
     end
 
     def allowed_request_urls
-      patterns = domain.non_third_party_url_patterns.collect(&:pattern)
-      patterns << tag.url_based_on_preferences if test_run.is_a?(TestRunWithTag) && audit.run_on_live_tag?
-      patterns
+      domain.non_third_party_url_patterns.collect(&:pattern)
     end
 
     def functional_test

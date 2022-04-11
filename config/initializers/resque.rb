@@ -7,7 +7,9 @@ Resque::Server.use(Rack::Auth::Basic) do |user, password|
   password === ENV['RESQUE_PASSWORD']
 end
 
-Resque.redis = { url: ENV['REDIS_URL'] || 'redis://localhost:6379', ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }}
+REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost:6379'
+puts "Setting Resque's Redis URL to: #{REDIS_URL}"
+Resque.redis = { url: REDIS_URL, ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }}
 
 Resque.logger = Logger.new(STDOUT)
 Resque.logger.level = Logger::INFO

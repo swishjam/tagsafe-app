@@ -1,7 +1,18 @@
 <%= turbo_stream_from "domain_#{current_domain.uid}_audits_view_stream" %>
 
-<h5 class="page-title">Audit Log</h5>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title">Audit Log</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to 'Run Audit', '#', class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>        
+      </div>
+    </div>
+  </div>
+</div>
 
-<div class="tagsafe-container text-center">
+<div class="tagsafe-container text-center p-0">
   <%= render 'audits_table', domain: current_domain, audits: @audits, include_tag_name: true %>
 </div>

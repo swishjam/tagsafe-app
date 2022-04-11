@@ -1,27 +1,45 @@
 class UserInvitesController < LoggedInController
-  # skip_before_action :authorize!, only: [:accept, :redeem]
   skip_before_action :ensure_domain, only: [:accept, :redeem]
-  layout 'logged_out_layout', only: :accept
 
   def new
     @user_invite = UserInvite.new
-    @domain_users = current_domain.domain_users.includes(:user)
-    @pending_invites = current_domain.user_invites.not_redeemed
+    stream_modal(
+      partial: 'user_invites/form',
+      locals: { 
+        user_invite: UserInvite.new, 
+        domain: current_domain 
+      }
+    )
   end
 
   def create
     invite = current_user.invite_user_to_domain!(params[:user_invite][:email], current_domain)
     if invite.valid?
-      current_user.broadcast_notification(message: "Invite sent to #{params[:user_invite][:email]}")
+      stream_modal(
+        partial: 'user_invites/form',
+        locals: { 
+          completed: true,
+          invited_user_email: invite.email
+        }
+      )
+    else
+      stream_modal(
+        partial: 'user_invites/form',
+        locals: { 
+          domain: current_domain,
+          errors: invite.errors.full_messages,
+          user_invite: invite
+        }
+      )
     end
-    render turbo_stream: turbo_stream.replace(
-      "domain_#{current_domain.uid}_invite_form",
-      partial: 'user_invites/form',
-      locals: { 
-        domain: current_domain,
-        errors: invite.errors.full_messages 
-      }
-    )
+  end
+
+  def index
+    if params[:status] == 'pending'
+      @user_invites = current_domain.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
+    else
+      @user_invites = current_domain.user_invites.page(params[:page] || 1).per(params[:per_page] || 20)
+    end
   end
 
   def accept
@@ -32,6 +50,7 @@ class UserInvitesController < LoggedInController
       display_inline_error("Invite expired. Please request a new invite from your admin.")
       redirect_to root_path
     end
+    render :accept, layout: 'logged_out_layout'
   end
 
   def redeem

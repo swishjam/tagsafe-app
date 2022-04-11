@@ -1,6 +1,6 @@
 <%= render_as_modal title: "Remove #{domain_user.user.email}?" do %>
   <div class='tagsafe-modal-body'>
-    <h4>Are you sure you'd like to remove <%= domain_user.user.full_name %> from accessing Tagsafe with <%= current_domain.name %>?</h4>
+    <h4>Are you sure you'd like to remove <%= domain_user.user.full_name %> from accessing the <%= current_domain.url %> Tagsafe team?</h4>
     <%= form_for domain_user, method: :delete, data: { controller: 'loading_form' } do |f| %>
       <%= submit_loading_button "Remove #{domain_user.user.email}", button_class: 'red' %>
     <% end %>

@@ -1,9 +1,24 @@
-<%= turbo_frame_tag "url_crawl_#{url_crawl.uid}_bytes_breakdown", class: 'col-xs-12 col-md-6 text-center' do %>
-  <h4 class='js-bytes-explanation'><%= url_crawl.percent_of_js_is_third_party %>% of the javascript on <%= domain.url %> is from third party tags.</h4>
-  <div data-controller='streamed-script-tag'>
-    <%= pie_chart({ 
-      "First Party Javascript" => url_crawl.num_first_party_bytes,
-      "Third Party Javascript" => url_crawl.num_third_party_bytes 
-    }, legend: true, donut: true, thousands: ',', label: 'Bytes', download: true) %>
-  </div>
+<%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
+  <% if url_crawl.complete? %>
+    <%= render 'domain_audits/progress_indicators', 
+                                      domain_audit: domain_audit,
+                                      current_view_num: 1, 
+                                      next_button_url: performance_impact_domain_audit_path(domain_audit), 
+                                      next_button_text: 'Overall Performance Impact' %>
+    <div class='loading-indicator'>
+      <%= display_loading_icon %>
+    </div>
+    <div class='content'>
+      <% if url_crawl.failed? %>
+        <h4>We seem to be having trouble generating some of the third party impact results for <%= current_domain.url %></h4>
+        <h5><%= url_crawl.error_message %></h5>
+      <% else %>
+        <h4>Third party tags make up <%= url_crawl.percent_of_js_is_third_party %>% of the javascript on <%= domain_audit.domain.url %>.</h4>
+        <div data-controller='streamed-script-tag'>
+          <%= pie_chart(pie_chart_data, donut: true, thousands: ',', label: 'Bytes', legend: true, legend: 'bottom') %>
+          <%= column_chart(bar_chart_data, height: "#{bar_chart_data.keys.count * 50}px", label: 'Bytes', thousands: ',', yTitle: 'Bytes') %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>
