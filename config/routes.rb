@@ -156,6 +156,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/redis-configs' => 'application#redis_configs'
+
   post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'
 
