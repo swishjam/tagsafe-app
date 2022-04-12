@@ -11,7 +11,7 @@ class UrlCrawlsController < LoggedInController
   end
 
   def show
-    @url_crawl = current_domain.url_crawls.find(params[:id])
+    @url_crawl = current_domain.url_crawls.find_by(uid: params[:uid])
     render_breadcrumbs(
       { text: 'Settings', url: settings_path },
       { text: 'Tag Syncs', url: url_crawls_path },
@@ -22,7 +22,5 @@ class UrlCrawlsController < LoggedInController
   def create
     current_domain.crawl_and_capture_domains_tags
     respond_with_notification(message: "Syncing #{current_domain.url}'s third party tags...")
-    # current_user.broadcast_notification(message: "Syncing #{current_domain.url}'s third party tags...")
-    # head :no_content
   end
 end

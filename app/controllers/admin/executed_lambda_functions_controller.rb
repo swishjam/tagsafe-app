@@ -8,7 +8,7 @@ module Admin
     end
 
     def show
-      @executed_lambda_function = ExecutedLambdaFunction.includes(:parent).find(params[:id])
+      @executed_lambda_function = ExecutedLambdaFunction.includes(:parent).find_by(uid: params[:uid])
       logs_retriever = CloudwatchLogsRetriever.new(@executed_lambda_function)
       @lambda_function_cloudwatch_logs = logs_retriever.retrieve_logs
       @send_to_tagsafe_lambda_function_cloudwatch_logs = logs_retriever.retrieve_send_to_tagsafe_lambda_function_logs

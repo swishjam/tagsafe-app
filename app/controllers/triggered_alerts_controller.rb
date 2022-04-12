@@ -9,6 +9,6 @@ class TriggeredAlertsController < LoggedInController
   end
 
   def show
-    @triggered_alert = current_domain_user.triggered_alerts.find(params[:id])
+    @triggered_alert = current_domain_user.triggered_alerts.find_by(uid: params[:uid])
   end
 end

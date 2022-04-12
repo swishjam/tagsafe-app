@@ -10,48 +10,53 @@
     <%= display_loading_icon %>
   </div>
   <div class='content'>
-    <h4 class='text-center'>How much are your third party tags slowing down your site?</h4>
-    <div class='row'>
-      <%= render 'domain_audits/performance_impact_row',
-                    title: 'DOM Complete', 
-                    metric: average_delta_performance_audit.dom_complete_delta, 
-                    metric_percent: average_delta_performance_audit.dom_complete_percentage,
-                    metric_help_description: "All of the processing is complete and all of the resources on the page (images, stylesheets, javascript etc.) have finished downloading - in other words, the loading spinner has stopped spinning." 
-      %>
-      <%= render 'domain_audits/performance_impact_row',
-                    title: 'DOM Interactive', 
-                    metric: average_delta_performance_audit.dom_interactive_delta,
-                    metric_percent: average_delta_performance_audit.dom_interactive_percentage,
-                    metric_help_description: "Marks the point when the browser has finished parsing all of the HTML and DOM construction is complete." 
-      %>
-    </div>
-    <div class='row'>
-      <%= render 'domain_audits/performance_impact_row',
-                    title: 'DOM Content Loaded',
-                    metric: average_delta_performance_audit.dom_content_loaded_delta,
-                    metric_percent: average_delta_performance_audit.dom_content_loaded_percentage,
-                    metric_help_description: "Typically marks when both the DOM and CSSOM are ready. If there is no parser blocking JavaScript then DOMContentLoaded will fire immediately after DOM Interactive." 
+    <% if domain_audit.pending? %>
+      <h4>Just a moment, calculating impact of third party tags on <%= domain_audit.domain.url %>...</h4>
+      <%= display_loading_icon %>
+    <% else %>
+      <h4 class='text-center'>How much are your third party tags slowing down your site?</h4>
+      <div class='row'>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'DOM Complete', 
+                      metric: average_delta_performance_audit.dom_complete_delta, 
+                      metric_percent: average_delta_performance_audit.dom_complete_percentage,
+                      metric_help_description: "All of the processing is complete and all of the resources on the page (images, stylesheets, javascript etc.) have finished downloading - in other words, the loading spinner has stopped spinning." 
         %>
-      <%= render 'domain_audits/performance_impact_row',
-                    title: 'First Contentful Paint',
-                    metric: average_delta_performance_audit.first_contentful_paint_delta,
-                    metric_percent: average_delta_performance_audit.first_contentful_paint_percentage,
-                    metric_help_description: "Occurs when a browser first renders any content from the document object model (DOM), including any text, images, non-white canvas, or scalable vector graphics (SVG) onto the page." 
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'DOM Interactive', 
+                      metric: average_delta_performance_audit.dom_interactive_delta,
+                      metric_percent: average_delta_performance_audit.dom_interactive_percentage,
+                      metric_help_description: "Marks the point when the browser has finished parsing all of the HTML and DOM construction is complete." 
         %>
+      </div>
+      <div class='row'>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'DOM Content Loaded',
+                      metric: average_delta_performance_audit.dom_content_loaded_delta,
+                      metric_percent: average_delta_performance_audit.dom_content_loaded_percentage,
+                      metric_help_description: "Typically marks when both the DOM and CSSOM are ready. If there is no parser blocking JavaScript then DOMContentLoaded will fire immediately after DOM Interactive." 
+          %>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'First Contentful Paint',
+                      metric: average_delta_performance_audit.first_contentful_paint_delta,
+                      metric_percent: average_delta_performance_audit.first_contentful_paint_percentage,
+                      metric_help_description: "Occurs when a browser first renders any content from the document object model (DOM), including any text, images, non-white canvas, or scalable vector graphics (SVG) onto the page." 
+          %>
+      </div>
+      <div class='row'>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'Script Duration', 
+                      metric: average_delta_performance_audit.script_duration_delta, 
+                      metric_percent: average_delta_performance_audit.script_duration_percentage,
+                      metric_help_description: "Combined duration of all JavaScript execution" 
+        %>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'Task Duration', 
+                      metric: average_delta_performance_audit.task_duration_delta, 
+                      metric_percent: average_delta_performance_audit.task_duration_percentage, 
+                      metric_help_description: "Combined duration of all tasks performed by the browser." 
+        %>
+      </div>
     </div>
-    <div class='row'>
-      <%= render 'domain_audits/performance_impact_row',
-                    title: 'Script Duration', 
-                    metric: average_delta_performance_audit.script_duration_delta, 
-                    metric_percent: average_delta_performance_audit.script_duration_percentage,
-                    metric_help_description: "Combined duration of all JavaScript execution" 
-      %>
-      <%= render 'domain_audits/performance_impact_row',
-                    title: 'Task Duration', 
-                    metric: average_delta_performance_audit.task_duration_delta, 
-                    metric_percent: average_delta_performance_audit.task_duration_percentage, 
-                    metric_help_description: "Combined duration of all tasks performed by the browser." 
-      %>
-    </div>
-  </div>
+  <% end %>
 <% end %>

@@ -9,7 +9,7 @@ class TagChecksController < LoggedInController
   end
 
   def tag_chart
-    tag = current_domain.tags.includes(:tag_check_regions).find(params[:tag_id])
+    tag = current_domain.tags.includes(:tag_check_regions).find_by(uid: params[:tag_uid])
     selected_tag_check_regions = TagCheckRegion.where(aws_name: params[:aws_region_names] || 'us-east-1')
     start_time = (params[:start_time] || 1.day.ago).to_datetime
     end_time = (params[:end_time] || Time.now).to_datetime
@@ -28,7 +28,7 @@ class TagChecksController < LoggedInController
   end
 
   def tag_list
-    tag = current_domain.tags.includes(:tag_check_regions).find(params[:tag_id])
+    tag = current_domain.tags.includes(:tag_check_regions).find_by(uid: params[:tag_uid])
     selected_tag_check_regions = TagCheckRegion.where(aws_name: params[:aws_region_names] || 'us-east-1')
     paginated_tag_checks = tag.tag_checks.includes(:tag_check_region)
                                           .measured_uptime

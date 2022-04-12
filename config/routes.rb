@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   resources :registrations, only: [:new, :create]
   get '/register' => 'registrations#new'
   
-  resources :domain_users, only: [:destroy, :index]
-  get "/domain_users/:id/destroy_modal" => 'domain_users#destroy_modal', as: :destroy_domain_user_modal
+  resources :domain_users, only: [:destroy, :index], param: :uid
+  get "/domain_users/:uid/destroy_modal" => 'domain_users#destroy_modal', as: :destroy_domain_user_modal
   resources :user_invites, only: [:new, :create, :index]
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
@@ -23,11 +23,11 @@ Rails.application.routes.draw do
   get '/audit_log' => 'audits#all', as: :audit_log
   get '/test_run_log' => 'test_runs#all', as: :all_test_runs
   get '/uptime' => 'tag_checks#index'
-  get '/uptime/:tag_id/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
-  get '/uptime/:tag_id/list' => 'tag_checks#tag_list', as: :tag_uptime_list
+  get '/uptime/:tag_uid/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
+  get '/uptime/:tag_uid/list' => 'tag_checks#tag_list', as: :tag_uptime_list
   get '/performance' => 'performance#index'
 
-  resources :domain_audits, only: [:create] do
+  resources :domain_audits, only: [:create], param: :uid do
     member do
       get :bytes_breakdown
       get :performance_impact
@@ -39,33 +39,33 @@ Rails.application.routes.draw do
   get '/third_party_impact' => 'domain_audits#show', as: :third_party_impact
 
   get '/alerts' => 'triggered_alerts#index', as: :alerts
-  get '/alerts/:id' => 'triggered_alerts#show', as: :alert
-  resources :alert_configurations, only: [:show, :create, :update]
+  get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
+  resources :alert_configurations, only: [:show, :create, :update], param: :uid
 
-  resources :domains, only: [:create, :update, :new] do
-    resources :page_urls, only: [:update] do
+  resources :domains, only: [:create, :update, :new], param: :uid do
+    resources :page_urls, only: [:update], param: :uid do
       collection do
         post '/create_or_update' => 'page_urls#create_or_update'
       end
     end
-    resources :non_third_party_url_patterns, only: [:create, :destroy]
+    resources :non_third_party_url_patterns, only: [:create, :destroy], param: :uid
   end
   put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
 
-  resources :functional_tests do
+  resources :functional_tests, param: :uid do
     member do
       get :tags_to_run_on
       post :validate
       patch :toggle_disable
     end
-    resources :test_runs, only: [:index, :show] do
+    resources :test_runs, only: [:index, :show], param: :uid do
       member do
         post :retry
       end
     end
   end
 
-  resources :tags do
+  resources :tags, param: :uid do
     member do
       get :uptime
       get :audits
@@ -78,12 +78,12 @@ Rails.application.routes.draw do
     get '/audit_settings' => 'tags#audit_settings'
     get '/notification_settings' => 'tags#notification_settings'
 
-    resources :tag_check_regions_to_check, only: [:create, :destroy, :new]
-    resources :urls_to_audit, only: [:create, :destroy]
-    resources :slack_notification_subscribers, only: [:create, :destroy]
-    resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy]
-    resources :tag_preferences, only: [:edit, :update]
-    resources :tag_versions, only: [:show, :index] do
+    resources :tag_check_regions_to_check, only: [:create, :destroy, :new], param: :uid
+    resources :urls_to_audit, only: [:create, :destroy], param: :uid
+    resources :slack_notification_subscribers, only: [:create, :destroy], param: :uid
+    resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy], param: :uid
+    resources :tag_preferences, only: [:edit, :update], param: :uid
+    resources :tag_versions, only: [:show, :index], param: :uid do
       member do
         get '/live_comparison' => 'tag_versions#live_comparison'
         get :content
@@ -94,7 +94,7 @@ Rails.application.routes.draw do
         get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
     end
-    resources :audits, only: [:show, :index, :new, :create] do
+    resources :audits, only: [:show, :index, :new, :create], param: :uid do
       member do
         get :performance_audit
         get :test_runs
@@ -109,21 +109,21 @@ Rails.application.routes.draw do
       get '/performance_stats' => 'individual_performance_audits#index'
       # turbo frame src endpoints
       get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
-      get '/test_run_for_audit/:id' => 'test_runs#show_for_audit', as: :test_run_for_audit
-      resources :page_change_audits, only: :show
+      get '/test_run_for_audit/:uid' => 'test_runs#show_for_audit', as: :test_run_for_audit
+      resources :page_change_audits, only: :show, param: :uid
       resources :performance_audit_logs, only: :index
       resources :page_load_resources, only: :index
       get '/waterfall' => 'page_load_resources#for_audit'
     end
   end
-  resources :general_configuration, only: [:create, :update]
+  resources :general_configuration, only: [:create, :update], param: :uid
 
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
     get '/performance' => 'performance#index'
     get '/executed_lambda_function/for_obj/:parent_type/:parent_id' => 'executed_lambda_functions#for_obj'
-    resources :lambda_functions, controller: :executed_lambda_functions, only: [:index, :show]
-    resources :flags, only: [:index, :show] do
+    resources :lambda_functions, controller: :executed_lambda_functions, only: [:index, :show], param: :uid
+    resources :flags, only: [:index, :show], param: :uid do
       resources :object_flags
     end
     resources :tag_identifying_data
@@ -150,7 +150,7 @@ Rails.application.routes.draw do
 
   resources :stripe_billing_portal, only: :new
   resources :domain_payment_methods, only: [:new, :create]
-  resources :subscription_plans, only: [] do
+  resources :subscription_plans, only: [], param: :uid do
     member do
       patch :cancel
     end
@@ -164,12 +164,12 @@ Rails.application.routes.draw do
   get '/settings' => 'settings#global_settings'
   get '/settings/tag_management' => 'settings#tag_management'
   get '/settings/billing' => 'settings#billing'
-  resources :url_crawls, only: [:index, :show, :create]
+  resources :url_crawls, only: [:index, :show, :create], param: :uid
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
-  get '/charts/domain/:domain_id' => 'charts#tags', as: :domain_tags_chart
-  get '/charts/tag/:tag_id' => 'charts#tag', as: :tag_chart
-  get '/charts/uptime/:domain_id' => 'charts#tag_uptime', as: :tags_uptime_chart
+  get '/charts/domain/:domain_uid' => 'charts#tags', as: :domain_tags_chart
+  get '/charts/tag/:tag_uid' => 'charts#tag', as: :tag_chart
+  get '/charts/uptime/:domain_uid' => 'charts#tag_uptime', as: :tags_uptime_chart
   get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
   get '/charts/admin_lambda_functions' => 'charts#admin_executed_lambda_functions', as: :admin_executed_lambda_functions_chart
 end

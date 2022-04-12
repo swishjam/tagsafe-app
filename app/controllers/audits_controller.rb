@@ -30,11 +30,11 @@ class AuditsController < LoggedInController
   end
 
   def show
-    redirect_to performance_audit_tag_audit_path(params[:tag_id], params[:id])
+    redirect_to performance_audit_tag_audit_path(params[:tag_uid], params[:uid])
   end
 
   def new
-    tag_version = params[:tag_version_id] ? @tag.tag_versions.find(params[:tag_version_id]) : nil
+    tag_version = params[:tag_version_uid] ? @tag.tag_versions.find_by(uid: params[:tag_version_uid]) : nil
     urls_to_audit = @tag.urls_to_audit.includes(:page_url)
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
@@ -47,8 +47,7 @@ class AuditsController < LoggedInController
   end
 
   def create
-    # tag = current_domain.tags.find(params[:tag_id])
-    tag_version = @tag.tag_versions.find_by(id: params[:tag_version_id])
+    tag_version = @tag.tag_versions.find_by(uid: params[:tag_version_uid])
     audits_enqueued = @tag.urls_to_audit.where(id: params[:urls_to_audit]).map do |url_to_audit|
       @tag.perform_audit!(
         initiated_by_domain_user: current_domain_user,
@@ -100,11 +99,11 @@ class AuditsController < LoggedInController
   private
 
   def find_tag
-    @tag = current_domain.tags.find(params[:tag_id])
+    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
   end
 
   def find_audit
-    @audit = @tag.audits.find(params[:id])
+    @audit = @tag.audits.find_by(uid: params[:uid])
   end
 
   def render_breadcrumbs_for_show_views

@@ -1,6 +1,6 @@
 class UrlsToAuditController < LoggedInController
   def create
-    tag = current_domain.tags.find(params[:tag_id])
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
     page_url = PageUrl.create_or_find_by_url(current_domain, params[:url_to_audit][:page_url])
     if !page_url.valid?
       render turbo_stream: turbo_stream.replace(
@@ -50,8 +50,8 @@ class UrlsToAuditController < LoggedInController
   end
 
   def destroy
-    tag = current_domain.tags.find(params[:tag_id])
-    url_to_audit = tag.urls_to_audit.find(params[:id])
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    url_to_audit = tag.urls_to_audit.find_by(uid: params[:uid])
     if url_to_audit.destroy
       # current_user.broadcast_notification("Removed #{url_to_audit.page_url.full_url} from #{tag.try_friendly_name}'s audit list.")
       render turbo_stream: turbo_stream.replace(

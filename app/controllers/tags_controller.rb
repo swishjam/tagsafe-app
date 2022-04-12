@@ -4,7 +4,7 @@ class TagsController < LoggedInController
   end
 
   def show
-    @tag = current_domain.tags.find(params[:id])
+    @tag = current_domain.tags.find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
@@ -18,11 +18,11 @@ class TagsController < LoggedInController
   end
 
   def uptime
-    @tag = current_domain.tags.find(params[:id])
+    @tag = current_domain.tags.find_by(uid: params[:uid])
   end
 
   def edit
-    @tag = current_domain.tags.find(params[:id])
+    @tag = current_domain.tags.find_by(uid: params[:uid])
     @selectable_tag_check_regions = TagCheckRegion.selectable.not_enabled_on_tag(@tag)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
@@ -32,7 +32,7 @@ class TagsController < LoggedInController
   end
 
   def audits
-    tag = current_domain.tags.find(params[:id])
+    tag = current_domain.tags.find_by(uid: params[:uid])
     audits = tag.audits.most_recent_first(timestamp_column: :created_at)
                         .includes(:performance_audits)
                         .page(params[:page] || 1)
@@ -48,7 +48,7 @@ class TagsController < LoggedInController
   end
 
   def audit_settings
-    @tag = current_domain.tags.find(params[:tag_id])
+    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
@@ -57,7 +57,7 @@ class TagsController < LoggedInController
   end
 
   def notification_settings
-    @tag = current_domain.tags.find(params[:tag_id])
+    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
     if current_domain.completed_slack_setup?
       @slack_channels_options = current_domain.slack_client.get_channels['channels'].map { |channel| channel['name'] }
     end
@@ -69,7 +69,7 @@ class TagsController < LoggedInController
   end
 
   def update
-    tag = current_domain.tags.find(params[:id])
+    tag = current_domain.tags.find_by(uid: params[:uid])
     params[:tag][:friendly_name] = params[:tag][:friendly_name].empty? ? nil : params[:tag][:friendly_name]
     params[:tag][:tag_preferences_attributes][:id] = tag.tag_preferences.id
     if tag.update(tag_params)

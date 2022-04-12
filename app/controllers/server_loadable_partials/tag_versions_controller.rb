@@ -1,7 +1,7 @@
 module ServerLoadablePartials
   class TagVersionsController < BaseController
     def index
-      tag = current_domain.tags.find(params[:tag_id])
+      tag = current_domain.tags.find_by(uid: params[:tag_uid])
       tag_versions = tag.tag_versions.most_recent_first.page(params[:page] || 1).per(params[:per_page] || 10)
       render turbo_stream: turbo_stream.replace(
         "tag_#{tag.uid}_tag_versions_table",
@@ -11,8 +11,8 @@ module ServerLoadablePartials
     end
 
     def diff
-      tag = current_domain.tags.find(params[:tag_id])
-      tag_version = tag.tag_versions.find(params[:id])
+      tag = current_domain.tags.find_by(uid: params[:tag_uid])
+      tag_version = tag.tag_versions.find_by(uid: params[:uid])
       previous_tag_version = tag_version.previous_version
       diff_analyzer = DiffAnalyzer.new(
         new_content: tag_version.content(formatted: true),
@@ -28,8 +28,8 @@ module ServerLoadablePartials
     end
 
     def live_comparison
-      tag = current_domain.tags.find(params[:tag_id])
-      tag_version = tag.tag_versions.find(params[:id])
+      tag = current_domain.tags.find_by(uid: params[:tag_uid])
+      tag_version = tag.tag_versions.find_by(uid: params[:uid])
       live_content = TagManager::ContentFetcher.new(tag).fetch!
       formatted_content = TagManager::JsBeautifier.beautify_string!(live_content)
       diff_analyzer = DiffAnalyzer.new(

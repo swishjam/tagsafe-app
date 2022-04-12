@@ -18,8 +18,9 @@ class RegistrationsController < LoggedOutController
           @domain.add_user(@user)
           @domain.mark_as_registered!
           log_user_in(@user)
-          session[:domain_audit_id] = nil
-          redirect_to tags_path
+          url_to_go_to = session[:redirect_url] || params[:redirect_url] || tags_path
+          session.delete(:redirect_url)
+          redirect_to url_to_go_to
         else
           log_user_in(@user)
           redirect_to new_domain_path

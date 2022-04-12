@@ -1,11 +1,11 @@
 class PerformanceAuditLogsController < LoggedInController
   def index
-    @audit = Audit.find(params[:audit_id])
+    @audit = Audit.find_by(uid: params[:audit_uid])
     permitted_to_view?(@audit)
     @performance_audits_with_tag = @audit.performance_audits_with_tag.includes(:performance_audit_log)
     @performance_audits_without_tag = @audit.performance_audits_without_tag.includes(:performance_audit_log)
-    @tag = Tag.find(params[:tag_id])
-    @tag_version = TagVersion.find(params[:tag_version_id])
+    @tag = Tag.find_by(uid: params[:tag_uid])
+    @tag_version = TagVersion.find_by(uid: params[:tag_version_uid])
     # render_breadcrumbs(
     #   { url: tags_path, text: "Monitor Center" },
     #   { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },

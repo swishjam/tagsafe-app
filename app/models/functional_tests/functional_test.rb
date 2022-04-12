@@ -1,15 +1,15 @@
 class FunctionalTest < ApplicationRecord
   belongs_to :domain
-  belongs_to :created_by_user, class_name: 'User'
+  belongs_to :created_by_user, class_name: User.to_s, optional: true
   
-  has_many :functional_tests_to_run, class_name: 'FunctionalTestToRun'
+  has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s
   has_many :tags_to_run_tests_on, through: :functional_tests_to_run, source: 'tag', dependent: :destroy
   accepts_nested_attributes_for :functional_tests_to_run
 
   has_many :test_runs, dependent: :destroy
-  has_many :dry_test_runs, class_name: 'DryTestRun'
-  has_many :test_runs_with_tag, class_name: 'TestRunWithTag'
-  has_many :test_runs_without_tag, class_name: 'TestRunWithoutTag'
+  has_many :dry_test_runs, class_name: DryTestRun.to_s
+  has_many :test_runs_with_tag, class_name: TestRunWithTag.to_s
+  has_many :test_runs_without_tag, class_name: TestRunWithoutTag.to_s
 
   scope :passed_dry_run, -> { where(passed_dry_run: true) }
   scope :has_not_passed_dry_run, -> { where(passed_dry_run: false) }

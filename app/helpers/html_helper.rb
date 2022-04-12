@@ -63,7 +63,7 @@ module HtmlHelper
   end
 
   def create_audit_path(tag)
-    "/tags/#{tag.id}/audits"
+    "/tags/#{tag.uid}/audits"
   end
 
   def modal_link(modal_html_path, klass: nil, text: nil, &block)

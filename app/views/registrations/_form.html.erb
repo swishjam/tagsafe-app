@@ -30,7 +30,11 @@
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
     <%= loading_submit_button 'Get Started', button_class: 'large mb-3' %>
     <div class='row'>
-      <%= link_to 'Login', login_path %>
+      <% if local_assigns[:domain] %>
+        <%= link_to 'Login', "#{login_path}?domain=#{domain.uid}" %>
+      <% else %>
+        <%= link_to 'Login', login_path %>
+      <% end %>
     </div>
   <% end %>
 <!-- <#% end %> !-->

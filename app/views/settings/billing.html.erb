@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <% if @next_invoice.nil? %>
+      <% if !current_domain.has_payment_method_on_file? %>
        N/A
       <% else %>
         <div class='d-block '>
@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <% if @next_invoice.nil? %>
+      <% if !current_domain.has_payment_method_on_file? %>
        N/A
       <% else %>
         <div class='d-block '>
@@ -59,10 +59,12 @@
   </div>
 </div>
 
-<div class='tagsafe-container mt-5 p-3 text-center'>
-  <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
-  <span class='settings-description d-block'>You will be charged the remaining <%= number_to_currency(@next_invoice.amount_due / 100) %> immediately, and your configuration will be updated to no long monitor tag releases or run automated audits.</span>
-  <%= form_with model: current_domain.current_subscription_plan, url: cancel_subscription_plan_path(current_domain.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
-    <%= loading_submit_button 'Cancel', button_class: 'red mt-3' %>
+<% if current_domain.has_payment_method_on_file? %>
+  <div class='tagsafe-container mt-5 p-3 text-center'>
+    <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
+    <span class='settings-description d-block'>You will be charged the remaining <%= number_to_currency(@next_invoice.amount_due / 100) %> immediately, and your configuration will be updated to no long monitor tag releases or run automated audits.</span>
+    <%= form_with model: current_domain.current_subscription_plan, url: cancel_subscription_plan_path(current_domain.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
+      <%= loading_submit_button 'Cancel', button_class: 'red mt-3' %>
+    <% end %>
   <% end %>
 </div>

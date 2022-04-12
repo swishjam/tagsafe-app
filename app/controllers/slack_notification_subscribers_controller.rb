@@ -10,7 +10,7 @@ class SlackNotificationSubscribersController < LoggedInController
   end
 
   def destroy
-    SlackNotificationSubscriber.find(params[:id]).destroy!
+    SlackNotificationSubscriber.find_by(uid: params[:uid]).destroy!
     display_toast_message('Removed Slack notification.')
     redirect_to request.referrer
   end

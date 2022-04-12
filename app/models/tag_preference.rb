@@ -4,7 +4,7 @@ class TagPreference < ApplicationRecord
   belongs_to :tag
   
   after_update :check_to_update_release_monitoring_preferences
-  after_create { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: nil, new_interval: tag_check_minute_interval) }
+  after_create { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: nil, new_interval: tag_check_minute_interval) unless release_monitoring_disabled? }
   before_destroy { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: tag_check_minute_interval, new_interval: nil) }
 
   validate :has_payment_method_on_file_when_necessary

@@ -1,6 +1,6 @@
 class DomainUsersController < LoggedInController
   def destroy_modal
-    domain_user = current_domain.domain_users.includes(:user).find(params[:id])
+    domain_user = current_domain.domain_users.includes(:user).find_by(uid: params[:uid])
     stream_modal(
       partial: 'domain_users/destroy_modal',
       locals: { domain_user: domain_user }
@@ -19,7 +19,7 @@ class DomainUsersController < LoggedInController
   end
 
   def destroy
-    du = DomainUser.find(params[:id])
+    du = DomainUser.find_by(uid: params[:uid])
     if current_user.can_remove_user_from_domain?(du.domain)
       du.destroy!
       redirect_to request.referrer

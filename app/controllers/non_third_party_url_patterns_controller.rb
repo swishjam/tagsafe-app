@@ -15,7 +15,7 @@ class NonThirdPartyUrlPatternsController < LoggedInController
   end
 
   def destroy
-    pattern = NonThirdPartyUrlPattern.find(params[:id])
+    pattern = NonThirdPartyUrlPattern.find_by(uid: params[:uid])
     if pattern.destroy
       current_user.broadcast_notification(message: "Removed #{pattern.pattern} from the non-third party tag URL patterns list.")
     else

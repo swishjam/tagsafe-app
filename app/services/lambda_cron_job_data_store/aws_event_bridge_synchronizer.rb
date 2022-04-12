@@ -31,22 +31,27 @@ module LambdaCronJobDataStore
         tag_check_region_collection.each do |tag_check_region|
           aws_rules = TagsafeAws::EventBridge.list_rules(region: tag_check_region.aws_region_name).rules
           aws_rules.each do |aws_rule|
-            interval = aws_rule.schedule_expression.tr('^0-9', '')
-            tagsafe_aws_event_bridge_rule = tag_check_region.tag_check_schedule_aws_event_bridge_rules.for_interval(interval)
-            if tagsafe_aws_event_bridge_rule.present?
-              puts "Updating Tagsafe's TagCheckScheduleAwsEventBridgeRule #{tag_check_region.aws_region_name}'s #{interval} minute interval..."
-              tagsafe_aws_event_bridge_rule.update!(
-                name: aws_rule.name,
-                associated_tag_check_minute_interval: interval,
-                enabled: aws_rule.state == 'ENABLED'
-              )
+            if aws_rule.name.include?('-develo-') && Rails.env.development? ||
+                aws_rule.name.include?('-produc-') && Rails.env.production?
+              interval = aws_rule.schedule_expression.tr('^0-9', '')
+              tagsafe_aws_event_bridge_rule = tag_check_region.tag_check_schedule_aws_event_bridge_rules.for_interval(interval)
+              if tagsafe_aws_event_bridge_rule.present?
+                puts "Updating Tagsafe's TagCheckScheduleAwsEventBridgeRule #{tag_check_region.aws_region_name}'s #{interval} minute interval..."
+                tagsafe_aws_event_bridge_rule.update!(
+                  name: aws_rule.name,
+                  associated_tag_check_minute_interval: interval,
+                  enabled: aws_rule.state == 'ENABLED'
+                )
+              else
+                puts "Creating new TagCheckScheduleAwsEventBridgeRule for #{tag_check_region.aws_region_name}'s #{interval} minute interval..."
+                tag_check_region.tag_check_schedule_aws_event_bridge_rules.create!(
+                  name: aws_rule.name,
+                  associated_tag_check_minute_interval: interval,
+                  enabled: aws_rule.state == 'ENABLED'
+                )
+              end
             else
-              puts "Creating new TagCheckScheduleAwsEventBridgeRule for #{tag_check_region.aws_region_name}'s #{interval} minute interval..."
-              tag_check_region.tag_check_schedule_aws_event_bridge_rules.create!(
-                name: aws_rule.name,
-                associated_tag_check_minute_interval: interval,
-                enabled: aws_rule.state == 'ENABLED'
-              )
+              puts "Skipping AwsEventBridgeRule #{aws_rule.name} because it is not for current env (#{Rails.env})"
             end
           end
         end

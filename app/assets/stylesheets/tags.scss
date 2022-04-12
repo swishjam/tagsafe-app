@@ -17,3 +17,49 @@
     color: $faded-grey-text;
   }
 }
+
+.domain-tags-table-frame[busy] .search-input-container .loading-indicator {
+  display: flex;
+}
+
+.tags-table {
+  .search-input-container {
+    position: relative;
+    .loading-indicator {
+      position: absolute;
+      right: 15px;
+      top: 0;
+      height: 100%;
+      display: none;
+      align-items: center;
+    }
+    &.expanded {
+      flex-grow: 1;
+    }
+    .expand-btn {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      &.queried i {
+        text-shadow: 2px 2px 7px yellow;
+      }
+    }
+    .search-input {
+      transition: 500ms width, padding;
+    }
+    &.collapsed .search-input {
+      position: relative;
+      display: inline-block;
+      width: 0;
+      padding: 0;
+      border: 0;
+    }
+    &.expanded .search-input {
+      width: calc(100% - 40px);
+      padding: .375rem .75rem;
+    }
+  }
+}

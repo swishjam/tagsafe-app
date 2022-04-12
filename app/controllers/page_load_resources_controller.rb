@@ -1,8 +1,8 @@
 class PageLoadResourcesController < LoggedInController
   def for_audit
-    @tag = current_domain.tags.find(params[:tag_id])
-    @tag_version = TagVersion.find(params[:tag_version_id])
-    @audit = Audit.find(params[:audit_id])
+    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    @tag_version = TagVersion.find_by(uid: params[:tag_version_uid])
+    @audit = Audit.find_by(uid: params[:audit_uid])
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
@@ -12,8 +12,8 @@ class PageLoadResourcesController < LoggedInController
   end
 
   def index
-    tag = current_domain.tags.find(params[:tag_id])
-    audit = tag.audits.find(params[:audit_id])
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    audit = tag.audits.find_by(uid: params[:audit_uid])
     
     raise StandardError, 'Must pass `performance_audit_type` URL parameter' if params[:performance_audit_type].nil?
     perf_audit_getter_method = params[:performance_audit_type] == 'with_tag' ? :median_individual_performance_audit_with_tag : :median_individual_performance_audit_without_tag

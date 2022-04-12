@@ -1,25 +1,4 @@
-<div class='sliding-nav m-auto mb-3'>
-  <% 
-    [
-      {
-        text: 'Configuration',
-        url: functional_test_path(@functional_test),
-        consider_current_path_pattern: '/edit'
-      },
-      {
-        text: 'Test Runs',
-        url: functional_test_test_runs_path(@functional_test),
-        consider_current_path_pattern: '/test_runs/'
-      },
-      # {
-      #   text: "Tags enabled for #{@functional_test.run_on_all_tags ? '(all tags)' : "(#{@functional_test.tags_to_run_tests_on.count})"}",
-      #   url: tags_to_run_on_functional_test_path(@functional_test)
-      # }
-    ].each do |nav_item|
-  %>
-    <% is_active = [nav_item[:url], nav_item[:consider_current_path]].include?(request.path) || (nav_item[:consider_current_path_pattern] && request.path.include?(nav_item[:consider_current_path_pattern])) %>
-    <%= link_to is_active ? '#' : nav_item[:url] do %>
-      <div class='sliding-nav-item <%= is_active ? 'active' : nil %>'><%= nav_item[:text] %></div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'partials/page_navigation_items', navigation_items: [
+  { url: functional_test_path(@functional_test), text: 'Test Configuration' },
+  { url: functional_test_test_runs_path(@functional_test), text: 'All Test Runs' }
+] %>

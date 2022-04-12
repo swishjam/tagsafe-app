@@ -1,8 +1,8 @@
 class PageChangeAuditsController < ApplicationController
   def show
-    tag = current_domain.tags.find(params[:tag_id])
-    tag_version = tag.tag_versions.find(params[:tag_version_id])
-    audit = tag_version.audits.find(params[:audit_id])
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    tag_version = tag.tag_versions.find_by(uid: params[:tag_version_uid])
+    audit = tag_version.audits.find_by(uid: params[:audit_uid])
     page_change_audit = audit.page_change_audit
     diff_analyzer = DiffAnalyzer.new(
       new_content: page_change_audit.html_snapshot_with_tag.fetch_html_content,

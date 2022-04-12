@@ -29,7 +29,7 @@ class DomainsController < LoggedInController
 
   def update
     params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
-    domain = Domain.find(params[:id])
+    domain = Domain.find_by(uid: params[:uid])
     if domain.update(domain_params)
       domain.crawl_and_capture_domains_tags(true)
       display_toast_message("Scanning #{domain.url} for third party tags.")
@@ -44,15 +44,7 @@ class DomainsController < LoggedInController
     set_current_domain(domain)
     redirect_to tags_path
   end
-
-  # def crawl
-  #   domain = Domain.find(params[:id])
-  #   raise StandardError, 'No permission' unless domain.user_can_initiate_crawl?(current_user)
-  #   domain.crawl_and_capture_domains_tags
-  #   current_user.broadcast_notification(message: "Syncing #{domain.url}'s third party tags...")
-  #   head :no_content
-  # end
-
+  
   private
 
   def domain_params

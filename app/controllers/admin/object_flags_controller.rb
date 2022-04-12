@@ -1,16 +1,16 @@
 module Admin
   class ObjectFlagsController < BaseController
     def show
-      @flag = Flag.find(params[:flag_id])
-      @object_flag = ObjectFlag.find(params[:id])
+      @flag = Flag.find_by(uid: params[:flag_uid])
+      @object_flag = ObjectFlag.find_by(uid: params[:uid])
     end
     
     def new
-      @flag = Flag.find(params[:flag_id])
+      @flag = Flag.find_by(uid: params[:flag_uid])
     end
 
     def update
-      @object_flag = ObjectFlag.find(params[:id])
+      @object_flag = ObjectFlag.find_by(uid: params[:uid])
       @object_flag.update(object_flag_params)
       display_success_banner("#{@object_flag.flag.name} flag for #{@object_flag.display_name} updated to #{@object_flag.value}")
       redirect_to admin_flag_object_flag_path(@object_flag.flag, @object_flag)
@@ -26,15 +26,15 @@ module Admin
                 else
                   raise GenericTagSafeError, "Invalid object type #{uid_prefix}"
                 end
-      flag = Flag.find(params[:flag_id])
+      flag = Flag.find_by(uid: params[:flag_uid])
       object_flag = Flag.set_flag_for_object(object, flag.slug, params[:value])
       display_success_banner("#{flag.name} added to #{object_flag.display_name} with a value of #{params[:value]}")
       redirect_to admin_flag_path(flag)
     end
 
     def destroy
-      @flag = Flag.find(params[:flag_id])
-      @object_flag = ObjectFlag.find(params[:id])
+      @flag = Flag.find_by(uid: params[:flag_uid])
+      @object_flag = ObjectFlag.find_by(uid: params[:uid])
       @object_flag.destroy!
       display_success_banner("#{@flag.name} removed from #{@object_flag.display_name}")
       redirect_to admin_flag_path(@flag)

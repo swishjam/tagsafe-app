@@ -5,7 +5,7 @@ module Admin
     end
 
     def show
-      @flag = Flag.find(params[:id])
+      @flag = Flag.find_by(uid: params[:uid])
     end
   end
 end

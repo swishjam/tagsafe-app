@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_014035) do
+ActiveRecord::Schema.define(version: 2022_04_11_230719) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.text "url"
     t.string "resource_type"
     t.index ["performance_audit_id"], name: "index_blocked_resources_on_performance_audit_id"
+    t.index ["uid"], name: "index_blocked_resources_on_uid"
   end
 
   create_table "delta_performance_audits", charset: "utf8mb3", force: :cascade do |t|
@@ -199,6 +200,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.bigint "triggerer_id"
     t.string "triggerer_type"
     t.index ["triggerer_id"], name: "index_events_on_triggerer_id"
+    t.index ["uid"], name: "index_events_on_uid"
   end
 
   create_table "executed_lambda_functions", charset: "utf8mb3", force: :cascade do |t|
@@ -216,20 +218,13 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.datetime "completed_at"
     t.float "ms_to_receive_response"
     t.index ["parent_type", "parent_id"], name: "index_executed_lambda_functions_on_parent"
+    t.index ["uid"], name: "index_executed_lambda_functions_on_uid"
   end
 
   create_table "execution_reasons", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "name"
     t.index ["uid"], name: "index_execution_reasons_on_uid"
-  end
-
-  create_table "filmstrip_screenshots", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "performance_audit_id"
-    t.string "uid"
-    t.integer "timestamp"
-    t.index ["performance_audit_id"], name: "index_filmstrip_screenshots_on_performance_audit_id"
-    t.index ["uid"], name: "index_filmstrip_screenshots_on_uid"
   end
 
   create_table "flags", charset: "utf8mb3", force: :cascade do |t|
@@ -240,6 +235,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "default_value"
+    t.index ["uid"], name: "index_flags_on_uid"
   end
 
   create_table "functional_tests", charset: "utf8mb3", force: :cascade do |t|
@@ -315,27 +311,12 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.index ["uid"], name: "index_html_snapshots_on_uid"
   end
 
-  create_table "monitored_scripts", charset: "utf8mb3", force: :cascade do |t|
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
-    t.timestamp "script_last_updated_at"
-  end
-
   create_table "non_third_party_url_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.integer "domain_id"
     t.string "pattern"
     t.index ["domain_id"], name: "index_non_third_party_url_patterns_on_domain_id"
     t.index ["uid"], name: "index_non_third_party_url_patterns_on_uid"
-  end
-
-  create_table "notification_subscribers", charset: "utf8mb3", force: :cascade do |t|
-    t.integer "monitored_script_id"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "object_flags", charset: "utf8mb3", force: :cascade do |t|
@@ -348,6 +329,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["flag_id"], name: "index_object_flags_on_flag_id"
     t.index ["object_type", "object_id"], name: "index_object_flags_on_object"
+    t.index ["uid"], name: "index_object_flags_on_uid"
   end
 
   create_table "organizations", charset: "utf8mb3", force: :cascade do |t|
@@ -385,16 +367,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.string "uid"
     t.string "initiator_type"
     t.index ["performance_audit_id"], name: "index_page_load_resources_on_performance_audit_id"
-  end
-
-  create_table "page_load_screenshots", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "performance_audit_id"
-    t.string "s3_url"
-    t.integer "timestamp_ms"
-    t.string "uid"
-    t.integer "sequence"
-    t.index ["performance_audit_id"], name: "index_page_load_screenshots_on_performance_audit_id"
-    t.index ["uid"], name: "index_page_load_screenshots_on_uid"
+    t.index ["uid"], name: "index_page_load_resources_on_uid"
   end
 
   create_table "page_load_traces", charset: "utf8mb3", force: :cascade do |t|
@@ -402,6 +375,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.bigint "performance_audit_id"
     t.string "uid"
     t.index ["performance_audit_id"], name: "index_page_load_traces_on_performance_audit_id"
+    t.index ["uid"], name: "index_page_load_traces_on_uid"
   end
 
   create_table "page_urls", charset: "utf8mb3", force: :cascade do |t|
@@ -442,6 +416,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.integer "script_duration_score_decrement_amount"
     t.integer "byte_size_score_decrement_amount"
     t.index ["domain_id"], name: "index_performance_audit_calculators_on_domain_id"
+    t.index ["uid"], name: "index_performance_audit_calculators_on_uid"
   end
 
   create_table "performance_audit_configurations", charset: "utf8mb3", force: :cascade do |t|
@@ -520,14 +495,6 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.index ["uid"], name: "index_roles_on_uid"
   end
 
-  create_table "scripts", charset: "utf8mb3", force: :cascade do |t|
-    t.string "url"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["url"], name: "index_scripts_on_url"
-  end
-
   create_table "slack_notification_subscribers", charset: "utf8mb3", force: :cascade do |t|
     t.string "type"
     t.string "channel"
@@ -544,20 +511,6 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.string "team_name"
     t.index ["organization_id"], name: "index_slack_settings_on_organization_id"
     t.index ["uid"], name: "index_slack_settings_on_uid"
-  end
-
-  create_table "subscription_options", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-    t.string "slug"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "stripe_flat_fee_monthly_price_id"
-    t.string "stripe_flat_fee_annual_price_id"
-    t.string "stripe_tag_check_monthly_price_id"
-    t.string "stripe_performance_audit_monthly_price_id"
-    t.string "uid"
-    t.string "stripe_functional_test_monthly_price_id"
-    t.index ["slug"], name: "index_subscription_options_on_slug"
   end
 
   create_table "subscription_plan_subscription_prices", charset: "utf8mb3", force: :cascade do |t|
@@ -601,10 +554,6 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.index ["uid"], name: "index_tag_allowed_performance_audit_third_party_urls_on_uid"
   end
 
-  create_table "tag_check_region", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-  end
-
   create_table "tag_check_regions", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.string "aws_name"
@@ -619,6 +568,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.string "uid"
     t.index ["tag_check_region_id"], name: "index_tag_check_regions_to_check_on_tag_check_region_id"
     t.index ["tag_id"], name: "index_tag_check_regions_to_check_on_tag_id"
+    t.index ["uid"], name: "index_tag_check_regions_to_check_on_uid"
   end
 
   create_table "tag_check_schedule_aws_event_bridge_rules", charset: "utf8mb3", force: :cascade do |t|
@@ -715,22 +665,13 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.boolean "has_content"
     t.timestamp "last_seen_in_url_crawl_at"
     t.integer "last_captured_byte_size"
+    t.timestamp "last_audit_began_at"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
-  end
-
-  create_table "test_run_screenshots", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "test_run_id"
-    t.string "name"
-    t.string "s3_url"
-    t.integer "timestamp"
-    t.index ["test_run_id"], name: "index_test_run_screenshots_on_test_run_id"
-    t.index ["uid"], name: "index_test_run_screenshots_on_uid"
   end
 
   create_table "test_runs", charset: "utf8mb3", force: :cascade do |t|
@@ -815,14 +756,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.bigint "page_url_id"
     t.index ["page_url_id"], name: "index_urls_to_audit_on_page_url_id"
     t.index ["tag_id"], name: "index_urls_to_audit_on_tag_id"
-  end
-
-  create_table "urls_to_audits", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "tags_id"
-    t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["tags_id"], name: "index_urls_to_audits_on_tags_id"
+    t.index ["uid"], name: "index_urls_to_audit_on_uid"
   end
 
   create_table "urls_to_crawl", charset: "utf8mb3", force: :cascade do |t|
@@ -847,12 +781,8 @@ ActiveRecord::Schema.define(version: 2022_04_11_014035) do
     t.timestamp "redeemed_at"
     t.index ["domain_id"], name: "index_user_invites_on_domain_id"
     t.index ["invited_by_user_id"], name: "index_user_invites_on_invited_by_user_id"
+    t.index ["token"], name: "index_user_invites_on_token"
     t.index ["uid"], name: "index_user_invites_on_uid"
-  end
-
-  create_table "user_roles", charset: "utf8mb3", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|

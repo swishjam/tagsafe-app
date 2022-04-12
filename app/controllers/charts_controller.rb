@@ -2,7 +2,6 @@ class ChartsController < ApplicationController
   layout false
 
   def tags
-    # domain = Domain.find(params[:domain_id])
     displayed_metric = params[:metric_type] || :tagsafe_score
     start_time = (params[:start_time] || 1.day.ago).to_datetime
     end_time = (params[:end_time] || Time.now).to_datetime
@@ -47,7 +46,7 @@ class ChartsController < ApplicationController
   def tag
     start_time = (params[:start_time] || 1.day.ago).to_datetime
     end_time = (params[:end_time] || Time.now).to_datetime
-    tag = current_domain.tags.find(params[:tag_id])
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
     chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
     chart_data_getter = ChartHelper::TagData.new(
       tag: tag, 

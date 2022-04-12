@@ -13,18 +13,18 @@
   <% end %>
 </div>
 
-<div class='tagsafe-container p-0'>
-  <% if user_is_anonymous? %>
-    <div class='p-3 text-center'>
-      <h4 class='mb-4'>In order to enable alerting functionality, you must be a registered user.</h4>
-      <a class='tagsafe-btn circular large' href='/register?domain=<%=current_domain.uid%>'>Sign up for free now</a>
+<% if user_is_anonymous? %>
+  <div class='p-5 text-center'>
+    <h4 class='mb-4'>In order to enable alerting functionality, you must be a registered user.</h4>
+    <a class='floating-btn' href='/register?domain=<%=current_domain.uid%>'>Sign up for free now</a>
+  </div>
+<% else %>
+  <% if @triggered_alerts.none? %>
+    <div class='text-center p-5'>
+      <h4>No alerts have been triggered yet! When they do, you'll find them here.</h4>
     </div>
   <% else %>
-    <% if @triggered_alerts.none? %>
-      <div class='text-center p-5'>
-        <h4>No alerts have been triggered yet! When they do, you'll find them here.</h4>
-      </div>
-    <% else %>
+    <div class='tagsafe-container p-0'>
       <div class='tagsafe-table'>
         <div class='tagsafe-table-head tagsafe-table-row square'>
           <div class='tagsafe-table-header' style='width: 30%'>Tag</div>
@@ -52,5 +52,5 @@
       </div>
       <%= paginate @triggered_alerts %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>

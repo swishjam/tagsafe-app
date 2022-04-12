@@ -16,11 +16,11 @@ module Admin
     end
 
     def show
-      @tag_identifying_data = TagIdentifyingData.find(params[:id])
+      @tag_identifying_data = TagIdentifyingData.find_by(uid: params[:uid])
     end
   
     def update
-      tag_identifying_data = TagIdentifyingData.find(params[:id])
+      tag_identifying_data = TagIdentifyingData.find_by(uid: params[:uid])
       tag_identifying_data.update(tag_identifying_data_params)
       redirect_to request.referrer
     end

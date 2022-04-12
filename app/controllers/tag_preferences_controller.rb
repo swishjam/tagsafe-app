@@ -1,6 +1,6 @@
 class TagPreferencesController < LoggedInController
   def update
-    tag = current_domain.tags.find(params[:tag_id])
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
     attr_being_updated = params[:tag_preference].keys[0]
     priv_params_for_attr_being_updated = params.require(:tag_preference).permit(attr_being_updated.to_sym)
     priv_params_for_attr_being_updated[attr_being_updated] = priv_params_for_attr_being_updated[attr_being_updated] == 'nil' ? nil : 

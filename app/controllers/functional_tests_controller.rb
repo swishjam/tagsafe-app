@@ -13,7 +13,7 @@ class FunctionalTestsController < LoggedInController
   end
 
   def show
-    @functional_test = current_domain.functional_tests.find(params[:id])
+    @functional_test = current_domain.functional_tests.find_by(uid: params[:uid])
     render_breadcrumbs(
       { url: functional_tests_path, text: 'Test Suite' },
       { text: @functional_test.title, active: true }
@@ -21,7 +21,7 @@ class FunctionalTestsController < LoggedInController
   end
 
   def tags_to_run_on
-    @functional_test = current_domain.functional_tests.find(params[:id])
+    @functional_test = current_domain.functional_tests.find_by(uid: params[:uid])
     render_breadcrumbs(
       { url: functional_tests_path, text: 'Test Suite' },
       { text: @functional_test.title, active: true }
@@ -29,7 +29,7 @@ class FunctionalTestsController < LoggedInController
   end
 
   def create
-    params[:functional_test][:created_by_user_id] = current_user.id
+    params[:functional_test][:created_by_user_id] = current_user&.id
     params[:functional_test][:expected_results] = params[:functional_test][:expected_results].blank? ? nil : params[:functional_test][:expected_results]
     @functional_test = current_domain.functional_tests.new(functional_test_params)
     if @functional_test.save
@@ -41,11 +41,11 @@ class FunctionalTestsController < LoggedInController
   end
 
   def edit
-    @functional_test = current_domain.functional_tests.find(params[:id])
+    @functional_test = current_domain.functional_tests.find_by(uid: params[:uid])
   end
 
   def update
-    functional_test = current_domain.functional_tests.find(params[:id])
+    functional_test = current_domain.functional_tests.find_by(uid: params[:uid])
     if functional_test.update(functional_test_params)
       should_run_dry_test_run = functional_test.saved_changes['puppeteer_script'] || functional_test.saved_changes['expected_results'] || params[:force_validation]
       if should_run_dry_test_run
@@ -70,7 +70,7 @@ class FunctionalTestsController < LoggedInController
   end
 
   def toggle_disable
-    functional_test = current_domain.functional_tests.find(params[:id])
+    functional_test = current_domain.functional_tests.find_by(uid: params[:uid])
     if functional_test.enabled?
       functional_test.disable!
       current_user.broadcast_notification(message: "Test '#{functional_test.title}' disabled.")

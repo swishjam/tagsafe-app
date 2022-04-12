@@ -53,7 +53,6 @@ class Tag < ApplicationRecord
   after_create_commit :stream_new_tag_to_views
   after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
   after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
-  after_create_commit { run_tag_check_later! if release_monitoring_enabled? }
 
   # SCOPES
   default_scope { includes(:tag_identifying_data, :tag_preferences) }

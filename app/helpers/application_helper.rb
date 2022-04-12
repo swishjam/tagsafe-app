@@ -1,7 +1,7 @@
 module ApplicationHelper
   include HtmlHelper
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by(uid: session[:current_user_uid]) unless session[:current_user_uid].nil?
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
   end
@@ -13,18 +13,18 @@ module ApplicationHelper
   def current_domain
     return @current_domain if defined?(@current_domain)
     if user_is_anonymous?
-      return unless session[:current_domain_id].present?
-      @current_domain = Domain.find(session[:current_domain_id])
+      return unless session[:current_domain_uid].present?
+      @current_domain = Domain.find_by(uid: session[:current_domain_uid])
     else
-      @current_domain = session[:current_domain_id] ? current_user.domains.find(session[:current_domain_id]) : current_user.domains.first
+      @current_domain = session[:current_domain_uid] ? current_user.domains.find_by(uid: session[:current_domain_uid]) : current_user.domains.first
     end
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
   end
 
   def current_domain_audit
-    return if session[:current_domain_audit_id].nil?
-    @domain_audit ||= DomainAudit.includes(:domain, url_crawl: :found_tags).find_by(id: session[:current_domain_audit_id])
+    return if session[:current_domain_audit_uid].nil?
+    @domain_audit ||= DomainAudit.includes(:domain, url_crawl: :found_tags).find_by(uid: session[:current_domain_audit_uid])
   end
 
   def current_domain_user
@@ -37,16 +37,17 @@ module ApplicationHelper
   end
 
   def set_current_domain(domain)
-    session[:current_domain_id] = domain.id
+    session[:current_domain_uid] = domain.uid
   end
 
   def set_current_domain_audit(domain_audit)
-    session[:current_domain_audit_id] = domain_audit.id
+    session[:current_domain_audit_uid] = domain_audit.uid
   end
 
   def log_user_in(user, domain = user.domains.first)
-    session[:user_id] = user.id
-    session[:current_domain_id] = domain&.id
+    log_user_out
+    session[:current_user_uid] = user.uid
+    session[:current_domain_uid] = domain&.uid
   end
 
   def set_anonymous_user_identifier
@@ -54,9 +55,9 @@ module ApplicationHelper
   end
 
   def log_user_out
-    session.delete(:user_id)
-    session.delete(:current_domain_id)
-    session.delete(:current_domain_audit_id)
+    session.delete(:current_user_uid)
+    session.delete(:current_domain_uid)
+    session.delete(:current_domain_audit_uid)
     session.delete(:anonymous_user_identifier)
   end
 

@@ -13,6 +13,11 @@ class ApplicationRecord < ActiveRecord::Base
   scope :most_recent_first, -> (timestamp_column: :created_at) { order("#{timestamp_column} DESC") }
   scope :most_recent_last, -> (timestamp_column: :created_at) { order("#{timestamp_column} ASC") }
   
+  # override default for rails routes with :uid as param
+  def to_param
+    uid
+  end
+
   def toggle_boolean_column(column)
     attrs = {}
     attrs[column] = !send(column)

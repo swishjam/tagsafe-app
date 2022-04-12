@@ -11,12 +11,12 @@ class TagAllowedPerformanceAuditThirdPartyUrlsController < LoggedInController
   end
   
     
-    def destroy
-      allowed = TagAllowedPerformanceAuditThirdPartyUrl.find(params[:id])
-      allowed.destroy
-      display_toast_message("Removed #{allowed.url_pattern} allowed tag URL pattern.")
-      redirect_to request.referrer
-    end
+  def destroy
+    allowed = TagAllowedPerformanceAuditThirdPartyUrl.find_by(uid: params[:uid])
+    allowed.destroy
+    display_toast_message("Removed #{allowed.url_pattern} allowed tag URL pattern.")
+    redirect_to request.referrer
+  end
 
   private
   def allowed_params

@@ -32,8 +32,12 @@
               <div class='d-flex align-items-center'>
                 <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
                 <div class='d-inline-block' style='width: calc(100% - 55px); word-break: break-word; padding-left: 15px;'>
-                  <span class='d-block'><b><%= tag.try_friendly_name || tag.domain_and_path %></b></span>
-                  <span class='d-block'><%= tag.try_friendly_name ? tag.domain_and_path : nil %></span>
+                  <% if tag.has_friendly_name? %>
+                    <span class='d-block'><b><%= tag.friendly_name %></b></span>
+                    <span class='d-block'><%= tag.domain_and_path %></span>
+                  <% else %>
+                    <b><%= tag.domain_and_path %></b>
+                  <% end %>
                 </div>
               </div>
             </td>
@@ -71,5 +75,6 @@
         <% end %>
       </tbody>
     </table>
+    <%= paginate @tags %>
   <% end %>
 </div>

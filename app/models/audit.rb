@@ -85,6 +85,7 @@ class Audit < ApplicationRecord
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
   after_create_commit :enqueue_configured_audit_types
+  after_create_commit { tag.touch(:last_audit_began_at) }
 
   ##########
   # SCOPES #
