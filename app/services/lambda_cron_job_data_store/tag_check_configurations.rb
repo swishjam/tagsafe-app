@@ -11,7 +11,11 @@ module LambdaCronJobDataStore
     end
 
     def update_tag_check_configuration
-      LambdaCronJobDataStore::Redis.client.set("#{REDIS_ROOT_KEY}:#{@tag.id}", constructed_tag_check_config.to_json)
+      if @tag.release_monitoring_disabled?
+        delete_tag_check_configuration
+      else
+        LambdaCronJobDataStore::Redis.client.set("#{REDIS_ROOT_KEY}:#{@tag.id}", constructed_tag_check_config.to_json)
+      end
     end
 
     def delete_tag_check_configuration

@@ -2,7 +2,7 @@ module LambdaCronJobDataStore
   class Redis
     class << self
       def client
-        @client ||= ::Redis.new(url: ENV[ENV['LAMBDA_CRON_JOB_DATA_STORE_REDIS_URL_ENV_NAME']])
+        @client ||= ::Redis.new(url: ENV['LAMBDA_CONFIGS_REDIS_URL'])
       end
 
       def disconnect!

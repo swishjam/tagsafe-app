@@ -51,10 +51,13 @@ class StripeWebhookConsumer
 
   # Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
   def customer_subscription_updated
+    Rails.logger.info "StripeWebhookConsumer Subscription Updated!"
     stripe_customer_id = @stripe_event.dig('data', 'object', 'customer')
     domain = Domain.find_by(stripe_customer_id: stripe_customer_id)
     if domain.nil?
       Rails.logger.error "Cannot find Domain for Stripe Customer ID #{stripe_customer_id}, Stripe Subscription ID #{@stripe_event.dig('data', 'object', 'id')}"
+    elsif domain.current_subscription_plan.nil?
+      Rails.logger.error "Cannot update SubscriptionPlan status for Domain #{domain.uid}, `current_subscription_plan` is nil."
     else
       subscription_status = @stripe_event.dig('data', 'object', 'status')
       domain.current_subscription_plan.update_status_to(subscription_status)

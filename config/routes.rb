@@ -138,8 +138,8 @@ Rails.application.routes.draw do
   end
 
   namespace :server_loadable_partials do
-    resources :tags, only: :index do
-      resources :tag_versions, only: :index do
+    resources :tags, only: :index, param: :uid do
+      resources :tag_versions, only: :index, param: :uid do
         member do
           get :diff
           get :live_comparison
@@ -155,8 +155,6 @@ Rails.application.routes.draw do
       patch :cancel
     end
   end
-
-  get '/redis-configs' => 'application#redis_configs'
 
   post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'

@@ -10,7 +10,10 @@
   <%= render 'settings_nav' %>
 </div>
 
-<div class="tagsafe-container p-5">
+<div class="tagsafe-container">
+  <h4 class='mb-0'>Tag sync settings</h4>
+  <h6>How Tagsafe identifies and remains in sync with your third party tags.</h6>
+  <hr/>
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
@@ -35,7 +38,11 @@
       <%= render 'non_third_party_url_patterns/index', domain: current_domain %>
     </div>
   </div>
+</div>
   
+<div class="tagsafe-container">
+  <h4 class='mb-0'>Automated audit settings</h4>
+  <h6>Configure how Tagsafe runs automated audits (scheduled audits and new release).</h6>
   <hr/>
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
@@ -103,13 +110,19 @@
       <% end %>
     </div>
   </div>
+</div>
 
+<div class='tagsafe-container'>
+  <h4 class='mb-0'>Performance audit settings</h4>
   <hr/>
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
         <span class='settings-title d-block fw-bolder'>Strip all images in performance audits?</span>
-        <span class='settings-description d-block'>In order to minimize outside performance factors, strip away all images from the page during performance audits by default? This setting can be overridden when running an audit manually.</span>
+        <span class='settings-description d-block'>
+          In order to minimize outside performance factors, strip away all images from the page during performance 
+          audits by default?<br/>This setting can be overridden when running an audit manually.
+        </span>
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
@@ -126,7 +139,10 @@
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
         <span class='settings-title d-block fw-bolder'>Enable screen recordings for performance audits?</span>
-        <span class='settings-description d-block'>Enable screen recordings during performance audits, allowing you to watch the visual impact of a tag. This setting can be overridden when running an audit manually.</span>
+        <span class='settings-description d-block'>
+          Enable screen recordings during performance audits, allowing you to watch the visual impact of a tag.<br/>
+          This setting can be overridden when running an audit manually.
+        </span>
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
@@ -192,7 +208,25 @@
     </div>
   </div>
 
-    <hr/>
+  <hr/>
+  <div class='row'>
+    <div class='col-6'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Number of parallel performance audits</span>
+        <span class='settings-description d-block'>The total number of performance audits to run in parallel. The higher this value, the quicker the performance audit. The lower this value, the less number of concurrent sessions Tagsafe will run on your site at a time.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <div class='d-flex'>
+          <%= f.number_field :perf_audit_batch_size, class: 'form-control' %>
+          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <hr/>
   <div class='row'>
     <div class='col-6'>
       <div class='d-block'>

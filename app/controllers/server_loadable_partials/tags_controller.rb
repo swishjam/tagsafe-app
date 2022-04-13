@@ -12,9 +12,14 @@ module ServerLoadablePartials
                                     .page(params[:page] || 1).per(params[:per_page] || 9)
       end
       render turbo_stream: turbo_stream.replace(
-        !params[:q].blank? ? "#{current_domain.uid}_domain_tags_table" : "#{current_domain.uid}_domain_tags_container",
-        partial: !params[:q].blank? ? 'server_loadable_partials/tags/tag_table' : 'server_loadable_partials/tags/index',
-        locals: { tags: tags, domain: current_domain, search_query: params[:q] }
+        !params[:q].nil? ? "#{current_domain.uid}_domain_tags_table" : "#{current_domain.uid}_domain_tags_container",
+        partial: !params[:q].nil? ? 'server_loadable_partials/tags/tag_table' : 'server_loadable_partials/tags/index',
+        locals: { 
+          tags: tags, 
+          domain: current_domain, 
+          search_query: params[:q],
+          allow_empty_table: !params[:q].nil?
+        }
       )
     end
   end

@@ -26,7 +26,7 @@ module ChartHelper
         # TODO: need to take into account when the two most recent tag versions dont have a primary audit, there should be a cleaner query for this.
         current_audit = tag.should_roll_up_audits_by_tag_version? ? tag.current_version&.primary_audit || tag.current_version&.previous_version&.primary_audit :
                                                                       tag.most_recent_successful_audit
-        unless current_audit.nil?
+        unless current_audit.nil? || current_audit.performance_audit_pending? || current_audit.performance_audit_failed?
           @chart_data[tag] = { name: tag.try_friendly_name, data: [[DateTime.now, current_audit.preferred_delta_performance_audit[@metric_key]]] }
         end
       end

@@ -40,7 +40,7 @@
                 <% end %>
               </div>
             </div>
-            <div class="dropdown-menu navigation-profile-dropdown-content p-3">
+            <div class="dropdown-menu dropdown-menu-end navigation-profile-dropdown-content p-3">
               <div class='dropdown-title text-center'>
                 <% unless user_is_anonymous? %>
                   <span class='d-block'><%= current_user.full_name %></span>
@@ -61,9 +61,9 @@
                     <% end %>
                   </div>
                 <% end %>
-                <%= link_to 'Add New Domain', new_domain_path, class: 'dropdown-item text-center no-decoration' %>
               <% end %>
               <div class='dropdown-divider'></div>
+              <%= link_to 'Add New Domain', new_domain_path, class: 'dropdown-item text-center no-decoration' %>
               <%= link_to 'Settings', settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
               <% unless user_is_anonymous? %>
                 <%= link_to 'Billing', settings_billing_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>

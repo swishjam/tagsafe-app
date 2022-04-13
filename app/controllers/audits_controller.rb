@@ -14,6 +14,7 @@ class AuditsController < LoggedInController
                               )
                               .page(params[:page] || 1)
                               .per(params[:per_page] || 10)
+    render_breadcrumbs(text: 'Audit Log')
   end
 
   def index
@@ -25,7 +26,6 @@ class AuditsController < LoggedInController
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
-      # { text: "Version #{@tag_version.sha} audits", active: true }
     )
   end
 
@@ -41,8 +41,7 @@ class AuditsController < LoggedInController
       tag_version: tag_version, 
       current_tag_version: @tag.current_version,
       urls_to_audit: urls_to_audit,
-      configuration: @tag.tag_or_domain_configuration,
-      feature_gate_keeper: FeatureGateKeeper.new(current_domain)
+      configuration: @tag.tag_or_domain_configuration
     })
   end
 

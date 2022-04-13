@@ -1,8 +1,9 @@
 class SubscriptionPlan < ApplicationRecord
   belongs_to :domain
-  has_many :subscription_plan_subscription_prices, dependent: :destroy
-  accepts_nested_attributes_for :subscription_plan_subscription_prices
-  has_many :subscription_prices, through: :subscription_plan_subscription_prices
+  has_many :subscription_plan_items, dependent: :destroy
+  has_many :subscription_prices, through: :subscription_plan_items
+  has_many :subscription_billings
+  accepts_nested_attributes_for :subscription_plan_items
   
   scope :current, -> { where(current: true) }
 
@@ -18,14 +19,6 @@ class SubscriptionPlan < ApplicationRecord
 
   def per_tag_check_subscription_price
     subscription_prices.find_by(type: PerTagCheckSubscriptionPrice.to_s)
-  end
-
-  # def subscription_plan_subscription_price_for(subscription_price)
-  #   subscription_plan_subscription_prices.find_by(subscription_price: subscription_price)
-  # end
-
-  def stripe_subscription_item_id_for(subscription_price_klass)
-    subscription_plan_subscription_prices.joins(:subscription_price).find_by(subscription_price: { type: subscription_price_klass.to_s })&.stripe_subscription_item_id
   end
 
   DELINQUENT_STATUSES = %w[incomplete_expired past_due unpaid]

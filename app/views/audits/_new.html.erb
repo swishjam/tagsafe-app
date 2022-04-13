@@ -60,50 +60,29 @@
           <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_performance_audit ? "checked='checked'" : nil %>>
           <label class='form-check-label' for='include_performance_audit'>Run performance audit?</label>
         </div>
-        <% if feature_gate_keeper.can_run_functional_tests? %>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
-          </div>
-        <% else %>
-          <div class='form-check form-switch w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Functional tests are not available on the Basic Plan. Consider upgrading your plan in order to get access.">
-            <input id='include_functional_tests' value='true' type='checkbox' class='form-check-input' disabled="disabled">
-            <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
-          </div>
-        <% end %>
+        <div class='form-check form-switch w-fit m-auto'>
+          <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+          <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
+        </div>
         <div class='form-check form-switch w-fit m-auto'>
           <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_change_audit ? "checked='checked'" : nil %>>
           <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
         </div>
         <h5 class='mt-4'>Performance audit settings:</h5>
-        <% if feature_gate_keeper.can_include_page_load_resources_in_audit? %>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
-          </div>
-        <% else %>
-          <div class='form-check form-switch w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Page load waterfall is not available on the Basic Plan. Consider upgrading your plan in order to get access.">
-            <input id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' disabled="disabled">
-            <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
-          </div>
-        <% end %>
+        <div class='form-check form-switch w-fit m-auto'>
+          <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
+          <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
+        </div>
         <% if Util.env_is_true('USER_CAN_TOGGLE_PAGE_TRACE_AUDIT_CONFIG') %>
           <div class='form-check form-switch w-fit m-auto'>
             <label class='form-check-label' for='include_page_trace'>Include performance page trace?</label>
             <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_include_page_tracing ? "checked='checked'" : nil %>>
           </div>
         <% end %>
-        <% if feature_gate_keeper.can_include_performance_audit_screen_recording? %>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='enable_screen_recording'>Include screen recording?</label>
-          </div>
-        <% else %>
-          <div class='form-check form-switch w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audit screen recordings are not available on the Basic Plan. Consider upgrading your plan in order to get access.">
-            <input id='enable_screen_recording' value='true' type='checkbox' class='form-check-input' disabled="disabled">
-            <label class='form-check-label' for='enable_screen_recording'>Include page load waterfall resources?</label>
-          </div>
-        <% end %>
+        <div class='form-check form-switch w-fit m-auto'>
+          <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
+          <label class='form-check-label' for='enable_screen_recording'>Include screen recording?</label>
+        </div>
         <div class='form-check form-switch w-fit m-auto'>
           <label class='form-check-label' for='strip_all_images_in_performance_audits'>Strip all images?</label>
           <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_strip_all_images ? "checked='checked'" : nil %>>
@@ -111,11 +90,7 @@
       </div>
       <div class='tagsafe-modal-divider'></div>
       <div class='tagsafe-modal-footer text-end'>
-        <% if feature_gate_keeper.can_run_audit? %>
-          <%= loading_submit_button 'Run audit' %>
-        <% else %>
-          <button data-controller='tooltip' data-bs-toggle='tooltip' class='tagsafe-btn' disabled title="You have reached your audit quota on your current plan. Consider upgrading for unlimited audits.">Run audit</button>
-        <% end %>
+        <%= loading_submit_button 'Run audit' %>
       </div>
     <% end %>
   <% end %>

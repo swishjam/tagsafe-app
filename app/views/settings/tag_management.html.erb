@@ -11,70 +11,65 @@
 </div>
 
 <div class="tagsafe-container">
-  <% if current_domain.nil? %>
-    <h5>You have not defined your domain(s) to monitor.</h5>
-  <% else %>
-    <h4 class='text-center'><%= current_domain.url %> Tags</h4>
-    <table class="table table-hover col-12" style="table-layout: fixed">
-      <thead>
+  <table class="table table-hover col-12" style="table-layout: fixed">
+    <thead>
+      <tr>
+        <th scope="col" style='width: 50%'>Tag</th>
+        <th scope="col" style='width: 15%'>Release Monitoring</th>
+        <th scope="col" style='width: 15%'>Scheduled Audits</th>
+        <th scope="col" style='width: 15%'>Current Tagsafe Score</th>
+        <th scope="col" style='width: 5%'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tags.each do |tag| %>
         <tr>
-          <th scope="col" style='width: 50%'>Tag</th>
-          <th scope="col" style='width: 15%'>Release Monitoring</th>
-          <th scope="col" style='width: 15%'>Scheduled Audits</th>
-          <th scope="col" style='width: 15%'>Current Tagsafe Score</th>
-          <th scope="col" style='width: 5%'></th>
+          <td>
+            <div class='d-flex align-items-center'>
+              <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+              <div class='d-inline-block' style='width: calc(100% - 55px); word-break: break-word; padding-left: 15px;'>
+                <% if tag.has_friendly_name? %>
+                  <span class='d-block'><b><%= tag.friendly_name %></b></span>
+                  <span class='d-block'><%= tag.domain_and_path %></span>
+                <% else %>
+                  <b><%= tag.domain_and_path %></b>
+                <% end %>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class='d-flex align-items-center'>
+              <% if tag.release_monitoring_enabled? %>
+                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.tag_check_minute_interval %> minute intervals</div>
+              <% else %>
+                <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <div class='d-flex align-items-center'>
+              <% if tag.scheduled_audits_enabled? %>
+                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_minute_interval %> minute intervals</div>
+              <% else %>
+                <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <div class='d-flex align-items-center'>
+              <% if tag.audit_to_display %>
+                <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: tag.audit_to_display %>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <div class='d-flex align-items-center'>
+              <%= link_to 'Edit', edit_tag_path(tag) %>
+            </div>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% @tags.each do |tag| %>
-          <tr>
-            <td>
-              <div class='d-flex align-items-center'>
-                <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
-                <div class='d-inline-block' style='width: calc(100% - 55px); word-break: break-word; padding-left: 15px;'>
-                  <% if tag.has_friendly_name? %>
-                    <span class='d-block'><b><%= tag.friendly_name %></b></span>
-                    <span class='d-block'><%= tag.domain_and_path %></span>
-                  <% else %>
-                    <b><%= tag.domain_and_path %></b>
-                  <% end %>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class='d-flex align-items-center'>
-                <% if tag.release_monitoring_enabled? %>
-                  <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.tag_check_minute_interval %> minute intervals</div>
-                <% else %>
-                  <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
-                <% end %>
-              </div>
-            </td>
-            <td>
-              <div class='d-flex align-items-center'>
-                <% if tag.scheduled_audits_enabled? %>
-                  <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_minute_interval %> minute intervals</div>
-                <% else %>
-                  <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
-                <% end %>
-              </div>
-            </td>
-            <td>
-              <div class='d-flex align-items-center'>
-                <% if tag.audit_to_display %>
-                  <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: tag.audit_to_display %>
-                <% end %>
-              </div>
-            </td>
-            <td>
-              <div class='d-flex align-items-center'>
-                <%= link_to 'Edit', edit_tag_path(tag) %>
-              </div>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= paginate @tags %>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @tags %>
 </div>

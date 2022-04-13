@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_230719) do
+ActiveRecord::Schema.define(version: 2022_04_13_004917) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -513,14 +513,25 @@ ActiveRecord::Schema.define(version: 2022_04_11_230719) do
     t.index ["uid"], name: "index_slack_settings_on_uid"
   end
 
-  create_table "subscription_plan_subscription_prices", charset: "utf8mb3", force: :cascade do |t|
+  create_table "subscription_billings", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "subscription_plan_id"
+    t.bigint "domain_id"
+    t.float "billed_amount_in_cents"
+    t.datetime "bill_start_datetime"
+    t.datetime "bill_end_datetime"
+    t.string "uid"
+    t.index ["domain_id"], name: "index_subscription_billings_on_domain_id"
+    t.index ["subscription_plan_id"], name: "index_subscription_billings_on_subscription_plan_id"
+  end
+
+  create_table "subscription_plan_items", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.bigint "subscription_plan_id"
     t.bigint "subscription_price_id"
     t.string "stripe_subscription_item_id"
     t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
     t.index ["subscription_price_id"], name: "subscription_plan_subscription_prices_on_spr"
-    t.index ["uid"], name: "index_subscription_plan_subscription_prices_on_uid"
+    t.index ["uid"], name: "index_subscription_plan_items_on_uid"
   end
 
   create_table "subscription_plans", charset: "utf8mb3", force: :cascade do |t|
@@ -676,22 +687,23 @@ ActiveRecord::Schema.define(version: 2022_04_11_230719) do
 
   create_table "test_runs", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
+    t.string "type"
     t.bigint "functional_test_id"
     t.bigint "audit_id"
-    t.string "type"
+    t.bigint "original_test_run_with_tag_id"
+    t.integer "test_run_id_retried_from"
     t.string "results"
     t.boolean "passed"
-    t.timestamp "enqueued_at"
-    t.timestamp "completed_at"
     t.text "logs", size: :medium
     t.text "puppeteer_script_ran"
     t.string "expected_results"
-    t.bigint "original_test_run_with_tag_id"
-    t.integer "test_run_id_retried_from"
     t.string "error_message"
     t.string "error_type"
     t.text "error_trace"
     t.integer "script_execution_ms"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "enqueued_at"
+    t.datetime "completed_at"
     t.datetime "lambda_response_received_at"
     t.index ["audit_id"], name: "index_test_runs_on_audit_id"
     t.index ["functional_test_id"], name: "index_test_runs_on_functional_test_id"

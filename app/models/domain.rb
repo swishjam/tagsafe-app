@@ -6,6 +6,8 @@ class Domain < ApplicationRecord
 
   # belongs_to :subscription_option
   has_many :subscription_plans, dependent: :destroy
+  has_many :subscription_plan_items, through: :subscription_plans
+  has_many :subscription_billings
   has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
   has_many :domain_users, dependent: :destroy
   has_many :users, through: :domain_users

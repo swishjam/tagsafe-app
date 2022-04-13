@@ -2,10 +2,10 @@
   <div data-controller='select-tag-to-audit'>
     <%= form_with url: '#', method: :GET, data: { controller: 'loading_form', select_tag_to_audit_target: 'submitForm' } do |f| %>
       <div class='tagsafe-modal-body'>
-        <select name='tag_id' class='form-select' data-select-tag-to-audit-target='tagSelector'>
+        <select name='tag_uid' class='form-select' data-select-tag-to-audit-target='tagSelector'>
           <option selected disabled>Select tag to audit</option>
           <% tags.each do |tag| %>
-            <option value="<%= tag.id %>">
+            <option value="<%= tag.uid %>">
               <% if tag.has_friendly_name? %>
                 <%= tag.try_friendly_name %> (<%= tag.url_based_on_preferences %>)
               <% else %>

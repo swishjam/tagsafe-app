@@ -28,7 +28,7 @@ module SubscriptionMaintainer
         stripe_subscription_id: stripe_subscription.id,
         current: true,
         status: stripe_subscription.status,
-        subscription_plan_subscription_prices_attributes: [
+        subscription_plan_items_attributes: [
           { stripe_subscription_item_id: stripe_subscription.subscription_item_for_tagsafe_subscription_price(PerAutomatedPerformanceAuditSubscriptionPrice.DEFAULT), subscription_price: PerAutomatedPerformanceAuditSubscriptionPrice.DEFAULT },
           { stripe_subscription_item_id: stripe_subscription.subscription_item_for_tagsafe_subscription_price(PerAutomatedTestRunSubscriptionPrice.DEFAULT), subscription_price: PerAutomatedTestRunSubscriptionPrice.DEFAULT },
           { stripe_subscription_item_id: stripe_subscription.subscription_item_for_tagsafe_subscription_price(PerTagCheckSubscriptionPrice.DEFAULT), subscription_price: PerTagCheckSubscriptionPrice.DEFAULT },

@@ -1,4 +1,4 @@
-class SubscriptionPlanSubscriptionPrice < ApplicationRecord
+class SubscriptionPlanItem < ApplicationRecord
   belongs_to :subscription_price
   belongs_to :subscription_plan
 

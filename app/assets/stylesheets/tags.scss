@@ -43,12 +43,17 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      border-radius: 50%;
+      &:hover {
+        transition: 500ms background-color;
+        background-color: #bdbdbd;
+      }
       &.queried i {
         text-shadow: 2px 2px 7px yellow;
       }
     }
     .search-input {
-      transition: 500ms width, padding;
+      transition: 500ms width, padding, border;
     }
     &.collapsed .search-input {
       position: relative;

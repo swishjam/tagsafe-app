@@ -4,6 +4,13 @@ module CacheManager
       @tag = tag
     end
 
+    def update_performance_chart_cache!
+    end
+
+    def update_uptime_chart_cache!
+      Rails.cache.write("#{@tag.uid}_uptime_chart_data", )
+    end
+
     def update_cache!
       Rails.cache.write("#{@tag.cache_key}_current_audit", audit_to_display_data_cache)
     end

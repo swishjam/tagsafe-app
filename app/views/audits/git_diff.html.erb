@@ -6,10 +6,14 @@
       <h4>No changes, this is the first version of <%= @tag.try_friendly_name %>. <%= link_to 'View Entire JS', raw_js_tag_tag_version_path(@tag, @audit.tag_version), target: '_blank' %></h4>
     </div>
   <% else %>
-    <%= turbo_frame_tag "#{@audit.tag_version.uid}_diff", src: diff_server_loadable_partials_tag_tag_version_path(@tag, @audit.tag_version, diff_type: params[:diff_type] || 'split') do %>
-      <%= display_loading_spinner %>
+    <div class='tagsafe-container'>
+      <%= turbo_frame_tag "#{@audit.tag_version.uid}_diff", src: diff_server_loadable_partials_tag_tag_version_path(@tag, @audit.tag_version, diff_type: params[:diff_type] || 'split') do %>
+        <div class='text-center p-5'>
+          <%= display_loading_spinner %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 <% else %>
   <div class='text-center p-5'>
     <h4><%= link_to 'Enable release monitoring', edit_tag_path(@tag) %> on this tag so Tagsafe can identify when it makes releases, visualize what changes they made, and benchmark against each release. With your current settings, Tagsafe uses whatever the live version of the tag is on <%= current_domain.url %>.</h4>

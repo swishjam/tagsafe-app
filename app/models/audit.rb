@@ -407,14 +407,7 @@ class Audit < ApplicationRecord
 
   def has_payment_method_if_required
     if ExecutionReason.billable.include?(execution_reason) && !domain.has_payment_method_on_file?
-      errors.add(:base, "Cannot run audits of #{execution_reason.name} execution type without a payment method.")
+      errors.add(:base, "Cannot run #{execution_reason.name} audits without a payment method on file.")
     end
-    # feature_gate_keeper = FeatureGateKeeper.new(domain)
-    #   errors.add(:base, "Reached maximum audits quota within the last 30 days for your plan, consider upgrading in order to continue running audits.")
-    # elsif include_page_load_resources && !feature_gate_keeper.can_include_page_load_resources_in_audit?
-    #   errors.add(:base, "Cannot create audit with page load resources unless on the Pro Plan.")
-    # elsif performance_audit_configuration.enable_screen_recording && !feature_gate_keeper.can_include_performance_audit_screen_recording?
-    #   errors.add(:base, "Cannot run performance audit with screen recording enabled unless on the Pro Plan.")
-    # end
   end
 end
