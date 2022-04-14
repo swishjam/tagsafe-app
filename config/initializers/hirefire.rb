@@ -1,10 +1,7 @@
 Rails.logger.info "Initializing HireFire config..."
 HireFire::Resource.configure do |config|
   config.dyno(:worker) do
-    HireFire::Macro::Resque.queue(:critical)
-    HireFire::Macro::Resque.queue(:normal)
-    HireFire::Macro::Resque.queue(:low)
-    HireFire::Macro::Resque.queue(:default)
+    HireFire::Macro::Resque.queue(:critical, :normal, :low, :default)
   end
 
   config.dyno(:lambda_results) do
