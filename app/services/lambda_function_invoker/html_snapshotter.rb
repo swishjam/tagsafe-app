@@ -1,8 +1,8 @@
 module LambdaFunctionInvoker
   class HtmlSnapshotter < Base
-    lambda_service 'html-snapshotter'
-    lambda_function 'takeSnapshot'
-    consumer_klass LambdaEventResponses::HtmlSnapshotResult
+    self.lambda_service = 'html-snapshotter'
+    self.lambda_function = 'takeSnapshot'
+    self.results_consumer_klass = LambdaEventResponses::HtmlSnapshotResult
 
     def initialize(page_change_audit:, html_snapshot_klass:)
       @page_change_audit = page_change_audit

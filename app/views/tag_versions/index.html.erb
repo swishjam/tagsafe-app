@@ -5,7 +5,9 @@
         <h1 class="page-title">Releases</h1>
       </div>
       <div class='col-4 page-title-cta-container'>
-        <%= link_to 'Release monitoring settings', settings_tag_management_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>        
+        <%= link_to settings_tag_management_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg', title: 'Release monitoring settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
+          <i class="fa-solid fa-gear"></i>
+        <% end %>
       </div>
     </div>
   </div>

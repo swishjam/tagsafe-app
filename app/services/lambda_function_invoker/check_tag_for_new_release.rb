@@ -1,10 +1,10 @@
 module LambdaFunctionInvoker
   class CheckTagForNewRelease < Base
-    lambda_function 'check-tag-for-release'
-    lambda_service 'release-monitoring'
-    consumer_klass LambdaEventResponses::TagChecksResult
-    receiver_job_queue TagsafeQueue.CRITICAL
-    has_no_executed_lambda_function
+    self.lambda_function = 'check-tag-for-release'
+    self.lambda_service = 'release-monitoring'
+    self.results_consumer_klass = LambdaEventResponses::TagChecksResult
+    self.results_consumer_job_queue = TagsafeQueue.CRITICAL
+    self.has_no_executed_lambda_function = true
 
     def initialize(tag)
       @tag = tag

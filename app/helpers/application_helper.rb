@@ -143,4 +143,11 @@ module ApplicationHelper
   def pluralize_if_necessary(singular_term, list)
     "#{singular_term}#{list.count > 1 ? 's' : nil}"
   end
+
+  def add_query_params_to_url(url_string, params = {})
+    uri = URI(url_string)
+    params = Hash[URI.decode_www_form(uri.query || '')].merge(params)
+    uri.query = URI.encode_www_form(params)
+    uri.to_s
+  end
 end

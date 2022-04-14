@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
   <%= render 'domain_audits/progress_indicators', 
-                                      current_view_num: domain_audit.has_puppeteer_recording? ? 4 : 3, 
+                                      current_view_num: domain_audit.has_puppeteer_recording? ? 5 : 4,
                                       domain_audit: domain_audit,
                                       back_button_url: domain_audit.has_puppeteer_recording? ? puppeteer_recording_domain_audit_path(domain_audit) : performance_impact_domain_audit_path(domain_audit),
                                       back_button_text: domain_audit.has_puppeteer_recording? ? 'Watch Page Load Playback' : 'Overall Performance Impact',
@@ -11,15 +11,24 @@
   </div>
   <div class='content'>
     <% if url_crawl.pending? %>
-      <h4>Scanning <%= audit.url %> for third party tags. Just a moment.</h4>
+      <h4>Scanning <%= url_crawl.page_url.full_url %> for third party tags. Just a moment.</h4>
       <%= display_loading_icon %>
     <% else %>
-      <% if url_crawl.completed? && found_tags.any? %>
-        <h4>Tagsafe provides a single health score for each of your third party tags called a "Tagsafe Score" that attributes the exact impact a tag has to your site. We went ahead and ran an audit on your <%= tag_with_audit.try_friendly_name %> tag for you.</h4>
-        <% if tag_with_audit.audit_to_display.performance_audit_pending? %>
-          <h4>It should be complete in just a few moments.</h4>
-        <% end %>
-      <% end %>
+      <div class='domain-audit-component-explanation-container'>
+        <h4 class='domain-audit-component-title alfa-slab'>How do I know which tags are causing the largest impact?</h4>
+        <p class='domain-audit-component-description'>
+          Each Tagsafe audit generates a "Tagsafe Score", which is a single metric that indicates the health of each of your tags.
+          We went ahead and ran an audit on your <%= tag_with_audit.try_friendly_name %> tag for you.
+          <% if tag_with_audit.audit_to_display.performance_audit_pending? %>
+            <br/>It should be complete in just a few moments.</h4>
+          <% else %>
+            <br/>
+            It resulted in a Tagsafe Score of <b><%= tag_with_audit.audit_to_display.tagsafe_score %></b>.
+            <br/>
+            <%= link_to 'View Audit Details', tag_audit_path(tag_with_audit, tag_with_audit.audit_to_display) %>
+          <% end %>
+        </p>
+      </div>
       <%= render 'server_loadable_partials/tags/tag_table', domain: domain, tags: found_tags %>
     <% end %>
   </div>

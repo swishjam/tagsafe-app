@@ -2,7 +2,9 @@
   <% if url_crawl.complete? %>
     <%= render 'domain_audits/progress_indicators', 
                                       domain_audit: domain_audit,
-                                      current_view_num: 1, 
+                                      current_view_num: 2, 
+                                      back_button_url: global_bytes_breakdown_domain_audit_path(domain_audit),
+                                      back_button_text: 'Amount of Third Party Code',
                                       next_button_url: performance_impact_domain_audit_path(domain_audit), 
                                       next_button_text: 'Overall Performance Impact' %>
     <div class='loading-indicator'>
@@ -13,9 +15,17 @@
         <h4>We seem to be having trouble generating some of the third party impact results for <%= current_domain.url %></h4>
         <h5><%= url_crawl.error_message %></h5>
       <% else %>
-        <h4>Third party tags make up <%= url_crawl.percent_of_js_is_third_party %>% of the javascript on <%= domain_audit.domain.url %>.</h4>
+        <div class='domain-audit-component-explanation-container'>
+          <h4 class='domain-audit-component-title alfa-slab'>Well, which of my tags are the most bloated?</h4>
+          <p class='domain-audit-component-description'>
+            While it's not full proof, often times larger third party tags indicate the more javascript execution it is likely to perform on your site. It also can impact overall network request/response performance.
+            <% if largest_tag %>
+              <br/>
+              Your <%= largest_tag.try_friendly_name %> tag is clocking in at <b><%= number_to_human_size(largest_tag.last_captured_byte_size, precision: 3) %></b>.
+            <% end %>
+          </p>
+        </div>
         <div data-controller='streamed-script-tag'>
-          <%= pie_chart(pie_chart_data, donut: true, thousands: ',', label: 'Bytes', legend: true, legend: 'bottom') %>
           <%= column_chart(bar_chart_data, height: "#{bar_chart_data.keys.count * 50}px", label: 'Bytes', thousands: ',', yTitle: 'Bytes') %>
         </div>
       <% end %>

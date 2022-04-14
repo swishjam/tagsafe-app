@@ -12,18 +12,14 @@
 </div>
 
 <% if @tags.any? %>
-  <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: @tags.collect(&:id), start_time: 1.day.ago, end_time: Time.now, include_metric_select: true) do %>
-    <div class='tagsafe-container' style='margin-bottom: 15px;'>
-      <div class='text-center'>
-        <%= render 'partials/utils/spinner' %>
-      </div>
+  <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart", src: charts_tags_path(tag_ids: @tags.collect(&:id), include_metric_select: true) do %>
+    <div class='tagsafe-containe text-center p-5'>
+      <%= display_loading_icon %>
     </div>
   <% end %>
 <% else %>
-  <div class='tagsafe-container' style='margin-bottom: 15px;'>
-    <div class='text-center'>
-      <span>No tags present.</span>
-    </div>
+  <div class='text-center p-5'>
+    <h4>No tags present.</h4>
   </div>
 <% end %>
 
@@ -47,7 +43,7 @@
       <% @tags.each do |tag| %>
         <tr>
           <td data-bs-toggle="tooltip" data-placement="top" title="<%= tag.try_friendly_name %>" scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag.try_friendly_name %></td>
-          <% most_recent_dpa = tag.most_recent_version&.primary_audit&.preferred_delta_performance_audit %>
+          <% most_recent_dpa = tag.audit_to_display&.preferred_delta_performance_audit %>
           <% if most_recent_dpa %>
             <td scope="row"><%= number_to_human(most_recent_dpa.dom_complete_delta, units: { unit: 'ms', thousand: 'seconds' }) %></td>
             <td scope="row"><%= number_to_human(most_recent_dpa.dom_interactive_delta, units: { unit: 'ms', thousand: 'seconds' }) %></td>

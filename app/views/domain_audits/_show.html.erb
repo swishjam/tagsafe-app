@@ -16,8 +16,8 @@
           <h4>We seem to be having some trouble running Tagsafe audits on <%= domain_audit.page_url.full_url %>. Please reach out to us at <a href='mailto:help@tagsafe.io'>help@tagsafe.io</a> and we'd be happy to work with you to enable successful Tagsafe audits on your site.</h4>
         </div>
       <% else %>
-        <div class='tagsafe-container text-center'>
-          <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component', src: bytes_breakdown_domain_audit_path(domain_audit) do %>
+        <div class='tagsafe-containerz text-center p-5'>
+          <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component', src: global_bytes_breakdown_domain_audit_path(domain_audit) do %>
             <div class='text-center'>
               <%= display_loading_icon %>
             </div>

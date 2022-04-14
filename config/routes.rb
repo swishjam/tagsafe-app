@@ -23,13 +23,14 @@ Rails.application.routes.draw do
   get '/audit_log' => 'audits#all', as: :audit_log
   get '/test_run_log' => 'test_runs#all', as: :all_test_runs
   get '/uptime' => 'tag_checks#index'
-  get '/uptime/:tag_uid/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
+  # get '/uptime/:tag_uid/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
   get '/uptime/:tag_uid/list' => 'tag_checks#tag_list', as: :tag_uptime_list
   get '/performance' => 'performance#index'
 
   resources :domain_audits, only: [:create], param: :uid do
     member do
-      get :bytes_breakdown
+      get :global_bytes_breakdown
+      get :individual_bytes_breakdown
       get :performance_impact
       get :puppeteer_recording
       get :tag_list
@@ -165,9 +166,14 @@ Rails.application.routes.draw do
   resources :url_crawls, only: [:index, :show, :create], param: :uid
   get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
-  get '/charts/domain/:domain_uid' => 'charts#tags', as: :domain_tags_chart
-  get '/charts/tag/:tag_uid' => 'charts#tag', as: :tag_chart
-  get '/charts/uptime/:domain_uid' => 'charts#tag_uptime', as: :tags_uptime_chart
+  namespace :charts do
+    resources :tags, only: [:index, :show], param: :uid
+    resources :tag_checks, only: [:index, :show], param: :uid
+  end
+
+  # get '/charts/domain/:domain_uid' => 'charts#tags', as: :domain_tags_chart
+  # get '/charts/tag/:tag_uid' => 'charts#tag', as: :tag_chart
+  # get '/charts/uptime/:domain_uid' => 'charts#tag_uptime', as: :tags_uptime_chart
   get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
   get '/charts/admin_lambda_functions' => 'charts#admin_executed_lambda_functions', as: :admin_executed_lambda_functions_chart
 end

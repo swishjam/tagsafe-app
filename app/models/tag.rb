@@ -277,16 +277,20 @@ class Tag < ApplicationRecord
     release_monitoring_disabled? ? false : domain.general_configuration.roll_up_audits_by_tag_version
   end
 
-  def audit_to_display
-    if should_roll_up_audits_by_tag_version?
-      current_version&.audit_to_display
-    else
-      most_recent_successful_audit
-    end
+  def audit_to_display(include_pending: true)
+    # if should_roll_up_audits_by_tag_version?
+    #   current_version&.audit_to_display
+    # else
+      most_recent_successful_audit || (include_pending ? most_recent_pending_audit : nil)
+    # end
   end
 
   def most_recent_successful_audit
-    audits.most_recent_first.completed.successful_performance_audit.limit(1).first || audits.most_recent_first.pending_performance_audit.limit(1).first
+    audits.completed_performance_audit.successful_performance_audit.most_recent_first.limit(1).first
+  end
+
+  def most_recent_pending_audit
+    audits.pending_performance_audit.most_recent_first.limit(1).first
   end
 
   def has_friendly_name?

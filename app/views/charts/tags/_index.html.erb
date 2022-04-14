@@ -1,0 +1,59 @@
+<%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
+  <% 
+    chart_data = chart_data || ChartHelper::TagsData.new(
+      tags: domain.tags.includes(:tag_preferences).order('removed_from_site_at ASC, last_released_at DESC').page(1).per(9), 
+      time_range: time_range,
+      metric_key: metric_key
+    ).chart_data 
+  %>
+  <div class='tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+    <div class='container'>
+      <div class='col-12'>
+        <div class='row align-items-center'>
+          <div class='timeframe-selector-container col-6 text-start'>
+            <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_tags_path(tag_ids: tag_ids, metric_key: metric_key, include_metric_select: local_assigns[:include_metric_select]) %>
+          </div>
+          <% if local_assigns[:include_metric_select] %>
+            <div class='col-6 text-end'>
+              <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
+                <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+                  <i class="metric-icon fa-solid fa-chart-line"></i><%= metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ') %>
+                  <span class='dropdown-indicator d-inline'>
+                    <i class="fa-solid fa-chevron-up"></i>
+                  </span>
+                </div>
+                <div class="dropdown-menu dropdown-menu-center p-3">
+                  <div class='dropdown-title text-center'>
+                    Charted metric
+                  </div>
+                  <div class='dropdown-divider'></div>
+                  <% DeltaPerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
+                    <%= link_to metric_type[:title], charts_tags_path(tag_ids: tag_ids, time_range: time_range, metric_key: metric_type[:column].to_s, include_metric_select: true), class: "dropdown-item text-center #{metric_type[:column].to_s === metric_key.to_s ? 'active' : nil}" %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div id="tags-chart-container" data-controller='streamed-script-tag'>
+      <%=
+        line_chart chart_data,
+          download: true, 
+          title: "#{metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ')}",
+          ytitle: "#{metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ')}",
+          xtitle: 'Releases',
+          messages: { empty: "No audit data to visualize." },
+          curve: false, 
+          legend: "bottom",
+          library: {
+            rangeSelector: true,
+            hAxis: { 
+              # format: 'MM-DD-YYYY' 
+              }
+          }
+      %>
+    </div>
+  </div>
+<% end %>

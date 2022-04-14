@@ -3,7 +3,7 @@ module LambdaFunctionInvoker
     LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
 
     class << self
-      attr_accessor :_lambda_function, :_lambda_service, :_consumer_klass, :_receiver_job_queue, :_has_no_executed_lambda_function
+      attr_accessor :lambda_function, :lambda_service, :results_consumer_klass, :results_consumer_job_queue, :has_no_executed_lambda_function
     end
 
     def send!
@@ -29,19 +29,20 @@ module LambdaFunctionInvoker
     end
 
     def receiver_job_queue
-      @receiver_job_queue || provided_receiver_job_queue || :normal
+      @receiver_job_queue || self.class.results_consumer_job_queue || TagsafeQueue.LAMBDA_RESULTS
     end
 
     def lambda_invoke_function_name
-      raise LambdaFunctionError::InvalidInvocation, "Subclass must specify a `lambda_service` and `lambda_function` class method" if provided_lambda_service.nil? || provided_lambda_function.nil?
-      [provided_lambda_service, LAMBDA_ENV, provided_lambda_function].join('-')
+      raise LambdaFunctionError::InvalidInvocation, "Subclass #{self.class.to_s} must implement a `lambda_service` and `lambda_function` class attr_accessor" if self.class.lambda_service.nil? || self.class.lambda_function.nil?
+      [self.class.lambda_service, LAMBDA_ENV, self.class.lambda_function].join('-')
     end
 
     def request_payload_with_defaults
-      raise LambdaFunctionError::PayloadNotProvided, 'Subclass must implement a `request_payload` method.' unless defined?(request_payload)
+      raise LambdaFunctionError::PayloadNotProvided, "Subclass #{self.class.to_s} must implement a `request_payload` method." unless defined?(request_payload)
+      raise LambdaFunctionError::InvalidInvocation, "Subclass #{self.class.to_s} must implement a `results_consumer_klass` class attr_accessor" if self.class.results_consumer_klass.nil?
       request_payload.merge!(
         lambda_invoker_klass: self.class.to_s,
-        tagsafe_consumer_klass: provided_consumer_klass.to_s,
+        tagsafe_consumer_klass: self.class.results_consumer_klass.to_s,
         tagsafe_consumer_redis_url: ENV['REDIS_URL'],
         ProcessReceivedLambdaEventJobQueue: receiver_job_queue
       )
@@ -52,7 +53,7 @@ module LambdaFunctionInvoker
     end
 
     def executed_lambda_function
-      return if has_no_executed_lambda_function?
+      return if self.class.has_no_executed_lambda_function
       @executed_lambda_function ||= ExecutedLambdaFunction.create!(
         parent: executed_lambda_function_parent,
         function_name: lambda_invoke_function_name,
@@ -63,50 +64,9 @@ module LambdaFunctionInvoker
     alias create_executed_lambda_function! executed_lambda_function
 
     def update_executed_lambda_function_with_response(response)
-      return if has_no_executed_lambda_function?
+      return if self.class.has_no_executed_lambda_function
       response_payload = response.payload.string.blank? ? {} : JSON.parse(response.payload.string)
       executed_lambda_function.update!(response_payload: response_payload, response_code: response.status_code)
-    end
-
-    # attr_accessors API
-    def self.lambda_service(val)
-      self._lambda_service = val
-    end
-
-    def self.lambda_function(val)
-      self._lambda_function = val
-    end
-
-    def self.consumer_klass(val)
-      self._consumer_klass = val
-    end
-
-    def self.receiver_job_queue(val)
-      self._receiver_job_queue = val
-    end
-
-    def self.has_no_executed_lambda_function
-      self._has_no_executed_lambda_function = true
-    end
-
-    def provided_lambda_service
-      self.class._lambda_service
-    end
-
-    def provided_lambda_function
-      self.class._lambda_function
-    end
-
-    def provided_consumer_klass
-      self.class._consumer_klass
-    end
-
-    def provided_receiver_job_queue
-      self.class._receiver_job_queue
-    end
-
-    def has_no_executed_lambda_function?
-      self.class._has_no_executed_lambda_function == true
     end
   end
 end

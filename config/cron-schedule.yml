@@ -8,19 +8,19 @@ re_scan_domains:
   cron: "0 */1 * * *" # every 1 hour
   description: "Scans each domain for any new third party tags."
   # queue: "crawl_url_for_tags_queue"
-  queue: "normal"
+  queue: normal
 update_subscription_usage_records:
   class: Schedule::UpdateSubscriptionUsageRecordsJob
   cron: "0 1 * * *" # every night at 1 am
-  queue: "normal"
+  queue: normal
 mark_tags_removed_from_site:
   class: Schedule::MarkTagsRemovedFromSiteJob
   cron: "0 0 * * *" # every night at midnight
-  queue: "normal"
+  queue: normal
 clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every night at midnight
-  queue: "normal"
+  queue: normal
 purge_domains_generating_third_party_impact_trial:
   class: Schedule::PurgeDomainsGeneratingThirdPartyImpactTrialJob
   cron: "0 0 * * *"
@@ -31,19 +31,19 @@ five_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::FiveMinuteScheduledAuditInterval
   cron: "*/5 * * * *" # every 5th minute
   description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
-  queue: critical
+  queue: scheduled_audit_queue
 fifteen_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::FifteenMinuteScheduledAuditInterval
   cron: "*/15 * * * *" # every 15th minute
-  queue: critical
+  queue: scheduled_audit_queue
 thirty_minute_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::ThirtyMinuteScheduledAuditInterval
   cron: "*/30 * * * *" # every 30th minute
-  queue: critical
+  queue: scheduled_audit_queue
 one_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::OneHourScheduledAuditInterval
   cron: "0 * * * *" # every hour
-  queue: critical
+  queue: scheduled_audit_queue
 three_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::ThreeHourScheduledAuditInterval
   cron: "0 0,3,6,9,12,15,18,21 * * *" # midnight, 3, 6, 9, noon, 3, 6, 9
@@ -51,12 +51,12 @@ three_hour_scheduled_audits:
 six_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::SixHourScheduledAuditInterval
   cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
-  queue: critical
+  queue: scheduled_audit_queue
 twelve_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::TwelveHourScheduledAuditInterval
   cron: "0 0,12 * * *" # midnight, noon
-  queue: critical
+  queue: scheduled_audit_queue
 twenty_four_hour_scheduled_audits:
   class: Schedule::ScheduledAuditJobs::TwentyFourHourScheduledAuditInterval
   cron: "0 0 * * *" # midnight
-  queue: critical
+  queue: scheduled_audit_queue

@@ -17,7 +17,7 @@
   
   <div class='col-12'>
     <% if tags.any? %>
-      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: domain_tags_chart_path(current_domain.id, tag_ids: tags.chartable.collect(&:id), start_time: 1.day.ago, end_time: Time.now) do %>
+      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: charts_tags_path(current_domain.id, tag_ids: tags.chartable.collect(&:id), include_metric_select: true) do %>
         <div class='tagsafe-container text-center'>
           <%= display_loading_spinner %>
         </div>

@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ['datepicker'];
 
   connect() {
-    this._initializeDatepicker();
+    // this._initializeDatepicker();
   }
 
   _initializeDatepicker() {

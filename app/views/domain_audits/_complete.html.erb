@@ -1,21 +1,24 @@
 <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
   <%= render 'domain_audits/progress_indicators', 
                                       domain_audit: domain_audit,
-                                      current_view_num: domain_audit.has_puppeteer_recording? ? 5 : 4,
+                                      current_view_num: domain_audit.has_puppeteer_recording? ? 6 : 5,
                                       back_button_text: "Individual Tags",
                                       back_button_url: tag_list_domain_audit_path(domain_audit) %>
   <div class='loading-indicator'>
     <%= display_loading_icon %>
   </div>
   <div class='content'>
-    <h3>Now what?</h3>
-    <h4>It's time to gain control of your third party tags.</h4>
-    <ul>
-      <li><%= link_to 'Audit your tags', tags_path %> - attribute the performance impact each of your tags has on your site.</li>
-      <li><%= link_to 'Automate audits', settings_tag_management_path %> - run audits on a set schedule, or each time one of your tags makes a release.</li>
-      <li><%= link_to 'Release monitoring', settings_tag_management_path %> - know exactly when your tag providers' make changes to their tag, and view the changes that were made.</li>
-      <li><%= link_to 'Uptime monitoring', settings_tag_management_path %> - monitor and measure each of your tags' uptime from around the world.</li>
-      <li><%= link_to 'End-to-end testing', new_functional_test_path %> so your tags never break your site's functionality.</li>
-    </ul>
+    <div class='domain-audit-component-explanation-container'>
+      <h4 class='domain-audit-component-title alfa-slab'>Now what?</h4>
+      <h4>We're just scratching the surface.</h4>
+      <p class='domain-audit-component-description'>
+        <%= link_to 'Audit your tags', tags_path %> - attribute the performance impact each of your tags has on your site.<br/>
+        <%= link_to 'Automate your audits', settings_tag_management_path %> - run audits on a set schedule, or each time one of your tags makes a release.<br/>
+        <%= link_to 'Release monitoring', settings_tag_management_path %> - know exactly when your tag providers' make changes to their tag, and view the changes that were made.<br/>
+        <%= link_to 'Uptime monitoring', settings_tag_management_path %> - monitor and measure each of your tags' uptime from around the world.<br/>
+        <%= link_to 'End-to-end testing', new_functional_test_path %> - so your tags never break your site's functionality.<br/>
+      </p>
+      <%= link_to 'Register for free', "/register?domain=#{current_domain.uid}", class: 'tagsafe-btn large mt-5', target: '_top' %>
+    </div>
   </div>
 <% end %>

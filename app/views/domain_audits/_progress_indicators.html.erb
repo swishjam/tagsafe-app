@@ -8,7 +8,7 @@
       <% end %>
     </div>
     <div class='progress-indicators col-2'>
-      <% (domain_audit.has_puppeteer_recording? ? 5 : 4).times do |i| %>
+      <% (domain_audit.has_puppeteer_recording? ? 6 : 5).times do |i| %>
         <div class='progress-indicator <%= (domain_audit.has_puppeteer_recording? ? current_view_num : current_view_num) > i ? "filled" : nil %>'></div>
       <% end %>
     </div>

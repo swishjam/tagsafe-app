@@ -50,7 +50,7 @@
                   class='ms-1'
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
-                  title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous <%= tag.should_roll_up_audits_by_tag_version? ? 'version' : 'audit' %>.">
+                  title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous audit.">
                   <i class="<%=icon_class%>"></i> 
                   <%= diff_in_score %>
             </span>

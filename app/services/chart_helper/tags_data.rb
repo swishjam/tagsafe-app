@@ -1,64 +1,51 @@
 module ChartHelper
-  class TagsData
-    def initialize(tags:, start_time:, end_time:, metric_key:)
+  class TagsData < Base
+    def initialize(tags:, time_range:, metric_key:, use_metric_key_as_plot_name: false)
       @tags = tags
-      @start_time = start_time
-      @end_time = end_time
+      @start_datetime = derived_start_time_from_time_range(time_range.to_sym)
       @metric_key = metric_key
+      @use_metric_key_as_plot_name = use_metric_key_as_plot_name
       @chart_data = {}
     end
   
     def chart_data
-      format_chart_data!
+      Rails.cache.fetch(cache_key, expires_in: 1.minute) { formatted_chart_data! }
     end
 
     private
 
-    def format_chart_data!
+    def formatted_chart_data!
+      Rails.logger.info "ChartHelper::TagsData Cache miss for #{cache_key}"
       add_current_timestamp_to_chart_data
-      audit_data_from_within_timeframe
-      add_starting_timestamps_if_necessary
+      add_all_audits_since_start_datetime
+      add_starting_datetime_plot_if_necessary
       @chart_data.values
+    end
+
+    def tag_ids
+      @tag_ids ||= @tags.collect(&:id)
+    end
+
+    def cache_key
+      "#{tag_ids.join('-')}_#{@metric_key}_#{@start_datetime.beginning_of_minute}"
     end
 
     def add_current_timestamp_to_chart_data
       @tags.map do |tag|
-        # TODO: need to take into account when the two most recent tag versions dont have a primary audit, there should be a cleaner query for this.
-        current_audit = tag.should_roll_up_audits_by_tag_version? ? tag.current_version&.primary_audit || tag.current_version&.previous_version&.primary_audit :
-                                                                      tag.most_recent_successful_audit
-        unless current_audit.nil? || current_audit.performance_audit_pending? || current_audit.performance_audit_failed?
-          @chart_data[tag] = { name: tag.try_friendly_name, data: [[DateTime.now, current_audit.preferred_delta_performance_audit[@metric_key]]] }
+        most_recent_audit = tag.most_recent_successful_audit
+        unless most_recent_audit.nil?
+          @chart_data[tag] = { 
+            name: @use_metric_key_as_plot_name ? @metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ') : tag.try_friendly_name, 
+            data: [ [DateTime.now, most_recent_audit.preferred_delta_performance_audit[@metric_key]] ] 
+          }
         end
       end
     end
 
-    def audit_data_from_within_timeframe
-      # how do we support some tags with rolled up audits and some not?
-      if @tags.any?(&:should_roll_up_audits_by_tag_version?)
-        add_tag_versions_from_within_timeframes_primary_audits
-      else
-        add_all_audits_from_within_timeframes
-      end
-    end
-
-    def add_tag_versions_from_within_timeframes_primary_audits
+    def add_all_audits_since_start_datetime
       AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
-                                    .where(audits: { tag_id: @tags.collect(&:id), primary: true })
-                                    .more_recent_than_or_equal_to(@start_time, timestamp_column: 'tag_versions.created_at')
-                                    .older_than_or_equal_to(@end_time, timestamp_column: 'tag_versions.created_at')
-                                    .order('tag_versions.created_at ASC')
-                                    .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
-        chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.tag_version.created_at, dpa[@metric_key]] }
-        @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
-        @chart_data[tag][:data].concat(chart_data_for_tag)
-      end
-    end
-
-    def add_all_audits_from_within_timeframes
-      AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
-                                    .where(audits: { tag_id: @tags.collect(&:id) })
-                                    .more_recent_than_or_equal_to(@start_time, timestamp_column: 'audits.created_at')
-                                    .older_than_or_equal_to(@end_time, timestamp_column: 'audits.created_at')
+                                    .where(audits: { tag_id: tag_ids })
+                                    .more_recent_than_or_equal_to(@start_datetime, timestamp_column: 'audits.created_at')
                                     .order('audits.created_at ASC')
                                     .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
         chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.created_at, dpa[@metric_key]] }
@@ -67,10 +54,18 @@ module ChartHelper
       end
     end
 
-    def add_starting_timestamps_if_necessary
+    def add_starting_datetime_plot_if_necessary
       @chart_data.each do |tag, chart_data_hash|
-        unless tag.first_version.nil? || tag.first_version.created_at > @start_time
-          chart_data_hash[:data] << [@start_time, chart_data_hash[:data].last[1]]
+        earliest_audit_timestamp_for_tag_in_chart = chart_data_hash[:data].last[0]
+        most_recent_audit_before_starting_datetime = tag.audits.completed_performance_audit
+                                                                .successful_performance_audit
+                                                                .most_recent_first
+                                                                .older_than(earliest_audit_timestamp_for_tag_in_chart)
+                                                                .limit(1).first
+        # dont add the starting timestamp for this tag if the earliest audit in the 
+        # chart was the first audit performed against this tag.
+        unless most_recent_audit_before_starting_datetime.nil?
+          chart_data_hash[:data] << [@start_datetime, most_recent_audit_before_starting_datetime.preferred_delta_performance_audit[@metric_key]]
         end
       end
     end

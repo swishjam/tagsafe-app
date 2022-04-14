@@ -1,17 +1,19 @@
 module LambdaFunctionInvoker
   class UrlCrawler < Base
-    lambda_service 'url-crawler'
-    lambda_function 'find-third-party-tags'
-    consumer_klass LambdaEventResponses::UrlCrawlResult
+    self.lambda_service = 'url-crawler'
+    self.lambda_function = 'find-third-party-tags'
+    self.results_consumer_klass = LambdaEventResponses::UrlCrawlResult
 
     attr_accessor :url_crawl
 
     def initialize(url_crawl)
       @url_crawl = url_crawl
-      @receiver_job_queue = url_crawl.is_for_domain_audit? ? TagsafeQueue.CRITICAL : TagsafeQueue.NORMAL
+      @receiver_job_queue = url_crawl.is_for_domain_audit? ? TagsafeQueue.CRITICAL : nil
     end
 
-    def executed_lambda_function_parent; url_crawl; end
+    def executed_lambda_function_parent
+      url_crawl
+    end
   
     private
 

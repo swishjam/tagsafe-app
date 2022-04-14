@@ -58,7 +58,7 @@ class TestRunsController < LoggedInController
 
   def all
     @test_runs = current_domain.test_runs
-                                .most_recent_first(timestamp_column: 'test_runs.completed_at')
+                                .most_recent_first(timestamp_column: 'test_runs.created_at')
                                 .page(params[:page] || 1)
                                 .per(params[:per_page] || 20)
     render_breadcrumbs({ text: 'Test Suite', active: true })

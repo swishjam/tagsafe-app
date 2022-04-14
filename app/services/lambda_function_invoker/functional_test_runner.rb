@@ -1,20 +1,19 @@
 module LambdaFunctionInvoker
   class FunctionalTestRunner < Base
-    lambda_service 'functional-tests'
-    lambda_function 'run-test'
-    consumer_klass LambdaEventResponses::TestRunResult
+    self.lambda_service = 'functional-tests'
+    self.lambda_function = 'run-test'
+    self.results_consumer_klass = LambdaEventResponses::TestRunResult
 
     attr_accessor :test_run
 
-    def initialize(test_run, options: {}, attempt_number: 1)
+    def initialize(test_run, options: {})
       @test_run = test_run
       @options = options
-      @attempt_number = attempt_number
-      @receiver_job_queue = test_run.is_a?(DryTestRun) ? TagsafeQueue.CRITICAL : test_run.audit.initiated_by_user? ? TagsafeQueue.CRITICAL : TagsafeQueue.NORMAL
+      @receiver_job_queue = test_run.is_a?(DryTestRun) ? TagsafeQueue.CRITICAL : test_run.audit.initiated_by_user? ? TagsafeQueue.CRITICAL : nil
     end
 
     def executed_lambda_function_parent
-      @test_run
+      test_run
     end
 
     def request_payload
@@ -33,7 +32,7 @@ module LambdaFunctionInvoker
 
     def script_injection_rules
       return [] unless test_run.is_a?(TestRunWithTag)
-      js_file_url = @audit.run_on_tagsafe_tag_version? ? tag_version.js_file_url : tag.full_url
+      js_file_url = audit.run_on_tagsafe_tag_version? ? tag_version.js_file_url : tag.full_url
       [{ url: js_file_url, load_type: tag.load_type || 'async' }]
     end
 

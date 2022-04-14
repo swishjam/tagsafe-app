@@ -1,0 +1,17 @@
+<div class="chart-time-range-selector dropdown-container w-fit ps-3 pe-3">
+  <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+    <i class="metric-icon fa-solid fa-calendar-days"></i><%= selected_range.downcase == :today ? 'Today' : "Last #{selected_range.to_s.gsub('_', ' ')}" %>
+    <span class='dropdown-indicator d-inline'>
+      <i class="fa-solid fa-chevron-up"></i>
+    </span>
+  </div>
+  <div class="dropdown-menu dropdown-menu-center p-3">
+    <div class='dropdown-title text-center'>
+      Chart timerange
+    </div>
+    <div class='dropdown-divider'></div>
+    <% %i[7_days 24_hours Today 12_hours 6_hours 1_hour 30_minutes].each do |time_range_option| %>
+      <%= link_to time_range_option.to_s.gsub('_', ' '), "#{chart_data_endpoint}&time_range=#{time_range_option.downcase}", class: "dropdown-item text-center #{time_range_option.downcase == selected_range.downcase ? 'active' : nil}" %>
+    <% end %>
+  </div>
+</div>

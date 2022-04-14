@@ -5,14 +5,16 @@
         <h1 class="page-title">Uptime</h1>
       </div>
       <div class='col-4 page-title-cta-container'>
-        <%= link_to 'Uptime Settings', settings_tag_management_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+        <%= link_to settings_tag_management_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', title: 'Edit uptime settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
+          <i class="fa-solid fa-gear"></i>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
 
 <div class="tagsafe-container">
-  <%= turbo_frame_tag "#{current_domain.uid}_domain_tag_uptime", src: tags_uptime_chart_path(current_domain, tag_ids: @tags.collect(&:id), start_time: 1.day.ago, end_time: Time.now) do %>
+  <%= turbo_frame_tag "domain_#{current_domain.uid}_tags_uptime", src: charts_tag_checks_path(tag_ids: @tags.collect(&:id)) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
     </div>

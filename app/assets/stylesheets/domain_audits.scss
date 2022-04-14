@@ -2,6 +2,11 @@ body.domain_audits {
   rect.highcharts-background {
     fill: white;
   }
+  .domain-audit-component-explanation-container {
+    padding: 10px 30px 10px 30px;
+    // .domain-audit-component-title{}
+    // .domain-audit-component-description{}
+  }
   .domain-audit-metric-container {
     padding: 15px;
     .domain-audit-performance-metric-row {

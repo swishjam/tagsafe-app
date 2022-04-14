@@ -6,41 +6,60 @@ class DomainAuditsController < LoggedInController
     render_breadcrumbs(text: "Third Party Tag Impact")
   end
 
-  def bytes_breakdown
-    tags = current_domain.tags
+  def global_bytes_breakdown
     url_crawl = current_domain_audit.url_crawl
-    bar_chart_data = {}
-    tags.order(last_captured_byte_size: :DESC).each do |tag| 
-      if bar_chart_data[tag.try_friendly_name]
-        bar_chart_data["#{tag.try_friendly_name} (#{tag.url_based_on_preferences})"] = tag.last_captured_byte_size
-      else
-        bar_chart_data[tag.try_friendly_name] = tag.last_captured_byte_size
-      end
-    end
     pie_chart_data = { 
       "First Party Javascript" => url_crawl.num_first_party_bytes,
       "Third Party Javascript" => url_crawl.num_third_party_bytes 
     }
     render turbo_stream: turbo_stream.replace(
       "domain_audit_#{current_domain_audit.uid}_results_component",
-      partial: 'domain_audits/bytes_breakdown',
+      partial: 'domain_audits/global_bytes_breakdown',
       locals: { 
         domain_audit: current_domain_audit, 
         url_crawl: url_crawl,
-        pie_chart_data: pie_chart_data,
-        bar_chart_data: bar_chart_data
+        num_third_party_tags: current_domain.tags.count,
+        pie_chart_data: pie_chart_data
+      }
+    )
+  end
+
+  def individual_bytes_breakdown
+    tags = current_domain.tags
+    bar_chart_data = {}
+    largest_tag = nil
+    tags.order(last_captured_byte_size: :DESC).each do |tag| 
+      largest_tag ||= tag
+      if bar_chart_data[tag.try_friendly_name]
+        bar_chart_data["#{tag.try_friendly_name} (#{tag.url_based_on_preferences})"] = tag.last_captured_byte_size
+      else
+        bar_chart_data[tag.try_friendly_name] = tag.last_captured_byte_size
+      end
+    end
+    render turbo_stream: turbo_stream.replace(
+      "domain_audit_#{current_domain_audit.uid}_results_component",
+      partial: 'domain_audits/individual_bytes_breakdown',
+      locals: { 
+        domain_audit: current_domain_audit, 
+        url_crawl: current_domain_audit.url_crawl,
+        bar_chart_data: bar_chart_data,
+        largest_tag: largest_tag
       }
     )
   end
 
   def performance_impact
+    average_delta_performance_audit = current_domain_audit.average_delta_performance_audit
+    negative_metrics = NegativePerformanceAuditMetricsIdentifier.new(average_delta_performance_audit)
     render turbo_stream: turbo_stream.replace(
       "domain_audit_#{current_domain_audit.uid}_results_component",
       partial: 'domain_audits/performance_impact',
       locals: { 
         domain_audit: current_domain_audit, 
         url_crawl: current_domain_audit.url_crawl,
-        average_delta_performance_audit: current_domain_audit.average_delta_performance_audit
+        average_delta_performance_audit: average_delta_performance_audit,
+        most_negative_performance_metric: negative_metrics.most_negative_performance_metric,
+        negative_performance_metrics: negative_metrics.negative_performance_metrics
       }
     )
   end

@@ -136,11 +136,11 @@ class Audit < ApplicationRecord
   end
 
   def audit_to_compare_with
-    if tag.should_roll_up_audits_by_tag_version?
-      tag_version.previous_version.audit_to_display
-    else
-      tag.audits.successful_performance_audit.most_recent_first.older_than(created_at).limit(1).first
-    end
+    # if tag.should_roll_up_audits_by_tag_version?
+    #   tag_version.previous_version.audit_to_display
+    # else
+      tag.audits.completed_performance_audit.successful_performance_audit.most_recent_first.older_than(created_at).limit(1).first
+    # end
   end
 
   def performance_audit_completed!(tagsafe_score_confidence_range)

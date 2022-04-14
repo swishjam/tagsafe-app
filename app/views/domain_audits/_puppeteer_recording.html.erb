@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
   <%= render 'domain_audits/progress_indicators', 
                                       domain_audit: domain_audit,
-                                      current_view_num: 3,
+                                      current_view_num: 4,
                                       back_button_text: 'Overall Performance Impact',
                                       back_button_url: performance_impact_domain_audit_path(domain_audit),
                                       next_button_text: 'Individual Tag Impact', 
@@ -10,7 +10,12 @@
     <%= display_loading_icon %>
   </div>
   <div class='content'>
-    <h4>Visually watch the impact third party tags have on your site's page load.</h4>
+    <div class='domain-audit-component-explanation-container'>
+      <h4 class='domain-audit-component-title alfa-slab'>Are my tags impacting user experience?</h4>
+      <p class='domain-audit-component-description'>
+        View a full playback recording of how your third party tags are impacting your page load and user experience.
+      </p>
+    </div>
     <%= render 'audits/performance_audit_recordings',
                   performance_audit_with_tag: performance_audit_with_tag,
                   performance_audit_without_tag: performance_audit_without_tag,

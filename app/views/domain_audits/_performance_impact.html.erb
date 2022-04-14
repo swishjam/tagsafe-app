@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
   <%= render 'domain_audits/progress_indicators', 
                                       domain_audit: domain_audit, 
-                                      current_view_num: 2,
-                                      back_button_url: bytes_breakdown_domain_audit_path(domain_audit), 
-                                      back_button_text: 'Javascript Breakdown', 
+                                      current_view_num: 3,
+                                      back_button_url: individual_bytes_breakdown_domain_audit_path(domain_audit), 
+                                      back_button_text: 'Size of Tags', 
                                       next_button_url: domain_audit.has_puppeteer_recording? ? puppeteer_recording_domain_audit_path(domain_audit) : tag_list_domain_audit_path(domain_audit),
                                       next_button_text: domain_audit.has_puppeteer_recording? ? 'Watch Page Load Playback' : 'Individual Tag Impact' %>
   <div class='loading-indicator'>
@@ -14,47 +14,57 @@
       <h4>Just a moment, calculating impact of third party tags on <%= domain_audit.domain.url %>...</h4>
       <%= display_loading_icon %>
     <% else %>
-      <h4 class='text-center'>How much are your third party tags slowing down your site?</h4>
-      <div class='row'>
+      <div class='domain-audit-component-explanation-container'>
+        <h4 class='domain-audit-component-title alfa-slab'>OK, but are they actually impacting performance?</h4>
+        <p class='domain-audit-component-description'>
+          <% if most_negative_performance_metric.percent_responsible >= 30 %>
+            Your tags are responsible for <%= most_negative_performance_metric.percent_responsible %>% of your 
+            <%= most_negative_performance_metric.friendly_metric_name %> time (<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[most_negative_performance_metric.metric_slug] %>). In other words, if you had zero 
+            third party tags on <%= domain_audit.page_url.full_url %> your <%= most_negative_performance_metric.friendly_metric_name %> 
+            time would be <%= (100 / (100.0 - most_negative_performance_metric.percent_responsible)).round(2) %> times quicker.
+          <% end %>
+        </p>
+      </div>
+      <div class='row align-items-end'>
         <%= render 'domain_audits/performance_impact_row',
                       title: 'DOM Complete', 
                       metric: average_delta_performance_audit.dom_complete_delta, 
                       metric_percent: average_delta_performance_audit.dom_complete_percentage,
-                      metric_help_description: "All of the processing is complete and all of the resources on the page (images, stylesheets, javascript etc.) have finished downloading - in other words, the loading spinner has stopped spinning." 
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_complete]
         %>
         <%= render 'domain_audits/performance_impact_row',
                       title: 'DOM Interactive', 
                       metric: average_delta_performance_audit.dom_interactive_delta,
                       metric_percent: average_delta_performance_audit.dom_interactive_percentage,
-                      metric_help_description: "Marks the point when the browser has finished parsing all of the HTML and DOM construction is complete." 
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_interactive]
         %>
       </div>
-      <div class='row'>
+      <div class='row align-items-end'>
         <%= render 'domain_audits/performance_impact_row',
                       title: 'DOM Content Loaded',
                       metric: average_delta_performance_audit.dom_content_loaded_delta,
                       metric_percent: average_delta_performance_audit.dom_content_loaded_percentage,
-                      metric_help_description: "Typically marks when both the DOM and CSSOM are ready. If there is no parser blocking JavaScript then DOMContentLoaded will fire immediately after DOM Interactive." 
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_content_loaded]
           %>
         <%= render 'domain_audits/performance_impact_row',
                       title: 'First Contentful Paint',
                       metric: average_delta_performance_audit.first_contentful_paint_delta,
                       metric_percent: average_delta_performance_audit.first_contentful_paint_percentage,
-                      metric_help_description: "Occurs when a browser first renders any content from the document object model (DOM), including any text, images, non-white canvas, or scalable vector graphics (SVG) onto the page." 
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:first_contentful_paint]
           %>
       </div>
-      <div class='row'>
+      <div class='row align-items-end'>
         <%= render 'domain_audits/performance_impact_row',
                       title: 'Script Duration', 
                       metric: average_delta_performance_audit.script_duration_delta, 
                       metric_percent: average_delta_performance_audit.script_duration_percentage,
-                      metric_help_description: "Combined duration of all JavaScript execution" 
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:script_duration]
         %>
         <%= render 'domain_audits/performance_impact_row',
                       title: 'Task Duration', 
                       metric: average_delta_performance_audit.task_duration_delta, 
                       metric_percent: average_delta_performance_audit.task_duration_percentage, 
-                      metric_help_description: "Combined duration of all tasks performed by the browser." 
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:task_duration]
         %>
       </div>
     </div>

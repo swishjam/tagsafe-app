@@ -1,12 +1,13 @@
+.alfa-slab {
+  font-family: 'Alfa Slab One', cursive;
+}
+
 body.domain_audits.create, body.welcome, body.error-404 {
   @media(max-width: 770px) {
     background-image: linear-gradient(20deg, #95a3f5 0%, #ffffff 100%);  
   }
   @media(min-width: 771px) {
     background-image: linear-gradient(20deg, #95a3f5 0%, #ffffff 88%);
-  }
-  .alfa-slab {
-    font-family: 'Alfa Slab One', cursive;
   }
   .main-header {
     @media (min-width: 1201px) {
