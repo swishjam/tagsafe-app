@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe LambdaFunctionInvoker::Base do
-  module LambdaFunctionInvoker
+RSpec.describe StepFunctionInvoker::Base do
+  module StepFunctionInvoker
     module Senders
       class MockSender < Base
         lambda_service = 'mock-service'
@@ -13,13 +13,13 @@ RSpec.describe LambdaFunctionInvoker::Base do
 
   before(:each) do
     stub_lambda_calls
-    @mock_sender = LambdaFunctionInvoker::MockSender.new
+    @mock_sender = StepFunctionInvoker::MockSender.new
   end
 
   describe 'class attr_accessors' do
     it 'defines lambda_service_name and lambda_function_name' do
-      expect(LambdaFunctionInvoker::MockSender.lambda_service_name).to eq('mock-service')
-      expect(LambdaFunctionInvoker::MockSender.lambda_function_name).to eq('mockFunction')
+      expect(StepFunctionInvoker::MockSender.lambda_service_name).to eq('mock-service')
+      expect(StepFunctionInvoker::MockSender.lambda_function_name).to eq('mockFunction')
     end
   end
 
@@ -56,28 +56,28 @@ RSpec.describe LambdaFunctionInvoker::Base do
 
   describe '#self.lambda_service' do
     it 'sets the lambda_service_name class variables' do
-      LambdaFunctionInvoker::Base.lambda_service = 'test!'
-      expect(LambdaFunctionInvoker::Base.lambda_service_name).to eq('test!')
+      StepFunctionInvoker::Base.lambda_service = 'test!'
+      expect(StepFunctionInvoker::Base.lambda_service_name).to eq('test!')
     end
   end
 
   describe '#self.lambda_function' do
     it 'sets the lambda_function_name class variables' do
-      LambdaFunctionInvoker::Base.lambda_function = 'test!'
-      expect(LambdaFunctionInvoker::Base.lambda_function_name).to eq('test!')
+      StepFunctionInvoker::Base.lambda_function = 'test!'
+      expect(StepFunctionInvoker::Base.lambda_function_name).to eq('test!')
     end
   end
 
   describe '#lambda_invoke_function_name' do
     it 'throws an error if lambda_function_name is not defined' do
       @mock_sender.class.lambda_function nil
-      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaFunctionInvoker::Base::InvalidLambdaFunction)
+      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(StepFunctionInvoker::Base::InvalidLambdaFunction)
       @mock_sender.class.lambda_function = 'mockFunction'
     end
 
     it 'throws an error if lambda_service_name is not defined' do
       @mock_sender.class.lambda_service nil
-      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(LambdaFunctionInvoker::Base::InvalidLambdaFunction)
+      expect{ @mock_sender.send(:lambda_invoke_function_name) }.to raise_error(StepFunctionInvoker::Base::InvalidLambdaFunction)
       @mock_sender.class.lambda_service = 'mock-service'
     end
 
@@ -105,7 +105,7 @@ RSpec.describe LambdaFunctionInvoker::Base do
 
     it 'raises an error if a required payload argument is missing' do
       allow(@mock_sender).to receive(:required_payload_arguments).and_return([:foo ,:missing_arg])
-      expect{ @mock_sender.send(:ensure_arguments!) }.to raise_error(LambdaFunctionInvoker::Base::InvalidLambdaFunctionArguments, "mock-service-test-mockFunction is missing missing_arg arguments")
+      expect{ @mock_sender.send(:ensure_arguments!) }.to raise_error(StepFunctionInvoker::Base::InvalidLambdaFunctionArguments, "mock-service-test-mockFunction is missing missing_arg arguments")
     end
   end
 end

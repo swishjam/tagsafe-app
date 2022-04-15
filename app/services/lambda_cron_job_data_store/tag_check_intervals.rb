@@ -18,6 +18,7 @@ module LambdaCronJobDataStore
     end
 
     def add_tags_current_interval_to_tag_check_region(tag_check_region)
+      return if @tag.release_monitoring_disabled?
       intervals_config_for_region = self.class.get_configuration_for_region(tag_check_region.aws_region_name)
       intervals_config_for_region[@tag.tag_preferences.tag_check_minute_interval.to_s] ||= {}
       intervals_config_for_region[@tag.tag_preferences.tag_check_minute_interval.to_s][@tag.id.to_s] = true

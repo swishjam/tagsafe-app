@@ -27,7 +27,7 @@ module ChartHelper
     end
 
     def cache_key(tag, tag_check_region)
-      "#{tag.id}_#{tag_check_region.aws_region_name}_#{@start_datetime.beginning_of_minute}"
+      "charts:#{tag.id}_#{tag_check_region.aws_region_name}_#{@start_datetime.beginning_of_minute}"
     end
     
     def tag_check_data_for_region(tag, tag_check_region)

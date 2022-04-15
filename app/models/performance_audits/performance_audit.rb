@@ -1,6 +1,6 @@
 class PerformanceAudit < ApplicationRecord
   include Streamable
-  include HasExecutedLambdaFunction
+  include HasExecutedStepFunction
   include HasCompletedAt
   include HasErrorMessage
   acts_as_paranoid

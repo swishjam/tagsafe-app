@@ -1,5 +1,5 @@
 class UrlCrawl < ApplicationRecord
-  include HasExecutedLambdaFunction
+  include HasExecutedStepFunction
   include HasCompletedAt
   include HasErrorMessage
   include Streamable

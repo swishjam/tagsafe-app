@@ -1,6 +1,6 @@
 class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
-  include HasExecutedLambdaFunction
+  include HasExecutedStepFunction
   include Notifier
   include Flaggable
   include Streamable

@@ -2,11 +2,7 @@ class TagsafeAws
   class S3
     class << self
       def client
-        @_client ||= Aws::S3::Client.new(
-          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          region: 'us-east-1'
-        )
+        @_client ||= Aws::S3::Client.new(region: 'us-east-1')
       end
 
       def get_object_by_s3_url(s3_url)
@@ -27,12 +23,26 @@ class TagsafeAws
     end
   end
 
+  class StateMachine
+    class << self
+      def client
+        @_client ||= Aws::States::Client.new(region: 'us-east-1')
+      end
+
+      def execute(arn:, name:, input:)
+        client.start_execution(
+          state_machine_arn: arn,
+          name: name,
+          input: JSON.generate(input)
+        )
+      end
+    end
+  end
+
   class Lambda
     class << self
       def client(http_read_timeout: 210)
         @_client ||= Aws::Lambda::Client.new(
-          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
           region: 'us-east-1',
           max_attempts: 1,
           retry_limit: 0,
@@ -54,11 +64,7 @@ class TagsafeAws
   class EventBridge
     class << self
       def client(region)
-        Aws::EventBridge::Client.new(
-          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          region: region
-        )
+        Aws::EventBridge::Client.new(region: region)
       end
 
       def list_rules(region:, event_bus_name: 'default')
@@ -101,11 +107,7 @@ class TagsafeAws
   class CloudWatch
     class << self
       def client
-        @_client ||= Aws::CloudWatchLogs::Client.new(
-          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          region: 'us-east-1'
-        )
+        @_client ||= Aws::CloudWatchLogs::Client.new(region: 'us-east-1')
       end
 
       def get_log_events_in_stream(stream_name, log_group_name:)

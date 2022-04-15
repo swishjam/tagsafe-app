@@ -1,5 +1,5 @@
 module ChartHelper
-  class AdminExecutedLambdaFunctionsData
+  class AdminExecutedStepFunctionsData
     def initialize(start_time: 1.day.ago, end_time: Time.now)
       @start_time = start_time
       @end_time = end_time
@@ -20,35 +20,35 @@ module ChartHelper
     def pending_lambda_functions
       {
         name: 'Pending Lambda Functions',
-        data: ExecutedLambdaFunction.pending.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
+        data: ExecutedStepFunction.pending.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
       }
     end
 
     def completed_lambda_functions
       {
         name: 'Completed Lambda Functions',
-        data: ExecutedLambdaFunction.completed.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
+        data: ExecutedStepFunction.completed.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
       }
     end
 
     def total_lambda_functions
       {
         name: 'Total Lambda Functions',
-        data: ExecutedLambdaFunction.completed.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
+        data: ExecutedStepFunction.completed.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
       }
     end
 
     def avg_lambda_response_time
       {
         name: 'Average Lambda Execution Time',
-        data: ExecutedLambdaFunction.completed.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).average(:ms_to_receive_response)
+        data: ExecutedStepFunction.completed.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).average(:ms_to_receive_response)
       }
     end
 
     # def potentially_never_responded_lambda_functions
     #   {
     #     name: 'Potentially Never Responded Lambda Functions',
-    #     data: ExecutedLambdaFunction.potentially_never_responded.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
+    #     data: ExecutedStepFunction.potentially_never_responded.group_by_minute(:executed_at, n: 5, range: @start_time..@end_time).count
     #   }
     # end
   end

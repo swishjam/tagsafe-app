@@ -122,8 +122,8 @@ Rails.application.routes.draw do
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
     get '/performance' => 'performance#index'
-    get '/executed_lambda_function/for_obj/:parent_type/:parent_id' => 'executed_lambda_functions#for_obj'
-    resources :lambda_functions, controller: :executed_lambda_functions, only: [:index, :show], param: :uid
+    get '/executed_step_function/for_obj/:parent_type/:parent_id' => 'executed_step_functions#for_obj'
+    resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
     resources :flags, only: [:index, :show], param: :uid do
       resources :object_flags
     end
@@ -175,5 +175,5 @@ Rails.application.routes.draw do
   # get '/charts/tag/:tag_uid' => 'charts#tag', as: :tag_chart
   # get '/charts/uptime/:domain_uid' => 'charts#tag_uptime', as: :tags_uptime_chart
   get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
-  get '/charts/admin_lambda_functions' => 'charts#admin_executed_lambda_functions', as: :admin_executed_lambda_functions_chart
+  get '/charts/admin_lambda_functions' => 'charts#admin_executed_step_functions', as: :admin_executed_step_functions_chart
 end

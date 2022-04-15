@@ -1,7 +1,7 @@
 class Audit < ApplicationRecord
   include Streamable
   # TODO: PerformanceAuditCacheGenerator has no dedicated models
-  # include HasExecutedLambdaFunction
+  # include HasExecutedStepFunction
   uid_prefix 'aud'
   acts_as_paranoid
 

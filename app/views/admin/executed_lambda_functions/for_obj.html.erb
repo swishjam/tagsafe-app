@@ -1,12 +1,12 @@
 <h2><%= @object.class.to_s %> <%= @object.id %></h2>
 <p>
-  Function name: <%= @executed_lambda_function.function_name %> <br/>
+  Function name: <%= @executed_step_function.function_name %> <br/>
   Request Payload:
   <div class='code-mirror-container readonly' data-controller='code-mirror'>
     <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
-    <textarea class='code-mirror-text opening-async-function  hidden' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true' data-value="<%= @executed_lambda_function.request_payload %>"></textarea>
+    <textarea class='code-mirror-text opening-async-function  hidden' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-disable-line-numbers='true' data-value="<%= @executed_step_function.request_payload %>"></textarea>
   </div>
-  Request Payload (raw): <br/><%= JSON.generate @executed_lambda_function.request_payload %> <br/>
-  Response Code <%= @executed_lambda_function.response_code %> <br/>
-  Response Payload <%= JSON.parse @executed_lambda_function.response_payload.to_json %>
+  Request Payload (raw): <br/><%= JSON.generate @executed_step_function.request_payload %> <br/>
+  Response Code <%= @executed_step_function.response_code %> <br/>
+  Response Payload <%= JSON.parse @executed_step_function.response_payload.to_json %>
 </p>

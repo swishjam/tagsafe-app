@@ -31,7 +31,7 @@ module LambdaCronJobDataStore
         tag_check_region_collection.each do |tag_check_region|
           aws_rules = TagsafeAws::EventBridge.list_rules(region: tag_check_region.aws_region_name).rules
           aws_rules.each do |aws_rule|
-            if aws_rule.name.include?('-develo-') && Rails.env.development? ||
+            if aws_rule.name.include?('development-') && Rails.env.development? ||
                 aws_rule.name.include?('-produc-') && Rails.env.production?
               interval = aws_rule.schedule_expression.tr('^0-9', '')
               tagsafe_aws_event_bridge_rule = tag_check_region.tag_check_schedule_aws_event_bridge_rules.for_interval(interval)

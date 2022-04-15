@@ -109,6 +109,9 @@ GEM
       aws-sdk-core (~> 3, >= 3.120.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
+    aws-sdk-states (1.42.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
@@ -434,6 +437,7 @@ DEPENDENCIES
   aws-sdk-eventbridge
   aws-sdk-lambda
   aws-sdk-s3
+  aws-sdk-states
   bcrypt (~> 3.1.7)
   better_errors
   binding_of_caller

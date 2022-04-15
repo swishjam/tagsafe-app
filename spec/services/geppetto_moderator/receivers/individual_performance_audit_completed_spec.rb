@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LambdaFunctionInvoker::Receivers::IndividualPerformanceAuditCompleted do
+RSpec.describe StepFunctionInvoker::Receivers::IndividualPerformanceAuditCompleted do
   before(:each) do
     prepare_test!
     tag = create(:tag, domain: @domain)
@@ -12,7 +12,7 @@ RSpec.describe LambdaFunctionInvoker::Receivers::IndividualPerformanceAuditCompl
     @logs = 'LOGS STUB'
     @error = 'ERROR STUB'
     @individual_performance_audit_id = individual_performance_audit.id
-    @completed_receiver = LambdaFunctionInvoker::Receivers::IndividualPerformanceAuditCompleted.new(
+    @completed_receiver = StepFunctionInvoker::Receivers::IndividualPerformanceAuditCompleted.new(
       individual_performance_audit_id: @individual_performance_audit_id,
       results: @results,
       logs: @logs,

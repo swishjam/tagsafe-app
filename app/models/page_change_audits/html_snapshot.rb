@@ -1,5 +1,5 @@
 class HtmlSnapshot < ApplicationRecord
-  include HasExecutedLambdaFunction
+  include HasExecutedStepFunction
   # include IsReliantOnLambdaFunction
   
   belongs_to :page_change_audit

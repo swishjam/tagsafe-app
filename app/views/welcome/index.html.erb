@@ -11,7 +11,7 @@
                   <h2 class="sub-header">
                     Gain visibility into your third party tags, monitor changes in real time, and ensure your site is not hurt by a third party release.
                   </h2>
-                  <% if ENV['DOMAIN_AUDIT_FORM_ENABLED'] %>
+                  <% if Util.env_is_true('DOMAIN_AUDIT_FORM_ENABLED') %>
                     <%= form_with url: domain_audits_path, data: { controller: 'loading_form' } do |f| %>
                       <div class='inline-input-and-btn'>
                         <%= f.text_field :domain_url, placeholder: 'https://www.tagsafe.io', class: 'form-control' %>

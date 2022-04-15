@@ -50,6 +50,7 @@ gem 'aws-sdk-s3'
 gem 'aws-sdk-lambda'
 gem 'aws-sdk-eventbridge'
 gem 'aws-sdk-cloudwatchlogs'
+gem 'aws-sdk-states'
 # gem 'aws-sdk-sqs'
 
 gem 'resque'

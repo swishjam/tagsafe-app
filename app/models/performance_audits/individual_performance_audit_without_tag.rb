@@ -11,7 +11,7 @@ class IndividualPerformanceAuditWithoutTag < PerformanceAudit
   def cloudwatch_logs
     self.class.cloudwatch_client.get_log_events({
       log_group_name: "/aws/lambda/performance-auditer-#{ENV['LAMBDA_ENVIRONMENT'] || Rails.env}-runPerformanceAudit",
-      log_stream_name: executed_lambda_function.aws_log_stream_name,
+      log_stream_name: executed_step_function.aws_log_stream_name,
       start_from_head: true,
       # start_time: enqueued_at.to_i,
       # end_time: completed_at.to_i

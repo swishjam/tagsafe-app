@@ -10,7 +10,7 @@ module AuditRunnerJobs
     end
 
     def run_html_snapshotter_for(page_change_audit, html_snapshot_klass)
-      LambdaFunctionInvoker::HtmlSnapshotter.new(page_change_audit: page_change_audit, html_snapshot_klass: html_snapshot_klass).send!
+      StepFunctionInvoker::HtmlSnapshotter.new(page_change_audit: page_change_audit, html_snapshot_klass: html_snapshot_klass).send!
     end
   end
 end

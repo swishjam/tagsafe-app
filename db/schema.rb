@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_13_004917) do
+ActiveRecord::Schema.define(version: 2022_04_15_002502) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -64,32 +64,32 @@ ActiveRecord::Schema.define(version: 2022_04_13_004917) do
 
   create_table "audits", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
-    t.bigint "domain_id"
-    t.integer "tag_id"
-    t.integer "tag_version_id"
-    t.bigint "page_url_id"
     t.integer "execution_reason_id"
-    t.integer "performance_audit_calculator_id"
-    t.bigint "initiated_by_domain_user_id"
     t.boolean "primary"
-    t.boolean "include_performance_audit"
-    t.boolean "include_functional_tests"
+    t.timestamp "created_at"
+    t.boolean "throttled", default: false
+    t.float "seconds_to_complete"
+    t.integer "tag_version_id"
+    t.integer "tag_id"
+    t.datetime "deleted_at"
+    t.string "performance_audit_error_message"
+    t.integer "performance_audit_calculator_id"
+    t.bigint "page_url_id"
     t.boolean "include_page_load_resources"
     t.boolean "include_page_change_audit"
+    t.boolean "include_performance_audit"
+    t.boolean "include_functional_tests"
     t.integer "num_functional_tests_to_run"
-    t.float "tagsafe_score_confidence_range"
-    t.integer "num_performance_audit_sets_ran"
-    t.boolean "has_confident_tagsafe_score"
-    t.boolean "tagsafe_score_is_confident"
-    t.boolean "throttled", default: false
-    t.string "performance_audit_error_message"
-    t.float "seconds_to_complete"
     t.timestamp "enqueued_suite_at"
     t.timestamp "performance_audit_completed_at"
     t.timestamp "page_change_audit_completed_at"
     t.timestamp "functional_tests_completed_at"
-    t.timestamp "created_at"
-    t.datetime "deleted_at"
+    t.float "tagsafe_score_confidence_range"
+    t.integer "num_performance_audit_sets_ran"
+    t.bigint "initiated_by_domain_user_id"
+    t.boolean "has_confident_tagsafe_score"
+    t.boolean "tagsafe_score_is_confident"
+    t.bigint "domain_id"
     t.index ["domain_id"], name: "index_audits_on_domain_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["initiated_by_domain_user_id"], name: "index_audits_on_initiated_by_domain_user_id"
@@ -203,10 +203,9 @@ ActiveRecord::Schema.define(version: 2022_04_13_004917) do
     t.index ["uid"], name: "index_events_on_uid"
   end
 
-  create_table "executed_lambda_functions", charset: "utf8mb3", force: :cascade do |t|
+  create_table "executed_step_functions", charset: "utf8mb3", force: :cascade do |t|
     t.string "parent_type"
     t.bigint "parent_id"
-    t.string "function_name"
     t.text "request_payload"
     t.text "response_payload", size: :long
     t.integer "response_code"
@@ -217,8 +216,10 @@ ActiveRecord::Schema.define(version: 2022_04_13_004917) do
     t.datetime "executed_at"
     t.datetime "completed_at"
     t.float "ms_to_receive_response"
+    t.string "step_function_execution_arn"
+    t.string "step_function_execution_name"
     t.index ["parent_type", "parent_id"], name: "index_executed_lambda_functions_on_parent"
-    t.index ["uid"], name: "index_executed_lambda_functions_on_uid"
+    t.index ["uid"], name: "index_executed_step_functions_on_uid"
   end
 
   create_table "execution_reasons", charset: "utf8mb3", force: :cascade do |t|
@@ -809,6 +810,6 @@ ActiveRecord::Schema.define(version: 2022_04_13_004917) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  # add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  # add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

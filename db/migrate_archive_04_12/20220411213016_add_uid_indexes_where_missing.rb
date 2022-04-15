@@ -2,7 +2,7 @@ class AddUidIndexesWhereMissing < ActiveRecord::Migration[6.1]
   def up
     add_index :blocked_resources, :uid
     add_index :events, :uid
-    add_index :executed_lambda_functions, :uid
+    add_index :executed_step_functions, :uid
     add_index :flags, :uid
     add_index :object_flags, :uid
     add_index :page_load_resources, :uid

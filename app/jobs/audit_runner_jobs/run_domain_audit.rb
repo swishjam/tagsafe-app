@@ -6,8 +6,8 @@ module AuditRunnerJobs
     
     def perform(domain_audit)
       NUM_PERFORMANCE_AUDITS_PER_DOMAIN_AUDIT.times do
-        LambdaFunctionInvoker::DomainAuditer.new(domain_audit, IndividualPerformanceAuditWithTag).send!
-        LambdaFunctionInvoker::DomainAuditer.new(domain_audit, IndividualPerformanceAuditWithoutTag).send!
+        StepFunctionInvoker::DomainAuditer.new(domain_audit, IndividualPerformanceAuditWithTag).send!
+        StepFunctionInvoker::DomainAuditer.new(domain_audit, IndividualPerformanceAuditWithoutTag).send!
       end
     end
   end

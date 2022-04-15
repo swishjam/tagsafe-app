@@ -1,10 +1,10 @@
 <div class='container-fluid text-center'>
   <h4 class='page-title with-sub-title'>Executed Lambda Function</h4>
-  <h5 class='page-sub-title'><%= @executed_lambda_function.uid %></h5>
+  <h5 class='page-sub-title'><%= @executed_step_function.uid %></h5>
 
 
   <div class='tagsafe-container'>
-    <h5>For: <%= @executed_lambda_function.parent_description %></h5>
+    <h5>For: <%= @executed_step_function.parent_description %></h5>
     <div class='cloudwatch-logs text-start'>
       <% @lambda_function_cloudwatch_logs.each do |log| %>
         <div class='d-block cloudwatch-log'><%= log.message %></div>

@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "tag_#{tag.uid}_uptime_chart" do %>
   <div class='tagsafe-container'>
-    <div class='container'>
+    <div class='container-fluid'>
       <div class='row'>
         <div class='col-6'>
           <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_tag_check_path(tag, aws_regions: selected_tag_check_regions.collect(&:aws_region_name)) %>

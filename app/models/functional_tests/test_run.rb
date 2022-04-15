@@ -1,6 +1,6 @@
 class TestRun < ApplicationRecord
   include Streamable
-  include HasExecutedLambdaFunction
+  include HasExecutedStepFunction
   # include IsReliantOnLambdaFunction
   
   belongs_to :functional_test

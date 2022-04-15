@@ -27,7 +27,7 @@ module ChartHelper
     end
 
     def cache_key
-      "#{tag_ids.join('-')}_#{@metric_key}_#{@start_datetime.beginning_of_minute}"
+      "charts:#{tag_ids.join('-')}_#{@metric_key}_#{@start_datetime.beginning_of_minute}"
     end
 
     def add_current_timestamp_to_chart_data

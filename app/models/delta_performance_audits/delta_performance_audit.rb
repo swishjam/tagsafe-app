@@ -10,7 +10,7 @@ class DeltaPerformanceAudit < ApplicationRecord
   validate :belongs_to_audit_or_domain_audit
 
   TAGSAFE_SCORE_THRESHOLDS = { good: 90, warn: 80 }
-  CHARTABLE_COLUMNS = [{ title: 'DOM Complete', column: :dom_complete_delta }, { title: 'DOM Interactive', column: :dom_interactive_delta }, { title: 'First Contentful Paint', column: :first_contentful_paint_delta }, { title: 'DOM Content Loaded', column: :dom_content_loaded_delta }, { title: 'Script Duration', column: :script_duration_delta }, { title: 'Layout Duration', column: :layout_duration_delta }, { title: 'Task Duration', column: :task_duration_delta }, { title: 'Tagsafe Score', column: :tagsafe_score }].freeze
+  CHARTABLE_COLUMNS = [{ title: 'Tagsafe Score', column: :tagsafe_score }, { title: 'DOM Complete', column: :dom_complete_delta }, { title: 'DOM Interactive', column: :dom_interactive_delta }, { title: 'First Contentful Paint', column: :first_contentful_paint_delta }, { title: 'DOM Content Loaded', column: :dom_content_loaded_delta }, { title: 'Script Duration', column: :script_duration_delta }, { title: 'Layout Duration', column: :layout_duration_delta }, { title: 'Task Duration', column: :task_duration_delta }].freeze
 
   def self.TYPES
     %w[

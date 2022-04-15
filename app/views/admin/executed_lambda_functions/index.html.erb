@@ -2,7 +2,7 @@
   <h4 class='page-title'>Pending Lambda Functions</h4>
 
   <%=
-    line_chart admin_executed_lambda_functions_chart_path,
+    line_chart admin_executed_step_functions_chart_path,
       download: true, 
       title: 'Lambda Functions',
       xtitle: 'Execution Time',
@@ -16,19 +16,19 @@
         <tr>
           <th scope="col" style="width: 20%">Sent to AWS Lambda at</th>
           <th scope="col" style="width: 25%">Lambda Function</th>
-          <th scope="col" style="width: 25%">ExecutedLambdaFunction UID</th>
+          <th scope="col" style="width: 25%">ExecutedStepFunction UID</th>
           <th scope="col" style="width: 20%">Parent</th>
           <th scope="col" style="width: 10%"></th>
         </tr>
       </thead>
       <tbody>
-        <% @pending_lambda_functions.each do |executed_lambda_function| %>
+        <% @pending_lambda_functions.each do |executed_step_function| %>
           <tr>
-            <td><%= time_ago_in_words(executed_lambda_function.executed_at) %></td>
-            <td><%= executed_lambda_function.function_name %></td>
-            <td><%= executed_lambda_function.uid %></td>
-            <td><%= executed_lambda_function.parent_description %></td>
-            <td><%= link_to 'View Details', admin_lambda_function_path(executed_lambda_function) %>
+            <td><%= time_ago_in_words(executed_step_function.executed_at) %></td>
+            <td><%= executed_step_function.function_name %></td>
+            <td><%= executed_step_function.uid %></td>
+            <td><%= executed_step_function.parent_description %></td>
+            <td><%= link_to 'View Details', admin_lambda_function_path(executed_step_function) %>
           </tr>
         <% end %>
       </tbody>

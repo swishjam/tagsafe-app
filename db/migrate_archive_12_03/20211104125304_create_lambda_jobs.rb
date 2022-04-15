@@ -1,6 +1,6 @@
 class CreateLambdaJobs < ActiveRecord::Migration[6.1]
   def change
-    create_table :executed_lambda_functions do |t|
+    create_table :executed_step_functions do |t|
       t.string :uid
       t.references :parent, polymorphic: true
       t.string :function_name

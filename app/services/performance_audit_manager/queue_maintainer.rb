@@ -29,7 +29,7 @@ module PerformanceAuditManager
     end
 
     def run_individual_performance_audit!(performance_audit_klass)
-      LambdaFunctionInvoker::PerformanceAuditer.new(
+      StepFunctionInvoker::PerformanceAuditer.new(
         audit: @audit, 
         performance_audit_klass: performance_audit_klass,
         batch_identifier: performance_audit_batch_identifier

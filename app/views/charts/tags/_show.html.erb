@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "#{tag.uid}_tag_chart" do %>
   <% chart_data = chart_data || ChartHelper::TagData.new(tag: tag, metric: :tagsafe_score, time_range: time_range).chart_data %>
-  <div class='container'>
+  <div class='container-fluid'>
     <div class='row align-items-center'>
       <div class='col-6'>
         <div class='d-inline-block m-3'>
