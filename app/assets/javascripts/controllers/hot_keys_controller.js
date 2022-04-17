@@ -12,23 +12,26 @@ export default class extends Controller {
   }
 
   _triggerHotKeyAction = () => {
-    console.log(`Hotkey initiated!! ${this.action}`);
     const method = {
-      modal: this._showModalAndFetchModelContent
+      modal: this._showModalAndFetchModelContent,
+      form: this._submitFormActionTarget
     }[this.action];
     method();
+  }
+
+  _submitFormActionTarget = () => {
+    this.formActionTarget.dispatchEvent(new CustomEvent('submit', { bubbles: true }));
   }
 
   _showModalAndFetchModelContent = () => {
     document.querySelector('#server-loadable-modal-container').classList.add('show');
     document.body.classList.add('locked');
-    this.formActionTarget.dispatchEvent(new CustomEvent('submit', { bubbles: true }));
-    // Turbo.visit(this.element.getAttribute('data-endpoint'));
+    this._submitFormActionTarget();
   }
 
   _keydownListener = () => {
     window.addEventListener('keydown', e => {
-      if(e.keyCode === 91) {
+      if(e.keyCode === 18) {
         this.commandIsKeyedDown = true;
       } else if(this.commandIsKeyedDown && e.keyCode === this.keyCode){
         e.preventDefault();
@@ -39,7 +42,7 @@ export default class extends Controller {
 
   _keyupListener = () => {
     window.addEventListener('keyup', e => {
-      if(e.keyCode === 91) {
+      if(e.keyCode === 18) {
         this.commandIsKeyedDown = false;
       }
     })

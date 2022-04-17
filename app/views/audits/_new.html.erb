@@ -18,80 +18,89 @@
       </div>
     <% end %>
   <% else %>
-    <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form' } do |f| %>
-      <div class='tagsafe-modal-body'>
-        <h3>
-          Run audit on your <%= tag.try_friendly_name %> tag? 
-          <% if tag_version.present? && current_tag_version.nil? %>
-            <i style='font-size: 12px' class="fa-solid fa-circle-info" data-controller='tooltip' data-bs-toggle='tooltip' title="Because you no longer have release monitoring 
-              enabled for this tag, future audits will audit whatever the live version of the <%= tag.try_friendly_name %> tag is on your site, therefore the tag may behave 
-              differently than when this audit was originally run. Consider enabling release monitoring again in order to guarantee audits are performed against the same tag version.">
-            </i>
-          <% end %>
-        </h3>
-        
-        <% unless tag_version.nil? || current_tag_version.nil? %>
-          <% if tag_version.id == current_tag_version.id %>
-            <%= f.hidden_field :tag_version_id, value: tag_version.id %>
-          <% else %>
-            <h5>The audit you were viewing was of a past release from this tag (<%= tag_version.created_at.formatted_short %>) and is not the most recent version. Which version of the tag would you like to use for this audit?</h5>
-            <select class='form-select mb-3' name='tag_version_id'>
-              <option value="<%= tag_version.id %>">Past release from audit being viewed</option>
-              <option value="<%= current_tag_version.id %>">Currently live version (released <%= current_tag_version.created_at.formatted_short %>)</option>
-            </select>
-          <% end %>  
-        <% end %>
-        
-        <% if urls_to_audit.count == 1 %>
-          <input name='urls_to_audit[]' id="url_to_audit_<%= urls_to_audit.first.id %>" value="<%= urls_to_audit.first.id %>" type='hidden'>
-        <% else %>
-          <div class='mb-3'>
-            <h5>URLs to audit:</h5>
-            <% urls_to_audit.each do |url_to_audit| %>
-              <div class="form-check form-switch w-fit m-auto">
-                <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.page_url.full_url %></label>
-                <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
-              </div>
+    <div data-controller='hot-keys' data-action="form" data-key-code='13'>
+      <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form', hot_keys_target: 'formAction' } do |f| %>
+        <div class='tagsafe-modal-body'>
+          <h3>
+            Run audit on your <%= tag.try_friendly_name %> tag? 
+            <% if tag_version.present? && current_tag_version.nil? %>
+              <i style='font-size: 12px' class="fa-solid fa-circle-info" data-controller='tooltip' data-bs-toggle='tooltip' title="Because you no longer have release monitoring 
+                enabled for this tag, future audits will audit whatever the live version of the <%= tag.try_friendly_name %> tag is on your site, therefore the tag may behave 
+                differently than when this audit was originally run. Consider enabling release monitoring again in order to guarantee audits are performed against the same tag version.">
+              </i>
             <% end %>
-          </div>
-        <% end %>
-        <h5>Audit configuration:</h5>
-        <div class='form-check form-switch w-fit m-auto'>
-          <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_performance_audit ? "checked='checked'" : nil %>>
-          <label class='form-check-label' for='include_performance_audit'>Run performance audit?</label>
-        </div>
-        <div class='form-check form-switch w-fit m-auto'>
-          <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
-          <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
-        </div>
-        <div class='form-check form-switch w-fit m-auto'>
-          <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_change_audit ? "checked='checked'" : nil %>>
-          <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
-        </div>
-        <h5 class='mt-4'>Performance audit settings:</h5>
-        <div class='form-check form-switch w-fit m-auto'>
-          <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
-          <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
-        </div>
-        <% if Util.env_is_true('USER_CAN_TOGGLE_PAGE_TRACE_AUDIT_CONFIG') %>
+          </h3>
+          
+          <% unless tag_version.nil? || current_tag_version.nil? %>
+            <% if tag_version.id == current_tag_version.id %>
+              <%= f.hidden_field :tag_version_id, value: tag_version.id %>
+            <% else %>
+              <h5>The audit you were viewing was of a past release from this tag (<%= tag_version.created_at.formatted_short %>) and is not the most recent version. Which version of the tag would you like to use for this audit?</h5>
+              <select class='form-select mb-3' name='tag_version_id'>
+                <option value="<%= tag_version.id %>">Past release from audit being viewed</option>
+                <option value="<%= current_tag_version.id %>">Currently live version (released <%= current_tag_version.created_at.formatted_short %>)</option>
+              </select>
+            <% end %>  
+          <% end %>
+          
+          <% if urls_to_audit.count == 1 %>
+            <input name='urls_to_audit[]' id="url_to_audit_<%= urls_to_audit.first.id %>" value="<%= urls_to_audit.first.id %>" type='hidden'>
+          <% else %>
+            <div class='mb-3'>
+              <h5>URLs to audit:</h5>
+              <% urls_to_audit.each do |url_to_audit| %>
+                <div class="form-check form-switch w-fit m-auto">
+                  <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.page_url.full_url %></label>
+                  <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <h5>Audit configuration:</h5>
           <div class='form-check form-switch w-fit m-auto'>
-            <label class='form-check-label' for='include_page_trace'>Include performance page trace?</label>
-            <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_include_page_tracing ? "checked='checked'" : nil %>>
+            <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_performance_audit ? "checked='checked'" : nil %>>
+            <label class='form-check-label' for='include_performance_audit'>Run performance audit?</label>
           </div>
-        <% end %>
-        <div class='form-check form-switch w-fit m-auto'>
-          <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
-          <label class='form-check-label' for='enable_screen_recording'>Include screen recording?</label>
+          <div class='form-check form-switch w-fit m-auto'>
+            <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+            <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
+          </div>
+          <div class='form-check form-switch w-fit m-auto'>
+            <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_change_audit ? "checked='checked'" : nil %>>
+            <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
+          </div>
+          <h5 class='mt-4'>Performance audit settings:</h5>
+          <div class='form-check form-switch w-fit m-auto'>
+            <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
+            <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
+          </div>
+          <% if Util.env_is_true('USER_CAN_TOGGLE_PAGE_TRACE_AUDIT_CONFIG') %>
+            <div class='form-check form-switch w-fit m-auto'>
+              <label class='form-check-label' for='include_page_trace'>Include performance page trace?</label>
+              <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_include_page_tracing ? "checked='checked'" : nil %>>
+            </div>
+          <% end %>
+          <div class='form-check form-switch w-fit m-auto'>
+            <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
+            <label class='form-check-label' for='enable_screen_recording'>Include screen recording?</label>
+          </div>
+          <div class='form-check form-switch w-fit m-auto'>
+            <label class='form-check-label' for='strip_all_images_in_performance_audits'>Strip all images?</label>
+            <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_strip_all_images ? "checked='checked'" : nil %>>
+          </div>
         </div>
-        <div class='form-check form-switch w-fit m-auto'>
-          <label class='form-check-label' for='strip_all_images_in_performance_audits'>Strip all images?</label>
-          <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_strip_all_images ? "checked='checked'" : nil %>>
+        <div class='tagsafe-modal-divider'></div>
+        <div class='tagsafe-modal-footer text-end'>
+          <%= loading_submit_button do %>
+            <div class='d-flex align-items-center'>
+              Run Audit
+              <span class='hot-key-indicator ms-1'>
+                ⌘enter
+              </span>
+            </div>
+          <% end %>
         </div>
-      </div>
-      <div class='tagsafe-modal-divider'></div>
-      <div class='tagsafe-modal-footer text-end'>
-        <%= loading_submit_button 'Run audit' %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>
