@@ -21803,7 +21803,7 @@ class TagIdentifyingDataSeeder
 
    def seed_data!
       @identifying_json.each do |tag_identifying_json_data|
-         puts '.'
+         puts "\n\nBeginning seed for #{tag_identifying_json_data}"
          tag_identifying_data = TagIdentifyingData.find_by(name: tag_identifying_json_data['name'])
          if tag_identifying_data
             update_tag_identifying_data(tag_identifying_data, tag_identifying_json_data)
@@ -21853,6 +21853,8 @@ class TagIdentifyingDataSeeder
             og_category != existing_identifying_data.category
          @tag_identifying_datas_updated += 1
          puts "Updated TagIdentifyingData: #{existing_identifying_data.name}."
+       else
+         puts "Leaving #{existing_identifying_data.name} unchanged."
        end
        existing_identifying_data
    end
