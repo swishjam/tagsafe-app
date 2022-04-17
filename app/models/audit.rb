@@ -3,7 +3,7 @@ class Audit < ApplicationRecord
   # TODO: PerformanceAuditCacheGenerator has no dedicated models
   # include HasExecutedStepFunction
   uid_prefix 'aud'
-  acts_as_paranoid
+  # acts_as_paranoid
 
   belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
   belongs_to :domain

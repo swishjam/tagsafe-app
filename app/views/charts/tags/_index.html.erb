@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
+<%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", class: 'frame-with-chart' do %>
   <% 
     chart_data = chart_data || ChartHelper::TagsData.new(
       tags: domain.tags.includes(:tag_preferences).order('removed_from_site_at ASC, last_released_at DESC').page(1).per(9), 
@@ -37,7 +37,10 @@
         </div>
       </div>
     </div>
-    <div id="tags-chart-container" data-controller='streamed-script-tag'>
+    <div class='loading-indicator p-5 text-center'>
+      <%= display_loading_icon %>
+    </div>
+    <div class='chart-container' id="tags-chart-container" data-controller='streamed-script-tag'>
       <%=
         line_chart chart_data,
           download: true, 

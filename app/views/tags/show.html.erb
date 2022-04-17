@@ -8,7 +8,16 @@
         <h2 class='page-sub-title'><%= @tag.try_friendly_name %></h2>
       </div>
       <div class='col-4 page-title-cta-container'>
-        <%= modal_link new_tag_audit_path(@tag), text: 'Run Audit', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+        <%= modal_link new_tag_audit_path(@tag), klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
+          <div class='d-flex align-items-center'>
+            Run Audit 
+            <span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
+              <form class='hidden' action="<%=new_tag_audit_path(@tag)%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
+              </form>
+              ⌘a
+            </span>
+          </div>
+        <% end %>
         <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', data: { controller: 'tooltip', bs_toggle: 'tooltip', title: 'Edit tag settings'} do %>
           <i class="fa-solid fa-gear"></i>
         <% end %>

@@ -138,6 +138,14 @@ a.no-decoration {
   }
 }
 
+.hot-key-indicator {
+  color: $tagsafe-primary;
+  background: white;
+  font-size: 12px;
+  border-radius: 5px;
+  padding: 0px 1px 0px 1px;
+}
+
 .tagsafe-btn {
   &:not(.outline) {
     color: white !important;

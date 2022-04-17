@@ -10,6 +10,8 @@ module TagManager
 
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
+      Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected."
+      @tag.update!(marked_as_pending_tag_version_capture_at: nil)
       remove_temp_files
       tag_version
     end

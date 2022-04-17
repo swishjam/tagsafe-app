@@ -34,9 +34,9 @@ module ChartHelper
       Rails.cache.fetch(cache_key(tag, tag_check_region), expires_in: 2.minutes) do
         Rails.logger.info "ChartHelper::TagsUptimeData Cache miss for cache key: #{cache_key(tag, tag_check_region)}"
         tag.tag_checks.by_tag_check_region(tag_check_region)
-                    .more_recent_than(@start_datetime)
+                    .more_recent_than(@start_datetime, timestamp_column: :"tag_checks.executed_at")
                     .order('tag_checks.created_at ASC')
-                    .collect{ |check| [check.created_at, check.response_time_ms] }
+                    .collect{ |check| [check.executed_at, check.response_time_ms] }
       end
     end
   end

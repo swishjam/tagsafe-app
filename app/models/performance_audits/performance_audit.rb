@@ -3,7 +3,7 @@ class PerformanceAudit < ApplicationRecord
   include HasExecutedStepFunction
   include HasCompletedAt
   include HasErrorMessage
-  acts_as_paranoid
+  # acts_as_paranoid
   
   belongs_to :audit, optional: true
   belongs_to :domain_audit, optional: true

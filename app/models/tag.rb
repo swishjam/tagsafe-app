@@ -87,14 +87,15 @@ class Tag < ApplicationRecord
   scope :domain_has_active_subscription_plan, -> { includes(domain: [:subscription_plan]).where.not(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
   scope :domain_has_delinquent_subscription_plan, -> { includes(domain: [:subscription_plan]).where(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
 
-  scope :one_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1) }
-  scope :fifteen_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 15) }
-  scope :thirty_minute_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 30) }
-  scope :one_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 60) }
-  scope :three_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 180) }
-  scope :six_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 360) }
-  scope :twelve_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 720) }
-  scope :twenty_four_hour_interval_checks, -> { where_tag_preferences(tag_check_minute_interval: 1440) }
+  scope :where_tag_check_interval, -> (interval) { where_tag_preferences(tag_check_minute_interval: interval) }
+  scope :one_minute_interval_checks, -> { where_tag_check_interval(1) }
+  scope :fifteen_minute_interval_checks, -> { where_tag_check_interval(15) }
+  scope :thirty_minute_interval_checks, -> { where_tag_check_interval(30) }
+  scope :one_hour_interval_checks, -> { where_tag_check_interval(60) }
+  scope :three_hour_interval_checks, -> { where_tag_check_interval(180) }
+  scope :six_hour_interval_checks, -> { where_tag_check_interval(360) }
+  scope :twelve_hour_interval_checks, -> { where_tag_check_interval(720) }
+  scope :twenty_four_hour_interval_checks, -> { where_tag_check_interval(1440) }
   scope :one_day_interval_checks, -> { twenty_four_hour_interval_checks }
 
   scope :five_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 5) }

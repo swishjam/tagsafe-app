@@ -33,7 +33,7 @@ module StepFunctionInvoker
     end
 
     def unique_execution_name
-      "#{self.class.to_s.split('::').last}-#{}"
+      "#{self.class.to_s.split('::').last}-#{unique_identifer}"
     end
 
     def unique_identifer

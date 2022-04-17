@@ -2,6 +2,13 @@ module LambdaCronJobDataStore
   class AwsEventBridgeSynchronizer
     class << self
 
+      def sync_aws_event_bridge_rules_based_on_global_configs_for_tag_check_regions!(tag_check_region_or_collection)
+        tag_check_region_collection = tag_check_region_or_collection.is_a?(Enumerable) ? tag_check_region_or_collection : [tag_check_region_or_collection]
+        tag_check_region_collection.each do |tag_check_region|
+          tag_check_region.tags.includes(:tag_preferences)
+        end
+      end
+
       def sync_regions_into_aws!(tag_check_region_or_collection)
         tag_check_region_collection = tag_check_region_or_collection.is_a?(Enumerable) ? tag_check_region_or_collection : [tag_check_region_or_collection]
         tag_check_region_collection.each do |tag_check_region|

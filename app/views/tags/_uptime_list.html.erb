@@ -34,7 +34,7 @@
       <tbody>
         <% paginated_tag_checks.each do|tag_check| %>
           <tr>
-            <td><%= tag_check.created_at.formatted_short %></td>
+            <td><%= tag_check.executed_at.formatted_short %></td>
             <td><%= tag_check.response_code %></td>
             <td><%= tag_check.response_time_ms %></td>
             <td><%= tag_check.tag_check_region&.location %></td>

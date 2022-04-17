@@ -16,6 +16,7 @@ class TagCheckScheduleAwsEventBridgeRule < ApplicationRecord
     TagsafeAws::EventBridge.enable_rule(name, region: tag_check_region.aws_region_name)
     update!(enabled: true)
   end
+  alias enable_if_necessary enable!
 
   def disable!
     return true unless enabled?
@@ -29,5 +30,9 @@ class TagCheckScheduleAwsEventBridgeRule < ApplicationRecord
 
   def disabled?
     !enabled
+  end
+
+  def tags_being_checked_for_interval
+    Tag.where_tag_check_interval(associated_tag_check_minute_interval.to_i)
   end
 end

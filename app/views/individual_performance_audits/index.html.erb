@@ -73,6 +73,9 @@
       </table>
     </div>
     <div class='row'>
+      <%= scatter_chart @individual_delta_audits.collect{ |delta_audit| [delta_audit.tagsafe_score, 1] }, xtitle: "Tagsafe Score", ytitle: nil, min: 1, max: 1 %>
+    </div>
+    <div class='row'>
       <div class='col-6'>
         <% if @pending_individual_audits.with_tag.any? %>
           <h6>Pending (with tag)</h6>

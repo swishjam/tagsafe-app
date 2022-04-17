@@ -32,6 +32,10 @@ class ExecutedStepFunction < ApplicationRecord
     end
   end
 
+  def fetch_aws_status
+    TagsafeAws::StateMachine.get_execution(step_function_execution_arn)
+  end
+
   def completed?
     !pending?
   end

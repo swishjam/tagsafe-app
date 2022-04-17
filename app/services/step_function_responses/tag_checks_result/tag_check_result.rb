@@ -11,7 +11,8 @@ module StepFunctionResponses
 
       def formatted_for_create
         {
-          created_at: datetime_performed_at,
+          created_at: DateTime.now,
+          executed_at: datetime_performed_at,
           tag_id: tag_id,
           # uid: '',
           response_time_ms: response_time_ms,

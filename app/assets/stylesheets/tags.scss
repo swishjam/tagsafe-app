@@ -68,3 +68,35 @@
     }
   }
 }
+
+turbo-frame.frame-with-chart {
+  &[busy] {
+    .chart-container {
+      display: none;
+    }
+    .loading-indicator {
+      display: block;
+    }
+  }
+  &:not([busy]) {
+    .chart-container {
+      display: block;
+    }
+    .loading-indicator {
+      display: none;
+    }
+  }
+}
+
+.tag-current-stats-container {
+  .current-metric-title {
+    text-transform: uppercase;
+    color: $dark-grey-text;
+    font-size: 14px;
+  }
+  .current-metric-value {
+    font-size: 18px;
+    font-weight: 900;
+    color: black;
+  }
+}

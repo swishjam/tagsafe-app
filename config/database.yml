@@ -9,12 +9,10 @@ default: &default
 development:
   <<: *default
   database: tag_safe_development
-
-  # PLANET SCALE, DOESNT LIKE FOREIGN KEYS?
-  # database: tagsafe-dev
-  # username: hpsjx9vnwl7l
-  # host: 5wpdev0dcvl8.us-east-1.psdb.cloud
-  # password: pscale_pw_m0MgUs18hyJriKsbBaVEnA6dpkozxEooC4wfOfRCDK0
+  host: ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
+  username: liumxww8qzltxgf4
+  password: btxo1zn78wy2uqyd
+  database: q2mn5mg2xvmqq5fk
 
 test:
   <<: *default

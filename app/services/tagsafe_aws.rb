@@ -36,6 +36,10 @@ class TagsafeAws
           input: JSON.generate(input)
         )
       end
+
+      def get_execution(execution_arn)
+        client.describe_execution(execution_arn: execution_arn)
+      end
     end
   end
 

@@ -3,9 +3,9 @@ class TagPreference < ApplicationRecord
   
   belongs_to :tag
   
-  after_update :check_to_update_release_monitoring_preferences
-  after_create { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: nil, new_interval: tag_check_minute_interval) unless release_monitoring_disabled? }
-  before_destroy { AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: tag_check_minute_interval, new_interval: nil) }
+  after_update :check_to_sync_aws_event_bridge_rules_if_necessary
+  after_create { enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary! unless release_monitoring_disabled? }
+  before_destroy { disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(tag_check_minute_interval) }
 
   validate :has_payment_method_on_file_when_necessary
   validates :tag_check_minute_interval, inclusion: { in: [nil, 1, 15, 30, 60, 180, 360, 720, 1_440] }
@@ -65,9 +65,27 @@ class TagPreference < ApplicationRecord
     end
   end
 
-  def check_to_update_release_monitoring_preferences
-    if saved_changes['tag_check_minute_interval']
-      AfterTagCheckIntervalChangeJob.perform_later(tag_id, previous_interval: saved_changes['tag_check_minute_interval'][0], new_interval: tag_check_minute_interval)
+  def check_to_sync_aws_event_bridge_rules_if_necessary
+    previous_tag_check_minute_interval = saved_changes['tag_check_minute_interval'][0]
+    if saved_changes['tag_check_minute_interval'] && release_monitoring_disabled?
+      disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(previous_tag_check_minute_interval)
+    elsif saved_changes['tag_check_minute_interval'] && release_monitoring_enabled?
+      enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary!
+    end
+  end
+
+  def disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(interval)
+    # check each tag_check_region that was enabled for this tag
+    # if there are no more tag_checks being run on the interval for the region then disable the rule.
+    tag.tag_check_regions.each do |tag_check_region|
+      tag_check_region.disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(interval)
+    end
+  end
+
+  def enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary!
+    return false if release_monitoring_disabled?
+    tag.tag_check_regions.each do |tag_check_region|
+      tag_check_region.enable_aws_event_bridge_rules_for_tag_check_region_if_necessary!(tag_check_minute_interval)
     end
   end
 end

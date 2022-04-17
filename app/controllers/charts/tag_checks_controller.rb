@@ -31,7 +31,8 @@ module Charts
           tag: tag,
           chart_data: chart_data_getter.chart_data,
           time_range: time_range,
-          selected_tag_check_regions: tag_check_regions
+          selected_tag_check_regions: tag_check_regions,
+          chart_type: params[:chart_type] || 'line'
         }
       )
     end

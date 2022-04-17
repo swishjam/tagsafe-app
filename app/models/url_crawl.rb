@@ -3,7 +3,7 @@ class UrlCrawl < ApplicationRecord
   include HasCompletedAt
   include HasErrorMessage
   include Streamable
-  acts_as_paranoid
+  # acts_as_paranoid
   
   belongs_to :domain
   belongs_to :page_url
