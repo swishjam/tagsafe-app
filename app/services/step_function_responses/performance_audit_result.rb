@@ -89,12 +89,12 @@ module StepFunctionResponses
 
     def try_to_calculate_delta_results_and_run_next_set_of_audits!
       unless (individual_performance_audit.audit || individual_performance_audit.domain_audit).completed?
-        create_delta_performance_audit_if_necessary
+        create_delta_performance_audit_if_successful
         enqueue_next_batch_of_performance_audits_if_necessary
       end
     end
 
-    def create_delta_performance_audit_if_necessary
+    def create_delta_performance_audit_if_successful
       return if error.present?
       PerformanceAuditManager::DeltaPerformanceAuditCreator.find_matching_performance_audit_and_create!(individual_performance_audit)
     end

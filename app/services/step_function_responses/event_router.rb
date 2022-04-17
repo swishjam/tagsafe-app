@@ -8,22 +8,12 @@ module StepFunctionResponses
     end
 
     def route_event_to_respective_step_function_response_and_process!
-      if event_results_processor_klass.has_executed_step_function? && event_results_processor.record.received_lambda_response?
-        Rails.logger.warn "StepFunctionResponses::EventRouter - Received response for #{event_results_processor.record.uid} that was already received, skipping processing...."
-      else
-        process_result!
-      end
+      Rails.logger.info "Processing Step Function results with #{event_results_processor_klass.to_s} for #{event_results_processor.record.uid}..."
+      event_results_processor.record.received_lambda_response!(response_payload: lambda_event_payload['responsePayload']) if event_results_processor_klass.has_executed_step_function?
+      event_results_processor.process_results!
     end
 
     private
-
-    def process_result!
-      start_time = Time.now
-      Rails.logger.info "Beginning ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! ......"
-      event_results_processor.record.received_lambda_response!(response_payload: lambda_event_payload['responsePayload']) if event_results_processor_klass.has_executed_step_function?
-      event_results_processor.process_results!
-      Rails.logger.info "Completed ProcessReceivedLambdaEventJob #{event_results_processor_klass}.process_results! in #{Time.now - start_time} seconds"
-    end
 
     def event_results_processor
       @event_results_processor ||= event_results_processor_klass.new(lambda_event_payload)

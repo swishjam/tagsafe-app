@@ -1,15 +1,19 @@
 module StepFunctionResponses
   class TestRunResult < Base
     def process_results!
-      update_test_run_with_response_info!
-      if passed?
-        test_run.passed!
+      if test_run.completed?
+        Rails.logger.warn "StepFunctionResponses::TestRunResult tried to `process_results!` on an already completed TestRun: #{test_run.uid}, bypassing..."
       else
-        test_run.failed!(
-          message: error_message,
-          type: error_type,
-          trace: error_trace
-        )
+        update_test_run_with_response_info!
+        if passed?
+          test_run.passed!
+        else
+          test_run.failed!(
+            message: error_message,
+            type: error_type,
+            trace: error_trace
+          )
+        end
       end
     end
 
