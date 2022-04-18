@@ -8,8 +8,10 @@ module StepFunctionResponses
     end
 
     def route_event_to_respective_step_function_response_and_process!
-      Rails.logger.info "Processing Step Function results with #{event_results_processor_klass.to_s} for #{event_results_processor.record.uid}..."
-      event_results_processor.record.received_lambda_response!(response_payload: lambda_event_payload['responsePayload']) if event_results_processor_klass.has_executed_step_function?
+      if event_results_processor_klass.has_executed_step_function?
+        Rails.logger.info "Processing Step Function results with #{event_results_processor_klass.to_s} for #{event_results_processor&.record&.uid}..."
+        event_results_processor.record.received_lambda_response!(response_payload: lambda_event_payload['responsePayload'])
+      end
       event_results_processor.process_results!
     end
 
