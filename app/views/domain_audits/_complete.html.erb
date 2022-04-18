@@ -11,14 +11,59 @@
     <div class='domain-audit-component-explanation-container'>
       <h4 class='domain-audit-component-title alfa-slab'>Now what?</h4>
       <h4>We're just scratching the surface.</h4>
-      <p class='domain-audit-component-description'>
-        <%= link_to 'Audit your tags', tags_path %> - attribute the performance impact each of your tags has on your site.<br/>
-        <%= link_to 'Automate your audits', settings_tag_management_path %> - run audits on a set schedule, or each time one of your tags makes a release.<br/>
-        <%= link_to 'Release monitoring', settings_tag_management_path %> - know exactly when your tag providers' make changes to their tag, and view the changes that were made.<br/>
-        <%= link_to 'Uptime monitoring', settings_tag_management_path %> - monitor and measure each of your tags' uptime from around the world.<br/>
-        <%= link_to 'End-to-end testing', new_functional_test_path %> - so your tags never break your site's functionality.<br/>
-      </p>
-      <%= link_to 'Register for free', "/register?domain=#{current_domain.uid}", class: 'tagsafe-btn large mt-5', target: '_top' %>
+      <div class='container-fluid'>
+        <div class='row align-items-stretch mb-3'>
+          <div class='col-xs-12 col-sm-4'>
+            <div class='tagsafe-square-content'>
+              <i class="large-feature-icon fa-solid fa-heart-pulse mb-2"></i>
+              <h4><%= link_to 'Audit your tags', tags_path, target: '_top' %></h4>
+              <p>Attribute the performance impact each of your tags has on your site.</p>
+            </div>
+          </div>
+          <div class='col-xs-12 col-sm-4'>
+            <div class='tagsafe-square-content'>
+              <i class="large-feature-icon fa-solid fa-arrows-rotate mb-2"></i>
+              <h4><%= link_to 'Automate your audits', settings_tag_management_path, target: '_top' %></h4>
+              <p>Run audits on a set schedule, or each time one of your tags makes a release.</p>
+            </div>
+          </div>
+          <div class='col-xs-12 col-sm-4'>
+            <div class='tagsafe-square-content'>
+              <i class="large-feature-icon fa-solid fa-code-branch mb-2"></i>
+              <h4><%= link_to 'Release monitoring', settings_tag_management_path, target: '_top' %></h4>
+              <p>Know exactly when your tag providers' make changes to their tag, and view the changes that were made.</p>
+            </div>
+          </div>
+        </div>
+        <div class='row align-items-stretch mb-5'>
+          <div class='col-xs-12 col-sm-4'>
+            <div class='tagsafe-square-content'>
+              <i class="large-feature-icon fa-solid fa-chart-column mb-2"></i>
+              <h4><%= link_to 'Uptime monitoring', settings_tag_management_path, target: '_top' %></h4>
+              <p>Monitor and measure each of your tags' uptime from around the world.</p>
+            </div>
+          </div>
+          <div class='col-xs-12 col-sm-4'>
+            <div class='tagsafe-square-content'>
+              <i class="large-feature-icon fa-solid fa-vial-circle-check mb-2"></i>
+              <h4><%= link_to 'End-to-end testing', new_functional_test_path, target: '_top' %></h4>
+              <p>So your tags never break your site's functionality.</p>
+            </div>
+          </div>
+          <div class='col-xs-12 col-sm-4'>
+            <div class='tagsafe-square-content'>
+              <i class="large-feature-icon fas fa-bell mb-2"></i>
+              <h4><%= link_to 'Setup alerts', alerts_path, target: '_top' %></h4>
+              <p>Get notified whenever a tag causes issues and exceeds your thresholds.</p>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-6 offset-3'>
+            <%= link_to 'Register for free', "/register?domain=#{current_domain.uid}", class: 'tagsafe-btn large mt-5', target: '_top' %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 <% end %>

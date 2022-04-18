@@ -31,7 +31,7 @@ export default class extends Controller {
 
   _keydownListener = () => {
     window.addEventListener('keydown', e => {
-      if(e.keyCode === 18) {
+      if([91, 93].includes(e.keyCode)) {
         this.commandIsKeyedDown = true;
       } else if(this.commandIsKeyedDown && e.keyCode === this.keyCode){
         e.preventDefault();
@@ -42,7 +42,7 @@ export default class extends Controller {
 
   _keyupListener = () => {
     window.addEventListener('keyup', e => {
-      if(e.keyCode === 18) {
+      if([91, 93].includes(e.keyCode)) {
         this.commandIsKeyedDown = false;
       }
     })

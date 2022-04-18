@@ -16,7 +16,7 @@ module StepFunctionResponses
     end
 
     def valid?
-      error.nil?
+      step_function_successful? && error.nil?
     end
   end
 end

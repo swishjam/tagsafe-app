@@ -4,7 +4,7 @@ class PageUrl < ApplicationRecord
   belongs_to :domain
   has_many :audits
   has_many :url_crawls
-  has_many :tags_found_on_url, class_name: 'Tag', foreign_key: :found_on_page_url_id
+  has_many :tags_found_on_url, class_name: Tag.to_s, foreign_key: :found_on_page_url_id
 
   scope :should_scan_for_tags, -> { where(should_scan_for_tags: true) }
   scope :should_not_scan_for_tags, -> { where(should_scan_for_tags: false) }

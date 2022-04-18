@@ -4,8 +4,6 @@ body.domain_audits {
   }
   .domain-audit-component-explanation-container {
     padding: 10px 30px 10px 30px;
-    // .domain-audit-component-title{}
-    // .domain-audit-component-description{}
   }
   .domain-audit-metric-container {
     padding: 15px;
@@ -44,5 +42,8 @@ body.domain_audits {
     .content {
       display: block;
     }
+  }
+  .large-feature-icon {
+    font-size: 54px;
   }
 }

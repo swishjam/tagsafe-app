@@ -8,7 +8,6 @@ module Schedule
       redis = Resque.redis
       Rails.logger.info "Beginning Schedule::ReEnqueueFailsJobs with #{Resque::Failure.count} failed jobs to check."
       re_enqueued_jobs = 0
-
       (0...Resque::Failure.count).each do |i|
         serialized_job = redis.lindex(:failed, i)
         job = Resque.decode(serialized_job)

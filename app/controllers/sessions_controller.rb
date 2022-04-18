@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password])
       if params[:domain_uid]
         domain = Domain.find_by(uid: params[:domain_uid])
+        domain.mark_as_registered!
         domain.add_user(@user)
         log_user_in(@user, domain)
       else

@@ -6,7 +6,9 @@
         <h2 class='page-sub-title'>Teammates</h2>
       </div>
       <div class='col-4 page-title-cta-container'>
-        <%= modal_link new_user_invite_path, text: 'Invite User', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+        <% unless user_is_anonymous? %>
+          <%= modal_link new_user_invite_path, text: 'Invite User', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -17,7 +19,12 @@
 </div>
 
 <%= turbo_frame_tag "domain_#{current_domain.uid}_domain_users" do %>
-  <% if @domain_users.any? %>
+  <% if user_is_anonymous? %>
+    <div class='text-center p-5'>
+      <h4 class='empty-message mb-3'>You cannot invite teammates until you have registered to Tagsafe yourself.</h4> 
+      <%= link_to 'Sign up for free now', "/register?domain=#{current_domain.uid}", class: 'floating-btn tagsafe-purple-bg', target: '_top' %>
+    </div>
+  <% elsif @domain_users.any? %>
     <div class='tagsafe-container p-0'>
       <div class='tagsafe-table'>
         <div class='tagsafe-table-head tagsafe-table-row square'>

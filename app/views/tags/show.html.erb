@@ -5,7 +5,15 @@
     <div class='row'>
       <div class='col-8'>
         <h1 class="page-title with-sub-title">Tag Details</h1>
-        <h2 class='page-sub-title'><%= @tag.try_friendly_name %></h2>
+        <h2 class='page-sub-title'>
+          <%= @tag.try_friendly_name %> 
+          <% if @tag.release_monitoring_disabled? %>
+            <%= image_tag '/images/disabled-release-monitoring.png', style: 'height: 16px;', title: 'Release monitoring is disabled for this tag, enable it in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
+          <% end %>
+          <% if @tag.scheduled_audits_disabled? %>
+            <%= image_tag '/images/disabled-automated-audits.png', style: 'height: 16px;', title: 'Scheduled audits are disabled for this tag, enable them in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
+          <% end %>
+        </h2>
       </div>
       <div class='col-4 page-title-cta-container'>
         <%= modal_link new_tag_audit_path(@tag), klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
@@ -18,7 +26,7 @@
             </span>
           </div>
         <% end %>
-        <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', data: { controller: 'tooltip', bs_toggle: 'tooltip', title: 'Edit tag settings'} do %>
+        <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', title: 'Edit tag settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
           <i class="fa-solid fa-gear"></i>
         <% end %>
       </div>

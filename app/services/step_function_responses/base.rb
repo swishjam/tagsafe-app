@@ -7,11 +7,23 @@ module StepFunctionResponses
     end
 
     def response_payload
-      @response_payload ||= event_payload['responsePayload']
+      @response_payload ||= event_payload['responsePayload'] || {}
     end
 
     def request_payload
-      @request_payload ||= event_payload['requestPayload']
+      @request_payload ||= step_function_failed? ? event_payload : event_payload['requestPayload']
+    end
+
+    def step_function_failed?
+      step_function_error_message.present?
+    end
+
+    def step_function_successful?
+      step_function_error_message.nil?
+    end
+
+    def step_function_error_message
+      event_payload.dig('step_function_error', 'Error')
     end
 
     def self.has_executed_step_function?

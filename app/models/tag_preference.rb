@@ -5,7 +5,7 @@ class TagPreference < ApplicationRecord
   
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
   after_create { enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary! unless release_monitoring_disabled? }
-  before_destroy { disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(tag_check_minute_interval) }
+  before_destroy { disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(tag_check_minute_interval) unless tag.nil? }
 
   validate :has_payment_method_on_file_when_necessary
   validates :tag_check_minute_interval, inclusion: { in: [nil, 1, 15, 30, 60, 180, 360, 720, 1_440] }

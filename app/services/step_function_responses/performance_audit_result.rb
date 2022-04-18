@@ -16,7 +16,7 @@ module StepFunctionResponses
 
     def valid?
       return @valid if defined?(@valid)
-      @valid = error.nil? && blocked_correct_resources_for_audit_type?
+      @valid = step_function_successful? && error.nil? && blocked_correct_resources_for_audit_type?
     end
 
     def invalid?
@@ -82,7 +82,7 @@ module StepFunctionResponses
     end
 
     def error
-      @error ||= response_payload['error'] || response_payload['errorMessage'] || @invalid_audit_error
+      @error ||= step_function_error_message || response_payload['error'] || response_payload['errorMessage'] || @invalid_audit_error
     end
 
     private

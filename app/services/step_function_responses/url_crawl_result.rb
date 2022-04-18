@@ -29,7 +29,7 @@ module StepFunctionResponses
     end
 
     def error
-      @error ||= response_payload['error'] || response_payload['error_message'] || response_payload['errorMessage']
+      @error ||= step_function_error_message || response_payload['error'] || response_payload['error_message'] || response_payload['errorMessage']
     end
   end
 end

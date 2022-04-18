@@ -13,7 +13,7 @@ class DomainAuditsController < LoggedInController
       "Third Party Javascript" => url_crawl.num_third_party_bytes 
     }
     render turbo_stream: turbo_stream.replace(
-      "domain_audit_#{current_domain_audit.uid}_results_component",
+      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
       partial: 'domain_audits/global_bytes_breakdown',
       locals: { 
         domain_audit: current_domain_audit, 
@@ -37,7 +37,7 @@ class DomainAuditsController < LoggedInController
       end
     end
     render turbo_stream: turbo_stream.replace(
-      "domain_audit_#{current_domain_audit.uid}_results_component",
+      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
       partial: 'domain_audits/individual_bytes_breakdown',
       locals: { 
         domain_audit: current_domain_audit, 
@@ -51,7 +51,7 @@ class DomainAuditsController < LoggedInController
   def performance_impact
     if current_domain_audit.pending?
       render turbo_stream: turbo_stream.replace(
-        "domain_audit_#{current_domain_audit.uid}_results_component",
+        params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
         partial: 'domain_audits/performance_impact',
         locals: { 
           domain_audit: current_domain_audit, 
@@ -65,7 +65,7 @@ class DomainAuditsController < LoggedInController
       average_delta_performance_audit = current_domain_audit.average_delta_performance_audit
       negative_metrics = NegativePerformanceAuditMetricsIdentifier.new(average_delta_performance_audit)
       render turbo_stream: turbo_stream.replace(
-        "domain_audit_#{current_domain_audit.uid}_performance_impact",
+        params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
         partial: 'domain_audits/performance_impact',
         locals: { 
           domain_audit: current_domain_audit, 
@@ -80,7 +80,7 @@ class DomainAuditsController < LoggedInController
 
   def puppeteer_recording
     render turbo_stream: turbo_stream.replace(
-      "domain_audit_#{current_domain_audit.uid}_results_component",
+      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
       partial: 'domain_audits/puppeteer_recording',
       locals: {
         domain_audit: current_domain_audit,
@@ -92,11 +92,11 @@ class DomainAuditsController < LoggedInController
 
   def tag_list
     url_crawl = current_domain_audit.url_crawl
-    found_tags = url_crawl.found_tags.order(last_captured_byte_size: :DESC).page(params[:page]).per(10)
+    found_tags = url_crawl.found_tags.order(last_captured_byte_size: :DESC).page(params[:page]).per(5)
     domain = current_domain_audit.domain
     tag_with_audit = url_crawl.found_tags.includes(:audits).where.not(audits: { id: nil }).first
     render turbo_stream: turbo_stream.replace(
-      "domain_audit_#{current_domain_audit.uid}_results_component",
+      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
       partial: 'domain_audits/tag_list',
       locals: {
         domain_audit: current_domain_audit,
@@ -110,7 +110,7 @@ class DomainAuditsController < LoggedInController
 
   def complete
     render turbo_stream: turbo_stream.replace(
-      "domain_audit_#{current_domain_audit.uid}_results_component",
+      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
       partial: 'domain_audits/complete',
       locals: { domain_audit: current_domain_audit }
     )

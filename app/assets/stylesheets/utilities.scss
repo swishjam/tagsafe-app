@@ -220,10 +220,7 @@ a.no-decoration {
   height: 40px;
   width: 40px;
   &:hover, &.active {
-    background: $tagsafe-secondary;
-    &.light-bg {
-      background: rgb(228, 228, 228);
-    }
+    background-color: rgb(228, 228, 228);
   }
 }
 
@@ -371,72 +368,11 @@ form[data-controller=loading_form] {
   50% { border: 3px solid rgb(231, 235, 254) }
 }
 
-
-
-.tagsafe-badge {
-  font-size: 12px;
-  border-radius: 5px;
-  padding: 0px 5px 0px 5px;
-  display: flex;
-  align-items: center;
-  &.medium {
-    font-size: 14px;
-  }
-  &.large {
-    font-size: 16px;
-  }
-  .text {
-    font-weight: 800;
-    margin: 0px 4px 0px 4px;
-  }
-  &.failed, &.red {
-    background: red;
-    .text {
-      color: white;
-      &.dark {
-        color: black;
-      }
-    }
-    &.colored-text .text {
-      color: rgb(255, 164, 164);
-    }
-  }
-  &.passed, &.green {
-    background: green;
-    .text {
-      color: white;
-      &.dark {
-        color: black;
-      }
-    }
-    &.colored-text .text {
-      color: rgb(147, 255, 147);
-    }
-  }
-  &.warning, &.yellow {
-    background: rgb(255,193,7);
-    .text {
-      color: white;
-      &.dark {
-        color: black;
-      }
-    }
-    &.colored-text .text {
-      color: lightyellow;
-    }
-  }
-  &.light-blue {
-    background: rgb(107, 107, 255);
-    .text {
-      color: white;
-      &.dark {
-        color: black;
-      }
-    }
-    &.colored-text .text {
-      color: rgb(189, 189, 255);
-    }
-  }
+.tagsafe-square-content {
+  border-radius: 15px;
+  background-color: $tagsafe-secondary;
+  padding: 15px;
+  margin: 15px;
 }
 
 .tagsafe-dotted-selector {

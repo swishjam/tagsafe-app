@@ -39,7 +39,7 @@ module StepFunctionResponses
     end
 
     def passed?
-      @passed ||= response_payload['passed']
+      @passed ||= step_function_successful? && response_payload['passed']
     end
 
     def script_results
@@ -55,11 +55,11 @@ module StepFunctionResponses
     end
 
     def error_message
-      @error_message ||= response_payload['errorMessage'] || response_payload.dig('failure', 'message') || response_payload['script_results']
+      @error_message ||= step_function_error_message || response_payload['errorMessage'] || response_payload.dig('failure', 'message') || response_payload['script_results']
     end
 
     def error_type
-      @error_type ||= response_payload['errorType']
+      @error_type ||= response_payload['errorType'] || 'Unknown'
     end
 
     def error_trace
