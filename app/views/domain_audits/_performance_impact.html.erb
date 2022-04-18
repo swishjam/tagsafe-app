@@ -1,17 +1,17 @@
-<%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_results_component", class: 'results-component' do %>
+<%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_performance_impact", class: 'results-component' do %>
   <%= render 'domain_audits/progress_indicators', 
                                       domain_audit: domain_audit, 
                                       current_view_num: 3,
                                       back_button_url: individual_bytes_breakdown_domain_audit_path(domain_audit), 
                                       back_button_text: 'Size of Tags', 
-                                      next_button_url: domain_audit.has_puppeteer_recording? ? puppeteer_recording_domain_audit_path(domain_audit) : tag_list_domain_audit_path(domain_audit),
-                                      next_button_text: domain_audit.has_puppeteer_recording? ? 'Watch Page Load Playback' : 'Individual Tag Impact' %>
+                                      next_button_url: domain_audit.pending? ? nil : domain_audit.has_puppeteer_recording? ? puppeteer_recording_domain_audit_path(domain_audit) : tag_list_domain_audit_path(domain_audit),
+                                      next_button_text: domain_audit.pending? ? nil : domain_audit.has_puppeteer_recording? ? 'Watch Page Load Playback' : 'Individual Tag Impact' %>
   <div class='loading-indicator'>
     <%= display_loading_icon %>
   </div>
   <div class='content'>
     <% if domain_audit.pending? %>
-      <h4>Just a moment, calculating impact of third party tags on <%= domain_audit.domain.url %>...</h4>
+      <h4>Just a moment, putting finishing touches and calculating impact of third party tags on <%= domain_audit.domain.url %>...</h4>
       <%= display_loading_icon %>
     <% else %>
       <div class='domain-audit-component-explanation-container'>
@@ -67,6 +67,6 @@
                       metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:task_duration]
         %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% end %>

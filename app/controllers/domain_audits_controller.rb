@@ -49,19 +49,33 @@ class DomainAuditsController < LoggedInController
   end
 
   def performance_impact
-    average_delta_performance_audit = current_domain_audit.average_delta_performance_audit
-    negative_metrics = NegativePerformanceAuditMetricsIdentifier.new(average_delta_performance_audit)
-    render turbo_stream: turbo_stream.replace(
-      "domain_audit_#{current_domain_audit.uid}_results_component",
-      partial: 'domain_audits/performance_impact',
-      locals: { 
-        domain_audit: current_domain_audit, 
-        url_crawl: current_domain_audit.url_crawl,
-        average_delta_performance_audit: average_delta_performance_audit,
-        most_negative_performance_metric: negative_metrics.most_negative_performance_metric,
-        negative_performance_metrics: negative_metrics.negative_performance_metrics
-      }
-    )
+    if current_domain_audit.pending?
+      render turbo_stream: turbo_stream.replace(
+        "domain_audit_#{current_domain_audit.uid}_results_component",
+        partial: 'domain_audits/performance_impact',
+        locals: { 
+          domain_audit: current_domain_audit, 
+          url_crawl: current_domain_audit.url_crawl,
+          average_delta_performance_audit: nil,
+          most_negative_performance_metric: nil,
+          negative_performance_metrics: []
+        }
+      )
+    else
+      average_delta_performance_audit = current_domain_audit.average_delta_performance_audit
+      negative_metrics = NegativePerformanceAuditMetricsIdentifier.new(average_delta_performance_audit)
+      render turbo_stream: turbo_stream.replace(
+        "domain_audit_#{current_domain_audit.uid}_performance_impact",
+        partial: 'domain_audits/performance_impact',
+        locals: { 
+          domain_audit: current_domain_audit, 
+          url_crawl: current_domain_audit.url_crawl,
+          average_delta_performance_audit: average_delta_performance_audit,
+          most_negative_performance_metric: negative_metrics.most_negative_performance_metric,
+          negative_performance_metrics: negative_metrics.negative_performance_metrics
+        }
+      )
+    end
   end
 
   def puppeteer_recording

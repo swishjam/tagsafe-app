@@ -23,7 +23,7 @@ class DomainAudit < ApplicationRecord
 
   after_failure :completed!
   after_complete :create_delta_performance_audits
-  after_complete -> (domain_audit) { domain_audit.update_domain_audit_details_view(domain_audit: domain_audit, now: true) }
+  after_complete -> (domain_audit) { domain_audit.update_domain_audit_performance_impact_view(domain_audit: domain_audit, now: true) }
   before_validation { self.url_crawl = UrlCrawl.new(domain: domain, page_url: page_url) }
 
   after_create_commit do

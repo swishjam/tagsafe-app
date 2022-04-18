@@ -239,6 +239,40 @@ module Streamable
       )
     end
 
+    def update_domain_audit_performance_impact_view(domain_audit:, now: false)
+      if domain_audit.completed?
+        average_delta_performance_audit = domain_audit.average_delta_performance_audit
+        negative_metrics = NegativePerformanceAuditMetricsIdentifier.new(average_delta_performance_audit)
+        stream_replace!(
+          now: now,
+          stream: "domain_audit_#{domain_audit.uid}_details_stream",
+          target: "domain_audit_#{domain_audit.uid}_performance_impact",
+          partial: "domain_audits/performance_impact",
+          locals: { 
+            domain_audit: domain_audit, 
+            url_crawl: domain_audit.url_crawl,
+            average_delta_performance_audit: average_delta_performance_audit,
+            most_negative_performance_metric: negative_metrics.most_negative_performance_metric,
+            negative_performance_metrics: negative_metrics.negative_performance_metrics
+          }
+        )
+      else
+        stream_replace!(
+          now: now,
+          stream: "domain_audit_#{domain_audit.uid}_details_stream",
+          target: "domain_audit_#{domain_audit.uid}_performance_impact",
+          partial: "domain_audits/performance_impact",
+          locals: { 
+            domain_audit: domain_audit, 
+            url_crawl: domain_audit.url_crawl,
+            average_delta_performance_audit: nil,
+            most_negative_performance_metric: nil,
+            negative_performance_metrics: []
+          }
+        )
+      end
+    end
+
     ############################
     ## FunctionalTest streams ##
     ############################
