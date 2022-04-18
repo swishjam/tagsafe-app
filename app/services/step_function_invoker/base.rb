@@ -70,6 +70,7 @@ module StepFunctionInvoker
 
     def update_executed_step_function_with_execution_arn(response)
       return if self.class.has_no_executed_step_function
+      raise StandardError, "Executed Step Function for #{executed_step_function_parent&.uid || '[no parent]'} does not have an execution arn. AWS Step Function Response: #{response.inspect}" if response.execution_arn.nil?
       executed_step_function.update!(step_function_execution_arn: response.execution_arn)
     end
   end
