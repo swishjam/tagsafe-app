@@ -26,7 +26,15 @@ class TagCheckRegion < ApplicationRecord
   end
 
   def enable_aws_event_bridge_rules_for_tag_check_region_if_necessary!(interval)
-    tag_check_schedule_aws_event_bridge_rules.for_interval(interval).enable_if_necessary
+    event_bridge_rule = tag_check_schedule_aws_event_bridge_rules.for_interval(interval)
+    if event_bridge_rule.nil?
+      raise TagsafeAwsEventBridgeRuleError::DoesNotExist, <<~ERR
+        Cannot enable AWS Event Bridge Rule, TagCheckRegion #{aws_region_name} does not have a 
+        TagCheckScheduleAwsEventBridgeRule with an interval of #{interval}.
+      ERR
+    else
+      event_bridge_rule.enable_if_necessary
+    end
   end
 
   def disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(interval)

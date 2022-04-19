@@ -69,7 +69,6 @@ class TagPreference < ApplicationRecord
     if saved_changes['tag_check_minute_interval'] && release_monitoring_disabled?
       previous_tag_check_minute_interval = saved_changes['tag_check_minute_interval'][0]
       disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(previous_tag_check_minute_interval)
-    elsif saved_changes['tag_check_minute_interval'] && release_monitoring_enabled?
       enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary!
     end
   end

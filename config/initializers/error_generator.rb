@@ -49,3 +49,7 @@ end
 class FlagError
   class FlagDoesntExist < StandardError; end;
 end
+
+class TagsafeAwsEventBridgeRuleError
+  class DoesNotExist < StandardError; end;
+end
