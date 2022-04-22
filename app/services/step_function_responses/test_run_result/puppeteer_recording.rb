@@ -18,7 +18,7 @@ module StepFunctionResponses
       end
 
       def s3_url
-        @s3_url ||= @screen_recording_hash['s3_url'] || PuppeteerRecording::FAILED_TO_CAPTURE_S3_URL_VALUE
+        @s3_url ||= @screen_recording_hash['s3_url'] || ::PuppeteerRecording::FAILED_TO_CAPTURE_S3_URL_VALUE
       end
 
       def ms_to_stop
