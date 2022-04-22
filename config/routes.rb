@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     resources :audits, only: [:show, :index, :new, :create], param: :uid do
       member do
         get :performance_audit
+        resources :performance_audit_speed_index_result, only: :index
         get :test_runs
         # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
         get :page_change_audit

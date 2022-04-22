@@ -63,6 +63,7 @@
                 impact_result: audit.preferred_delta_performance_audit.dom_complete_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_complete_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:dom_complete),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_complete],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -72,6 +73,7 @@
                 impact_result: audit.preferred_delta_performance_audit.dom_interactive_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_interactive_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:dom_interactive),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_interactive],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -83,6 +85,7 @@
                 impact_result: audit.preferred_delta_performance_audit.first_contentful_paint_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.first_contentful_paint_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:first_contentful_paint),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:first_contentful_paint],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -92,6 +95,29 @@
                 impact_result: audit.preferred_delta_performance_audit.task_duration_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.task_duration_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:task_duration),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:task_duration],
+                unit: 'ms',
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
+              } %>
+            </div>
+            <div class="row">
+              <%= render partial: 'audits/performance_audit_metric_row', locals: {
+                tag: tag, 
+                metric_title: 'Speed Index',
+                impact_result: audit.preferred_delta_performance_audit.speed_index_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.speed_index_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:speed_index),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:speed_index],
+                unit: 'ms',
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
+              } %>
+              <%= render partial: 'audits/performance_audit_metric_row', locals: {
+                tag: tag, 
+                metric_title: 'Main Thread Blocking Time',
+                impact_result: audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:main_thread_execution_tag_responsible_for),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:main_thread_execution_tag_responsible_for],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -103,6 +129,7 @@
                 impact_result: audit.preferred_delta_performance_audit.script_duration_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.script_duration_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:script_duration),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:script_duration],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -112,6 +139,7 @@
                 impact_result: audit.preferred_delta_performance_audit.layout_duration_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.layout_duration_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:layout_duration),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:layout_duration],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
@@ -123,63 +151,33 @@
                   impact_result: audit.preferred_delta_performance_audit.dom_content_loaded_delta,
                   previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_content_loaded_delta : nil,
                   tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:dom_content_loaded),
+                  metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_content_loaded],
                   unit: 'ms',
                   previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
                 } %>
-              <div class="metric-row col-md-12 col-lg-6">
-                <div class='metric col-12'>
-                  <%
-                    current_bytes = audit.preferred_delta_performance_audit.bytes
-                    previous_version_bytes = audit.audit_to_compare_with&.preferred_delta_performance_audit&.bytes
-                    tagsafe_score_deduction = audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:byte_size)
-                  %>
-                  <div class='row'>
-                    <div class="col-6 metric-title">
-                      File Size
-                    </div>
-                    <div class="col-6 metric-value">
-                      <% tooltip_title = "The #{audit.tag.try_friendly_name} tag is #{number_to_human_size(current_bytes)} in size." %>
-                      <% diff_in_bytes = current_bytes - (previous_version_bytes || 0) %>
-                      <% unless previous_version_bytes.nil? || diff_in_bytes.zero? %>
-                        <% tooltip_title += ", #{diff_in_bytes.positive? ? 'an increase' : 'a decrease'} of #{number_to_human_size(diff_in_bytes.abs.round(2))} from the previous version." %>
-                      <% end %>
-                      <div data-controller='tooltip'
-                            data-bs-toggle='tooltip'
-                            title="<%= tooltip_title %>" 
-                            class="current-value default-cursor">
-                        <%= number_to_human_size(current_bytes.round(2)) %>
-                        <% unless previous_version_bytes.nil? %>
-                          <% if diff_in_bytes.zero? %>
-                            (No Change)
-                          <% else %>
-                            <span class="<%= diff_in_bytes.positive? ? 'red-text' : 'green-text' %>" style='font-size: 12px'>
-                              <% icon_class = diff_in_bytes.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
-                              <i class="<%= icon_class %>"></i>
-                              <%= number_to_human_size(diff_in_bytes.abs) %>
-                              <% unless previous_version_bytes.zero? || current_bytes.zero? %>
-                                (<%= ((diff_in_bytes.to_f/previous_version_bytes)*100).round(2) %>%)
-                              <% end %>
-                            </span>
-                          <% end %>
-                        <% end %>
-                      </div>
-                      <div class='impact-to-tagsafe-score'
-                            data-controller='tooltip'
-                            data-bs-toggle='tooltip'
-                            title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
-                        <%= "- #{tagsafe_score_deduction&.round(2)}" || 0.0 %> Tagsafe Score impact
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <%= render partial: 'audits/performance_audit_metric_row', locals: {
+                  tag: tag, 
+                  metric_title: 'File Size',
+                  impact_result: audit.preferred_delta_performance_audit.bytes,
+                  previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.bytes : nil,
+                  tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:byte_size),
+                  metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:bytes],
+                  unit: 'bytes',
+                  previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
+                } %>
             </div>
           </div>
         </div>
       <% end %>
     <% end %>
   </div>
+  <% if audit.performance_audit_completed_successfully? %>
+    <%= turbo_frame_tag "audit_#{audit.uid}_performance_audit_speed_index_result", src: tag_performance_audit_speed_index_result_index_path(audit.tag, audit) do %>
+      <div class='tagsafe-container p-5 text-center'>
+        <%= display_loading_icon %>
+      </div>
+    <% end %>
+  <% end %>
   <% if audit.include_performance_audit && audit.performance_audit_configuration.enable_screen_recording && audit.performance_audit_completed_successfully? %>
     <div class="tagsafe-container <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>" data-controller='streamed-script-tag'>
       <%= render 'audits/performance_audit_recordings',

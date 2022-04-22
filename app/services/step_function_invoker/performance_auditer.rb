@@ -19,6 +19,7 @@ module StepFunctionInvoker
     def request_payload
       {
         individual_performance_audit_id: individual_performance_audit.id,
+        tag_url_being_audited: @audit.run_on_tagsafe_tag_version? ? tag_version.js_file_url : tag.full_url,
         page_url_to_perform_audit_on: @audit.page_url.full_url,
         first_party_request_url: tag.domain.parsed_domain_url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,

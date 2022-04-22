@@ -2,7 +2,9 @@
   <div class='metric col-12'>
     <div class='row'>
       <div class="col-6 metric-title">
-        <%= metric_title %>
+        <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= metric_definition %>">
+          <%= metric_title %>
+        </span>
       </div>
       <div class="col-6 metric-value">
         <% if impact_result.zero? %>
@@ -27,7 +29,7 @@
                   <i class="<%= icon_class %>"></i>
                   <%= number_to_human(diff_in_metric.abs, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
                   <% unless previous_impact_result.zero? || impact_result.zero? %>
-                    (<%= ((diff_in_metric/previous_impact_result)*100).round(2) %>%)
+                    (<%= ((diff_in_metric.to_f/previous_impact_result)*100).round(2) %>%)
                   <% end %>
                 </span>
               <% end %>

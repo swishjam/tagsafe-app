@@ -11,10 +11,14 @@ class PerformanceAudit < ApplicationRecord
   has_one :performance_audit_log, class_name: 'PerformanceAuditLog', dependent: :destroy
   has_many :blocked_resources, dependent: :destroy
   has_many :page_load_resources, foreign_key: :performance_audit_id, dependent: :destroy
+  has_many :performance_audit_speed_index_frames, dependent: :destroy
+  has_many :long_tasks, dependent: :destroy
   accepts_nested_attributes_for :puppeteer_recording
   accepts_nested_attributes_for :performance_audit_log
   accepts_nested_attributes_for :blocked_resources
   accepts_nested_attributes_for :page_load_resources
+  accepts_nested_attributes_for :performance_audit_speed_index_frames
+  accepts_nested_attributes_for :long_tasks
 
   scope :most_recent, -> { joins(audit: :tag_version).where(tag_versions: { most_recent: true })}
   scope :primary_audits, -> { joins(:audit).where(audits: { primary: true }) }

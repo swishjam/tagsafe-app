@@ -35,7 +35,7 @@ module StepFunctionResponses
     alias record test_run
 
     def puppeteer_recording_attributes
-      @puppeteer_recording_attributes ||= StepFunctionResponses::TestRunResult::PuppeteerRecording.new(response_payload['screen_recording'])
+      @puppeteer_recording_attributes ||= StepFunctionResponses::TestRunResult::PuppeteerRecording.new(response_payload['screen_recording'] || {})
     end
 
     def passed?

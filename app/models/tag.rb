@@ -15,6 +15,7 @@ class Tag < ApplicationRecord
   belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s
   
   has_many :audits, dependent: :destroy  
+  has_many :long_tasks, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :tag_checks, dependent: :destroy
   has_many :tag_check_regions_to_check, dependent: :destroy, class_name: TagCheckRegionToCheck.to_s

@@ -66,16 +66,17 @@ class TagPreference < ApplicationRecord
   end
 
   def check_to_sync_aws_event_bridge_rules_if_necessary
-    if saved_changes['tag_check_minute_interval'] && release_monitoring_disabled?
+    if saved_changes['tag_check_minute_interval']
       previous_tag_check_minute_interval = saved_changes['tag_check_minute_interval'][0]
-      disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(previous_tag_check_minute_interval)
       enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary!
+      disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(previous_tag_check_minute_interval)
     end
   end
 
   def disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(interval)
     # check each tag_check_region that was enabled for this tag
     # if there are no more tag_checks being run on the interval for the region then disable the rule.
+    return if interval.nil?
     tag.tag_check_regions.each do |tag_check_region|
       tag_check_region.disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(interval)
     end

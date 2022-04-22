@@ -16,9 +16,8 @@ module ChartHelper
 
     def formatted_chart_data!
       Rails.logger.info "ChartHelper::TagsData Cache miss for #{cache_key}"
-      add_current_timestamp_to_chart_data
       add_all_audits_since_start_datetime
-      add_starting_datetime_plot_if_necessary
+      add_starting_and_current_datetime_plot_if_necessary
       @chart_data.values
     end
 
@@ -30,17 +29,17 @@ module ChartHelper
       "charts:#{tag_ids.join('-')}_#{@metric_key}_#{@start_datetime.beginning_of_minute}"
     end
 
-    def add_current_timestamp_to_chart_data
-      @tags.map do |tag|
-        most_recent_audit = tag.most_recent_successful_audit
-        unless most_recent_audit.nil?
-          @chart_data[tag] = { 
-            name: @use_metric_key_as_plot_name ? @metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ') : tag.try_friendly_name, 
-            data: [ [DateTime.now, most_recent_audit.preferred_delta_performance_audit[@metric_key]] ] 
-          }
-        end
-      end
-    end
+    # def add_current_timestamp_to_chart_data
+    #   @tags.map do |tag|
+    #     most_recent_audit = tag.most_recent_successful_audit
+    #     unless most_recent_audit.nil?
+    #       @chart_data[tag] = { 
+    #         name: @use_metric_key_as_plot_name ? @metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ') : tag.try_friendly_name, 
+    #         data: [ [DateTime.now, most_recent_audit.preferred_delta_performance_audit[@metric_key]] ] 
+    #       }
+    #     end
+    #   end
+    # end
 
     def add_all_audits_since_start_datetime
       AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
@@ -54,8 +53,9 @@ module ChartHelper
       end
     end
 
-    def add_starting_datetime_plot_if_necessary
+    def add_starting_and_current_datetime_plot_if_necessary
       @chart_data.each do |tag, chart_data_hash|
+        chart_data_hash[:data].prepend([ Time.now, chart_data_hash[:data].first[1] ]) unless chart_data_hash[:data].none?
         earliest_audit_timestamp_for_tag_in_chart = chart_data_hash[:data].last[0]
         most_recent_audit_before_starting_datetime = tag.audits.completed_performance_audit
                                                                 .successful_performance_audit

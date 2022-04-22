@@ -23,7 +23,7 @@ module StepFunctionInvoker
         first_party_url: domain.url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
         third_party_tag_url_patterns_to_allow: allowed_request_urls,
-        max_script_exeuction_ms: @options[:max_script_exeuction_ms] || Flag.flag_value_for_objects(functional_test, domain, slug: 'max_functional_test_script_execution_ms').to_i,
+        max_script_execution_ms: @options[:max_script_execution_ms] || Flag.flag_value_for_objects(functional_test, domain, slug: 'max_functional_test_script_execution_ms').to_i,
         enable_screen_recording: (@options[:enable_screen_recording] == nil ? true : @options[:enable_screen_recording]).to_s, # true by default
         include_screen_recording_on_passing_script: (@options[:include_screen_recording_on_passing_script] || false).to_s # false by default
       }

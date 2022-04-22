@@ -27,6 +27,10 @@ module PerformanceAuditManager
 
     def create_delta_performance_audit!
       @delta_performance_audit_klass.create!(formatted_delta_results)
+    rescue => e
+      @performance_audit_with_tag.audit.performance_audit_error!("An unexpected system error occurred.")
+      Rails.logger.error "DeltaPerformanceAudit create failed: #{e.message}"
+      Sentry.capture_exception(e)
     end
 
     private
@@ -39,7 +43,12 @@ module PerformanceAuditManager
         first_contentful_paint_delta: delta_between(:first_contentful_paint),
         script_duration_delta: delta_between(:script_duration),
         task_duration_delta: delta_between(:task_duration),
-        layout_duration_delta: delta_between(:layout_duration)
+        layout_duration_delta: delta_between(:layout_duration),
+        speed_index_delta: delta_between(:speed_index, optional: true),
+        perceptual_speed_index_delta: delta_between(:perceptual_speed_index, optional: true),
+        main_thread_execution_tag_responsible_for_delta: delta_between(:main_thread_execution_tag_responsible_for, optional: true),
+        ms_until_first_visual_change_delta: delta_between(:ms_until_first_visual_change, optional: true),
+        ms_until_last_visual_change_delta: delta_between(:ms_until_last_visual_change, optional: true)
       }
       delta_metrics.merge!({
         is_outlier: false,
@@ -52,8 +61,11 @@ module PerformanceAuditManager
       })
     end
 
-    def delta_between(column)
-      delta = @performance_audit_with_tag.send(column) - @performance_audit_without_tag.send(column)
+    def delta_between(column, optional: false)
+      metric_with_tag = @performance_audit_with_tag.send(column)
+      metric_without_tag = @performance_audit_without_tag.send(column)
+      return nil if optional && (metric_with_tag.nil? || metric_without_tag.nil?)
+      delta =  metric_with_tag - metric_without_tag
       delta < 0 ? 0.0 : delta
     rescue => e
       raise StandardError, "Cannot calculate delta for #{column} between performance audits #{@performance_audit_without_tag.uid} and #{@performance_audit_with_tag.uid}: #{e}"

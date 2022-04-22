@@ -13,6 +13,6 @@ export default class extends Controller {
 
   dismiss() {
     this.element.classList.remove('animate');
-    setTimeout(() => { this.element.remove() }, 1000); // wait for animation off screen to stop
+    setTimeout(() => { this.element.remove() }, 500); // wait for animation off screen to stop
   }
 }

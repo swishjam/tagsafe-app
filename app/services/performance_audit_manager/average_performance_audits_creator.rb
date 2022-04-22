@@ -27,6 +27,11 @@ module PerformanceAuditManager
         dom_complete: average_for(:dom_complete, individual_performance_audits),
         dom_content_loaded: average_for(:dom_content_loaded, individual_performance_audits),
         dom_interactive: average_for(:dom_interactive, individual_performance_audits),
+        speed_index: average_for(:speed_index, individual_performance_audits),
+        perceptual_speed_index: average_for(:perceptual_speed_index, individual_performance_audits),
+        ms_until_first_visual_change: average_for(:ms_until_first_visual_change, individual_performance_audits),
+        ms_until_last_visual_change: average_for(:ms_until_last_visual_change, individual_performance_audits),
+        main_thread_execution_tag_responsible_for: average_for(:main_thread_execution_tag_responsible_for, individual_performance_audits),
         first_contentful_paint: average_for(:first_contentful_paint, individual_performance_audits),
         script_duration: average_for(:script_duration, individual_performance_audits),
         layout_duration: average_for(:layout_duration, individual_performance_audits),
@@ -37,7 +42,8 @@ module PerformanceAuditManager
     end
 
     def average_for(metric, individual_performance_audits)
-      MathHelpers::Statistics.mean individual_performance_audits.collect(&:"#{metric}")
+      non_nil_metric_values = individual_performance_audits.collect(&:"#{metric}").compact
+      MathHelpers::Statistics.mean(non_nil_metric_values) unless non_nil_metric_values.none?
     rescue => e
       raise StandardError, "Unable to calculate the average for #{metric}: #{e.message}"
     end

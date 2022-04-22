@@ -23,7 +23,9 @@ module StepFunctionResponses
     end
 
     def step_function_error_message
-      event_payload.dig('step_function_error', 'Error')
+      JSON.parse(event_payload.dig('step_function_error', 'Cause'))['errorMessage']
+    rescue => e
+      event_payload.dig('step_function_error', 'Cause')
     end
 
     def self.has_executed_step_function?

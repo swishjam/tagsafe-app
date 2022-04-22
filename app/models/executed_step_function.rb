@@ -1,4 +1,5 @@
 class ExecutedStepFunction < ApplicationRecord
+  include HasErrorMessage
   belongs_to :parent, polymorphic: true
   store :request_payload
   store :response_payload
@@ -16,7 +17,7 @@ class ExecutedStepFunction < ApplicationRecord
     find_by(parent: obj)
   end
 
-  def response_received!(response_code: 202, response_payload:)
+  def response_received!(response_payload:, error_message: nil, response_code: 202)
     if already_received_response?
       Rails.logger.warn "Received response for ExecutedStepFunction #{id} (#{parent_type} Parent #{parent_id}) that was already received, skipping...."
     else
@@ -24,6 +25,7 @@ class ExecutedStepFunction < ApplicationRecord
         completed_at: Time.now,
         ms_to_receive_response: Time.now - executed_at,
         response_code: response_code,
+        error_message: error_message,
         response_payload: response_payload,
         aws_log_stream_name: response_payload['aws_log_stream_name'],
         aws_request_id: response_payload['aws_request_id'],

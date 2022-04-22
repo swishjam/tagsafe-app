@@ -26,6 +26,25 @@ body.audits {
       }
     }
   }
+  .speed-index-frames-container {
+    width: 100%;
+    overflow-x: scroll;
+    .speed-index-frames-row {
+      white-space: nowrap;
+      .speed-index-frame {
+        width: 25%;
+        display: inline-block;
+        .speed-index-frame-img {
+          width: 100%;
+          border: 1px solid black;
+        }
+        .speed-index-frame-ts {
+          display: block;
+          text-align: center;
+        }
+      }
+    }
+  }
   .test-runs-container {
     .test-run {
       border-radius: 5px;

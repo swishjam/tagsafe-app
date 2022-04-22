@@ -43,11 +43,8 @@ class AuditRunner
         completion_indicator_type: performance_audit_completion_indicator_type,
         enable_screen_recording: performance_audit_configuration_for(:enable_screen_recording, configuration.perf_audit_enable_screen_recording),
         fail_when_confidence_range_not_met: performance_audit_configuration_for(:fail_when_confidence_range_not_met, configuration.perf_audit_fail_when_confidence_range_not_met),
-        # include_page_tracing: performance_audit_configuration_for(:include_page_tracing, configuration.perf_audit_include_page_tracing),
-        # setting `include_page_tracing` as the `enable_screen_recording` arg for now because of the bug
-        # that the screen recording is blank unless this is true, and we are not using the page_trace for anything
-        # else at the moment
-        include_page_tracing: performance_audit_configuration_for(:enable_screen_recording, configuration.perf_audit_enable_screen_recording),
+        # hard coding to true for speed index and main thread task calculations
+        include_page_tracing: true,
         inline_injected_script_tags: performance_audit_configuration_for(:inline_injected_script_tags, configuration.perf_audit_inline_injected_script_tags),
         minimum_num_sets: performance_audit_configuration_for(:minimum_num_sets, configuration.perf_audit_minimum_num_sets),
         maximum_num_sets: performance_audit_configuration_for(:minimum_num_sets, configuration.perf_audit_maximum_num_sets),

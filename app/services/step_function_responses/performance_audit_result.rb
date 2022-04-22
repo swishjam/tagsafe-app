@@ -39,6 +39,14 @@ module StepFunctionResponses
       @page_load_resources ||= StepFunctionResponses::PerformanceAuditResult::PageLoadResources.new((response_payload['results'] || {})['page_load_resources'] || [])
     end
 
+    def speed_index_results
+      @speed_index_results ||= StepFunctionResponses::PerformanceAuditResult::SpeedIndexResults.new(response_payload['speed_index'] || {})
+    end
+
+    def main_thread_results
+      @main_thread_results ||= StepFunctionResponses::PerformanceAuditResult::MainThreadResults.new(response_payload['main_thread_results'] || {})
+    end
+
     def allowed_request_urls
       @allowed_request_urls ||= response_payload['cached_requests'].concat(response_payload['not_cached_requests'])
     end

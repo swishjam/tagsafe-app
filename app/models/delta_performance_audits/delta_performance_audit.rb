@@ -53,7 +53,12 @@ class DeltaPerformanceAudit < ApplicationRecord
       first_contentful_paint_delta: first_contentful_paint_delta, 
       task_duration_delta: task_duration_delta, 
       script_duration_delta: script_duration_delta, 
-      layout_duration_delta: layout_duration_delta, 
+      layout_duration_delta: layout_duration_delta,
+      speed_index_delta: speed_index_delta, 
+      perceptual_speed_index_delta: perceptual_speed_index_delta, 
+      main_thread_execution_tag_responsible_for_delta: main_thread_execution_tag_responsible_for_delta, 
+      ms_until_first_visual_change_delta: ms_until_first_visual_change_delta, 
+      ms_until_last_visual_change_delta: ms_until_last_visual_change_delta,
       byte_size: bytes
     )
   end

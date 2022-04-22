@@ -6,8 +6,14 @@ class TriggeredAlert < ApplicationRecord
 
   after_create_commit :enqueue_notifications_to_be_sent!
 
+  class << self
+    attr_accessor :send_notification_in_new_job
+  end
+
+  self.send_notification_in_new_job = true
+
   def enqueue_notifications_to_be_sent!
-    EmitAlertNotificationsJob.perform_later(self)
+    self.class.send_notification_in_new_job ? EmitAlertNotificationsJob.perform_later(self) : EmitAlertNotificationsJob.perform_now(self)
   end
 
   def friendly_type

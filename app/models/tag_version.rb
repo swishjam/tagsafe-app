@@ -7,6 +7,7 @@ class TagVersion < ApplicationRecord
   belongs_to :tag
   belongs_to :tag_check_captured_with, class_name: TagCheck.to_s
   has_many :audits, dependent: :destroy
+  has_many :long_tasks, dependent: :destroy
   has_one_attached :js_file, service: :tag_version_s3
   has_one_attached :formatted_js_file, service: :tag_version_s3
   
@@ -28,7 +29,7 @@ class TagVersion < ApplicationRecord
     unless tag.release_monitoring_disabled?
       # LambdaCronJobDataStore::ScheduledAudits.new(tag).update_data_store_for_tag
       # LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag
-      NewTagVersionJob.perform_later(self)
+      NewTagVersionJob.perform_now(self)
     end
   end
 

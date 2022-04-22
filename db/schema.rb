@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_17_173342) do
+ActiveRecord::Schema.define(version: 2022_04_20_203701) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -128,6 +128,11 @@ ActiveRecord::Schema.define(version: 2022_04_17_173342) do
     t.boolean "is_outlier"
     t.bigint "domain_audit_id"
     t.integer "bytes"
+    t.float "main_thread_execution_tag_responsible_for_delta"
+    t.float "speed_index_delta"
+    t.float "perceptual_speed_index_delta"
+    t.float "ms_until_first_visual_change_delta"
+    t.float "ms_until_last_visual_change_delta"
     t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
     t.index ["domain_audit_id"], name: "index_delta_performance_audits_on_domain_audit_id"
     t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
@@ -218,6 +223,7 @@ ActiveRecord::Schema.define(version: 2022_04_17_173342) do
     t.float "ms_to_receive_response"
     t.string "step_function_execution_arn"
     t.string "step_function_execution_name"
+    t.text "error_message"
     t.index ["parent_type", "parent_id"], name: "index_executed_lambda_functions_on_parent"
     t.index ["uid"], name: "index_executed_step_functions_on_uid"
   end
@@ -310,6 +316,21 @@ ActiveRecord::Schema.define(version: 2022_04_17_173342) do
     t.datetime "lambda_response_received_at"
     t.index ["page_change_audit_id"], name: "index_html_snapshots_on_page_change_audit_id"
     t.index ["uid"], name: "index_html_snapshots_on_uid"
+  end
+
+  create_table "long_tasks", charset: "utf8", force: :cascade do |t|
+    t.bigint "performance_audit_id"
+    t.bigint "tag_id"
+    t.bigint "tag_version_id"
+    t.string "task_type"
+    t.float "start_time"
+    t.float "end_time"
+    t.float "duration"
+    t.float "self_time"
+    t.string "uid"
+    t.index ["performance_audit_id"], name: "index_long_tasks_on_performance_audit_id"
+    t.index ["tag_id"], name: "index_long_tasks_on_tag_id"
+    t.index ["tag_version_id"], name: "index_long_tasks_on_tag_version_id"
   end
 
   create_table "non_third_party_url_patterns", charset: "utf8", force: :cascade do |t|
@@ -416,6 +437,16 @@ ActiveRecord::Schema.define(version: 2022_04_17_173342) do
     t.integer "task_duration_score_decrement_amount"
     t.integer "script_duration_score_decrement_amount"
     t.integer "byte_size_score_decrement_amount"
+    t.float "main_thread_execution_tag_responsible_for_weight"
+    t.float "speed_index_weight"
+    t.float "perceptual_speed_index_weight"
+    t.float "ms_until_first_visual_change_weight"
+    t.float "ms_until_last_visual_change_weight"
+    t.float "main_thread_execution_tag_responsible_for_score_decrement_amount"
+    t.float "speed_index_score_decrement_amount"
+    t.float "perceptual_speed_index_score_decrement_amount"
+    t.float "ms_until_first_visual_change_score_decrement_amount"
+    t.float "ms_until_last_visual_change_score_decrement_amount"
     t.index ["domain_id"], name: "index_performance_audit_calculators_on_domain_id"
     t.index ["uid"], name: "index_performance_audit_calculators_on_uid"
   end
@@ -451,6 +482,18 @@ ActiveRecord::Schema.define(version: 2022_04_17_173342) do
     t.index ["uid"], name: "index_performance_audit_logs_on_uid"
   end
 
+  create_table "performance_audit_speed_index_frames", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "performance_audit_id"
+    t.string "s3_url"
+    t.float "ms_from_start"
+    t.float "ts"
+    t.float "progress"
+    t.float "perceptual_progress"
+    t.index ["performance_audit_id"], name: "index_pasif_on_performance_audit_id"
+    t.index ["uid"], name: "index_performance_audit_speed_index_frames_on_uid"
+  end
+
   create_table "performance_audits", charset: "utf8", force: :cascade do |t|
     t.string "uid", null: false
     t.integer "audit_id"
@@ -473,6 +516,11 @@ ActiveRecord::Schema.define(version: 2022_04_17_173342) do
     t.datetime "lambda_response_received_at"
     t.bigint "domain_audit_id"
     t.integer "bytes"
+    t.float "main_thread_execution_tag_responsible_for"
+    t.float "speed_index"
+    t.float "perceptual_speed_index"
+    t.float "ms_until_first_visual_change"
+    t.float "ms_until_last_visual_change"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["domain_audit_id"], name: "index_performance_audits_on_domain_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"

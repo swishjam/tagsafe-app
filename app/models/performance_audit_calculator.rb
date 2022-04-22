@@ -3,27 +3,41 @@ class PerformanceAuditCalculator < ApplicationRecord
   has_many :performance_audits
 
   DEFAULT_WEIGHTS = {
-    dom_complete_weight: 0.15,
-    dom_content_loaded_weight: 0.15,
-    dom_interactive_weight: 0.15,
-    first_contentful_paint_weight: 0.15,
-    layout_duration_weight: 0.1,
-    task_duration_weight: 0.1,
-    script_duration_weight: 0.1,
-    byte_size_weight: 0.1
+    dom_complete_weight: 0.1,
+    dom_content_loaded_weight: 0.1,
+    dom_interactive_weight: 0.1,
+    first_contentful_paint_weight: 0.1,
+    speed_index_weight: 0.1,
+    main_thread_execution_tag_responsible_for_weight: 0.3,
+    layout_duration_weight: 0.05,
+    task_duration_weight: 0.05,
+    script_duration_weight: 0.05,
+    byte_size_weight: 0.05,
+    perceptual_speed_index_weight: 0,
+    ms_until_first_visual_change_weight: 0,
+    ms_until_last_visual_change_weight: 0,
   }
 
-  # deduct n points of 100 for each metric: Impact Score / METRIC_SCORE_INCREMENTS
-  # a DOMComplete impact of 100ms would be a deduction of 2 points
+  # deduct n points of 100 for each metric: (Metric Value / Decrement Amount) * Weight
+  # An audit with:
+  #    Speed Index = 1,000 ms
+  #    Speed Index Weight = 0.1 (10%)
+  #    Speed Index Decrement Amount = 10
+  # Results in a score deduction of 10 ((1,000 / 10)*0.1)
   DEFAULT_DECREMENTS = {
     dom_complete_score_decrement_amount: 15,
     dom_content_loaded_score_decrement_amount: 15,
     dom_interactive_score_decrement_amount: 15,
     first_contentful_paint_score_decrement_amount: 15,
+    speed_index_score_decrement_amount: 15,
+    main_thread_execution_tag_responsible_for_score_decrement_amount: 10,
     task_duration_score_decrement_amount: 5,
     layout_duration_score_decrement_amount: 5,
     script_duration_score_decrement_amount: 5,
-    byte_size_score_decrement_amount: 20_000
+    byte_size_score_decrement_amount: 20_000,
+    perceptual_speed_index_score_decrement_amount: 0,
+    ms_until_first_visual_change_score_decrement_amount: 0,
+    ms_until_last_visual_change_score_decrement_amount: 0,
   }
 
   scope :currently_active, -> { where(currently_active: true) }
