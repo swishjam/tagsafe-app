@@ -113,7 +113,7 @@
               } %>
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
-                metric_title: 'Main Thread Blocking Time',
+                metric_title: 'Main Thread Execution Time',
                 impact_result: audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:main_thread_execution_tag_responsible_for),

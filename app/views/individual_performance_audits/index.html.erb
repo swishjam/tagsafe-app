@@ -22,6 +22,7 @@
             <th scope="col">DOM Interactive</th>
             <th scope="col">First Contentful Paint</th>
             <th scope="col">Speed Index</th>
+            <th scope="col">Main Thread Execution Responsible For</th>
             <th scope="col">Script Duration</th>
             <th scope="col">Layout Duration</th>
             <th scope="col">Task Duration</th>
@@ -37,6 +38,7 @@
               <td><%= @average_delta_audit.dom_interactive %> ms</td>
               <td><%= @average_delta_audit.first_contentful_paint_delta %> ms</td>
               <td><%= @average_delta_audit.speed_index_delta %> ms</td>
+              <td><%= @average_delta_audit.main_thread_execution_tag_responsible_for_delta %> ms</td>
               <td><%= @average_delta_audit.script_duration_delta %> ms</td>
               <td><%= @average_delta_audit.layout_duration_delta %> ms</td>
               <td><%= @average_delta_audit.task_duration_delta %> ms</td>
@@ -51,6 +53,7 @@
               <td><%= @median_delta_audit.dom_interactive %> ms</td>
               <td><%= @median_delta_audit.first_contentful_paint_delta %> ms</td>
               <td><%= @median_delta_audit.speed_index_delta %> ms</td>
+              <td><%= @median_delta_audit.main_thread_execution_tag_responsible_for_delta %> ms</td>
               <td><%= @median_delta_audit.script_duration_delta %> ms</td>
               <td><%= @median_delta_audit.layout_duration_delta %> ms</td>
               <td><%= @median_delta_audit.task_duration_delta %> ms</td>
@@ -66,6 +69,7 @@
                 <td><%= delta_audit.dom_interactive %> ms</td>
                 <td><%= delta_audit.first_contentful_paint_delta %> ms</td>
                 <td><%= delta_audit.speed_index_delta %> ms</td>
+                <td><%= delta_audit.main_thread_execution_tag_responsible_for_delta %> ms</td>
                 <td><%= delta_audit.script_duration_delta %> ms</td>
                 <td><%= delta_audit.layout_duration_delta %> ms</td>
                 <td><%= delta_audit.task_duration_delta %> ms</td>

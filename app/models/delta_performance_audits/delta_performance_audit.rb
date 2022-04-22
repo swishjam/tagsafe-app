@@ -12,6 +12,8 @@ class DeltaPerformanceAudit < ApplicationRecord
   TAGSAFE_SCORE_THRESHOLDS = { good: 90, warn: 80 }
   CHARTABLE_COLUMNS = [
     { title: 'Tagsafe Score', column: :tagsafe_score }, 
+    { title: 'Main Thread Execution', column: :main_thread_execution_tag_responsible_for_delta },
+    { title: 'Speed Index', column: :speed_index_delta },
     { title: 'DOM Complete', column: :dom_complete_delta }, 
     { title: 'DOM Interactive', column: :dom_interactive_delta }, 
     { title: 'First Contentful Paint', column: :first_contentful_paint_delta }, 

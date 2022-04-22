@@ -1,11 +1,11 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  autoDismissNotification = this.element.getAttribute('data-persist-notification') === null;
+  persistNotification = this.element.getAttribute('data-persist-notification') === 'true';
 
   connect() {
     setTimeout(() => { this.element.classList.add('animate') }, 100);
-    if(this.autoDismissNotification) {
+    if(!this.persistNotification) {
       let timeoutMs = parseInt(this.element.getAttribute('timeout') || '8000');
       setTimeout(() => { this.dismiss() }, timeoutMs);
     }

@@ -73,7 +73,7 @@ class User < ApplicationRecord
     notification_class.find_by(tag: tag, user: self).destroy!
   end
 
-  def broadcast_notification(message: nil, partial: nil, partial_locals: {}, image: nil, timestamp: Time.now.strftime("%m/%d/%y @ %l:%M %P %Z"))
+  def broadcast_notification(message: nil, partial: nil, partial_locals: {}, auto_dismiss: true, image: nil, timestamp: Time.current.strftime("%m/%d/%y @ %l:%M %P %Z"))
     broadcast_prepend_to(
       "user_#{uid}_notifications_container", 
       target: "user_#{uid}_notifications_container", 
@@ -83,6 +83,7 @@ class User < ApplicationRecord
         partial: partial,
         image: image,
         timestamp: timestamp,
+        auto_dismiss: auto_dismiss,
         partial_locals: partial_locals
       }
     )

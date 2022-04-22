@@ -222,6 +222,10 @@ a.no-decoration {
   &:hover, &.active {
     background-color: rgb(228, 228, 228);
   }
+  &.tiny {
+    height: 20px;
+    width: 20px;
+  }
 }
 
 .floating-btn {

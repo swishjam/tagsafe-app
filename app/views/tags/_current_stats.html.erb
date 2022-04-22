@@ -1,14 +1,15 @@
 <%= turbo_frame_tag "tag_#{tag.uid}_current_stats" do %>
   <% current_audit = tag.audit_to_display %>
   <% if current_audit && current_audit.performance_audit_completed? %>
+    <% preferred_delta_performance_audit = current_audit.preferred_delta_performance_audit %>
     <div class='tagsafe-container tag-current-stats-container'>
       <div class='row align-items-center'>
         <div class='col-3 text-center'>
           <% previous_score = current_audit.audit_to_compare_with&.preferred_delta_performance_audit&.tagsafe_score %>
           <h5>Tagsafe Score</h5>
           <%= render 'partials/progress_ring', 
-                score: current_audit.preferred_delta_performance_audit.tagsafe_score,
-                change_in_score: previous_score.nil? ? nil : current_audit.preferred_delta_performance_audit.tagsafe_score - previous_score,
+                score: preferred_delta_performance_audit.tagsafe_score,
+                change_in_score: previous_score.nil? ? nil : preferred_delta_performance_audit.tagsafe_score - previous_score,
                 score_is_confident: current_audit.tagsafe_score_is_confident,
                 required_confidence_range: current_audit.performance_audit_configuration.required_tagsafe_score_range,
                 actual_confidence_range: current_audit.tagsafe_score_confidence_range
@@ -43,35 +44,52 @@
           </div>
           <div class='row align-items-center text-center mt-3'>
             <div class='col-4'>
-              <% dom_complete_impact = current_audit.preferred_delta_performance_audit&.dom_complete_delta %>
-              <h6 class='current-metric-title'>DOM Complete</h6>
+              <% speed_index_impact = preferred_delta_performance_audit&.speed_index_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:speed_index] %>">Speed Index</h6>
+              <h6 class='current-metric-value fw-bold'><%= speed_index_impact > 0 ? "Adds #{number_to_human(speed_index_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
+            </div>
+            <div class='col-4'>
+              <% main_thread_execution_tag_responsible_for = preferred_delta_performance_audit&.main_thread_execution_tag_responsible_for_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:main_thread_execution_tag_responsible_for] %>">Main Thread Execution Time</h6>
+              <h6 class='current-metric-value fw-bold'><%= main_thread_execution_tag_responsible_for > 0 ? "#{number_to_human(main_thread_execution_tag_responsible_for, units: { unit: 'ms', thousand: 'seconds' })}" : 0 %></h6>
+            </div>
+            <div class='col-4'>
+              <% dom_complete_impact = preferred_delta_performance_audit&.dom_complete_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_complete] %>">DOM Complete</h6>
               <h6 class='current-metric-value fw-bold'><%= dom_complete_impact > 0 ? "Adds #{number_to_human(dom_complete_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
-            </div>
-            <div class='col-4'>
-              <% dom_interactive_impact = current_audit.preferred_delta_performance_audit&.dom_interactive_delta %>
-              <h6 class='current-metric-title'>DOM Interactive</h6>
-              <h6 class='current-metric-value fw-bold'><%= dom_interactive_impact > 0 ? "Adds #{number_to_human(dom_interactive_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
-            </div>
-            <div class='col-4'>
-              <% first_contentful_paint_impact = current_audit.preferred_delta_performance_audit&.first_contentful_paint_delta %>
-              <h6 class='current-metric-title'>First Contentful Paint</h6>
-              <h6 class='current-metric-value fw-bold'><%= first_contentful_paint_impact > 0 ? "Adds #{number_to_human(first_contentful_paint_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
             </div>
           </div>
           <div class='row align-items-center text-center mt-3'>
             <div class='col-4'>
-              <% script_duration_impact = current_audit.preferred_delta_performance_audit&.script_duration_delta %>
-              <h6 class='current-metric-title'>Script Duration</h6>
+              <% dom_interactive_impact = preferred_delta_performance_audit&.dom_interactive_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_interactive] %>">DOM Interactive</h6>
+              <h6 class='current-metric-value fw-bold'><%= dom_interactive_impact > 0 ? "Adds #{number_to_human(dom_interactive_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
+            </div>
+            <div class='col-4'>
+              <% first_contentful_paint_impact = preferred_delta_performance_audit&.first_contentful_paint_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:first_contentful_paint] %>">First Contentful Paint</h6>
+              <h6 class='current-metric-value fw-bold'><%= first_contentful_paint_impact > 0 ? "Adds #{number_to_human(first_contentful_paint_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
+            </div>
+            <div class='col-4'>
+              <% dom_content_loaded_impact = preferred_delta_performance_audit&.dom_content_loaded_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:dom_content_loaded] %>">DOM Content Loaded</h6>
+              <h6 class='current-metric-value fw-bold'><%= dom_content_loaded_impact > 0 ? "Adds #{number_to_human(dom_content_loaded_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
+            </div>
+          </div>
+          <div class='row align-items-center text-center mt-3'>
+            <div class='col-4'>
+              <% script_duration_impact = preferred_delta_performance_audit&.script_duration_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:script_duration] %>">Script Duration</h6>
               <h6 class='current-metric-value fw-bold'><%= script_duration_impact > 0 ? "Adds #{number_to_human(script_duration_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
             </div>
             <div class='col-4'>
-              <% layout_duration_impact = current_audit.preferred_delta_performance_audit&.layout_duration_delta %>
-              <h6 class='current-metric-title'>Layout Duration</h6>
+              <% layout_duration_impact = preferred_delta_performance_audit&.layout_duration_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:layout_duration] %>">Layout Duration</h6>
               <h6 class='current-metric-value fw-bold'><%= layout_duration_impact > 0 ? "Adds #{number_to_human(layout_duration_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
             </div>
             <div class='col-4'>
-              <% task_duration_impact = current_audit.preferred_delta_performance_audit&.task_duration_delta %>
-              <h6 class='current-metric-title'>Task Duration</h6>
+              <% task_duration_impact = preferred_delta_performance_audit&.task_duration_delta %>
+              <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:task_duration] %>">Task Duration</h6>
               <h6 class='current-metric-value fw-bold'><%= task_duration_impact > 0 ? "Adds #{number_to_human(task_duration_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
             </div>
           </div>
