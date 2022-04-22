@@ -1,6 +1,16 @@
 class PerformanceAuditCalculator < ApplicationRecord
   belongs_to :domain
-  has_many :performance_audits
+  has_many :audits, dependent: :restrict_with_error
+
+  before_destroy :ensure_can_destroy, prepend: true
+
+  scope :currently_active, -> { where(currently_active: true) }
+  scope :currently_inactive, -> { where(currently_active: false) }
+  scope :active, -> { currently_active }
+  scope :inactive, -> { currently_inactive }
+
+  validate :only_one_active
+  validate :sum_of_weights_equal_100
 
   DEFAULT_WEIGHTS = {
     dom_complete_weight: 0.1,
@@ -40,19 +50,16 @@ class PerformanceAuditCalculator < ApplicationRecord
     ms_until_last_visual_change_score_decrement_amount: 0,
   }
 
-  scope :currently_active, -> { where(currently_active: true) }
-  scope :currently_inactive, -> { where(currently_active: false) }
-  scope :active, -> { currently_active }
-  scope :inactive, -> { currently_inactive }
-
-  validate :only_one_active
-  validate :sum_of_weights_equal_100
-
   def self.create_default(domain, active = true)
     default_args = { domain_id: domain.id, currently_active: active }
     default_args.merge!(DEFAULT_DECREMENTS.merge(DEFAULT_WEIGHTS))
     create!(default_args)
   end
+
+  def active?
+    currently_active
+  end
+  alias currently_active? active?
 
   def make_active
     domain.current_performance_audit_calculator.update!(currently_active: false)
@@ -60,6 +67,24 @@ class PerformanceAuditCalculator < ApplicationRecord
   end
 
   private
+
+  def ensure_can_destroy
+    ensure_inactive_on_destroy
+    ensure_no_past_audits_on_destroy
+    throw(:abort) unless valid?
+  end
+
+  def ensure_no_past_audits_on_destroy
+    if audits.any?
+      errors.add(:base, "Cannot destroy a Performance Audit Calculator that has past audits tied to it.")
+    end
+  end
+
+  def ensure_inactive_on_destroy
+    if currently_active?
+      errors.add(:base, "Cannot destroy a Performance Audit Calculator that is currently active.")
+    end
+  end
 
   def only_one_active
     if domain.performance_audit_calculators.active.count > 1

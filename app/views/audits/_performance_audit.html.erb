@@ -59,6 +59,28 @@
             <div class="row">
               <%= render partial: 'audits/performance_audit_metric_row', locals: {
                 tag: tag, 
+                metric_title: 'Speed Index',
+                impact_result: audit.preferred_delta_performance_audit.speed_index_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.speed_index_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:speed_index),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:speed_index],
+                unit: 'ms',
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
+              } %>
+              <%= render partial: 'audits/performance_audit_metric_row', locals: {
+                tag: tag, 
+                metric_title: 'Main Thread Execution Time',
+                impact_result: audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta,
+                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta : nil,
+                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:main_thread_execution_tag_responsible_for),
+                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:main_thread_execution_tag_responsible_for],
+                unit: 'ms',
+                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
+              } %>
+            </div>
+            <div class="row">
+              <%= render partial: 'audits/performance_audit_metric_row', locals: {
+                tag: tag, 
                 metric_title: 'DOM Complete',
                 impact_result: audit.preferred_delta_performance_audit.dom_complete_delta,
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.dom_complete_delta : nil,
@@ -96,28 +118,6 @@
                 previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.task_duration_delta : nil,
                 tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:task_duration),
                 metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:task_duration],
-                unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
-              } %>
-            </div>
-            <div class="row">
-              <%= render partial: 'audits/performance_audit_metric_row', locals: {
-                tag: tag, 
-                metric_title: 'Speed Index',
-                impact_result: audit.preferred_delta_performance_audit.speed_index_delta,
-                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.speed_index_delta : nil,
-                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:speed_index),
-                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:speed_index],
-                unit: 'ms',
-                previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
-              } %>
-              <%= render partial: 'audits/performance_audit_metric_row', locals: {
-                tag: tag, 
-                metric_title: 'Main Thread Execution Time',
-                impact_result: audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta,
-                previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.main_thread_execution_tag_responsible_for_delta : nil,
-                tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:main_thread_execution_tag_responsible_for),
-                metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:main_thread_execution_tag_responsible_for],
                 unit: 'ms',
                 previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
               } %>
