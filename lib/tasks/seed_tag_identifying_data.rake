@@ -2096,11 +2096,13 @@ JSON_DATA = [
   {
      "name"=>"Bootstrap CDN",
      "homepage"=>"https://www.bootstrapcdn.com/",
+     "image_url"=>"https://obscureproblemsandgotchas.com/wp-content/uploads/2018/06/bootstrap-stack-e1530246058846.png",
      "categories"=>[
         "cdn"
      ],
      "domains"=>[
-        "*.bootstrapcdn.com"
+        "*.bootstrapcdn.com",
+        "*bootstrap.bundle.min.js"
      ],
      "examples"=>[
         "maxcdn.bootstrapcdn.com",

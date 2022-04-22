@@ -33,12 +33,12 @@
           
           <% unless tag_version.nil? || current_tag_version.nil? %>
             <% if tag_version.id == current_tag_version.id %>
-              <%= f.hidden_field :tag_version_id, value: tag_version.id %>
+              <%= f.hidden_field :tag_version_uid, value: tag_version.uid %>
             <% else %>
               <h5>The audit you were viewing was of a past release from this tag (<%= tag_version.created_at.formatted_short %>) and is not the most recent version. Which version of the tag would you like to use for this audit?</h5>
-              <select class='form-select mb-3' name='tag_version_id'>
-                <option value="<%= tag_version.id %>">Past release from audit being viewed</option>
-                <option value="<%= current_tag_version.id %>">Currently live version (released <%= current_tag_version.created_at.formatted_short %>)</option>
+              <select class='form-select mb-3' name='tag_version_uid'>
+                <option value="<%= tag_version.uid %>">Past release from audit being viewed</option>
+                <option value="<%= current_tag_version.uid %>">Currently live version (released <%= current_tag_version.created_at.formatted_short %>)</option>
               </select>
             <% end %>  
           <% end %>

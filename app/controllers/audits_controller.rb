@@ -34,7 +34,11 @@ class AuditsController < LoggedInController
   end
 
   def new
-    tag_version = params[:tag_version_uid] ? @tag.tag_versions.find_by(uid: params[:tag_version_uid]) : nil
+    tag_version = if params[:tag_version_uid]
+                    @tag.tag_versions.find_by(uid: params[:tag_version_uid])
+                  else
+                    @tag.release_monitoring_enabled? ? @tag.current_version : nil 
+                  end
     urls_to_audit = @tag.urls_to_audit.includes(:page_url)
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
