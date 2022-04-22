@@ -72,10 +72,15 @@ class PerformanceAuditCalculator < ApplicationRecord
                         dom_content_loaded_weight + 
                         dom_interactive_weight + 
                         first_contentful_paint_weight + 
+                        speed_index_weight +
+                        main_thread_execution_tag_responsible_for_weight +
                         layout_duration_weight + 
                         task_duration_weight + 
                         script_duration_weight + 
-                        byte_size_weight
+                        byte_size_weight +
+                        perceptual_speed_index_weight +
+                        ms_until_first_visual_change_weight +
+                        ms_until_last_visual_change_weight
     if sum_of_weights < 0.999 || sum_of_weights > 1.0001
       errors.add(:base, "Weights must add up to 100")
     end
