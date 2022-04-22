@@ -24,7 +24,7 @@
               <label for='url'>Site URL to monitor</label>
             </div>
           </div>
-          <%= render 'partials/inline_errors' %>
+          <%= render 'partials/inline_errors', errors: @domain.errors.full_messages %>
           <%= loading_submit_button 'Begin monitoring', button_class: 'outline large' %>
         <% end %>
       </div>
