@@ -10,7 +10,16 @@ class DeltaPerformanceAudit < ApplicationRecord
   validate :belongs_to_audit_or_domain_audit
 
   TAGSAFE_SCORE_THRESHOLDS = { good: 90, warn: 80 }
-  CHARTABLE_COLUMNS = [{ title: 'Tagsafe Score', column: :tagsafe_score }, { title: 'DOM Complete', column: :dom_complete_delta }, { title: 'DOM Interactive', column: :dom_interactive_delta }, { title: 'First Contentful Paint', column: :first_contentful_paint_delta }, { title: 'DOM Content Loaded', column: :dom_content_loaded_delta }, { title: 'Script Duration', column: :script_duration_delta }, { title: 'Layout Duration', column: :layout_duration_delta }, { title: 'Task Duration', column: :task_duration_delta }].freeze
+  CHARTABLE_COLUMNS = [
+    { title: 'Tagsafe Score', column: :tagsafe_score }, 
+    { title: 'DOM Complete', column: :dom_complete_delta }, 
+    { title: 'DOM Interactive', column: :dom_interactive_delta }, 
+    { title: 'First Contentful Paint', column: :first_contentful_paint_delta }, 
+    { title: 'DOM Content Loaded', column: :dom_content_loaded_delta }, 
+    { title: 'Script Duration', column: :script_duration_delta }, 
+    { title: 'Layout Duration', column: :layout_duration_delta }, 
+    { title: 'Task Duration', column: :task_duration_delta }
+  ].freeze
 
   def self.TYPES
     %w[
@@ -26,13 +35,6 @@ class DeltaPerformanceAudit < ApplicationRecord
     define_method(metric){ send(:"#{metric}_delta") }
     define_method(:"#{metric}_percentage"){ ((send(metric)/performance_audit_with_tag.send(metric))*100).round(2) }
   end
-  # alias dom_complete dom_complete_delta
-  # alias dom_content_loaded dom_content_loaded_delta
-  # alias dom_interactive dom_interactive_delta
-  # alias first_contentful_paint first_contentful_paint_delta
-  # alias script_duration script_duration_delta
-  # alias task_duration task_duration_delta
-  # alias layout_duration layout_duration_delta
 
   def tagsafe_score_metric_deduction(performance_metric)
     tagsafe_scorer.performance_metric_deduction(performance_metric)

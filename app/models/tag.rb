@@ -47,8 +47,6 @@ class Tag < ApplicationRecord
   broadcast_notification on: :create
   after_update_commit { update_tag_table_row(tag: self, now: true) }
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
-  after_destroy { LambdaCronJobDataStore::TagCheckIntervals.remove_tag_id_from_every_tag_check_region(id) }
-  after_destroy { LambdaCronJobDataStore::TagCheckConfigurations.delete_tag_check_configuration_by_tag_id(id) }
   after_create_commit :apply_defaults
   after_create_commit :stream_new_tag_to_views
   after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }

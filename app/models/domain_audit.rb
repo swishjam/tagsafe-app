@@ -27,19 +27,13 @@ class DomainAudit < ApplicationRecord
   before_validation { self.url_crawl = UrlCrawl.new(domain: domain, page_url: page_url) }
 
   after_create_commit do
-    unless is_test_domain_audit?
+    unless domain.is_test_domain?
       if Util.env_is_true('RUN_DOMAIN_AUDIT_IN_WEB_REQUEST')
         AuditRunnerJobs::RunDomainAudit.perform_now(self)
       else
         AuditRunnerJobs::RunDomainAudit.perform_later(self)
       end
     end
-  end
-
-  TEST_DOMAIN_URL = "https://www.tagafe-test.com".freeze
-
-  def is_test_domain_audit?
-    domain.url == TEST_DOMAIN_URL
   end
 
   def create_delta_performance_audits

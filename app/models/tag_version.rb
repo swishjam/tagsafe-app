@@ -14,7 +14,6 @@ class TagVersion < ApplicationRecord
   scope :most_recent, -> { where(most_recent: true) }
 
   after_create :after_creation
-  after_destroy { LambdaCronJobDataStore::TagCheckConfigurations.new(tag).update_tag_check_configuration unless tag.nil? }
   after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
 
   validate :has_attached_js_files
@@ -27,8 +26,6 @@ class TagVersion < ApplicationRecord
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
     send_new_tag_version_notifications!
     unless tag.release_monitoring_disabled?
-      # LambdaCronJobDataStore::ScheduledAudits.new(tag).update_data_store_for_tag
-      # LambdaCronJobDataStore::TagChecks.new(tag).update_data_store_for_tag
       NewTagVersionJob.perform_now(self)
     end
   end

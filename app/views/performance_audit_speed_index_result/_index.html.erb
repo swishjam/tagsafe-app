@@ -1,31 +1,33 @@
 <%= turbo_frame_tag "audit_#{audit.uid}_performance_audit_speed_index_result" do %>
-  <div class='tagsafe-container'>
-    <div class='speed-index-frames-container'>
-      <div class='speed-index-frames-row-title'>
-        With tag
+  <% if with_tag_frames.any? && without_tag_frames.any? %>
+    <div class='tagsafe-container'>
+      <div class='speed-index-frames-container'>
+        <div class='speed-index-frames-row-title'>
+          With tag
+        </div>
+        <div class='speed-index-frames-row'>
+          <% with_tag_frames.each do |frame| %>
+            <div class='speed-index-frame'>
+              <%= image_tag frame.s3_url, class: 'speed-index-frame-img' %>
+              <span class='speed-index-frame-ts'><%= frame.ms_from_start %> ms</span>
+            </div>
+          <% end %>
+        </div>
+        <div class='speed-index-frames-row-title'>
+          Without tag
+        </div>
+        <div class='speed-index-frames-row'>
+          <% without_tag_frames.each do |frame| %>
+            <div class='speed-index-frame'>
+              <%= image_tag frame.s3_url, class: 'speed-index-frame-img' %>
+              <span class='speed-index-frame-ts'><%= frame.ms_from_start %> ms</span>
+            </div>
+          <% end %>
+        </div>
       </div>
-      <div class='speed-index-frames-row'>
-        <% with_tag_frames.each do |frame| %>
-          <div class='speed-index-frame'>
-            <%= image_tag frame.s3_url, class: 'speed-index-frame-img' %>
-            <span class='speed-index-frame-ts'><%= frame.ms_from_start %> ms</span>
-          </div>
-        <% end %>
-      </div>
-      <div class='speed-index-frames-row-title'>
-        Without tag
-      </div>
-      <div class='speed-index-frames-row'>
-        <% without_tag_frames.each do |frame| %>
-          <div class='speed-index-frame'>
-            <%= image_tag frame.s3_url, class: 'speed-index-frame-img' %>
-            <span class='speed-index-frame-ts'><%= frame.ms_from_start %> ms</span>
-          </div>
-        <% end %>
+      <div class='visual-progress-chart' data-controller='streamed-script-tag'>
+        <%= line_chart visual_progress_chart_data, title: "Visual Complete Progression", ymax: 100, max: 100, ytitle: "% Complete", xtitle: "Page Load (ms)" %>
       </div>
     </div>
-    <div class='visual-progress-chart' data-controller='streamed-script-tag'>
-      <%= line_chart visual_progress_chart_data, title: "Visual Complete Progression", ymax: 100, max: 100, ytitle: "% Complete", xtitle: "Page Load (ms)" %>
-    </div>
-  </div>
+  <% end %>
 <% end %>

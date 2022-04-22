@@ -39,9 +39,15 @@ class Domain < ApplicationRecord
   scope :not_generating_third_party_impact_trial, -> { registered }
   scope :generating_third_party_impact_trial, -> { where(is_generating_third_party_impact_trial: true) }
 
+  TEST_DOMAIN_URL = 'https://www.tagsafe-test.com'.freeze
+
   def parsed_domain_url
     u = URI.parse(url)
     "#{u.scheme}://#{u.hostname}"
+  end
+
+  def is_test_domain_audit?
+    domain.url == TEST_DOMAIN_URL
   end
 
   def url_hostname

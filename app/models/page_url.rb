@@ -79,7 +79,7 @@ class PageUrl < ApplicationRecord
   end
 
   def enforce_url_is_valid_and_can_be_reached
-    parsed_url = self.class.get_valid_parsed_url(full_url)
+    parsed_url = domain.is_test_domain? ? URI.parse(full_url) : self.class.get_valid_parsed_url(full_url)
     self.full_url = parsed_url.to_s
     self.hostname = parsed_url.host
     self.pathname = parsed_url.path == '' ? '/' : parsed_url.path
