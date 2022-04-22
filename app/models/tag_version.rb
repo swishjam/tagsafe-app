@@ -48,7 +48,7 @@ class TagVersion < ApplicationRecord
       stream_notification_to_all_domain_users(
         domain: tag.domain,
         partial: "tag_versions/new_notification",
-        partial_locals: { tag_version: self },
+        partial_locals: { tag_version: self, domain: tag.domain },
         img: tag.try_image_url,
         timestamp: created_at.formatted_short
       )

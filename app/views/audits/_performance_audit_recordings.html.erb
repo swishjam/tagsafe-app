@@ -23,8 +23,8 @@
           <h4>Page load with <%= performance_audit_with_tag.is_for_domain_audit? ? 'tags' : 'tag' %> present:</h4>
           <% largest_timestamp = 0 %>
           <% 
-            with_tag_timestamp_callbacks = [:dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric|
-              timestamp = performance_audit_with_tag[metric]
+            with_tag_timestamp_callbacks = [:main_thread_execution_tag_responsible_for, :speed_index, :dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric|
+              timestamp = performance_audit_with_tag[metric] || 0
               largest_timestamp = timestamp if timestamp > largest_timestamp
               { metric: metric, timestamp: timestamp }
             end 
@@ -45,8 +45,8 @@
         <div class='text-center p-0' style='width: 42.5%'>
           <h4>Page load without <%= performance_audit_with_tag.is_for_domain_audit? ? 'tags' : 'tag' %> present:</h4>
           <% 
-            without_tag_timestamp_callbacks = [:dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric| 
-              timestamp = performance_audit_without_tag[metric]
+            without_tag_timestamp_callbacks = [:main_thread_execution_tag_responsible_for, :speed_index, :dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric| 
+              timestamp = performance_audit_without_tag[metric] || 0
               largest_timestamp = timestamp if timestamp > largest_timestamp
               { metric: metric, timestamp: timestamp }
             end 
@@ -74,7 +74,7 @@
                     data-bs-toggle='tooltip'
                     title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>">
               </div>
-              <% other_audits_timestamp = performance_audit_without_tag[metric_and_timestamp[:metric]] %>
+              <% other_audits_timestamp = performance_audit_without_tag[metric_and_timestamp[:metric]] || 0 %>
               <% if other_audits_timestamp > metric_and_timestamp[:timestamp] %>
                 <div class='performance-recording-metric-visual-comparison other-audit-is-greater-than' 
                       data-controller='tooltip'
@@ -97,21 +97,10 @@
         <div class='video-performance-progress-visuals-titles-container p-0' style='width: 15%' data-tandem-video-player-target='performanceVisualsTitleContainer'>
           <% without_tag_timestamp_callbacks.each do |metric_and_timestamp| %>
             <% human_metric = metric_and_timestamp[:metric].to_s.split('_').map{ |word| word == 'dom' ? 'DOM' : word.capitalize }.join(' ') %>
-            <% 
-              metric_definitions = {
-                dom_complete: "All of the processing is complete and all of the resources on the page (images, stylesheets, javascript etc.) have finished downloading - in other words, the loading spinner has stopped spinning.",
-                dom_interactive: "Marks the point when the browser has finished parsing all of the HTML and DOM construction is complete.",
-                dom_content_loaded: "Typically marks when both the DOM and CSSOM are ready. If there is no parser blocking JavaScript then DOMContentLoaded will fire immediately after DOM Interactive.",
-                first_contentful_paint: "Occurs when a browser first renders any content from the document object model (DOM), including any text, images, non-white canvas, or scalable vector graphics (SVG) onto the page.",
-                script_duration: "Combined duration of all JavaScript execution",
-                layout_duration: "Combined durations of all page layouts.",
-                task_duration: "Combined duration of all tasks performed by the browser."
-              }
-            %>
             <div class='<%= metric_and_timestamp[:metric] %>-progress-visual-title performance-recording-metric-visual-title'
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
-                  title="<%= metric_definitions[metric_and_timestamp[:metric]] %>">
+                  title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[metric_and_timestamp[:metric]] %>">
               <%= human_metric %>
             </div>
           <% end %>
@@ -127,7 +116,7 @@
                     data-bs-toggle='tooltip'
                     title="<%= human_metric %> = <%= number_to_human(metric_and_timestamp[:timestamp], units: { unit: 'ms', thousand: 'seconds' }) %>">
               </div>
-              <% other_audits_timestamp = performance_audit_with_tag[metric_and_timestamp[:metric]] %>
+              <% other_audits_timestamp = performance_audit_with_tag[metric_and_timestamp[:metric]] || 0 %>
               <% if other_audits_timestamp > metric_and_timestamp[:timestamp] %>
                 <div class='performance-recording-metric-visual-comparison other-audit-is-greater-than' 
                       data-controller='tooltip'

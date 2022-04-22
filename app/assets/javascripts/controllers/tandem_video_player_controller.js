@@ -4,8 +4,8 @@ export default class extends Controller {
   static targets = [
     'playBtn', 'pauseBtn', 'rePlayBtn',
     'withTagVideoPlayer', 'withoutTagVideoPlayer', 'withTagVideoTimer', 'withoutTagVideoTimer',
-    'dom_completeWithTagVisual', 'dom_interactiveWithTagVisual', 'first_contentful_paintWithTagVisual', 'dom_content_loadedWithTagVisual', 'script_durationWithTagVisual', 'task_durationWithTagVisual', 'layout_durationWithTagVisual',
-    'dom_completeWithoutTagVisual', 'dom_interactiveWithoutTagVisual', 'first_contentful_paintWithoutTagVisual', 'dom_content_loadedWithoutTagVisual', 'script_durationWithoutTagVisual', 'task_durationWithoutTagVisual', 'layout_durationWithoutTagVisual'
+    'main_thread_execution_tag_responsible_forWithTagVisual', 'speed_indexWithTagVisual', 'dom_completeWithTagVisual', 'dom_interactiveWithTagVisual', 'first_contentful_paintWithTagVisual', 'dom_content_loadedWithTagVisual', 'script_durationWithTagVisual', 'task_durationWithTagVisual', 'layout_durationWithTagVisual',
+    'main_thread_execution_tag_responsible_forWithoutTagVisual', 'speed_indexWithoutTagVisual', 'dom_completeWithoutTagVisual', 'dom_interactiveWithoutTagVisual', 'first_contentful_paintWithoutTagVisual', 'dom_content_loadedWithoutTagVisual', 'script_durationWithoutTagVisual', 'task_durationWithoutTagVisual', 'layout_durationWithoutTagVisual'
   ];
   playingPlayers = [];
   pausedPlayers = [this.withTagVideoPlayer.id(), this.withoutTagVideoPlayer.id()];
