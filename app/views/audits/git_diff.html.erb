@@ -6,7 +6,7 @@
       <h4>No changes, this is the first version of <%= @tag.try_friendly_name %>. <%= link_to 'View Entire JS', raw_js_tag_tag_version_path(@tag, @audit.tag_version), target: '_blank' %></h4>
     </div>
   <% else %>
-    <div class='tagsafe-container'>
+    <div class='p-5'>
       <%= turbo_frame_tag "#{@audit.tag_version.uid}_diff", src: diff_server_loadable_partials_tag_tag_version_path(@tag, @audit.tag_version, diff_type: params[:diff_type] || 'split') do %>
         <div class='text-center p-5'>
           <%= display_loading_spinner %>

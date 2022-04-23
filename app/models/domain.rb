@@ -14,6 +14,7 @@ class Domain < ApplicationRecord
   has_many :user_invites, dependent: :destroy
   has_many :page_urls, dependent: :destroy
   has_many :tags, dependent: :destroy
+  has_many :tag_versions, through: :tags
   has_many :audits, dependent: :destroy
   has_many :domain_audits, dependent: :destroy
   has_many :functional_tests, dependent: :destroy

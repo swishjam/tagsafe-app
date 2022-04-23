@@ -6,6 +6,24 @@ $git-change-borders-blue: #d7f5ff;
 $git-gap-in-changes-grey: #f3f6f8;
 $git-toolbar-grey: #f5f8fa;
 
+.git-diff-commit-details-container {
+  border: 1px solid $soft-grey-border;
+  border-radius: 6px;
+  .commit-details-header {
+    background: $git-toolbar-grey;
+    padding: 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: 1px solid $soft-grey-border;
+    .commit-message {
+      font-size: 20px;
+      font-weight: 900;
+    }
+  }
+  .commit-details-body {
+    padding: 10px;
+  }
+}
 
 .tag-details-tab {
   border: 1px solid lightgrey;

@@ -7,8 +7,12 @@ export default class extends Controller {
   keyCode = parseInt(this.element.getAttribute('data-key-code'));
 
   connect() {
-    this._keydownListener();
+    this._setKeydownListener();
     this._keyupListener();
+  }
+
+  disconnect() {
+    window.removeEventListener(this.windowListener);
   }
 
   _triggerHotKeyAction = () => {
@@ -29,8 +33,8 @@ export default class extends Controller {
     this._submitFormActionTarget();
   }
 
-  _keydownListener = () => {
-    window.addEventListener('keydown', e => {
+  _setKeydownListener = () => {
+    this.windowListener = window.addEventListener('keydown', e => {
       if([91, 93].includes(e.keyCode)) {
         this.commandIsKeyedDown = true;
       } else if(this.commandIsKeyedDown && e.keyCode === this.keyCode){

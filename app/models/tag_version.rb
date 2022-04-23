@@ -152,6 +152,7 @@ class TagVersion < ApplicationRecord
   def first_version?
     previous_version.nil?
   end
+  alias is_first_version? first_version?
 
   def purge_js_file
     js_file.purge if js_file && js_file.persisted?

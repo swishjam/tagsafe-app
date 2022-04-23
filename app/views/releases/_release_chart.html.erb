@@ -1,0 +1,62 @@
+<div class='container-fluid'>
+  <div class='row'>
+    <div class='col-sm-6 col-md-4 offset-md-2'>
+      <div class='release-card-title'>
+        <h4 class='mb-0 release-card-header'><%= num_releases_last_30_days %></h4>
+        <span class='release-card-sub-header'>
+          releases over the last <%= first_tag_version_date > 30.days.ago.beginning_of_day ? ((Time.current - first_tag_version_date) / 1.day).ceil : '30' %> days.
+        </span>
+      </div>
+    </div>
+    <div class='col-sm-6 col-md-4'>
+      <div class='release-card-title'>
+        <% days_since_first_release = (Time.current - first_tag_version_date) / 1.day %>
+        <h4 class='release-card-header mb-0'><%= (num_releases_last_30_days.to_f / [days_since_first_release, 30].min).round(2) %></h4>
+        <span class='release-card-sub-header'>releases per day.</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='tagsafe-container release-graph-container'>
+  <div class='release-graph-with-headers m-auto'>
+    <div class='container-fluid p-0'>
+      <div class='row'>
+        <div class='col-6 text-start'>
+          <span class='first-day'><%= release_count_by_day.first[0].strftime("%b %d, %Y") %></span>
+        </div>
+        <div class='col-6 text-end'>
+          <span class='last-day'><%= release_count_by_day.keys.last.strftime("%b %d, %Y") %></span>
+        </div>
+      </div>
+    </div>
+    <div class='release-graph'>
+      <% release_count_by_day.each_slice(7) do |arrays_of_days_and_release_count| %>
+        <div class='release-graph-column'>
+          <% arrays_of_days_and_release_count.each do |day_and_release_count| %>
+            <% day = day_and_release_count[0] %>
+            <% num_releases = day_and_release_count[1] %>
+            <% rate_of_release_heat = num_releases.to_f / most_releases_in_a_day %>
+            <div class='release-graph-day release-heat-<%= rate_of_release_heat >= 0.8 ? 5 :
+                                                            rate_of_release_heat >= 0.6 ? 4 :
+                                                            rate_of_release_heat >= 0.4 ? 3 :
+                                                            rate_of_release_heat >= 0.2 ? 2 : 
+                                                            1 %>' 
+                  data-controller='tooltip' 
+                  data-bs-toggle='tooltip' 
+                  title="<%= num_releases.zero? ? 'No' : num_releases %> releases on <%= day.strftime("%b %d, %Y") %>.">
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class='release-graph-legend mt-3 text-end'>
+      <span>Less Releases</span>
+      <div class='release-graph-day release-heat-1'></div>
+      <div class='release-graph-day release-heat-2'></div>
+      <div class='release-graph-day release-heat-3'></div>
+      <div class='release-graph-day release-heat-4'></div>
+      <div class='release-graph-day release-heat-5'></div>
+      <span>More Releases</span>
+    </div>
+  </div>
+</div>

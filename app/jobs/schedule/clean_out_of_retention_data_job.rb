@@ -25,7 +25,7 @@ module Schedule
     def purge_tag_checks_for_tag(tag)
       tag_checks = tag.tag_checks.most_recent_first.offset(TAG_CHECK_RETENTION_OFFSET_BY_TAG)
       Rails.logger.info "DATA PURGE JOB: purging #{tag_checks.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) tag checks (keeping #{TAG_CHECK_RETENTION_OFFSET_BY_TAG} of them)."
-      tag_checks.destroy_all_fully!
+      tag_checks.destroy_all
     end
 
     def purge_tag_versions_for_tag(tag)
@@ -39,13 +39,13 @@ module Schedule
                                                               .where(type: IndividualDeltaPerformanceAudit.to_s, audit: tag.audits)
                                                               .offset(NON_MEDIAN_DELTA_PERFORMANCE_AUDITS_OFFSET_BY_TAG)
       Rails.logger.info "DATA PURGE JOB: purging #{delta_performance_audits.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) non-median/average delta performance audits (keeping #{NON_MEDIAN_DELTA_PERFORMANCE_AUDITS_OFFSET_BY_TAG} of them)."
-      delta_performance_audits.destroy_all_fully!
+      delta_performance_audits.destroy_all
     end
 
     def purge_non_primary_audits_for_tag(tag)
       audits = tag.audits.most_recent_first.where(primary: false).offset(NON_PRIMARY_AUDIT_OFFSET_FOR_TAG)
       Rails.logger.info  "DATA PURGE JOB: purging #{audits.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) non primary audits (keeping #{NON_PRIMARY_AUDIT_OFFSET_FOR_TAG} of them)."
-      audits.destroy_all_fully!
+      audits.destroy_all
     end
   end
 end
