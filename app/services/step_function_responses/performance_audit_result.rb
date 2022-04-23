@@ -3,6 +3,20 @@ module StepFunctionResponses
     def process_results!
       PerformanceAuditManager::ResultsCapturer.new(self).capture_results!
       try_to_calculate_delta_results_and_run_next_set_of_audits!
+      TagsafeAws::S3.delete_object_by_s3_url(response_payload['performance_audit_results_s3_url'])
+    end
+
+    def parsed_results
+      @parsed_results ||= begin
+        if response_payload['performance_audit_results_s3_url']
+          JSON.parse(TagsafeAws::S3.get_object_by_s3_url(response_payload['performance_audit_results_s3_url']).body.read)
+        else
+          raise StandardError, <<~ERR
+            PerformanceAuditResult cannot get performance audit result. Expected `responsePayload` to contain 
+            'performance_audit_results_s3_url' key, instead it contained: #{response_payload}
+          ERR
+        end
+      end
     end
 
     def individual_performance_audit
@@ -24,31 +38,31 @@ module StepFunctionResponses
     end
 
     def performance_metrics
-      @performance_results ||= StepFunctionResponses::PerformanceAuditResult::PerformanceMetrics.new(response_payload['results'] || {})
+      @performance_results ||= StepFunctionResponses::PerformanceAuditResult::PerformanceMetrics.new(parsed_results['results'] || {})
     end
 
     def puppeteer_recording
-      @puppeteer_recording ||= StepFunctionResponses::PerformanceAuditResult::PuppeteerRecording.new(response_payload['screen_recording'] || {})
+      @puppeteer_recording ||= StepFunctionResponses::PerformanceAuditResult::PuppeteerRecording.new(parsed_results['screen_recording'] || {})
     end
 
     def blocked_resources
-      @blocked_resources ||= StepFunctionResponses::PerformanceAuditResult::BlockedResources.new(response_payload['blocked_resources'] || [])
+      @blocked_resources ||= StepFunctionResponses::PerformanceAuditResult::BlockedResources.new(parsed_results['blocked_resources'] || [])
     end
 
     def page_load_resources
-      @page_load_resources ||= StepFunctionResponses::PerformanceAuditResult::PageLoadResources.new((response_payload['results'] || {})['page_load_resources'] || [])
+      @page_load_resources ||= StepFunctionResponses::PerformanceAuditResult::PageLoadResources.new((parsed_results['results'] || {})['page_load_resources'] || [])
     end
 
     def speed_index_results
-      @speed_index_results ||= StepFunctionResponses::PerformanceAuditResult::SpeedIndexResults.new(response_payload['speed_index'] || {})
+      @speed_index_results ||= StepFunctionResponses::PerformanceAuditResult::SpeedIndexResults.new(parsed_results['speed_index'] || {})
     end
 
     def main_thread_results
-      @main_thread_results ||= StepFunctionResponses::PerformanceAuditResult::MainThreadResults.new(response_payload['main_thread_results'] || {})
+      @main_thread_results ||= StepFunctionResponses::PerformanceAuditResult::MainThreadResults.new(parsed_results['main_thread_results'] || {})
     end
 
     def allowed_request_urls
-      @allowed_request_urls ||= response_payload['cached_requests'].concat(response_payload['not_cached_requests'])
+      @allowed_request_urls ||= parsed_results['cached_requests'].concat(parsed_results['not_cached_requests'])
     end
 
     def audited_tag_url
@@ -78,7 +92,7 @@ module StepFunctionResponses
     end
 
     def logs
-      @logs ||= response_payload['logs']
+      @logs ||= parsed_results['logs']
     end
 
     def has_logs?
@@ -86,11 +100,11 @@ module StepFunctionResponses
     end
 
     def page_trace_s3_url
-      @page_trace_s3_url ||= response_payload['tracing_results_s3_url']
+      @page_trace_s3_url ||= parsed_results['tracing_results_s3_url']
     end
 
     def error
-      @error ||= step_function_error_message || response_payload['error'] || response_payload['errorMessage'] || @invalid_audit_error
+      @error ||= step_function_error_message || parsed_results['error'] || parsed_results['errorMessage'] || @invalid_audit_error
     end
 
     private

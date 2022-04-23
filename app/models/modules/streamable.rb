@@ -42,7 +42,7 @@ module Streamable
         now: now,
         stream: "domain_#{domain.uid}_monitor_center_view_stream",
         target: "#{domain.uid}_domain_tags_chart",
-        partial: 'charts/tags',
+        partial: 'charts/tags/index',
         locals: { 
           domain: domain, 
           chart_data: nil,
@@ -94,7 +94,7 @@ module Streamable
         now: now,
         stream: "tag_#{tag.uid}_details_view_stream",
         target: "#{tag.uid}_tag_chart",
-        partial: 'charts/tag',
+        partial: 'charts/tags/show',
         locals: {
           tag: tag,
           chart_data: nil,
