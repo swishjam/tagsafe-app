@@ -1,0 +1,121 @@
+body.releases {
+  .release-card-title {
+    border: 1px solid $soft-grey-border;
+    margin: 15px;
+    border-radius: 2px;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .release-graph-container {
+    .release-graph-with-headers {
+      padding-top: 15px;
+      width: fit-content;
+      .release-graph {
+        width: fit-content;
+        .release-graph-column {
+          display: inline-flex;
+          flex-direction: column;
+          margin-right: 2px;
+        }
+      }
+      .release-graph-day {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+        margin-top: 3px;
+        outline: rgba(27, 31, 35, 0.06);
+        &.release-heat-5 { background-color: #007032; }
+        &.release-heat-4 { background: #00a442; }
+        &.release-heat-3 { background: #00c756; }
+        &.release-heat-2 { background: #80eba1; }
+        &.release-heat-1 { background: #eaedf0; }
+      }
+      .release-graph-legend {
+        .release-graph-day {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .release-list-container {
+    margin: 30px;
+    .release-list-month {
+      margin-top: 30px;
+      &.empty {
+        margin-top: 75px;
+      }
+      .release-list-month-header {
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 40px;
+        &::before {
+          display: block;
+          height: 1px;
+          width: calc(100% - 115px);
+          margin-left: 115px;
+          content: "";
+          background-color: $soft-grey-border;
+        }
+        .header-text {
+          position: absolute;
+          margin-top: -20px;
+        }
+      }
+      .release-item-list {
+        padding: 0px 15px 0px 15px;
+        .release-item {
+          position: relative;
+          padding: 15px 0px 15px 0px;
+          &:hover {
+            background: #f9f9f9;
+          }
+          &::before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            width: 2px;
+            content: "";
+            background-color: $soft-grey-border;
+          }
+          .release-icon {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #cbcbcb;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            margin-left: -15px;
+          }
+          .release-content {
+            padding: 0px 30px 0px 30px;
+            width: 100%;
+          }
+          .changes-in-release-visualization-container {
+            .total-additions { color: green; }
+            .total-deletions { color: red; }
+            .changes-in-release-visualization {
+              background-color: rgb(203, 203, 203);
+              border-radius: 999px;
+              width: 200px;
+              height: 12px;
+              position: relative;
+              overflow: hidden;
+              .visualization { 
+                position: absolute; 
+                height: 100%;
+                &.additions { background-color: #3cd472; }
+                &.deletions { background-color: #ff8986; }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

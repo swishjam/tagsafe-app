@@ -20,11 +20,12 @@ module ServerLoadablePartials
         num_lines_of_context: params[:num_lines_of_context] || 7,
         include_diff_info: true
       )
-      if params[:diff_type] == 'split'
-        render_split_diff(tag, tag_version, diff_analyzer)
-      else
-        render_unified_diff(tag, tag_version, diff_analyzer)
-      end
+      locals = params[:diff_type] == 'split' ? split_diff_locals(tag, tag_version, diff_analyzer) : unified_diff_locals(tag, tag_version, diff_analyzer)
+      render turbo_stream: turbo_stream.replace(
+        "#{tag_version.uid}_diff",
+        partial: 'server_loadable_partials/tag_versions/diff',
+        locals: locals
+      )
     end
 
     def live_comparison
@@ -43,41 +44,33 @@ module ServerLoadablePartials
 
     private
 
-    def render_unified_diff(tag, tag_version, diff_analyzer)
-      locals = Rails.cache.fetch("#{tag_version.uid}-unified-git-diff") do
+    def unified_diff_locals(tag, tag_version, diff_analyzer)
+      # Rails.cache.fetch("#{tag_version.uid}-unified-git-diff") do
         {
           tag: tag,
           tag_version: tag_version,
-          diff_html: diff_analyzer.html_unified_diff&.html_safe,
+          current_diff_type: 'unified',
+          unified_diff_html: diff_analyzer.html_unified_diff&.html_safe,
           num_additions: diff_analyzer.num_additions,
           num_deletions: diff_analyzer.num_deletions,
           total_changes: diff_analyzer.total_changes
         }
-      end
-      render turbo_stream: turbo_stream.replace(
-        "#{tag_version.uid}_diff",
-        partial: 'server_loadable_partials/tag_versions/unified_diff',
-        locals: locals
-      )
+      # end
     end
 
-    def render_split_diff(tag, tag_version, diff_analyzer)
-      locals = Rails.cache.fetch("#{tag_version.uid}-split-git-diff") do 
+    def split_diff_locals(tag, tag_version, diff_analyzer)
+      # Rails.cache.fetch("#{tag_version.uid}-split-git-diff") do 
         { 
           tag: tag, 
           tag_version: tag_version, 
+          current_diff_type: 'split',
           additions_html: diff_analyzer.html_split_diff_additions&.html_safe, 
           deletions_html: diff_analyzer.html_split_diff_deletions&.html_safe,
           num_additions: diff_analyzer.num_additions,
           num_deletions: diff_analyzer.num_deletions,
           total_changes: diff_analyzer.total_changes
         }
-      end
-      render turbo_stream: turbo_stream.replace(
-        "#{tag_version.uid}_diff",
-        partial: 'server_loadable_partials/tag_versions/split_diff',
-        locals: locals
-      )
+      # end
     end
   end
 end

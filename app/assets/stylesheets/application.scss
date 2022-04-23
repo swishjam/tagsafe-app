@@ -90,6 +90,7 @@ body.logged-in:not(.domains) {
   font-family: 'Rubik', sans-serif;
   #page-content-wrapper {
     margin: 0;
+    margin-bottom: 50px;
     background-color: white;
     transition: 500ms width, margin-left;
     &:not(.collapsed-navigation) {

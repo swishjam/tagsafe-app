@@ -19,13 +19,20 @@ Rails.application.routes.draw do
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
 
-  get '/change_log' => 'tag_versions#index'
+  # get '/change_log' => 'tag_versions#index'
   get '/audit_log' => 'audits#all', as: :audit_log
   get '/test_run_log' => 'test_runs#all', as: :all_test_runs
   get '/uptime' => 'tag_checks#index'
   # get '/uptime/:tag_uid/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
   get '/uptime/:tag_uid/list' => 'tag_checks#tag_list', as: :tag_uptime_list
   get '/performance' => 'performance#index'
+  get '/releases' => 'releases#all', as: :all_releases
+  resources :releases, only: [] do
+    collection do
+      get :release_chart
+      get :release_list
+    end
+  end
 
   resources :domain_audits, only: [:create], param: :uid do
     member do
@@ -70,6 +77,7 @@ Rails.application.routes.draw do
     member do
       get :uptime
       get :audits
+      resources :releases, only: :index, as: :tag_releases
     end
     collection do
       get :select_tag_to_audit

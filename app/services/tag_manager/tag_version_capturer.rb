@@ -24,7 +24,11 @@ module TagManager
         bytes: @bytes,
         tag_check_captured_with: @tag_check,
         js_file: tag_version_js_file_data,
-        formatted_js_file: tag_version_formatted_js_file_data
+        formatted_js_file: tag_version_formatted_js_file_data,
+        commit_message: TagManager::CommitMessageParser.new(@content).try_to_get_commit_message,
+        num_additions: num_additions,
+        num_deletions: num_deletions,
+        total_changes: total_changes
       }
     end
 
@@ -42,6 +46,30 @@ module TagManager
         filename: db_filename(:formatted),
         content_type: 'text/javascript'
       }
+    end
+
+    def num_additions
+      return nil if @tag.has_no_versions?
+      diff_analyzer.num_additions
+    end
+
+    def num_deletions
+      return nil if @tag.has_no_versions?
+      diff_analyzer.num_deletions
+    end
+
+    def total_changes
+      return nil if @tag.has_no_versions?
+      num_additions + num_deletions
+    end
+
+    def diff_analyzer
+      @diff_analyzer ||= DiffAnalyzer.new(
+        new_content: File.read(local_file_location(:formatted)),
+        previous_content: @tag.current_version.content(formatted: true),
+        num_lines_of_context: 0,
+        include_diff_info: false
+      )
     end
 
     def js_file

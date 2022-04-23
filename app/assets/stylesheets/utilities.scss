@@ -34,6 +34,15 @@ a.no-decoration {
   border: none !important;
 }
 
+.copy-btn {
+  cursor: pointer;
+  color: #575757;
+  &:hover {
+    transform: scale(102%);
+    color: #484848;
+  }
+}
+
 .inline-input-and-btn {
   background: white;
   border-radius: 999px;
@@ -225,6 +234,19 @@ a.no-decoration {
   &.tiny {
     height: 20px;
     width: 20px;
+  }
+}
+
+.tagsafe-square-btn {
+  display: inline-flex;
+  border-radius: 5px;
+  cursor: pointer;
+  width: fit-content;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  &:hover, &.active {
+    background-color: rgb(228, 228, 228);
   }
 }
 

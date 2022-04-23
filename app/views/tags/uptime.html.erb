@@ -26,7 +26,8 @@
   </div>
   <%= render 'partials/page_navigation_items', navigation_items: [
     { text: 'Audit Details', url: tag_path(@tag) },
-    { text: 'Tag Uptime', url: uptime_tag_path(@tag) }
+    { text: 'Uptime', url: uptime_tag_path(@tag) },
+    { text: 'Releases', url: tag_releases_path(@tag) }
   ] %>
 </div>
 
