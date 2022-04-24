@@ -46,6 +46,19 @@ body.releases {
       &.empty {
         margin-top: 75px;
       }
+      .load-more-releases-btn {
+        border: 1px solid $soft-grey-border;
+        font-size: 16px;
+        text-align: center;
+        padding: 10px 20px 10px 20px;
+        border-radius: 999px;
+        cursor: pointer;
+        color: $dark-grey-text;
+        width: fit-content;
+        &:hover {
+          background-color: rgb(216, 216, 216);
+        }
+      }
       .release-list-month-header {
         font-size: 16px;
         font-weight: 800;
@@ -81,6 +94,16 @@ body.releases {
             content: "";
             background-color: $soft-grey-border;
           }
+          .header-dark {
+            font-size: 16px;
+            font-weight: 800;
+            color: #5d5c5c;
+          }
+          .sub-header-light {
+            font-size: 12px;
+            font-weight: 400;
+            color: #848282;
+          }
           .release-icon {
             position: absolute;
             border-radius: 50%;
@@ -90,10 +113,15 @@ body.releases {
             justify-content: center;
             width: 30px;
             height: 30px;
-            margin-left: -15px;
+            margin-left: -13px;
           }
           .release-content {
-            padding: 0px 30px 0px 30px;
+            &.unrolled {
+              padding: 0px 50px 0px 50px;
+            }
+            &:not(.unrolled) {
+              padding: 0px 30px 0px 30px;
+            }
             width: 100%;
           }
           .changes-in-release-visualization-container {
@@ -118,4 +146,12 @@ body.releases {
       }
     }
   }
+}
+
+turbo-frame.load-more-releases-frame[busy] .load-more-releases-btn .loading-indicator {
+  display: inline-block;
+}
+
+turbo-frame.load-more-releases-frame:not([busy]) .load-more-releases-btn .loading-indicator {
+  display: none;
 }

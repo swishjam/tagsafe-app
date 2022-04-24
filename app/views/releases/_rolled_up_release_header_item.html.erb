@@ -1,0 +1,59 @@
+<%= turbo_frame_tag "tag_#{tag.uid}_rolled_up_release_header_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}" do %>
+  <div class='release-item release-breakdown-item'>
+    <div class='release-icon'>
+      <i class="fa-solid fa-code-commit"></i>
+    </div>
+    <div class='release-content'>
+      <div class='container-fluid'>
+        <div class='row'>
+          <div class='col-6'>
+            <span class='header-dark d-block'><%= tag.try_friendly_name %> made <%= tag_versions.count %> <%= tag_versions.count > 1 ? 'releases' : 'release' %> in the month of <%= start_date.strftime('%B') %>.</span>
+            <span class='sub-header-light overflow-ellipsis d-block'><%= tag.url_based_on_preferences %></span>
+          </div>
+          <div class='col-6'>
+            <div class='w-fit text-end'>
+              <%= link_to unrolled_release_list_releases_path(tag_uid: tag.uid, start_date: start_date, end_date: end_date, most_changes_by_a_tag_for_month: most_changes_by_a_tag_for_month, hide_tag_name: true), 
+                            data: { turbo_frame: "tag_#{tag.uid}_unrolled_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}_page_1" } do %>
+                <div class='un-roll-releases-btn tagsafe-square-btn' 
+                      id="un-roll-releases-btn-<%=tag.uid%>" 
+                      data-controller='hidden-toggle tooltip' 
+                      data-bs-toggle='tooltip'
+                      title="Show <%= tag.try_friendly_name %>'s individual release details."
+                      data-unhide-targets='#roll-up-releases-btn-<%=tag.uid%>,#individual-release-item-list-<%=tag.uid%>'
+                      data-hide-targets='self'>
+                  <svg viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                    <path d="M8.177.677l2.896 2.896a.25.25 0 01-.177.427H8.75v1.25a.75.75 0 01-1.5 0V4H5.104a.25.25 0 01-.177-.427L7.823.677a.25.25 0 01.354 0zM7.25 10.75a.75.75 0 011.5 0V12h2.146a.25.25 0 01.177.427l-2.896 2.896a.25.25 0 01-.354 0l-2.896-2.896A.25.25 0 015.104 12H7.25v-1.25zm-5-2a.75.75 0 000-1.5h-.5a.75.75 0 000 1.5h.5zM6 8a.75.75 0 01-.75.75h-.5a.75.75 0 010-1.5h.5A.75.75 0 016 8zm2.25.75a.75.75 0 000-1.5h-.5a.75.75 0 000 1.5h.5zM12 8a.75.75 0 01-.75.75h-.5a.75.75 0 010-1.5h.5A.75.75 0 0112 8zm2.25.75a.75.75 0 000-1.5h-.5a.75.75 0 000 1.5h.5z"></path>
+                  </svg>
+                </div>
+              <% end %>
+              <div class='roll-up-releases-btn tagsafe-square-btn hidden' 
+                    id="roll-up-releases-btn-<%=tag.uid%>" 
+                    data-controller='hidden-toggle tooltip'
+                    data-bs-toggle='tooltip'
+                    title="Hide <%= tag.try_friendly_name %>'s individual release details."
+                    data-unhide-targets='#un-roll-releases-btn-<%=tag.uid%>'
+                    data-hide-targets='self,#individual-release-item-list-<%=tag.uid%>'>
+                <svg viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                  <path d="M10.896 2H8.75V.75a.75.75 0 00-1.5 0V2H5.104a.25.25 0 00-.177.427l2.896 2.896a.25.25 0 00.354 0l2.896-2.896A.25.25 0 0010.896 2zM8.75 15.25a.75.75 0 01-1.5 0V14H5.104a.25.25 0 01-.177-.427l2.896-2.896a.25.25 0 01.354 0l2.896 2.896a.25.25 0 01-.177.427H8.75v1.25zm-6.5-6.5a.75.75 0 000-1.5h-.5a.75.75 0 000 1.5h.5zM6 8a.75.75 0 01-.75.75h-.5a.75.75 0 010-1.5h.5A.75.75 0 016 8zm2.25.75a.75.75 0 000-1.5h-.5a.75.75 0 000 1.5h.5zM12 8a.75.75 0 01-.75.75h-.5a.75.75 0 010-1.5h.5A.75.75 0 0112 8zm2.25.75a.75.75 0 000-1.5h-.5a.75.75 0 000 1.5h.5z"></path>
+                </svg>
+              </div>
+              <% total_additions_for_all_tag_versions = tag_versions.map(&:num_additions).compact.inject(:+) || 0 %>
+              <% total_deletions_for_all_tag_versions = tag_versions.map(&:num_deletions).compact.inject(:+) || 0 %>
+              <% total_changes_for_all_tag_versions = total_additions_for_all_tag_versions + total_deletions_for_all_tag_versions %>
+              <div class='changes-in-release-visualization-container text-start w-fit' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= tag.try_friendly_name %> made <%= total_changes_for_all_tag_versions %> total changes in <%= start_date.beginning_of_month.strftime('%B') %>; <%= total_additions_for_all_tag_versions %> additions, <%= total_deletions_for_all_tag_versions %> deletions.">
+                <span class='total-additions fw-bold'>+<%= total_additions_for_all_tag_versions %></span>
+                <span class='total-deletions fw-bold'>-<%= total_deletions_for_all_tag_versions %></span>
+                <div class='changes-in-release-visualization'>
+                  <div class='visualization additions' style='width: <%= (total_additions_for_all_tag_versions / most_changes_by_a_tag_for_month.to_f)*100 %>%'>
+                  </div>
+                  <div class='visualization deletions' style='width: <%= (total_deletions_for_all_tag_versions / most_changes_by_a_tag_for_month.to_f)*100 %>%; margin-left: <%= (total_additions_for_all_tag_versions / most_changes_by_a_tag_for_month.to_f)*100 %>%'>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

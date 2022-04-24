@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "tag_#{tag.uid}_unrolled_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}_page_#{tags_tag_versions_for_month.current_page}" do %>
+  <% tags_tag_versions_for_month.each do |tag_version| %>
+    <%= render 'releases/release_list_item', 
+                tag_version: tag_version, 
+                visual_indicator_100_percent_width: visual_indicator_100_percent_width, 
+                hide_tag_name: local_assigns[:hide_tag_name] %>
+  <% end %>
+  <% unless tags_tag_versions_for_month.last_page? %>
+    <%= turbo_frame_tag "tag_#{tag.uid}_unrolled_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}_page_#{tags_tag_versions_for_month.next_page}", class: 'load-more-releases-frame' do %>
+      <%= link_to unrolled_release_list_releases_path(
+              tag_uid: tag.uid, 
+              start_date: start_date, 
+              end_date: end_date, 
+              most_changes_by_a_tag_for_month: visual_indicator_100_percent_width, 
+              hide_tag_name: true, 
+              page: tags_tag_versions_for_month.next_page
+            ), 
+            class: 'no-decoration',
+            data: { turbo_frame: "tag_#{tag.uid}_unrolled_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}_page_#{tags_tag_versions_for_month.next_page}" } do %>
+        <div class='load-more-releases-btn'>
+          Load more releases
+          <div class='loading-indicator'>
+            <%= display_loading_icon size: :tiny %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

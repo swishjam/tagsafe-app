@@ -1,0 +1,57 @@
+<div class='release-item'>
+  <div class='release-icon'>
+    <i class="fa-solid fa-code-merge"></i>
+  </div>
+  <div class='release-content unrolled d-inline-block'>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='col-6'>
+          <span class='release-date d-block'><%= tag_version.created_at.formatted_short %></span>
+          <% unless local_assigns[:hide_tag_name] %>
+            <span class='release-tag sub-header-light d-block'>
+              <%= tag_version.tag.try_friendly_name %>
+            </span>
+          <% end %>
+          <span class='release-sha sub-header-light d-block'><%= tag_version.sha %></span>
+          <span class='release-commit-message sub-header-light d-block'>
+            <% if tag_version.commit_message %>
+              <i class="fa-solid fa-comment"></i> <i><%= tag_version.commit_message %></i>
+            <% else %>
+              <i class="fa-solid fa-comment-slash"></i> No commit messsage provided
+            <% end %>
+          </span>
+        </div>
+        <div class='col-6'>
+          <div class='w-fit'>
+            <div class="dropdown show ellipsis-dropdown float-end">
+              <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v" style="font-size: 12px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <%= link_to 'View git diff', git_diff_tag_tag_version_path(tag_version.tag, tag_version), class: 'dropdown-item', target: '_top' %> 
+                <%= link_to 'View audits', tag_path(tag_version.tag), class: 'dropdown-item', target: '_top' %> 
+              </div>
+            </div>
+            <% if tag_version.total_changes.nil? %>
+              <i>No changes to compare, this is the first version of <%= tag_version.tag.try_friendly_name %></i>
+            <% else %>
+              <div class='changes-in-release-visualization-container w-fit' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= tag_version.total_changes %> total changes in this release; <%= tag_version.num_additions %> additions, <%= tag_version.num_deletions %> deletions.">
+                <span class='total-additions fw-bold'>+<%= tag_version.num_additions %></span>
+                <span class='total-deletions fw-bold'>-<%= tag_version.num_deletions %></span>
+                <div class='changes-in-release-visualization'>
+                  <div class='visualization additions' style='width: <%= (tag_version.num_additions / visual_indicator_100_percent_width.to_f)*100 %>%'>
+                  </div>
+                  <div class='visualization deletions' style='width: <%= (tag_version.num_deletions / visual_indicator_100_percent_width.to_f)*100 %>%; margin-left: <%= (tag_version.num_additions / visual_indicator_100_percent_width.to_f)*100 %>%'>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class='w-fit m-auto mt-3'>
+              <%= render 'audits/performance_audit_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display, compare_to_previous_score: false %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

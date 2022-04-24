@@ -30,7 +30,8 @@ Rails.application.routes.draw do
   resources :releases, only: [] do
     collection do
       get :release_chart
-      get :release_list
+      get :rolled_up_release_list
+      get :unrolled_release_list
     end
   end
 

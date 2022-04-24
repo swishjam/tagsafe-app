@@ -34,6 +34,11 @@ a.no-decoration {
   border: none !important;
 }
 
+.overflow-ellipsis {
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
 .copy-btn {
   cursor: pointer;
   color: #575757;

@@ -12,6 +12,10 @@ class TagVersion < ApplicationRecord
   has_one_attached :formatted_js_file, service: :tag_version_s3
   
   scope :most_recent, -> { where(most_recent: true) }
+  # only time total_changes = nil is if theres not other version to compare to?
+  # should we have a first class attribute for this?
+  scope :first_version, -> { where(total_changes: nil) }
+  scope :not_first_version, -> { where.not(total_changes: nil) }
 
   after_create :after_creation
   after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
@@ -94,15 +98,19 @@ class TagVersion < ApplicationRecord
   end
 
   def audit_to_display
-    primary_audit || most_recent_pending_audit || most_recent_failed_audit
+    most_recent_successful_audit || most_recent_pending_audit || most_recent_failed_audit
+  end
+
+  def most_recent_successful_audit
+    audits.most_recent_first.successful_performance_audit.limit(1).first
   end
 
   def most_recent_pending_audit
-    audits.pending.limit(1).first
+    audits.most_recent_first.pending.limit(1).first
   end
 
   def most_recent_failed_audit
-    audits.failed_performance_audit.limit(1).first
+    audits.most_recent_first.failed_performance_audit.limit(1).first
   end
 
   def has_pending_audit?
