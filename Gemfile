@@ -76,6 +76,8 @@ gem 'sentry-ruby'
 gem 'sentry-rails'
 gem "sentry-resque"
 
+gem 'ddtrace'
+
 gem 'image_optimizer'
 
 gem 'stripe'

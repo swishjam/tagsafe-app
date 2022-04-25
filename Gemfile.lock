@@ -150,6 +150,10 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
+    ddtrace (0.54.2)
+      debase-ruby_core_source (<= 0.10.14)
+      msgpack
+    debase-ruby_core_source (0.10.14)
     debug_inspector (1.1.0)
     diff-lcs (1.4.4)
     diffy (3.4.0)
@@ -447,6 +451,7 @@ DEPENDENCIES
   chartkick
   chromedriver-helper
   database_cleaner
+  ddtrace
   diffy
   dotenv-rails
   factory_bot_rails
