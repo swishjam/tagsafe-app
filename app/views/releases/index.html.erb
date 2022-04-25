@@ -49,7 +49,7 @@
     <% start_date = Time.current.beginning_of_month - months_ago.months %>
     <% end_date = start_date.end_of_month %>
     <%= turbo_frame_tag "#{@tag.uid}_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}",
-                          src: release_list_releases_path(tag_uid: @tag.uid, start_date: start_date, end_date: end_date, hide_tag_name: true) do %>
+                          src: rolled_up_release_list_releases_path(tag_uid: @tag.uid, start_date: start_date, end_date: end_date, hide_tag_name: true) do %>
       <div class='release-list-month'>
         <div class='release-list-month-header'>
           <span class='header-text'>
