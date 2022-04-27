@@ -44,14 +44,14 @@
           </div>
           <div class='row align-items-center text-center mt-3'>
             <div class='col-4'>
-              <% speed_index_impact = preferred_delta_performance_audit&.speed_index_delta %>
+              <% speed_index_impact = preferred_delta_performance_audit&.speed_index_delta || 0 %>
               <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:speed_index] %>">Speed Index</h6>
               <h6 class='current-metric-value fw-bold'><%= speed_index_impact > 0 ? "Adds #{number_to_human(speed_index_impact, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
             </div>
             <div class='col-4'>
-              <% main_thread_execution_tag_responsible_for = preferred_delta_performance_audit&.main_thread_execution_tag_responsible_for_delta %>
+              <% main_thread_execution_tag_responsible_for = preferred_delta_performance_audit&.main_thread_execution_tag_responsible_for_delta || 0 %>
               <h6 class='current-metric-title' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= PerformanceMetricsDictionary.METRIC_DEFINITIONS[:main_thread_execution_tag_responsible_for] %>">Main Thread Execution Time</h6>
-              <h6 class='current-metric-value fw-bold'><%= main_thread_execution_tag_responsible_for > 0 ? "#{number_to_human(main_thread_execution_tag_responsible_for, units: { unit: 'ms', thousand: 'seconds' })}" : 0 %></h6>
+              <h6 class='current-metric-value fw-bold'><%= main_thread_execution_tag_responsible_for > 0 ? "#{number_to_human(main_thread_execution_tag_responsible_for, units: { unit: 'ms', thousand: 'seconds' })}" : 'No impact' %></h6>
             </div>
             <div class='col-4'>
               <% dom_complete_impact = preferred_delta_performance_audit&.dom_complete_delta %>

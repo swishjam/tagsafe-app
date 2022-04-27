@@ -1,4 +1,4 @@
-<%= render_as_modal title: 'Run audit' do %>
+<%= render_as_modal title: "#{@tag.try_friendly_name} audit" do %>
   <% if local_assigns[:audits_enqueued] %>
     <% if audits_enqueued.count > 1 %>
       <div class='tagsafe-modal-body'>
@@ -21,16 +21,6 @@
     <div data-controller='hot-keys' data-action="form" data-key-code='13'>
       <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form', hot_keys_target: 'formAction' } do |f| %>
         <div class='tagsafe-modal-body'>
-          <h3>
-            Run audit on your <%= tag.try_friendly_name %> tag? 
-            <% if tag_version.present? && current_tag_version.nil? %>
-              <i style='font-size: 12px' class="fa-solid fa-circle-info" data-controller='tooltip' data-bs-toggle='tooltip' title="Because you no longer have release monitoring 
-                enabled for this tag, future audits will audit whatever the live version of the <%= tag.try_friendly_name %> tag is on your site, therefore the tag may behave 
-                differently than when this audit was originally run. Consider enabling release monitoring again in order to guarantee audits are performed against the same tag version.">
-              </i>
-            <% end %>
-          </h3>
-          
           <% unless tag_version.nil? || current_tag_version.nil? %>
             <% if tag_version.id == current_tag_version.id %>
               <%= f.hidden_field :tag_version_uid, value: tag_version.uid %>
@@ -42,53 +32,82 @@
               </select>
             <% end %>  
           <% end %>
-          
-          <% if urls_to_audit.count == 1 %>
-            <input name='urls_to_audit[]' id="url_to_audit_<%= urls_to_audit.first.id %>" value="<%= urls_to_audit.first.id %>" type='hidden'>
-          <% else %>
-            <div class='mb-3'>
-              <h5>URLs to audit:</h5>
-              <% urls_to_audit.each do |url_to_audit| %>
-                <div class="form-check form-switch w-fit m-auto">
-                  <label class='form-check-label' for='url_to_audit_<%= url_to_audit.id %>'><%= url_to_audit.page_url.full_url %></label>
-                  <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='form-check-input' checked='checked'>
+
+          <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px;'>
+            <div class='custom-checkbox-div-container'>
+              <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_performance_audit ? "checked='checked'" : nil %>>
+              <label class='custom-checkbox-div-label' for='include_performance_audit'>
+                <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
+                <i class="far fa-times-circle unchecked top-right-icon red" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are disabled for this audit."></i>
+                <div class='text'>Run performance audit</div>
+                <div class='icon checked'>
+                  <%= render 'partials/svgs/gauge' %>
                 </div>
-              <% end %>
+                <div class='icon unchecked'>
+                  <%= render 'partials/svgs/bw_gauge' %>
+                </div>
+              </label>
             </div>
-          <% end %>
-          <h5>Audit configuration:</h5>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_performance_audit ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='include_performance_audit'>Run performance audit?</label>
-          </div>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='form-check-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='include_functional_tests'>Run functional tests?</label>
-          </div>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[include_page_change_audit]' id='include_page_change_audit' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_change_audit ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='include_page_change_audit'>Run page change audit?</label>
+            <div class='custom-checkbox-div-container'>
+              <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <label class='custom-checkbox-div-label' for='include_functional_tests'>
+                <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
+                <i class="far fa-times-circle unchecked top-right-icon red" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are disabled for this audit."></i>
+                <div class='text'>Run functional tests</div>
+                <div class='icon checked'>
+                  <%= render 'partials/svgs/test_tubes' %>
+                </div>
+                <div class='icon unchecked'>
+                  <%= render 'partials/svgs/bw_test_tubes' %>
+                </div>
+              </label>
+            </div>
           </div>
           <h5 class='mt-4'>Performance audit settings:</h5>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='form-check-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='include_page_load_resources'>Include page load waterfall resources?</label>
-          </div>
-          <% if Util.env_is_true('USER_CAN_TOGGLE_PAGE_TRACE_AUDIT_CONFIG') %>
-            <div class='form-check form-switch w-fit m-auto'>
-              <label class='form-check-label' for='include_page_trace'>Include performance page trace?</label>
-              <input name='config[performance_audit_settings][include_page_trace]' id='include_page_trace' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_include_page_tracing ? "checked='checked'" : nil %>>
+          <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px;'>
+            <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
+              <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <label class='custom-checkbox-div-label fill skinny' for='include_page_load_resources'>
+                <i class="far fa-check-circle checked top-right-icon green"></i>
+                <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                <div class='text mb-0'>Include page load waterfall resources</div>
+              </label>
             </div>
-          <% end %>
-          <div class='form-check form-switch w-fit m-auto'>
-            <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
-            <label class='form-check-label' for='enable_screen_recording'>Include screen recording?</label>
+
+            <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
+              <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <label class='custom-checkbox-div-label fill skinny' for='enable_screen_recording'>
+                <i class="far fa-check-circle checked top-right-icon green"></i>
+                <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                <div class='text mb-0'>Include screen recording</div>
+              </label>
+            </div>
+
+            <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
+              <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <label class='custom-checkbox-div-label fill skinny' for='strip_all_images_in_performance_audits'>
+                <i class="far fa-check-circle checked top-right-icon green"></i>
+                <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                <div class='text mb-0'>Strip images</div>
+              </label>
+            </div>
           </div>
-          <div class='form-check form-switch w-fit m-auto'>
-            <label class='form-check-label' for='strip_all_images_in_performance_audits'>Strip all images?</label>
-            <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='form-check-input' <%= configuration.perf_audit_strip_all_images ? "checked='checked'" : nil %>>
+
+          <h5 class='mt-4'>URLs to audit:</h5>
+          <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px'>
+            <% urls_to_audit.each do |url_to_audit| %>
+              <div class='custom-checkbox-div-container'>
+                <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+                <label class='custom-checkbox-div-label fill skinny' for='url_to_audit_<%= url_to_audit.id %>'>
+                  <i class="far fa-check-circle checked top-right-icon green"></i>
+                  <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                  <div class='text'><%= url_to_audit.page_url.full_url %></div>
+                </label>
+              </div>
+            <% end %>
           </div>
         </div>
+
         <div class='tagsafe-modal-divider'></div>
         <div class='tagsafe-modal-footer text-end'>
           <%= loading_submit_button do %>

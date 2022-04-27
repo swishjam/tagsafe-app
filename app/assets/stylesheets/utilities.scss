@@ -442,14 +442,66 @@ form[data-controller=loading_form] {
   width: 275px;
   text-align: center;
 }
-
-.spinnable-close-button, .spinnable-remove-button {
-  cursor: pointer;
-  i {
-    transition: transform .7s ease-in-out;
+.custom-checkbox-div-container {
+  display: inline-block;
+  .custom-checkbox-div-input {
+    // visibility: hidden;
+    display: none;
   }
-  &:hover i {
-    transform: rotate(180deg);
-    color: rgb(86, 86, 86);
+  .custom-checkbox-div-input + label.custom-checkbox-div-label {
+    &.skinny {
+      padding: 13px;
+      font-size: 12px;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+    padding: 30px;
+    border-radius: 5px;
+    transition: 200ms all;
+    cursor: pointer;
+    position: relative;
+    height: 100%;
+    .top-right-icon {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      &.green {
+        color: green;
+      }
+      &.red {
+        color: red;
+      }
+    }
+    .icon {
+      width: 25%; 
+      margin: 0 auto;
+      margin-top: 1em;
+    }
+    &:hover {
+      border: 2px solid $tagsafe-primary;
+    }
+  }
+  .custom-checkbox-div-input:not(:checked) + label.custom-checkbox-div-label {
+    border: 1px solid $soft-grey-border;
+    .icon.checked, .top-right-icon.checked {
+      display: none;
+    }
+    .icon.unchecked, .top-right-icon.unchecked {
+      display: inline-block;
+    }
+  }
+  .custom-checkbox-div-input:checked + label.custom-checkbox-div-label {
+    border: 3px solid $tagsafe-primary;
+    font-weight: 800;
+    background-color: rgba(110, 132, 255, 0.1);
+    .icon.checked, .top-right-icon.checked {
+      display: inline-block;
+    }
+    .icon.unchecked, .top-right-icon.unchecked {
+      display: none;
+    }
   }
 }

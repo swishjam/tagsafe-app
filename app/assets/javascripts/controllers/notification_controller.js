@@ -5,7 +5,6 @@ export default class extends Controller {
   autoDismissMs = parseInt(this.element.getAttribute('timeout') || '8000');
 
   connect() {
-    this.displayedAtTimestamp = Date.now();
     this._animateIn();
     this._setAutoDismissTimer();
     this._hoverListener();    
@@ -17,6 +16,7 @@ export default class extends Controller {
   }
 
   _animateIn() {
+    this.displayedAtTimestamp = Date.now();
     setTimeout(() => { this.element.classList.add('animate') }, 100);
   }
 
@@ -30,11 +30,9 @@ export default class extends Controller {
     this.element.addEventListener('mouseover', () => {
       this.timeRemainingOnAutoDismissAtTimeOfHover = Date.now() - this.displayedAtTimestamp;
       clearTimeout(this.autoDismissTimeoutFunc);
-      console.log('Disabled autodismiss!');
     });
     this.element.addEventListener('mouseout', () => {
-      console.log(`Resetting auto dismiss for ${this.timeRemainingOnAutoDismissAtTimeOfHover} ms`);
-      this._setAutoDismissTimer(this.timeRemainingOnAutoDismissAtTimeOfHover);
+      this._setAutoDismissTimer(this.timeRemainingOnAutoDismissAtTimeOfHover || this.autoDismissMs);
     });
   }
 }

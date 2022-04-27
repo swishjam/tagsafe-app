@@ -12,7 +12,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    window.removeEventListener(this.windowListener);
+    if(this.windowListener) window.removeEventListener(this.windowListener);
   }
 
   _triggerHotKeyAction = () => {
