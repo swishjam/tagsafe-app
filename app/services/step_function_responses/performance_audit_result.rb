@@ -7,6 +7,7 @@ module StepFunctionResponses
     end
 
     def parsed_results
+      return {} if step_function_failed?
       @parsed_results ||= begin
         if response_payload['performance_audit_results_s3_url']
           JSON.parse(TagsafeAws::S3.get_object_by_s3_url(response_payload['performance_audit_results_s3_url']).body.read)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_23_180414) do
+ActiveRecord::Schema.define(version: 2022_04_26_195544) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -133,6 +133,9 @@ ActiveRecord::Schema.define(version: 2022_04_23_180414) do
     t.float "perceptual_speed_index_delta"
     t.float "ms_until_first_visual_change_delta"
     t.float "ms_until_last_visual_change_delta"
+    t.float "main_thread_blocking_execution_tag_responsible_for_delta"
+    t.float "entire_main_thread_execution_ms_delta"
+    t.float "entire_main_thread_blocking_executions_ms_delta"
     t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
     t.index ["domain_audit_id"], name: "index_delta_performance_audits_on_domain_audit_id"
     t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
@@ -521,6 +524,9 @@ ActiveRecord::Schema.define(version: 2022_04_23_180414) do
     t.float "perceptual_speed_index"
     t.float "ms_until_first_visual_change"
     t.float "ms_until_last_visual_change"
+    t.float "main_thread_blocking_execution_tag_responsible_for"
+    t.float "entire_main_thread_execution_ms"
+    t.float "entire_main_thread_blocking_executions_ms"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
     t.index ["domain_audit_id"], name: "index_performance_audits_on_domain_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"

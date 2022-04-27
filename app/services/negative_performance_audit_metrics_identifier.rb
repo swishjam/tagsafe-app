@@ -10,7 +10,7 @@ class NegativePerformanceAuditMetricsIdentifier
 
   def initialize(
     delta_performance_audit_to_analyze, 
-    metrics_to_analyze: %i[dom_complete dom_content_loaded dom_interactive first_contentful_paint script_duration task_duration],
+    metrics_to_analyze: %i[speed_index main_thread_execution_tag_responsible_for dom_complete dom_content_loaded dom_interactive first_contentful_paint script_duration task_duration],
     percent_responsible_to_be_considered_negative: 30
   )
     @delta_performance_audit_to_analyze = delta_performance_audit_to_analyze

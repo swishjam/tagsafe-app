@@ -15,9 +15,12 @@ class ReleasesController < LoggedInController
   def release_chart
     domain_or_tag = params[:all_tags] ? current_domain : current_domain.tags.find_by(uid: params[:tag_uid])
     range = ((365.days.ago.beginning_of_week - 1.day).to_datetime..Time.current.beginning_of_day.to_datetime)
-    num_releases_last_30_days = domain_or_tag.tag_versions.more_recent_than_or_equal_to(30.days.ago.beginning_of_day, timestamp_column: :'tag_versions.created_at').count
+    num_releases_last_30_days = domain_or_tag.tag_versions
+                                              .not_first_version
+                                              .more_recent_than_or_equal_to(30.days.ago.beginning_of_day, timestamp_column: :'tag_versions.created_at')
+                                              .count
     first_tag_version_date = domain_or_tag.tag_versions.select(:created_at).most_recent_last(timestamp_column: :'tag_versions.created_at').limit(1).first&.created_at
-    release_count_by_day = domain_or_tag.tag_versions.group_by_day(:created_at, range: range).count
+    release_count_by_day = domain_or_tag.tag_versions.not_first_version.group_by_day(:created_at, range: range).count
     most_releases_in_a_day = release_count_by_day.max_by{|k,v| v}[1]
     render turbo_stream: turbo_stream.replace(
       "#{domain_or_tag.uid}_release_chart",

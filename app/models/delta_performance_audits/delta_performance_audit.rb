@@ -32,10 +32,26 @@ class DeltaPerformanceAudit < ApplicationRecord
   end
 
 %i[
-    dom_complete dom_content_loaded dom_interactive first_contentful_paint script_duration task_duration layout_duration
+    speed_index dom_complete dom_content_loaded dom_interactive first_contentful_paint script_duration task_duration layout_duration
   ].each do |metric|
     define_method(metric){ send(:"#{metric}_delta") }
     define_method(:"#{metric}_percentage"){ ((send(metric)/performance_audit_with_tag.send(metric))*100).round(2) }
+  end
+
+  def main_thread_execution_tag_responsible_for
+    main_thread_execution_tag_responsible_for_delta
+  end
+
+  def main_thread_execution_tag_responsible_for_percentage
+    ((main_thread_execution_tag_responsible_for / entire_main_thread_execution_ms_delta)*100).round(2)
+  end
+
+  def main_thread_blocking_execution_tag_responsible_for
+    main_thread_blocking_execution_tag_responsible_for_delta
+  end
+
+  def main_thread_blocking_execution_tag_responsible_for_percentage
+    ((main_thread_blocking_execution_tag_responsible_for / entire_main_thread_blocking_executions_ms_delta)*100).round(2)
   end
 
   def tagsafe_score_metric_deduction(performance_metric)
@@ -61,6 +77,9 @@ class DeltaPerformanceAudit < ApplicationRecord
       speed_index_delta: speed_index_delta, 
       perceptual_speed_index_delta: perceptual_speed_index_delta, 
       main_thread_execution_tag_responsible_for_delta: main_thread_execution_tag_responsible_for_delta, 
+      main_thread_blocking_execution_tag_responsible_for_delta: main_thread_blocking_execution_tag_responsible_for_delta, 
+      entire_main_thread_execution_ms_delta: entire_main_thread_execution_ms_delta, 
+      entire_main_thread_blocking_executions_ms_delta: entire_main_thread_blocking_executions_ms_delta,
       ms_until_first_visual_change_delta: ms_until_first_visual_change_delta, 
       ms_until_last_visual_change_delta: ms_until_last_visual_change_delta,
       byte_size: bytes

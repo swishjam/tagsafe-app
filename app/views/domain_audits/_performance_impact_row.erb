@@ -9,10 +9,13 @@
                 data-bs-toggle='tooltip' 
                 title="<%= "How much do third party tags add to your #{title} metric? #{metric_help_description}" %>"></i>
           <% if metric_percent >= 40 %>
+            <% impact_color = 'red' %>
             <i class="fa-solid fa-play align-middle" style='color: red; transform: rotate(-90deg); font-size: 8px;'></i>
           <% elsif metric_percent >= 20 %>
+            <% impact_color = 'orange' %>
             <i class="fa-solid fa-square align-middle" style='color: orange; font-size: 8px;'></i>
           <% else %>
+            <% impact_color = 'green' %>
             <i class="fa-solid fa-circle align-middle" style='color: green; font-size: 8px;'></i>
           <% end %>
           <%= title %>
@@ -22,11 +25,17 @@
         <div class='domain-audit-metric-body'>
           <% if metric.positive? %>
             <span class='metric d-block'>Adds <%= number_to_human(metric, units: { unit: 'ms', thousand: 'seconds' }) %></span>
-            <span class='metric d-block'><span style="font-weight: 800; color: <%= metric_percent >= 40 ? 'red' : metric_percent >= 20 ? 'orange' : 'green'%>"><%= metric_percent %>%</span> of entire <%= title %> time</span>
+            <% unless local_assigns[:metric_percent].nil? %>
+              <span class='metric d-block'><span style="font-weight: 800; color: <%= metric_percent >= 40 ? 'red' : metric_percent >= 20 ? 'orange' : 'green'%>"><%= metric_percent %>%</span> of entire <%= local_assigns[:metric_percent_title] || title %> time</span>
+            <% end %>
           <% else %>
             <span class='metric d-block'>No impact</span>
           <% end %>
         </div>
+      </div>
+    </div>
+    <div class='performance-metric-percent-visual-container'>
+      <div class='performance-metric-percent-visual-fill' style='width: <%= metric_percent %>%; background-color: <%= impact_color %>'>
       </div>
     </div>
   </div>

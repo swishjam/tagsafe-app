@@ -2,25 +2,25 @@
   <% if with_tag_frames.any? && without_tag_frames.any? %>
     <div class='tagsafe-container'>
       <div class='speed-index-frames-container'>
-        <div class='speed-index-frames-row-title'>
-          With tag
+        <div class='speed-index-frames-row-title text-start'>
+          With tag:
         </div>
         <div class='speed-index-frames-row'>
           <% with_tag_frames.each do |frame| %>
             <div class='speed-index-frame'>
               <%= image_tag frame.s3_url, class: 'speed-index-frame-img' %>
-              <span class='speed-index-frame-ts'><%= frame.ms_from_start %> ms</span>
+              <span class='speed-index-frame-ts'><%= number_to_human(frame.ms_from_start, units: { unit: 'ms', thousand: 'seconds' }) %></span>
             </div>
           <% end %>
         </div>
-        <div class='speed-index-frames-row-title'>
-          Without tag
+        <div class='speed-index-frames-row-title text-start'>
+          Without tag:
         </div>
         <div class='speed-index-frames-row'>
           <% without_tag_frames.each do |frame| %>
             <div class='speed-index-frame'>
               <%= image_tag frame.s3_url, class: 'speed-index-frame-img' %>
-              <span class='speed-index-frame-ts'><%= frame.ms_from_start %> ms</span>
+              <span class='speed-index-frame-ts'><%= number_to_human(frame.ms_from_start, units: { unit: 'ms', thousand: 'seconds' }) %></span>
             </div>
           <% end %>
         </div>

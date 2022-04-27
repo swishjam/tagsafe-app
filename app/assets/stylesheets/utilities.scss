@@ -197,6 +197,9 @@ a.no-decoration {
   &.square {
     border-radius: 0px;
   }
+  &.rounded-corners {
+    border-radius: 10px;
+  }
   &.red {
     background: rgb(255, 96, 96);
     border-color: rgb(255, 96, 96);
@@ -288,6 +291,31 @@ a.no-decoration {
   }
 }
 
+.meta-info-pill {
+  border-radius: 5px;
+  font-size: 12px;
+  border: 1px solid $soft-grey-border;
+  display: inline-block;
+  width: fit-content;
+  cursor: default;
+  .title {
+    // border-right: 1px solid $soft-grey-border;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+  }
+  .value {
+    background: rgb(232, 232, 232);
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    font-weight: 800;
+    &.green {
+      background: rgb(200, 255, 200);
+    }
+    &.orange {
+      background: #ffddc4;
+    }
+  }
+}
 
 form[data-controller=loading_form] {
   .loading-button {

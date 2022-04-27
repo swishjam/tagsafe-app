@@ -7,41 +7,22 @@ body.audits {
     border-top: 1px solid lightgrey;
     padding-top: 5px;
   }
-  .performance-audits-completion-indicators {
-    .performance-audits-completion-indicator {
-      // border: 1px solid black;
+  .performance-audit-progression-indicators-container {
+    cursor: default;
+    .performance-audit-progression-indicator {
       display: inline-block;
       margin: 1px;
       border-radius: 50%;
-      height: 10px;
-      width: 10px;
+      height: 8px;
+      width: 8px;
       &.completed {
-        background: rgb(157, 255, 157);
+        background: #5ae55a;
       }
       &.pending {
         background: #95d1ff;
       }
       &.failed {
         background: red;
-      }
-    }
-  }
-  .speed-index-frames-container {
-    width: 100%;
-    overflow-x: scroll;
-    .speed-index-frames-row {
-      white-space: nowrap;
-      .speed-index-frame {
-        width: 25%;
-        display: inline-block;
-        .speed-index-frame-img {
-          width: 100%;
-          border: 1px solid black;
-        }
-        .speed-index-frame-ts {
-          display: block;
-          text-align: center;
-        }
       }
     }
   }
@@ -60,6 +41,26 @@ body.audits {
       .test-run-description {
         font-size: 16px;
         display: block;
+      }
+    }
+  }
+}
+
+.speed-index-frames-container {
+  width: 100%;
+  overflow-x: scroll;
+  .speed-index-frames-row {
+    white-space: nowrap;
+    .speed-index-frame {
+      width: 25%;
+      display: inline-block;
+      .speed-index-frame-img {
+        width: 100%;
+        border: 1px solid black;
+      }
+      .speed-index-frame-ts {
+        display: block;
+        text-align: center;
       }
     }
   }

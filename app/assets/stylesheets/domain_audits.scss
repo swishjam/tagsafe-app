@@ -8,12 +8,21 @@ body.domain_audits {
   .domain-audit-metric-container {
     padding: 15px;
     .domain-audit-performance-metric-row {
-      border-bottom: 1px solid grey;
       .domain-audit-metric-title {
         font-size: 18px;
       }
       .domain-audit-metric-body {
         font-size: 18px;
+      }
+      .performance-metric-percent-visual-container {
+        height: 8px;
+        width: 100%;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgb(235, 235, 235);
+        .performance-metric-percent-visual-fill {
+          height: 100%;
+        }
       }
     }
   }

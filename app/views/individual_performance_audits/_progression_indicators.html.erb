@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "audit_#{audit.uid}_performance_audit_progression_indicators" do %>
+  <div class='performance-audit-progression-indicators-container' data-controller='tooltip' data-bs-toggle='tooltip' title="Completed <%= audit.individual_performance_audits.completed_successfully.count %> performance audits, <%= audit.individual_performance_audits.pending.count %> are in flight.">
+    <% audit.individual_performance_audits.completed_successfully.each do |perf_audit| %>
+      <div class='performance-audit-progression-indicator completed'>
+      </div>
+    <% end %>
+    <% audit.individual_performance_audits.pending.each do |perf_audit| %>
+      <div class='performance-audit-progression-indicator pending'>
+      </div>
+    <% end %>
+  </div>
+<% end %>

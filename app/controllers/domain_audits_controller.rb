@@ -8,7 +8,18 @@ class DomainAuditsController < LoggedInController
 
   def global_bytes_breakdown
     url_crawl = current_domain_audit.url_crawl
-    pie_chart_data = { 
+    tags = current_domain.tags
+    individual_third_party_pie_chart_data = {}
+    largest_tag = nil
+    tags.order(last_captured_byte_size: :DESC).each do |tag| 
+      largest_tag ||= tag
+      if individual_third_party_pie_chart_data[tag.try_friendly_name]
+        individual_third_party_pie_chart_data["#{tag.try_friendly_name} (#{tag.url_based_on_preferences})"] = tag.last_captured_byte_size
+      else
+        individual_third_party_pie_chart_data[tag.try_friendly_name] = tag.last_captured_byte_size
+      end
+    end
+    global_js_pie_chart_data = { 
       "First Party Javascript" => url_crawl.num_first_party_bytes,
       "Third Party Javascript" => url_crawl.num_third_party_bytes 
     }
@@ -18,32 +29,10 @@ class DomainAuditsController < LoggedInController
       locals: { 
         domain_audit: current_domain_audit, 
         url_crawl: url_crawl,
+        largest_tag: largest_tag,
         num_third_party_tags: current_domain.tags.count,
-        pie_chart_data: pie_chart_data
-      }
-    )
-  end
-
-  def individual_bytes_breakdown
-    tags = current_domain.tags
-    bar_chart_data = {}
-    largest_tag = nil
-    tags.order(last_captured_byte_size: :DESC).each do |tag| 
-      largest_tag ||= tag
-      if bar_chart_data[tag.try_friendly_name]
-        bar_chart_data["#{tag.try_friendly_name} (#{tag.url_based_on_preferences})"] = tag.last_captured_byte_size
-      else
-        bar_chart_data[tag.try_friendly_name] = tag.last_captured_byte_size
-      end
-    end
-    render turbo_stream: turbo_stream.replace(
-      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
-      partial: 'domain_audits/individual_bytes_breakdown',
-      locals: { 
-        domain_audit: current_domain_audit, 
-        url_crawl: current_domain_audit.url_crawl,
-        bar_chart_data: bar_chart_data,
-        largest_tag: largest_tag
+        global_js_pie_chart_data: global_js_pie_chart_data,
+        individual_third_party_pie_chart_data: individual_third_party_pie_chart_data
       }
     )
   end
@@ -76,6 +65,16 @@ class DomainAuditsController < LoggedInController
         }
       )
     end
+  end
+
+  def speed_index
+    render turbo_stream: turbo_stream.replace(
+      params[:frame_to_replace] || "domain_audit_#{current_domain_audit.uid}_results_component",
+      partial: 'domain_audits/speed_index',
+      locals: {
+        average_delta_performance_audit_speed_index: current_domain_audit.average_delta_performance_audit.speed_index_delta
+      }
+    )
   end
 
   def puppeteer_recording
@@ -125,6 +124,7 @@ class DomainAuditsController < LoggedInController
       set_current_domain_audit(domain_audit)
       redirect_to third_party_impact_path
     else
+      @domain_audit_url = domain_url
       @domain_audit_error = domain.errors.full_messages.first
       render 'welcome/index', layout: 'logged_out_layout', status: :unprocessable_entity
     end

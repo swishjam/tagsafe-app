@@ -31,6 +31,8 @@ class PerformanceAudit < ApplicationRecord
 
   validate :belongs_to_audit_or_domain_audit
 
+  after_create -> { update_performance_audit_progression_indicators(audit: audit, now: true) unless is_for_domain_audit? }
+
   def self.TYPES
     %w[
       AveragePerformanceAuditWithoutTag
@@ -53,8 +55,8 @@ class PerformanceAudit < ApplicationRecord
   def completed!
     # touch(:completed_at)
     update!(completed_at: Time.now, seconds_to_complete: Time.now - created_at)
-    if !is_for_domain_audit?
-      update_performance_audit_completion_indicator(audit: audit, now: true)
+    unless is_for_domain_audit?
+      update_performance_audit_progression_indicators(audit: audit, now: true)
     end
   end
 

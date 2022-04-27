@@ -39,7 +39,10 @@ module PerformanceAuditManager
         page_trace_s3_url: performance_audit_result.page_trace_s3_url,
         speed_index: performance_audit_result.speed_index_results.speed_index,
         perceptual_speed_index: performance_audit_result.speed_index_results.perceptual_speed_index,
-        main_thread_execution_tag_responsible_for: performance_audit_result.main_thread_results.total_execution_ms_for_tag,
+        main_thread_execution_tag_responsible_for: performance_audit_result.main_thread_results.total_main_thread_execution_ms_for_tag,
+        main_thread_blocking_execution_tag_responsible_for: performance_audit_result.main_thread_results.total_main_thread_blocking_execution_ms_for_tag,
+        entire_main_thread_execution_ms: performance_audit_result.main_thread_results.entire_main_thread_execution_ms,
+        entire_main_thread_blocking_executions_ms: performance_audit_result.main_thread_results.entire_main_thread_blocking_executions_ms,
         ms_until_first_visual_change: performance_audit_result.speed_index_results.ms_until_first_visual_change,
         ms_until_last_visual_change: performance_audit_result.speed_index_results.ms_until_last_visual_change,
         bytes: performance_audit_result.bytes
@@ -62,9 +65,9 @@ module PerformanceAuditManager
     def capture_long_tasks_if_necessary!
       performance_audit_result.main_thread_results.tags_long_tasks.each do |long_task_result|
         LongTask.create!(
-          tag: @individual_performance_audit.audit.tag,
-          tag_version: @individual_performance_audit.audit.tag_version,
-          performance_audit: @individual_performance_audit,
+          tag: individual_performance_audit.is_for_domain_audit? ? nil : individual_performance_audit.audit.tag,
+          tag_version: individual_performance_audit.is_for_domain_audit? ? nil : individual_performance_audit.audit.tag_version,
+          performance_audit: individual_performance_audit,
           task_type: long_task_result.task_type,
           start_time: long_task_result.start_time,
           end_time: long_task_result.end_time,

@@ -44,9 +44,12 @@ module PerformanceAuditManager
         script_duration_delta: delta_between(:script_duration),
         task_duration_delta: delta_between(:task_duration),
         layout_duration_delta: delta_between(:layout_duration),
+        main_thread_execution_tag_responsible_for_delta: delta_between(:main_thread_execution_tag_responsible_for, optional: true),
+        main_thread_blocking_execution_tag_responsible_for_delta: delta_between(:main_thread_blocking_execution_tag_responsible_for, optional: true),
+        entire_main_thread_execution_ms_delta: delta_between(:entire_main_thread_execution_ms, optional: true),
+        entire_main_thread_blocking_executions_ms_delta: delta_between(:entire_main_thread_blocking_executions_ms, optional: true),
         speed_index_delta: delta_between(:speed_index, optional: true),
         perceptual_speed_index_delta: delta_between(:perceptual_speed_index, optional: true),
-        main_thread_execution_tag_responsible_for_delta: delta_between(:main_thread_execution_tag_responsible_for, optional: true),
         ms_until_first_visual_change_delta: delta_between(:ms_until_first_visual_change, optional: true),
         ms_until_last_visual_change_delta: delta_between(:ms_until_last_visual_change, optional: true)
       }

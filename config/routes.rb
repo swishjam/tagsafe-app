@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get :global_bytes_breakdown
       get :individual_bytes_breakdown
       get :performance_impact
+      get :speed_index
       get :puppeteer_recording
       get :tag_list
       get :complete

@@ -1,15 +1,23 @@
+<% if local_assigns[:stream_progression_indicators] %>
+  <%= turbo_stream_from "audit_#{audit.uid}_performance_audit_progression_indicators" %>
+<% end %>
+
 <%= turbo_frame_tag "audit_#{audit.uid}_pending_performance_audit_pill" do %>
-  <!-- <#% percent_complete = audit.individual_performance_audit_percent_complete %> !-->
-  <!-- <div id="audit-<%=audit.uid %>-performance-audit-progress" class='tagsafe-pill loading-indicator <#%= percent_complete.zero? ? 'pulsate-border' : nil%> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' !-->
-  <!-- <div id="audit-<#%=audit.uid %>-performance-audit-progress" class='tagsafe-pill loading-indicator <#%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' !-->
-  <div id="audit-<%=audit.uid%>-performance-audit-progress" class='tagsafe-pill tagsafe-primary-purple' class="<%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>"
-        data-controller='tooltip'
-        data-bs-toggle='tooltip'
-        title="<%= audit.delta_performance_audits.count %> performance audits completed, <%= (audit.performance_audits.pending.count / 2).round %> are in flight. Continuing until confidence threshold is reached...">
-        <!-- title="Performance audit is <#%= percent_complete.to_i %>% complete."> !-->
-      <!-- <div class='fill' style='height: <#%= percent_complete %>%'></div> !-->
-      <!-- <div class='fill'></div> !-->
+  <div id="audit-<%=audit.uid%>-performance-audit-progress" class='tagsafe-pill tagsafe-primary-purple' class="<%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>">
       <%= display_loading_icon size: :tiny %>
       <span class='text'>Running</span>
+  </div>
+<% end %>
+
+<% if local_assigns[:stream_progression_indicators] %>
+  <div class='performance-audit-progression-indicators-container'>
+    <% audit.individual_performance_audits.completed_successfully.each do |perf_audit| %>
+      <div class='performance-audit-progression-indicator completed'>
+      </div>
+    <% end %>
+    <% audit.individual_performance_audits.pending.each do |perf_audit| %>
+      <div class='performance-audit-progression-indicator pending'>
+      </div>
+    <% end %>
   </div>
 <% end %>

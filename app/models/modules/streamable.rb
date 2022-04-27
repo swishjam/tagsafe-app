@@ -165,12 +165,12 @@ module Streamable
       )
     end
 
-    def update_performance_audit_completion_indicator(audit:, now: false)
+    def update_performance_audit_progression_indicators(audit:, now: false)
       stream_replace!(
         now: now,
-        stream: "audit_#{audit.uid}_pending_performance_audit_pill_stream",
-        target: "audit_#{audit.uid}_pending_performance_audit_pill",
-        partial: "audits/pending_performance_audit_pill",
+        stream: "audit_#{audit.uid}_details_view_stream",
+        target: "audit_#{audit.uid}_performance_audit_progression_indicators",
+        partial: "individual_performance_audits/progression_indicators",
         locals: { audit: audit }
       )
     end

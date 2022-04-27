@@ -8,6 +8,9 @@ class TagsafeScorer
     speed_index_delta:,
     perceptual_speed_index_delta:,
     main_thread_execution_tag_responsible_for_delta:,
+    main_thread_blocking_execution_tag_responsible_for_delta:, # not yet available in PerformanceAuditCalculator
+    entire_main_thread_execution_ms_delta:, # not yet available in PerformanceAuditCalculator
+    entire_main_thread_blocking_executions_ms_delta:, # not yet available in PerformanceAuditCalculator
     ms_until_first_visual_change_delta:,
     ms_until_last_visual_change_delta:,
     task_duration_delta:, 

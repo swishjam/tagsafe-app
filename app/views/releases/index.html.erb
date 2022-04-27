@@ -37,6 +37,14 @@
   ] %>
 </div>
 
+<% if @tag.release_monitoring_disabled? %>
+  <div class='container-fluid'>
+    <div class="alert alert-danger mt-3 text-center" role="alert">
+      <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', edit_tag_path(@tag) %>.
+    </div>
+  </div>
+<% end %>
+
 <%= turbo_frame_tag "#{@tag.uid}_release_chart", src: release_chart_releases_path(tag_uid: @tag.uid) do %>
   <div class='tagsafe-container text-center p-5'>
     <%= display_loading_icon %>

@@ -25,7 +25,7 @@ module StepFunctionInvoker
         allow_all_third_party_tags: run_performance_audit_with_all_tags_enabled?,
         options: {
           enable_screen_recording: true,
-          strip_all_images: true,
+          strip_all_images: false,
           throw_error_if_dom_complete_is_zero: true,
           include_page_load_resources: false,
           include_page_tracing: true,

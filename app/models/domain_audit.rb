@@ -6,7 +6,7 @@ class DomainAudit < ApplicationRecord
   belongs_to :page_url
   belongs_to :url_crawl
   
-  has_many :performance_audits
+  has_many :performance_audits, dependent: :destroy
   has_many :individual_performance_audits_with_tags, class_name: IndividualPerformanceAuditWithTag.to_s
   has_many :individual_performance_audits_without_tags, class_name: IndividualPerformanceAuditWithoutTag.to_s
   has_one :median_individual_performance_audit_with_tags, class_name: MedianIndividualPerformanceAuditWithTag.to_s

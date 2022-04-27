@@ -7,10 +7,7 @@
   <div class='domain-audit-breakdown-container container-fluid'>
     <div class='col-12'>
       <% if domain_audit.url_crawl.pending? %>
-        <div class='text-center p-5'> 
-          <h4>Scanning <%= domain_audit.domain.url %> and generating performance measurement...</h4>
-          <%= display_loading_icon %>
-        </div>
+        <%= render 'domain_audits/pending', domain_audit: domain_audit %>
       <% elsif domain_audit.url_crawl.failed? %>
         <div class='text-center p-5'>
           <h4>We seem to be having some trouble running Tagsafe audits on <%= domain_audit.page_url.full_url %>. Please reach out to us at <a href='mailto:help@tagsafe.io'>help@tagsafe.io</a> and we'd be happy to work with you to enable successful Tagsafe audits on your site.</h4>

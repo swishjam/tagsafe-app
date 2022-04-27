@@ -12,21 +12,53 @@
         <div class='text-center'>
           <h4>Performance audit failed:</h4>
           <p><%= audit.performance_audit_error_message %></p>
-          <h5>Errors:</h5>
-          <% audit.individual_performance_audits.failed.each do |perf_audit| %>
-            <p><%= perf_audit.error_message %></p>
-          <% end %>
         </div>
       <% elsif audit.performance_audit_pending? %>
         <div class='text-center'>
           <h4>Performance audit is currently running.</h4>
-          <!-- <#%= display_loading_icon type: :grow %> !-->
           <div class='m-auto text-center w-fit'>
-            <%= turbo_stream_from "audit_#{audit.uid}_pending_performance_audit_pill_stream" %>
-            <%= render 'audits/pending_performance_audit_pill', audit: audit %>
+            <span class='tagsafe-pill tagsafe-primary-purple <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+              <%= display_loading_icon size: :tiny %>
+              <span class='text'>Running</span>
+            </span>
+            <%= render 'individual_performance_audits/progression_indicators', audit: audit %>
           </div>
         </div>
       <% elsif audit.preferred_delta_performance_audit %>
+        <div class='d-flex justify-content-evenly mb-4'>
+          <div class='meta-info-pill'>
+            <div class='title'>
+              Execution Reason
+            </div>
+            <div class='value'>
+              <%= audit.execution_reason.name %>
+            </div>
+          </div>
+          <div class='meta-info-pill'>
+            <div class='title'>
+              Audited Page URL
+            </div>
+            <div class='value'>
+              <%= audit.page_url.full_url %>
+            </div>
+          </div>
+          <div class='meta-info-pill'>
+            <div class='title'>
+              Performance Audits Ran
+            </div>
+            <div class='value'>
+              <%= audit.delta_performance_audits.not_outliers.count %>
+            </div>
+          </div>
+          <div class='meta-info-pill' data-controller='tooltip' data-bs-toggle='tooltip' title="Tagsafe is 95% confident the Tagsafe score is within <%= audit.tagsafe_score_confidence_range %> points of the generated Tagsafe score, which is within your required Tagsafe Score confidence range defined in your settings.">
+            <div class='title'>
+              Tagsafe Confidence
+            </div>
+            <div class='value <%= audit.tagsafe_score_is_confident ? 'green' : 'orange'%>'>
+              <%= audit.tagsafe_score_confidence_range %>
+            </div>
+          </div>
+        </div>
         <div data-controller='audit-results-expander'>
           <div class="row">
             <div class='tag-safe-score-container text-center col-12' style='margin-bottom: 15px'>

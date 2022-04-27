@@ -1,11 +1,11 @@
 <%= turbo_frame_tag "domain_audit_#{domain_audit.uid}_performance_impact", class: 'results-component' do %>
   <%= render 'domain_audits/progress_indicators', 
                                       domain_audit: domain_audit, 
-                                      current_view_num: 3,
-                                      back_button_url: individual_bytes_breakdown_domain_audit_path(domain_audit), 
-                                      back_button_text: 'Size of Tags', 
-                                      next_button_url: domain_audit.pending? ? nil : domain_audit.has_puppeteer_recording? ? puppeteer_recording_domain_audit_path(domain_audit) : tag_list_domain_audit_path(domain_audit),
-                                      next_button_text: domain_audit.pending? ? nil : domain_audit.has_puppeteer_recording? ? 'Watch Page Load Playback' : 'Individual Tag Impact',
+                                      current_view_num: 2,
+                                      back_button_url: global_bytes_breakdown_domain_audit_path(domain_audit), 
+                                      back_button_text: 'JS Breakdown', 
+                                      next_button_url: domain_audit.pending? ? nil : speed_index_domain_audit_path(domain_audit),
+                                      next_button_text: 'Speed Index',
                                       frame_to_replace: "domain_audit_#{domain_audit.uid}_performance_impact" %>
   <div class='loading-indicator'>
     <%= display_loading_icon %>
@@ -25,6 +25,21 @@
             time would be <%= (100 / (100.0 - most_negative_performance_metric.percent_responsible)).round(2) %> times quicker.
           <% end %>
         </p>
+      </div>
+      <div class='row align-items-end'>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'Third Party Main Thread JS Execution', 
+                      metric: average_delta_performance_audit.main_thread_execution_tag_responsible_for_delta, 
+                      metric_percent: ((average_delta_performance_audit.main_thread_execution_tag_responsible_for_delta/average_delta_performance_audit.entire_main_thread_execution_ms_delta) * 100).round(2),
+                      metric_percent_title: "Main Thread Execution",
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:main_thread_execution_tag_responsible_for]
+        %>
+        <%= render 'domain_audits/performance_impact_row',
+                      title: 'Speed Index', 
+                      metric: average_delta_performance_audit.speed_index_delta,
+                      metric_percent: average_delta_performance_audit.speed_index_percentage,
+                      metric_help_description: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:speed_index]
+        %>
       </div>
       <div class='row align-items-end'>
         <%= render 'domain_audits/performance_impact_row',
