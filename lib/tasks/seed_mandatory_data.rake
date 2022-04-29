@@ -54,6 +54,6 @@ namespace :seed do
     end
 
     puts "Syncing EventBridge rules from AWS..."
-    LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(TagCheckRegion.selectable)
+    # LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(TagCheckRegion.selectable)
   end
 end

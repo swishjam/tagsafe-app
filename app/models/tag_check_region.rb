@@ -5,7 +5,7 @@ class TagCheckRegion < ApplicationRecord
   has_many :tags, through: :tag_check_regions_to_check
 
   scope :not_enabled_on_tag, -> (tag) { where.not(id: tag.tag_check_regions.collect(&:id)) }
-  scope :selectable, -> { where(aws_name: self.class::SELECTABLE_AWS_REGION_NAMES) }
+  scope :selectable, -> { where(aws_name: TagCheckRegion::SELECTABLE_AWS_REGION_NAMES) }
 
   SELECTABLE_AWS_REGION_NAMES = %i[
     us-east-1 
