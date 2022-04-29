@@ -21,6 +21,6 @@ class UrlCrawlsController < LoggedInController
 
   def create
     current_domain.crawl_and_capture_domains_tags
-    respond_with_notification(message: "Syncing #{current_domain.url}'s third party tags...")
+    respond_with_notification(message: "Syncing #{current_domain.url}'s third party tags.")
   end
 end

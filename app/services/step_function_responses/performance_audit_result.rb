@@ -3,7 +3,7 @@ module StepFunctionResponses
     def process_results!
       PerformanceAuditManager::ResultsCapturer.new(self).capture_results!
       try_to_calculate_delta_results_and_run_next_set_of_audits!
-      TagsafeAws::S3.delete_object_by_s3_url(response_payload['performance_audit_results_s3_url'])
+      TagsafeAws::S3.delete_object_by_s3_url(response_payload['performance_audit_results_s3_url']) unless response_payload['performance_audit_results_s3_url'].nil?
     end
 
     def parsed_results

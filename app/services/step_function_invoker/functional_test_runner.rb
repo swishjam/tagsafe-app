@@ -1,6 +1,6 @@
 module StepFunctionInvoker
   class FunctionalTestRunner < Base
-    self.step_function_arn = "arn:aws:states:us-east-1:407342930315:stateMachine:#{Rails.env}-run-functional-test"
+    self.step_function_name = 'run-functional-test'
     self.results_consumer_klass = StepFunctionResponses::TestRunResult
 
     attr_accessor :test_run

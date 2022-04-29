@@ -9,10 +9,10 @@ default: &default
 development:
   <<: *default
   # database: tag_safe_development
-  # host: ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
-  # username: liumxww8qzltxgf4
-  # password: btxo1zn78wy2uqyd
-  # database: q2mn5mg2xvmqq5fk
+  host: ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
+  username: liumxww8qzltxgf4
+  password: btxo1zn78wy2uqyd
+  database: q2mn5mg2xvmqq5fk
 
 test:
   <<: *default

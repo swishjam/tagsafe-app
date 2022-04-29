@@ -55,7 +55,9 @@ body:not(.with-fixed-top-banner) .navigation {
   transition: 500ms margin-left;
   width: 15vw;
   position: fixed;
-  background-color: $tagsafe-secondary;
+  // background-color: $tagsafe-secondary;
+  background-color: #eeeeee;
+  border-right: 1px solid $soft-grey-border;
   color: $dark-grey-text;
   height: 100vh;
   padding: 10px;
@@ -101,21 +103,24 @@ body:not(.with-fixed-top-banner) .left-hand-navigation-toggle {
 
 .left-hand-navigation-toggle {
   &.show-btn {
-    left: 1vw;
+    left: calc(1vw - 1px);
     &:hover i {
       margin-left: 1px;
     }
   }
   &.hide-btn {
-    left: 15vw;
+    left: calc(15vw - 1px);
     &:hover i {
       margin-left: -1px;
     }
   }
+  border: 1px solid $soft-grey-border;
+  border-left: 0;
   transition: 100ms left;
   bottom: 0;
   position: fixed;
-  background-color: $tagsafe-secondary;
+  // background-color: $tagsafe-secondary;
+  background-color: #eeeeee;
   padding: 5px;
   cursor: pointer;
 }

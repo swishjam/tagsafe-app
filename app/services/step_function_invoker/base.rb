@@ -1,9 +1,15 @@
 module StepFunctionInvoker
   class Base
     LAMBDA_ENV = ENV['LAMBDA_ENVIRONMENT'] || Rails.env
+    LAMBDA_REGION = ENV['LAMBDA_REGION'] || 'us-east-1'
+    ENV_AWS_ARN_ID_DICTIONARY = {
+      'collin-dev' => '328640749123',
+      'staging' => '538833274413',
+      'production' => '407342930315'
+    }
 
     class << self
-      attr_accessor :step_function_arn, :results_consumer_klass, :results_consumer_job_queue, :has_no_executed_step_function
+      attr_accessor :step_function_name, :results_consumer_klass, :results_consumer_job_queue, :has_no_executed_step_function
     end
 
     def send!
@@ -20,12 +26,17 @@ module StepFunctionInvoker
     def invoke_function!(async:)
       create_executed_step_function!
       response = TagsafeAws::StateMachine.execute(
-        arn: self.class.step_function_arn,
+        arn: step_function_arn,
         name: unique_execution_name,
         input: request_payload_with_defaults.merge!(executed_step_function_uid: executed_step_function&.uid || 'none')
       )
       update_executed_step_function_with_execution_arn(response)
       response
+    end
+
+    def step_function_arn
+      # "arn:aws:states:us-east-1:407342930315:stateMachine:production-run-performance-audit"
+      "arn:aws:states:#{self.class::LAMBDA_REGION}:#{self.class::ENV_AWS_ARN_ID_DICTIONARY[self.class::LAMBDA_ENV]}:stateMachine:#{self.class::LAMBDA_ENV}-#{self.class.step_function_name}"
     end
 
     def receiver_job_queue
