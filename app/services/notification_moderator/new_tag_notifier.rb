@@ -10,9 +10,9 @@ module NotificationModerator
     end
 
     def notify_email_subscribers
-      @tag.domain.users.each do |user|
-        TagsafeMailer.send_new_tag_detected_email(user, @tag)
-      end
+      # @tag.domain.users.each do |user|
+        # TagsafeMailer.send_new_tag_detected_email(user, @tag)
+      # end
     end
 
     def notify_slack_subscribers

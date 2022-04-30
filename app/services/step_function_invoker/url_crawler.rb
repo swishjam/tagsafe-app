@@ -1,6 +1,6 @@
 module StepFunctionInvoker
   class UrlCrawler < Base
-    self.step_function_arn = "arn:aws:states:us-east-1:407342930315:stateMachine:#{Rails.env}-crawl-url-for-third-party-tags"
+    self.step_function_name = 'crawl-url-for-third-party-tags'
     self.results_consumer_klass = StepFunctionResponses::UrlCrawlResult
 
     attr_accessor :url_crawl

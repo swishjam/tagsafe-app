@@ -1,6 +1,6 @@
 module StepFunctionInvoker
   class DomainAuditer < Base
-    self.step_function_arn = "arn:aws:states:us-east-1:407342930315:stateMachine:#{Rails.env}-run-performance-audit"
+    self.step_function_name = 'run-performance-audit'
     self.results_consumer_klass = StepFunctionResponses::DomainAuditResult
     self.results_consumer_job_queue = TagsafeQueue.CRITICAL
 

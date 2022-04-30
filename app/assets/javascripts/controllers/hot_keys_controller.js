@@ -6,13 +6,12 @@ export default class extends Controller {
   action = this.element.getAttribute('data-action');
   keyCode = parseInt(this.element.getAttribute('data-key-code'));
 
-  connect() {
+  connect = () => {
     this._setKeydownListener();
-    this._keyupListener();
   }
 
-  disconnect() {
-    if(this.windowListener) window.removeEventListener(this.windowListener);
+  disconnect = () => {
+    window.removeEventListener('keydown', this._onKeyDown);
   }
 
   _triggerHotKeyAction = () => {
@@ -34,20 +33,11 @@ export default class extends Controller {
   }
 
   _setKeydownListener = () => {
-    this.windowListener = window.addEventListener('keydown', e => {
-      if([91, 93].includes(e.keyCode)) {
-        this.commandIsKeyedDown = true;
-      } else if(this.commandIsKeyedDown && e.keyCode === this.keyCode){
+    window.addEventListener('keydown', this._onKeyDown = e => {
+      const commandKeyIsPressed = e.metaKey;
+      if(commandKeyIsPressed && e.keyCode === this.keyCode){
         e.preventDefault();
         this._triggerHotKeyAction();
-      }
-    })
-  }
-
-  _keyupListener = () => {
-    window.addEventListener('keyup', e => {
-      if([91, 93].includes(e.keyCode)) {
-        this.commandIsKeyedDown = false;
       }
     })
   }

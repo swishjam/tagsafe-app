@@ -10,7 +10,7 @@ namespace :seed do
     end
 
     puts "Creating Execution Reasons."
-    execution_reasons =  ['Tagsafe Provided', 'Manual', 'Scheduled', 'New Release', 'Activated Tag', 'Initial Audit']
+    execution_reasons =  ['Tagsafe Provided', 'Manual', 'Scheduled', 'New Release', 'Activated Release Monitoring', 'Initial Audit']
     execution_reasons.each do |name|
       unless ExecutionReason.find_by(name: name)
         puts "Creating #{name} Execution Reason."
@@ -54,6 +54,6 @@ namespace :seed do
     end
 
     puts "Syncing EventBridge rules from AWS..."
-    LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(TagCheckRegion.selectable)
+    # LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(TagCheckRegion.selectable)
   end
 end

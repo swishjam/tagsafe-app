@@ -11,6 +11,8 @@ class TagsafeAws
 
       def delete_object_by_s3_url(s3_url)
         client.delete_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+      rescue => e
+        puts "CANNOT DELETE #{s3_url}: #{e.message}"
       end
 
       def url_to_bucket(s3_url)

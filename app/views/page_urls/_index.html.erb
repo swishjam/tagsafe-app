@@ -14,7 +14,7 @@
             <%= form_with url: create_or_update_domain_page_urls_path(domain), class: 'd-inline' do |f| %>
               <%= f.hidden_field :full_url, value: page_url.full_url %>
               <%= f.hidden_field :should_scan_for_tags, value: false %>
-              <span class='spinnable-remove-button p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>
+              <span class='tagsafe-circular-btn tiny p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>
             <% end %>
           </div>
         <% end %>

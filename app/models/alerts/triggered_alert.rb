@@ -1,4 +1,5 @@
 class TriggeredAlert < ApplicationRecord
+  uid_prefix 'alert'
   belongs_to :initiating_record, polymorphic: true
   belongs_to :tag
   has_many :triggered_alert_domain_users, dependent: :destroy

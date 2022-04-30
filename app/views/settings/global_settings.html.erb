@@ -163,11 +163,20 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
-        <div class='d-flex'>
-          <%= f.number_field :perf_audit_required_tagsafe_score_range, class: 'form-control' %>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
+      <% if current_domain.has_payment_method_on_file? %>
+        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+          <div class='d-flex'>
+            <%= f.number_field :perf_audit_required_tagsafe_score_range, class: 'form-control' %>
+            <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+          </div>
+        <% end %>
+      <% else %>
+        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Upgrade your plan in order to customize Tagsafe Score confidence range.">
+          <div class='d-flex'>
+            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_required_tagsafe_score_range %>' disabled>
+            <button class='tagsafe-btn square' disabled>Update</button>
+          </div>
+        </form>
       <% end %>
     </div>
   </div>
@@ -217,11 +226,20 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
-        <div class='d-flex'>
-          <%= f.number_field :perf_audit_batch_size, class: 'form-control' %>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
+      <% if current_domain.has_payment_method_on_file? %>
+        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+          <div class='d-flex'>
+            <%= f.number_field :perf_audit_batch_size, class: 'form-control' %>
+            <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+          </div>
+        <% end %>
+      <% else %>
+        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Upgrade your plan in order to customize number of parallel performance audits.">
+          <div class='d-flex'>
+            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_batch_size %>' disabled>
+            <button class='tagsafe-btn square' disabled>Update</button>
+          </div>
+        </form>
       <% end %>
     </div>
   </div>

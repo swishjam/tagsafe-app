@@ -51,6 +51,7 @@ class UrlCrawl < ApplicationRecord
       has_content: has_content,
       last_seen_in_url_crawl_at: Time.now,
       last_captured_byte_size: byte_size,
+      urls_to_audit_attributes: [{ page_url: page_url }],
       tag_preferences_attributes: {
         tag_check_minute_interval: tag_check_minute_interval,
         is_allowed_third_party_tag: is_allowed_third_party_tag,
@@ -59,9 +60,7 @@ class UrlCrawl < ApplicationRecord
         consider_query_param_changes_new_tag: consider_query_param_changes_new_tag
       }
     )
-    url_to_audit = tag.urls_to_audit.create(page_url: page_url)
     # url_to_audit.generate_tagsafe_hosted_site_now! if Flag.flag_is_true(domain.organization, 'tagsafe_hosted_site_enabled')
-    # tag.run_tag_check_later!
   rescue => e
     Rails.logger.error "Tried adding #{tag_url} to domain #{domain.url} but failed to save. Error: #{e.inspect}"
   end
