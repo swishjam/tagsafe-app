@@ -49,8 +49,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email
-    # TODO: need to update SendGrid template
-    # TagsafeMailer.send_welcome_email(self)
+    TagsafeEmail::Welcome.new(self).send!
   end
 
   def can_remove_user_from_domain?(domain)

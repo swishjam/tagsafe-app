@@ -208,9 +208,6 @@ class Audit < ApplicationRecord
         partial_locals: { audit: self }
       )
     end
-    if execution_reason != ExecutionReason.INITIAL_AUDIT
-      NotificationModerator::AuditNotifier.new(self).notify!
-    end
   end
 
   def enqueue_configured_audit_types

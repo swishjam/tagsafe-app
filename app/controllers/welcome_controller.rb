@@ -6,13 +6,4 @@ class WelcomeController < LoggedOutController
     @include_new_relic_tag = ENV['INCLUDE_NEW_RELIC_TAG_DEMO'] == 'true'
     @include_amplitude_tag = ENV['INCLUDE_AMPLITUDE_TAG_DEMO'] == 'true'
   end
-
-  def learn_more
-    TagsafeMailer.generic_email(
-      to: 'collin@tagsafe.io', 
-      subject: 'User interested', 
-      body: "#{params[:email]} is interested in TagSafe."
-    )
-    head :ok
-  end
 end

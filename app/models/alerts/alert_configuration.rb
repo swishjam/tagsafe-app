@@ -9,12 +9,12 @@ class AlertConfiguration < ApplicationRecord
 
   def self.create_default_for(
     domain_user,
-    alert_on_new_tags: true,
-    alert_on_removed_tags: true,
-    alert_on_new_tag_versions: true,
-    alert_on_new_tag_version_audit_completions: true,
-    alert_on_slow_tag_response_times: true,
-    alert_on_tagsafe_score_exceeded_thresholds: true,
+    alert_on_new_tags: false,
+    alert_on_removed_tags: false,
+    alert_on_new_tag_versions: false,
+    alert_on_new_tag_version_audit_completions: false,
+    alert_on_slow_tag_response_times: false,
+    alert_on_tagsafe_score_exceeded_thresholds: false,
     tagsafe_score_threshold: 75.0,
     tagsafe_score_percent_drop_threshold: 15.0,
     tag_slow_response_time_ms_threshold: 250,

@@ -4,4 +4,6 @@ lambda_results: INTERVAL=0.1 QUEUE=lambda_results bundle exec rake resque:work
 worker: INTERVAL=0.1 QUEUE=critical,normal,low,default bundle exec rake resque:work
 resque_scheduler: bundle exec rake resque:scheduler
 
+release: bundle exec run rake db:migrate
+
 # dev_worker: INTERVAL=0.1 QUEUE=critical,lambda_results,normal,low,default bundle exec rake resque:work

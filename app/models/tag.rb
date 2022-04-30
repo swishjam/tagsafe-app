@@ -21,6 +21,7 @@ class Tag < ApplicationRecord
   has_many :tag_check_regions_to_check, dependent: :destroy, class_name: TagCheckRegionToCheck.to_s
   has_many :tag_check_regions, through: :tag_check_regions_to_check
   has_many :urls_to_audit, class_name: UrlToAudit.to_s, dependent: :destroy
+  accepts_nested_attributes_for :urls_to_audit
   has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
   has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy

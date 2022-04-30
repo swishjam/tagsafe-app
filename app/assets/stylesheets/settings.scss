@@ -22,4 +22,60 @@ body.settings, body.tags.edit, body.alert_configurations {
     font-weight: 400;
     font-size: 12px;
   }
+  .subscription-price-container {
+    .subscription-price-content {
+      height: 100%;
+      border-radius: 10px;
+      border: 2px solid $tagsafe-primary;
+      padding: 10px;
+      .subscription-price-title {
+        font-size: 26px;
+        text-align: center;
+        color: $tagsafe-primary;
+        font-weight: 800;
+      }
+      .subscription-price-features {
+        border-top: 1px solid $tagsafe-primary;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .subscription-price-feature {
+        display: block;
+        margin: 10px;
+        font-size: 18px;
+        cursor: default;
+        width: fit-content;
+        &[data-controller=tooltip] {
+          text-decoration: underline;
+          text-decoration-style: dotted;
+        }
+        i {
+          font-size: 12px;
+          color: $tagsafe-primary;
+        }
+      }
+    }
+    .pricing-details-container {
+      border-top: 1px solid $tagsafe-primary;
+      padding-top: 10px;
+      .pricing-detail {
+        margin: 5px;
+        .header {
+          font-size: 24px;
+          font-weight: 900;
+          display: block;
+        }
+        .sub-header {
+          font-size: 16px;
+          color: $dark-grey-text;
+          display: block;
+        }
+      }
+    }
+    .upgrade-button-container {
+      text-align: center;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+  }
 }

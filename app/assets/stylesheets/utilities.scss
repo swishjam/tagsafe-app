@@ -273,6 +273,10 @@ a.no-decoration {
   background-color: $tagsafe-primary;
   color: white;
   border: $tagsafe-primary;
+  &.large {
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+  }
   &:hover, &:focus, &:active {
     -webkit-transform: translateY(-2px);
     transform: translateY(-2px);
@@ -288,6 +292,11 @@ a.no-decoration {
     &:hover {
       color: $dark-grey-text;
     }
+  }
+  &:disabled {
+    background: grey;
+    cursor: not-allowed;
+    border: grey;
   }
 }
 

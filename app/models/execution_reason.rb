@@ -1,6 +1,6 @@
 class ExecutionReason < ApplicationRecord
   scope :free, -> { where(name: ['Manual', 'Tagsafe Provided']) }
-  scope :billable, -> { where(name: ['Activated Tag', 'Scheduled', 'New Release']) }
+  scope :billable, -> { where(name: ['Activated Release Monitoring', 'Scheduled', 'New Release']) }
   scope :automated, -> { billable }
 
   def self.INITIAL_AUDIT
@@ -11,8 +11,8 @@ class ExecutionReason < ApplicationRecord
     @tagsafe_provided ||= find_by!(name: 'Tagsafe Provided')
   end
 
-  def self.ACTIVATED_TAG
-    @reactivated_tag ||= find_by!(name: 'Activated Tag')
+  def self.RELEASE_MONITORING_ACTIVATED
+    @release_monitoring_activated ||= find_by!(name: 'Activated Release Monitoring')
   end
 
   def self.MANUAL

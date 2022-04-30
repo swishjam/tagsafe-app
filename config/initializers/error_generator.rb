@@ -53,3 +53,7 @@ end
 class TagsafeAwsEventBridgeRuleError
   class DoesNotExist < StandardError; end;
 end
+
+class TagsafeEmailError
+  class Invalid < StandardError; end;
+end

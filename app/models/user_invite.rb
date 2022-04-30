@@ -47,7 +47,7 @@ class UserInvite < ApplicationRecord
   end
   
   def send_invite!
-    TagsafeMailer.send_user_invite_email(self)
+    TagsafeEmail::Invitation.new(self).send!
   end
 
   def re_render_pending_invite_list
