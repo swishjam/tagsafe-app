@@ -2,20 +2,17 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  # username: root
-  # password: password
-  # host: localhost
 
 development:
   <<: *default
   # database: tag_safe_development
-  host: ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
-  username: liumxww8qzltxgf4
-  password: btxo1zn78wy2uqyd
-  database: q2mn5mg2xvmqq5fk
+  url: mysql2://liumxww8qzltxgf4:btxo1zn78wy2uqyd@ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/q2mn5mg2xvmqq5fk
 
 test:
   <<: *default
+  username: root
+  password: password
+  host: localhost
   database: tag_safe_test
 
 staging:

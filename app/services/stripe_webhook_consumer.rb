@@ -1,5 +1,6 @@
 class StripeWebhookConsumer
   EVENT_TYPE_METHOD_DICTIONARY = {
+    :'customer.subscription.trial_will_end' => :'free_trial_will_end',
     :'invoice.marked_uncollectible' => :invoice_marked_uncollectible,
     :'invoice.payment_failed' => :invoice_payment_failed,
     :'invoice.payment_succeeded' => :invoice_payment_succeeded,
@@ -8,20 +9,36 @@ class StripeWebhookConsumer
     :'customer.subscription.updated' => :customer_subscription_updated
   }
 
+  attr_accessor :stripe_event
+
   def initialize(stripe_event)
     @stripe_event = stripe_event
   end
 
   def process_webhook_event!
-    method = EVENT_TYPE_METHOD_DICTIONARY[@stripe_event['type'].to_sym]
+    method = EVENT_TYPE_METHOD_DICTIONARY[stripe_event['type'].to_sym]
     if method
       send(method)
     else
-      Rails.logger.warn "Received unknown Stripe Event type of #{@stripe_event['type']}"
+      Rails.logger.warn "Received unknown Stripe Event type of #{stripe_event['type']}"
     end
   end
 
   private
+  
+  # Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using trial_end=now).
+  def free_trial_will_end
+    Rails.logger.info "StripeWebhookConsumer free trial ending soon!"
+    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'id'))
+    # because we have two subscriptions at all times, assume they each have the same free trial period
+    # use the UsageBasedSubscriptionPlan because that is gauranteed to be the Subscription with the lowest cadence (monthly)
+    # and to avoid sending two emails each time.
+    return if subscription_plan.is_a?(SaasSubscriptionPlan)
+    # todo: only send to UserAdmins
+    subscription_plan.domain.users.each do |user|
+      TagsafeEmail::FreeTrialWillEnd.new(user, subscription_plan).send!
+    end
+  end
 
   # Occurs whenever an invoice payment attempt fails, due either to a declined payment or to the lack of a stored payment method.
   def invoice_payment_failed
@@ -51,16 +68,10 @@ class StripeWebhookConsumer
 
   # Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
   def customer_subscription_updated
-    Rails.logger.info "StripeWebhookConsumer Subscription Updated!"
-    stripe_customer_id = @stripe_event.dig('data', 'object', 'customer')
-    domain = Domain.find_by(stripe_customer_id: stripe_customer_id)
-    if domain.nil?
-      Rails.logger.error "Cannot find Domain for Stripe Customer ID #{stripe_customer_id}, Stripe Subscription ID #{@stripe_event.dig('data', 'object', 'id')}"
-    elsif domain.current_subscription_plan.nil?
-      Rails.logger.error "Cannot update SubscriptionPlan status for Domain #{domain.uid}, `current_subscription_plan` is nil."
-    else
-      subscription_status = @stripe_event.dig('data', 'object', 'status')
-      domain.current_subscription_plan.update_status_to(subscription_status)
-    end
+    stripe_subscription_id = stripe_event.dig('data', 'object', 'id')
+    Rails.logger.info "StripeWebhookConsumer Subscription Updated for #{stripe_subscription_id}"
+    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_subscription_id)
+    subscription_status = stripe_event.dig('data', 'object', 'status')
+    subscription_plan.update_status_to(subscription_status)
   end
 end

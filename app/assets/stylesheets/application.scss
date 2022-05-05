@@ -71,7 +71,7 @@ body:not(.with-fixed-top-banner) #page-content-wrapper {
 }
 
 body.logged-in.domains #page-content-wrapper {
-  &:not(.collapsed-navigation) {
+  &:not(.collapsed-navigation), &:not(.no-navigation) {
     width: 85vw;
     margin-left: 15vw;
   }
@@ -103,6 +103,7 @@ body.logged-in:not(.domains) {
     }
     &.no-navigation {
       width: 100vw;
+      margin-left: 0;
     }
   }
 

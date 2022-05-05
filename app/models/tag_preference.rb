@@ -7,7 +7,7 @@ class TagPreference < ApplicationRecord
   after_create { enable_aws_event_bridge_rules_for_each_tag_check_region_if_necessary! unless release_monitoring_disabled? }
   before_destroy { disable_aws_event_bridge_rules_if_no_tag_checks_enabled_for_interval!(tag_check_minute_interval) unless tag.nil? }
 
-  validate :has_payment_method_on_file_when_necessary
+  # validate :has_payment_method_on_file_when_necessary
   validates :tag_check_minute_interval, inclusion: { in: [nil, 1, 15, 30, 60, 180, 360, 720, 1_440] }
   validates :scheduled_audit_minute_interval, inclusion: { in: [nil, 5, 15, 30, 60, 180, 360, 720, 1_440] }
 
@@ -58,12 +58,6 @@ class TagPreference < ApplicationRecord
   end
 
   private
-
-  def has_payment_method_on_file_when_necessary
-    if !tag.domain.has_payment_method_on_file? && (release_monitoring_enabled? || scheduled_audits_enabled?)
-      errors.add(:base, "Must have a payment method on file in order to enable automated features (release monitoring, scheduled audits, uptime measurement).")
-    end
-  end
 
   def check_to_sync_aws_event_bridge_rules_if_necessary
     if saved_changes['tag_check_minute_interval']

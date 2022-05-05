@@ -1,0 +1,30 @@
+<div class='container-fluid'>
+  <div class='row text-end'>
+    <%= link_to 'New Subscription Plan', admin_new_subscription_price %>
+  </div>
+  <div class='row'>
+    <table class="table table-hover col-12 text-start" style="table-layout: fixed">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 20%">Subscription Price Option</th>
+          <th scope="col" style="width: 20%">Package</th>
+          <th scope="col" style="width: 20%">Billing Interval</th>
+          <th scope="col" style="width: 20%">Stripe Price ID</th>
+          <th scope="col" style="width: 20%">Num Subscriptions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @subscription_price_options.each do |subscription_price_option| %>
+          <tr>
+            <td><%= subscription_price_option.name %></td>
+            <td><%= subscription_price_option.subscription_package_type %></td>
+            <td><%= subscription_price_option.billing_interval %></td>
+            <td><%= subscription_price_option.stripe_price_id %></td>
+            <td><%= subscription_price_option.subscription_prices.count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @subscription_price_options %>
+  </div>
+</div>

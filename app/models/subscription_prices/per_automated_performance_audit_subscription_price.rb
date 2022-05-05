@@ -1,3 +1,0 @@
-class PerAutomatedPerformanceAuditSubscriptionPrice < SubscriptionPrice
-  self.billable_model = AverageDeltaPerformanceAudit
-end

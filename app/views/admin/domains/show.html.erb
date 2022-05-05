@@ -1,0 +1,49 @@
+<h1 class='text-center'><%= @domain.url %></h1>
+
+<div class='container-fluid text-center'>
+  <div class='row'>
+    <div class='col-6'>
+      <h4>Signed up: <%= @domain.created_at.formatted_long %></h4>
+    </div>
+    <div class='col-6'>
+      <h4>
+        Subscription Plan: <%= @domain.current_saas_subscription_plan.package_type.capitalize %> Plan (<%= @domain.current_saas_subscription_plan.billing_interval %>) <br/>
+        Status: <%= @domain.current_saas_subscription_plan.status %> <br/>
+        <% if @domain.current_saas_subscription_plan.trialing? %>
+          Free trial ends at: <%= @domain.current_saas_subscription_plan.free_trial_ends_at.strftime("%m/%d/%y @ %l:%M %P %Z") %>
+        <% end %>
+      </h4>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-6'>
+      <h4>Admin users:</h4>
+      <ul>
+        <% @domain.admin_domain_users.includes(:user).each do |domain_user| %>
+          <li><%= domain_user.user.email %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class='col-6'>
+      <h4>Feature restrictions:</h4>
+      <p>
+        max_manual_performance_audits_per_month: <b><%= @domain.subscription_feature_restriction.max_manual_performance_audits_per_month || 'n/a' %></b><br/>
+        max_manual_test_runs_per_month: <b><%= @domain.subscription_feature_restriction.max_manual_test_runs_per_month || 'n/a' %></b><br/>
+        max_automated_performance_audits_per_month: <b><%= @domain.subscription_feature_restriction.max_automated_performance_audits_per_month || 'n/a' %></b><br/>
+        max_automated_test_runs_per_month: <%= @domain.subscription_feature_restriction.max_automated_test_runs_per_month || 'n/a' %> <br/>
+        uptime_regions_availability: <b><%= @domain.subscription_feature_restriction.uptime_regions_availability || 'n/a' %></b><br/>
+        has_advance_performance_audit_configurations: <b><%= @domain.subscription_feature_restriction.has_advance_performance_audit_configurations || 'n/a' %></b><br/>
+        tag_sync_minute_cadence: <b><%= @domain.subscription_feature_restriction.tag_sync_minute_cadence || 'n/a' %></b><br/>
+        min_release_check_minute_interval: <b><%= @domain.subscription_feature_restriction.min_release_check_minute_interval || 'n/a' %></b><br/>
+        data_retention_days: <b><%= @domain.subscription_feature_restriction.data_retention_days || 'n/a' %></b><br/>
+      </p>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-6'>
+      <h4>
+        Next SaaS Invoice: <%= number_to_currency(@next_saas_invoice.amount_due / 100.0) %> at <%= Time.at(@next_saas_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %> <br/>
+        Next Usage-based Invoice: <%= number_to_currency(@next_usage_based_invoice.amount_due / 100.0) %> at <%= Time.at(@next_usage_based_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %> <br/>
+    </div>
+  </div>
+</div>

@@ -18,7 +18,7 @@
     <meta name="slack-app-id" content="A01HGPB713N">
     <script>window.currentDomainUid = "<%= current_domain&.uid %>"</script>
   </head>
-  <body class="logged-in <%=controller_name%> <%= action_name %> <%= user_is_anonymous? || current_domain&.current_subscription_plan&.delinquent? ? 'with-fixed-top-banner' : nil %>">
+  <body class="logged-in <%=controller_name%> <%= action_name %> <%= user_is_anonymous? || current_domain&.current_saas_subscription_plan&.delinquent? ? 'with-fixed-top-banner' : nil %>">
     <div class='fixed-content-container'>
       <%= render 'partials/anonymous_user_banner' %>
       <%= render 'partials/notification_containers' %>

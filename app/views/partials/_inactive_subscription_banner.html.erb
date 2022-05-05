@@ -1,5 +1,5 @@
-<% if current_domain && current_domain.current_subscription_plan.delinquent? %>
+<% if current_domain && current_domain.current_saas_subscription_plan.delinquent? %>
   <div class='fixed-top-banner'>
-    <span>Your subscription is in a <%= current_domain.current_subscription_plan.human_status %> state. Update your <%= link_to 'billing details', settings_billing_path %> in order to continue using Tagsafe to its full extent.</span>
+    <span>Your subscription is in a <%= current_domain.current_saas_subscription_plan.human_status %> state. Update your <%= link_to 'billing details', settings_billing_path %> in order to continue using Tagsafe to its full extent.</span>
   </div>
 <% end %>

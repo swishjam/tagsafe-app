@@ -3,8 +3,13 @@
     <div class='d-flex'>
       <select class='form-select' name='tag_check_region_id' required>
         <option disabled selected>Select Region</option>
+        <% feature_gate_keeper = FeatureGateKeepers::CanTurnUptimeMonitoringOnForTagCheckRegion.new(current_domain) %>
         <%= selectable_tag_check_regions.each do |tag_check_region| %>
-          <option value="<%= tag_check_region.id %>"><%= tag_check_region.location %></option>
+          <% if feature_gate_keeper.can_access_feature?(tag_check_region) %>
+            <option value="<%= tag_check_region.id %>"><%= tag_check_region.location %></option>
+          <% else %>
+            <option disabled><%= tag_check_region.location %></option>
+          <% end %>
         <% end %>
       </select>
       <%= loading_submit_button 'Add', button_class: 'square' %>

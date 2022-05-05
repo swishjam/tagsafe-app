@@ -4,11 +4,15 @@ class Domain < ApplicationRecord
   uid_prefix 'dom'
   acts_as_paranoid
 
-  # belongs_to :subscription_option
-  has_many :subscription_plans, dependent: :destroy
-  has_many :subscription_plan_items, through: :subscription_plans
-  has_many :subscription_billings
+  belongs_to :current_saas_subscription_plan, class_name: SaasSubscriptionPlan.to_s, optional: true
+  belongs_to :current_usage_based_subscription_plan, class_name: UsageBasedSubscriptionPlan.to_s, optional: true
   has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
+  has_one :subscription_feature_restriction
+  has_many :subscription_plans, dependent: :destroy
+  has_many :usage_based_subscription_plans, dependent: :destroy
+  has_many :saas_subscription_plans, dependent: :destroy
+  has_many :subscription_prices, through: :subscription_plans
+  has_many :subscription_usage_record_updates
   has_many :domain_users, dependent: :destroy
   has_many :users, through: :domain_users
   has_many :user_invites, dependent: :destroy
@@ -24,21 +28,25 @@ class Domain < ApplicationRecord
   has_many :non_third_party_url_patterns, dependent: :destroy
 
   validates :url, presence: true
-  # no longer enforce uniqueness on Domain URL. Any reprucussions...?
-  # validates_uniqueness_of :url, message: Proc.new { |domain| "A Tagsafe domain already exists for #{domain.url}" }
 
-  # before_create :strip_pathname_from_url_and_create_page_url
-  before_validation :strip_pathname_from_url_and_create_page_url, on: :create
+  before_validation :strip_pathname_from_url_and_initialize_page_url, on: :create
   before_create { self.stripe_customer_id = Stripe::Customer.create({ email: "domain-user@#{url_hostname}" }).id }
-  after_create { SubscriptionPlan.create_default(self) }
+  # after_create { SubscriptionPlan.create_default(self) }
   after_create { PerformanceAuditCalculator.create_default(self) }
   after_create { GeneralConfiguration.create_default_for_domain(self) }
+  after_destroy do
+    Stripe::Customer.delete(self.stripe_customer_id) unless Rails.env.production?
+  rescue => e
+    puts "Can't delete Stripe Customer: #{self.stripe_customer_id}: #{e.message}"
+  end
 
   attribute :is_generating_third_party_impact_trial, default: false
 
   scope :registered, -> { where(is_generating_third_party_impact_trial: false) }
   scope :not_generating_third_party_impact_trial, -> { registered }
   scope :generating_third_party_impact_trial, -> { where(is_generating_third_party_impact_trial: true) }
+  
+  scope :where_subscription_feature_restriction, -> (where_clause) { joins(:subscription_feature_restriction).where(subscription_feature_restriction: where_clause) }
 
   TEST_DOMAIN_HOSTNAME = 'www.tagsafe-test.com'.freeze
 
@@ -55,10 +63,6 @@ class Domain < ApplicationRecord
     URI.parse(url).hostname
   end
 
-  def current_subscription_plan
-    subscription_plans.current.limit(1).first
-  end
-
   def add_url(full_url, should_scan_for_tags:)
     page_urls.create(full_url: full_url, should_scan_for_tags: should_scan_for_tags)
   end
@@ -73,7 +77,7 @@ class Domain < ApplicationRecord
     page_urls.each{ |page_url| page_url.update!(should_scan_for_tags: true) }
   end
 
-  def strip_pathname_from_url_and_create_page_url
+  def strip_pathname_from_url_and_initialize_page_url
     page_urls.new(full_url: url, should_scan_for_tags: !is_generating_third_party_impact_trial)
     self.url = parsed_domain_url
   rescue URI::InvalidURIError => e
@@ -112,9 +116,8 @@ class Domain < ApplicationRecord
     stripe_payment_method_id.present?
   end
 
-  def user_can_initiate_crawl?(user)
-    return false if user.nil?
-    users.include?(user)
+  def admin_domain_users
+    domain_users.by_role(Role.USER_ADMIN)
   end
 
   def add_user(user)

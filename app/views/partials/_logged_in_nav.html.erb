@@ -38,6 +38,17 @@
           </li>
         <% end %>
       </ul>
+      <% if current_domain.stripe_payment_method_id.nil? && current_domain.current_saas_subscription_plan.is_on_free_trial? %>
+        <% days_left = current_domain.current_saas_subscription_plan.days_until_free_trial_expires(false) %>
+        <div class='free-trial-indicator-container text-center'>
+          <i class="fa-solid fa-clock"></i> <%= days_left.floor %> days left in your free trial
+          <% color = days_left < 4 ? '#ff6c6c' : days_left < 8 ? '#ffbe6c' : '#65d565' %>
+          <div class='free-trial-meter m-1'>
+            <div class='fill' style='width: <%= (days_left / 14.0)*100 %>%; background-color: <%= color %>'></div>
+          </div>
+          <%= link_to 'Add Payment Method', settings_billing_path %>
+        </div>
+      <% end %>
     </div>
     
     <div class='left-hand-navigation-toggle hide-btn <%= @collapsed_navigation ? 'hidden' : nil %>' data-side-navigation-target='hideBtn' data-action='click->side-navigation#hide'>

@@ -1,8 +1,15 @@
 <%= render_as_modal title: "#{@tag.try_friendly_name} audit" do %>
   <% if local_assigns[:audits_enqueued] %>
+
     <% if audits_enqueued.count > 1 %>
       <div class='tagsafe-modal-body'>
-        <h3 class='inline-message mt-5 mb-5'>Performing <%= local_assigns[:audits_enqueued].count %> audits on <%= tag.try_friendly_name %></h3>
+        <h3 class='inline-message mt-5 mb-5'>Performing <%= audits_enqueued.count %> audits on <%= tag.try_friendly_name %></h3>
+        <% if audits_with_errors.any? %>
+          <h3>Unable to perform <%= audits_with_errors.count %> of the audits:</h3>
+          <% audits_with_errors.each do |audit| %>
+            <h4 style='color: red'><%= audit.page_url.full_url%>: <%= audit.errors.full_messages.join(' ') %></h4>
+          <% end %>
+        <% end %>
         <div class='tagsafe-modal-divider'></div>
         <% audits_enqueued.each do |audit| %>
           <%= link_to "View audit on #{audit.page_url.full_url}", tag_audit_path(tag, audit), target: '_top', class: 'd-block' %>
@@ -10,13 +17,24 @@
       </div>
     <% else %>
       <div class='tagsafe-modal-body'>
-        <h3 class='inline-message mt-5 mb-5'>Performing audit on <%= tag.try_friendly_name %></h3>
+        <% if audits_enqueued.count == 1 %>
+          <h3 class='inline-message mt-5 mb-5'>Performing audit on <%= tag.try_friendly_name %></h3>
+        <% end %>
+        <% if audits_with_errors.any? %>
+          <h3>Unable to perform <%= audits_with_errors.count %> of the audits:</h3>
+          <% audits_with_errors.each do |audit| %>
+            <h4 style='color: red'><%= audit.errors.full_messages.join(' ') %></h4>
+          <% end %>
+        <% end %>
       </div>
-      <div class='tagsafe-modal-divider'></div>
-      <div class='tagsafe-modal-footer text-end'>
-        <%= link_to "View audit", tag_audit_path(tag, audits_enqueued.first), class:'tagsafe-btn', target: '_top' %>
-      </div>
+      <% unless audits_enqueued.none? %>
+        <div class='tagsafe-modal-divider'></div>
+        <div class='tagsafe-modal-footer text-end'>
+          <%= link_to "View audit", tag_audit_path(tag, audits_enqueued.first), class:'tagsafe-btn', target: '_top' %>
+        </div>
+      <% end %>
     <% end %>
+
   <% else %>
     <div data-controller='hot-keys' data-action="form" data-key-code='13'>
       <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form', hot_keys_target: 'formAction' } do |f| %>

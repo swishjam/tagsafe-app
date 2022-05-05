@@ -134,6 +134,8 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/performance' => 'performance#index'
     get '/executed_step_function/for_obj/:parent_type/:parent_id' => 'executed_step_functions#for_obj'
+    resources :domains, only: [:index, :show], param: :uid
+    resources :subscription_prices, only: [:index, :show, :new, :create], param: :uid
     resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
     resources :flags, only: [:index, :show], param: :uid do
       resources :object_flags
@@ -160,11 +162,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :stripe_billing_portal, only: :new
+  # resources :stripe_billing_portal, only: :new
   resources :domain_payment_methods, only: [:new, :create]
-  resources :subscription_plans, only: [], param: :uid do
-    member do
-      patch :cancel
+  resources :subscription_plans, only: [:create, :edit, :update], param: :uid do
+    collection do
+      get :select
+      patch :cancel_domains_subscription
     end
   end
 

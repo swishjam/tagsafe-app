@@ -1,0 +1,21 @@
+<div class='container-fluid'>
+  <h4>New Subscription Plan</h4>
+  <%= form_with url: admin_subscription_price do |f| %>
+    <div class='form-floating'>
+      <input type='text' name='saas_subscription_name' id='saas_subscription_name' class='form-control'>
+      <label for='saas_subscription_name'>SaaS Subscription Name</label>
+    </div>
+    <div class='form-floating'>
+      <input type='text' name='monthly_saas_subscription_fee' id='monthly_saas_subscription_fee' class='form-control'>
+      <label for='monthly_saas_subscription_fee'>Monthly SaaS Subscription Fee</label>
+    </div>
+    <div class='form-floating'>
+      <input type='text' name='monthly_saas_subscription_fee' id='annual_saas_subscription_fee' class='form-control'>
+      <label for='annual_saas_subscription_fee'>Annual SaaS Subscription Fee</label>
+    </div>
+    <div class='form-floating'>
+      <input type='text' name='monthly_saas_subscription_fee' id='annual_saas_subscription_fee' class='form-control'>
+      <label for='annual_saas_subscription_fee'>Annual SaaS Subscription Fee</label>
+    </div>
+  <% end %>
+</div>

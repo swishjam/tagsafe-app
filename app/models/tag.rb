@@ -90,6 +90,9 @@ class Tag < ApplicationRecord
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
 
+  scope :where_tag_preferences, -> (where_clause) { joins(:tag_preferences).where(tag_preferences: where_clause) }
+  scope :where_tag_preferences_not, -> (where_clause) { joins(:tag_preferences).where.not(tag_preferences: where_clause) }
+
   scope :where_tag_check_interval, -> (interval) { where_tag_preferences(tag_check_minute_interval: interval) }
   scope :one_minute_interval_checks, -> { where_tag_check_interval(1) }
   scope :fifteen_minute_interval_checks, -> { where_tag_check_interval(15) }
@@ -109,14 +112,6 @@ class Tag < ApplicationRecord
   scope :six_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 360) }
   scope :twelve_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 720) }
   scope :twenty_four_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 1440) }
-
-  def self.where_tag_preferences(where_clause)
-    joins(:tag_preferences).where(tag_preferences: where_clause)
-  end
-
-  def self.where_tag_preferences_not(where_clause)
-    joins(:tag_preferences).where.not(tag_preferences: where_clause)
-  end
 
   def self.find_without_query_params(url, include_removed_tags: false)
     parsed_url = URI.parse(url)

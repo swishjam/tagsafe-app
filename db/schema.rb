@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_26_195544) do
+ActiveRecord::Schema.define(version: 2022_05_02_181547) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -185,6 +185,10 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.boolean "is_generating_third_party_impact_trial"
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
+    t.bigint "current_saas_subscription_plan_id"
+    t.bigint "current_usage_based_subscription_plan_id"
+    t.index ["current_saas_subscription_plan_id"], name: "index_domains_on_current_saas_subscription_plan_id"
+    t.index ["current_usage_based_subscription_plan_id"], name: "index_domains_on_current_usage_based_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -568,25 +572,20 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.index ["uid"], name: "index_slack_settings_on_uid"
   end
 
-  create_table "subscription_billings", charset: "utf8", force: :cascade do |t|
-    t.bigint "subscription_plan_id"
+  create_table "subscription_feature_restrictions", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.integer "max_manual_performance_audits_per_month"
+    t.integer "max_manual_test_runs_per_month"
+    t.integer "max_automated_performance_audits_per_month"
+    t.integer "max_automated_test_runs_per_month"
+    t.string "uptime_regions_availability"
+    t.boolean "has_advance_performance_audit_configurations"
+    t.integer "min_release_check_minute_interval"
+    t.integer "data_retention_days"
+    t.integer "tag_sync_minute_cadence"
     t.bigint "domain_id"
-    t.float "billed_amount_in_cents"
-    t.datetime "bill_start_datetime"
-    t.datetime "bill_end_datetime"
-    t.string "uid"
-    t.index ["domain_id"], name: "index_subscription_billings_on_domain_id"
-    t.index ["subscription_plan_id"], name: "index_subscription_billings_on_subscription_plan_id"
-  end
-
-  create_table "subscription_plan_items", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "subscription_plan_id"
-    t.bigint "subscription_price_id"
-    t.string "stripe_subscription_item_id"
-    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
-    t.index ["subscription_price_id"], name: "subscription_plan_subscription_prices_on_spr"
-    t.index ["uid"], name: "index_subscription_plan_items_on_uid"
+    t.index ["domain_id"], name: "index_subscription_feature_restrictions_on_domain_id"
+    t.index ["uid"], name: "index_subscription_feature_restrictions_on_uid"
   end
 
   create_table "subscription_plans", charset: "utf8", force: :cascade do |t|
@@ -596,20 +595,45 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
-    t.boolean "current"
+    t.string "type"
+    t.datetime "free_trial_ends_at"
+    t.string "package_type"
     t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
     t.index ["uid"], name: "index_subscription_plans_on_uid"
   end
 
-  create_table "subscription_prices", charset: "utf8", force: :cascade do |t|
+  create_table "subscription_price_options", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "type"
     t.string "name"
     t.string "slug"
     t.string "stripe_price_id"
     t.float "price_in_cents"
-    t.index ["slug"], name: "index_subscription_prices_on_slug"
+    t.string "subscription_package_type"
+    t.string "billing_interval"
+    t.index ["slug"], name: "index_subscription_price_options_on_slug"
+    t.index ["uid"], name: "index_subscription_price_options_on_uid"
+  end
+
+  create_table "subscription_prices", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "subscription_plan_id"
+    t.string "stripe_subscription_item_id"
+    t.bigint "subscription_price_option_id"
+    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
+    t.index ["subscription_price_option_id"], name: "index_subscription_prices_on_subscription_price_option_id"
     t.index ["uid"], name: "index_subscription_prices_on_uid"
+  end
+
+  create_table "subscription_usage_record_updates", charset: "utf8", force: :cascade do |t|
+    t.bigint "subscription_plan_id"
+    t.bigint "domain_id"
+    t.float "billed_amount_in_cents"
+    t.datetime "bill_start_datetime"
+    t.datetime "bill_end_datetime"
+    t.string "uid"
+    t.index ["domain_id"], name: "index_subscription_usage_record_updates_on_domain_id"
+    t.index ["subscription_plan_id"], name: "index_subscription_usage_record_updates_on_subscription_plan_id"
   end
 
   create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8", force: :cascade do |t|
