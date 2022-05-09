@@ -1,7 +1,7 @@
 class SeparateTagChecksIntoReleaseAndUptimeChecks < ActiveRecord::Migration[6.1]
   def up
     rename_table :tag_checks, :uptime_checks
-    remove_reference :uptime_checks, :uptime_check_region
+    # remove_reference :uptime_checks, :uptime_check_region
     add_reference :uptime_checks, :uptime_region
     remove_column :uptime_checks, :content_has_detectable_changes
     remove_column :uptime_checks, :content_is_the_same_as_a_previous_version
