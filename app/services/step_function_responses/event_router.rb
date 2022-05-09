@@ -26,7 +26,10 @@ module StepFunctionResponses
     end
 
     def event_results_processor_klass
-      @event_results_processor_klass||= (lambda_event_payload.dig('requestPayload', 'tagsafe_consumer_klass') || lambda_event_payload['tagsafe_consumer_klass']).constantize
+      @event_results_processor_klass ||= (
+        lambda_event_payload.dig('requestPayload', 'tagsafe_consumer_klass') || 
+        lambda_event_payload['tagsafe_consumer_klass']
+      ).constantize
     rescue => e
       raise LambdaEventResponseError::NoConsumerKlass, "Cannot process event result, invalid `tagsafe_consumer_klass` in Lambda invocation request payload: #{lambda_event_payload.dig('requestPayload', 'tagsafe_consumer_klass') || lambda_event_payload['tagsafe_consumer_klass']}"
     end

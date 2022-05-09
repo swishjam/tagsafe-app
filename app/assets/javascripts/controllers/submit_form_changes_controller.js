@@ -16,6 +16,7 @@ export default class extends Controller {
   }
 
   _submitForm() {
+    this.element.classList.add('submitting');
     this.element.dispatchEvent(new CustomEvent('submit', { bubbles: true }))
   }
 

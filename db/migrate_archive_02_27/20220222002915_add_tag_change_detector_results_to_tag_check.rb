@@ -1,4 +1,4 @@
-class AddTagChangeDetectorResultsToTagCheck < ActiveRecord::Migration[6.1]
+class AddTagChangeDetectorResultsToReleaseCheck < ActiveRecord::Migration[6.1]
   def up
     add_column :tag_checks, :content_has_detectable_changes, :boolean
     add_column :tag_checks, :content_is_the_same_as_a_previous_version, :boolean

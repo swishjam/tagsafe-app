@@ -10,13 +10,21 @@ module Schedule
         days_of_retention_for_domain = domain.subscription_feature_restriction.data_retention_days
         older_than_timestamp = Time.current - days_of_retention_for_domain.days
         
-        tag_versions_to_purge = domain.tag_versions.older_than(older_than_timestamp)
-        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{tag_versions_to_purge.count} TagVersions that are older than #{days_of_retention_for_domain} days."
-        tag_versions_to_purge.destroy_all_fully!
+        if domain.tag_versions.count == 1
+          Rails.logger.info "CleanOutOfRetentionDataJob: Not purging the only TagVersion left for Domain #{domain.uid} event though it is older than it's retention period."
+        else
+          tag_versions_to_purge = domain.tag_versions.older_than(older_than_timestamp)
+          Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{tag_versions_to_purge.count} TagVersions that are older than #{days_of_retention_for_domain} days."
+          tag_versions_to_purge.destroy_all_fully!
+        end
 
-        tag_checks_to_purge = domain.tag_checks.older_than(older_than_timestamp)
-        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{tag_checks_to_purge.count} TagChecks that are older than #{days_of_retention_for_domain} days."
-        tag_checks_to_purge.destroy_all
+        uptime_checks_to_purge = domain.uptime_checks.older_than(older_than_timestamp)
+        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{uptime_checks_to_purge.count} UptimeChecks that are older than #{days_of_retention_for_domain} days."
+        uptime_checks_to_purge.destroy_all
+
+        release_checks_to_purge = domain.release_checks.older_than(older_than_timestamp)
+        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{release_checks_to_purge.count} ReleaseChecks that are older than #{days_of_retention_for_domain} days."
+        release_checks_to_purge.destroy_all
 
         audits_to_purge = domain.audits.older_than(older_than_timestamp)
         Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{audits_to_purge.count} Audits that are older than #{days_of_retention_for_domain} days."

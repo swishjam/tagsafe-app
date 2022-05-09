@@ -34,9 +34,8 @@ class StripeWebhookConsumer
     # use the UsageBasedSubscriptionPlan because that is gauranteed to be the Subscription with the lowest cadence (monthly)
     # and to avoid sending two emails each time.
     return if subscription_plan.is_a?(SaasSubscriptionPlan)
-    # todo: only send to UserAdmins
-    subscription_plan.domain.users.each do |user|
-      TagsafeEmail::FreeTrialWillEnd.new(user, subscription_plan).send!
+    subscription_plan.domain.admin_domain_users.each do |domain_user|
+      TagsafeEmail::FreeTrialWillEnd.new(domain_user.user, subscription_plan).send!
     end
   end
 
@@ -72,6 +71,10 @@ class StripeWebhookConsumer
     Rails.logger.info "StripeWebhookConsumer Subscription Updated for #{stripe_subscription_id}"
     subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_subscription_id)
     subscription_status = stripe_event.dig('data', 'object', 'status')
-    subscription_plan.update_status_to(subscription_status)
+    free_trial_ends_at = stripe_event.dig('data', 'object', 'trial_end')
+    subscription_plan.update!(
+      status: subscription_status, 
+      free_trial_ends_at: free_trial_ends_at ? Time.at(free_trial_ends_at).to_datetime : nil
+    )
   end
 end

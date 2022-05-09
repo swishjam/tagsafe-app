@@ -22,7 +22,7 @@ class AddCustomIds < ActiveRecord::Migration[6.1]
       klass     = basename.camelize.constantize
 
       puts basename
-      next if ['Notifier', 'ContextualUid', 'ApplicationRecord', 'TagCheckRegion'].include?(klass.to_s)
+      next if ['Notifier', 'ContextualUid', 'ApplicationRecord', 'UptimeRegion'].include?(klass.to_s)
       table_name = klass.table_name
       update_table(table_name)
       update_foriegn_keys_of_model(klass)

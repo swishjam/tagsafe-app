@@ -1,6 +1,6 @@
 class AddAdditionalGeneralConfigurationOptions < ActiveRecord::Migration[6.1]
   def up
-    add_column :tag_preferences, :tag_check_minute_interval, :integer
+    add_column :tag_preferences, :release_check_minute_interval, :integer
     add_column :configurations, :perf_audit_minimum_num_sets, :integer
     add_column :configurations, :perf_audit_maximum_num_sets, :integer
     add_column :configurations, :perf_audit_fail_when_confidence_range_not_met, :boolean

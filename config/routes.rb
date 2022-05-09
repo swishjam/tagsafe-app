@@ -22,9 +22,9 @@ Rails.application.routes.draw do
   # get '/change_log' => 'tag_versions#index'
   get '/audit_log' => 'audits#all', as: :audit_log
   get '/test_run_log' => 'test_runs#all', as: :all_test_runs
-  get '/uptime' => 'tag_checks#index'
-  # get '/uptime/:tag_uid/chart' => 'tag_checks#tag_chart', as: :tag_uptime_chart
-  get '/uptime/:tag_uid/list' => 'tag_checks#tag_list', as: :tag_uptime_list
+  get '/uptime' => 'uptime_checks#index'
+  # get '/uptime/:tag_uid/chart' => 'uptime_checks#tag_chart', as: :tag_uptime_chart
+  get '/uptime/:tag_uid/list' => 'uptime_checks#tag_list', as: :tag_uptime_list
   get '/performance' => 'performance#index'
   get '/releases' => 'releases#all', as: :all_releases
   resources :releases, only: [] do
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
     get '/audit_settings' => 'tags#audit_settings'
     get '/notification_settings' => 'tags#notification_settings'
 
-    resources :tag_check_regions_to_check, only: [:create, :destroy, :new], param: :uid
+    resources :uptime_regions_to_check, only: [:create, :destroy, :new], param: :uid
     resources :urls_to_audit, only: [:create, :destroy], param: :uid
     resources :slack_notification_subscribers, only: [:create, :destroy], param: :uid
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy], param: :uid
@@ -182,7 +182,7 @@ Rails.application.routes.draw do
 
   namespace :charts do
     resources :tags, only: [:index, :show], param: :uid
-    resources :tag_checks, only: [:index, :show], param: :uid
+    resources :uptime_checks, only: [:index, :show], param: :uid
   end
 
   # get '/charts/domain/:domain_uid' => 'charts#tags', as: :domain_tags_chart

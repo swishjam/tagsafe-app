@@ -40,7 +40,8 @@ class DomainsController < LoggedOutController
   end
 
   def update_current_domain
-    domain = Domain.find_by!(uid: params[:uid])
+    # domain = Domain.find_by!(uid: params[:uid])
+    domain = current_user.domains.find_by!(uid: params[:uid])
     set_current_domain(domain)
     redirect_to tags_path
   end

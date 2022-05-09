@@ -101,6 +101,11 @@ body:not(.with-fixed-top-banner) .navigation {
         height: 100%;
       }
     }
+    .add-payment-method-link {
+      color: #5d5c5c;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+    }
   }
 }
 

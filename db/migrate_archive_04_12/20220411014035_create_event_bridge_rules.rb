@@ -1,15 +1,15 @@
 class CreateEventBridgeRules < ActiveRecord::Migration[6.1]
   def up
-    create_table :tag_check_schedule_aws_event_bridge_rules do |t|
+    create_table :uptime_check_schedule_aws_event_bridge_rules do |t|
       t.string :uid, index: true
-      t.references :tag_check_region, index: { name: :index_tcsaebr_on_tag_check_region_id }
+      t.references :uptime_region, index: { name: :index_tcsaebr_on_uptime_region_id }
       t.string :name
-      t.string :associated_tag_check_minute_interval
+      t.string :associated_release_check_minute_interval
       t.boolean :enabled
     end
   end
 
   def down
-    drop_table :tag_check_schedule_aws_event_bridge_rules
+    drop_table :uptime_check_schedule_aws_event_bridge_rules
   end
 end

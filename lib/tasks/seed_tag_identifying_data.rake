@@ -1666,6 +1666,7 @@ JSON_DATA = [
   {
      "name"=>"FontAwesome CDN",
      "homepage"=>"https://fontawesome.com/",
+     "image_url"=>"https://www.drupal.org/files/project-images/font_awesome_logo.png",
      "categories"=>[
         "cdn"
      ],

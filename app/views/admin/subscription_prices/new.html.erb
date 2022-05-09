@@ -1,21 +1,50 @@
-<div class='container-fluid'>
-  <h4>New Subscription Plan</h4>
-  <%= form_with url: admin_subscription_price do |f| %>
-    <div class='form-floating'>
-      <input type='text' name='saas_subscription_name' id='saas_subscription_name' class='form-control'>
-      <label for='saas_subscription_name'>SaaS Subscription Name</label>
-    </div>
-    <div class='form-floating'>
-      <input type='text' name='monthly_saas_subscription_fee' id='monthly_saas_subscription_fee' class='form-control'>
-      <label for='monthly_saas_subscription_fee'>Monthly SaaS Subscription Fee</label>
-    </div>
-    <div class='form-floating'>
-      <input type='text' name='monthly_saas_subscription_fee' id='annual_saas_subscription_fee' class='form-control'>
-      <label for='annual_saas_subscription_fee'>Annual SaaS Subscription Fee</label>
-    </div>
-    <div class='form-floating'>
-      <input type='text' name='monthly_saas_subscription_fee' id='annual_saas_subscription_fee' class='form-control'>
-      <label for='annual_saas_subscription_fee'>Annual SaaS Subscription Fee</label>
-    </div>
-  <% end %>
+<div class='container-fluid text-center'>
+  <h4>New Custom Subscription Plan</h4>
+  <div class='col-6 offset-3'>
+    <%= form_with url: admin_subscription_prices_path do |f| %>
+      <div class='form-group mb-2'>
+        <select name='saas_stripe_product_id' class='form-select'>
+          <option disabled selected>Stripe SaaS Product</option>
+          <% @stripe_products.each do |stripe_product| %>
+            <option value='<%= stripe_product.id %>'><%= stripe_product.name %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class='form-floating'>
+        <input type='text' name='price_nickname' class='form-control' placeholder='price_nickname'>
+        <label for='price_nickname'>Nickname</label>
+      </div>
+      <div class='form-floating'>
+        <h6>SaaS fees</h6>
+      </div>
+      <div class='form-floating mb-2'>
+        <input type='number' name='monthly_saas_subscription_fee' id='monthly_saas_subscription_fee' class='form-control' placeholder='monthly_saas_subscription_fee'>
+        <label for='monthly_saas_subscription_fee'>Monthly SaaS Subscription Fee</label>
+      </div>
+      <div class='form-floating mb-2'>
+        <input type='number' name='monthly_saas_subscription_fee' id='annual_saas_subscription_fee' class='form-control' placeholder='annual_saas_subscription_fee'>
+        <label for='annual_saas_subscription_fee'>Annual SaaS Subscription Fee</label>
+      </div>
+      <div class='form-floating'>
+        <h6>Usage Based fees</h6>
+      </div>
+      <div class='form-floating mb-2'>
+        <input type='number' name='release_check_usage_fee' id='release_check_usage_fee' class='form-control' placeholder='release_check_usage_fee'>
+        <label for='release_check_usage_fee'>Release Check Overage fee</label>
+      </div>
+      <div class='form-floating mb-2'>
+        <input type='number' name='uptime_check_usage_fee' id='uptime_check_usage_fee' class='form-control' placeholder='uptime_check_usage_fee'>
+        <label for='uptime_check_usage_fee'>Uptime Check Overage fee</label>
+      </div>
+      <div class='form-floating mb-2'>
+        <input type='number' name='automated_performance_audit_usage_fee' id='automated_performance_audit_usage_fee' class='form-control' placeholder='automated_performance_audit_usage_fee'>
+        <label for='automated_performance_audit_usage_fee'>Automated performance audit overage fee</label>
+      </div>
+      <div class='form-floating mb-2'>
+        <input type='number' name='automated_performance_audit_usage_fee' id='automated_test_run_usage_fee' class='form-control' placeholder='automated_test_run_usage_fee'>
+        <label for='automated_test_run_usage_fee'>Automated test run overage fee</label>
+      </div>
+      <%= f.submit 'Create custom subscription price option', class: 'tagsafe-btn' %>
+    <% end %>
+  </div>
 </div>

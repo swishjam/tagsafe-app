@@ -31,7 +31,15 @@
   ] %>
 </div>
 
-<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_chart", src: charts_tag_check_path(@tag, aws_region_names: params[:regions] || ['us-east-1']) do %>
+<% if @tag.uptime_regions_to_check.count.zero? %>
+  <div class='container-fluid'>
+    <div class="alert alert-danger mt-3 text-center" role="alert">
+      <%= HtmlHelper.WARNING_ICON %> Uptime monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', edit_tag_path(@tag) %>.
+    </div>
+  </div>
+<% end %>
+
+<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_chart", src: charts_uptime_check_path(@tag, aws_region_names: params[:regions] || ['us-east-1']) do %>
   <div class="tagsafe-container text-center p-5">
     <%= display_loading_spinner %>
   </div>

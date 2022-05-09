@@ -1,7 +1,7 @@
 module FeatureGateKeepers
   class CanRunAutomatedPerformanceAudit < Base
     def can_access_feature?
-      return true unless delinquent_subscription_plan.present? || subscription_feature_restriction.max_automated_performance_audits_per_month.present?
+      return true unless delinquent_subscription_plan.present? || subscription_feature_restriction.automated_performance_audits_included_per_month.present?
       return true unless num_automated_performance_audits_for_domain_this_month >= max_allowed_manual_performance_audits_per_month
       cant_access!(
         <<~REASON
@@ -15,18 +15,10 @@ module FeatureGateKeepers
 
     def max_allowed_manual_performance_audits_per_month
       @max_allowed_manual_performance_audits_per_month ||= delinquent_subscription_plan ? 
-                                                              SubscriptionFeatureRestriction::DEFAULTS_FOR_PACKAGE[:starter][:max_automated_performance_audits_per_month] : 
-                                                              subscription_feature_restriction.max_automated_performance_audits_per_month
+                                                              SubscriptionFeatureRestriction::DEFAULTS_FOR_PACKAGE[:starter][:automated_performance_audits_included_per_month] : 
+                                                              subscription_feature_restriction.automated_performance_audits_included_per_month
     end
-
-    def delinquent_subscription_plan
-      @delinquent_subscription_plan ||= domain.current_saas_subscription_plan.delinquent? ? 
-                                          domain.current_saas_subscription_plan :
-                                            domain.current_usage_based_subscription_plan.delinquent? ? 
-                                              domain.current_usage_based_subscription_plan : 
-                                              nil
-    end
-
+    
     def num_automated_performance_audits_for_domain_this_month
       @num_automated_performance_audits_for_domain_this_month ||= domain.audits
                                                                           .automated

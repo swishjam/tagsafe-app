@@ -22,7 +22,7 @@ module SubscriptionMaintainer
                 1_440 / tag.tag_preferences.scheduled_audit_minute_interval * 30 * tag.domain.current_subscription_plan.per_automated_performance_audit_subscription_price.price_in_cents : 0
       cost += tag.scheduled_audits_enabled? && tag.tag_or_domain_configuration.include_functional_tests ? 
                 1_440 / tag.tag_preferences.scheduled_audit_minute_interval * 30 * tag.domain.current_subscription_plan.per_automated_test_run_subscription_price.price_in_cents : 0
-      cost += tag.release_monitoring_enabled? ? 1_440 / tag.tag_preferences.tag_check_minute_interval * 30 * tag.domain.current_subscription_plan.per_tag_check_subscription_price.price_in_cents * tag.tag_check_regions.count : 0
+      cost += tag.release_monitoring_enabled? ? 1_440 / tag.tag_preferences.release_check_minute_interval * 30 * tag.domain.current_subscription_plan.per_release_check_subscription_price.price_in_cents * tag.uptime_regions.count : 0
       cost
     end
   end

@@ -1,16 +1,16 @@
 module TagManager
   class TagVersionCapturer
-    def initialize(tag:, content:, tag_check:, hashed_content:, bytes:)
+    def initialize(tag:, content:, release_check:, hashed_content:, bytes:)
       @tag = tag
       @content = content
-      @tag_check = tag_check
+      @release_check = release_check
       @hashed_content = hashed_content
       @bytes = bytes
     end
 
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
-      Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected."
+      Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
       @tag.update!(marked_as_pending_tag_version_capture_at: nil)
       remove_temp_files
       tag_version
@@ -22,7 +22,7 @@ module TagManager
       {
         hashed_content: @hashed_content,
         bytes: @bytes,
-        tag_check_captured_with: @tag_check,
+        release_check_captured_with: @release_check,
         js_file: tag_version_js_file_data,
         formatted_js_file: tag_version_formatted_js_file_data,
         commit_message: TagManager::CommitMessageParser.new(@content).try_to_get_commit_message,

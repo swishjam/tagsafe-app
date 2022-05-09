@@ -86,7 +86,7 @@ namespace :sync do
         name: "Release Monitoring",
         prices: [
           {
-            subscription_price_option_klass: PerTagCheckSubscriptionPriceOption,
+            subscription_price_option_klass: PerReleaseCheckSubscriptionPriceOption,
             subscription_package_type: 'starter',
             nickname: 'Starter Plan',
             currency: 'usd',
@@ -99,7 +99,7 @@ namespace :sync do
             unit_amount: 0
           },
           {
-            subscription_price_option_klass: PerTagCheckSubscriptionPriceOption,
+            subscription_price_option_klass: PerReleaseCheckSubscriptionPriceOption,
             subscription_package_type: 'scale',
             billing_scheme: 'tiered',
             nickname: 'Scale Plan',
@@ -116,7 +116,7 @@ namespace :sync do
             ]
           },
           {
-            subscription_price_option_klass: PerTagCheckSubscriptionPriceOption,
+            subscription_price_option_klass: PerReleaseCheckSubscriptionPriceOption,
             subscription_package_type: 'pro',
             billing_scheme: 'tiered',
             nickname: 'Pro Plan',
@@ -129,6 +129,58 @@ namespace :sync do
             tiers_mode: 'graduated',
             tiers: [
               { up_to: 100_000, unit_amount_decimal: 0 },
+              { up_to: 'inf', unit_amount_decimal: 0.25 }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Uptime Monitoring",
+        prices: [
+          {
+            subscription_price_option_klass: PerUptimeCheckSubscriptionPriceOption,
+            subscription_package_type: 'starter',
+            nickname: 'Starter Plan',
+            currency: 'usd',
+            billing_scheme: 'per_unit',
+            recurring: { 
+              interval: 'month',
+              aggregate_usage: 'sum',
+              usage_type: 'metered'
+            },
+            unit_amount: 0
+          },
+          {
+            subscription_price_option_klass: PerUptimeCheckSubscriptionPriceOption,
+            subscription_package_type: 'scale',
+            billing_scheme: 'tiered',
+            nickname: 'Scale Plan',
+            currency: 'usd',
+            recurring: {
+              interval: 'month',
+              aggregate_usage: 'sum',
+              usage_type: 'metered'
+            },
+            tiers_mode: 'graduated',
+            tiers: [
+              { up_to: 50_000, unit_amount_decimal: 0 },
+              { up_to: 'inf', unit_amount_decimal: 0.25 }
+            ]
+          },
+          {
+            subscription_price_option_klass: PerUptimeCheckSubscriptionPriceOption,
+            subscription_package_type: 'pro',
+            billing_scheme: 'tiered',
+            nickname: 'Pro Plan',
+            currency: 'usd',
+            recurring: {
+              interval: 'month',
+              aggregate_usage: 'sum',
+              usage_type: 'metered'
+            },
+            tiers_mode: 'graduated',
+            tiers: [
+              { up_to: 150_000, unit_amount_decimal: 0 },
               { up_to: 'inf', unit_amount_decimal: 0.25 }
             ]
           }

@@ -5,7 +5,9 @@ class SubscriptionPlan < ApplicationRecord
   has_many :subscription_usage_record_updates
   accepts_nested_attributes_for :subscription_prices
 
-  DELINQUENT_STATUSES = %w[incomplete_expired past_due unpaid]
+  after_update :check_if_payment_failure
+
+  DELINQUENT_STATUSES = %w[incomplete_expired unpaid]
 
   validates :package_type, inclusion: { in: %w[starter scale pro custom] }
 
@@ -46,8 +48,26 @@ class SubscriptionPlan < ApplicationRecord
 
   def days_until_free_trial_expires(round = true)
     return nil unless is_on_free_trial?
-    exact_days = (free_trial_ends_at - Time.current)/1.day
+    exact_days = (free_trial_ends_at - Time.current) / 1.day
     round ? exact_days.floor : exact_days
+  end
+
+  def time_left_in_free_trial_in_words
+    minutes_left = ((free_trial_ends_at - Time.current) / 1.minute).round
+    case minutes_left
+    when 0..59
+      "#{minutes_left} minutes"
+    when 60..89
+      "1 hour"
+    when 90..1_440
+      "#{(minutes_left/60.0).round} hours"
+    else 
+      "#{days_until_free_trial_expires} days"
+    end
+  end
+
+  def human_package_type
+    "#{package_type.capitalize} Plan"
   end
 
   def cancel!
@@ -67,13 +87,27 @@ class SubscriptionPlan < ApplicationRecord
     status.gsub('_', ' ')
   end
 
-  def update_status_to(new_status)
-    unless new_status == status
-      update!(status: new_status)
-      after_became_delinquent if delinquent?
+  private
+
+  def after_payment_failed
+    domain.admin_domain_users.each do |domain_user| 
+      TagsafeEmail::PaymentFailed.new(domain_user.user).send!
     end
   end
 
-  def after_became_delinquent
+  def after_subscription_became_delinquent
+    domain.admin_domain_users.each do |domain_user| 
+      TagsafeEmail::SubscriptionBecameDelinquent.new(domain_user.user).send!
+    end
+  end
+
+  def check_if_payment_failure
+    return unless saved_changes['status']
+    if self.class::DELINQUENT_STATUSES.include?(saved_changes['status'][1]) && 
+        !self.class::DELINQUENT_STATUSES.include?(saved_changes['status'][0])
+        after_subscription_became_delinquent
+    elsif column_changed_to('status', 'past_due')
+      after_payment_failed
+    end
   end
 end

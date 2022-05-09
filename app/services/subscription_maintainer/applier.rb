@@ -9,10 +9,10 @@ module SubscriptionMaintainer
     def cancel_current_subscription!
       UsageRecordUpdater.new(domain, usage_records_start_date: DateTime.now.beginning_of_day, usage_records_end_date: DateTime.now.end_of_day).send_usage_records_to_stripe
       saas_stripe_subscription = Stripe::Subscription.delete(domain.current_saas_subscription_plan.stripe_subscription_id, invoice_now: true)
-      domain.current_saas_subscription_plan.update_status_to(saas_stripe_subscription.status)
+      domain.current_saas_subscription_plan.update!(status: saas_stripe_subscription.status)
 
       usage_based_stripe_subscription = Stripe::Subscription.delete(domain.current_usage_based_subscription_plan.stripe_subscription_id, invoice_now: true)
-      domain.current_usage_based_subscription_plan.update_status_to(usage_based_stripe_subscription.status)
+      domain.current_usage_based_subscription_plan.update!(status: usage_based_stripe_subscription.status)
     end
 
     def apply_subscription_package_to_domain(subscription_package:, billing_interval:, free_trial_days: 0)
@@ -46,7 +46,8 @@ module SubscriptionMaintainer
         items: [
           { price: PerAutomatedPerformanceAuditSubscriptionPriceOption.for_subscription_package_and_billing_interval(subscription_package, 'month').stripe_price_id },
           { price: PerAutomatedTestRunSubscriptionPriceOption.for_subscription_package_and_billing_interval(subscription_package, 'month').stripe_price_id },
-          { price: PerTagCheckSubscriptionPriceOption.for_subscription_package_and_billing_interval(subscription_package, 'month').stripe_price_id }
+          { price: PerReleaseCheckSubscriptionPriceOption.for_subscription_package_and_billing_interval(subscription_package, 'month').stripe_price_id },
+          { price: PerUptimeCheckSubscriptionPriceOption.for_subscription_package_and_billing_interval(subscription_package, 'month').stripe_price_id },
         ],
         metadata: { 
           package: subscription_package, 

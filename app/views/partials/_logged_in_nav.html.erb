@@ -14,7 +14,6 @@
             { path: all_releases_path, text: "Tag Releases", icon_class: "fas fa-stream" },
             { path: audit_log_path, text: "Audit Log", icon_class: "fa-solid fa-square-poll-vertical" },
             { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
-            { path: performance_path, text: 'Performance', icon_class: 'fas fa-running' },
             { path: alerts_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alerts'] },
             { path: domain_users_path, text: "Team Management", icon_class: "fas fa-users" },
             { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
@@ -41,12 +40,12 @@
       <% if current_domain.stripe_payment_method_id.nil? && current_domain.current_saas_subscription_plan.is_on_free_trial? %>
         <% days_left = current_domain.current_saas_subscription_plan.days_until_free_trial_expires(false) %>
         <div class='free-trial-indicator-container text-center'>
-          <i class="fa-solid fa-clock"></i> <%= days_left.floor %> days left in your free trial
+          <i class="fa-solid fa-clock"></i> <%= current_domain.current_saas_subscription_plan.time_left_in_free_trial_in_words %> left in free trial
           <% color = days_left < 4 ? '#ff6c6c' : days_left < 8 ? '#ffbe6c' : '#65d565' %>
           <div class='free-trial-meter m-1'>
             <div class='fill' style='width: <%= (days_left / 14.0)*100 %>%; background-color: <%= color %>'></div>
           </div>
-          <%= link_to 'Add Payment Method', settings_billing_path %>
+          <%= link_to 'Add Payment Method', settings_billing_path, class: 'add-payment-method-link' %>
         </div>
       <% end %>
     </div>

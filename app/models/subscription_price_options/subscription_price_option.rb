@@ -9,9 +9,10 @@ class SubscriptionPriceOption < ApplicationRecord
   validates_uniqueness_of :subscription_package_type, scope: [:type, :billing_interval], message: "Cannot create multiple `#{self.to_s}` with the same `subscription_package_type`, `billing_interval`, and `type`."
   validates :stripe_price_id, presence: true, uniqueness: true
   validates :subscription_package_type, inclusion: { in: %w[starter scale pro custom] }
+  validates :billing_interval, inclusion: { in: %w[month year] }
 
-  scope :usage_based, -> { where(type: [PerAutomatedPerformanceAuditSubscriptionPrice.to_s, PerAutomatedTestRunSubscriptionPrice.to_s, PerTagCheckSubscriptionPrice.to_s]) }
-  scope :flat_saas_rate, -> { where.not(type: [PerAutomatedPerformanceAuditSubscriptionPrice.to_s, PerAutomatedTestRunSubscriptionPrice.to_s, PerTagCheckSubscriptionPrice.to_s]) }
+  scope :usage_based, -> { where(type: [PerAutomatedPerformanceAuditSubscriptionPrice.to_s, PerAutomatedTestRunSubscriptionPrice.to_s, PerReleaseCheckSubscriptionPrice.to_s]) }
+  scope :flat_saas_rate, -> { where.not(type: [PerAutomatedPerformanceAuditSubscriptionPrice.to_s, PerAutomatedTestRunSubscriptionPrice.to_s, PerReleaseCheckSubscriptionPrice.to_s]) }
   scope :by_package_type, -> (package_type) { where(subscription_package_type: package_type) }
 
   class << self

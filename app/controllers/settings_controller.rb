@@ -2,7 +2,7 @@ class SettingsController < LoggedInController
   before_action { render_breadcrumbs({ text: 'Settings' }) }
   def tag_management
     @tags = current_domain.tags.joins(:tag_preferences)
-                          .order('tag_preferences.tag_check_minute_interval DESC')
+                          .order('tag_preferences.release_check_minute_interval DESC')
                           .order('removed_from_site_at ASC')
                           .order('last_released_at DESC')
                           .page(params[:page]).per(params[:per_page] || 10)

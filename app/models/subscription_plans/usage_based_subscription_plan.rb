@@ -9,7 +9,11 @@ class UsageBasedSubscriptionPlan < SubscriptionPlan
     subscription_prices.for(PerAutomatedTestRunSubscriptionPrice)
   end
 
-  def per_tag_check_subscription_price
-    subscription_prices.for(PerTagCheckSubscriptionPrice)
+  def per_release_check_subscription_price
+    subscription_prices.for(PerReleaseCheckSubscriptionPrice)
+  end
+
+  def per_uptime_check_subscription_price
+    subscription_prices.for(PerUptimeCheckSubscriptionPriceOption)
   end
 end
