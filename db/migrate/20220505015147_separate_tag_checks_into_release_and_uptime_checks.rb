@@ -22,7 +22,7 @@ class SeparateTagChecksIntoReleaseAndUptimeChecks < ActiveRecord::Migration[6.1]
 
     rename_table :tag_check_regions, :uptime_regions
     rename_table :tag_check_regions_to_check, :uptime_regions_to_check
-    remove_reference :uptime_regions_to_check, :uptime_check_region
+    # remove_reference :uptime_regions_to_check, :uptime_check_region
     add_reference :uptime_regions_to_check, :uptime_region
 
     remove_reference :tag_versions, :tag_check_captured_with
