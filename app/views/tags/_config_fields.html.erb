@@ -1,0 +1,101 @@
+<% if local_assigns[:notification_message] %>
+  <%= turbo_stream.prepend "user_#{current_user.uid}_notifications_container", target: "user_#{current_user.uid}_notifications_container" do %>
+    <%= render 'partials/notification',
+                  message: notification_message, 
+                  image: tag.try_image_url %>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag "tag_#{tag.uid}_config_fields" do %>
+  <div class='row'>
+    <div class='col-md-6 col-lg-8 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>URLs to audit</span>
+        <span class='settings-description d-block'>Which URLs Tagsafe should perform audits on for this tag.</span>
+      </div>
+    </div>
+    <div class='col-md-6 col-lg-4 d-flex align-items-center'>
+      <%= render 'urls_to_audit/index', domain: domain, tag: tag, urls_to_audit: tag.urls_to_audit %>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-md-6 col-lg-8 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>
+          Release Monitoring Interval 
+        </span>
+        <span class='settings-description d-block'>At what interval Tagsafe should monitor this tag. This impacts how quickly Tagsafe identifies new releases, and how frequently uptime metrics are measured.</span>
+      </div>
+    </div>
+    <div class='col-md-6 col-lg-4 d-flex align-items-center'>
+      <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences), html: { class: 'm-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <%= f.hidden_field :scheduled_audit_minute_interval, value: tag.tag_preferences.scheduled_audit_minute_interval %>
+        <select name='tag_preference[release_check_minute_interval]' class='form-select'>
+          <option selected="selected" value='0'>Disabled</option>
+          <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(domain) %>
+          <% TagPreference::RELEASE_CHECK_INTERVALS.each do |interval| %>
+            <% if feature_gate_keeper.can_access_feature?(interval[:value]) %>
+              <% if interval[:value] == tag.tag_preferences.release_check_minute_interval %>
+                <option value="<%=interval[:value] %>" selected="selected"><%= interval[:name] %></option>
+              <% else %>
+                <option value="<%=interval[:value] %>"><%= interval[:name] %></option>
+              <% end %>
+            <% else %>
+              <option disabled><%= interval[:name] %></option>
+            <% end %>
+          <% end %>
+        </select>
+      <% end %>
+      <div class='on-change-loading-indicator'>
+        <%= display_loading_icon size: :small %>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-md-6 col-lg-8 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>
+          Scheduled Audit Interval 
+        </span>
+        <span class='settings-description d-block'>Interval Tagsafe should run ongoing audits on this tag.</span>
+      </div>
+    </div>
+    <div class='col-md-6 col-lg-4 d-flex align-items-center'>
+      <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences), html: { class: 'm-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>
+        <select name='tag_preference[scheduled_audit_minute_interval]' class='form-select'>
+          <option selected="selected" value='0'>Disabled</option>
+          <% TagPreference::SCHEDULED_AUDIT_INTERVALS.each do |interval| %>
+            <% if interval[:value] == tag.tag_preferences.scheduled_audit_minute_interval %>
+              <option value="<%=interval[:value] %>" selected="selected"><%= interval[:name] %></option>
+            <% else %>
+              <option value="<%=interval[:value] %>"><%= interval[:name] %></option>
+            <% end %>
+          <% end %>
+        </select>
+      <% end %>
+      <div class='on-change-loading-indicator'>
+        <%= display_loading_icon size: :small %>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-md-6 col-lg-8 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>
+          Uptime Monitoring Regions 
+        </span>
+        <span class='settings-description d-block'>From which regions to monitor and measure tag's endpoint.</span>
+      </div>
+    </div>
+    <div class='col-md-6 col-lg-4 d-flex align-items-center'>
+      <%= render 'uptime_regions_to_check/new', tag: tag, selectable_uptime_regions: selectable_uptime_regions %>
+    </div>
+  </div>
+<% end %>

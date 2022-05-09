@@ -8,7 +8,7 @@ class AddUidIndexesWhereMissing < ActiveRecord::Migration[6.1]
     add_index :page_load_resources, :uid
     add_index :page_load_traces, :uid
     add_index :performance_audit_calculators, :uid
-    add_index :tag_check_regions_to_check, :uid
+    add_index :uptime_regions_to_check, :uid
     add_index :urls_to_audit, :uid
     add_index :user_invites, :token
 
@@ -18,7 +18,7 @@ class AddUidIndexesWhereMissing < ActiveRecord::Migration[6.1]
     drop_table :page_load_screenshots
     drop_table :scripts
     drop_table :subscription_options
-    drop_table :tag_check_region
+    drop_table :uptime_region
     drop_table :test_run_screenshots
     drop_table :urls_to_audits
     drop_table :user_roles

@@ -11,6 +11,8 @@ export default class extends Controller {
     this._clearModalContent();
   }
 
+  close() { this.hide() }
+
   _listenForEscape() {
     window.addEventListener('keydown', e => {
       if(e.keyCode === 27) this.hide();

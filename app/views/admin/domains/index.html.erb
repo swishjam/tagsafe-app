@@ -1,0 +1,23 @@
+<table class="table table-hover col-12 text-start" style="table-layout: fixed">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 25%">Domain UID</th>
+      <th scope="col" style="width: 25%">Domain URL</th>
+      <th scope="col" style="width: 20%">Subscription Plan</th>
+      <th scope="col" style="width: 20%">Subscription Status</th>
+      <th scope="col" style="width: 10%"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @domains.each do |domain| %>
+      <tr>
+        <td><%= domain.uid %></td>
+        <td><%= domain.url %></td>
+        <td><%= domain.current_saas_subscription_plan&.package_type %></td>
+        <td><%= domain.current_saas_subscription_plan&.status %></td>
+        <td><%= link_to 'View', admin_domain_path(domain) %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @domains %>

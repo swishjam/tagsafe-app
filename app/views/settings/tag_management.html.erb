@@ -14,10 +14,11 @@
   <table class="table table-hover col-12" style="table-layout: fixed">
     <thead>
       <tr>
-        <th scope="col" style='width: 50%'>Tag</th>
-        <th scope="col" style='width: 15%'>Release Monitoring</th>
-        <th scope="col" style='width: 15%'>Scheduled Audits</th>
-        <th scope="col" style='width: 15%'>Current Tagsafe Score</th>
+        <th scope="col" style='width: 47%'>Tag</th>
+        <th scope="col" style='width: 12%'>Release Monitoring</th>
+        <th scope="col" style='width: 12%'>Uptime Monitoring</th>
+        <th scope="col" style='width: 12%'>Scheduled Audits</th>
+        <th scope="col" style='width: 12%'>Current Tagsafe Score</th>
         <th scope="col" style='width: 5%'></th>
       </tr>
     </thead>
@@ -40,18 +41,27 @@
           <td>
             <div class='d-flex align-items-center'>
               <% if tag.release_monitoring_enabled? %>
-                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.tag_check_minute_interval %> minute intervals</div>
+                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.release_check_interval_in_words %></div>
               <% else %>
-                <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
+                <div class='tagsafe-pill small-text grey force-content-width'>Disabled</div>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <div class='d-flex align-items-center'>
+              <% if tag.uptime_regions_to_check.none? %>
+                <div class='tagsafe-pill small-text grey'>0 regions</div>
+              <% else %>
+                <div class='tagsafe-pill small-text green force-content-width'><%= tag.uptime_regions_to_check.count %> regions</div>
               <% end %>
             </div>
           </td>
           <td>
             <div class='d-flex align-items-center'>
               <% if tag.scheduled_audits_enabled? %>
-                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_minute_interval %> minute intervals</div>
+                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_interval_in_words %></div>
               <% else %>
-                <div class='tagsafe-pill small-text red force-content-width'>Disabled</div>
+                <div class='tagsafe-pill small-text grey force-content-width'>Disabled</div>
               <% end %>
             </div>
           </td>

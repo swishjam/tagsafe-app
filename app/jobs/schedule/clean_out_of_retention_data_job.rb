@@ -1,51 +1,42 @@
 module Schedule
   class CleanOutOfRetentionDataJob < ApplicationJob
-    TAG_VERSION_RETENTION_OFFSET_BY_TAG = 100
-    TAG_CHECK_RETENTION_OFFSET_BY_TAG = 1440*7 # 1 weeks worth at one minute checks
-    NON_PRIMARY_AUDIT_OFFSET_FOR_TAG = 100
-    NON_MEDIAN_DELTA_PERFORMANCE_AUDITS_OFFSET_BY_TAG = 100
-    EXECUTED_LAMBDA_FUNCTION_OFFSET_FOR_TAG=100
-
     def perform
-      purge_start = Time.now
-      Domain.all.each do |domain|
-        Rails.logger.info "DATA PURGE JOB: Beginning to purge data for Domain #{domain.url} (id: #{domain.id})"
-        domain_start = Time.now
-        domain.tags.each do |tag|
-          purge_tag_checks_for_tag(tag)
-          purge_tag_versions_for_tag(tag)
-          purge_non_median_delta_performance_audits_for_tag(tag)
-          purge_non_primary_audits_for_tag(tag)
+      purge_start = Time.current
+      domains = Domain.all
+      domains.each do |domain|
+        Rails.logger.info "CleanOutOfRetentionDataJob: Beginning to purge data for Domain #{domain.uid} (#{domain.url})"
+        domain_start = Time.current
+
+        days_of_retention_for_domain = domain.subscription_feature_restriction.data_retention_days
+        older_than_timestamp = Time.current - days_of_retention_for_domain.days
+        
+        if domain.tag_versions.count == 1
+          Rails.logger.info "CleanOutOfRetentionDataJob: Not purging the only TagVersion left for Domain #{domain.uid} event though it is older than it's retention period."
+        else
+          tag_versions_to_purge = domain.tag_versions.older_than(older_than_timestamp)
+          Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{tag_versions_to_purge.count} TagVersions that are older than #{days_of_retention_for_domain} days."
+          tag_versions_to_purge.destroy_all_fully!
         end
-        Rails.logger.info "DATA PURGE JOB: completed purge for Domain #{domain.url} (#{domain.id}) in #{Time.now - domain_start} seconds"
+
+        uptime_checks_to_purge = domain.uptime_checks.older_than(older_than_timestamp)
+        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{uptime_checks_to_purge.count} UptimeChecks that are older than #{days_of_retention_for_domain} days."
+        uptime_checks_to_purge.destroy_all
+
+        release_checks_to_purge = domain.release_checks.older_than(older_than_timestamp)
+        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{release_checks_to_purge.count} ReleaseChecks that are older than #{days_of_retention_for_domain} days."
+        release_checks_to_purge.destroy_all
+
+        audits_to_purge = domain.audits.older_than(older_than_timestamp)
+        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{audits_to_purge.count} Audits that are older than #{days_of_retention_for_domain} days."
+        audits_to_purge.destroy_all
+
+        url_crawls_to_purge = domain.url_crawls.older_than(older_than_timestamp)
+        Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{url_crawls_to_purge.count} UrlCrawls that are older than #{days_of_retention_for_domain} days."
+        url_crawls_to_purge.destroy_all
+
+        Rails.logger.info "CleanOutOfRetentionDataJob: Completed purge for Domain #{domain.uid} (#{domain.url}) in #{Time.current - domain_start} seconds."
       end
-      Rails.logger.info "DATA PURGE JOB: completed entire purge in #{Time.now - purge_start}"
-    end
-
-    def purge_tag_checks_for_tag(tag)
-      tag_checks = tag.tag_checks.most_recent_first.offset(TAG_CHECK_RETENTION_OFFSET_BY_TAG)
-      Rails.logger.info "DATA PURGE JOB: purging #{tag_checks.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) tag checks (keeping #{TAG_CHECK_RETENTION_OFFSET_BY_TAG} of them)."
-      tag_checks.destroy_all
-    end
-
-    def purge_tag_versions_for_tag(tag)
-      tag_versions = tag.tag_versions.most_recent_first.offset(TAG_VERSION_RETENTION_OFFSET_BY_TAG)
-      Rails.logger.info "DATA PURGE JOB: purging #{tag_versions.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) tag versions (keeping #{TAG_VERSION_RETENTION_OFFSET_BY_TAG} of them)."
-      tag_versions.destroy_all_fully!
-    end
-
-    def purge_non_median_delta_performance_audits_for_tag(tag)
-      delta_performance_audits = DeltaPerformanceAudit.joins(:audit)
-                                                              .where(type: IndividualDeltaPerformanceAudit.to_s, audit: tag.audits)
-                                                              .offset(NON_MEDIAN_DELTA_PERFORMANCE_AUDITS_OFFSET_BY_TAG)
-      Rails.logger.info "DATA PURGE JOB: purging #{delta_performance_audits.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) non-median/average delta performance audits (keeping #{NON_MEDIAN_DELTA_PERFORMANCE_AUDITS_OFFSET_BY_TAG} of them)."
-      delta_performance_audits.destroy_all
-    end
-
-    def purge_non_primary_audits_for_tag(tag)
-      audits = tag.audits.most_recent_first.where(primary: false).offset(NON_PRIMARY_AUDIT_OFFSET_FOR_TAG)
-      Rails.logger.info  "DATA PURGE JOB: purging #{audits.count} of tag #{tag.try_friendly_name} (ID: #{tag.id}) non primary audits (keeping #{NON_PRIMARY_AUDIT_OFFSET_FOR_TAG} of them)."
-      audits.destroy_all
+      Rails.logger.info "CleanOutOfRetentionDataJob: Completed entire purge of #{domains.count} Domains in #{Time.current - purge_start} seconds."
     end
   end
 end

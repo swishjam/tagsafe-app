@@ -34,6 +34,11 @@ a.no-decoration {
   border: none !important;
 }
 
+.dotted-underline {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
 .overflow-ellipsis {
   text-overflow: ellipsis;
   overflow-x: hidden;

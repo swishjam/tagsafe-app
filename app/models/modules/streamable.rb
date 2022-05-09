@@ -38,17 +38,19 @@ module Streamable
 
     def re_render_tags_chart(domain:, now: false)
       return if Util.env_is_true('DISABLE_CHART_UPDATE_STREAMS')
+      tags = domain.tags.includes(:tag_preferences).order('removed_from_site_at ASC, last_released_at DESC').limit(9)
       stream_replace!(
         now: now,
         stream: "domain_#{domain.uid}_monitor_center_view_stream",
         target: "#{domain.uid}_domain_tags_chart",
         partial: 'charts/tags/index',
         locals: { 
-          domain: domain, 
+          domain: domain,
+          tags: tags,
+          tag_ids: tags.collect(&:id),
           chart_data: nil,
-          displayed_metric: :tagsafe_score, 
-          start_time: 1.day.ago, 
-          end_time: Time.now
+          metric_key: :tagsafe_score, 
+          time_range: '24_hours'
         }
       )
     end

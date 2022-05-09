@@ -1,0 +1,59 @@
+<div class='row feature-row'>
+  <div class='col-2'>
+    <div class='feature-title' data-column='1'>
+      <div class='column-content'>
+        <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= feature_tooltip_title %>">
+          <%= feature_title %>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class='col-10'>
+    <div class='row h-100'>
+      <div class='col-3 subscription-package-support-column' data-column='2'>
+        <div class='column-content'>
+          <% if local_assigns[:starter_package_support_tooltip_title] %>
+            <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= starter_package_support_tooltip_title %>">
+              <%= starter_package_support_tooltip_title %>
+            </span>
+          <% else %>
+            <%= starter_package_support %>
+          <% end %>
+        </div>
+      </div>
+      <div class='col-3 subscription-package-support-column' data-column='3'>
+        <div class='column-content'>
+          <% if local_assigns[:scale_package_support_tooltip_title] %>
+            <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= scale_package_support_tooltip_title %>">
+              <%= scale_package_support %>
+            </span>
+          <% else %>
+            <%= scale_package_support %>
+          <% end %>
+        </div>
+      </div>
+      <div class='col-3 subscription-package-support-column' data-column='4'>
+        <div class='column-content'>
+          <% if local_assigns[:pro_package_support_tooltip_title] %>
+            <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= pro_package_support_tooltip_title %>">
+              <%= pro_package_support %>
+            </span>
+          <% else %>
+            <%= pro_package_support %>
+          <% end %>
+        </div>
+      </div>
+      <div class='col-3 subscription-package-support-column' data-column='4'>
+        <div class='column-content'>
+          <% if local_assigns[:enterprise_package_support_tooltip_title] %>
+            <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= enterprise_package_support_tooltip_title %>">
+              <%= enterprise_package_support %>
+            </span>
+          <% else %>
+            <%= enterprise_package_support %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

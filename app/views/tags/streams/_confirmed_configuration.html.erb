@@ -1,0 +1,9 @@
+<%= turbo_stream.replace "tag_#{tag.uid}_config_fields" do %>
+  <%= render 'tags/config_fields', domain: domain, tag: tag, selectable_uptime_regions: selectable_uptime_regions %>
+<% end %>
+
+<%= turbo_stream.prepend "user_#{current_user.uid}_notifications_container", target: "user_#{current_user.uid}_notifications_container" do %>
+  <%= render 'partials/notification',
+                message: "Updated #{tag.try_friendly_name}.", 
+                image: tag.try_image_url %>
+<% end %>

@@ -1,0 +1,73 @@
+<%= turbo_frame_tag "tag_#{tag.uid}_uptime_chart", class: 'frame-with-chart' do %>
+  <div class='tagsafe-container'>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='col-6'>
+          <%= form_with method: :get, url: charts_uptime_check_path(tag, time_range: time_range), data: { controller: 'submit-form-changes'} do %>
+            <div class='form-check form-switch w-fit mb-2'>
+              <input type='checkbox' value='column' id='chart-type' name='chart_type' class='form-check-input pointer' <%= chart_type == 'column' ? 'checked=checked' : nil %>>
+              <label for='chart-type'>Column Chart</label>
+            </div>
+          <% end %>
+          <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_uptime_check_path(tag, chart_type: chart_type, aws_regions: selected_uptime_regions.collect(&:aws_region_name)) %>
+        </div>
+        <div class='col-6 text-end'>
+          <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
+            <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class='display-text'><i class="metric-icon fa-solid fa-earth-americas"></i><%= selected_uptime_regions.collect(&:location).join(', ') %></span> 
+              <span class='dropdown-indicator'><i class="fa-solid fa-chevron-up"></i></span>
+            </div>
+            <div class="dropdown-menu p-3">
+              <%= form_with url: charts_uptime_check_path(tag, time_range: time_range, chart_type: chart_type), method: :get, html: { class: 'float-end' }, data: { controller: 'submit-form-changes' } do |f| %>
+                <% UptimeRegion.selectable.each do |uptime_region| %>
+                  <div class='form-switch form-check'>
+                    <input type='checkbox' name='aws_regions[]' id="uptime-chart-tag-check-region-<%=uptime_region.id%>" value="<%= uptime_region.aws_region_name %>" class='form-check-input pointer d-inline' <%= selected_uptime_regions.index(uptime_region).present? ? 'checked' : nil %>>
+                    <label for='uptime-chart-tag-check-region-<%=uptime_region.id%>'><%= uptime_region.location %></label>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='loading-indicator p-5 text-center'>
+        <%= display_loading_icon %>
+      </div>
+      <div class='chart-container' data-controller='streamed-script-tag'>
+        <% if chart_type == 'column' %>
+          <%=
+            column_chart chart_data,
+              download: true, 
+              title: "Tag Uptime",
+              ytitle: "Response Time (ms)",
+              messages: { empty: "No uptime data to visualize for #{selected_uptime_regions.collect(&:location)} region(s)." },
+              curve: false, 
+              legend: "bottom",
+              library: {
+                rangeSelector: true,
+                hAxis: { 
+                  format: 'MM-DD-YYYY hh:mm' 
+                }
+              }
+          %>
+        <% else %>
+          <%=
+            line_chart chart_data,
+              download: true, 
+              title: "Tag Uptime",
+              ytitle: "Response Time (ms)",
+              messages: { empty: "No uptime data to visualize for #{selected_uptime_regions.collect(&:location)} region(s)." },
+              curve: false, 
+              legend: "bottom",
+              library: {
+                rangeSelector: true,
+                hAxis: { 
+                  format: 'MM-DD-YYYY hh:mm' 
+                }
+              }
+          %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

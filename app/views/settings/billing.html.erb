@@ -16,140 +16,95 @@
   <%= render 'settings/settings_nav' %>
 </div>
 
+<% if !current_domain.has_payment_method_on_file? && current_domain.current_saas_subscription_plan&.is_on_free_trial? %>
+  <div class='container-fluid'>
+    <div class='col-12'>
+      <div class="alert alert-warning mb-3 mt-3 text-center" role="alert">
+        <i class="fas fa-exclamation-circle"></i> Your free trial ends in <%= current_domain.current_saas_subscription_plan.time_left_in_free_trial_in_words %>, <%= modal_link new_domain_payment_method_path, text: 'add a payment method' %> in order to maintain functionality.
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <div class='tagsafe-container p-5'>
-  <% if !current_domain.has_payment_method_on_file? %>
-    <div class='container-fluid'>
-      <div class='row'>
-        <div class='col-4 subscription-price-container'>
-          <div class='subscription-price-content'>
-            <div class='subscription-price-title'>Starter Plan</div>
-            <div class='subscription-price-features'>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Tagsafe Scores</span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Unlimited manual performance audits</span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Unlimited manual end-to-end tests</span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Page load recordings</span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Page load filmstrips</span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Automated tag synchronization</span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> 30 day data retention</span>
-            </div>
-            <div class='pricing-details-container'>
-              <span class='pricing-detail'>Free. No credit card required</span>
-            </div>
-            <div class='upgrade-button-container'>
-              <button class='floating-btn large' disabled>Current Plan</button>
-            </div>
-          </div>
-        </div>
-        <div class='col-4 subscription-price-container'>
-          <div class='subscription-price-content'>
-            <div class='subscription-price-title'>Pro Plan</div>
-            <div class='subscription-price-features'>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> Everything in Starter Plan</span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits generate Tagsafe Scores and attributes the performance implications each of your tags comes with. Configure Tagsafe to run audits on a set schedule, or after each tag release.">
-                <%= HtmlHelper.PASSED_ICON %> Automated performance audits
-              </span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="Write functional tests to validate your site's core functionality is operating correctly. Configure Tagsafe to run functional tests on a set schedule, or after each tag release.">
-                <%= HtmlHelper.PASSED_ICON %> Automated end-to-end tests
-              </span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="Monitor when your tag providers release update to your tags.">
-                <%= HtmlHelper.PASSED_ICON %> Release monitoring
-              </span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="View side-by-side diffs between tag releases.">
-                <%= HtmlHelper.PASSED_ICON %> Version diffs
-              </span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="Measure response times from selected regions across the globe.">
-                <%= HtmlHelper.PASSED_ICON %> Global uptime monitoring
-              </span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="Get notified on keys events with your tags (ie: Tagsafe Scores dropping below specified threshold).">
-                <%= HtmlHelper.PASSED_ICON %> Alerting
-              </span>
-              <span class='subscription-price-feature' data-controller='tooltip' data-bs-toggle='tooltip' title="Advanced audit settings like confidence scores, parallel performance audits.">
-                <%= HtmlHelper.PASSED_ICON %> Customizable audit configurations
-              </span>
-              <span class='subscription-price-feature'><%= HtmlHelper.PASSED_ICON %> 90 day data retention</span>
-            </div>
-            <div class='pricing-details-container text-center'>
-              <div class='pricing-detail'>
-                <span class='header'>$50 / 1,000 automated audits</span>
-                <span class='sub-header'>$0.05 per audit</span>
-              </div>
-              <div class='pricing-detail'>
-                <span class='header'>$50 / 1,000 automated test runs</span>
-                <span class='sub-header'>$0.05 per run</span>
-              </div>
-              <div class='pricing-detail'>
-                <span class='header'>$0.0025 / release check</span>
-                <span class='sub-header'>$7.20 per month at 30 minute intervals</span>
-              </div>
-              <div class='pricing-detail'>
-                <span class='header'>$0.0025 / uptime check</span>
-                <span class='sub-header'>$7.20 per month at 30 minute intervals</span>
-              </div>
-            </div>
-            <div class='upgrade-button-container'>
-              <%= modal_link new_domain_payment_method_path, text: 'Upgrade to Pro Plan', klass: 'floating-btn large' %>
-            </div>
-          </div>
-        </div>
-        <div class='col-4 subscription-price-container'>
-          <div class='subscription-price-content'>
-            <div class='subscription-price-title'>Custom</div>
-            <div class='subscription-price-features'>
-              Need custom pricing? Augmented features? Let us know, we'd be happy to accomodate.
-            </div>
-          </div>
-        </div>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Current plan</span>
+        <span class='settings-description d-block'>Your current subscription plan.</span>
       </div>
     </div>
-  <% else %>
-    <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>
-
-    <hr/>
-    <div class='row'>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>Next subscription payment</span>
-          <span class='settings-description d-block'>Your payment method on file will automatically be charged on this date.</span>
-        </div>
-      </div>
-      <div class='col-6 d-flex align-items-center'>
-        <% if !current_domain.has_payment_method_on_file? %>
-        N/A
-        <% else %>
-          <div class='d-block '>
-            <span class='d-block'><%= number_to_currency(@next_invoice.amount_due / 100.0) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
-            <!-- <#%= link_to 'View Past and Upcoming Payments', new_stripe_billing_portal_path, target: '_blank' %> !-->
-          </div>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='d-block'><%= current_domain.current_saas_subscription_plan.package_type.capitalize %> Plan</span>
+        <% unless current_domain.current_saas_subscription_plan.trialing? %>
+          <%= link_to 'Change Plan', select_subscription_plans_path %>
         <% end %>
       </div>
     </div>
+  </div>
 
-    <hr/>
-    <div class='row'>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>Estimated next subscription payment</span>
-          <span class='settings-description d-block'>Your estimated payment amount based on your current configuration. This is not a guaranteed amount.</span>
-        </div>
-      </div>
-      <div class='col-6 d-flex align-items-center'>
-        <% if !current_domain.has_payment_method_on_file? %>
-        N/A
-        <% else %>
-          <div class='d-block '>
-            <span class='d-block'><%= number_to_currency(SubscriptionMaintainer::PriceEstimator.new(current_domain).estimate_monthly_price / 100) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
-          </div>
-        <% end %>
+  <hr/>
+  <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Next recurring subscription payment</span>
+        <span class='settings-description d-block'>Your payment method on file will automatically be charged on this date.</span>
       </div>
     </div>
-  <% end %>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block '>
+        <span class='d-block'><%= number_to_currency(@next_saas_invoice.amount_due / 100.0) %> at <%= Time.at(@next_saas_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Next usage overage payment</span>
+        <span class='settings-description d-block'>If you have exceeded the usage limits on your subscription plan, your payment method on file will automatically be charged on this date for the overage amount.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block '>
+        <span class='d-block'><%= number_to_currency(@next_usage_based_invoice.amount_due / 100.0) %> at <%= Time.at(@next_usage_based_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+        <span class='d-block'>
+      </div>
+    </div>
+  </div>
+
+  <!--
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Estimated next subscription payment</span>
+        <span class='settings-description d-block'>Your estimated payment amount based on your current configuration. This is not a guaranteed amount.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <#% if !current_domain.has_payment_method_on_file? %>
+      N/A
+      <#% else %>
+        <div class='d-block '>
+          <span class='d-block'><#%= number_to_currency(SubscriptionMaintainer::PriceEstimator.new(current_domain).estimate_monthly_price / 100) %> at <#%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+        </div>
+      <#% end %>
+    </div>
+  </div>
+  !-->
 </div>
 
 <% if current_domain.has_payment_method_on_file? %>
   <div class='tagsafe-container mt-5 p-3 text-center'>
     <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
-    <span class='settings-description d-block'>You will be charged the remaining <%= number_to_currency(@next_invoice.amount_due / 100.0) %> immediately, and your configuration will be updated to no long monitor tag releases or run automated audits.</span>
-    <%= form_with model: current_domain.current_subscription_plan, url: cancel_subscription_plan_path(current_domain.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
+    <span class='settings-description d-block'>You will be charged the remaining <%= number_to_currency(@next_usage_based_invoice.amount_due / 100.0) %> immediately, and your configuration will be updated to no long monitor tag releases or run automated audits.</span>
+    <%= form_with model: current_domain.current_saas_subscription_plan, url: cancel_domains_subscription_subscription_plans_path, class: '', data: { controller: 'loading_form' } do %>
       <%= loading_submit_button 'Cancel', button_class: 'red mt-3' %>
     <% end %>
   <% end %>

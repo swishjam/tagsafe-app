@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_26_195544) do
+ActiveRecord::Schema.define(version: 2022_05_06_165135) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -100,6 +100,15 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.index ["uid"], name: "index_audits_on_uid"
   end
 
+  create_table "aws_event_bridge_rules", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.string "name"
+    t.boolean "enabled"
+    t.string "type"
+    t.string "region"
+    t.index ["uid"], name: "index_aws_event_bridge_rules_on_uid"
+  end
+
   create_table "blocked_resources", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.bigint "performance_audit_id"
@@ -185,6 +194,10 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.boolean "is_generating_third_party_impact_trial"
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
+    t.bigint "current_saas_subscription_plan_id"
+    t.bigint "current_usage_based_subscription_plan_id"
+    t.index ["current_saas_subscription_plan_id"], name: "index_domains_on_current_saas_subscription_plan_id"
+    t.index ["current_usage_based_subscription_plan_id"], name: "index_domains_on_current_usage_based_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -355,17 +368,6 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.index ["flag_id"], name: "index_object_flags_on_flag_id"
     t.index ["object_type", "object_id"], name: "index_object_flags_on_object"
     t.index ["uid"], name: "index_object_flags_on_uid"
-  end
-
-  create_table "organizations", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "tag_version_retention_count"
-    t.integer "tag_check_retention_count"
-    t.datetime "deleted_at"
-    t.index ["uid"], name: "index_organizations_on_uid"
   end
 
   create_table "page_change_audits", charset: "utf8", force: :cascade do |t|
@@ -544,6 +546,20 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.index ["uid"], name: "index_puppeteer_recordings_on_uid"
   end
 
+  create_table "release_checks", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "tag_id"
+    t.boolean "content_is_the_same_as_a_previous_version"
+    t.boolean "bytesize_changed"
+    t.boolean "hash_changed"
+    t.boolean "captured_new_tag_version"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "executed_at"
+    t.index ["tag_id"], name: "index_release_checks_on_tag_id"
+    t.index ["uid"], name: "index_release_checks_on_uid"
+  end
+
   create_table "roles", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "name"
@@ -568,25 +584,22 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.index ["uid"], name: "index_slack_settings_on_uid"
   end
 
-  create_table "subscription_billings", charset: "utf8", force: :cascade do |t|
-    t.bigint "subscription_plan_id"
+  create_table "subscription_feature_restrictions", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.integer "manual_performance_audits_included_per_month"
+    t.integer "manual_test_runs_included_per_month"
+    t.integer "automated_performance_audits_included_per_month"
+    t.integer "automated_test_runs_included_per_month"
+    t.boolean "has_advance_performance_audit_configurations"
+    t.integer "min_release_check_minute_interval"
+    t.integer "data_retention_days"
+    t.integer "tag_sync_minute_cadence"
     t.bigint "domain_id"
-    t.float "billed_amount_in_cents"
-    t.datetime "bill_start_datetime"
-    t.datetime "bill_end_datetime"
-    t.string "uid"
-    t.index ["domain_id"], name: "index_subscription_billings_on_domain_id"
-    t.index ["subscription_plan_id"], name: "index_subscription_billings_on_subscription_plan_id"
-  end
-
-  create_table "subscription_plan_items", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "subscription_plan_id"
-    t.bigint "subscription_price_id"
-    t.string "stripe_subscription_item_id"
-    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
-    t.index ["subscription_price_id"], name: "subscription_plan_subscription_prices_on_spr"
-    t.index ["uid"], name: "index_subscription_plan_items_on_uid"
+    t.integer "uptime_checks_included_per_month"
+    t.string "package_inherited_from"
+    t.integer "release_checks_included_per_month"
+    t.index ["domain_id"], name: "index_subscription_feature_restrictions_on_domain_id"
+    t.index ["uid"], name: "index_subscription_feature_restrictions_on_uid"
   end
 
   create_table "subscription_plans", charset: "utf8", force: :cascade do |t|
@@ -596,20 +609,45 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
-    t.boolean "current"
+    t.string "type"
+    t.datetime "free_trial_ends_at"
+    t.string "package_type"
     t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
     t.index ["uid"], name: "index_subscription_plans_on_uid"
   end
 
-  create_table "subscription_prices", charset: "utf8", force: :cascade do |t|
+  create_table "subscription_price_options", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "type"
     t.string "name"
     t.string "slug"
     t.string "stripe_price_id"
     t.float "price_in_cents"
-    t.index ["slug"], name: "index_subscription_prices_on_slug"
+    t.string "subscription_package_type"
+    t.string "billing_interval"
+    t.index ["slug"], name: "index_subscription_price_options_on_slug"
+    t.index ["uid"], name: "index_subscription_price_options_on_uid"
+  end
+
+  create_table "subscription_prices", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "subscription_plan_id"
+    t.string "stripe_subscription_item_id"
+    t.bigint "subscription_price_option_id"
+    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
+    t.index ["subscription_price_option_id"], name: "index_subscription_prices_on_subscription_price_option_id"
     t.index ["uid"], name: "index_subscription_prices_on_uid"
+  end
+
+  create_table "subscription_usage_record_updates", charset: "utf8", force: :cascade do |t|
+    t.bigint "subscription_plan_id"
+    t.bigint "domain_id"
+    t.float "billed_amount_in_cents"
+    t.datetime "bill_start_datetime"
+    t.datetime "bill_end_datetime"
+    t.string "uid"
+    t.index ["domain_id"], name: "index_subscription_usage_record_updates_on_domain_id"
+    t.index ["subscription_plan_id"], name: "index_subscription_usage_record_updates_on_subscription_plan_id"
   end
 
   create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8", force: :cascade do |t|
@@ -618,51 +656,6 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.integer "tag_id"
     t.index ["tag_id"], name: "index_tag_allowed_performance_audit_third_party_urls_on_tag_id"
     t.index ["uid"], name: "index_tag_allowed_performance_audit_third_party_urls_on_uid"
-  end
-
-  create_table "tag_check_regions", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "aws_name"
-    t.string "location"
-    t.index ["aws_name"], name: "index_tag_check_regions_on_aws_name"
-    t.index ["uid"], name: "index_tag_check_regions_on_uid"
-  end
-
-  create_table "tag_check_regions_to_check", charset: "utf8", force: :cascade do |t|
-    t.bigint "tag_id"
-    t.bigint "tag_check_region_id"
-    t.string "uid"
-    t.index ["tag_check_region_id"], name: "index_tag_check_regions_to_check_on_tag_check_region_id"
-    t.index ["tag_id"], name: "index_tag_check_regions_to_check_on_tag_id"
-    t.index ["uid"], name: "index_tag_check_regions_to_check_on_uid"
-  end
-
-  create_table "tag_check_schedule_aws_event_bridge_rules", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "tag_check_region_id"
-    t.string "name"
-    t.string "associated_tag_check_minute_interval"
-    t.boolean "enabled"
-    t.index ["tag_check_region_id"], name: "index_tcsaebr_on_tag_check_region_id"
-    t.index ["uid"], name: "index_tag_check_schedule_aws_event_bridge_rules_on_uid"
-  end
-
-  create_table "tag_checks", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.float "response_time_ms"
-    t.integer "response_code"
-    t.timestamp "created_at"
-    t.integer "tag_id"
-    t.integer "tag_check_region_id"
-    t.boolean "content_has_detectable_changes"
-    t.boolean "content_is_the_same_as_a_previous_version"
-    t.boolean "bytesize_changed"
-    t.boolean "hash_changed"
-    t.boolean "captured_new_tag_version"
-    t.datetime "executed_at"
-    t.index ["tag_check_region_id"], name: "index_tag_checks_on_tag_check_region_id"
-    t.index ["tag_id"], name: "index_tag_checks_on_tag_id"
-    t.index ["uid"], name: "index_tag_checks_on_uid"
   end
 
   create_table "tag_identifying_data", charset: "utf8", force: :cascade do |t|
@@ -688,12 +681,11 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.integer "tag_id"
     t.boolean "is_allowed_third_party_tag"
     t.boolean "is_third_party_tag"
-    t.boolean "should_log_tag_checks"
     t.boolean "consider_query_param_changes_new_tag"
     t.integer "throttle_minute_threshold"
     t.datetime "deleted_at"
-    t.integer "tag_check_minute_interval"
     t.integer "scheduled_audit_minute_interval"
+    t.integer "release_check_minute_interval"
     t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
     t.index ["uid"], name: "index_tag_preferences_on_uid"
   end
@@ -707,12 +699,12 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "tag_check_captured_with_id"
     t.integer "total_changes"
     t.integer "num_additions"
     t.integer "num_deletions"
     t.text "commit_message"
-    t.index ["tag_check_captured_with_id"], name: "index_tag_versions_on_tag_check_captured_with_id"
+    t.bigint "release_check_captured_with_id"
+    t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
   end
@@ -794,6 +786,36 @@ ActiveRecord::Schema.define(version: 2022_04_26_195544) do
     t.index ["initiating_record_type", "initiating_record_id"], name: "index_triggered_alerts_on_initiating_record"
     t.index ["tag_id"], name: "index_triggered_alerts_on_tag_id"
     t.index ["uid"], name: "index_triggered_alerts_on_uid"
+  end
+
+  create_table "uptime_checks", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.float "response_time_ms"
+    t.integer "response_code"
+    t.timestamp "created_at"
+    t.integer "tag_id"
+    t.datetime "executed_at"
+    t.bigint "uptime_region_id"
+    t.index ["tag_id"], name: "index_uptime_checks_on_tag_id"
+    t.index ["uid"], name: "index_uptime_checks_on_uid"
+    t.index ["uptime_region_id"], name: "index_uptime_checks_on_uptime_region_id"
+  end
+
+  create_table "uptime_regions", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.string "aws_name"
+    t.string "location"
+    t.index ["aws_name"], name: "index_uptime_regions_on_aws_name"
+    t.index ["uid"], name: "index_uptime_regions_on_uid"
+  end
+
+  create_table "uptime_regions_to_check", charset: "utf8", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "uid"
+    t.bigint "uptime_region_id"
+    t.index ["tag_id"], name: "index_uptime_regions_to_check_on_tag_id"
+    t.index ["uid"], name: "index_uptime_regions_to_check_on_uid"
+    t.index ["uptime_region_id"], name: "index_uptime_regions_to_check_on_uptime_region_id"
   end
 
   create_table "url_crawl_retrieved_urls", charset: "utf8", force: :cascade do |t|

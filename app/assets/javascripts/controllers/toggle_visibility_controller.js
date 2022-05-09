@@ -1,18 +1,31 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ['toggler', 'elToToggle'];
+  static targets = ['toggler'];
 
   connect() {
+    this._findTogglableEls();
     this.togglerTarget.addEventListener('change', () => this._toggleEl());
   }
 
   _toggleEl() {
-    console.log('changing...')
     if(this.togglerTarget.checked) {
-      this.elToToggleTarget.classList.remove('hidden');
+      this.elsToDisplayWhenToggledOn.forEach(el => el.classList.remove('hidden'));
+      this.elsToDisplayWhenToggledOff.forEach(el => el.classList.add('hidden'));
     } else {
-      this.elToToggleTarget.classList.add('hidden');
+      this.elsToDisplayWhenToggledOn.forEach(el => el.classList.add('hidden'));
+      this.elsToDisplayWhenToggledOff.forEach(el => el.classList.remove('hidden'));
     }
+  }
+
+  _findTogglableEls() {
+    this.elsToDisplayWhenToggledOn = [];
+    this.elsToDisplayWhenToggledOff = [];
+    this.togglerTarget.getAttribute('data-display-toggled-on-selectors').split(',').forEach(selector => {
+      this.elsToDisplayWhenToggledOn.push(...Array.from(this.element.querySelectorAll(selector)));
+    });
+    this.togglerTarget.getAttribute('data-display-toggled-off-selectors').split(',').forEach(selector => {
+      this.elsToDisplayWhenToggledOff.push(...Array.from(this.element.querySelectorAll(selector)));
+    });
   }
 }

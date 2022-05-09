@@ -51,8 +51,10 @@ class AuditsController < LoggedInController
 
   def create
     tag_version = @tag.tag_versions.find_by(uid: params[:tag_version_uid])
-    audits_enqueued = @tag.urls_to_audit.where(id: params[:urls_to_audit]).map do |url_to_audit|
-      @tag.perform_audit!(
+    audits_enqueued = []
+    audits_with_errors = []
+    @tag.urls_to_audit.where(id: params[:urls_to_audit]).each do |url_to_audit|
+      audit = @tag.perform_audit!(
         initiated_by_domain_user: current_domain_user,
         execution_reason: ExecutionReason.MANUAL,
         url_to_audit: url_to_audit,
@@ -71,9 +73,10 @@ class AuditsController < LoggedInController
           }
         }
       )
+      (audit.errors.any? ? audits_with_errors : audits_enqueued) << audit
     end
-    current_user.broadcast_notification(message: "Performing audit on #{@tag.try_friendly_name}", image: @tag.try_image_url) unless user_is_anonymous?
-    stream_modal(partial: 'audits/new', locals: { tag: @tag, tag_version: tag_version, audits_enqueued: audits_enqueued })
+    current_user.broadcast_notification(message: "Performing audit on #{@tag.try_friendly_name}", image: @tag.try_image_url) unless audits_enqueued.empty? || user_is_anonymous?
+    stream_modal(partial: 'audits/new', locals: { tag: @tag, tag_version: tag_version, audits_enqueued: audits_enqueued, audits_with_errors: audits_with_errors })
   end
 
   def make_primary

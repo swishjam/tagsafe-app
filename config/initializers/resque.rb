@@ -1,6 +1,6 @@
 require 'active_scheduler'
 require 'resque/server'
-Dir[Rails.root.join('app', 'jobs', 'schedule', 'tag_check_jobs', '*.rb')].each { |file| require file }
+Dir[Rails.root.join('app', 'jobs', 'schedule', 'uptime_check_jobs', '*.rb')].each { |file| require file }
 Dir[Rails.root.join('app', 'jobs', 'schedule', 'scheduled_audit_jobs', '*.rb')].each { |file| require file }
 
 Resque::Server.use(Rack::Auth::Basic) do |user, password|

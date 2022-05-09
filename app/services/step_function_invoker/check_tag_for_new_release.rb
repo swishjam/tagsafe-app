@@ -1,6 +1,6 @@
 module StepFunctionInvoker
   class CheckTagForNewRelease < Base
-    self.results_consumer_klass = StepFunctionResponses::TagChecksResult
+    self.results_consumer_klass = StepFunctionResponses::ReleaseChecksResult
     self.results_consumer_job_queue = TagsafeQueue.CRITICAL
     self.has_no_executed_step_function = true
 
@@ -15,7 +15,7 @@ module StepFunctionInvoker
     def request_payload
       {
         tag_id: @tag.id,
-        current_minute_interval: @tag.tag_preferences.tag_check_minute_interval
+        current_minute_interval: @tag.tag_preferences.release_check_minute_interval
       }
     end
   end

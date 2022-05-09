@@ -4,8 +4,8 @@ class TestRun < ApplicationRecord
   # include IsReliantOnLambdaFunction
   
   belongs_to :functional_test
-  belongs_to :test_run_retried_from, foreign_key: :test_run_id_retried_from, class_name: 'TestRun', optional: true
-  has_many :retried_test_runs, foreign_key: :test_run_id_retried_from, class_name: 'TestRun'
+  belongs_to :test_run_retried_from, foreign_key: :test_run_id_retried_from, class_name: TestRun.to_s, optional: true
+  has_many :retried_test_runs, foreign_key: :test_run_id_retried_from, class_name: TestRun.to_s
   has_one :puppeteer_recording, as: :initiator, dependent: :destroy
   accepts_nested_attributes_for :puppeteer_recording
 

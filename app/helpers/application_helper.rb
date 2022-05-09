@@ -44,10 +44,8 @@ module ApplicationHelper
     session[:current_domain_audit_uid] = domain_audit.uid
   end
 
-  def log_user_in(user, domain = user.domains.first)
-    log_user_out
+  def set_current_user(user)
     session[:current_user_uid] = user.uid
-    session[:current_domain_uid] = domain&.uid
   end
 
   def set_anonymous_user_identifier

@@ -1,11 +1,11 @@
-class LambdaTagCheckQuery
+class LambdaReleaseCheckQuery
   def self.run_query!(interval:, region:)
     sql = <<~SQL
       SELECT
         tags.id AS tag_id,
         tags.full_url AS tag_url, 
-        tag_preferences.tag_check_minute_interval AS tag_check_minute_interval, 
-        tag_check_regions.aws_name AS region,
+        tag_preferences.release_check_minute_interval AS release_check_minute_interval, 
+        uptime_regions.aws_name AS region,
         current_tag_versions.hashed_content AS current_hashed_content,
         current_tag_versions.bytes AS current_version_bytes_size,
         CASE
@@ -16,10 +16,10 @@ class LambdaTagCheckQuery
         JSON_ARRAY(GROUP_CONCAT(ten_most_recent_tag_versions.hashed_content)) AS ten_most_recent_hashed_content
       FROM 
         tags
-        INNER JOIN tag_check_regions_to_check 
-          ON tag_check_regions_to_check.tag_id=tags.id
-        INNER JOIN tag_check_regions 
-          ON tag_check_regions.id=tag_check_regions_to_check.tag_check_region_id
+        INNER JOIN uptime_regions_to_check 
+          ON uptime_regions_to_check.tag_id=tags.id
+        INNER JOIN uptime_regions 
+          ON uptime_regions.id=uptime_regions_to_check.uptime_region_id
         INNER JOIN tag_preferences 
           ON tag_preferences.tag_id=tags.id
         LEFT JOIN general_configurations 
@@ -43,13 +43,13 @@ class LambdaTagCheckQuery
           ) AS ten_most_recent_tag_versions
           ON ten_most_recent_tag_versions.tag_id=tags.id
       WHERE 
-        tag_preferences.tag_check_minute_interval = #{interval} 
-        AND tag_check_regions.aws_name = "#{region}"
+        tag_preferences.release_check_minute_interval = #{interval} 
+        AND uptime_regions.aws_name = "#{region}"
         AND tags.marked_as_pending_tag_version_capture_at IS NULL
       GROUP BY
         tag_id,
         tag_url, 
-        tag_check_minute_interval, 
+        release_check_minute_interval, 
         region,
         current_hashed_content,
         current_version_bytes_size,

@@ -77,10 +77,8 @@ body:not(.with-fixed-top-banner) .navigation {
     border-radius: 20px;
     text-decoration: none;
     &:hover {
-      // text-decoration: underline;
       background: $tagsafe-primary;
       color: white;
-      // background: lightgrey;
     }
     &.current {
       background: $tagsafe-primary;
@@ -90,6 +88,24 @@ body:not(.with-fixed-top-banner) .navigation {
   .logo-container {
     margin: 25px;
     text-align: center;
+  }
+  .free-trial-indicator-container {
+    padding: 5px;
+    .free-trial-meter {
+      border-radius: 999px;
+      background-color: grey;
+      overflow: hidden;
+      height: 15px;
+      width: 100%;
+      .fill {
+        height: 100%;
+      }
+    }
+    .add-payment-method-link {
+      color: #5d5c5c;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+    }
   }
 }
 
