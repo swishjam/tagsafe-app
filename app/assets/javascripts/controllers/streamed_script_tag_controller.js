@@ -9,7 +9,6 @@ export default class extends Controller {
     this.element.querySelectorAll('script').forEach(script => this.activateScript(script));
     // Could be replaced by requestAnimationFrame()
     // setTimeout(() => {
-    //   debugger;
     //   [...this.element.children].map(el => this.activateScript(el));
     // }, 300);
   }

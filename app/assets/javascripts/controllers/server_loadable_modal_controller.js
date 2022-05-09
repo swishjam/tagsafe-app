@@ -3,7 +3,6 @@ import { Controller } from 'stimulus'
 export default class extends Controller {
   connect() {
     this._listenForEscape();
-    this._listenToDismissOnTurboRenders();
   }
 
   hide() {
@@ -17,18 +16,6 @@ export default class extends Controller {
   _listenForEscape() {
     window.addEventListener('keydown', e => {
       if(e.keyCode === 27) this.hide();
-    })
-  }
-
-  _listenToDismissOnTurboRenders() {
-    document.documentElement.addEventListener('turbo:frame-render', (event) => {
-      debugger;
-    })
-    document.documentElement.addEventListener('turbo:render', (event) => {
-      debugger;
-    })
-    document.documentElement.addEventListener('turbo:frame-load', (event) => {
-      debugger;
     })
   }
 
