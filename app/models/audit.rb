@@ -3,7 +3,6 @@ class Audit < ApplicationRecord
   # TODO: PerformanceAuditCacheGenerator has no dedicated models
   # include HasExecutedStepFunction
   uid_prefix 'aud'
-  # acts_as_paranoid
 
   belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
   belongs_to :domain
@@ -77,7 +76,7 @@ class Audit < ApplicationRecord
   ###############
 
   validate :has_at_least_one_type_of_audit_enabled
-  validate :has_payment_method_if_required, on: :create
+  validate :can_run_performance_audit_if_on_starter_plan
 
   #############
   # CALLBACKS #
@@ -104,20 +103,22 @@ class Audit < ApplicationRecord
   scope :performance_audits_enabled, -> { where(include_performance_audit: true) }
   scope :pending_performance_audit, -> { performance_audits_enabled.where(performance_audit_completed_at: nil) }
   scope :completed_performance_audit, -> { performance_audits_enabled.where.not(performance_audit_completed_at: nil) }
-  scope :successful_performance_audit, -> { completed.where(performance_audit_error_message: nil) }
+  scope :successful_performance_audit, -> { completed_performance_audit.where(performance_audit_error_message: nil) }
   scope :failed_performance_audit, -> { where.not(performance_audit_error_message: nil) }
 
   scope :functional_tests_disabled, -> { where(include_functional_tests: false) }
   scope :functional_tests_enabled, -> { where(include_functional_tests: true) }
   scope :pending_functional_tests, -> { functional_tests_enabled.where(functional_tests_completed_at: nil ) }
   scope :completed_functional_tests, -> { functional_tests_enabled.where.not(functional_tests_completed_at: nil ) }
+  scope :at_least_one_functional_test_run, -> { includes(:test_runs).where.not(test_runs: { id: nil }) }
 
   scope :page_change_audit_disabled, -> { where(include_page_change_audit: false) }
   scope :page_change_audit_enabled, -> { where(include_page_change_audit: true) }
   scope :pending_page_change_audit, -> { page_change_audit_enabled.where(page_change_audit_completed_at: nil) }
   scope :completed_page_change_audit, -> { page_change_audit_enabled.where.not(page_change_audit_completed_at: nil) }
 
-  scope :automated, -> { where(execution_reason: ExecutionReason.automated) }
+  scope :by_execution_reason, -> (execution_reason) { where(execution_reason: execution_reason) }
+  scope :automated, -> { by_execution_reason(ExecutionReason.automated) }
   scope :billable, -> { successful_performance_audit }
 
   def try_completion!
@@ -133,6 +134,7 @@ class Audit < ApplicationRecord
     update_column(:seconds_to_complete, Time.now - created_at)
     make_primary! unless performance_audit_failed? || performance_audit_disabled?
     send_audit_completed_notifications_if_necessary
+    send_audit_completed_emails
   end
 
   def audit_to_compare_with
@@ -200,6 +202,12 @@ class Audit < ApplicationRecord
     # update performance chart?...
   end
 
+  def send_audit_completed_emails
+    # usage_emailer = SubscriptionUsageAnalyzer::UsageForMonth.new(domain)
+    # usage_emailer.send_exceeded_usage_email_if_necessary
+    # usage_emailer.send_usage_warning_email_if_necessary
+  end
+
   def send_audit_completed_notifications_if_necessary
     unless initiated_by_domain_user.nil?
       initiated_by_domain_user.user.broadcast_notification(
@@ -211,6 +219,7 @@ class Audit < ApplicationRecord
   end
 
   def enqueue_configured_audit_types
+    return if performance_audit_failed? # we need a better place to keep general audit errors....
     AuditRunnerJobs::RunPerformanceAudit.perform_later(self) if include_performance_audit
     AuditRunnerJobs::RunPageChangeAudit.perform_later(self) if include_page_change_audit
     AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(self) if include_functional_tests
@@ -402,9 +411,19 @@ class Audit < ApplicationRecord
     end
   end
 
-  def has_payment_method_if_required
-    if ExecutionReason.billable.include?(execution_reason) && !domain.has_payment_method_on_file?
-      errors.add(:base, "Cannot run #{execution_reason.name} audits without a payment method on file.")
+  def can_run_performance_audit_if_on_starter_plan
+    return unless include_performance_audit
+    if execution_reason == ExecutionReason.MANUAL
+      gate_keeper = FeatureGateKeepers::CanRunManualPerformanceAudit.new(domain)
+      if !gate_keeper.can_access_feature?
+        errors.add(:base, gate_keeper.reason)
+      end
+    elsif ExecutionReason.automated.include?(execution_reason)
+      gate_keeper = FeatureGateKeepers::CanRunAutomatedPerformanceAudit.new(domain)
+      if !gate_keeper.can_access_feature?
+        self.performance_audit_error_message = gate_keeper.reason
+        # errors.add(:base, gate_keeper.reason)
+      end
     end
   end
 end

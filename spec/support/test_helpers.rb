@@ -1,11 +1,12 @@
 def prepare_test!(options = {})
-  stub_lambda_calls unless options[:allow_lambda_calls]
-  @domain = create(:domain) unless options[:bypass_default_domain_create]
+  stub_aws_calls unless options[:allow_aws_calls]
+  @domain = create(:domain, url: 'https://www.tagsafe.io') unless options[:bypass_default_domain_create]
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
+  create_aws_event_bridge_rules unless [:bypass_aws_event_bridge_rules]
   create_flags unless options[:bypass_flags]
 end
 
-def create_tag_with_associations(tag_factory: :tag, tag_url: 'htts://www.test.com')
+def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
   url_crawl = create(:completed_url_crawl, 
     domain: @domain, 
     page_url: @domain.page_urls.first
@@ -16,14 +17,30 @@ def create_tag_with_associations(tag_factory: :tag, tag_url: 'htts://www.test.co
     found_on_page_url: @domain.page_urls.first, 
     found_on_url_crawl: url_crawl
   )
-  tag_check = create(:tag_check, tag: tag, captured_new_tag_version: true)
-  tag_version = create(:most_recent_tag_version, tag: tag, tag_check_captured_with: tag_check)
+  release_check = create(:release_check, tag: tag, captured_new_tag_version: true)
+  TagManager::TagVersionCapturer.new(
+    tag: tag, 
+    content: '(function() { console.log("hello world"); })()', 
+    release_check: release_check, 
+    hashed_content: 'abc123', 
+    bytes: 100
+  ).capture_new_tag_version!
   url_to_audit = create(:url_to_audit, tag: tag, page_url: @domain.page_urls.first)
   tag
 end
 
-def stub_lambda_calls
+def stub_aws_calls
   allow_any_instance_of(Aws::Lambda::Client).to receive(:invoke).and_return(OpenStruct.new(status_code: 200))
+  allow_any_instance_of(Aws::States::Client).to receive(:start_execution).and_return(OpenStruct.new(status_code: 200))
+  allow_any_instance_of(Aws::EventBridge::Client).to receive(:disable_rule).and_return(OpenStruct.new(status_code: 200))
+  allow_any_instance_of(Aws::EventBridge::Client).to receive(:enable_rule).and_return(OpenStruct.new(status_code: 200))
+  allow_any_instance_of(Aws::S3::Client).to receive(:get_object).and_return(OpenStruct.new(status_code: 200))
+  allow_any_instance_of(Aws::S3::Client).to receive(:delete_object).and_return(OpenStruct.new(status_code: 200))
+  Aws.config.update(stub_responses: true)
+end
+
+def create_aws_event_bridge_rules
+  create(:one_minute_release_check_aws_event_bridge_rule)
 end
 
 def stub_valid_page_url_enforcement
@@ -46,7 +63,7 @@ def create_execution_reasons
   # run_rake_task('seed:mandatory_data')
   create(:initial_audit_execution)
   create(:manual_execution)
-  create(:reactivated_tag_execution)
+  create(:release_monitoring_activated)
   create(:scheduled_execution)
   create(:new_tag_version_execution)
   create(:retry_execution)

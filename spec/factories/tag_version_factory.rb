@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :tag_version do
     association :tag
-    association :tag_check_captured_with, factory: :tag_check
+    association :release_check_captured_with, factory: :release_check
     hashed_content { 'hashy123' }
     bytes { 123456 }
   end

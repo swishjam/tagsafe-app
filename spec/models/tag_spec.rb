@@ -9,10 +9,10 @@ RSpec.describe Tag, type: :model do
   end
 
   describe 'scopes - interval tag checks' do
-    it 'returns the correct tags based on the tag preference\'s tag_check_minute_interval' do
-      TagPreference::TAG_CHECK_INTERVALS.each do |obj|
+    it 'returns the correct tags based on the tag preference\'s release_check_minute_interval' do
+      TagPreference::RELEASE_CHECK_INTERVALS.each do |obj|
         tag = build(:tag, full_url: "https://www.#{obj[:value]}-minute-interval-tag.com", domain: @domain, found_on_page_url: @domain.page_urls.first, found_on_url_crawl: @domain.url_crawls.first)
-        tag.tag_preferences.tag_check_minute_interval = obj[:value]
+        tag.tag_preferences.release_check_minute_interval = obj[:value]
         tag.save!
       end
       expect(Tag.fifteen_minute_interval_checks.count).to be(1)
@@ -44,13 +44,13 @@ RSpec.describe Tag, type: :model do
       create_tag_with_associations(tag_url: 'https://www.apply-defaults-test.com')
     end
 
-    it 'calls run_tag_check_now! if release monitoring is enabled' do
-      expect_any_instance_of(Tag).to receive(:run_tag_check_now!).exactly(:once)
+    it 'calls run_uptime_check_now! if release monitoring is enabled' do
+      expect_any_instance_of(Tag).to receive(:run_uptime_check_now!).exactly(:once)
       create_tag_with_associations(tag_url: 'https://www.run-tag-check-test-enabled.com')
     end
 
-    it 'doesnt call run_tag_check_now! if release monitoring is disabled' do
-      expect_any_instance_of(Tag).to_not receive(:run_tag_check_now!)
+    it 'doesnt call run_uptime_check_now! if release monitoring is disabled' do
+      expect_any_instance_of(Tag).to_not receive(:run_uptime_check_now!)
       create_tag_with_associations(tag_factory: :disabled_tag, tag_url: 'https://www.run-tag-check-test-disabled.com', )
     end
   end
@@ -69,8 +69,8 @@ RSpec.describe Tag, type: :model do
   # describe '#most_recent_version' do
   #   it 'returns the TagVersion where most_recent = true' do
   #     tag_versions = 10.times.map do |i|
-  #       tag_check = create(:tag_check, tag: @tag, captured_new_tag_version: true)
-  #       create(:tag_version, most_recent: false, tag: @tag, tag_check_captured_with: tag_check, created_at: (rand() * 50).to_i.days.ago)
+  #       uptime_check = create(:uptime_check, tag: @tag, captured_new_tag_version: true)
+  #       create(:tag_version, most_recent: false, tag: @tag, release_check_captured_with: uptime_check, created_at: (rand() * 50).to_i.days.ago)
   #     end
   #   end
   # end

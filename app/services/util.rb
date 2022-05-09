@@ -5,6 +5,17 @@ class Util
     end
     alias env_is_true env_is_true?
 
+    def integer_to_interval_in_words(minutes)
+      case minutes.to_i
+      when 0 then 'disabled'
+      when 1 then 'every minute'
+      when 2..59 then "every #{minutes} minutes"
+      when 60 then "every hour"
+      when 60..1_439 then "every #{minutes.to_i / 60} hours"
+      when 1_440 then 'once a day'
+      end
+    end
+
     def create_dir_if_neccessary(*directories)
       directories.count.times{ |i| Dir.mkdir(directories[0..i].join('/')) unless Dir.exist? directories[0..i].join('/') }
       directories.join('/')

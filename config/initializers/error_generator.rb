@@ -57,3 +57,7 @@ end
 class TagsafeEmailError
   class Invalid < StandardError; end;
 end
+
+class SubscriptionError
+  class OneActiveSubscriptionPerDomain < StandardError; end;
+end

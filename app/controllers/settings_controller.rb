@@ -2,16 +2,15 @@ class SettingsController < LoggedInController
   before_action { render_breadcrumbs({ text: 'Settings' }) }
   def tag_management
     @tags = current_domain.tags.joins(:tag_preferences)
-                          .order('tag_preferences.tag_check_minute_interval DESC')
+                          .order('tag_preferences.release_check_minute_interval DESC')
                           .order('removed_from_site_at ASC')
                           .order('last_released_at DESC')
                           .page(params[:page]).per(params[:per_page] || 10)
   end
 
-  def billing
-    unless current_domain.stripe_payment_method_id.nil?
-      @default_payment_method = Stripe::PaymentMethod.retrieve(current_domain.stripe_payment_method_id)
-      @next_invoice = Stripe::Invoice.upcoming({ customer: current_domain.stripe_customer_id, expand: ['lines.data.price.product'] })
-    end
+  def billing    
+    @next_saas_invoice = Stripe::Invoice.upcoming({ subscription: current_domain.current_saas_subscription_plan.stripe_subscription_id, expand: ['lines.data.price.product'] })
+    @next_usage_based_invoice = Stripe::Invoice.upcoming({ subscription: current_domain.current_usage_based_subscription_plan.stripe_subscription_id, expand: ['lines.data.price.product'] })
+    @default_payment_method = Stripe::PaymentMethod.retrieve(current_domain.stripe_payment_method_id) unless current_domain.stripe_payment_method_id.nil?
   end
 end

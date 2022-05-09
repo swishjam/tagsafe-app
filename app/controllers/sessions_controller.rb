@@ -16,9 +16,10 @@ class SessionsController < ApplicationController
         domain = Domain.find_by(uid: params[:domain_uid])
         domain.mark_as_registered!
         domain.add_user(@user)
-        log_user_in(@user, domain)
+        set_current_domain(@domain)
+        set_current_user(@user)
       else
-        log_user_in(@user)
+        set_current_user(@user)
       end
       url_to_go_to = session[:redirect_url] || tags_path
       session.delete(:redirect_url)

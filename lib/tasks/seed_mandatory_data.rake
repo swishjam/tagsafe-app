@@ -18,7 +18,7 @@ namespace :seed do
       end
     end
 
-    puts "Creating TagCheckRegions"
+    puts "Creating UptimeRegions"
     regions = [
       { aws_name: 'us-east-1', location: 'US East (North Virginia)' },
       { aws_name: 'us-east-2', location: 'US East (Ohio)' },
@@ -43,17 +43,17 @@ namespace :seed do
       { aws_name: 'sa-east-1', location: 'South America (São Paulo)' },
     ]
     regions.each do |region|
-      existing = TagCheckRegion.find_by(aws_name: region[:aws_name])
+      existing = UptimeRegion.find_by(aws_name: region[:aws_name])
       if existing.present?
-        puts "Updating #{region[:aws_name]} TagCheckRegion"
+        puts "Updating #{region[:aws_name]} UptimeRegion"
         existing.update!(region)
       else
-        puts "Creating new #{region[:aws_name]} TagCheckRegion"
-        TagCheckRegion.create!(region)
+        puts "Creating new #{region[:aws_name]} UptimeRegion"
+        UptimeRegion.create!(region)
       end
     end
 
     puts "Syncing EventBridge rules from AWS..."
-    # LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(TagCheckRegion.selectable)
+    # LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(UptimeRegion.selectable)
   end
 end

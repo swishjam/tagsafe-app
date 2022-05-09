@@ -39,7 +39,7 @@ module ContextualUid
             self.uid = custom_uid
             return
           else
-            Rails.logger.warn "ContextualUid loop. Duplicate UID generated for #{self.class.to_s} model."
+            Rails.logger.warn "ContextualUid loop. Duplicate UID generated for #{self.class.to_s} model (#{custom_uid})."
           end
         end
       end

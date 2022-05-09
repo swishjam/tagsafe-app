@@ -1,5 +1,5 @@
-<div class="splash-container three-quarter" id='home'>
-  <div class="d-flex align-items-center justify-content-center">
+<div class='container-fluid' id='home'>
+  <div class='row align-items-center justify-content-center'>
     <div class='main-header-wrapper p-5'>
       <h1 class="main-header alfa-slab">
         Third party javascript tags <br/>
@@ -10,34 +10,16 @@
         Third party tags inherently make your web application more vulnerable due to the lack of visibility, control, and stability they come with. 
         Tagsafe provides a set of tools to put you back in control of your site.
       </h2>
-      <% if Util.env_is_true('DOMAIN_AUDIT_FORM_ENABLED') %>
-        <div class='container mt-5'>
-          <div class='col-xs-12 col-md-6 offset-md-3'>
-            <%= form_with url: domain_audits_path, class: 'domain-audit-form', data: { controller: 'loading_form' } do |f| %>
-              <div class='inline-input-and-btn'>
-                <%= f.text_field :domain_url, placeholder: 'https://www.tagsafe.io', value: @domain_audit_url, class: 'form-control' %>
-                <%= loading_submit_button 'Measure Impact of Third Party Tags' %>
-              </div>
-            <% end %>
-            <% if @domain_audit_error %>
-              <span class='red-text d-block'><%= @domain_audit_error %></span>
-            <% end %>
-            <span class='domain-audit-explanation'>Enter your site's URL to measure the impact of your third party tags.</span>
-          </div>
-        </div>
-      <% else %>
-        <div class='mt-5'>
-          <%= link_to 'Get started', new_registration_path, class: 'tagsafe-btn outline rounded-corners large d-block m-auto' %>
-          <span>No credit card required.</span>
-        </div>
-      <% end %>
+      <div class='mt-5'>
+        <%= link_to 'Get started', new_registration_path, class: 'tagsafe-btn outline rounded-corners large d-block m-auto' %>
+        <span>No credit card required.</span>
+      </div>
     </div>
   </div>
-  <div class='learn-more-div'>
-    <a href='#' data-controller='smooth-scroll' data-anchor='why' data-scroll-offset='66'>
-      <span class='d-block mb-0'>Learn More</span>
-      <i class="fa-solid fa-chevron-down"></i>
-    </a>
+  <div class='row'>
+    <div class='col-12'>
+      <%= image_tag '/images/tagsafe-dash.png', class: 'img-fluid' %>
+    </div>
   </div>
 </div>
 

@@ -1,0 +1,24 @@
+<% billing_interval_klass = billing_interval.to_s == SubscriptionPriceOption::BillingInterval.YEAR.to_s ? 'annual-billing-only' : 'monthly-billing-only' %>
+<% is_updating_plan = current_domain.current_saas_subscription_plan_id.present? %>
+<% if is_updating_plan && 
+        current_domain.current_saas_subscription_plan.package_type.to_s == package.to_s && 
+        current_domain.current_saas_subscription_plan.billing_interval.to_s == billing_interval.to_s %>
+  <form class='<%= billing_interval_klass %> mt-2'>
+    <button class='floating-btn large' disabled>Current Plan</button>
+  </form>
+<% else %>
+  <%= form_with model: current_domain,
+                url: is_updating_plan ? subscription_plan_path(current_domain) : subscription_plans_path, 
+                method: is_updating_plan ? :patch : :post,
+                class: "#{billing_interval_klass} mt-2 #{hidden ? 'hidden' : nil}",
+                data: { controller: 'loading_form' } do |f| %>
+    <%= f.hidden_field :subscription_package, value: package.to_s %>
+    <%= f.hidden_field :billing_interval, value: billing_interval.to_s %>
+    <%= loading_submit_button type: 'floating', button_class: 'large' do %>
+      <%= current_domain.current_saas_subscription_plan.present? ? "Change plan" : "Try for Free" %>
+    <% end %>
+    <% unless current_domain.current_saas_subscription_plan.present? %>
+      <span class='d-block' style='font-size: 12px'>14 day free trial</span>
+    <% end %>
+  <% end %>
+<% end %>
