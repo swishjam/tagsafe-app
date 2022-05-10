@@ -137,6 +137,7 @@ Rails.application.routes.draw do
     resources :domains, only: [:index, :show], param: :uid
     resources :subscription_prices, only: [:index, :show, :new, :create], param: :uid
     resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
+    resources :aws_event_bridge_rules, only: [:index, :show, :update]
     resources :flags, only: [:index, :show], param: :uid do
       resources :object_flags
     end

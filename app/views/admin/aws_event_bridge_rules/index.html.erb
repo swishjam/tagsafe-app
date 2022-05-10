@@ -1,0 +1,20 @@
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <td style='width: 40%'>Event Bridge Rule</td>
+      <td style='width: 15%'>Region</td>
+      <td style='width: 15%'>Type</td>
+      <td style='width: 15%'>Enabled</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @aws_event_bridge_rules.each do |event_bridge_rule| %>
+      <tr>
+        <td><%= event_bridge_rule.name %></td>
+        <td><%= event_bridge_rule.region %></td>
+        <td><%= event_bridge_rule.type %></td>
+        <td><%= event_bridge_rule.enabled %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

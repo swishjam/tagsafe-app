@@ -5,7 +5,7 @@ class TagPreference < ApplicationRecord
   
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
   after_create { enable_aws_event_bridge_rules_for_release_check_interval_if_necessary! unless release_monitoring_disabled? }
-  before_destroy { disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval!(release_check_minute_interval) unless tag.nil? }
+  before_destroy { disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(release_check_minute_interval) unless tag.nil? }
 
   # validate :has_payment_method_on_file_when_necessary
   validates :release_check_minute_interval, inclusion: { in: [0, 1, 15, 30, 60, 180, 360, 720, 1_440] }
@@ -72,11 +72,11 @@ class TagPreference < ApplicationRecord
     if saved_changes['release_check_minute_interval']
       previous_release_check_minute_interval = saved_changes['release_check_minute_interval'][0]
       enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
-      disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval!(previous_release_check_minute_interval)
+      disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(previous_release_check_minute_interval)
     end
   end
 
-  def disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval!(interval)
+  def disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(interval)
     return if interval.zero?
     return if TagPreference.where(release_check_minute_interval: interval).any?
     ReleaseCheckScheduleAwsEventBridgeRule.for_interval(interval).disable!

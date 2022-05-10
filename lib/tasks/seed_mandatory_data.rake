@@ -19,41 +19,44 @@ namespace :seed do
     end
 
     puts "Creating UptimeRegions"
-    regions = [
-      { aws_name: 'us-east-1', location: 'US East (North Virginia)' },
-      { aws_name: 'us-east-2', location: 'US East (Ohio)' },
-      { aws_name: 'us-west-1', location: 'US West (North California)' },
-      { aws_name: 'us-west-2', location: 'US West (Oregon)' },
-      { aws_name: 'af-south-1', location: 'Africa (Cape Town)' },
-      { aws_name: 'ap-east-1', location: 'Asia Pacific (Hong Kong)' },
-      { aws_name: 'ap-southeast-3', location: 'Asia Pacific (Jakarta)' },
-      { aws_name: 'ap-south-1', location: 'Asia Pacific (Mumbai)' },
-      { aws_name: 'ap-northeast-3', location: 'Asia Pacific (Osaka)' },
-      { aws_name: 'ap-northeast-2', location: 'Asia Pacific (Seoul)' },
-      { aws_name: 'ap-southeast-1', location: 'Asia Pacific (Singapore)' },
-      { aws_name: 'ap-southeast-2', location: 'Asia Pacific (Sydney)' },
-      { aws_name: 'ap-northeast-1', location: 'Asia Pacific (Tokyo)' },
-      { aws_name: 'ca-central-1', location: 'Canada (Central)' },
-      { aws_name: 'eu-central-1', location: 'Europe (Frankfurt)' },
-      { aws_name: 'eu-west-1', location: 'Europe (Ireland)' },
-      { aws_name: 'eu-west-2', location: 'Europe (London)' },
-      { aws_name: 'eu-south-1', location: 'Europe (Milan)' },
-      { aws_name: 'eu-north-1', location: 'Europe (Stockholm)' },
-      { aws_name: 'me-south-1', location: 'Middle East (Bahrain)' },
-      { aws_name: 'sa-east-1', location: 'South America (São Paulo)' },
-    ]
-    regions.each do |region|
-      existing = UptimeRegion.find_by(aws_name: region[:aws_name])
+    REGION_DICT = {
+      'us-east-2' => 'US East (Ohio)',
+      'us-east-1' => 'US East (N. Virginia)',
+      'us-west-1' => 'US West (N. California)',
+      'us-west-2' => 'US West (Oregon)',
+      'af-south-1' => 'Africa (Cape Town)',
+      'ap-east-1' => 'Asia Pacific (Hong Kong)',
+      'ap-southeast-3' => 'Asia Pacific (Jakarta)',
+      'ap-south-1' => 'Asia Pacific (Mumbai)',
+      'ap-northeast-3' => 'Asia Pacific (Osaka)',
+      'ap-northeast-2' => 'Asia Pacific (Seoul)',
+      'ap-southeast-1' => 'Asia Pacific (Singapore)',
+      'ap-southeast-2' => 'Asia Pacific (Sydney)',
+      'ap-northeast-1' => 'Asia Pacific (Tokyo)',
+      'ca-central-1' => 'Canada (Central)',
+      'cn-north-1' => 'China (Beijing)',
+      'cn-northwest-1' => 'China (Ningxia)',
+      'eu-central-1' => 'Europe (Frankfurt)',
+      'eu-west-1' => 'Europe (Ireland)',
+      'eu-west-2' => 'Europe (London)',
+      'eu-south-1' => 'Europe (Milan)',
+      'eu-west-3' => 'Europe (Paris)',
+      'eu-north-1' => 'Europe (Stockholm)',
+      'me-south-1' => 'Middle East (Bahrain)',
+      'sa-east-1' => 'South America (São Paulo)'
+    }
+    REGION_DICT.each do |aws_name, location|
+      existing = UptimeRegion.find_by(aws_name: aws_name)
       if existing.present?
-        puts "Updating #{region[:aws_name]} UptimeRegion"
-        existing.update!(region)
+        puts "Updating #{aws_name} UptimeRegion"
+        existing.update!(aws_name: aws_name, location: location)
       else
-        puts "Creating new #{region[:aws_name]} UptimeRegion"
-        UptimeRegion.create!(region)
+        puts "Creating new #{aws_name} UptimeRegion"
+        UptimeRegion.create!(aws_name: aws_name, location: location)
       end
     end
 
-    puts "Syncing EventBridge rules from AWS..."
+    # puts "Syncing EventBridge rules from AWS..."
     # LambdaCronJobDataStore::AwsEventBridgeSynchronizer.update_tagsafes_event_bridge_rules_from_aws_regions!(UptimeRegion.selectable)
   end
 end
