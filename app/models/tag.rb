@@ -248,6 +248,10 @@ class Tag < ApplicationRecord
     tag_preferences.scheduled_audits_enabled?
   end
 
+  def uptime_monitoring_enabled?
+    uptime_regions_to_check.count > 0
+  end
+
   def enable!
     tag_preferences.update!(enabled: true)
   end
@@ -259,6 +263,10 @@ class Tag < ApplicationRecord
 
   def scheduled_audits_disabled?
     !scheduled_audits_enabled?
+  end
+
+  def uptime_monitoring_disabled?
+    !uptime_monitoring_enabled?
   end
 
   def disable!

@@ -6,4 +6,4 @@ resque_scheduler: bundle exec rake resque:scheduler
 
 release: rails db:migrate
 
-# dev_worker: INTERVAL=0.1 QUEUE=critical,lambda_results,normal,low,default bundle exec rake resque:work
+# dev_worker: INTERVAL=0.1 QUEUE=critical,scheduled_audit_queue,lambda_results,normal,low,default bundle exec rake resque:work

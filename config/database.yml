@@ -3,10 +3,15 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+aws_rds_collin_dev: &aws_rds
+  url: mysql2://root:MCD9kty.vkb!ybx9haq@tagsafe-collin-local-development.cytsjoeoway1.us-east-1.rds.amazonaws.com:3306/tagsafe_collin_dev
+
+jaws_db_collin_dev: &jaws_db
+  url: mysql2://liumxww8qzltxgf4:btxo1zn78wy2uqyd@ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/q2mn5mg2xvmqq5fk
+
 development:
   <<: *default
-  # database: tag_safe_development
-  url: mysql2://liumxww8qzltxgf4:btxo1zn78wy2uqyd@ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/q2mn5mg2xvmqq5fk
+  <<: *jaws_db
 
 test:
   <<: *default

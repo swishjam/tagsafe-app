@@ -3,17 +3,19 @@ module StepFunctionResponses
     class UptimeCheckResult
       attr_accessor :aws_region
 
-      def initialize(uptime_check_result_hash, aws_region:)
+      def initialize(uptime_check_result_hash, aws_region:, uptime_check_batch_id:)
         @uptime_check_result = uptime_check_result_hash
         @aws_region = aws_region
+        @uptime_check_batch_id = uptime_check_batch_id
       end
 
       def formatted_for_create
         {
+          # uid: '',
           created_at: DateTime.now,
           executed_at: datetime_performed_at,
           tag_id: tag_id,
-          # uid: '',
+          uptime_check_batch_id: @uptime_check_batch_id,
           response_time_ms: response_time_ms,
           response_code: response_code,
           uptime_region_id: uptime_region.id

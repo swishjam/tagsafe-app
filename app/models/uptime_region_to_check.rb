@@ -13,7 +13,7 @@ class UptimeRegionToCheck < ApplicationRecord
   end
 
   def enable_aws_event_bridge_rules_for_region_if_necessary!
-    return false if tag.release_monitoring_disabled?
+    return false if tag.uptime_monitoring_disabled?
     UptimeCheckScheduleAwsEventBridgeRule.for_uptime_region!(uptime_region).enable!
   end
 end

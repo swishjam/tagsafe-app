@@ -7,25 +7,6 @@
       <circle class='circle-outline' cx="70" cy="70" r="70" style='stroke-dashoffset: <%= 440 - (440*score) / 100 %>'></circle>
     </svg>
     <div class="score default-cursor w-fit m-auto">
-      <% if current_user && Flag.flag_is_true(current_user, Flag::Slugs.DISPLAY_TAGSAFE_SCORE_CONFIDENCE_RANGE_INDICATOR) %>
-        <% if score_is_confident %>
-          <span class='position-absolute top-0 start-100 translate-middle'
-                    style='font-size: 10px'
-                    data-controller='tooltip' 
-                    data-bs-toggle='tooltip' 
-                    title="Tagsafe score is within the confidence range specified (<%= actual_confidence_range %>)">
-            <i class="fa-solid fa-bullseye"></i>
-          </span>
-        <% else %>
-        <span class='position-absolute top-0 start-100 translate-middle'
-                    style='font-size: 10px'
-                    data-controller='tooltip' 
-                    data-bs-toggle='tooltip' 
-                    title="Tagsafe score is outside of the confidence range specified (Confidence range = <%= actual_confidence_range %>, required range = <%= required_confidence_range %>)">
-            <i class="fa-solid fa-question"></i>
-          </span>
-        <% end %>
-      <% end %>
       <h2 class='position-relative'><%= score.round(2) %></h2>
       <% if change_in_score %>
         <span data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="The previous version had a Tagsafe score of <%= (score - change_in_score).round(2) %>.">

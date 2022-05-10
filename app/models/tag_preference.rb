@@ -79,11 +79,11 @@ class TagPreference < ApplicationRecord
   def disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(interval)
     return if interval.zero?
     return if TagPreference.where(release_check_minute_interval: interval).any?
-    ReleaseCheckScheduleAwsEventBridgeRule.for_interval(interval).disable!
+    ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(interval).disable!
   end
 
   def enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
     return false if release_monitoring_disabled?
-    ReleaseCheckScheduleAwsEventBridgeRule.for_interval(release_check_minute_interval).enable!
+    ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_check_minute_interval).enable!
   end
 end

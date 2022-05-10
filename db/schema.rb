@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_165135) do
+ActiveRecord::Schema.define(version: 2022_05_10_152630) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -546,6 +546,19 @@ ActiveRecord::Schema.define(version: 2022_05_06_165135) do
     t.index ["uid"], name: "index_puppeteer_recordings_on_uid"
   end
 
+  create_table "release_check_batches", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.string "batch_uid"
+    t.string "minute_interval"
+    t.integer "num_tags_with_new_versions"
+    t.integer "num_tags_without_new_versions"
+    t.datetime "executed_at"
+    t.datetime "processing_completed_at"
+    t.float "ms_to_run_check"
+    t.index ["batch_uid"], name: "index_release_check_batches_on_batch_uid"
+    t.index ["uid"], name: "index_release_check_batches_on_uid"
+  end
+
   create_table "release_checks", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.bigint "tag_id"
@@ -556,6 +569,8 @@ ActiveRecord::Schema.define(version: 2022_05_06_165135) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "executed_at"
+    t.bigint "release_check_batch_id"
+    t.index ["release_check_batch_id"], name: "index_release_checks_on_release_check_batch_id"
     t.index ["tag_id"], name: "index_release_checks_on_tag_id"
     t.index ["uid"], name: "index_release_checks_on_uid"
   end
@@ -788,6 +803,19 @@ ActiveRecord::Schema.define(version: 2022_05_06_165135) do
     t.index ["uid"], name: "index_triggered_alerts_on_uid"
   end
 
+  create_table "uptime_check_batches", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.string "batch_uid"
+    t.bigint "uptime_region_id"
+    t.integer "num_tags_checked"
+    t.datetime "executed_at"
+    t.datetime "processing_completed_at"
+    t.float "ms_to_run_check"
+    t.index ["batch_uid"], name: "index_uptime_check_batches_on_batch_uid"
+    t.index ["uid"], name: "index_uptime_check_batches_on_uid"
+    t.index ["uptime_region_id"], name: "index_uptime_check_batches_on_uptime_region_id"
+  end
+
   create_table "uptime_checks", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.float "response_time_ms"
@@ -796,8 +824,10 @@ ActiveRecord::Schema.define(version: 2022_05_06_165135) do
     t.integer "tag_id"
     t.datetime "executed_at"
     t.bigint "uptime_region_id"
+    t.bigint "uptime_check_batch_id"
     t.index ["tag_id"], name: "index_uptime_checks_on_tag_id"
     t.index ["uid"], name: "index_uptime_checks_on_uid"
+    t.index ["uptime_check_batch_id"], name: "index_uptime_checks_on_uptime_check_batch_id"
     t.index ["uptime_region_id"], name: "index_uptime_checks_on_uptime_region_id"
   end
 

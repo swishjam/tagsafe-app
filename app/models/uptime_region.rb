@@ -1,4 +1,5 @@
 class UptimeRegion < ApplicationRecord  
+  has_many :uptime_check_batches
   has_many :uptime_checks
   has_many :uptime_regions_to_check, class_name: UptimeRegionToCheck.to_s, dependent: :destroy
   has_many :tags, through: :uptime_regions_to_check

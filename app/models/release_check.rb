@@ -1,4 +1,5 @@
 class ReleaseCheck < ApplicationRecord
+  belongs_to :release_check_batch
   belongs_to :tag
   has_one :tag_version, foreign_key: :release_check_captured_with_id
 

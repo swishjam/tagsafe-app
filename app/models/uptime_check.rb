@@ -1,4 +1,5 @@
 class UptimeCheck < ApplicationRecord
+  belongs_to :uptime_check_batch
   belongs_to :tag
   belongs_to :uptime_region
 

@@ -2,8 +2,9 @@ module StepFunctionResponses
   class ReleaseChecksResult
     class ReleaseCheckResult
       class InvalidReleaseCheckResponse < StandardError; end;
-      def initialize(uptime_check_result_hash)
-        @uptime_check_result = uptime_check_result_hash
+      def initialize(release_check_result_hash, release_check_batch_id)
+        @uptime_check_result = release_check_result_hash
+        @release_check_batch_id = release_check_batch_id
       end
 
       def formatted_for_create
@@ -12,6 +13,7 @@ module StepFunctionResponses
           updated_at: DateTime.now,
           executed_at: datetime_performed_at,
           tag_id: tag_id,
+          release_check_batch_id: @release_check_batch_id,
           # uid: '',
           bytesize_changed: bytesize_changed,
           hash_changed: hash_changed,
