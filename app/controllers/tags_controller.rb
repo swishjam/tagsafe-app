@@ -25,6 +25,23 @@ class TagsController < LoggedInController
     )
   end
 
+  def uptime_metrics
+    tag = current_domain.tags.find_by(uid: params[:uid])
+    average_response_ms = tag.average_response_time
+    max_response_ms = tag.max_response_time
+    failed_requests = tag.num_failed_requests
+    render turbo_stream: turbo_stream.replace(
+      "tag_#{tag.uid}_uptime_metrics",
+      partial: 'tags/uptime_metrics',
+      locals: {
+        tag: tag,
+        average_response_ms: average_response_ms,
+        max_response_ms: max_response_ms,
+        failed_requests: failed_requests
+      }
+    )
+  end
+
   def edit
     @tag = current_domain.tags.find_by(uid: params[:uid])
     @selectable_uptime_regions = UptimeRegion.selectable.not_enabled_on_tag(@tag)

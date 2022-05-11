@@ -335,10 +335,10 @@ class Tag < ApplicationRecord
   ################
 
   def average_response_time(days_ago: 7)
-    uptime_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms)
+    uptime_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms).round(2)
   end
 
-  def max_response_time(days_ago: 7)
+  def max_response_time(days_ago: 7, round: true)
     uptime_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
   end
 

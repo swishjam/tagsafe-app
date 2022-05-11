@@ -44,6 +44,20 @@ a.no-decoration {
   overflow-x: hidden;
 }
 
+.outlined-card {
+  border: 1px solid $soft-grey-border;
+  margin: 15px;
+  border-radius: 2px;
+  padding: 40px;
+  text-align: center;
+  .large-card-title {
+    font-size: 28px;
+  }
+  .small-card-title-description {
+    font-size: 14px;
+  }
+}
+
 .copy-btn {
   cursor: pointer;
   color: #575757;

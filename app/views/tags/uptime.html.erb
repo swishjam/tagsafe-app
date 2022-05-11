@@ -39,6 +39,28 @@
   </div>
 <% end %>
 
+<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_metrics", src: uptime_metrics_tag_path(@tag) do %>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-4'>
+        <div class='outlined-card'>
+          <%= display_loading_spinner %>
+        </div>
+      </div>
+      <div class='col-4'>
+        <div class='outlined-card'>
+          <%= display_loading_spinner %>
+        </div>
+      </div>
+      <div class='col-4'>
+        <div class='outlined-card'>
+          <%= display_loading_spinner %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
 <%= turbo_frame_tag "tag_#{@tag.uid}_uptime_chart", src: charts_uptime_check_path(@tag, aws_region_names: params[:regions] || ['us-east-1']) do %>
   <div class="tagsafe-container text-center p-5">
     <%= display_loading_spinner %>

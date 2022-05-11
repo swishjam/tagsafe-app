@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     member do
       get :uptime
       get :audits
+      get :uptime_metrics
       resources :releases, only: :index, as: :tag_releases
     end
     collection do
