@@ -10,7 +10,7 @@ module StepFunctionResponses
           batch_uid: @uptime_checks_hash['batch_uid'],
           uptime_region: uptime_region,
           num_tags_checked: @uptime_checks_hash['total_num_tags_checked'],
-          executed_at: @uptime_checks_hash['executed_at'].nil? ? @uptime_checks_hash['executed_at'] : Time.at(@uptime_checks_hash['executed_at'] / 1_000).to_datetime,
+          executed_at: @uptime_checks_hash['executed_at'].nil? ? nil : Time.at(@uptime_checks_hash['executed_at'] / 1_000).to_datetime,
           ms_to_run_check: @uptime_checks_hash['ms_to_complete_all_checks']
         )
       end
