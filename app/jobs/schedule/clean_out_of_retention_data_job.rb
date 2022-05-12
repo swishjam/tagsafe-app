@@ -43,7 +43,6 @@ module Schedule
       uptime_check_batches = ReleaseCheckBatch.older_than(14.days.ago, timestamp_column: :executed_at)
       Rails.logger.info "CleanOutOfRetentionDataJob: Purging #{uptime_check_batches.count} UptimeCheckBatches that are beyond the default retention period (14 days)"
 
-
       Rails.logger.info "CleanOutOfRetentionDataJob: Completed entire purge of #{domains.count} Domains in #{Time.current - purge_start} seconds."
     end
   end

@@ -8,6 +8,8 @@ class Domain < ApplicationRecord
   belongs_to :current_usage_based_subscription_plan, class_name: UsageBasedSubscriptionPlan.to_s, optional: true
   has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
   has_one :subscription_feature_restriction
+  has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
+  has_many :credit_wallets, dependent: :destroy
   has_many :subscription_plans, dependent: :destroy
   has_many :usage_based_subscription_plans, dependent: :destroy
   has_many :saas_subscription_plans, dependent: :destroy
@@ -34,7 +36,6 @@ class Domain < ApplicationRecord
 
   before_validation :strip_pathname_from_url_and_initialize_page_url, on: :create
   before_create { self.stripe_customer_id = Stripe::Customer.create({ email: "domain-user@#{url_hostname}" }).id }
-  # after_create { SubscriptionPlan.create_default(self) }
   after_create { PerformanceAuditCalculator.create_default(self) }
   after_create { GeneralConfiguration.create_default_for_domain(self) }
   after_destroy do
@@ -85,6 +86,10 @@ class Domain < ApplicationRecord
     self.url = parsed_domain_url
   rescue URI::InvalidURIError => e
     errors.add(:base, "Invalid URL provided.")
+  end
+
+  def credit_wallet_for_current_month
+    CreditWallet.for(self)
   end
 
   def current_performance_audit_calculator

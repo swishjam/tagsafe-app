@@ -18,7 +18,9 @@ module SubscriptionMaintainer
     def apply_subscription_package_to_domain(subscription_package:, billing_interval:, free_trial_days: 0)
       create_saas_subscription(subscription_package: subscription_package, billing_interval: billing_interval, free_trial_days: free_trial_days)
       create_usage_based_subscription(subscription_package: subscription_package, free_trial_days: free_trial_days)      
-      SubscriptionFeatureRestriction.create_default_for_subscription_package(subscription_package, domain)
+      SubscriptionFeatureRestriction.create_or_update_for_domain_by_subscription_package(subscription_package, domain)
+      FeaturePriceInCredits.create_or_update_for_domain_by_subscription_package(subscription_package, domain)
+      CreditWallet.for(domain, create_if_nil: false)&.disable!
     end
 
     private

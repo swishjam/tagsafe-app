@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_10_152630) do
+ActiveRecord::Schema.define(version: 2022_05_12_120621) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -116,6 +116,32 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.string "resource_type"
     t.index ["performance_audit_id"], name: "index_blocked_resources_on_performance_audit_id"
     t.index ["uid"], name: "index_blocked_resources_on_uid"
+  end
+
+  create_table "credit_wallet_transactions", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "credit_wallet_id"
+    t.float "credits_used"
+    t.float "num_credits_before_transaction"
+    t.float "num_credits_after_transaction"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["credit_wallet_id"], name: "index_credit_wallet_transactions_on_credit_wallet_id"
+    t.index ["uid"], name: "index_credit_wallet_transactions_on_uid"
+  end
+
+  create_table "credit_wallets", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.integer "month"
+    t.integer "beginning_credits"
+    t.float "credits_used"
+    t.float "credits_remaining"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "disabled_at"
+    t.index ["domain_id"], name: "index_credit_wallets_on_domain_id"
+    t.index ["uid"], name: "index_credit_wallets_on_uid"
   end
 
   create_table "delta_performance_audits", charset: "utf8", force: :cascade do |t|
@@ -248,6 +274,24 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.string "uid"
     t.string "name"
     t.index ["uid"], name: "index_execution_reasons_on_uid"
+  end
+
+  create_table "feature_prices_in_credits", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.float "automated_performance_audit_price"
+    t.float "automated_test_run_price"
+    t.float "manual_performance_audit_price"
+    t.float "manual_test_run_price"
+    t.float "puppeteer_recording_price"
+    t.float "speed_index_filmstrip_price"
+    t.float "resource_waterfall_price"
+    t.float "uptime_check_price"
+    t.float "release_check_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["domain_id"], name: "index_feature_prices_in_credits_on_domain_id"
+    t.index ["uid"], name: "index_feature_prices_in_credits_on_uid"
   end
 
   create_table "flags", charset: "utf8", force: :cascade do |t|
@@ -601,18 +645,12 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
 
   create_table "subscription_feature_restrictions", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.integer "manual_performance_audits_included_per_month"
-    t.integer "manual_test_runs_included_per_month"
-    t.integer "automated_performance_audits_included_per_month"
-    t.integer "automated_test_runs_included_per_month"
     t.boolean "has_advance_performance_audit_configurations"
     t.integer "min_release_check_minute_interval"
     t.integer "data_retention_days"
     t.integer "tag_sync_minute_cadence"
     t.bigint "domain_id"
-    t.integer "uptime_checks_included_per_month"
     t.string "package_inherited_from"
-    t.integer "release_checks_included_per_month"
     t.index ["domain_id"], name: "index_subscription_feature_restrictions_on_domain_id"
     t.index ["uid"], name: "index_subscription_feature_restrictions_on_uid"
   end

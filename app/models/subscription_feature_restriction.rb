@@ -43,7 +43,7 @@ class SubscriptionFeatureRestriction < ApplicationRecord
     }
   }
 
-  def self.create_default_for_subscription_package(package_type, domain)
+  def self.create_or_update_for_domain_by_subscription_package(package_type, domain)
     restriction_attrs_for_package = DEFAULTS_FOR_PACKAGE[package_type.to_sym]
     if domain.subscription_feature_restriction.present?
       domain.subscription_feature_restriction.update!(restriction_attrs_for_package)

@@ -18,12 +18,6 @@ class ApplicationRecord < ActiveRecord::Base
     uid
   end
 
-  def toggle_boolean_column(column)
-    attrs = {}
-    attrs[column] = !send(column)
-    update(attrs)
-  end
-
   def column_changed_to(column, value)
     saved_changes[column] && saved_changes[column][1] == value && saved_changes[column][0] != value
   end
