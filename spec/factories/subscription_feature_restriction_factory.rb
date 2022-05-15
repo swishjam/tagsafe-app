@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :subscription_feature_restriction_zero_features, class: SubscriptionFeatureRestriction do
+  factory :subscription_features_configuration_zero_features, class: SubscriptionFeaturesConfiguration do
     association :domain
     package_inherited_from { 'custom' }
     manual_performance_audits_included_per_month { 0 }

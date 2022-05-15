@@ -7,7 +7,7 @@ module Schedule
         Rails.logger.info "CleanOutOfRetentionDataJob: Beginning to purge data for Domain #{domain.uid} (#{domain.url})"
         domain_start = Time.current
 
-        days_of_retention_for_domain = domain.subscription_feature_restriction.data_retention_days
+        days_of_retention_for_domain = domain.subscription_features_configuration.data_retention_days
         older_than_timestamp = Time.current - days_of_retention_for_domain.days
         
         if domain.tag_versions.count == 1

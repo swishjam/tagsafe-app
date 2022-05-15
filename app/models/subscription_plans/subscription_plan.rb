@@ -12,6 +12,8 @@ class SubscriptionPlan < ApplicationRecord
   validates :package_type, inclusion: { in: %w[starter scale pro custom] }
 
   scope :delinquent, -> { where(status: DELINQUENT_STATUSES) }
+  scope :not_delinquent, -> { where.not(status: DELINQUENT_STATUSES) }
+  scope :trialing, -> { where(status: 'trialing') }
 
   class Package
     class << self

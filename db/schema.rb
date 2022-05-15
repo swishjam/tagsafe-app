@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_12_120621) do
+ActiveRecord::Schema.define(version: 2022_05_13_193822) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -121,12 +121,16 @@ ActiveRecord::Schema.define(version: 2022_05_12_120621) do
   create_table "credit_wallet_transactions", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.bigint "credit_wallet_id"
+    t.string "record_responsible_for_charge_type"
+    t.bigint "record_responsible_for_charge_id"
     t.float "credits_used"
     t.float "num_credits_before_transaction"
     t.float "num_credits_after_transaction"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "reason_for_transaction"
     t.index ["credit_wallet_id"], name: "index_credit_wallet_transactions_on_credit_wallet_id"
+    t.index ["record_responsible_for_charge_type", "record_responsible_for_charge_id"], name: "index_cwt_record_for_charge"
     t.index ["uid"], name: "index_credit_wallet_transactions_on_uid"
   end
 
@@ -137,9 +141,9 @@ ActiveRecord::Schema.define(version: 2022_05_12_120621) do
     t.integer "beginning_credits"
     t.float "credits_used"
     t.float "credits_remaining"
+    t.datetime "disabled_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "disabled_at"
     t.index ["domain_id"], name: "index_credit_wallets_on_domain_id"
     t.index ["uid"], name: "index_credit_wallets_on_uid"
   end
@@ -643,7 +647,7 @@ ActiveRecord::Schema.define(version: 2022_05_12_120621) do
     t.index ["uid"], name: "index_slack_settings_on_uid"
   end
 
-  create_table "subscription_feature_restrictions", charset: "utf8", force: :cascade do |t|
+  create_table "subscription_features_configurations", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.boolean "has_advance_performance_audit_configurations"
     t.integer "min_release_check_minute_interval"
@@ -651,8 +655,9 @@ ActiveRecord::Schema.define(version: 2022_05_12_120621) do
     t.integer "tag_sync_minute_cadence"
     t.bigint "domain_id"
     t.string "package_inherited_from"
-    t.index ["domain_id"], name: "index_subscription_feature_restrictions_on_domain_id"
-    t.index ["uid"], name: "index_subscription_feature_restrictions_on_uid"
+    t.float "num_credits_provided_each_month"
+    t.index ["domain_id"], name: "index_subscription_features_configurations_on_domain_id"
+    t.index ["uid"], name: "index_subscription_features_configurations_on_uid"
   end
 
   create_table "subscription_plans", charset: "utf8", force: :cascade do |t|

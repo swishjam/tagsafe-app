@@ -28,15 +28,15 @@
     <div class='col-6'>
       <h4>Feature restrictions:</h4>
       <p>
-        manual_performance_audits_included_per_month: <b><%= @domain.subscription_feature_restriction.manual_performance_audits_included_per_month || 'n/a' %></b><br/>
-        manual_test_runs_included_per_month: <b><%= @domain.subscription_feature_restriction.manual_test_runs_included_per_month || 'n/a' %></b><br/>
-        automated_performance_audits_included_per_month: <b><%= @domain.subscription_feature_restriction.automated_performance_audits_included_per_month || 'n/a' %></b><br/>
-        automated_test_runs_included_per_month: <%= @domain.subscription_feature_restriction.automated_test_runs_included_per_month || 'n/a' %> <br/>
-        uptime_checks_included_per_month: <b><%= @domain.subscription_feature_restriction.uptime_checks_included_per_month || 'n/a' %></b><br/>
-        has_advance_performance_audit_configurations: <b><%= @domain.subscription_feature_restriction.has_advance_performance_audit_configurations || 'n/a' %></b><br/>
-        tag_sync_minute_cadence: <b><%= @domain.subscription_feature_restriction.tag_sync_minute_cadence || 'n/a' %></b><br/>
-        min_release_check_minute_interval: <b><%= @domain.subscription_feature_restriction.min_release_check_minute_interval || 'n/a' %></b><br/>
-        data_retention_days: <b><%= @domain.subscription_feature_restriction.data_retention_days || 'n/a' %></b><br/>
+        manual_performance_audits_included_per_month: <b><%= @domain.subscription_features_configuration.manual_performance_audits_included_per_month || 'n/a' %></b><br/>
+        manual_test_runs_included_per_month: <b><%= @domain.subscription_features_configuration.manual_test_runs_included_per_month || 'n/a' %></b><br/>
+        automated_performance_audits_included_per_month: <b><%= @domain.subscription_features_configuration.automated_performance_audits_included_per_month || 'n/a' %></b><br/>
+        automated_test_runs_included_per_month: <%= @domain.subscription_features_configuration.automated_test_runs_included_per_month || 'n/a' %> <br/>
+        uptime_checks_included_per_month: <b><%= @domain.subscription_features_configuration.uptime_checks_included_per_month || 'n/a' %></b><br/>
+        has_advance_performance_audit_configurations: <b><%= @domain.subscription_features_configuration.has_advance_performance_audit_configurations || 'n/a' %></b><br/>
+        tag_sync_minute_cadence: <b><%= @domain.subscription_features_configuration.tag_sync_minute_cadence || 'n/a' %></b><br/>
+        min_release_check_minute_interval: <b><%= @domain.subscription_features_configuration.min_release_check_minute_interval || 'n/a' %></b><br/>
+        data_retention_days: <b><%= @domain.subscription_features_configuration.data_retention_days || 'n/a' %></b><br/>
       </p>
     </div>
   </div>

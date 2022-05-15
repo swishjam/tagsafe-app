@@ -6,12 +6,18 @@ default: &default
 aws_rds_collin_dev: &aws_rds
   url: mysql2://root:MCD9kty.vkb!ybx9haq@tagsafe-collin-local-development.cytsjoeoway1.us-east-1.rds.amazonaws.com:3306/tagsafe_collin_dev
 
-jaws_db_collin_dev: &jaws_db
+jaws_db_collin_dev: &jaws_db_collin_dev
   url: mysql2://liumxww8qzltxgf4:btxo1zn78wy2uqyd@ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/q2mn5mg2xvmqq5fk
+
+# local_db: &local_db
+#   username: root
+#   # password: password
+#   host: localhost
+#   database: tagsafe_development
 
 development:
   <<: *default
-  <<: *jaws_db
+  <<: *jaws_db_collin_dev
 
 test:
   <<: *default

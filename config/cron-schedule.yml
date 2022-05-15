@@ -3,6 +3,10 @@ re_enqueue_failed_jobs:
   cron: "*/1 * * * *" # every 1 minute
   queue: critical # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
   description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
+debit_wallets_for_uptime_and_release_checks:
+  class: Schedule::DebitWalletsForUptimeAndReleaseChecksJob
+  cron: "0 */1 * * *"
+  queue: normal
 update_subscription_usage_records:
   class: Schedule::UpdateSubscriptionUsageRecordsJob
   cron: "0 1 * * *" # every night at 1 am

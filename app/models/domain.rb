@@ -7,7 +7,7 @@ class Domain < ApplicationRecord
   belongs_to :current_saas_subscription_plan, class_name: SaasSubscriptionPlan.to_s, optional: true
   belongs_to :current_usage_based_subscription_plan, class_name: UsageBasedSubscriptionPlan.to_s, optional: true
   has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
-  has_one :subscription_feature_restriction
+  has_one :subscription_features_configuration, dependent: :destroy
   has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
   has_many :credit_wallets, dependent: :destroy
   has_many :subscription_plans, dependent: :destroy
@@ -49,8 +49,14 @@ class Domain < ApplicationRecord
   scope :registered, -> { where(is_generating_third_party_impact_trial: false) }
   scope :not_generating_third_party_impact_trial, -> { registered }
   scope :generating_third_party_impact_trial, -> { where(is_generating_third_party_impact_trial: true) }
+
+  scope :has_valid_subscription, -> { joins(:current_saas_subscription_plan).merge(SubscriptionPlan.not_delinquent) }
+  scope :has_delinquent_subscription, -> { joins(:current_saas_subscription_plan).merge(SubscriptionPlan.delinquent) }
+  scope :on_free_trial, -> { joins(:current_saas_subscription_plan).merge(SubscriptionPlan.trialing) }
+
+  scope :has_wallet_with_credits, -> { joins(:credit_wallets).merge(CreditWallet.has_credits_remaining) }
   
-  scope :where_subscription_feature_restriction, -> (where_clause) { joins(:subscription_feature_restriction).where(subscription_feature_restriction: where_clause) }
+  scope :where_subscription_features_configuration, -> (where_clause) { joins(:subscription_features_configuration).where(subscription_features_configuration: where_clause) }
 
   TEST_DOMAIN_HOSTNAME = 'www.tagsafe-test.com'.freeze
 

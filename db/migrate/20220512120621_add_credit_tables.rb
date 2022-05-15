@@ -14,6 +14,7 @@ class AddCreditTables < ActiveRecord::Migration[6.1]
     create_table :credit_wallet_transactions do |t|
       t.string :uid, index: true
       t.references :credit_wallet
+      t.references :record_responsible_for_charge, polymorphic: true, index: { name: :index_cwt_record_for_charge }
       t.float :credits_used
       t.float :num_credits_before_transaction
       t.float :num_credits_after_transaction

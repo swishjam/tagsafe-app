@@ -48,14 +48,6 @@ module StepFunctionResponses
         @uptime_check_result.dig('hashed_content', 'has_same_hashed_content_in_recent_version')
       end
 
-      def response_time_ms
-        @uptime_check_result.dig('fetch_details', 'response_ms')
-      end
-
-      def response_code
-        @uptime_check_result.dig('fetch_details', 'response_code')
-      end
-
       def captured_new_tag_version
         @uptime_check_result.dig('found_new_version')
       end

@@ -100,6 +100,47 @@
   !-->
 </div>
 
+
+<div class='tagsafe-container p-5 mt-5'>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Credits provided in subscription</span>
+        <span class='settings-description d-block'>The number of credits your account begins each month with.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.beginning_credits) %> credits</span>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Credits used this month</span>
+        <span class='settings-description d-block'>The number of credits your account has used so far this month.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_used) %> credits</span>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Credits remaining this month</span>
+        <span class='settings-description d-block'>The number of credits your account has remaining for this month.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_remaining) %> credits</span>
+    </div>
+  </div>
+</div>
+
 <% if current_domain.has_payment_method_on_file? %>
   <div class='tagsafe-container mt-5 p-3 text-center'>
     <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>

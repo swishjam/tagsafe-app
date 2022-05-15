@@ -54,7 +54,7 @@ module OverageEstimators
     private
 
     def automated_audits_included_in_package
-      @automated_audits_included_in_package ||= @domain.subscription_feature_restriction.automated_performance_audits_included_per_month
+      @automated_audits_included_in_package ||= @domain.subscription_features_configuration.automated_performance_audits_included_per_month
     end
 
     def minutes_in_next_month
