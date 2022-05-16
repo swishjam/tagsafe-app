@@ -13,8 +13,8 @@
       <tr>
         <td><%= domain.uid %></td>
         <td><%= domain.url %></td>
-        <td><%= domain.current_saas_subscription_plan&.package_type %></td>
-        <td><%= domain.current_saas_subscription_plan&.status %></td>
+        <td><%= domain.current_subscription_plan&.package_type %></td>
+        <td><%= domain.current_subscription_plan&.status %></td>
         <td><%= link_to 'View', admin_domain_path(domain) %>
       </tr>
     <% end %>

@@ -37,17 +37,17 @@
           </li>
         <% end %>
       </ul>
-      <% if current_domain.stripe_payment_method_id.nil? && current_domain.current_saas_subscription_plan.is_on_free_trial? %>
-        <% days_left = current_domain.current_saas_subscription_plan.days_until_free_trial_expires(false) %>
+      <% if current_domain.stripe_payment_method_id.nil? && current_domain.current_subscription_plan.is_on_free_trial? %>
+        <% days_left = current_domain.current_subscription_plan.days_until_free_trial_expires(false) %>
         <div class='free-trial-indicator-container text-center'>
-          <i class="fa-solid fa-clock"></i> <%= current_domain.current_saas_subscription_plan.time_left_in_free_trial_in_words %> left in free trial
+          <i class="fa-solid fa-clock"></i> <%= current_domain.current_subscription_plan.time_left_in_free_trial_in_words %> left in free trial
           <% color = days_left < 4 ? '#ff6c6c' : days_left < 8 ? '#ffbe6c' : '#65d565' %>
           <div class='free-trial-meter m-1'>
             <div class='fill' style='width: <%= (days_left / 14.0)*100 %>%; background-color: <%= color %>'></div>
           </div>
           <%= link_to 'Add Payment Method', settings_billing_path, class: 'add-payment-method-link' %>
         </div>
-      <% elsif current_domain.credit_wallet_for_current_month.credits_used / current_domain.credit_wallet_for_current_month.beginning_credits >= 0.85 %>
+      <% elsif current_domain.credit_wallet_for_current_month.credits_used / current_domain.credit_wallet_for_current_month.total_credits_for_month >= 0.85 %>
         <div class='free-trial-indicator-container low-credits text-center'>
           <span class='d-block'><%= HtmlHelper.WARNING_ICON %> <%= current_domain.credit_wallet_for_current_month.credits_remaining %> credits remaining this month</span>
           <%= link_to 'Add more', settings_billing_path, class: 'add-payment-method-link' %>

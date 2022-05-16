@@ -12,7 +12,7 @@ class FeaturePriceInCredits < ApplicationRecord
       puppeteer_recording_price: 1,
       speed_index_filmstrip_price: 1,
       resource_waterfall_price: 2,
-      uptime_check_price: 0.1,
+      uptime_check_price: 0.01,
       release_check_price: 0.1
     },
     scale: {
@@ -23,7 +23,7 @@ class FeaturePriceInCredits < ApplicationRecord
       puppeteer_recording_price: 1,
       speed_index_filmstrip_price: 1,
       resource_waterfall_price: 2,
-      uptime_check_price: 0.1,
+      uptime_check_price: 0.01,
       release_check_price: 0.1
     },
     pro: {
@@ -34,7 +34,7 @@ class FeaturePriceInCredits < ApplicationRecord
       puppeteer_recording_price: 1,
       speed_index_filmstrip_price: 1,
       resource_waterfall_price: 2,
-      uptime_check_price: 0.1,
+      uptime_check_price: 0.01,
       release_check_price: 0.1
     }
   }

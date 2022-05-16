@@ -1,5 +1,6 @@
 class UptimeRegionsToCheckController < LoggedInController
   def create
+    tag = current_domain.tags.find_by(uid: params[:tag_uid])
     uptime_region_to_check = tag.uptime_regions_to_check.create(uptime_region_id: params[:uptime_region_id])
     render turbo_stream: turbo_stream.replace(
       "tag_#{tag.uid}_config_fields",

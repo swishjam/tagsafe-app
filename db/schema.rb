@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_13_193822) do
+ActiveRecord::Schema.define(version: 2022_05_16_210320) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -118,6 +118,29 @@ ActiveRecord::Schema.define(version: 2022_05_13_193822) do
     t.index ["uid"], name: "index_blocked_resources_on_uid"
   end
 
+  create_table "bulk_debits", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "credit_wallet_id"
+    t.string "type"
+    t.float "debit_amount"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.index ["credit_wallet_id"], name: "index_bulk_debits_on_credit_wallet_id"
+    t.index ["uid"], name: "index_bulk_debits_on_uid"
+  end
+
+  create_table "credit_wallet_notifications", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "credit_wallet_id"
+    t.string "type"
+    t.float "total_credits_for_month_at_time_of_notification"
+    t.float "credits_used_at_time_of_notification"
+    t.float "credits_remaining_at_time_of_notification"
+    t.timestamp "sent_at"
+    t.index ["credit_wallet_id"], name: "index_credit_wallet_notifications_on_credit_wallet_id"
+    t.index ["uid"], name: "index_credit_wallet_notifications_on_uid"
+  end
+
   create_table "credit_wallet_transactions", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.bigint "credit_wallet_id"
@@ -138,7 +161,7 @@ ActiveRecord::Schema.define(version: 2022_05_13_193822) do
     t.string "uid"
     t.bigint "domain_id"
     t.integer "month"
-    t.integer "beginning_credits"
+    t.integer "total_credits_for_month"
     t.float "credits_used"
     t.float "credits_remaining"
     t.datetime "disabled_at"
@@ -224,10 +247,8 @@ ActiveRecord::Schema.define(version: 2022_05_13_193822) do
     t.boolean "is_generating_third_party_impact_trial"
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
-    t.bigint "current_saas_subscription_plan_id"
-    t.bigint "current_usage_based_subscription_plan_id"
-    t.index ["current_saas_subscription_plan_id"], name: "index_domains_on_current_saas_subscription_plan_id"
-    t.index ["current_usage_based_subscription_plan_id"], name: "index_domains_on_current_usage_based_subscription_plan_id"
+    t.bigint "current_subscription_plan_id"
+    t.index ["current_subscription_plan_id"], name: "index_domains_on_current_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -667,34 +688,12 @@ ActiveRecord::Schema.define(version: 2022_05_13_193822) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
-    t.string "type"
     t.datetime "free_trial_ends_at"
     t.string "package_type"
+    t.string "billing_interval"
+    t.float "amount"
     t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
     t.index ["uid"], name: "index_subscription_plans_on_uid"
-  end
-
-  create_table "subscription_price_options", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "type"
-    t.string "name"
-    t.string "slug"
-    t.string "stripe_price_id"
-    t.float "price_in_cents"
-    t.string "subscription_package_type"
-    t.string "billing_interval"
-    t.index ["slug"], name: "index_subscription_price_options_on_slug"
-    t.index ["uid"], name: "index_subscription_price_options_on_uid"
-  end
-
-  create_table "subscription_prices", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "subscription_plan_id"
-    t.string "stripe_subscription_item_id"
-    t.bigint "subscription_price_option_id"
-    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
-    t.index ["subscription_price_option_id"], name: "index_subscription_prices_on_subscription_price_option_id"
-    t.index ["uid"], name: "index_subscription_prices_on_uid"
   end
 
   create_table "subscription_usage_record_updates", charset: "utf8", force: :cascade do |t|

@@ -1,2 +1,0 @@
-class SaasFeeSubscriptionPriceOption < SubscriptionPriceOption
-end

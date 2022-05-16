@@ -1,11 +1,5 @@
 class SubscriptionPlan < ApplicationRecord
   belongs_to :domain
-  has_many :subscription_prices, dependent: :destroy
-  has_many :selected_subscription_price_options, through: :subscription_prices, source: :subscription_price_option
-  has_many :subscription_usage_record_updates
-  accepts_nested_attributes_for :subscription_prices
-
-  after_update :check_if_payment_failure
 
   DELINQUENT_STATUSES = %w[incomplete_expired unpaid]
 
@@ -15,13 +9,34 @@ class SubscriptionPlan < ApplicationRecord
   scope :not_delinquent, -> { where.not(status: DELINQUENT_STATUSES) }
   scope :trialing, -> { where(status: 'trialing') }
 
-  class Package
+  class Packages
     class << self
       %i[starter scale pro custom].each{ |plan_type| define_method(plan_type.upcase){ plan_type } }
     end
   end
 
+  class BillingIntervals
+    class << self
+      %i[month year].each{ |interval| define_method(interval.upcase) { interval } }
+    end
+  end
+
   %w[starter scale pro custom].each{ |package| define_method(:"#{package}?") { package_type == package } }
+
+  DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS = {
+    starter: {
+      month: 19_99,
+      year: 31_984
+    },
+    scale: {
+      month: 79_99,
+      year: 767_90
+    },
+    pro: {
+      month: 299_99,
+      year: 2879_90
+    }
+  }
   
   # Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, or `unpaid`.
   # For collection_method=charge_automatically a subscription moves into incomplete if the initial payment attempt fails. A 
@@ -55,17 +70,8 @@ class SubscriptionPlan < ApplicationRecord
   end
 
   def time_left_in_free_trial_in_words
-    minutes_left = ((free_trial_ends_at - Time.current) / 1.minute).round
-    case minutes_left
-    when 0..59
-      "#{minutes_left} minutes"
-    when 60..89
-      "1 hour"
-    when 90..1_440
-      "#{(minutes_left/60.0).round} hours"
-    else 
-      "#{days_until_free_trial_expires} days"
-    end
+    minutes_left = (free_trial_ends_at - Time.current) / 1.minute
+    Util.minutes_to_words(minutes_left)
   end
 
   def human_package_type
@@ -73,7 +79,7 @@ class SubscriptionPlan < ApplicationRecord
   end
 
   def cancel!
-    SubscriptionMaintainer::Applier.new(domain).cancel_current_subscription!
+    SubscriptionMaintainer::Remover.new(domain).cancel_current_subscription!
   end
 
   def fetch_stripe_subscription
@@ -87,29 +93,5 @@ class SubscriptionPlan < ApplicationRecord
 
   def human_status
     status.gsub('_', ' ')
-  end
-
-  private
-
-  def after_payment_failed
-    domain.admin_domain_users.each do |domain_user| 
-      TagsafeEmail::PaymentFailed.new(domain_user.user).send!
-    end
-  end
-
-  def after_subscription_became_delinquent
-    domain.admin_domain_users.each do |domain_user| 
-      TagsafeEmail::SubscriptionBecameDelinquent.new(domain_user.user).send!
-    end
-  end
-
-  def check_if_payment_failure
-    return unless saved_changes['status']
-    if self.class::DELINQUENT_STATUSES.include?(saved_changes['status'][1]) && 
-        !self.class::DELINQUENT_STATUSES.include?(saved_changes['status'][0])
-        after_subscription_became_delinquent
-    elsif column_changed_to('status', 'past_due')
-      after_payment_failed
-    end
   end
 end

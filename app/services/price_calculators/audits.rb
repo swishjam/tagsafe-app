@@ -23,7 +23,7 @@ module PriceCalculators
     private
 
     def price_for_performance_audit
-      return 0 if audit.execution_reason.manual? && feature_prices.manual_performance_audit_price.zero?
+      return 0 if free_of_charge?
       if !audit.include_performance_audit then 0
       elsif audit.execution_reason.manual? then feature_prices.manual_performance_audit_price
       elsif audit.execution_reason.automated? then feature_prices.automated_performance_audit_price
@@ -33,7 +33,7 @@ module PriceCalculators
     end
 
     def price_for_test_runs
-      return 0 if audit.execution_reason.manual? && feature_prices.manual_performance_audit_price.zero?
+      return 0 if free_of_charge?
       if !audit.include_functional_tests then 0
       elsif audit.execution_reason.manual? then feature_prices.manual_test_run_price * audit.num_functional_tests_to_run
       elsif audit.execution_reason.automated? then feature_prices.automated_test_run_price * audit.num_functional_tests_to_run
@@ -43,21 +43,25 @@ module PriceCalculators
     end
 
     def price_for_resource_waterfall
-      return 0 if audit.execution_reason.manual? && feature_prices.manual_performance_audit_price.zero?
+      return 0 if free_of_charge?
       return 0 unless audit.include_page_load_resources
       feature_prices.resource_waterfall_price
     end
 
     def price_for_puppeteer_recording
-      return 0 if audit.execution_reason.manual? && feature_prices.manual_performance_audit_price.zero?
+      return 0 if free_of_charge?
       return 0 unless audit.performance_audit_configuration.enable_screen_recording
       feature_prices.puppeteer_recording_price
     end
 
     def price_for_speed_index_filmstrip
-      return 0 if audit.execution_reason.manual? && feature_prices.manual_performance_audit_price.zero?
+      return 0 if free_of_charge?
       # TODO: need to make this configurable by audit!
       feature_prices.speed_index_filmstrip_price
+    end
+
+    def free_of_charge?
+      audit.execution_reason.tagsafe_provided? || (audit.execution_reason.manual? && feature_prices.manual_performance_audit_price.zero?)
     end
 
     def domain_wallet

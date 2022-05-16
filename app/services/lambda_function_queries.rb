@@ -1,5 +1,45 @@
-class LambdaReleaseCheckQuery
-  def self.run_query!(interval:, region:)
+class LambdaFunctionQueries
+  def self.uptime_check_query!(region_name:)
+    sql = <<~SQL
+      SELECT 
+        domains.id AS domain_id,
+        subscription_plans.status AS subscription_status,
+        credit_wallet_for_current_month.credits_remaining AS remaining_credits,
+        tags.id AS tag_id,
+        tags.full_url AS tag_url, 
+        uptime_regions.aws_name AS region,
+        uptime_regions.id as uptime_region_id
+      FROM 
+        tags
+        INNER JOIN domains
+          ON domains.id=tags.domain_id
+        INNER JOIN subscription_plans
+          ON subscription_plans.id=domains.current_subscription_plan_id
+        LEFT JOIN credit_wallets AS credit_wallet_for_current_month
+          ON credit_wallet_for_current_month.domain_id=domains.id AND
+          credit_wallet_for_current_month.month="#{Time.current.month}"
+        INNER JOIN uptime_regions_to_check 
+          ON uptime_regions_to_check.tag_id=tags.id
+        INNER JOIN uptime_regions 
+          ON uptime_regions.id=uptime_regions_to_check.uptime_region_id
+      WHERE 
+        uptime_regions.aws_name = "#{region_name}" AND
+        subscription_plans.status NOT IN ("incomplete_expired", "unpaid") AND
+        (
+          credit_wallet_for_current_month.credits_remaining IS NULL OR 
+          credit_wallet_for_current_month.credits_remaining > 0
+        )
+      GROUP BY
+        domain_id,
+        tag_id,
+        tag_url, 
+        region,
+        uptime_region_id
+    SQL
+    ActiveRecord::Base.connection.execute(sql).entries
+  end
+
+  def self.release_check_query!(interval:)
     sql = <<~SQL
       SELECT
         tags.id AS tag_id,

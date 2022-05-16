@@ -17,11 +17,8 @@ module FeatureGateKeepers
     end
 
     def delinquent_subscription_plan
-      @delinquent_subscription_plan ||= domain.current_saas_subscription_plan.delinquent? ? 
-                                          domain.current_saas_subscription_plan :
-                                            domain.current_usage_based_subscription_plan.delinquent? ? 
-                                              domain.current_usage_based_subscription_plan : 
-                                              nil
+      @delinquent_subscription_plan ||= domain.current_subscription_plan.delinquent? ? 
+                                          domain.current_subscription_plan : nil
     end
 
 

@@ -9,7 +9,7 @@ class UrlCrawl < ApplicationRecord
   belongs_to :page_url
   has_one :domain_audit
   has_many :retrieved_urls, class_name: UrlCrawlRetrievedUrl.to_s, dependent: :destroy
-  has_many :found_tags, class_name: 'Tag', foreign_key: :found_on_url_crawl_id
+  has_many :found_tags, class_name: Tag.to_s, foreign_key: :found_on_url_crawl_id
   alias tags_found found_tags
 
   scope :resulted_in_created_tags, -> { includes(:found_tags).where.not(found_tags: { id: nil }) }

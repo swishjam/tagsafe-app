@@ -3,9 +3,9 @@ class StripeWebhookConsumer
     :'customer.subscription.trial_will_end' => :'free_trial_will_end',
     :'invoice.marked_uncollectible' => :invoice_marked_uncollectible,
     :'invoice.payment_failed' => :invoice_payment_failed,
-    :'invoice.payment_succeeded' => :invoice_payment_succeeded,
-    :'invoice.payment_action_required' => :invoice_payment_action_required,
-    :'invoice.upcoming' => :invoice_upcoming,
+    # :'invoice.payment_succeeded' => :invoice_payment_succeeded,
+    # :'invoice.payment_action_required' => :invoice_payment_action_required,
+    # :'invoice.upcoming' => :invoice_upcoming,
     :'customer.subscription.updated' => :customer_subscription_updated
   }
 
@@ -30,10 +30,6 @@ class StripeWebhookConsumer
   def free_trial_will_end
     Rails.logger.info "StripeWebhookConsumer free trial ending soon!"
     subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'id'))
-    # because we have two subscriptions at all times, assume they each have the same free trial period
-    # use the UsageBasedSubscriptionPlan because that is gauranteed to be the Subscription with the lowest cadence (monthly)
-    # and to avoid sending two emails each time.
-    return if subscription_plan.is_a?(SaasSubscriptionPlan)
     subscription_plan.domain.admin_domain_users.each do |domain_user|
       TagsafeEmail::FreeTrialWillEnd.new(domain_user.user, subscription_plan).send!
     end
@@ -42,27 +38,19 @@ class StripeWebhookConsumer
   # Occurs whenever an invoice payment attempt fails, due either to a declined payment or to the lack of a stored payment method.
   def invoice_payment_failed
     Rails.logger.info "StripeWebhookConsumer Invoice Payment Failed!"
-  end
-
-  # Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
-  def invoice_payment_succeeded
-    Rails.logger.info "StripeWebhookConsumer Invoice Payment Paid!"
-  end
-
-  # Occurs whenever an invoice payment attempt requires further user action to complete.
-  def invoice_payment_action_required
-    Rails.logger.info "StripeWebhookConsumer Invoice Payment Action Required!"
-  end
-
-  # Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged—where X is determined by your 
-  # subscriptions settings (https://dashboard.stripe.com/account/billing/automatic). Note: The received Invoice object will not have an invoice ID.
-  def invoice_upcoming
-    Rails.logger.info "StripeWebhookConsumer Invoice is Upcoming!"
+    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'subscription'))
+    subscription_plan.domain.admin_domain_users.each do |domain_user| 
+      TagsafeEmail::PaymentFailed.new(domain_user.user).send!
+    end
   end
 
   # Occurs whenever an invoice is marked uncollectible.
   def invoice_marked_uncollectible
     Rails.logger.info "StripeWebhookConsumer Invoice Marked as Uncollectible!"
+    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'subscription'))
+    subscription_plan.domain.admin_domain_users.each do |domain_user| 
+      TagsafeEmail::SubscriptionBecameDelinquent.new(domain_user.user).send!
+    end
   end
 
   # Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
@@ -77,4 +65,21 @@ class StripeWebhookConsumer
       free_trial_ends_at: free_trial_ends_at ? Time.at(free_trial_ends_at).to_datetime : nil
     )
   end
+
+
+  # # Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
+  # def invoice_payment_succeeded
+  #   Rails.logger.info "StripeWebhookConsumer Invoice Payment Paid!"
+  # end
+
+  # # Occurs whenever an invoice payment attempt requires further user action to complete.
+  # def invoice_payment_action_required
+  #   Rails.logger.info "StripeWebhookConsumer Invoice Payment Action Required!"
+  # end
+
+  # # Occurs X number of days before a subscription is scheduled to create an invoice that is automatically charged—where X is determined by your 
+  # # subscriptions settings (https://dashboard.stripe.com/account/billing/automatic). Note: The received Invoice object will not have an invoice ID.
+  # def invoice_upcoming
+  #   Rails.logger.info "StripeWebhookConsumer Invoice is Upcoming!"
+  # end
 end

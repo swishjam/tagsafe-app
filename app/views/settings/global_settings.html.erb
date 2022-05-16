@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <% unless Util.env_is_true('PAGE_CHANGE_AUDITS_ENABLED') %>
+  <% if Util.env_is_true('PAGE_CHANGE_AUDITS_ENABLED') %>
     <hr/>
     <div class='row'>
       <div class='col-6 d-flex align-items-center'>
@@ -111,8 +111,8 @@
         <% end %>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
 <div class='tagsafe-container mt-5'>
   <h4 class='mb-0'>Performance audit settings</h4>

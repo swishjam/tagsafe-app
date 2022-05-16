@@ -18,6 +18,6 @@ class LoggedInController < ApplicationController
   end
 
   def ensure_subscription_plan
-    redirect_to select_subscription_plans_path if current_domain.current_saas_subscription_plan.nil?
+    redirect_to select_subscription_plans_path unless current_domain.has_current_subscription_plan?
   end
 end

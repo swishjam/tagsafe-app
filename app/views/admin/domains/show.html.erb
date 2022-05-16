@@ -7,10 +7,10 @@
     </div>
     <div class='col-6'>
       <h4>
-        Subscription Plan: <%= @domain.current_saas_subscription_plan.package_type.capitalize %> Plan (<%= @domain.current_saas_subscription_plan.billing_interval %>) <br/>
-        Status: <%= @domain.current_saas_subscription_plan.status %> <br/>
-        <% if @domain.current_saas_subscription_plan.trialing? %>
-          Free trial ends at: <%= @domain.current_saas_subscription_plan.free_trial_ends_at.strftime("%m/%d/%y @ %l:%M %P %Z") %>
+        Subscription Plan: <%= @domain.current_subscription_plan.package_type.capitalize %> Plan (<%= @domain.current_subscription_plan.billing_interval %>) <br/>
+        Status: <%= @domain.current_subscription_plan.status %> <br/>
+        <% if @domain.current_subscription_plan.trialing? %>
+          Free trial ends at: <%= @domain.current_subscription_plan.free_trial_ends_at.strftime("%m/%d/%y @ %l:%M %P %Z") %>
         <% end %>
       </h4>
     </div>
@@ -51,17 +51,8 @@
     </div>
     <div class='col-6'>
       <h5>SaaS Subscription:</h6>
-      <% @domain.current_saas_subscription_plan.selected_subscription_price_options.each do |subscription_price_option| %>
+      <% @domain.current_subscription_plan.selected_subscription_price_options.each do |subscription_price_option| %>
         <div style='border: 1px solid black'>
-          <h6><%= subscription_price_option.name %></h6>
-          <h6>Stripe Price ID: <%= subscription_price_option.stripe_price_id %></h6>
-          <h6>Package: <%= subscription_price_option.subscription_package_type %></h6>
-          <h6>Billing interval: <%= subscription_price_option.billing_interval %></h6>
-        </div>
-      <% end %>
-      <h5>Usage-based Subscription:</h6>
-      <% @domain.current_usage_based_subscription_plan.selected_subscription_price_options.each do |subscription_price_option| %>
-        <div style='border: 1px solid black;'>
           <h6><%= subscription_price_option.name %></h6>
           <h6>Stripe Price ID: <%= subscription_price_option.stripe_price_id %></h6>
           <h6>Package: <%= subscription_price_option.subscription_package_type %></h6>

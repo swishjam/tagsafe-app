@@ -61,13 +61,13 @@
   </div>
 <% end %>
 
-<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_chart", src: charts_uptime_check_path(@tag, aws_region_names: params[:regions] || ['us-east-1']) do %>
+<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_chart", src: charts_uptime_check_path(@tag, aws_region_names: params[:regions] || @tag.uptime_regions.limit(3).collect(&:aws_region_name)) do %>
   <div class="tagsafe-container text-center p-5">
     <%= display_loading_spinner %>
   </div>
 <% end %>
 
-<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_list", src: tag_uptime_list_path(@tag, aws_region_names: params[:regions] || ['us-east-1']) do %>
+<%= turbo_frame_tag "tag_#{@tag.uid}_uptime_list", src: tag_uptime_list_path(@tag, aws_region_names: params[:regions] || @tag.uptime_regions.limit(3).collect(&:aws_region_name)) do %>
   <div class="tagsafe-container text-center p-5">
     <%= display_loading_spinner %>
   </div>

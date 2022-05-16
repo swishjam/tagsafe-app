@@ -18,7 +18,7 @@
         <th scope="col" style='width: 12%'>Release Monitoring</th>
         <th scope="col" style='width: 12%'>Uptime Monitoring</th>
         <th scope="col" style='width: 12%'>Scheduled Audits</th>
-        <th scope="col" style='width: 12%'>Current Tagsafe Score</th>
+        <th scope="col" style='width: 12%'>Credits / Month</th>
         <th scope="col" style='width: 5%'></th>
       </tr>
     </thead>
@@ -67,9 +67,7 @@
           </td>
           <td>
             <div class='d-flex align-items-center'>
-              <% if tag.audit_to_display %>
-                <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: tag.audit_to_display %>
-              <% end %>
+              <%= number_with_delimiter(WalletModerator::TagCostEstimator.new(tag).total_credits_per_month) %>
             </div>
           </td>
           <td>
