@@ -49,8 +49,8 @@ class Domain < ApplicationRecord
   scope :not_generating_third_party_impact_trial, -> { registered }
   scope :generating_third_party_impact_trial, -> { where(is_generating_third_party_impact_trial: true) }
 
-  scope :has_valid_subscription, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.not_delinquent) }
-  scope :has_delinquent_subscription, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.delinquent) }
+  scope :has_valid_subscription, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.not_delinquent).merge(SubscriptionPlan.not_canceled) }
+  scope :has_invalid_subscription, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.delinquent) }
   scope :on_free_trial, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.trialing) }
 
   scope :has_wallet_with_credits, -> { joins(:credit_wallets).merge(CreditWallet.has_credits_remaining) }

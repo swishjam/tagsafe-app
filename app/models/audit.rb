@@ -71,6 +71,7 @@ class Audit < ApplicationRecord
 
   validate :has_at_least_one_type_of_audit_enabled
   validate :can_afford?
+  validate :has_valid_subscription?
 
   #############
   # CALLBACKS #
@@ -424,6 +425,16 @@ class Audit < ApplicationRecord
       errors.add(:base, insufficient_credits_message)
     else
       self.performance_audit_error_message = insufficient_credits_message
+    end
+  end
+
+  def has_valid_subscription?
+    return true unless domain.current_subscription_plan.delinquent? || domain.current_subscription_plan.canceled?
+    invalid_subscription_message = "Your Tagsafe subscription is frozen due to inability to charge your payment method on file. Update your payment method in order to continue using Tagsafe to it's full extent."
+    if execution_reason.manual?
+      errors.add(:base, invalid_subscription_message)
+    else
+      self.performance_audit_error_message = invalid_subscription_message
     end
   end
 end

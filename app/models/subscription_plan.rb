@@ -7,6 +7,8 @@ class SubscriptionPlan < ApplicationRecord
 
   scope :delinquent, -> { where(status: DELINQUENT_STATUSES) }
   scope :not_delinquent, -> { where.not(status: DELINQUENT_STATUSES) }
+  scope :canceled, -> { where(status: 'canceled') }
+  scope :not_canceled, -> { where.not(status: 'canceled') }
   scope :trialing, -> { where(status: 'trialing') }
 
   class Packages
