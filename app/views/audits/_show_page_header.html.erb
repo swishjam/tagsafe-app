@@ -5,7 +5,7 @@
     <div class='row'>
       <div class='col-8'>
         <h1 class="page-title with-sub-title"><%= local_assigns[:page_title] || 'Audit Results' %></h1>
-        <h2 class='page-sub-title'><%= local_assigns[:page_sub_title] || "#{@audit.tag.try_friendly_name}'s impact to #{@audit.page_url.full_url}" %></h2>
+        <h2 class='page-sub-title'><%= local_assigns[:page_sub_title] || "#{@audit.tag.try_friendly_name}'s impact to #{@audit.page_url.friendly_url}" %></h2>
       </div>
       <div class='col-4 page-title-cta-container'>
         <%= modal_link new_tag_audit_path(@tag), klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>

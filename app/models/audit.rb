@@ -438,6 +438,7 @@ class Audit < ApplicationRecord
 
   def can_afford?
     price_for_audit = PriceCalculators::Audits.new(self).price
+    return true if price_for_audit.zero?
     num_credits_in_wallet = domain.credit_wallet_for_current_month&.credits_remaining || Float::INFINITY
     return true if price_for_audit <= num_credits_in_wallet
     insufficient_credits_message = "Your account has insufficient credits to run this audit. This audit would cost #{price_for_audit} credits based on your configuration, but you only have #{num_credits_in_wallet} credits remaining this month."

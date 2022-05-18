@@ -27,6 +27,10 @@ class PageUrl < ApplicationRecord
     where(full_url: parsed_url.to_s).limit(1).first
   end
 
+  def friendly_url
+    hostname + pathname
+  end
+
   def should_scan_for_tags?
     !domain.is_generating_third_party_impact_trial && should_scan_for_tags
   end

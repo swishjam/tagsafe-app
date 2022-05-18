@@ -321,6 +321,33 @@ a.no-decoration {
   }
 }
 
+.scanning-animation-container {
+  position: relative;
+  .scanning-animation {
+    animation: MoveUpDown 3s linear infinite;
+    height: 10%;
+    max-height: 20px;
+    background: black;
+    position: absolute;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 20%;
+    border-radius: 999px;
+  }
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    top: 20%;
+  }
+  50% {
+    top: 70%;
+  }
+}
+
 .meta-info-pill {
   border-radius: 5px;
   font-size: 12px;
