@@ -20,7 +20,7 @@ development:
   sslca: "/etc/ssl/cert.pem"
 
 staging:
-#   <<: *default
+  <<: *default
 #   database: tagsafe-staging
 #   username: xss7b92kzyyo
 #   host: gmy4rjpsfwqz.us-east-4.psdb.cloud
