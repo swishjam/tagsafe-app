@@ -25,8 +25,6 @@ staging:
   username: xss7b92kzyyo
   host: gmy4rjpsfwqz.us-east-4.psdb.cloud
   password: pscale_pw_GGUqasfU0Az1wVKJ2_nJROA-EKE0oiB-FO6PWsI5hlU
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/cert.pem"
 
 production:
   <<: *default
@@ -34,5 +32,3 @@ production:
   username: bqmc4lhu2ms9
   host: vtc9xo21h5ce.us-east-4.psdb.cloud
   password: pscale_pw_bU3z9t9Y9sq1g4ncMOJpWOkGOitpQGSphA2WMoXwRzA
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/cert.pem"
