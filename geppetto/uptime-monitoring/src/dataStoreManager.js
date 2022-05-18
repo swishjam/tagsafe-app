@@ -9,13 +9,18 @@ module.exports = class DataStoreManager {
         host     : process.env.MYSQL_HOST,
         user     : process.env.MYSQL_USER,
         password : process.env.MYSQL_PASSWORD,
-        database : process.env.MYSQL_DATABASE
+        database : process.env.MYSQL_DATABASE,
+        ssl: {}
       });
       connection.connect();
       console.log(`Connected to DB!`);
       this.mysqlConnection = connection;
     }
     return this.mysqlConnection;
+  }
+
+  static formattedTs (ts) {
+    return moment.utc(ts).format('YYYY-MM-DD HH:mm:ss')
   }
 
   async getTagUptimeConfigurationsForRegion() {
@@ -71,7 +76,7 @@ module.exports = class DataStoreManager {
           "${batchUid}", 
           ${uptimeRegionId}, 
           ${numTagsChecked}, 
-          ${executedAt}, 
+          "${executedAt}", 
           ${msToRunCheck}
         )
     `);

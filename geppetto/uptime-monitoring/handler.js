@@ -4,7 +4,8 @@ const DataStoreManager = require('./src/dataStoreManager'),
         UptimeCheckRunner = require('./src/uptimeCheckRunner'),
         UptimeCheckConfig = require('./src/uptimeCheckConfig'),
         UptimeCheckResults = require('./src/uptimeCheckResults'),
-        crypto = require('crypto');
+        crypto = require('crypto'),
+        moment = require('moment');
 
 module.exports.checkTagsForUptime = async (event, context) => {
   console.log(`Running uptime check in ${process.env.AWS_REGION}.`);
@@ -36,7 +37,7 @@ module.exports.checkTagsForUptime = async (event, context) => {
   const uptimeBatchId = await dataStore.createUptimeBatch({ 
     batchUid: batchUid, 
     numTagsChecked: numTags, 
-    executedAt: startTs, 
+    executedAt: DataStoreManager.formattedTs(startTs), 
     msToRunCheck: Date.now() - startTs 
   });
 

@@ -1,4 +1,4 @@
-const moment = require('moment');
+const DataStoreManager = require('./dataStoreManager');
 
 module.exports = class UptimeCheckResults {
   constructor(uptimeBatchId, results) {
@@ -13,8 +13,8 @@ module.exports = class UptimeCheckResults {
       result.uptimeRegionId,
       result.responseMs,
       result.responseCode,
-      moment.utc(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      moment.utc(result.executedAtDate).format('YYYY-MM-DD HH:mm:ss')
+      DataStoreManager.formattedTs(new Date()),
+      DataStoreManager.formattedTs(result.executedAtDate)
     ])
   }
 }

@@ -3,7 +3,7 @@ S3_BUCKET_NAME: production-release-monitoring-new-versions
 DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
 S3_AWS_ACCESS_KEY_ID: AKIAV5V4H3GFRTGOCY52
 S3_AWS_SECRET_ACCESS_KEY: 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
-MYSQL_HOST: vzwq2j07xc7u92fc.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
-MYSQL_USER: q3209jtn8vsssnf4
-MYSQL_PASSWORD: vcyd57u1n7uqs1qu
-MYSQL_DATABASE: primary_app_db
+MYSQL_DATABASE: tagsafe-production
+MYSQL_USER: bqmc4lhu2ms9
+MYSQL_HOST: vtc9xo21h5ce.us-east-4.psdb.cloud
+MYSQL_PASSWORD: pscale_pw_bU3z9t9Y9sq1g4ncMOJpWOkGOitpQGSphA2WMoXwRzA
