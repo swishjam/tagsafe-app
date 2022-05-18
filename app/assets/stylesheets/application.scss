@@ -314,18 +314,3 @@ a.no-decoration {
   opacity: 0;
   transition: visibility 0s 1s, opacity 1s linear;
 }
-
-.tag-safe-button {
-  border-radius: 5px;
-  background: white;
-  border: 1px solid grey;
-  font-size: 18px;
-  padding: 10px;
-  color: grey;
-  transition: 250ms all;
-  &:hover {
-    color: white;
-    text-decoration: none;
-    background: rgb(248, 138, 138);
-  }
-}

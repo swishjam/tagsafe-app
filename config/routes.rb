@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get '/uptime' => 'uptime_checks#index'
   # get '/uptime/:tag_uid/chart' => 'uptime_checks#tag_chart', as: :tag_uptime_chart
   get '/uptime/:tag_uid/list' => 'uptime_checks#tag_list', as: :tag_uptime_list
+  get '/uptime/list' => 'uptime_checks#domain_list', as: :domain_uptime_list
   get '/performance' => 'performance#index'
   get '/releases' => 'releases#all', as: :all_releases
   resources :releases, only: [] do

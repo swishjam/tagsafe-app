@@ -1,0 +1,32 @@
+app: ${opt:stage}-tagsafe-lambda-functions
+service: uptime-monitoring
+org: collin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${opt:region, 'us-east-1'}
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage}
+  profile: ${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+    S3_AWS_ACCESS_KEY_ID: ${file(./config/${opt:stage}.yml):S3_AWS_ACCESS_KEY_ID}
+    S3_AWS_SECRET_ACCESS_KEY: ${file(./config/${opt:stage}.yml):S3_AWS_SECRET_ACCESS_KEY}
+    TAGSAFE_RECEIVER_REDIS_URL: ${file(./config/${opt:stage}.yml):TAGSAFE_RECEIVER_REDIS_URL}
+    S3_BUCKET_NAME: ${file(./config/${opt:stage}.yml):S3_BUCKET_NAME}
+    DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: ${file(./config/${opt:stage}.yml):DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE, 'lambda_results'}
+    MYSQL_HOST: ${file(./config/${opt:stage}.yml):MYSQL_HOST}
+    MYSQL_USER: ${file(./config/${opt:stage}.yml):MYSQL_USER} 
+    MYSQL_PASSWORD: ${file(./config/${opt:stage}.yml):MYSQL_PASSWORD} 
+    MYSQL_DATABASE: ${file(./config/${opt:stage}.yml):MYSQL_DATABASE}
+    SEND_TO_TAGSAFE_WHEN_ZERO_RESULTS: true
+
+functions:
+  check-tags-for-uptime:
+    handler: handler.checkTagsForUptime
+    timeout: 120
+    events:
+      - schedule:
+          name: ${opt:stage}-uptime-check-schedule
+          rate: rate(1 minute)

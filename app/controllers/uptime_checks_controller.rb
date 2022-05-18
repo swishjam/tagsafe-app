@@ -7,6 +7,17 @@ class UptimeChecksController < LoggedInController
     render_breadcrumbs(text: 'Uptime')
   end
 
+  def domain_list
+    render turbo_stream: turbo_stream.replace(
+      "domain_#{current_domain.uid}_uptime_list",
+      partial: 'uptime_checks/domain_list',
+      locals: {
+        tags: current_domain.tags.page(params[:page] || 1).per(10),
+        days_ago: params[:days_ago] || 7
+      }
+    )
+  end
+
   def tag_list
     tag = current_domain.tags.includes(:uptime_regions).find_by(uid: params[:tag_uid])
     selected_uptime_regions = UptimeRegion.where(aws_name: params[:aws_region_names] || 'us-east-1')

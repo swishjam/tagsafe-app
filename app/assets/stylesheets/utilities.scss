@@ -296,13 +296,15 @@ a.no-decoration {
     padding: 10px 20px 10px 20px;
     font-size: 16px;
   }
-  &:hover, &:focus, &:active {
-    -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
-    box-shadow: 0px 4px 5px 0px rgba(87, 87, 87, 0.35);
-    transition: 0.3s box-shadow;
-    text-decoration: none;
-    color: white;
+  &:not(:disabled) {
+    &:hover, &:focus, &:active {
+      -webkit-transform: translateY(-2px);
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 5px 0px rgba(87, 87, 87, 0.35);
+      transition: 0.3s box-shadow;
+      text-decoration: none;
+      color: white;
+    }
   }
   &.white-bg {
     color: $dark-grey-text;

@@ -25,10 +25,10 @@ module SubscriptionMaintainer
       @stripe_subscription ||= Stripe::Subscription.create(
         customer: @domain.stripe_customer_id,
         trial_period_days: @free_trial_days,
-        billing_cycle_anchor: Time.current.next_month.beginning_of_month.to_i,
+        billing_cycle_anchor: billing_cycle_anchor_date,
         items: [{
           price_data: {
-            product: 'prod_LhFczbs5dNe3yo',
+            product: ENV['STRIPE_SUSBCRIPTION_PRODUCT_ID'] || 'prod_LhFczbs5dNe3yo',
             currency: 'usd',
             unit_amount: @amount_in_cents,
             recurring: { interval: @billing_interval.to_s }
@@ -54,6 +54,12 @@ module SubscriptionMaintainer
         free_trial_ends_at: stripe_subscription.trial_end ? Time.at(stripe_subscription.trial_end).to_datetime : nil
       )
       domain.update!(current_subscription_plan: @subscription_plan)
+    end
+
+    def billing_cycle_anchor_date
+      next_month = Time.current.next_month.beginning_of_month
+      days_until_next_month = (next_month - Time.current) / 1.day
+      (@free_trial_days > days_until_next_month ? next_month.next_month : next_month).to_i
     end
   end
 end

@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "deploy-prod": "serverless deploy --stage production",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "locally": "serverless invoke local --function check-tags-for-uptime --stage collin-dev",
+    "tail-dev-logs": "serverless logs --function run-performance-audit --stage collin-dev -t",
+    "tail-prod-logs": "serverless logs --function run-performance-audit --stage production -t",
+    "deploy-to-all-regions-dev": "serverless deploy --stage=collin-dev --region=us-east-2 && serverless deploy --stage=collin-dev --region=us-west-1 && serverless deploy --stage=collin-dev --region=us-west-2 && serverless deploy --stage=collin-dev --region=ap-south-1 && serverless deploy --stage=collin-dev --region=eu-central-1 && serverless deploy --stage=collin-dev --region=eu-west-1 && serverless deploy --stage=collin-dev --region=eu-west-2 && serverless deploy --stage=collin-dev --region=eu-west-3 && serverless deploy --stage=collin-dev --region=ap-northeast-1 && serverless deploy --stage=collin-dev --region=ap-southeast-1 && serverless deploy --stage=collin-dev --region=ap-southeast-2 && serverless deploy --stage=collin-dev --region=sa-east-1 && serverless deploy --stage=collin-dev --region=ca-central-1",
+    "deploy-to-all-regions-staging": "serverless deploy --stage=staging --region=us-east-2 && serverless deploy --stage=staging --region=us-west-1 && serverless deploy --stage=staging --region=us-west-2 && serverless deploy --stage=staging --region=ap-south-1 && serverless deploy --stage=staging --region=eu-central-1 && serverless deploy --stage=staging --region=eu-west-1 && serverless deploy --stage=staging --region=eu-west-2 && serverless deploy --stage=staging --region=eu-west-3 && serverless deploy --stage=staging --region=ap-northeast-1 && serverless deploy --stage=staging --region=ap-southeast-1 && serverless deploy --stage=staging --region=ap-southeast-2 && serverless deploy --stage=staging --region=sa-east-1 && serverless deploy --stage=staging --region=ca-central-1",
+    "deploy-to-all-regions-prod": "serverless deploy --stage=production --region=us-east-2 && serverless deploy --stage=production --region=us-west-1 && serverless deploy --stage=production --region=us-west-2 && serverless deploy --stage=production --region=ap-south-1 && serverless deploy --stage=production --region=eu-central-1 && serverless deploy --stage=production --region=eu-west-1 && serverless deploy --stage=production --region=eu-west-2 && serverless deploy --stage=production --region=eu-west-3 && serverless deploy --stage=production --region=ap-northeast-1 && serverless deploy --stage=production --region=ap-southeast-1 && serverless deploy --stage=production --region=ap-southeast-2 && serverless deploy --stage=production --region=sa-east-1 && serverless deploy --stage=production --region=ca-central-1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "moment": "^2.29.3",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.0.0",
+    "serverless-plugin-scripts": "^1.0.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.1104.0"
+  }
+}

@@ -1,0 +1,2 @@
+TAGSAFE_REDIS_URL: redis://:rd2bWI20LshfsSjT9ZOFp60NbtEIsR86@redis-12630.c263.us-east-1-2.ec2.cloud.redislabs.com:12630
+DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results

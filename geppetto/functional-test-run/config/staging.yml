@@ -1,0 +1,6 @@
+S3_AWS_ACCESS_KEY_ID: AKIAX25HXIYW2G6COTN3
+S3_AWS_SECRET_ACCESS_KEY: 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
+S3_BUCKET_NAME: functional-test-run-files-staging
+FFMPEG_LAYER_ARN: arn:aws:lambda:us-east-1:538833274413:layer:ffmpeg:1
+FFMPEG_FILEPATH: /opt/ffmpeg-layer/bin/ffmpeg
+ERROR_TIMEOUT_MS: 60_000

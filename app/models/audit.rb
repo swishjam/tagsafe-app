@@ -79,6 +79,7 @@ class Audit < ApplicationRecord
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
   after_create_commit :enqueue_configured_audit_types
+  after_create_commit :broadcast_audit_began_notification_if_necessary
   after_create_commit :charge_domain_for_credits_used!
   after_create_commit { tag.touch(:last_audit_began_at) }
 
@@ -201,13 +202,32 @@ class Audit < ApplicationRecord
     # usage_emailer.send_usage_warning_email_if_necessary
   end
 
-  def send_audit_completed_notifications_if_necessary
-    unless initiated_by_domain_user.nil?
-      initiated_by_domain_user.user.broadcast_notification(
+  def broadcast_audit_began_notification_if_necessary
+    return unless execution_reason.tagsafe_provided?
+    domain.users.each do |user|
+      user.broadcast_notification(
         image: self.tag.try_image_url,
-        partial: 'audits/completed_notification',
+        partial: 'notifications/audits/tagsafe_provided_began',
         partial_locals: { audit: self }
       )
+    end
+  end
+
+  def send_audit_completed_notifications_if_necessary
+    if initiated_by_domain_user.present?
+      initiated_by_domain_user.user.broadcast_notification(
+        image: self.tag.try_image_url,
+        partial: 'notifications/audits/completed',
+        partial_locals: { audit: self }
+      )
+    elsif execution_reason.tagsafe_provided?
+      domain.users.each do |user|
+        user.broadcast_notification(
+          image: self.tag.try_image_url,
+          partial: 'notifications/audits/completed',
+          partial_locals: { audit: self }
+        )
+      end
     end
   end
 
@@ -405,20 +425,20 @@ class Audit < ApplicationRecord
   end
 
   def issue_credits_for_any_failures
-    return unless performance_audit_failed?
+    return unless performance_audit_failed? || domain.credit_wallet_for_current_month.nil?
     performance_audit_price = PriceCalculators::Audits.new(self).cumulative_price_for_performance_audit
     domain.credit_wallet_for_current_month.credit!(performance_audit_price, record_responsible_for_credit: self, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
   end
 
   def charge_domain_for_credits_used!
-    return if performance_audit_failed?
+    return if performance_audit_failed? || domain.credit_wallet_for_current_month.nil?
     price = PriceCalculators::Audits.new(self).price
     domain.credit_wallet_for_current_month.debit!(price, record_responsible_for_debit: self, reason: CreditWalletTransaction::Reasons.AUDIT) unless price.zero?
   end
 
   def can_afford?
     price_for_audit = PriceCalculators::Audits.new(self).price
-    num_credits_in_wallet = domain.credit_wallet_for_current_month.credits_remaining
+    num_credits_in_wallet = domain.credit_wallet_for_current_month&.credits_remaining || Float::INFINITY
     return true if price_for_audit <= num_credits_in_wallet
     insufficient_credits_message = "Your account has insufficient credits to run this audit. This audit would cost #{price_for_audit} credits based on your configuration, but you only have #{num_credits_in_wallet} credits remaining this month."
     if execution_reason.manual?

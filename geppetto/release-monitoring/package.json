@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "deploy-prod": "serverless deploy --stage production",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "locally": "serverless invoke local --function check-tags-for-releases --data '{ \"current_minute_interval\": \"1\" }' --stage collin-dev",
+    "single-tag-check-locally": "serverless invoke local --function check-tag-for-release --data '{ \"tag_id\": \"528\" }' --stage collin-dev"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "moment": "^2.29.3",
+    "mysql": "^2.18.1",
+    "node-fetch": "^2.0.0",
+    "redis": "^4.0.4",
+    "serverless-plugin-scripts": "^1.0.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.1104.0"
+  }
+}

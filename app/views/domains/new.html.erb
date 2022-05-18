@@ -35,7 +35,7 @@
             </div>
           </div>
           <%= render 'partials/inline_errors', errors: @domain.errors.full_messages %>
-          <%= loading_submit_button current_user.present? ? 'Begin monitoring' : 'Create your account', button_class: 'outline large' %>
+          <%= loading_submit_button current_user.present? ? 'Begin monitoring' : 'Create your account', type: 'floating', button_class: 'large' %>
         <% end %>
       </div>
     </div>

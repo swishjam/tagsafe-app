@@ -964,6 +964,7 @@ ActiveRecord::Schema.define(version: 2022_05_16_210320) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  # REMOVING FOREIGN KEY CONSTRAINTS FOR PLANET SCALE REQUIREMENTS
+  # add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  # add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

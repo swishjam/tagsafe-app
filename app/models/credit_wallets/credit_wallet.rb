@@ -29,7 +29,7 @@ class CreditWallet < ApplicationRecord
 
   def self.for_domain(domain, create_if_nil: true, month: Time.current.month)
     wallet = domain.credit_wallets.enabled.for_current_month.limit(1).first
-    wallet ||= domain.credit_wallets.create!(month: month, total_credits_for_month: domain.subscription_features_configuration.num_credits_provided_each_month) if create_if_nil
+    wallet ||= generate_new_wallet_for_domain(domain) if create_if_nil
     wallet
   end
 
@@ -72,6 +72,19 @@ class CreditWallet < ApplicationRecord
   end
 
   private
+
+  def self.generate_new_wallet_for_domain(domain)
+    if domain.subscription_features_configuration.nil?
+      raise CreditWalletErrors::DomainHasNoSusbscriptionFeaturesConfiguration, <<~ERR
+        Cannot create `CreditWallet` for #{domain.uid} because it does not have a `SubscriptionFeaturesConfiguration`. 
+        This can happen if an `Audit` has completed before they select a `SubscriptionPlan`.
+      ERR
+    end
+    domain.credit_wallets.create!(month: Time.current.month, total_credits_for_month: domain.subscription_features_configuration.num_credits_provided_each_month)
+  rescue CreditWalletErrors::DomainHasNoSusbscriptionFeaturesConfiguration => e
+    Rails.logger.error(e.inspect)
+    Sentry.capture_exception(e)
+  end
 
   def create_transaction!(record_responsible_for_charge:, num_credits_before_transaction:, reason:)
     transactions.create!(

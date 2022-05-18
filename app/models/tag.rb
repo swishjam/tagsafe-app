@@ -351,6 +351,8 @@ class Tag < ApplicationRecord
   end
 
   def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    (num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f / total_num_of_requests(days_ago: days_ago) * 100).round(2)
+    failed_count = num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f
+    return 0 if failed_count.zero?
+    (failed_count / total_num_of_requests(days_ago: days_ago) * 100).round(2)
   end
 end

@@ -1,0 +1,12 @@
+{
+  "long_running_tasks": [],
+  "TaskDuration": 900.625,
+  "ScriptDuration": 741.125,
+  "LayoutDuration": 31.75,
+  "FirstContentfulPaint": 174.79999999701977,
+  "DOMInteractive": 82.90000000596046,
+  "DOMComplete": 874.5,
+  "DOMContentLoaded": 119.70000000298023,
+  "Load": 876.2000000029802,
+  "page_load_resources": []
+}
