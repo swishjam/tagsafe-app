@@ -1,4 +1,4 @@
-const moment = require('moment');
+const DataStoreManager = require('./dataStoreManager');
 
 module.exports = class ReleaseChecksResults {
   constructor(releaseCheckBatchId, results) {
@@ -14,9 +14,9 @@ module.exports = class ReleaseChecksResults {
       (result['bytes'] || {})['changed'],
       (result['hashed_content'] || {})['changed'],
       false, // captured_new_tag_version
-      moment.utc(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      moment.utc(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      moment.utc(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      DataStoreManager.formattedTs(new Date()),
+      DataStoreManager.formattedTs(new Date()),
+      DataStoreManager.formattedTs(new Date())
       // result['created_at'],
       // result['updated_at'],
       // result['executed_at']

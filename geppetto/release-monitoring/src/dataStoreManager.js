@@ -9,13 +9,18 @@ module.exports = class DataStoreManager {
         host     : process.env.MYSQL_HOST,
         user     : process.env.MYSQL_USER,
         password : process.env.MYSQL_PASSWORD,
-        database : process.env.MYSQL_DATABASE
+        database : process.env.MYSQL_DATABASE,
+        ssl: {}
       });
       connection.connect();
       console.log(`Connected to DB!`);
       this.mysqlConnection = connection;
     }
     return this.mysqlConnection;
+  }
+
+  static formattedTs(ts) {
+    return moment.utc(ts).format('YYYY-MM-DD HH:mm:ss');
   }
 
   async getReleaseCheckConfigurationsForInterval(interval) {
@@ -32,8 +37,7 @@ module.exports = class DataStoreManager {
           WHEN tag_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring IS NULL
           THEN domain_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring
           ELSE tag_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring
-        END AS num_recent_tag_versions_to_compare_in_release_monitoring,
-        JSON_ARRAY(GROUP_CONCAT(ten_most_recent_tag_versions.hashed_content)) AS ten_most_recent_hashed_content
+        END AS num_recent_tag_versions_to_compare_in_release_monitoring
       FROM 
         tags
         INNER JOIN domains
@@ -57,14 +61,6 @@ module.exports = class DataStoreManager {
           AS current_tag_versions 
           ON current_tag_versions.tag_id=tags.id 
           AND current_tag_versions.most_recent = true
-        LEFT JOIN LATERAL (
-            SELECT * 
-            FROM tag_versions
-            WHERE tag_versions.tag_id = tags.id
-            ORDER BY tag_versions.created_at ASC
-            LIMIT 10
-          ) AS ten_most_recent_tag_versions
-          ON ten_most_recent_tag_versions.tag_id=tags.id
       WHERE 
         tag_preferences.release_check_minute_interval = ${parseInt(interval)} AND
         subscription_plans.status NOT IN ("incomplete_expired", "unpaid", "canceled") AND
@@ -85,6 +81,19 @@ module.exports = class DataStoreManager {
     return queryResults;
   }
 
+  async getRecentHashedContentForTag(tagId, numRecords) {
+    const queryResults = await this._queryDB(`
+      SELECT hashed_content
+      FROM tag_versions
+      WHERE
+        tag_versions.tag_id = ${tagId}
+      ORDER BY created_at DESC
+      LIMIT ${numRecords}
+    `);
+    await this.killConnection();
+    return queryResults.map(result => result.hashed_content);
+  }
+
   async createReleaseCheckBatch({ batchUid, minuteInterval, numTagsWithNewVersions, numTagsWithoutNewVersions, executedAtDate }) {
     console.log(`Creating ReleaseCheckBatch UID: ${batchUid}...`);
     const res = await this._queryDB(`
@@ -103,7 +112,7 @@ module.exports = class DataStoreManager {
           ${minuteInterval},
           ${numTagsWithNewVersions}, 
           ${numTagsWithoutNewVersions}, 
-          "${moment.utc(executedAtDate).format('YYYY-MM-DD HH:mm:ss')}", 
+          "${DataStoreManager.formattedTs(executedAtDate)}", 
           ${new Date() - executedAtDate}
         )
     `);

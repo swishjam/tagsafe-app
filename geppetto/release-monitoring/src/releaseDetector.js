@@ -78,7 +78,8 @@ module.exports = class ReleaseDetector {
 
   async _contentIsTheSameAsARecentVersion() {
     if(!this.contentIsTheSameAsARecentVersion) {
-      this.contentIsTheSameAsARecentVersion = this.releaseConfig.recentHashedContent.includes(await this._fetchedHashedContent());
+      const recentHashedContent = await this.releaseConfig.recentHashedContent();
+      this.contentIsTheSameAsARecentVersion = recentHashedContent.includes(await this._fetchedHashedContent());
     }
     return this.contentIsTheSameAsARecentVersion
   }

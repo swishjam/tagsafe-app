@@ -1,9 +1,9 @@
 TAGSAFE_RECEIVER_REDIS_URL: redis://:rd2bWI20LshfsSjT9ZOFp60NbtEIsR86@redis-12630.c263.us-east-1-2.ec2.cloud.redislabs.com:12630
 S3_BUCKET_NAME: staging-release-monitoring-new-versions
 DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
-MYSQL_HOST: nyzhy28umkec8mgi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
 S3_AWS_ACCESS_KEY_ID: AKIAX25HXIYW2G6COTN3
 S3_AWS_SECRET_ACCESS_KEY: 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
-MYSQL_USER: ld2tt64534v2hb8l
-MYSQL_PASSWORD: krdlt80q657oya81
-MYSQL_DATABASE: primary_app_db
+MYSQL_DATABASE: tagsafe-staging
+MYSQL_USER: xss7b92kzyyo
+MYSQL_HOST: gmy4rjpsfwqz.us-east-4.psdb.cloud
+MYSQL_PASSWORD: pscale_pw_GGUqasfU0Az1wVKJ2_nJROA-EKE0oiB-FO6PWsI5hlU

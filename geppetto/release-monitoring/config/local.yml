@@ -4,7 +4,7 @@ TAGSAFE_RECEIVER_REDIS_URL: redis://:7eNOflYjiQ5HSjW86vooxobjfv36AXYs@redis-1187
 S3_BUCKET_NAME: development-release-monitoring-new-versions
 DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
 
-MYSQL_HOST: uktps5iumngsxem7.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
-MYSQL_USER: m2hrx16nzgeir2q8
-MYSQL_PASSWORD: oyremq45h4t5mic9
-MYSQL_DATABASE: primary_app_db
+MYSQL_HOST: 86o6ha6kvuuj.us-east-1.psdb.cloud
+MYSQL_USER: babluh3ifjpm
+MYSQL_PASSWORD: pscale_pw_KxY0fuC36ypQW5IcmLPPq4kUAnXPXJQXf9gtBNEPBlM
+MYSQL_DATABASE: collin-dev

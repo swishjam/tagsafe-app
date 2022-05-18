@@ -1,7 +1,10 @@
+const DataStoreManager = require('./dataStoreManager');
+
 module.exports = class ReleaseCheckConfig {
   constructor({ jsonConfig, minuteInterval }) {
     this.jsonConfig = jsonConfig;
     this.minuteInterval = minuteInterval || 0;
+    this.dataStoreManager = new DataStoreManager();
   }
 
   get asJson() {
@@ -28,13 +31,13 @@ module.exports = class ReleaseCheckConfig {
     return this.jsonConfig['current_hashed_content'];
   }
 
-  get recentHashedContent() {
+  async recentHashedContent() {
     if(!this.jsonConfig['recent_hashed_content']) {
-      const tenMostRecentHashedContent = JSON.parse(this.jsonConfig['ten_most_recent_hashed_content'] || '[]');
-      if(tenMostRecentHashedContent.length > this.numRecentTagVersionsToCompare) {
-        tenMostRecentHashedContent.splice(this.numRecentTagVersionsToCompare);
+      if(this.numRecentTagVersionsToCompare === 0) {
+        this.jsonConfig['recent_hashed_content'] = [];
+      } else {
+        this.jsonConfig['recent_hashed_content'] = await this.dataStoreManager.getRecentHashedContentForTag(this.tagId, this.numRecentTagVersionsToCompare);
       }
-      this.jsonConfig['recent_hashed_content'] = tenMostRecentHashedContent;
     }
     return this.jsonConfig['recent_hashed_content'];
   }
