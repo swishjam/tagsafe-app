@@ -21,7 +21,7 @@ module Charts
     def show
       time_range = (params[:time_range] || '24_hours').to_sym
       tag = current_domain.tags.find_by(uid: params[:uid])
-      uptime_regions = UptimeRegion.where(aws_name: params[:aws_regions] || ['us-east-1'])
+      uptime_regions = UptimeRegion.where(aws_name: params[:aws_region_names] || ['us-east-1'])
       chart_data_getter = ChartHelper::TagsUptimeData.new([tag], uptime_regions: uptime_regions, time_range: time_range, use_uptime_region_as_plot_name: true)
       render turbo_stream: turbo_stream.replace(
         "tag_#{tag.uid}_uptime_chart",

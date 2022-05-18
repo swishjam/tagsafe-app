@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_10_152630) do
+ActiveRecord::Schema.define(version: 2022_05_16_210320) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -118,6 +118,59 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.index ["uid"], name: "index_blocked_resources_on_uid"
   end
 
+  create_table "bulk_debits", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "credit_wallet_id"
+    t.string "type"
+    t.float "debit_amount"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.index ["credit_wallet_id"], name: "index_bulk_debits_on_credit_wallet_id"
+    t.index ["uid"], name: "index_bulk_debits_on_uid"
+  end
+
+  create_table "credit_wallet_notifications", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "credit_wallet_id"
+    t.string "type"
+    t.float "total_credits_for_month_at_time_of_notification"
+    t.float "credits_used_at_time_of_notification"
+    t.float "credits_remaining_at_time_of_notification"
+    t.timestamp "sent_at"
+    t.index ["credit_wallet_id"], name: "index_credit_wallet_notifications_on_credit_wallet_id"
+    t.index ["uid"], name: "index_credit_wallet_notifications_on_uid"
+  end
+
+  create_table "credit_wallet_transactions", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "credit_wallet_id"
+    t.string "record_responsible_for_charge_type"
+    t.bigint "record_responsible_for_charge_id"
+    t.float "credits_used"
+    t.float "num_credits_before_transaction"
+    t.float "num_credits_after_transaction"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "reason_for_transaction"
+    t.index ["credit_wallet_id"], name: "index_credit_wallet_transactions_on_credit_wallet_id"
+    t.index ["record_responsible_for_charge_type", "record_responsible_for_charge_id"], name: "index_cwt_record_for_charge"
+    t.index ["uid"], name: "index_credit_wallet_transactions_on_uid"
+  end
+
+  create_table "credit_wallets", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.integer "month"
+    t.integer "total_credits_for_month"
+    t.float "credits_used"
+    t.float "credits_remaining"
+    t.datetime "disabled_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["domain_id"], name: "index_credit_wallets_on_domain_id"
+    t.index ["uid"], name: "index_credit_wallets_on_uid"
+  end
+
   create_table "delta_performance_audits", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "type"
@@ -194,10 +247,8 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.boolean "is_generating_third_party_impact_trial"
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
-    t.bigint "current_saas_subscription_plan_id"
-    t.bigint "current_usage_based_subscription_plan_id"
-    t.index ["current_saas_subscription_plan_id"], name: "index_domains_on_current_saas_subscription_plan_id"
-    t.index ["current_usage_based_subscription_plan_id"], name: "index_domains_on_current_usage_based_subscription_plan_id"
+    t.bigint "current_subscription_plan_id"
+    t.index ["current_subscription_plan_id"], name: "index_domains_on_current_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
   end
@@ -248,6 +299,24 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.string "uid"
     t.string "name"
     t.index ["uid"], name: "index_execution_reasons_on_uid"
+  end
+
+  create_table "feature_prices_in_credits", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.float "automated_performance_audit_price"
+    t.float "automated_test_run_price"
+    t.float "manual_performance_audit_price"
+    t.float "manual_test_run_price"
+    t.float "puppeteer_recording_price"
+    t.float "speed_index_filmstrip_price"
+    t.float "resource_waterfall_price"
+    t.float "uptime_check_price"
+    t.float "release_check_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["domain_id"], name: "index_feature_prices_in_credits_on_domain_id"
+    t.index ["uid"], name: "index_feature_prices_in_credits_on_uid"
   end
 
   create_table "flags", charset: "utf8", force: :cascade do |t|
@@ -599,22 +668,17 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.index ["uid"], name: "index_slack_settings_on_uid"
   end
 
-  create_table "subscription_feature_restrictions", charset: "utf8", force: :cascade do |t|
+  create_table "subscription_features_configurations", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.integer "manual_performance_audits_included_per_month"
-    t.integer "manual_test_runs_included_per_month"
-    t.integer "automated_performance_audits_included_per_month"
-    t.integer "automated_test_runs_included_per_month"
     t.boolean "has_advance_performance_audit_configurations"
     t.integer "min_release_check_minute_interval"
     t.integer "data_retention_days"
     t.integer "tag_sync_minute_cadence"
     t.bigint "domain_id"
-    t.integer "uptime_checks_included_per_month"
     t.string "package_inherited_from"
-    t.integer "release_checks_included_per_month"
-    t.index ["domain_id"], name: "index_subscription_feature_restrictions_on_domain_id"
-    t.index ["uid"], name: "index_subscription_feature_restrictions_on_uid"
+    t.float "num_credits_provided_each_month"
+    t.index ["domain_id"], name: "index_subscription_features_configurations_on_domain_id"
+    t.index ["uid"], name: "index_subscription_features_configurations_on_uid"
   end
 
   create_table "subscription_plans", charset: "utf8", force: :cascade do |t|
@@ -624,34 +688,12 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
-    t.string "type"
     t.datetime "free_trial_ends_at"
     t.string "package_type"
+    t.string "billing_interval"
+    t.float "amount"
     t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
     t.index ["uid"], name: "index_subscription_plans_on_uid"
-  end
-
-  create_table "subscription_price_options", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "type"
-    t.string "name"
-    t.string "slug"
-    t.string "stripe_price_id"
-    t.float "price_in_cents"
-    t.string "subscription_package_type"
-    t.string "billing_interval"
-    t.index ["slug"], name: "index_subscription_price_options_on_slug"
-    t.index ["uid"], name: "index_subscription_price_options_on_uid"
-  end
-
-  create_table "subscription_prices", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "subscription_plan_id"
-    t.string "stripe_subscription_item_id"
-    t.bigint "subscription_price_option_id"
-    t.index ["subscription_plan_id"], name: "subscription_plan_subscription_prices_on_spl"
-    t.index ["subscription_price_option_id"], name: "index_subscription_prices_on_subscription_price_option_id"
-    t.index ["uid"], name: "index_subscription_prices_on_uid"
   end
 
   create_table "subscription_usage_record_updates", charset: "utf8", force: :cascade do |t|
@@ -922,6 +964,7 @@ ActiveRecord::Schema.define(version: 2022_05_10_152630) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  # REMOVING FOREIGN KEY CONSTRAINTS FOR PLANET SCALE REQUIREMENTS
+  # add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  # add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

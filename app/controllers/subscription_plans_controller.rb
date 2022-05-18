@@ -6,31 +6,22 @@ class SubscriptionPlansController < LoggedInController
   end
 
   def create
-    SubscriptionMaintainer::Applier.new(current_domain).apply_subscription_package_to_domain(
-      subscription_package: params[:domain][:subscription_package], 
-      billing_interval: params[:domain][:billing_interval],
-      free_trial_days: params[:domain][:subscription_package].to_sym == SubscriptionPlan::Package.STARTER ? nil : 14
-    )
+    SubscriptionMaintainer::Enroller.new(
+      current_domain,
+      subscription_package: params[:domain][:subscription_package].to_s, 
+      billing_interval: params[:domain][:billing_interval].to_s,
+      free_trial_days: 14
+    ).enroll!
     redirect_to tags_path
   end
 
-  def edit
-    stream_modal(
-      partial: 'subscription_plans/subscription_options_modal',
-      locals: {
-        current_package: current_domain.current_saas_subscription_plan.package_type,
-        current_billing_interval: current_domain.current_saas_subscription_plan.subscription_price
-      }
-    )
-  end
-
   def update
-    subscription_applier = SubscriptionMaintainer::Applier.new(current_domain)
-    subscription_applier.cancel_current_subscription!
-    subscription_applier.apply_subscription_package_to_domain(
+    SubscriptionMaintainer::Remover.new(domain).cancel_current_subscription!
+    subscription_applier = SubscriptionMaintainer::Enroller.new(
+      current_domain,
       subscription_package: params[:domain][:subscription_package], 
       billing_interval: params[:domain][:billing_interval]
-    )
+    ).enroll!
   end
 
   def cancel

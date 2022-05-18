@@ -21,7 +21,7 @@
               <%= form_with url: charts_uptime_check_path(tag, time_range: time_range, chart_type: chart_type), method: :get, html: { class: 'float-end' }, data: { controller: 'submit-form-changes' } do |f| %>
                 <% UptimeRegion.selectable.each do |uptime_region| %>
                   <div class='form-switch form-check'>
-                    <input type='checkbox' name='aws_regions[]' id="uptime-chart-tag-check-region-<%=uptime_region.id%>" value="<%= uptime_region.aws_region_name %>" class='form-check-input pointer d-inline' <%= selected_uptime_regions.index(uptime_region).present? ? 'checked' : nil %>>
+                    <input type='checkbox' name='aws_region_names[]' id="uptime-chart-tag-check-region-<%=uptime_region.id%>" value="<%= uptime_region.aws_region_name %>" class='form-check-input pointer d-inline' <%= selected_uptime_regions.index(uptime_region).present? ? 'checked' : nil %>>
                     <label for='uptime-chart-tag-check-region-<%=uptime_region.id%>'><%= uptime_region.location %></label>
                   </div>
                 <% end %>

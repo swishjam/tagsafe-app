@@ -12,6 +12,7 @@ class Audit < ApplicationRecord
   belongs_to :page_url
   belongs_to :performance_audit_calculator
 
+  has_many :credit_wallet_transactions, as: :record_responsible_for_charge
   has_one :performance_audit_configuration, dependent: :destroy
   accepts_nested_attributes_for :performance_audit_configuration
 
@@ -57,13 +58,6 @@ class Audit < ApplicationRecord
   has_one :average_delta_performance_audit, class_name: AverageDeltaPerformanceAudit.to_s
   has_one :median_delta_performance_audit, class_name: MedianDeltaPerformanceAudit.to_s
   has_many :individual_delta_performance_audits, class_name: IndividualDeltaPerformanceAudit.to_s
-  # has_many :all_delta_performance_audits, -> { 
-  #     where(type: [
-  #       AverageDeltaPerformanceAudit.to_s, 
-  #       MedianDeltaPerformanceAudit.to_s, 
-  #       IndividualDeltaPerformanceAudit.to_s
-  #     ]) 
-  #   }, class_name: DeltaPerformanceAudit.to_s
 
   has_many :test_runs, dependent: :destroy
   has_many :test_runs_with_tag, class_name: TestRunWithTag.to_s
@@ -76,7 +70,8 @@ class Audit < ApplicationRecord
   ###############
 
   validate :has_at_least_one_type_of_audit_enabled
-  validate :can_run_performance_audit_if_on_starter_plan
+  validate :can_afford?
+  validate :has_valid_subscription?
 
   #############
   # CALLBACKS #
@@ -84,6 +79,8 @@ class Audit < ApplicationRecord
 
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
   after_create_commit :enqueue_configured_audit_types
+  after_create_commit :broadcast_audit_began_notification_if_necessary
+  after_create_commit :charge_domain_for_credits_used!
   after_create_commit { tag.touch(:last_audit_began_at) }
 
   ##########
@@ -135,14 +132,11 @@ class Audit < ApplicationRecord
     make_primary! unless performance_audit_failed? || performance_audit_disabled?
     send_audit_completed_notifications_if_necessary
     send_audit_completed_emails
+    issue_credits_for_any_failures
   end
 
   def audit_to_compare_with
-    # if tag.should_roll_up_audits_by_tag_version?
-    #   tag_version.previous_version.audit_to_display
-    # else
-      tag.audits.completed_performance_audit.successful_performance_audit.most_recent_first.older_than(created_at).limit(1).first
-    # end
+    tag.audits.completed_performance_audit.successful_performance_audit.most_recent_first.older_than(created_at).limit(1).first
   end
 
   def performance_audit_completed!(tagsafe_score_confidence_range)
@@ -151,7 +145,7 @@ class Audit < ApplicationRecord
       PerformanceAuditManager::MedianPerformanceAuditsCreator.new(self).find_and_apply_median_audits!
     end
     update(
-      performance_audit_completed_at: Time.now,
+      performance_audit_completed_at: Time.current,
       num_performance_audit_sets_ran: delta_performance_audits.count,
       tagsafe_score_confidence_range: tagsafe_score_confidence_range,
       tagsafe_score_is_confident: tagsafe_score_confidence_range && tagsafe_score_confidence_range <= performance_audit_configuration.required_tagsafe_score_range
@@ -208,13 +202,32 @@ class Audit < ApplicationRecord
     # usage_emailer.send_usage_warning_email_if_necessary
   end
 
-  def send_audit_completed_notifications_if_necessary
-    unless initiated_by_domain_user.nil?
-      initiated_by_domain_user.user.broadcast_notification(
+  def broadcast_audit_began_notification_if_necessary
+    return unless execution_reason.tagsafe_provided?
+    domain.users.each do |user|
+      user.broadcast_notification(
         image: self.tag.try_image_url,
-        partial: 'audits/completed_notification',
+        partial: 'notifications/audits/tagsafe_provided_began',
         partial_locals: { audit: self }
       )
+    end
+  end
+
+  def send_audit_completed_notifications_if_necessary
+    if initiated_by_domain_user.present?
+      initiated_by_domain_user.user.broadcast_notification(
+        image: self.tag.try_image_url,
+        partial: 'notifications/audits/completed',
+        partial_locals: { audit: self }
+      )
+    elsif execution_reason.tagsafe_provided?
+      domain.users.each do |user|
+        user.broadcast_notification(
+          image: self.tag.try_image_url,
+          partial: 'notifications/audits/completed',
+          partial_locals: { audit: self }
+        )
+      end
     end
   end
 
@@ -411,19 +424,37 @@ class Audit < ApplicationRecord
     end
   end
 
-  def can_run_performance_audit_if_on_starter_plan
-    return unless include_performance_audit
-    if execution_reason == ExecutionReason.MANUAL
-      gate_keeper = FeatureGateKeepers::CanRunManualPerformanceAudit.new(domain)
-      if !gate_keeper.can_access_feature?
-        errors.add(:base, gate_keeper.reason)
-      end
-    elsif ExecutionReason.automated.include?(execution_reason)
-      gate_keeper = FeatureGateKeepers::CanRunAutomatedPerformanceAudit.new(domain)
-      if !gate_keeper.can_access_feature?
-        self.performance_audit_error_message = gate_keeper.reason
-        # errors.add(:base, gate_keeper.reason)
-      end
+  def issue_credits_for_any_failures
+    return unless performance_audit_failed? || domain.credit_wallet_for_current_month.nil?
+    performance_audit_price = PriceCalculators::Audits.new(self).cumulative_price_for_performance_audit
+    domain.credit_wallet_for_current_month.credit!(performance_audit_price, record_responsible_for_credit: self, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
+  end
+
+  def charge_domain_for_credits_used!
+    return if performance_audit_failed? || domain.credit_wallet_for_current_month.nil?
+    price = PriceCalculators::Audits.new(self).price
+    domain.credit_wallet_for_current_month.debit!(price, record_responsible_for_debit: self, reason: CreditWalletTransaction::Reasons.AUDIT) unless price.zero?
+  end
+
+  def can_afford?
+    price_for_audit = PriceCalculators::Audits.new(self).price
+    num_credits_in_wallet = domain.credit_wallet_for_current_month&.credits_remaining || Float::INFINITY
+    return true if price_for_audit <= num_credits_in_wallet
+    insufficient_credits_message = "Your account has insufficient credits to run this audit. This audit would cost #{price_for_audit} credits based on your configuration, but you only have #{num_credits_in_wallet} credits remaining this month."
+    if execution_reason.manual?
+      errors.add(:base, insufficient_credits_message)
+    else
+      self.performance_audit_error_message = insufficient_credits_message
+    end
+  end
+
+  def has_valid_subscription?
+    return true unless domain.current_subscription_plan.delinquent? || domain.current_subscription_plan.canceled?
+    invalid_subscription_message = "Your Tagsafe subscription is frozen due to inability to charge your payment method on file. Update your payment method in order to continue using Tagsafe to it's full extent."
+    if execution_reason.manual?
+      errors.add(:base, invalid_subscription_message)
+    else
+      self.performance_audit_error_message = invalid_subscription_message
     end
   end
 end

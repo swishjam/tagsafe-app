@@ -54,7 +54,7 @@ module OverageEstimators
     private
 
     def release_checks_included_in_subscription_package
-      @release_checks_included_in_subscription_package ||= @domain.subscription_feature_restriction.release_checks_included_per_month
+      @release_checks_included_in_subscription_package ||= @domain.subscription_features_configuration.release_checks_included_per_month
     end
 
     def minutes_in_next_month

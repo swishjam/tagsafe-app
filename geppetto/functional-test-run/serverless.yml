@@ -1,0 +1,32 @@
+app: ${opt:stage}-tagsafe-lambda-functions
+service: functional-tests
+org: collin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage}
+  profile: ${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+    CHROMIUM_EXECUTABLE: ${file(./config/${opt:stage}.yml):CHROMIUM_EXECUTABLE, ''}
+    S3_AWS_ACCESS_KEY_ID: ${file(./config/${opt:stage}.yml):S3_AWS_ACCESS_KEY_ID}
+    S3_AWS_SECRET_ACCESS_KEY: ${file(./config/${opt:stage}.yml):S3_AWS_SECRET_ACCESS_KEY}
+    S3_BUCKET_NAME: ${file(./config/${opt:stage}.yml):S3_BUCKET_NAME}
+    MOCK_S3_UPLOAD: ${file(./config/${opt:stage}.yml):MOCK_S3_UPLOAD, 'false'}
+    FFMPEG_FILEPATH: ${file(./config/${opt:stage}.yml):FFMPEG_FILEPATH, ''}
+    ERROR_TIMEOUT_MS: ${file(./config/${opt:stage}.yml):ERROR_TIMEOUT_MS, 60000}
+
+functions:
+  run-test:
+    handler: handler.handle
+    timeout: 90
+    layers:
+      # - arn:aws:lambda:us-east-1:407342930315:layer:ffmpeg:3
+      - ${file(./config/${opt:stage}.yml):FFMPEG_LAYER_ARN}
+
+package:
+  patterns:
+    - '!node_modules/puppeteer/.local-chromium/**'
+    - '!node_modules/@ffmpeg-installer/**'

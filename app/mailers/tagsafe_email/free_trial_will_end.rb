@@ -9,7 +9,7 @@ module TagsafeEmail
         free_trial_end_date: subscription_plan.free_trial_ends_at.formatted_long,
         subscription_package: subscription_plan.human_package_type,
         has_payment_method_on_file: subscription_plan.domain.has_payment_method_on_file?,
-        subscription_amount: "$#{sprintf('%.2f', Stripe::Invoice.upcoming({ subscription: subscription_plan.domain.current_saas_subscription_plan.stripe_subscription_id }).amount_due / 100.0)}",
+        subscription_amount: "$#{sprintf('%.2f', Stripe::Invoice.upcoming({ subscription: subscription_plan.domain.current_subscription_plan.stripe_subscription_id }).amount_due / 100.0)}",
         update_payment_method_url: mail_safe_url("/settings/billing")
       }
     end

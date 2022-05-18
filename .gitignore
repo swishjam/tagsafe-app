@@ -17,6 +17,7 @@
 /storage/*
 !/storage/.keep
 
+ffmpeg*
 /node_modules
 /yarn-error.log
 

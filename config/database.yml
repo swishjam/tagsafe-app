@@ -3,29 +3,36 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-aws_rds_collin_dev: &aws_rds
-  url: mysql2://root:MCD9kty.vkb!ybx9haq@tagsafe-collin-local-development.cytsjoeoway1.us-east-1.rds.amazonaws.com:3306/tagsafe_collin_dev
-
-jaws_db_collin_dev: &jaws_db
-  url: mysql2://liumxww8qzltxgf4:btxo1zn78wy2uqyd@ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/q2mn5mg2xvmqq5fk
-
-development:
-  <<: *default
-  <<: *jaws_db
-
 test:
   <<: *default
   username: root
   password: password
   host: localhost
-  database: tag_safe_test
+  database: tagsafe_test
+
+development:
+  <<: *default
+  database: collin-dev
+  username: babluh3ifjpm
+  host: 86o6ha6kvuuj.us-east-1.psdb.cloud
+  password: pscale_pw_KxY0fuC36ypQW5IcmLPPq4kUAnXPXJQXf9gtBNEPBlM
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
 
 staging:
   <<: *default
-  url: <%= ENV['JAWSDB_URL'] %>
+  database: tagsafe-staging
+  username: xss7b92kzyyo
+  host: gmy4rjpsfwqz.us-east-4.psdb.cloud
+  password: pscale_pw_GGUqasfU0Az1wVKJ2_nJROA-EKE0oiB-FO6PWsI5hlU
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
 
 production:
   <<: *default
-  database: tag_safe_production
-  username: tag_safe
-  password: <%= ENV['TAG_SAFE_DATABASE_PASSWORD'] %>
+  database: tagsafe-production
+  username: bqmc4lhu2ms9
+  host: vtc9xo21h5ce.us-east-4.psdb.cloud
+  password: pscale_pw_bU3z9t9Y9sq1g4ncMOJpWOkGOitpQGSphA2WMoXwRzA
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"

@@ -1,32 +1,14 @@
 <%= turbo_frame_tag "new_tag_#{tag.uid}_uptime_regions_to_check" do %>
-  <% feature_gate_keeper = FeatureGateKeepers::CanAccessUptimeMonitoring.new(current_domain) %>
-  <% if feature_gate_keeper.can_access_feature? %>
-    <%= form_with url: tag_uptime_regions_to_check_index_path(tag), html: { class: 'w-fit m-auto' }, data: { controller: 'loading_form' } do |f| %>
-      <div class='d-flex'>
-        <select class='form-select' name='uptime_region_id' required>
-          <option disabled selected>Select Region</option>
-          <% selectable_uptime_regions.each do |uptime_region| %>
-            <option value="<%= uptime_region.id %>"><%= uptime_region.location %></option>
-          <% end %>
-        </select>
-        <%= loading_submit_button 'Add', button_class: 'square' %>
-      </div>
-    <% end %>
-  <% else %>
-    <form class='w-fit m-auto'>
-      <div class='d-flex'                 
-            data-controller='tooltip' 
-            data-bs-toggle='tooltip' 
-            title='Uptime monitoring is not included in your current subscription plan. Consider upgrading your plan in order to access global uptime monitoring.' >
-        <select class='form-select'>
-          <option disabled selected>Select Region</option>
-          <% selectable_uptime_regions.each do |uptime_region| %>
-            <option disabled><%= uptime_region.location %></option>
-          <% end %>
-        </select>
-        <button class='tagsafe-btn square' disabled>Add</button>
-      </div>
-    </form>
+  <%= form_with url: tag_uptime_regions_to_check_index_path(tag), html: { class: 'w-fit m-auto' }, data: { controller: 'loading_form' } do |f| %>
+    <div class='d-flex'>
+      <select class='form-select' name='uptime_region_id' required>
+        <option disabled selected>Select Region</option>
+        <% selectable_uptime_regions.each do |uptime_region| %>
+          <option value="<%= uptime_region.id %>"><%= uptime_region.location %></option>
+        <% end %>
+      </select>
+      <%= loading_submit_button 'Add', button_class: 'square' %>
+    </div>
   <% end %>
   <% if tag.uptime_regions_to_check.any? %>
     <div class='mt-2'>

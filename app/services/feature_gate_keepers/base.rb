@@ -10,22 +10,15 @@ module FeatureGateKeepers
       raise "#{self.class.to_s} must implement `can_access_feature?` method."
     end
 
-    def can_pay_for_access?
-      raise "#{self.class.to_s} must implement `can_pay_for_access?` method."
-    end
-
     private
 
-    def subscription_feature_restriction
-      @subscription_feature_restriction ||= delinquent_subscription_plan.present? ? SubscriptionFeatureRestriction.FOR_DELINQUENT_SUBSCRIPTION : domain.subscription_feature_restriction
+    def subscription_features_configuration
+      @subscription_features_configuration ||= delinquent_subscription_plan.present? ? SubscriptionFeaturesConfiguration.FOR_DELINQUENT_SUBSCRIPTION : domain.subscription_features_configuration
     end
 
     def delinquent_subscription_plan
-      @delinquent_subscription_plan ||= domain.current_saas_subscription_plan.delinquent? ? 
-                                          domain.current_saas_subscription_plan :
-                                            domain.current_usage_based_subscription_plan.delinquent? ? 
-                                              domain.current_usage_based_subscription_plan : 
-                                              nil
+      @delinquent_subscription_plan ||= domain.current_subscription_plan.delinquent? ? 
+                                          domain.current_subscription_plan : nil
     end
 
 

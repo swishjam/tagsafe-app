@@ -81,8 +81,8 @@ class Tag < ApplicationRecord
   scope :has_content, -> { where(has_content: true) }
   scope :doesnt_have_content, -> { where(has_content: false) }
 
-  scope :domain_has_active_subscription_plan, -> { includes(domain: [:subscription_plan]).where.not(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
-  scope :domain_has_delinquent_subscription_plan, -> { includes(domain: [:subscription_plan]).where(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
+  scope :domain_has_active_subscription_plan, -> { joins(:domain).where(Domain.has_valid_subscription) }
+  scope :domain_has_invalid_subscription_plan, -> { joins(:domain).where(Domain.has_invalid_subscription) }
 
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
@@ -351,6 +351,8 @@ class Tag < ApplicationRecord
   end
 
   def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    (num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f / total_num_of_requests(days_ago: days_ago) * 100).round(2)
+    failed_count = num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f
+    return 0 if failed_count.zero?
+    (failed_count / total_num_of_requests(days_ago: days_ago) * 100).round(2)
   end
 end

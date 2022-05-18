@@ -1,10 +1,10 @@
 <nav class="navbar simple-subscription-selection-nav">
   <div class="container-fluid">
-    <a class="navbar-brand" href="<%= current_domain.current_saas_subscription_plan.present? ? settings_billing_path : root_path %>">
+    <a class="navbar-brand" href="<%= current_domain.current_subscription_plan.present? ? settings_billing_path : root_path %>">
       <%= image_tag asset_cdn_url('/tagsafe-logo.svg'), style: 'height: 40px' %>
     </a>
     <div class='me-3'>
-      <% if current_domain.current_saas_subscription_plan %>
+      <% if current_domain.current_subscription_plan %>
         <%= link_to 'Back to settings', settings_billing_path, class: 'floating-btn' %>
       <% else %>
         <span><%= current_domain.url_hostname %></span>
@@ -19,14 +19,14 @@
       <h1 class='alfa-slab'>Choose your plan</h1>
       <h4>Upgrade, downgrade, or cancel whenever.</h4>
       <h4>Get started for free, no credit card required.</h4>
-      <% current_billing_interval = current_domain.current_saas_subscription_plan&.billing_interval || SubscriptionPriceOption::BillingInterval.YEAR %>
+      <% current_billing_interval = current_domain.current_subscription_plan&.billing_interval || SubscriptionPlan::BillingIntervals.YEAR %>
       <div class='form-check form-switch w-fit m-auto annual-toggle-container mt-2'>
         <input type='checkbox' class='form-check-input pointer' 
                                 id='billing-interval'
                                 data-toggle-visibility-target='toggler' 
                                 data-display-toggled-on-selectors='.annual-billing-only' 
                                 data-display-toggled-off-selectors='.monthly-billing-only'
-                                <%= current_billing_interval.to_s == SubscriptionPriceOption::BillingInterval.YEAR.to_s ? "checked='checked'" : nil %>>
+                                <%= current_billing_interval.to_s == SubscriptionPlan::BillingIntervals.YEAR.to_s ? "checked='checked'" : nil %>>
         <label for='billing-interval'>Save 20% with annual billing</label>
       </div>
     </div>

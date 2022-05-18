@@ -71,7 +71,7 @@ class ReleasesController < LoggedInController
                                                 .older_than_or_equal_to(end_date, timestamp_column: :'tag_versions.created_at')
                                                 .most_recent_first(timestamp_column: :'tag_versions.created_at')
     # most_changes_in_a_release_for_month = all_tag_versions_for_month.select(:total_changes).maximum(:total_changes)
-    most_changes_by_a_tag_for_month = (all_tag_versions_for_month.group(:tag_id).sum(:total_changes).max_by{ |k, v| v } || [])[1]
+    most_changes_by_a_tag_for_month = (all_tag_versions_for_month.group(:tag_id, :created_at).sum(:total_changes).max_by{ |k, v| v } || [])[1]
     tag_versions_for_month_grouped_by_tag = all_tag_versions_for_month.group_by(&:tag_id)
     render turbo_stream: turbo_stream.replace(
       "#{domain_or_tag.uid}_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}",

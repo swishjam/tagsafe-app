@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "lighthouse": "^9.5.0",
+    "puppeteer-core": "^13.6.0",
+    "speedline": "^1.4.3",
+    "speedline-core": "^1.4.3"
+  }
+}

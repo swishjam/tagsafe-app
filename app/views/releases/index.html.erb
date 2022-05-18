@@ -39,7 +39,7 @@
 
 <% if @tag.release_monitoring_disabled? %>
   <div class='container-fluid'>
-    <div class="alert alert-danger mt-3 text-center" role="alert">
+    <div class="alert alert-warning mt-3 text-center" role="alert">
       <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', edit_tag_path(@tag) %>.
     </div>
   </div>

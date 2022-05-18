@@ -1,0 +1,7 @@
+# CHROMIUM_EXECUTABLE: /Users/collin/.npm-global/bin/chrome
+NODE_ENV: local
+S3_AWS_ACCESS_KEY_ID: AKIAV5V4H3GFRTGOCY52
+S3_AWS_SECRET_ACCESS_KEY: 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
+S3_BUCKET_NAME: functional-test-run-files-development
+MOCK_S3_UPLOAD: 'true'
+ERROR_TIMEOUT_MS: 60_000

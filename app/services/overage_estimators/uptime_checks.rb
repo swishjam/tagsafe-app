@@ -37,7 +37,7 @@ module OverageEstimators
     private
 
     def uptime_checks_included_in_subscription_package
-      @uptime_checks_included_in_subscription_package ||= @domain.subscription_feature_restriction.uptime_checks_included_per_month
+      @uptime_checks_included_in_subscription_package ||= @domain.subscription_features_configuration.uptime_checks_included_per_month
     end
 
     def minutes_in_next_month

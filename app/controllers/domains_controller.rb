@@ -2,6 +2,7 @@ class DomainsController < LoggedOutController
   # skip_before_action :ensure_domain
 
   def new
+    redirect_to select_subscription_plans_path if current_domain && params[:additional].nil?
     @domain = Domain.new
     @hide_logged_out_nav = true
     @hide_navigation = true

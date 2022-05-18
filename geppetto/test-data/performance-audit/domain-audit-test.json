@@ -1,0 +1,25 @@
+{
+  "individual_performance_audit_id": 9538,
+  "allow_all_third_party_tags": true,
+  "page_url_to_perform_audit_on": "https://www.canadiantire.ca/en.html",
+  "first_party_request_url": "https://www.canadiantire.ca/en.html",
+  "third_party_tag_urls_and_rules_to_inject": [],
+  "third_party_tag_url_patterns_to_allow": [],
+  "cached_responses_s3_key": null,
+  "options": {
+    "override_initial_html_request_with_manipulated_page": "true",
+    "puppeteer_page_timeout_ms": 0,
+    "enable_screen_recording": "true",
+    "throw_error_if_dom_complete_is_zero": "true",
+    "include_page_load_resources": "true",
+    "include_page_tracing": "true",
+    "inline_injected_script_tags": "false",
+    "scroll_page": "false",
+    "strip_all_images": "false",
+    "strip_all_css": "false"
+  },
+  "lambda_invoker_klass": "StepFunctionInvoker::PerformanceAuditer",
+  "executed_step_function_id": 0,
+  "executed_step_function_uid": "esf_123",
+  "ProcessReceivedLambdaEventJobQueue": "lambda_results"
+}

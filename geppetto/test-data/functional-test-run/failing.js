@@ -1,0 +1,10 @@
+await this.page.goto(\"https://www.tagsafe.io/\"); 
+WAIT_FOR_TAG();  
+let responseCode = null; 
+let requestParams = null; 
+await this.page.waitForSelector('form.learn-more-form input[type=\"submit\"]');
+await this.page.type('form.learn-more-form input[type=\"email\"]', 'tagsafe-test@gmail.com'); 
+await this.page.click('form.learn-more-form input[type=\"submit\"]'); 
+let response = await this.page.waitForResponse(\"https://www.tagsafe.io/learn_more\");  
+const apiRequestSuccessful = response.status() === 200 && decodeURIComponent(response.request().postData()).includes('email=tagsafe-test@gmail.com'); 
+return apiRequestSuccessful.toString();

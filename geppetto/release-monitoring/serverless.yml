@@ -1,0 +1,72 @@
+app: ${opt:stage}-tagsafe-lambda-functions
+service: release-monitoring
+org: collin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${opt:region, 'us-east-1'}
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage}
+  profile: ${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+    S3_AWS_ACCESS_KEY_ID: ${file(./config/${opt:stage}.yml):S3_AWS_ACCESS_KEY_ID}
+    S3_AWS_SECRET_ACCESS_KEY: ${file(./config/${opt:stage}.yml):S3_AWS_SECRET_ACCESS_KEY}
+    TAGSAFE_RECEIVER_REDIS_URL: ${file(./config/${opt:stage}.yml):TAGSAFE_RECEIVER_REDIS_URL}
+    S3_BUCKET_NAME: ${file(./config/${opt:stage}.yml):S3_BUCKET_NAME}
+    DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: ${file(./config/${opt:stage}.yml):DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE, 'lambda_results'}
+    MYSQL_HOST: ${file(./config/${opt:stage}.yml):MYSQL_HOST}
+    MYSQL_USER: ${file(./config/${opt:stage}.yml):MYSQL_USER} 
+    MYSQL_PASSWORD: ${file(./config/${opt:stage}.yml):MYSQL_PASSWORD} 
+    MYSQL_DATABASE: ${file(./config/${opt:stage}.yml):MYSQL_DATABASE}
+    SEND_TO_TAGSAFE_WHEN_ZERO_RESULTS: true
+
+functions:
+  check-tag-for-release:
+    handler: handler.checkTagForRelease
+    timeout: 30
+  check-tags-for-releases:
+    handler: handler.checkTagsForReleases
+    timeout: 120
+    events:
+      - schedule:
+          name: ${opt:stage}-1-minute-release-check-schedule
+          rate: rate(1 minute)
+          input:
+            current_minute_interval: 1
+      - schedule:
+          name: ${opt:stage}-15-minute-release-check-schedule
+          rate: rate(15 minutes)
+          input:
+            current_minute_interval: 15
+      - schedule:
+          name: ${opt:stage}-30-minute-release-check-schedule
+          rate: rate(30 minutes)
+          input:
+            current_minute_interval: 30
+      - schedule:
+          name: ${opt:stage}-1-hour-release-check-schedule
+          rate: rate(60 minutes)
+          input:
+            current_minute_interval: 60
+      - schedule:
+          name: ${opt:stage}-3-hour-release-check-schedule
+          rate: rate(180 minutes)
+          input:
+            current_minute_interval: 180
+      - schedule:
+          name: ${opt:stage}-6-hour-release-check-schedule
+          rate: rate(360 minutes)
+          input:
+            current_minute_interval: 360
+      - schedule:
+          name: ${opt:stage}-12-hour-release-check-schedule
+          rate: rate(720 minutes)
+          input:
+            current_minute_interval: 720
+      - schedule:
+          name: ${opt:stage}-24-hour-release-check-schedule
+          rate: rate(1440 minutes)
+          input:
+            current_minute_interval: 1440

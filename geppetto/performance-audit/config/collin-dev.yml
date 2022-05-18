@@ -1,0 +1,6 @@
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+S3_AWS_ACCESS_KEY_ID: AKIAUZBED3ZB63Z7B77E
+S3_AWS_SECRET_ACCESS_KEY: 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
+S3_BUCKET_NAME: performance-audit-files-collin-dev
+FFMPEG_LAYER_ARN: arn:aws:lambda:us-east-1:328640749123:layer:ffmpeg:1
+FFMPEG_FILEPATH: /opt/ffmpeg-layer/bin/ffmpeg

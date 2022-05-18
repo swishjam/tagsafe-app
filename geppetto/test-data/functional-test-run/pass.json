@@ -1,0 +1,10 @@
+{
+  "puppeteer_script": "await TS.PAGE.goto(\"https://www.tagsafe.io\"); TS.WAIT_FOR_TAG(); await TS.PAGE.waitForSelector('form.learn-more-form input[type=submit]'); await TS.PAGE.click('h2.sub-header'); await TS.PAGE.click('h2.sub-header'); await TS.PAGE.click('h2.sub-header'); await TS.PAGE.click('h2.sub-header'); await TS.PAGE.type('form.learn-more-form input[type=email]', 'tagsafe-test@gmail.com'); return await TS.PAGE.evaluate(() => document.title)",
+  "expected_results": "Tagsafe",
+  "first_party_url": "https://www.tagsafe.io",
+  "third_party_tag_urls_and_rules_to_inject": [{ "url": "https://tagsafe-development-tag-versions.s3.amazonaws.com/botppnhzfhzjlxd5ivtbogruavl1", "load_type": "async" }],
+  "third_party_tag_url_patterns_to_allow": [],
+  "enable_screen_recording": "true", 
+  "max_script_exeuction_ms": 5000,
+  "include_screen_recording_on_passing_script": "true"
+}

@@ -81,21 +81,6 @@ module ApplicationHelper
     )
   end
 
-  def permitted_to_view?(*models, raise_error: false)
-    models.each do |model|
-      case model.class.to_s
-      when 'Tag'
-        no_access!(raise_error) unless current_domain.tags.include? model
-      when 'TagVersion'
-        no_access!(raise_error) unless current_domain.tags.include? model.tag
-      when 'Audit'
-        no_access!(raise_error) unless current_domain.tags.include? model.tag
-      else
-        raise "Invalid model provided to permitted_to_view?: #{model.class}"
-      end
-    end
-  end
-
   def render_breadcrumbs(*crumbs)
     @breadcrumbs = crumbs
   end

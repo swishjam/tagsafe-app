@@ -16,11 +16,11 @@
   <%= render 'settings/settings_nav' %>
 </div>
 
-<% if !current_domain.has_payment_method_on_file? && current_domain.current_saas_subscription_plan&.is_on_free_trial? %>
+<% if !current_domain.has_payment_method_on_file? && current_domain.current_subscription_plan&.is_on_free_trial? %>
   <div class='container-fluid'>
     <div class='col-12'>
       <div class="alert alert-warning mb-3 mt-3 text-center" role="alert">
-        <i class="fas fa-exclamation-circle"></i> Your free trial ends in <%= current_domain.current_saas_subscription_plan.time_left_in_free_trial_in_words %>, <%= modal_link new_domain_payment_method_path, text: 'add a payment method' %> in order to maintain functionality.
+        <i class="fas fa-exclamation-circle"></i> Your free trial ends in <%= current_domain.current_subscription_plan.time_left_in_free_trial_in_words %>, <%= modal_link new_domain_payment_method_path, text: 'add a payment method' %> in order to maintain functionality.
       </div>
     </div>
   </div>
@@ -36,8 +36,8 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='d-block'><%= current_domain.current_saas_subscription_plan.package_type.capitalize %> Plan</span>
-        <% unless current_domain.current_saas_subscription_plan.trialing? %>
+        <span class='d-block'><%= current_domain.current_subscription_plan.package_type.capitalize %> Plan</span>
+        <% unless current_domain.current_subscription_plan.trialing? %>
           <%= link_to 'Change Plan', select_subscription_plans_path %>
         <% end %>
       </div>
@@ -57,8 +57,23 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block '>
-        <span class='d-block'><%= number_to_currency(@next_saas_invoice.amount_due / 100.0) %> at <%= Time.at(@next_saas_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+        <span class='d-block'><%= number_to_currency(@next_invoice.amount_due / 100.0) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<div class='tagsafe-container p-5 mt-5'>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Credits provided in subscription</span>
+        <span class='settings-description d-block'>The number of credits your account begins each month with.</span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.total_credits_for_month) %> credits</span>
     </div>
   </div>
 
@@ -66,45 +81,34 @@
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Next usage overage payment</span>
-        <span class='settings-description d-block'>If you have exceeded the usage limits on your subscription plan, your payment method on file will automatically be charged on this date for the overage amount.</span>
+        <span class='settings-title d-block fw-bolder'>Credits used this month</span>
+        <span class='settings-description d-block'>The number of credits your account has used so far this month.</span>
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <div class='d-block '>
-        <span class='d-block'><%= number_to_currency(@next_usage_based_invoice.amount_due / 100.0) %> at <%= Time.at(@next_usage_based_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
-        <span class='d-block'>
-      </div>
+      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_used) %> credits</span>
     </div>
   </div>
 
-  <!--
   <hr/>
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Estimated next subscription payment</span>
-        <span class='settings-description d-block'>Your estimated payment amount based on your current configuration. This is not a guaranteed amount.</span>
+        <span class='settings-title d-block fw-bolder'>Credits remaining this month</span>
+        <span class='settings-description d-block'>The number of credits your account has remaining for this month.</span>
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <#% if !current_domain.has_payment_method_on_file? %>
-      N/A
-      <#% else %>
-        <div class='d-block '>
-          <span class='d-block'><#%= number_to_currency(SubscriptionMaintainer::PriceEstimator.new(current_domain).estimate_monthly_price / 100) %> at <#%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
-        </div>
-      <#% end %>
+      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_remaining) %> credits</span>
     </div>
   </div>
-  !-->
 </div>
 
 <% if current_domain.has_payment_method_on_file? %>
   <div class='tagsafe-container mt-5 p-3 text-center'>
     <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
-    <span class='settings-description d-block'>You will be charged the remaining <%= number_to_currency(@next_usage_based_invoice.amount_due / 100.0) %> immediately, and your configuration will be updated to no long monitor tag releases or run automated audits.</span>
-    <%= form_with model: current_domain.current_saas_subscription_plan, url: cancel_domains_subscription_subscription_plans_path, class: '', data: { controller: 'loading_form' } do %>
+    <span class='settings-description d-block'>Cancel yout subscription right now.</span>
+    <%= form_with model: current_domain.current_subscription_plan, url: cancel_domains_subscription_subscription_plans_path, class: '', data: { controller: 'loading_form' } do %>
       <%= loading_submit_button 'Cancel', button_class: 'red mt-3' %>
     <% end %>
   <% end %>

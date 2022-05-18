@@ -1,29 +1,30 @@
 class ExecutionReason < ApplicationRecord
-  scope :free, -> { where(name: ['Manual', 'Tagsafe Provided']) }
-  scope :billable, -> { where(name: ['Activated Release Monitoring', 'Scheduled', 'New Release']) }
-  scope :automated, -> { billable }
+  scope :automated, -> { where(name: ['Activated Release Monitoring', 'Scheduled', 'New Release']) }
+  # scope :free, -> { where(name: ['Manual', 'Tagsafe Provided']) }
+  # scope :billable, -> { automated }
 
-  def self.INITIAL_AUDIT
-    @initial_audit ||= find_by!(name: 'Initial Audit')
+  TYPES_OF_EXECUTION_REASONS = [
+    { method: :manual, name: 'Manual' },
+    { method: :tagsafe_provided, name: 'Tagsafe Provided' },
+    { method: :release_monitoring_activated, name: 'Activated Release Monitoring' },
+    { method: :scheduled, name: 'Scheduled' },
+    { method: :new_release, name: 'New Release' },
+  ]
+  
+  TYPES_OF_EXECUTION_REASONS.each do |type_of_execution_reason|
+    define_method(:"#{type_of_execution_reason[:method]}?") { name == type_of_execution_reason[:name] }
   end
 
-  def self.TAGSAFE_PROVIDED
-    @tagsafe_provided ||= find_by!(name: 'Tagsafe Provided')
+  class << self
+    TYPES_OF_EXECUTION_REASONS.each do |type_of_execution_reason|
+      define_method(:"#{type_of_execution_reason[:method].upcase}") do 
+        instance_variable_get(:"@#{type_of_execution_reason[:method].upcase}") || 
+          instance_variable_set(:"@#{type_of_execution_reason[:method].upcase}", find_by!(name: type_of_execution_reason[:name]) )
+      end
+    end
   end
 
-  def self.RELEASE_MONITORING_ACTIVATED
-    @release_monitoring_activated ||= find_by!(name: 'Activated Release Monitoring')
-  end
-
-  def self.MANUAL
-    @manual ||= find_by!(name: 'Manual')
-  end
-
-  def self.SCHEDULED
-    @scheduled ||= find_by!(name: 'Scheduled')
-  end
-
-  def self.NEW_RELEASE
-    @tag_change ||= find_by!(name: 'New Release')
+  def automated?
+    release_monitoring_activated? || scheduled? || new_release?
   end
 end

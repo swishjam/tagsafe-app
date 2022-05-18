@@ -28,7 +28,13 @@
           <%= render 'test_runs/test_results_pill_for_audit', audit: audit_to_display %>
         <% end %>
       </div>
-      <div class='tagsafe-table-data' style='width: 17%'><%= tag.last_released_at&.formatted_short || 'No releases' %></div>
+      <div class='tagsafe-table-data' style='width: 17%'>
+        <% if tag.release_monitoring_enabled? %>
+          <%= tag.last_released_at&.formatted_short || 'No releases' %>
+        <% else %>
+          <div class='tagsafe-pill grey small-text'>Release monitoring disabled</div>
+        <% end %>
+      </div>
       <div class='tagsafe-table-data text-end' style='width: 5%'>
         <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
       </div>

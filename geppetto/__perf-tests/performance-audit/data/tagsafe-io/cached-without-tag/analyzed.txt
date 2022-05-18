@@ -1,0 +1,6 @@
+===LayoutDuration===
+Min: 137.5
+Max: 211.25
+Avg: 174.325
+Variance:42.306037573497775%
+

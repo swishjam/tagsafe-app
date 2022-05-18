@@ -1,0 +1,10 @@
+TAGSAFE_RECEIVER_REDIS_URL: redis://:7eNOflYjiQ5HSjW86vooxobjfv36AXYs@redis-11872.c84.us-east-1-2.ec2.cloud.redislabs.com:11872
+S3_BUCKET_NAME: development-release-monitoring-new-versions
+DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
+S3_AWS_ACCESS_KEY_ID: AKIAUZBED3ZB63Z7B77E
+S3_AWS_SECRET_ACCESS_KEY: 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
+
+MYSQL_HOST: 86o6ha6kvuuj.us-east-1.psdb.cloud
+MYSQL_USER: babluh3ifjpm
+MYSQL_PASSWORD: pscale_pw_KxY0fuC36ypQW5IcmLPPq4kUAnXPXJQXf9gtBNEPBlM
+MYSQL_DATABASE: collin-dev

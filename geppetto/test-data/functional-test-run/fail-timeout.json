@@ -1,0 +1,10 @@
+{
+  "puppeteer_script": "await TS.PAGE.goto(\"https://www.tagsafe.io/\"); TS.WAIT_FOR_TAG(); await TS.PAGE.waitForSelector('form.learn-more-form input[type=\"submit\"]'); await TS.PAGE.type('form.learn-more-form input[type=\"email\"]', 'tagsafe-test@gmail.com'); await TS.PAGE.click('h2'); await TS.PAGE.click('h2'); await TS.PAGE.click('h2'); await TS.PAGE.click('h2'); const submitBtn = await TS.PAGE.$('form.learn-more-form input[type=\"submit\"]'); await TS.PAGE.evaluate(el => el.click(), submitBtn); let response = await TS.PAGE.waitForResponse(\"https://www.tagsafe.io/learn_more\"); const apiRequestSuccessful = response.status() === 200 && decodeURIComponent(response.request().postData()).includes('email=tagsafe-test@gmail.com'); return apiRequestSuccessful.toString();", 
+  "expected_results": "true", 
+  "first_party_url": "https://www.tagsafe.io",
+  "third_party_tag_urls_and_rules_to_inject": [{"url": "https://tagsafe-development-tag-versions.s3.amazonaws.com/de8l9i95wm2ihetzrd887sflvehr", "load_type": "async"}], 
+  "third_party_tag_url_patterns_to_allow": [], 
+  "enable_screen_recording": "true", 
+  "ms_until_timeout": 20000,
+  "include_screen_recording_on_passing_script": "false"
+}

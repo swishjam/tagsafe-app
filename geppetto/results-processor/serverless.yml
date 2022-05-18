@@ -1,0 +1,35 @@
+app: ${opt:stage}-tagsafe-lambda-functions
+service: results-processor
+org: collin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage}
+  profile: ${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+    TAGSAFE_REDIS_URL: ${file(./config/${opt:stage}.yml):TAGSAFE_REDIS_URL}
+    DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: ${file(./config/${opt:stage}.yml):DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE, 'lambda_results'}
+
+functions:
+  send-to-resque-from-step-function:
+    handler: handler.handle
+    timeout: 5
+  # send-to-resque-from-sqs:
+  #   handler: handler.handleResultsFromSqs
+  #   timeout: 5
+  #   events:
+  #     - sqs:
+  #         arn: arn:aws:sqs:us-east-1:407342930315:send-${opt:stage}-send-results-to-tagsafe-queue
+  #         batchSize: 1
+  #         functionResponseType: ReportBatchItemFailures
+  #         maximumBatchingWindow: 5
+
+package:
+  patterns:
+    - '!test-data.json'
+
+plugins:
+  - serverless-offline

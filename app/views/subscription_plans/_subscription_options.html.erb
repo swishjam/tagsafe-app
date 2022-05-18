@@ -7,8 +7,8 @@
         <div class='d-flex align-items-stretch justify-content-evenly flex-column h-100'>
           <div class='subscription-package-title'>Starter</div>
           <div class='subscription-package-amount-header'>Free</div>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.STARTER, billing_interval: SubscriptionPriceOption::BillingInterval.YEAR, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.YEAR.to_s %>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.STARTER, billing_interval: SubscriptionPriceOption::BillingInterval.MONTH, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.MONTH.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.STARTER, billing_interval: SubscriptionPlan::BillingIntervals.YEAR, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.YEAR.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.STARTER, billing_interval: SubscriptionPlan::BillingIntervals.MONTH, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.MONTH.to_s %>
         </div>
       </div>
       <div class='col-3 subscription-package-header-container' data-column='2'>
@@ -17,8 +17,8 @@
           <div class='subscription-package-amount-header monthly-billing-only hidden'>$59 / month</div>
           <div class='subscription-package-amount-header annual-billing-only'>$47.20 / month</div>
           <div class='subscription-package-amount-sub-header annual-billing-only'>(billed annually)</div>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.SCALE, billing_interval: SubscriptionPriceOption::BillingInterval.YEAR, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.YEAR.to_s %>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.SCALE, billing_interval: SubscriptionPriceOption::BillingInterval.MONTH, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.MONTH.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.SCALE, billing_interval: SubscriptionPlan::BillingIntervals.YEAR, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.YEAR.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.SCALE, billing_interval: SubscriptionPlan::BillingIntervals.MONTH, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.MONTH.to_s %>
         </div>
       </div>
       <div class='col-3 subscription-package-header-container' data-column='3'>
@@ -27,8 +27,8 @@
           <div class='subscription-package-amount-header monthly-billing-only hidden'>$299 / month</div>
           <div class='subscription-package-amount-header annual-billing-only'>$239.20 / month</div>
           <div class='subscription-package-amount-sub-header annual-billing-only'>(billed annually)</div>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.PRO, billing_interval: SubscriptionPriceOption::BillingInterval.YEAR, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.YEAR.to_s %>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.PRO, billing_interval: SubscriptionPriceOption::BillingInterval.MONTH, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.MONTH.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.PRO, billing_interval: SubscriptionPlan::BillingIntervals.YEAR, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.YEAR.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.PRO, billing_interval: SubscriptionPlan::BillingIntervals.MONTH, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.MONTH.to_s %>
         </div>
       </div>
       <div class='col-3 subscription-package-header-container' data-column='4'>
@@ -154,20 +154,20 @@
     <div class='row'>
       <div class='col-3 subscription-package-support-column' data-column='2'>
         <div class='column-content text-center'>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.STARTER, billing_interval: SubscriptionPriceOption::BillingInterval.YEAR, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.YEAR.to_s %>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.STARTER, billing_interval: SubscriptionPriceOption::BillingInterval.MONTH, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.MONTH.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.STARTER, billing_interval: SubscriptionPlan::BillingIntervals.YEAR, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.YEAR.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.STARTER, billing_interval: SubscriptionPlan::BillingIntervals.MONTH, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.MONTH.to_s %>
         </div>
       </div>
       <div class='col-3 subscription-package-support-column' data-column='3'>
         <div class='column-content text-center'>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.SCALE, billing_interval: SubscriptionPriceOption::BillingInterval.YEAR, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.YEAR.to_s %>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.SCALE, billing_interval: SubscriptionPriceOption::BillingInterval.MONTH, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.MONTH.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.SCALE, billing_interval: SubscriptionPlan::BillingIntervals.YEAR, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.YEAR.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.SCALE, billing_interval: SubscriptionPlan::BillingIntervals.MONTH, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.MONTH.to_s %>
         </div>
       </div>
       <div class='col-3 subscription-package-support-column' data-column='4'>
         <div class='column-content text-center'>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.PRO, billing_interval: SubscriptionPriceOption::BillingInterval.YEAR, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.YEAR.to_s %>
-          <%= render 'subscription_plans/form', package: SubscriptionPlan::Package.PRO, billing_interval: SubscriptionPriceOption::BillingInterval.MONTH, hidden: current_billing_interval.to_s != SubscriptionPriceOption::BillingInterval.MONTH.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.PRO, billing_interval: SubscriptionPlan::BillingIntervals.YEAR, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.YEAR.to_s %>
+          <%= render 'subscription_plans/form', package: SubscriptionPlan::Packages.PRO, billing_interval: SubscriptionPlan::BillingIntervals.MONTH, hidden: current_billing_interval.to_s != SubscriptionPlan::BillingIntervals.MONTH.to_s %>
         </div>
       </div>
       <div class='col-3 subscription-package-support-column' data-column='5'>
