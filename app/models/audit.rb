@@ -450,6 +450,7 @@ class Audit < ApplicationRecord
   end
 
   def has_valid_subscription?
+    return true if domain.current_subscription_plan.nil? # edge case where an Audit is run before SusbcriptionPlan is selected
     return true unless domain.current_subscription_plan.delinquent? || domain.current_subscription_plan.canceled?
     invalid_subscription_message = "Your Tagsafe subscription is frozen due to inability to charge your payment method on file. Update your payment method in order to continue using Tagsafe to it's full extent."
     if execution_reason.manual?
