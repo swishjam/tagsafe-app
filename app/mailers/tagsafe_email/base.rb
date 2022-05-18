@@ -5,6 +5,7 @@ module TagsafeEmail
     end
 
     def send!
+      return if Rails.env.test?
       resp = self.class.sg_api.client.mail._("send").post(request_body: sendgrid_request_body)
       on_delivery_failure(resp) if resp.status_code.to_i > 299
     end
@@ -17,8 +18,6 @@ module TagsafeEmail
 
     def on_delivery_failure(sendgrid_response)
       raise TagsafeEmailError::Invalid, "Unable to deliver #{self.class.to_s}\nto: #{to_email}\nfrom: #{from_email}\n#{JSON.parse(sendgrid_response.body)['errors'].collect{ |h| h['message'] }.join('. ')}"
-    # rescue => e
-    #   raise TagsafeEmailError::Invalid, "Unable to deliver #{self.class.to_s}: #{sendgrid_response.inspect}"
     end
 
     def template_variables

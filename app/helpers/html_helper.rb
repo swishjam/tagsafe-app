@@ -43,8 +43,8 @@ module HtmlHelper
     end
   end
 
-  def loading_submit_button(btn_text = nil, button_class: nil, &block)
-    "<button type='submit' class='tagsafe-btn loading-button #{button_class}'>
+  def loading_submit_button(btn_text = nil, button_class: nil, type: 'tagsafe-btn', &block)
+    "<button type='submit' class='#{type == 'floating' ? 'floating-btn' : 'tagsafe-btn'} loading-button #{button_class}'>
       <span class='submit-text'>
         #{block_given? ? capture(&block) : btn_text}
       </span>
@@ -77,15 +77,17 @@ module HtmlHelper
   end
   alias modal_link_to modal_link
 
-  def render_as_modal(title:, turbo_frame_name: 'server_loadable_modal', &block)
+  def render_as_modal(title:, turbo_frame_name: 'server_loadable_modal', hide_close_btn: false, &block)
     provided_html = capture(&block)    
-    combined_html = <<-HTML
+    combined_html = <<~HTML
       <div id='server-loadable-modal-container' class="tagsafe-modal-container show #{controller_name} #{action_name}" data-controller='server-loadable-modal'>
         <div class='tagsafe-modal-backdrop'>
         </div>
         <div id='server-loadable-modal' class='tagsafe-modal'>
           <div class='tagsafe-modal-header text-start'>
-            <span class='tagsafe-circular-btn close' data-action='click->server-loadable-modal#hide'><i class='fa fa-times'></i></span>
+            #{unless hide_close_btn 
+                then "<span class='tagsafe-circular-btn close' data-action='click->server-loadable-modal#hide'><i class='fa fa-times'></i></span>"
+              end}
             <h4 class='tagsafe-modal-title'>#{title}</h4>
           </div>
           <div class='tagsafe-modal-divider'>

@@ -28,7 +28,7 @@
       <label for='invite_code'>Invite Code</label>
     </div>
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
-    <%= loading_submit_button 'Get Started', button_class: 'large mb-3' %>
+    <%= loading_submit_button 'Choose your plan', type: 'floating', button_class: 'large mb-3' %>
     <div class='row'>
       <% if local_assigns[:domain] %>
         <%= link_to 'Login', "#{login_path}?domain=#{domain.uid}" %>

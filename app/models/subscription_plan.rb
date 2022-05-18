@@ -1,28 +1,45 @@
 class SubscriptionPlan < ApplicationRecord
   belongs_to :domain
-  has_many :subscription_plan_items, dependent: :destroy
-  has_many :subscription_prices, through: :subscription_plan_items
-  has_many :subscription_billings
-  accepts_nested_attributes_for :subscription_plan_items
+
+  DELINQUENT_STATUSES = %w[incomplete_expired unpaid]
+
+  validates :package_type, inclusion: { in: %w[starter scale pro custom] }
+
+  scope :delinquent, -> { where(status: DELINQUENT_STATUSES) }
+  scope :not_delinquent, -> { where.not(status: DELINQUENT_STATUSES) }
+  scope :canceled, -> { where(status: 'canceled') }
+  scope :not_canceled, -> { where.not(status: 'canceled') }
+  scope :trialing, -> { where(status: 'trialing') }
+
+  class Packages
+    class << self
+      %i[starter scale pro custom].each{ |plan_type| define_method(plan_type.upcase){ plan_type } }
+    end
+  end
+
+  class BillingIntervals
+    class << self
+      %i[month year].each{ |interval| define_method(interval.upcase) { interval } }
+    end
+  end
+
+  %w[starter scale pro custom].each{ |package| define_method(:"#{package}?") { package_type == package } }
+
+  DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS = {
+    starter: {
+      month: 19_99,
+      year: 31_984
+    },
+    scale: {
+      month: 79_99,
+      year: 767_90
+    },
+    pro: {
+      month: 299_99,
+      year: 2879_90
+    }
+  }
   
-  scope :current, -> { where(current: true) }
-
-  validates_uniqueness_of :current, scope: :domain_id
-
-  def per_automated_performance_audit_subscription_price
-    subscription_prices.find_by(type: PerAutomatedPerformanceAuditSubscriptionPrice.to_s)
-  end
-
-  def per_automated_test_run_subscription_price
-    subscription_prices.find_by(type: PerAutomatedTestRunSubscriptionPrice.to_s)
-  end
-
-  def per_tag_check_subscription_price
-    subscription_prices.find_by(type: PerTagCheckSubscriptionPrice.to_s)
-  end
-
-  DELINQUENT_STATUSES = %w[incomplete_expired past_due unpaid]
-
   # Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, or `unpaid`.
   # For collection_method=charge_automatically a subscription moves into incomplete if the initial payment attempt fails. A 
   # subscription in this state can only have metadata and default_source updated. Once the first invoice is paid, the 
@@ -40,15 +57,35 @@ class SubscriptionPlan < ApplicationRecord
   # you may choose to reopen and pay their closed invoices.
   %i[active incomplete incomplete_expired trialing past_due canceled unpaid].each do |stripe_status|
     scope :"#{stripe_status}", -> { where(status: stripe_status) }
-    define_method(:"#{stripe_status}?") { self.status == stripe_status }
+    define_method(:"#{stripe_status}?") { self.status == stripe_status.to_s }
   end
 
-  def self.create_default(domain)
-    SubscriptionMaintainer::Applier.new(domain).apply_default_subscription_for_domain
+  def on_free_trial?
+    trialing?
+  end
+  alias is_on_free_trial? on_free_trial?
+
+  def days_until_free_trial_expires(round = true)
+    return nil unless is_on_free_trial?
+    exact_days = (free_trial_ends_at - Time.current) / 1.day
+    round ? exact_days.floor : exact_days
+  end
+
+  def time_left_in_free_trial_in_words
+    minutes_left = (free_trial_ends_at - Time.current) / 1.minute
+    Util.minutes_to_words(minutes_left)
+  end
+
+  def human_package_type
+    "#{package_type.capitalize} Plan"
   end
 
   def cancel!
-    SubscriptionMaintainer::Applier.new(domain).cancel_current_subscription!
+    SubscriptionMaintainer::Remover.new(domain).cancel_current_subscription!
+  end
+
+  def fetch_stripe_subscription
+    Stripe::Subscription.retrieve(stripe_subscription_id)
   end
 
   def delinquent?
@@ -58,15 +95,5 @@ class SubscriptionPlan < ApplicationRecord
 
   def human_status
     status.gsub('_', ' ')
-  end
-
-  def update_status_to(new_status)
-    unless new_status == status
-      update!(status: new_status)
-      after_became_delinquent if delinquent?
-    end
-  end
-
-  def after_became_delinquent
   end
 end

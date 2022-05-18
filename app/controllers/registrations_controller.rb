@@ -2,6 +2,8 @@ class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
 
   def new
+    redirect_to new_domain_path if current_domain.nil?
+    redirect_to select_subscription_plans_path if current_user.present?
     @hide_logged_out_nav = true
     @user = User.new
     if params[:domain]
@@ -11,18 +13,16 @@ class RegistrationsController < LoggedOutController
 
   def create
     @user = User.new(user_params)
-    @domain = Domain.find_by(uid: params[:domain_uid]) if params[:domain_uid]
     if params[:invite_code] == ENV['INVITE_CODE']
       if @user.save
-        if @domain
-          @domain.add_user(@user)
-          @domain.mark_as_registered!
-          log_user_in(@user)
-          url_to_go_to = session[:redirect_url] || params[:redirect_url] || tags_path
-          session.delete(:redirect_url)
-          redirect_to url_to_go_to
+        if current_domain
+          current_domain.add_user(@user)
+          current_domain.mark_as_registered!
+          Role.USER_ADMIN.apply_to_domain_user(@user.domain_user_for(current_domain))
+          set_current_user(@user)
+          redirect_to select_subscription_plans_path
         else
-          log_user_in(@user)
+          set_current_user(@user)
           redirect_to new_domain_path
         end
       else

@@ -44,10 +44,8 @@ module ApplicationHelper
     session[:current_domain_audit_uid] = domain_audit.uid
   end
 
-  def log_user_in(user, domain = user.domains.first)
-    log_user_out
+  def set_current_user(user)
     session[:current_user_uid] = user.uid
-    session[:current_domain_uid] = domain&.uid
   end
 
   def set_anonymous_user_identifier
@@ -81,21 +79,6 @@ module ApplicationHelper
         partial_locals: partial_locals
       }
     )
-  end
-
-  def permitted_to_view?(*models, raise_error: false)
-    models.each do |model|
-      case model.class.to_s
-      when 'Tag'
-        no_access!(raise_error) unless current_domain.tags.include? model
-      when 'TagVersion'
-        no_access!(raise_error) unless current_domain.tags.include? model.tag
-      when 'Audit'
-        no_access!(raise_error) unless current_domain.tags.include? model.tag
-      else
-        raise "Invalid model provided to permitted_to_view?: #{model.class}"
-      end
-    end
   end
 
   def render_breadcrumbs(*crumbs)

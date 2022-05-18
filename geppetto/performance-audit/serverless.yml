@@ -1,0 +1,49 @@
+app: ${opt:stage}-tagsafe-lambda-functions
+service: performance-audits
+org: collin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage}
+  profile: ${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+    CHROMIUM_EXECUTABLE: ${file(./config/${opt:stage}.yml):CHROMIUM_EXECUTABLE, ''}
+    S3_AWS_ACCESS_KEY_ID: ${file(./config/${opt:stage}.yml):S3_AWS_ACCESS_KEY_ID}
+    S3_AWS_SECRET_ACCESS_KEY: ${file(./config/${opt:stage}.yml):S3_AWS_SECRET_ACCESS_KEY}
+    S3_BUCKET_NAME: ${file(./config/${opt:stage}.yml):S3_BUCKET_NAME}
+    DD_ENV: ${opt:stage}
+    DD_SERVICE: performance-audits
+    DD_VERSION: 1.0
+    MOCK_S3_UPLOADS: ${file(./config/${opt:stage}.yml):MOCK_S3_UPLOADS, 'false'}
+    FFMPEG_FILEPATH: ${file(./config/${opt:stage}.yml):FFMPEG_FILEPATH}
+    CACHED_RESPONSES_FILE_IS_LOCAL: ${file(./config/${opt:stage}.yml):CACHED_RESPONSES_FILE_IS_LOCAL, 'false'}
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: ${file(./config/${opt:stage}.yml):PUPPETEER_SKIP_CHROMIUM_DOWNLOAD, true}
+    USE_PLACEHOLDER_BACKGROUND_IMAGES: ${file(./config/${opt:stage}.yml):USE_PLACEHOLDER_BACKGROUND_IMAGES, 'true'}
+
+functions:
+  run-performance-audit:
+    handler: performanceAuditHandler.runPerformanceAudit
+    timeout: 180
+    layers: 
+      # - arn:aws:lambda:us-east-1:407342930315:layer:ffmpeg:3
+      - ${file(./config/${opt:stage}.yml):FFMPEG_LAYER_ARN}
+  generate-cache:
+    handler: cacheGeneratorHandler.generateCache
+    timeout: 180
+      
+package:
+  patterns:
+    - '!node_modules/puppeteer/.local-chromium/**'
+    - '!node_modules/@ffmpeg-installer/**'
+    - '!tests/**'
+    
+plugins:
+  - serverless-offline
+  - serverless-plugin-datadog
+
+custom:
+  datadog:
+    apiKey: 2b64a37edee361329c3ece91e0058ed0

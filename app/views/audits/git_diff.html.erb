@@ -1,6 +1,14 @@
 <%= render 'show_page_header', page_title: 'Tag Changes' %>
   
-<% if @audit.tag_version %>
+<% if @tag.release_monitoring_disabled? %>
+  <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
+    <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled. <%= link_to 'Enable it here', edit_tag_path(@tag) %> so Tagsafe can identify when <%= @tag.try_friendly_name %> makes releases, visualize what changes they made, and benchmark against each release. With release monitoring disabled, Tagsafe uses whatever the live version of the tag is on <%= current_domain.url_hostname %>.
+  </div>
+<% elsif @audit.tag_version.nil? %>
+  <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
+    <%= HtmlHelper.WARNING_ICON %> At the time this audit was run, Tagsafe had not yet captured a tag version due to your release monitoring interval set in your settings. Tagsafe ran the audit against whatever the live version of <%= @tag.try_friendly_name %> was on <%= current_domain.url_hostname %> at that time.
+  </div>
+<% else %>
   <% if @audit.tag_version.first_version? %>
     <div class='text-center p-5'>
       <h4>No changes, this is the first version of <%= @tag.try_friendly_name %>. <%= link_to 'View Entire JS', raw_js_tag_tag_version_path(@tag, @audit.tag_version), target: '_blank' %></h4>
@@ -13,9 +21,5 @@
         </div>
       <% end %>
     <% end %>
-  </div>
-<% else %>
-  <div class='text-center p-5'>
-    <h4><%= link_to 'Enable release monitoring', edit_tag_path(@tag) %> on this tag so Tagsafe can identify when it makes releases, visualize what changes they made, and benchmark against each release. With your current settings, Tagsafe uses whatever the live version of the tag is on <%= current_domain.url %>.</h4>
   </div>
 <% end %>

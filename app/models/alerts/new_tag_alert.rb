@@ -1,7 +1,7 @@
 class NewTagAlert < TriggeredAlert
   def send_alert_notification_if_necessary!(alert_config)
     return unless alert_config.alert_on_new_tags
-    return if tag.found_on_url_crawl.is_first_crawl_for_domain_with_found_tags?
+    return if tag.found_on_url_crawl&.is_first_crawl_for_domain_with_found_tags?
     TagsafeEmail::NewTag.new(alert_config.domain_user.user, tag).send!
     true
   end

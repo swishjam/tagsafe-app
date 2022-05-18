@@ -3,6 +3,7 @@ class LoggedInController < ApplicationController
 
   # before_action :authorize!
   before_action :ensure_domain
+  before_action :ensure_subscription_plan
 
   def authorize!
     if current_user.nil?
@@ -14,5 +15,9 @@ class LoggedInController < ApplicationController
 
   def ensure_domain
     redirect_to new_domain_path if current_domain.nil?
+  end
+
+  def ensure_subscription_plan
+    redirect_to select_subscription_plans_path unless current_domain.has_current_subscription_plan?
   end
 end

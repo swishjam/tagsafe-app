@@ -1,0 +1,21 @@
+{
+  "test_run_id": 355,
+  "puppeteer_script": "// Simple example test that ensures the tag does not impact the title of the page \nawait TS.PAGE.goto('https://www.canadiantire.ca');\nawait TS.WAIT_FOR_TAG();\nreturn await TS.PAGE.title();",
+  "expected_results": "Shop Canada’s Top Department Store Online & at 500+ Locations | Canadian Tire",
+  "first_party_url": "https://www.canadiantire.ca",
+  "third_party_tag_urls_and_rules_to_inject": [
+    {
+      "url": "https://tagsafe-production-tag-versions.s3.amazonaws.com/nelynxbwc8s5fvdcuuz35uyzz3zf",
+      "load_type": "async"
+    }
+  ],
+  "third_party_tag_url_patterns_to_allow": [],
+  "max_script_exeuction_ms": 20000,
+  "enable_screen_recording": "true",
+  "include_screen_recording_on_passing_script": "true",
+  "lambda_invoker_klass": "StepFunctionInvoker::FunctionalTestRunner",
+  "tagsafe_consumer_klass": "StepFunctionResponses::TestRunResult",
+  "tagsafe_consumer_redis_url": "redis://:LrA3FWb1tpZItA94C9m6X8JnVUus48Yy@redis-11898.c16.us-east-1-3.ec2.cloud.redislabs.com:11898",
+  "ProcessReceivedLambdaEventJobQueue": "lambda_results",
+  "executed_step_function_uid": "esf_0b3579b1"
+}

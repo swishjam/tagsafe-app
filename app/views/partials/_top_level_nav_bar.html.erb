@@ -17,9 +17,8 @@
             </ol>
           <% end %>
         </div>
-        <div class='col-4 pe-4'>
-
-          <div class="navigation-profile-dropdown-container dropdown-container w-fit float-end">
+        <div class='col-4 pe-4 d-flex align-items-center justify-content-end'>
+          <div class="navigation-profile-dropdown-container dropdown-container w-fit">
             <div class='navigation-profile-trigger dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
               <div class='display-text'>
                 <div class='domain-url-line'>
@@ -63,7 +62,7 @@
                 <% end %>
               <% end %>
               <div class='dropdown-divider'></div>
-              <%= link_to 'Add New Domain', new_domain_path, class: 'dropdown-item text-center no-decoration' %>
+              <%= link_to 'Add New Domain', new_domain_path(additional: true), class: 'dropdown-item text-center no-decoration' %>
               <%= link_to 'Settings', settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
               <% unless user_is_anonymous? %>
                 <%= link_to 'Billing', settings_billing_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>

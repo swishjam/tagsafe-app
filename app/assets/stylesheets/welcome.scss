@@ -36,6 +36,8 @@ body.domain_audits.create, body.welcome, body.error-404 {
     @media (max-width: 470px) {
       font-size: 1em;
     }
+    max-width: 1000px;
+    margin: auto;
     margin-bottom: 0.5em;
     color: $dark-grey-text;
     font-weight: 500;

@@ -1,0 +1,18 @@
+{
+  "page_url_to_perform_audit_on": "https://www.canadiantire.ca/en.html",
+  "first_party_request_url": "https://www.canadiantire.ca",
+  "third_party_tag_urls_and_rules_to_inject": [],
+  "third_party_tag_url_patterns_to_allow": [],
+  "allow_all_third_party_tags": "true",
+  "options": {
+    "puppeteer_page_wait_until": "networkidle2", 
+    "puppeteer_page_timeout_ms": 0,
+    "throw_error_if_dom_complete_is_zero": "true",
+    "enable_screen_recording": "true",
+    "include_page_load_resources": "false",
+    "inline_injected_script_tags": "false",
+    "strip_all_css": "false",
+    "strip_all_images": "false",
+    "strip_all_js": "false"
+  }
+}

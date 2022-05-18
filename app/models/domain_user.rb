@@ -16,6 +16,8 @@ class DomainUser < ApplicationRecord
 
   after_create :add_defaults
 
+  scope :by_role, -> (role) { joins(:domain_user_roles).where(domain_user_roles: { role: role }) }
+
   def add_defaults
     AlertConfiguration.create_default_for(self)
   end

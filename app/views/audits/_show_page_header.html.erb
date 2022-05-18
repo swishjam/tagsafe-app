@@ -24,8 +24,8 @@
     <%= render 'partials/page_navigation_items', navigation_items: [
     { url: performance_audit_tag_audit_path(@tag, @audit), text: 'Performance' },
     { url: test_runs_tag_audit_path(@tag, @audit), text: 'Functional Tests' },
-    { url: page_change_audit_tag_audit_path(@tag, @audit), text: 'Page Change Detection' },
+    { url: Util.env_is_true('PAGE_CHANGE_AUDITS_ENABLED') ? page_change_audit_tag_audit_path(@tag, @audit) : nil, text: 'Page Change Detection' },
     { url: waterfall_tag_audit_path(@tag, @audit), text: 'Page Load Waterfall' },
     { url: git_diff_tag_audit_path(@tag, @audit), text: 'Changes Made to Tag' }
-  ] %>
+  ].filter{ |nav| nav[:url].present? } %>
 </div>

@@ -81,7 +81,7 @@
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Include resources waterfall</span>
+        <span class='settings-title d-block fw-bolder'>Include resources waterfall in automated performance audits</span>
         <span class='settings-description d-block'>When a Tagsafe-initiated audit is run (ie: after a Tag makes a release), include the resource waterfall view.</span>
       </div>
     </div>
@@ -94,22 +94,24 @@
     </div>
   </div>
 
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Include page change audit in automated audits</span>
-        <span class='settings-description d-block'>When a Tagsafe-initiated audit is run (ie: after a Tag makes a release), run a page change audit?</span>
+  <% if Util.env_is_true('PAGE_CHANGE_AUDITS_ENABLED') %>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Include page change audit in automated audits</span>
+          <span class='settings-description d-block'>When a Tagsafe-initiated audit is run (ie: after a Tag makes a release), run a page change audit?</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+          <div class='form-check form-switch'>
+            <%= f.check_box :include_page_change_audit, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
+          </div>
+        <% end %>
       </div>
     </div>
-    <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :include_page_change_audit, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
+  <% end %>
 </div>
 
 <div class='tagsafe-container mt-5'>
@@ -118,7 +120,7 @@
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Strip all images in performance audits?</span>
+        <span class='settings-title d-block fw-bolder'>Strip all images in automated performance audits?</span>
         <span class='settings-description d-block'>
           In order to minimize outside performance factors, strip away all images from the page during performance 
           audits by default?<br/>This setting can be overridden when running an audit manually.
@@ -138,7 +140,7 @@
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Enable screen recordings for performance audits?</span>
+        <span class='settings-title d-block fw-bolder'>Enable screen recordings for automated performance audits?</span>
         <span class='settings-description d-block'>
           Enable screen recordings during performance audits, allowing you to watch the visual impact of a tag.<br/>
           This setting can be overridden when running an audit manually.
@@ -163,7 +165,8 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <% if current_domain.has_payment_method_on_file? %>
+      <% advanced_config_feature_gate_keeper = FeatureGateKeepers::HasAdvancedPerformanceAuditConfigurations.new(current_domain) %>
+      <% if advanced_config_feature_gate_keeper.can_access_feature? %>
         <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
           <div class='d-flex'>
             <%= f.number_field :perf_audit_required_tagsafe_score_range, class: 'form-control' %>
@@ -171,7 +174,7 @@
           </div>
         <% end %>
       <% else %>
-        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Upgrade your plan in order to customize Tagsafe Score confidence range.">
+        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
           <div class='d-flex'>
             <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_required_tagsafe_score_range %>' disabled>
             <button class='tagsafe-btn square' disabled>Update</button>
@@ -190,11 +193,20 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
-        <div class='d-flex'>
-          <%= f.number_field :perf_audit_minimum_num_sets, class: 'form-control' %>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
+      <% if advanced_config_feature_gate_keeper.can_access_feature? %>
+        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+          <div class='d-flex'>
+            <%= f.number_field :perf_audit_minimum_num_sets, class: 'form-control' %>
+            <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+          </div>
+        <% end %>
+      <% else %>
+        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
+          <div class='d-flex'>
+            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_minimum_num_sets %>' disabled>
+            <button class='tagsafe-btn square' disabled>Update</button>
+          </div>
+        </form>
       <% end %>
     </div>
   </div>
@@ -208,11 +220,20 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
-        <div class='d-flex'>
-          <%= f.number_field :perf_audit_maximum_num_sets, class: 'form-control' %>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
+      <% if advanced_config_feature_gate_keeper.can_access_feature? %>
+        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+          <div class='d-flex'>
+            <%= f.number_field :perf_audit_maximum_num_sets, class: 'form-control' %>
+            <%= f.submit 'Update', class: 'tagsafe-btn square' %>
+          </div>
+        <% end %>
+      <% else %>
+        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
+          <div class='d-flex'>
+            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_maximum_num_sets %>' disabled>
+            <button class='tagsafe-btn square' disabled>Update</button>
+          </div>
+        </form>
       <% end %>
     </div>
   </div>
@@ -226,7 +247,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <% if current_domain.has_payment_method_on_file? %>
+      <% if advanced_config_feature_gate_keeper.can_access_feature? %>
         <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
           <div class='d-flex'>
             <%= f.number_field :perf_audit_batch_size, class: 'form-control' %>
@@ -234,7 +255,7 @@
           </div>
         <% end %>
       <% else %>
-        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="Upgrade your plan in order to customize number of parallel performance audits.">
+        <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
           <div class='d-flex'>
             <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_batch_size %>' disabled>
             <button class='tagsafe-btn square' disabled>Update</button>

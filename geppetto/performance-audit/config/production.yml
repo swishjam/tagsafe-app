@@ -1,0 +1,6 @@
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+S3_AWS_ACCESS_KEY_ID: AKIAV5V4H3GFRTGOCY52
+S3_AWS_SECRET_ACCESS_KEY: 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
+S3_BUCKET_NAME: performance-audit-files-production
+FFMPEG_LAYER_ARN: arn:aws:lambda:us-east-1:407342930315:layer:ffmpeg:3
+FFMPEG_FILEPATH: /opt/ffmpeg-layer/bin/ffmpeg

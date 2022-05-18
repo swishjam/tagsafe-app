@@ -17,9 +17,10 @@ class Tag < ApplicationRecord
   has_many :audits, dependent: :destroy  
   has_many :long_tasks, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
-  has_many :tag_checks, dependent: :destroy
-  has_many :tag_check_regions_to_check, dependent: :destroy, class_name: TagCheckRegionToCheck.to_s
-  has_many :tag_check_regions, through: :tag_check_regions_to_check
+  has_many :release_checks, dependent: :destroy
+  has_many :uptime_checks, dependent: :destroy
+  has_many :uptime_regions_to_check, class_name: UptimeRegionToCheck.to_s, dependent: :destroy
+  has_many :uptime_regions, through: :uptime_regions_to_check
   has_many :urls_to_audit, class_name: UrlToAudit.to_s, dependent: :destroy
   accepts_nested_attributes_for :urls_to_audit
   has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
@@ -56,11 +57,11 @@ class Tag < ApplicationRecord
   # SCOPES
   default_scope { includes(:tag_identifying_data, :tag_preferences) }
   
-  scope :release_monitoring_enabled, -> { where_tag_preferences_not({ tag_check_minute_interval: nil }) }
-  scope :release_monitoring_disabled, -> { where_tag_preferences({ tag_check_minute_interval: nil }) }
+  scope :release_monitoring_enabled, -> { where_tag_preferences_not({ release_check_minute_interval: 0 }) }
+  scope :release_monitoring_disabled, -> { where_tag_preferences({ release_check_minute_interval: 0 }) }
 
-  scope :scheduled_audits_enabled, -> { where_tag_preferences_not({ scheduled_audit_minute_interval: nil }) }
-  scope :scheduled_audits_disabled, -> { where_tag_preferences({ scheduled_audit_minute_interval: nil }) }
+  scope :scheduled_audits_enabled, -> { where_tag_preferences_not({ scheduled_audit_minute_interval: 0 }) }
+  scope :scheduled_audits_disabled, -> { where_tag_preferences({ scheduled_audit_minute_interval: 0 }) }
   
   scope :still_on_site, -> { where(removed_from_site_at: nil) }
   scope :removed, -> { where.not(removed_from_site_at: nil) }
@@ -71,34 +72,33 @@ class Tag < ApplicationRecord
   scope :allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: true }) }
   scope :not_allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
 
-  scope :should_log_tag_checks, -> { where_tag_preferences({ should_log_tag_checks: true }) }
-  scope :should_not_log_tag_checks, -> { where_tag_preferences({ should_log_tag_checks: false }) }
-
   scope :should_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: true }) }
   scope :should_not_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: false }) }
 
   scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
-  scope :available_for_uptime, -> { should_log_tag_checks.is_third_party_tag.still_on_site.release_monitoring_enabled }
-  scope :should_run_tag_checks, -> { enabled.still_on_site.is_third_party_tag }
+  scope :should_run_uptime_checks, -> { enabled.still_on_site.is_third_party_tag }
   scope :chartable, -> { is_third_party_tag.still_on_site.not_allowed_third_party_tag }
   scope :has_content, -> { where(has_content: true) }
   scope :doesnt_have_content, -> { where(has_content: false) }
 
-  scope :domain_has_active_subscription_plan, -> { includes(domain: [:subscription_plan]).where.not(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
-  scope :domain_has_delinquent_subscription_plan, -> { includes(domain: [:subscription_plan]).where(domain: { subscription_plans: { status: SubscriptionPlan::DELINQUENT_STATUSES }}) }
+  scope :domain_has_active_subscription_plan, -> { joins(:domain).where(Domain.has_valid_subscription) }
+  scope :domain_has_invalid_subscription_plan, -> { joins(:domain).where(Domain.has_invalid_subscription) }
 
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
 
-  scope :where_tag_check_interval, -> (interval) { where_tag_preferences(tag_check_minute_interval: interval) }
-  scope :one_minute_interval_checks, -> { where_tag_check_interval(1) }
-  scope :fifteen_minute_interval_checks, -> { where_tag_check_interval(15) }
-  scope :thirty_minute_interval_checks, -> { where_tag_check_interval(30) }
-  scope :one_hour_interval_checks, -> { where_tag_check_interval(60) }
-  scope :three_hour_interval_checks, -> { where_tag_check_interval(180) }
-  scope :six_hour_interval_checks, -> { where_tag_check_interval(360) }
-  scope :twelve_hour_interval_checks, -> { where_tag_check_interval(720) }
-  scope :twenty_four_hour_interval_checks, -> { where_tag_check_interval(1440) }
+  scope :where_tag_preferences, -> (where_clause) { joins(:tag_preferences).where(tag_preferences: where_clause) }
+  scope :where_tag_preferences_not, -> (where_clause) { joins(:tag_preferences).where.not(tag_preferences: where_clause) }
+
+  scope :where_release_check_interval, -> (interval) { where_tag_preferences(release_check_minute_interval: interval) }
+  scope :one_minute_interval_checks, -> { where_release_check_interval(1) }
+  scope :fifteen_minute_interval_checks, -> { where_release_check_interval(15) }
+  scope :thirty_minute_interval_checks, -> { where_release_check_interval(30) }
+  scope :one_hour_interval_checks, -> { where_release_check_interval(60) }
+  scope :three_hour_interval_checks, -> { where_release_check_interval(180) }
+  scope :six_hour_interval_checks, -> { where_release_check_interval(360) }
+  scope :twelve_hour_interval_checks, -> { where_release_check_interval(720) }
+  scope :twenty_four_hour_interval_checks, -> { where_release_check_interval(1440) }
   scope :one_day_interval_checks, -> { twenty_four_hour_interval_checks }
 
   scope :five_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 5) }
@@ -109,14 +109,6 @@ class Tag < ApplicationRecord
   scope :six_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 360) }
   scope :twelve_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 720) }
   scope :twenty_four_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 1440) }
-
-  def self.where_tag_preferences(where_clause)
-    joins(:tag_preferences).where(tag_preferences: where_clause)
-  end
-
-  def self.where_tag_preferences_not(where_clause)
-    joins(:tag_preferences).where.not(tag_preferences: where_clause)
-  end
 
   def self.find_without_query_params(url, include_removed_tags: false)
     parsed_url = URI.parse(url)
@@ -156,7 +148,7 @@ class Tag < ApplicationRecord
   def apply_defaults
     # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
     find_and_apply_tag_identifying_data
-    tag_check_regions_to_check.create(tag_check_region: TagCheckRegion.US_EAST_1)
+    # uptime_regions_to_check.create(uptime_region: UptimeRegion.US_EAST_1) # new uptime check logic no longer requires this...
     domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
   end
 
@@ -192,12 +184,12 @@ class Tag < ApplicationRecord
     most_recent_version.nil?
   end
 
-  def run_tag_check_now!
-    RunTagCheckJob.perform_now(self)
+  def run_uptime_check_now!
+    RunReleaseCheckJob.perform_now(self)
   end
 
-  def run_tag_check_later!
-    RunTagCheckJob.perform_later(self)
+  def run_uptime_check_later!
+    RunReleaseCheckJob.perform_later(self)
   end
 
   def perform_audit_on_all_urls_on_current_tag_version!(execution_reason:, initiated_by_domain_user: nil)
@@ -253,7 +245,11 @@ class Tag < ApplicationRecord
   end
 
   def scheduled_audits_enabled?
-    !tag_preferences.scheduled_audit_minute_interval.nil?
+    tag_preferences.scheduled_audits_enabled?
+  end
+
+  def uptime_monitoring_enabled?
+    uptime_regions_to_check.count > 0
   end
 
   def enable!
@@ -267,6 +263,10 @@ class Tag < ApplicationRecord
 
   def scheduled_audits_disabled?
     !scheduled_audits_enabled?
+  end
+
+  def uptime_monitoring_disabled?
+    !uptime_monitoring_enabled?
   end
 
   def disable!
@@ -335,22 +335,24 @@ class Tag < ApplicationRecord
   ################
 
   def average_response_time(days_ago: 7)
-    tag_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms)
+    uptime_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms)&.round(2)
   end
 
-  def max_response_time(days_ago: 7)
-    tag_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
+  def max_response_time(days_ago: 7, round: true)
+    uptime_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
   end
 
   def total_num_of_requests(days_ago: 7)
-    tag_checks.more_recent_than(days_ago.days.ago).count
+    uptime_checks.more_recent_than(days_ago.days.ago).count
   end
 
   def num_failed_requests(days_ago: 7, successful_codes: [200, 204])
-    tag_checks.more_recent_than(days_ago.days.ago).where.not(response_code: successful_codes).count
+    uptime_checks.more_recent_than(days_ago.days.ago).where.not(response_code: successful_codes).count
   end
 
   def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    (num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f / total_num_of_requests(days_ago: days_ago) * 100).round(2)
+    failed_count = num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f
+    return 0 if failed_count.zero?
+    (failed_count / total_num_of_requests(days_ago: days_ago) * 100).round(2)
   end
 end

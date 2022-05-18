@@ -1,8 +1,10 @@
-class DomainsController < LoggedInController
-  skip_before_action :ensure_domain
+class DomainsController < LoggedOutController
+  # skip_before_action :ensure_domain
 
   def new
+    redirect_to select_subscription_plans_path if current_domain && params[:additional].nil?
     @domain = Domain.new
+    @hide_logged_out_nav = true
     @hide_navigation = true
   end
   
@@ -11,10 +13,14 @@ class DomainsController < LoggedInController
     params[:domain][:is_generating_third_party_impact_trial] = false
     @domain = Domain.new(domain_params)
     if @domain.save
-      current_user.domains << @domain
       set_current_domain(@domain)
-      Role.USER_ADMIN.apply_to_domain_user(current_user.domain_user_for(@domain))
-      redirect_to tags_path
+      if current_user.nil?
+        redirect_to new_registration_path
+      else
+        current_user.domains << @domain
+        Role.USER_ADMIN.apply_to_domain_user(current_user.domain_user_for(@domain))
+        redirect_to tags_path
+      end
     else
       display_inline_errors(@domain.errors.full_messages)
       @hide_navigation = true
@@ -35,7 +41,8 @@ class DomainsController < LoggedInController
   end
 
   def update_current_domain
-    domain = Domain.find_by!(uid: params[:uid])
+    # domain = Domain.find_by!(uid: params[:uid])
+    domain = current_user.domains.find_by!(uid: params[:uid])
     set_current_domain(domain)
     redirect_to tags_path
   end

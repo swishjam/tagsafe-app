@@ -24,7 +24,7 @@ class AuditRunner
   private
 
   def create_audit!
-    @audit ||= Audit.create!(
+    @audit ||= Audit.create(
       initiated_by_domain_user: @initiated_by_domain_user,
       tag: @tag,
       tag_version: @tag_version,

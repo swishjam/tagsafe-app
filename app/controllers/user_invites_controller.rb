@@ -63,7 +63,7 @@ class UserInvitesController < LoggedInController
       user = User.create(user_params)
       if user.valid?
         invite.redeem!(user)
-        log_user_in(user)
+        set_current_user(user)
         redirect_to tags_path
       else
         display_inline_errors(user.errors.full_messages)

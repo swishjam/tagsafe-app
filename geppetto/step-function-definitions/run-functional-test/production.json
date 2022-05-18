@@ -1,0 +1,91 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "Run Functional Test",
+  "States": {
+    "Run Functional Test": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:us-east-1:407342930315:function:functional-tests-production-run-test:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 1
+        }
+      ],
+      "Next": "Enqueue to Tagsafe Resque",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Enqueue to Tagsafe Resque",
+          "ResultPath": "$.step_function_error"
+        }
+      ],
+      "ResultSelector": {
+        "requestPayload.$": "$.Payload.requestPayload",
+        "responsePayload.$": "$.Payload.responsePayload"
+      }
+    },
+    "Enqueue to Tagsafe Resque": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload.$": "$",
+        "FunctionName": "arn:aws:lambda:us-east-1:407342930315:function:results-processor-production-send-to-resque-from-step-function:$LATEST"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true,
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "Upload Failed Resque to S3"
+        }
+      ]
+    },
+    "Upload Failed Resque to S3": {
+      "Type": "Task",
+      "End": true,
+      "Parameters": {
+        "Body": {
+          "failedResqueEnqueue": "$"
+        },
+        "Bucket": "production-failed-lambda-results",
+        "Key": "test-run-failure"
+      },
+      "Resource": "arn:aws:states:::aws-sdk:s3:putObject",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "BackoffRate": 1,
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3
+        }
+      ]
+    }
+  }
+}

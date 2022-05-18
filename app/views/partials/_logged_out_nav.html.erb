@@ -11,8 +11,12 @@
           <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='how' data-scroll-offset='66'>How it works</a></li>
           <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='contact' data-scroll-offset='66'>Contact</a></li>
         </ul>
-        <a href="/login" class=" nav-link tagsafe-btn outline m-1">Log In</a>
-        <a href="/registrations/new" class=" nav-link tagsafe-btn m-1">Get Started</a>
+        <% if current_user.present? %>
+          <%= link_to 'Dashboard', tags_path, class: 'nav-link floating-btn m-1' %>
+        <% else %>
+          <a href="/login" class="nav-link floating-btn white-bg large m-1">Log In</a>
+          <%= link_to 'Get Started for Free', new_domain_path, class: 'nav-link floating-btn large m-1' %>
+        <% end %>
       </div>
     </div>
   </nav>

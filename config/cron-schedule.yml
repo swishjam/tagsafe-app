@@ -3,15 +3,9 @@ re_enqueue_failed_jobs:
   cron: "*/1 * * * *" # every 1 minute
   queue: critical # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
   description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
-re_scan_domains:
-  class: Schedule::CrawlUrlsJob
-  cron: "0 */1 * * *" # every 1 hour
-  description: "Scans each domain for any new third party tags."
-  # queue: "crawl_url_for_tags_queue"
-  queue: normal
-update_subscription_usage_records:
-  class: Schedule::UpdateSubscriptionUsageRecordsJob
-  cron: "0 1 * * *" # every night at 1 am
+run_bulk_debits_job:
+  class: Schedule::RunBulkDebitsJob
+  cron: "0 */1 * * *"
   queue: normal
 mark_tags_removed_from_site:
   class: Schedule::MarkTagsRemovedFromSiteJob
@@ -24,6 +18,23 @@ clean_out_retention_data:
 purge_domains_generating_third_party_impact_trial:
   class: Schedule::PurgeDomainsGeneratingThirdPartyImpactTrialJob
   cron: "0 0 * * *"
+  queue: normal
+
+# CrawlUrlsJobs
+one_hour_crawl_urls_for_third_party_tags:
+  class: Schedule::CrawlUrlsJobs::OneHourInterval
+  cron: "0 */1 * * *" # every 1 hour
+  description: "Scans each domain for any new third party tags."
+  queue: normal
+six_hour_crawl_urls_for_third_party_tags:
+  class: Schedule::CrawlUrlsJobs::SixHourInterval
+  cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
+  description: "Scans each domain for any new third party tags."
+  queue: normal
+twenty_four_hour_crawl_urls_for_third_party_tags:
+  class: Schedule::CrawlUrlsJobs::TwentyFourHourInterval
+  cron: "0 0 * * *" # midnight
+  description: "Scans each domain for any new third party tags."
   queue: normal
 
 # ScheduledAuditJobs

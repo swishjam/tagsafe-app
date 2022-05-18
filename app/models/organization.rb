@@ -27,7 +27,7 @@
 #     end
 #   end
 
-#   def should_log_tag_checks
+#   def should_log_uptime_checks
 #     true
 #   end
 

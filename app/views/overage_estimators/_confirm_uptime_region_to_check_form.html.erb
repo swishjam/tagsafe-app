@@ -1,0 +1,5 @@
+<%= form_with url: tag_uptime_regions_to_check_index_path(tag), html: { class: 'w-fit m-auto d-inline-block' }, data: { controller: 'loading_form', action: 'submit->server-loadable-modal#hide' } do |f| %>
+  <%= f.hidden_field :price_increase_confirmed, value: true %>
+  <%= f.hidden_field :uptime_region_id, value: attr_being_updated_value %>
+  <%= loading_submit_button 'Confirm price change', type: 'floating' %>
+<% end %>
