@@ -1,6 +1,6 @@
 class CreditWallet < ApplicationRecord
   belongs_to :domain
-  belongs_to :subscription_plan
+  belongs_to :subscription_plan, optional: true
   has_many :bulk_debits, dependent: :destroy
   has_many :release_checks_bulk_debits
   has_many :uptime_checks_bulk_debits
