@@ -10,8 +10,8 @@ class Domain < ApplicationRecord
   has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
 
   has_many :audits, dependent: :destroy
-  has_many :bulk_debits, through: :credit_wallets
   has_many :credit_wallets, dependent: :destroy
+  has_many :bulk_debits, through: :credit_wallets
   has_many :domain_audits, dependent: :destroy
   has_many :domain_users, dependent: :destroy
   has_many :functional_tests, dependent: :destroy
