@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_16_210320) do
+ActiveRecord::Schema.define(version: 2022_05_19_152937) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -167,7 +167,9 @@ ActiveRecord::Schema.define(version: 2022_05_16_210320) do
     t.datetime "disabled_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "subscription_plan_id"
     t.index ["domain_id"], name: "index_credit_wallets_on_domain_id"
+    t.index ["subscription_plan_id"], name: "index_credit_wallets_on_subscription_plan_id"
     t.index ["uid"], name: "index_credit_wallets_on_uid"
   end
 
@@ -964,7 +966,4 @@ ActiveRecord::Schema.define(version: 2022_05_16_210320) do
     t.index ["uid"], name: "index_users_on_uid"
   end
 
-  # REMOVING FOREIGN KEY CONSTRAINTS FOR PLANET SCALE REQUIREMENTS
-  # add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  # add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

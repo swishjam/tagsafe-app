@@ -36,9 +36,15 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <span class='d-block'><%= current_domain.current_subscription_plan.package_type.capitalize %> Plan</span>
-        <% unless current_domain.current_subscription_plan.trialing? %>
-          <%= link_to 'Change Plan', select_subscription_plans_path %>
+        <% if current_domain.current_subscription_plan.delinquent?  %>
+          <span class='d-block'>Subscription is frozen </span>
+          <%= link_to 'Select new plan', select_subscription_plans_path(update: true) %>
+        <% elsif current_domain.current_subscription_plan.canceled?  %>
+          <span class='d-block'>Subscription is canceled</span>
+          <%= link_to 'Select new plan', select_subscription_plans_path(update: true) %>
+        <% else %>
+          <span class='d-block'><%= current_domain.current_subscription_plan.human_package_type %> (billed <%= current_domain.current_subscription_plan.billing_interval_with_ly %>)</span>
+          <%= link_to 'Change Plan', select_subscription_plans_path(update: true) %>
         <% end %>
       </div>
     </div>
@@ -47,69 +53,75 @@
   <hr/>
   <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>
 
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Next recurring subscription payment</span>
-        <span class='settings-description d-block'>Your payment method on file will automatically be charged on this date.</span>
+  <% unless @next_invoice.nil? %>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Next recurring subscription payment</span>
+          <span class='settings-description d-block'>Your payment method on file will automatically be charged on this date.</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block '>
+          <span class='d-block'><%= number_to_currency(@next_invoice.amount_due / 100.0) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
+          <% if @next_invoice.lines.any?(&:proration) %>
+            <span class='d-block'>(Prorated)</span>
+          <% end %>
+        </div>
       </div>
     </div>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block '>
-        <span class='d-block'><%= number_to_currency(@next_invoice.amount_due / 100.0) %> at <%= Time.at(@next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z") %></span>
-      </div>
-    </div>
-  </div>
+  <% end %>
 </div>
 
 
-<div class='tagsafe-container p-5 mt-5'>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Credits provided in subscription</span>
-        <span class='settings-description d-block'>The number of credits your account begins each month with.</span>
+<% unless current_domain.current_subscription_plan.delinquent? || current_domain.current_subscription_plan.canceled? %>
+  <div class='tagsafe-container p-5 mt-5'>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Credits provided in subscription</span>
+          <span class='settings-description d-block'>The number of credits your account begins each month with.</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.total_credits_for_month) %> credits</span>
       </div>
     </div>
-    <div class='col-6 d-flex align-items-center'>
-      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.total_credits_for_month) %> credits</span>
-    </div>
-  </div>
 
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Credits used this month</span>
-        <span class='settings-description d-block'>The number of credits your account has used so far this month.</span>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Credits used this month</span>
+          <span class='settings-description d-block'>The number of credits your account has used so far this month.</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_used) %> credits</span>
       </div>
     </div>
-    <div class='col-6 d-flex align-items-center'>
-      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_used) %> credits</span>
-    </div>
-  </div>
 
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Credits remaining this month</span>
-        <span class='settings-description d-block'>The number of credits your account has remaining for this month.</span>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Credits remaining this month</span>
+          <span class='settings-description d-block'>The number of credits your account has remaining for this month.</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_remaining) %> credits</span>
       </div>
     </div>
-    <div class='col-6 d-flex align-items-center'>
-      <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_remaining) %> credits</span>
-    </div>
   </div>
-</div>
+<% end %>
 
-<% if current_domain.has_payment_method_on_file? %>
+<% unless !current_domain.current_subscription_plan || current_domain.current_subscription_plan.canceled? %>
   <div class='tagsafe-container mt-5 p-3 text-center'>
     <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
-    <span class='settings-description d-block'>Cancel yout subscription right now.</span>
-    <%= form_with model: current_domain.current_subscription_plan, url: cancel_domains_subscription_subscription_plans_path, class: '', data: { controller: 'loading_form' } do %>
-      <%= loading_submit_button 'Cancel', button_class: 'red mt-3' %>
+    <%= form_with model: current_domain.current_subscription_plan, url: cancel_subscription_plan_path(current_domain.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
+      <%= loading_submit_button 'Cancel', button_class: 'red mt-2' %>
     <% end %>
   <% end %>
 </div>

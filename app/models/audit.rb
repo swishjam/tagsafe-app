@@ -431,8 +431,9 @@ class Audit < ApplicationRecord
   end
 
   def charge_domain_for_credits_used!
-    return if performance_audit_failed? || domain.credit_wallet_for_current_month.nil?
+    return if performance_audit_failed?
     price = PriceCalculators::Audits.new(self).price
+    return if price.zero?
     domain.credit_wallet_for_current_month.debit!(price, record_responsible_for_debit: self, reason: CreditWalletTransaction::Reasons.AUDIT) unless price.zero?
   end
 

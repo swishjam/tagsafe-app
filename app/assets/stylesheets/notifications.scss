@@ -5,6 +5,7 @@
   z-index: 10;
   .notification {
     border: 1px solid $soft-grey-border;
+    cursor: default;
     border-radius: 10px;
     margin: 15px 5px 5px 5px;
     transform: matrix(1.05,0,0,1.04999995231628,0,0);

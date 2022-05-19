@@ -5,14 +5,14 @@
                                 when 'incomplete_expired', 'unpaid'
                                   "Your Tagsafe subscription is frozen due to failed susbcription payments, please #{link_to 'update your payment method', settings_billing_path} in order to restore functionality to your account."
                                 when 'canceled'
-                                  "Because you canceled your Tagsafe subscription your account is now frozen, if you'd like to continue using Tagsafe please #{link_to 'select a subscription plan', select_subscription_plan_path(update: true)}."
+                                  "Because you canceled your Tagsafe subscription your account is now frozen, if you'd like to continue using Tagsafe please #{link_to 'select a subscription plan', select_subscription_plans_path(update: true)}."
                                 else
                                   nil
                                 end
 %>
 <% if subscription_banner_message %>
-  <div class='fixed-top-banner <%= current_domain.curent_subscription_plan.past_due? ? 'warning' : 'error' %>'>
-    <%= HtmlHelper.WARNING_ICON %> <%= subscription_banner_message %>
+  <div class='fixed-top-banner <%= current_domain.current_subscription_plan.past_due? ? 'warning' : 'error' %>'>
+    <span><%= HtmlHelper.WARNING_ICON %> <%= subscription_banner_message.html_safe %></span>
   </div>
 <% elsif user_is_anonymous? && !@disable_anonymous_user_banner %>
   <div class='fixed-top-banner'>

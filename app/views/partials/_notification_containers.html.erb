@@ -1,4 +1,8 @@
 <div class='notifications-container d-flex flex-column'>
+  <% if flash[:flash_notification] %>
+    <%= render 'partials/notification', message: flash[:flash_notification] %>
+  <% end %>
+
   <% if current_domain %>
     <%= turbo_stream_from "domain_#{current_domain.uid}_notifications_container" %>
     <%= turbo_frame_tag "domain_#{current_domain.uid}_notifications_container" do %>

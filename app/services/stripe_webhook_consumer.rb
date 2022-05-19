@@ -1,5 +1,6 @@
 class StripeWebhookConsumer
   EVENT_TYPE_METHOD_DICTIONARY = {
+    :'customer.subscription.deleted' => :'subscription_ended',
     :'customer.subscription.trial_will_end' => :'free_trial_will_end',
     :'invoice.marked_uncollectible' => :invoice_marked_uncollectible,
     :'invoice.payment_failed' => :invoice_payment_failed,
@@ -29,7 +30,6 @@ class StripeWebhookConsumer
   # Occurs three days before a subscription's trial period is scheduled to end, or when a trial is ended immediately (using trial_end=now).
   def free_trial_will_end
     Rails.logger.info "StripeWebhookConsumer free trial ending soon!"
-    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'id'))
     subscription_plan.domain.admin_domain_users.each do |domain_user|
       TagsafeEmail::FreeTrialWillEnd.new(domain_user.user, subscription_plan).send!
     end
@@ -38,7 +38,6 @@ class StripeWebhookConsumer
   # Occurs whenever an invoice payment attempt fails, due either to a declined payment or to the lack of a stored payment method.
   def invoice_payment_failed
     Rails.logger.info "StripeWebhookConsumer Invoice Payment Failed!"
-    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'subscription'))
     subscription_plan.domain.admin_domain_users.each do |domain_user| 
       TagsafeEmail::PaymentFailed.new(domain_user.user).send!
     end
@@ -47,7 +46,7 @@ class StripeWebhookConsumer
   # Occurs whenever an invoice is marked uncollectible.
   def invoice_marked_uncollectible
     Rails.logger.info "StripeWebhookConsumer Invoice Marked as Uncollectible!"
-    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_event.dig('data', 'object', 'subscription'))
+    CreditWallet.for_subscription_plan(subscription_plan).disable!
     subscription_plan.domain.admin_domain_users.each do |domain_user| 
       TagsafeEmail::SubscriptionBecameDelinquent.new(domain_user.user).send!
     end
@@ -55,17 +54,35 @@ class StripeWebhookConsumer
 
   # Occurs whenever a subscription changes (e.g., switching from one plan to another, or changing the status from trial to active).
   def customer_subscription_updated
-    stripe_subscription_id = stripe_event.dig('data', 'object', 'id')
-    Rails.logger.info "StripeWebhookConsumer Subscription Updated for #{stripe_subscription_id}"
-    subscription_plan = SubscriptionPlan.find_by!(stripe_subscription_id: stripe_subscription_id)
+    Rails.logger.info "StripeWebhookConsumer Subscription Updated for #{subscription_plan.stripe_subscription_id}"
+    subscription_amount = stripe_event.dig('data', 'object', 'plan', 'amount')
     subscription_status = stripe_event.dig('data', 'object', 'status')
     free_trial_ends_at = stripe_event.dig('data', 'object', 'trial_end')
     subscription_plan.update!(
+      amount: subscription_amount,
       status: subscription_status, 
       free_trial_ends_at: free_trial_ends_at ? Time.at(free_trial_ends_at).to_datetime : nil
     )
   end
 
+  def subscription_ended
+    Rails.logger.info "StripeWebhookConsumer Subscription ended for #{subscription_plan.stripe_subscription_id}"
+    subscription_plan.domain.admin_domain_users.each do |domain_user|
+      TagsafeEmail::SubscriptionCanceled.new(domain_user.user, subscription_plan).send!
+    end
+  end
+
+  def subscription_plan
+    @subscription_plan ||= begin
+      stripe_subscription_id = case stripe_event.dig('data', 'object', 'object')
+                                when 'subscription' then stripe_event.dig('data', 'object', 'id')
+                                when 'invoice' then stripe_event.dig('data', 'object', 'subscription')
+                                else 
+                                  raise "Dont know how to find SubscriptionPlan for a #{stripe_event.dig('data', 'object', 'object')} Stripe Event object"
+                                end
+      SubscriptionPlan.find_by!(stripe_subscription_id: subscription_plan.stripe_subscription_id)
+    end
+  end
 
   # # Occurs whenever an invoice payment attempt succeeds or an invoice is marked as paid out-of-band.
   # def invoice_payment_succeeded

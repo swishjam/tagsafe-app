@@ -6,11 +6,12 @@ module TagsafeEmail
     def initialize(user, tag)
       @to_email = user.email
       @template_variables = {
-        tag_url: tag.full_url,
-        tag_name: tag.try_friendly_name,
-        tag_image_url: tag.try_image_url,
+        user_first_name: user.first_name,
+        tag_url: tag.url_based_on_preferences,
+        tag_friendly_name: tag.try_friendly_name,
+        tag_image_url: tag.image_url,
         domain_url: tag.domain.url,
-        tag_tagsafe_url: mail_safe_url("/tags/#{tag.id}")
+        edit_tag_url: mail_safe_url("/tags/#{tag.uid}/edit")
       }
     end
   end

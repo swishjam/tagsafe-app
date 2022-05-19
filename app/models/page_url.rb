@@ -91,20 +91,9 @@ class PageUrl < ApplicationRecord
     errors.add(:base, e.message)
   end
 
-  def self.get_valid_parsed_url(url_to_check, attempt_number: 1)
-    raise InvalidUrlError, "request redirected the maximum 10 times." if attempt_number > 10
-    uri = URI.parse(url_to_check)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
-    resp = http.get(uri.request_uri, { 'User-Agent' => "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" })
-    case resp.class.to_s
-    when Net::HTTPOK.to_s, Net::HTTPFound.to_s
-      uri
-    when Net::HTTPMovedPermanently.to_s
-      get_valid_parsed_url(resp['location'], attempt_number: attempt_number+1)
-    else
-      raise InvalidUrlError, "Returned a status of: #{resp.code}"
-    end
+  def self.get_valid_parsed_url(url_to_check)
+    resp = HTTParty.get(url_to_check, :headers => { 'User-Agent' => "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" })
+    resp.request.last_uri
   rescue => e
     raise InvalidUrlError, "Cannot access #{url_to_check}: #{e.message}"
   end

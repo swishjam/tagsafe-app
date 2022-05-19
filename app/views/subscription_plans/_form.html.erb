@@ -1,5 +1,5 @@
 <% billing_interval_klass = billing_interval.to_s == SubscriptionPlan::BillingIntervals.YEAR.to_s ? 'annual-billing-only' : 'monthly-billing-only' %>
-<% is_updating_plan = current_domain.current_subscription_plan_id.present? %>
+<% is_updating_plan = current_domain.has_current_subscription_plan? && !current_domain.current_subscription_plan.canceled? && !current_domain.current_subscription_plan.delinquent? %>
 <% if is_updating_plan && 
         current_domain.current_subscription_plan.package_type.to_s == package.to_s && 
         current_domain.current_subscription_plan.billing_interval.to_s == billing_interval.to_s %>

@@ -21,7 +21,7 @@ class GeneralConfiguration < ApplicationRecord
       perf_audit_fail_when_confidence_range_not_met: false,
       perf_audit_completion_indicator_type: PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE,
       perf_audit_required_tagsafe_score_range: (ENV['PERFORMANCE_AUDIT_DEFAULT_REQUIRED_TAGSAFE_SCORE_RANGE'] || 5.0).to_f,
-      perf_audit_strip_all_images: true,
+      perf_audit_strip_all_images: false,
       perf_audit_include_page_tracing: true,
       perf_audit_throw_error_if_dom_complete_is_zero: true,
       perf_audit_inline_injected_script_tags: false,

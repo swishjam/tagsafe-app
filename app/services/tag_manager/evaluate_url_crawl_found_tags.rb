@@ -14,7 +14,6 @@ module TagManager
           @url_crawl.retrieved_urls.create!(url: tag_url)
           add_tag_to_domain_if_not_already_present(tag_url, metadata)
         end
-        # update_tags_no_longer_present_as_removed_from_site!
         @url_crawl.completed!
       end
     end
@@ -28,7 +27,6 @@ module TagManager
       else
         if @url_crawl.domain.should_capture_tag?(tag_url)
           @url_crawl.found_tag!(tag_url, byte_size: metadata['bytes'])
-          # @url_crawl.found_tag!(tag_url, enabled: create_tags_as_enabled)
         end
       end
     end
