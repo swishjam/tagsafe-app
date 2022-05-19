@@ -18,6 +18,7 @@
     "serverless-plugin-scripts": "^1.0.2"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1104.0"
+    "aws-sdk": "^2.1104.0",
+    "serverless-newrelic-lambda-layers": "^3.2.0"
   }
 }

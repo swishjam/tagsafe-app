@@ -30,3 +30,12 @@ functions:
       - schedule:
           name: ${opt:stage}-uptime-check-schedule
           rate: rate(1 minute)
+
+custom:
+  newRelic:
+    accountId: 3358761
+    apiKey: NRAK-07YNN2NE90B9FK1S7KBXVBRQT6Y
+    enableFunctionLogs: true
+
+plugins: 
+  - serverless-newrelic-lambda-layers
