@@ -6,7 +6,7 @@ module AuditRunnerJobs
       PerformanceAuditManager::QueueMaintainer.new(audit).run_next_batch_of_performance_audits_or_mark_as_completed!
     end
 
-    def generate_cached_responses(audit, attempt_num = 1)
+    # def generate_cached_responses(audit, attempt_num = 1)
     #   response = StepFunctionInvoker::PerformanceAuditCacher.new(audit: audit, tag_version: audit.tag_version).send_synchronously!
     #   if response['errorMessage']
     #     if attempt_num <= 3
