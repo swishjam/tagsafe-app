@@ -73,7 +73,9 @@ class Domain < ApplicationRecord
   end
 
   def url_hostname
-    URI.parse(url).hostname
+    host = URI.parse(url).hostname
+    host.slice!(host.last) if host.ends_with?('/')
+    host
   end
 
   def add_url(full_url, should_scan_for_tags:)
@@ -91,7 +93,7 @@ class Domain < ApplicationRecord
   end
 
   def strip_pathname_from_url_and_initialize_page_url
-    page_urls.new(full_url: url, should_scan_for_tags: !is_generating_third_party_impact_trial)
+    page_url = page_urls.new(full_url: url, should_scan_for_tags: !is_generating_third_party_impact_trial)
     self.url = parsed_domain_url
   rescue URI::InvalidURIError => e
     errors.add(:base, "Invalid URL provided.")

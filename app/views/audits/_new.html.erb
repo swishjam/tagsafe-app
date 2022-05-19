@@ -84,7 +84,7 @@
           <h5 class='mt-4'>Performance audit settings:</h5>
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px;'>
             <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
-              <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
               <label class='custom-checkbox-div-label fill skinny' for='include_page_load_resources'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
                 <i class="far fa-times-circle unchecked top-right-icon red"></i>
@@ -93,7 +93,7 @@
             </div>
 
             <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
-              <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
               <label class='custom-checkbox-div-label fill skinny' for='enable_screen_recording'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
                 <i class="far fa-times-circle unchecked top-right-icon red"></i>
@@ -102,7 +102,7 @@
             </div>
 
             <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
-              <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <input name='config[performance_audit_settings][strip_all_images]' id='strip_all_images_in_performance_audits' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.perf_audit_strip_all_images ? "checked='checked'" : nil %>>
               <label class='custom-checkbox-div-label fill skinny' for='strip_all_images_in_performance_audits'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
                 <i class="far fa-times-circle unchecked top-right-icon red"></i>

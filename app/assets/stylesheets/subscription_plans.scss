@@ -79,6 +79,10 @@ body.settings, body.subscription_plans {
         align-items: center;
         justify-content: center;
         height: 100%;
+        .cost-for-feature {
+          font-size: 14px;
+          font-style: italic;
+        }
       }
     }
   }

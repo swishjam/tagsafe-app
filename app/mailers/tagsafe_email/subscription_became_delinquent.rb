@@ -1,6 +1,6 @@
 module TagsafeEmail
   class SubscriptionBecameDelinquent < Base
-    self.from_email = :'subscriptions@tagsafe.io'
+    self.from_email = :'notifications@tagsafe.io'
     self.sendgrid_template_id = :'d-abe2eeaa89f947849cd13910fe8d982c'
 
     def initialize(user, domain)

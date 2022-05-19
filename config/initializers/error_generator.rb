@@ -61,3 +61,7 @@ end
 class SubscriptionError
   class OneActiveSubscriptionPerDomain < StandardError; end;
 end
+
+class CreditWalletErrors
+  class DomainHasNoSusbscriptionFeaturesConfiguration < StandardError; end;
+end

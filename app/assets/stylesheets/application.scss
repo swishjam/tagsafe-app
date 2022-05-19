@@ -55,7 +55,7 @@ body.locked {
   text-align: center;
   height: 75px;
   &.error {
-    background:rgb(255, 175, 175);
+    background:#fcd6d6;
     color: red;
     a {
       color: red;
@@ -68,7 +68,7 @@ body.locked {
       color: yellow;
     }
   }
-  &:not(.error), &:not(.warning) {
+  &:not(.error, .warning) {
     background: $tagsafe-primary;
     color: white;
     a {

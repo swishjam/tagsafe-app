@@ -9,7 +9,7 @@ class SettingsController < LoggedInController
   end
 
   def billing    
-    @next_invoice = Stripe::Invoice.upcoming({ subscription: current_domain.current_subscription_plan.stripe_subscription_id, expand: ['lines.data.price.product'] })
+    @next_invoice = Stripe::Invoice.upcoming({ subscription: current_domain.current_subscription_plan.stripe_subscription_id, expand: ['lines.data.price.product'] }) unless current_domain.current_subscription_plan.canceled?
     @default_payment_method = Stripe::PaymentMethod.retrieve(current_domain.stripe_payment_method_id) unless current_domain.stripe_payment_method_id.nil?
   end
 end

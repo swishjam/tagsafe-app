@@ -44,6 +44,10 @@ a.no-decoration {
   overflow-x: hidden;
 }
 
+.tagsafe-tooltip {
+  --bs-tooltip-bg: white;
+}
+
 .outlined-card {
   border: 1px solid $soft-grey-border;
   margin: 15px;
@@ -325,7 +329,7 @@ a.no-decoration {
   position: relative;
   .scanning-animation {
     animation: MoveUpDown 3s linear infinite;
-    height: 10%;
+    height: 5%;
     max-height: 20px;
     background: black;
     position: absolute;

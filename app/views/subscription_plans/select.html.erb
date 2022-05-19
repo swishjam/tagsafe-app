@@ -19,7 +19,10 @@
       <h1 class='alfa-slab'>Choose your plan</h1>
       <h4>Upgrade, downgrade, or cancel whenever.</h4>
       <h4>Get started for free, no credit card required.</h4>
-      <% current_billing_interval = current_domain.current_subscription_plan&.billing_interval || SubscriptionPlan::BillingIntervals.YEAR %>
+      <% current_billing_interval = current_domain.has_current_subscription_plan? && 
+                                      !current_domain.current_subscription_plan.canceled? && 
+                                      !current_domain.current_subscription_plan.delinquent? ? 
+                                        current_domain.current_subscription_plan.billing_interval : SubscriptionPlan::BillingIntervals.YEAR %>
       <div class='form-check form-switch w-fit m-auto annual-toggle-container mt-2'>
         <input type='checkbox' class='form-check-input pointer' 
                                 id='billing-interval'

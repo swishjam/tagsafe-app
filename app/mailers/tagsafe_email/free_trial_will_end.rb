@@ -1,6 +1,6 @@
 module TagsafeEmail
   class FreeTrialWillEnd < Base
-    self.from_email = :'subscriptions@tagsafe.io'
+    self.from_email = :'notifications@tagsafe.io'
     self.sendgrid_template_id = :'d-9c475f07c8114f7ea9e37702b46e4709'
 
     def initialize(user, subscription_plan)

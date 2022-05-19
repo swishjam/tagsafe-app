@@ -7,7 +7,7 @@ module SubscriptionMaintainer
       @subscription_package = subscription_package
       @billing_interval = billing_interval
       @free_trial_days = free_trial_days
-      @amount_in_cents = amount_in_cents || SubscriptionPlan::DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS[subscription_package.to_sym][billing_interval.to_sym]
+      @amount_in_cents = amount_in_cents || SubscriptionPlan.price_for(package: subscription_package, billing_interval: billing_interval)
     end
 
     def enroll!
@@ -37,7 +37,8 @@ module SubscriptionMaintainer
         metadata: { 
           package: @subscription_package, 
           tagsafe_customer_uid: @domain.uid, 
-          tagsafe_domain_url: @domain.url 
+          tagsafe_domain_url: @domain.url,
+          env: Rails.env
         }
       )
     end

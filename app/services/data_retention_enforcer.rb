@@ -2,7 +2,7 @@ class DataRetentionEnforcer
   def initialize(domain)
     @domain = domain
     @days_of_retention_for_domain = @domain.subscription_features_configuration.data_retention_days
-    @release_check_and_uptime_check_retention_days = days_of_retention_for_domain > 7 ? 14 : days_of_retention_for_domain
+    @release_check_and_uptime_check_retention_days = @days_of_retention_for_domain > 7 ? 14 : @days_of_retention_for_domain
   end
 
   def purge_out_of_retention_data!

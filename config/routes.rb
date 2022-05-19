@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     resources :tag_preferences, only: [:edit, :update], param: :uid
     resources :tag_versions, only: [:show, :index], param: :uid do
       member do
+        get :audit_redirect
         get '/live_comparison' => 'tag_versions#live_comparison'
         get :content
         get :git_diff
@@ -168,9 +169,11 @@ Rails.application.routes.draw do
   # resources :stripe_billing_portal, only: :new
   resources :domain_payment_methods, only: [:new, :create]
   resources :subscription_plans, only: [:create, :edit, :update], param: :uid do
+    member do
+      patch :cancel, param: :uid
+    end
     collection do
       get :select
-      patch :cancel_domains_subscription
     end
   end
 

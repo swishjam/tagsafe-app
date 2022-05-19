@@ -1,5 +1,6 @@
 class SubscriptionPlan < ApplicationRecord
   belongs_to :domain
+  has_many :credit_wallets, dependent: :destroy
 
   DELINQUENT_STATUSES = %w[incomplete_expired unpaid]
 
@@ -10,6 +11,9 @@ class SubscriptionPlan < ApplicationRecord
   scope :canceled, -> { where(status: 'canceled') }
   scope :not_canceled, -> { where.not(status: 'canceled') }
   scope :trialing, -> { where(status: 'trialing') }
+
+  after_create :update_domains_credit_wallet
+  after_update :send_updated_subscription_email_if_necessary
 
   class Packages
     class << self
@@ -28,7 +32,7 @@ class SubscriptionPlan < ApplicationRecord
   DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS = {
     starter: {
       month: 19_99,
-      year: 31_984
+      year: 191_90
     },
     scale: {
       month: 79_99,
@@ -39,6 +43,19 @@ class SubscriptionPlan < ApplicationRecord
       year: 2879_90
     }
   }
+
+  def self.price_for(package:, billing_interval:, friendly: false, display_as_monthly: false)
+    amt_in_cents = DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS[package.to_sym][billing_interval.to_sym]
+    if friendly
+      if display_as_monthly && billing_interval.to_sym == BillingIntervals.YEAR
+        "$#{sprintf('%.2f', amt_in_cents / 100.0 / 12)}"
+      else
+        "$#{sprintf('%.2f', amt_in_cents / 100.0)}"
+      end
+    else
+      amt_in_cents
+    end
+  end
   
   # Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, or `unpaid`.
   # For collection_method=charge_automatically a subscription moves into incomplete if the initial payment attempt fails. A 
@@ -80,8 +97,11 @@ class SubscriptionPlan < ApplicationRecord
     "#{package_type.capitalize} Plan"
   end
 
-  def cancel!
-    SubscriptionMaintainer::Remover.new(domain).cancel_current_subscription!
+  def billing_interval_with_ly
+    case billing_interval
+    when 'month' then 'monthly'
+    when 'year' then 'annually'
+    end
   end
 
   def fetch_stripe_subscription
@@ -95,5 +115,32 @@ class SubscriptionPlan < ApplicationRecord
 
   def human_status
     status.gsub('_', ' ')
+  end
+
+  private
+
+  def update_domains_credit_wallet
+    domains_wallet = CreditWallet.for_domain(domain, create_if_nil: false)
+    if domains_wallet && domains_wallet.subscription_plan_id.nil?
+      domains_wallet.update!(subscription_plan: self)
+    elsif domains_wallet.nil? || domains_wallet && domains_wallet.susbcription_plan != self
+      CreditWallet.for_subscription_plan(self)
+    end
+  end
+
+  def send_updated_subscription_email_if_necessary
+    if saved_changes['amount']
+      next_invoice = Stripe::Invoice.upcoming(subscription: stripe_subscription_id)
+      domain.admin_domain_users.each do |domain_user|
+        TagsafeEmail::SubscriptionPlanUpdated.new(
+          domain_user.user,
+          self,
+          previous_amount: saved_changes['amount'][0],
+          new_amount: amount,
+          next_payment_amount: next_invoice.amount_due,
+          next_payment_date: Time.at(next_invoice.next_payment_attempt).strftime("%m/%d/%y @ %l:%M %P %Z")
+        ).send!
+      end
+    end
   end
 end
