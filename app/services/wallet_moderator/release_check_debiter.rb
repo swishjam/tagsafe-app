@@ -8,7 +8,7 @@ module WalletModerator
       Rails.logger.info "WalletModerator::ReleaseCheckDebiter - debiting Domain #{@domain.uid} for #{release_check_credits_used} credits (#{num_release_checks_in_period} ReleaseChecks)"
       ReleaseChecksBulkDebit.debit!(
         amount: release_check_credits_used,
-        credit_wallet: CreditWallet.for(@domain), 
+        credit_wallet: CreditWallet.for_domain(@domain), 
         start_date: start_date_of_upcoming_bulk_debit,
         end_date: Time.current
       )

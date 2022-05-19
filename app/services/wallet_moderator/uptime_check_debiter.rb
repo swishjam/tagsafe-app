@@ -8,7 +8,7 @@ module WalletModerator
       Rails.logger.info "WalletModerator::UptimeCheckDebiter - debiting Domain #{@domain.uid} for #{uptime_check_credits_used} credits (#{num_uptime_checks_in_period} UptimeChecks)"
       UptimeChecksBulkDebit.debit!(
         amount: uptime_check_credits_used,
-        credit_wallet: CreditWallet.for(@domain), 
+        credit_wallet: CreditWallet.for_domain(@domain), 
         start_date: start_date_of_upcoming_bulk_debit,
         end_date: Time.current
       )
