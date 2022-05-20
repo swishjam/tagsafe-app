@@ -43,6 +43,13 @@
       <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', edit_tag_path(@tag) %>.
     </div>
   </div>
+<% else %>
+  <% unless (most_recent_check = @tag.release_checks.most_recent_first.limit(1).first).nil? %>
+    <div class='container-fluid text-end pt-3 pe-3'>
+      <span class='d-block'>Release detection interval is set for <%= @tag.tag_preferences.release_monitoring_interval_in_words %>.</span>
+      <span class='d-block'>Last check ran <%= most_recent_check.executed_at.formatted_long %>.</span>
+    </div>
+  <% end %>
 <% end %>
 
 <%= turbo_frame_tag "#{@tag.uid}_release_chart", src: release_chart_releases_path(tag_uid: @tag.uid) do %>
