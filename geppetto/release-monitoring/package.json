@@ -10,8 +10,10 @@
     "dotenv": "^16.0.0",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
+    "newrelic": "^8.11.1",
     "node-fetch": "^2.0.0",
     "redis": "^4.0.4",
+    "serverless-newrelic-lambda-layers": "^3.2.0",
     "serverless-plugin-scripts": "^1.0.2"
   },
   "devDependencies": {

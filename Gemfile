@@ -76,7 +76,7 @@ gem 'sentry-ruby'
 gem 'sentry-rails'
 gem "sentry-resque"
 
-gem 'ddtrace'
+gem 'newrelic_rpm'
 
 gem 'image_optimizer'
 

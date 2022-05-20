@@ -1,4 +1,4 @@
-app: ${opt:stage}-tagsafe-lambda-functions
+app: performance-auditer
 service: performance-audits
 org: collin
 
@@ -28,7 +28,6 @@ functions:
     handler: performanceAuditHandler.runPerformanceAudit
     timeout: 180
     layers: 
-      # - arn:aws:lambda:us-east-1:407342930315:layer:ffmpeg:3
       - ${file(./config/${opt:stage}.yml):FFMPEG_LAYER_ARN}
   generate-cache:
     handler: cacheGeneratorHandler.generateCache
@@ -42,8 +41,3 @@ package:
     
 plugins:
   - serverless-offline
-  - serverless-plugin-datadog
-
-custom:
-  datadog:
-    apiKey: 2b64a37edee361329c3ece91e0058ed0

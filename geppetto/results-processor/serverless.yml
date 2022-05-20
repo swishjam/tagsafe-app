@@ -1,4 +1,4 @@
-app: ${opt:stage}-tagsafe-lambda-functions
+app: results-collector
 service: results-processor
 org: collin
 
