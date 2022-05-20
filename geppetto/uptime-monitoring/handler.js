@@ -4,14 +4,12 @@ const DataStoreManager = require('./src/dataStoreManager'),
         UptimeCheckRunner = require('./src/uptimeCheckRunner'),
         UptimeCheckConfig = require('./src/uptimeCheckConfig'),
         UptimeCheckResults = require('./src/uptimeCheckResults'),
-        crypto = require('crypto'),
-        newrelic = require('newrelic');
+        crypto = require('crypto');
 
 module.exports.checkTagsForUptime = async (event, context) => {
   console.log(`Running uptime check in ${process.env.AWS_REGION}.`);
   const batchUid = [1,2,3,4].map(() => crypto.randomBytes(2).toString('hex')).join('-');
   context.serverlessSdk.tagEvent('batch-uid', batchUid);
-  newrelic.recordCustomEvent('batch-uid', { uid: batchUid });
   const startTs = Date.now();
   
   const dataStore = new DataStoreManager();
