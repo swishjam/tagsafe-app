@@ -1,5 +1,5 @@
 module WalletModerator
-  class UptimeCheckDebiter
+  class UptimeCheckBulkDebiter
     def initialize(domain)
       @domain = domain
     end

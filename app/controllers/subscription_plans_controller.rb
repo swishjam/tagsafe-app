@@ -15,7 +15,8 @@ class SubscriptionPlansController < LoggedInController
       current_domain,
       subscription_package: params[:domain][:subscription_package].to_s, 
       billing_interval: params[:domain][:billing_interval].to_s,
-      free_trial_days: current_domain.subscription_plans.none? ? 14 : 0
+      free_trial_days: current_domain.subscription_plans.none? ? 14 : 
+                        current_domain.has_payment_method_on_file? ? 0 : 1
     ).enroll!
     redirect_to tags_path
   end

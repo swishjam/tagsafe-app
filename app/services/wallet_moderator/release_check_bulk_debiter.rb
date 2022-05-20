@@ -1,5 +1,5 @@
 module WalletModerator
-  class ReleaseCheckDebiter
+  class ReleaseCheckBulkDebiter
     def initialize(domain)
       @domain = domain
     end

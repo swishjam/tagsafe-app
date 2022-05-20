@@ -12,7 +12,6 @@ class SubscriptionPlan < ApplicationRecord
   scope :not_canceled, -> { where.not(status: 'canceled') }
   scope :trialing, -> { where(status: 'trialing') }
 
-  after_create :update_domains_credit_wallet
   after_update :send_updated_subscription_email_if_necessary
 
   class Packages
@@ -119,14 +118,14 @@ class SubscriptionPlan < ApplicationRecord
 
   private
 
-  def update_domains_credit_wallet
-    domains_wallet = CreditWallet.for_domain(domain, create_if_nil: false)
-    if domains_wallet && domains_wallet.subscription_plan_id.nil?
-      domains_wallet.update!(subscription_plan: self)
-    elsif domains_wallet.nil? || domains_wallet && domains_wallet.susbcription_plan != self
-      CreditWallet.for_subscription_plan(self)
-    end
-  end
+  # def update_domains_credit_wallet
+  #   domains_wallet = CreditWallet.for_domain(domain, create_if_nil: false)
+  #   if domains_wallet && domains_wallet.subscription_plan_id.nil?
+  #     domains_wallet.update!(subscription_plan: self)
+  #   elsif domains_wallet.nil? || domains_wallet && domains_wallet.subscription_plan != self
+  #     CreditWallet.for_subscription_plan(self)
+  #   end
+  # end
 
   def send_updated_subscription_email_if_necessary
     if saved_changes['amount']

@@ -5,26 +5,21 @@ module WalletModerator
     end
 
     def send_change_in_credits_notifications
-      send_low_credit_notification_if_necessary
-      send_no_credit_notification_if_necessary
-    end
-
-    private
-
-    def send_low_credit_notification_if_necessary
-      if @credit_wallet.percent_used >= 80
-        already_sent_notification_for_threshold = LowCreditsCreditWalletNotification.for_credit_wallet_state(@credit_wallet).present?
-        return if already_sent_notification_for_threshold
+      if reached_no_credit_threshold?
+        NoCreditsCreditWalletNotification.create_for_wallet!(@credit_wallet)
+      elsif reached_low_credit_threshold?
         LowCreditsCreditWalletNotification.create_for_wallet!(@credit_wallet)
       end
     end
 
-    def send_no_credit_notification_if_necessary
-      if @credit_wallet.credits_remaining < 10
-        already_sent_notification_for_threshold = NoCreditsCreditWalletNotification.for_credit_wallet_state(@credit_wallet).present?
-        return if already_sent_notification_for_threshold
-        NoCreditsCreditWalletNotification.create_for_wallet!(@credit_wallet)
-      end
+    private
+
+    def reached_low_credit_threshold?
+      @credit_wallet.percent_used >= 80 && LowCreditsCreditWalletNotification.for_credit_wallet_state(@credit_wallet).nil?
+    end
+
+    def reached_no_credit_threshold?
+      @credit_wallet.credits_remaining < 10 && NoCreditsCreditWalletNotification.for_credit_wallet_state(@credit_wallet).nil?
     end
   end
 end

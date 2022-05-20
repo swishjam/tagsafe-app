@@ -46,7 +46,7 @@ class StripeWebhookConsumer
   # Occurs whenever an invoice is marked uncollectible.
   def invoice_marked_uncollectible
     Rails.logger.info "StripeWebhookConsumer Invoice Marked as Uncollectible!"
-    CreditWallet.for_subscription_plan(subscription_plan).disable!
+    # CreditWallet.for_domain(subscription_plan.domain).disable!
     subscription_plan.domain.admin_domain_users.each do |domain_user| 
       TagsafeEmail::SubscriptionBecameDelinquent.new(domain_user.user).send!
     end

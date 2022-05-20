@@ -62,10 +62,10 @@ body.locked {
     }
   }
   &.warning {
-    background:rgb(255, 232, 175);
-    color: yellow;
+    background:#fff3cd;
+    color: black;
     a {
-      color: yellow;
+      color: black;
     }
   }
   &:not(.error, .warning) {
