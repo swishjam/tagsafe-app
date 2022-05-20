@@ -1,4 +1,4 @@
-app: ${opt:stage}-tagsafe-lambda-functions
+app: uptime
 service: uptime-monitoring
 org: collin
 
