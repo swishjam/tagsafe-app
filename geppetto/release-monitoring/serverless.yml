@@ -1,4 +1,4 @@
-app: ${opt:stage}-tagsafe-lambda-functions
+app: release-detector
 service: release-monitoring
 org: collin
 
@@ -71,11 +71,11 @@ functions:
           input:
             current_minute_interval: 1440
 
-custom:
-  newRelic:
-    accountId: 3358761
-    apiKey: NRAK-07YNN2NE90B9FK1S7KBXVBRQT6Y
-    enableFunctionLogs: true
+# custom:
+#   newRelic:
+#     accountId: 3358761
+#     apiKey: NRAK-07YNN2NE90B9FK1S7KBXVBRQT6Y
+#     enableFunctionLogs: true
 
-plugins: 
-  - serverless-newrelic-lambda-layers
+# plugins: 
+#   - serverless-newrelic-lambda-layers
