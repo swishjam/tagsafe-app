@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_19_152937) do
+ActiveRecord::Schema.define(version: 2022_05_21_214109) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -38,6 +38,16 @@ ActiveRecord::Schema.define(version: 2022_05_19_152937) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "additional_tags_to_inject_during_audit", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "tag_to_inject_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uid"
+    t.index ["tag_id"], name: "index_additional_tags_to_inject_during_audit_on_tag_id"
+    t.index ["tag_to_inject_id"], name: "index_attida_on_tag_to_inject_id"
   end
 
   create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
@@ -789,9 +799,11 @@ ActiveRecord::Schema.define(version: 2022_05_19_152937) do
     t.timestamp "removed_from_site_at"
     t.timestamp "created_at"
     t.datetime "deleted_at"
+    t.bigint "most_current_audit_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
+    t.index ["most_current_audit_id"], name: "index_tags_on_most_current_audit_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"

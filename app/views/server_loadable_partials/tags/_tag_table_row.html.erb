@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>
-        <% audit_to_display = tag.audit_to_display %>
+        <% audit_to_display = tag.most_current_audit %>
         <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit_to_display %>
       </div>
       <div class='tagsafe-table-data' style='width: 17%'>

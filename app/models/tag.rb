@@ -9,12 +9,13 @@ class Tag < ApplicationRecord
   acts_as_paranoid
 
   # RELATIONS
+  belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :domain
   belongs_to :tag_identifying_data, optional: true
   belongs_to :found_on_page_url, class_name: PageUrl.to_s
   belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s
-  
-  has_many :audits, dependent: :destroy  
+
+  has_many :audits, dependent: :destroy
   has_many :long_tasks, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
@@ -33,6 +34,11 @@ class Tag < ApplicationRecord
   has_many :query_param_change_events, class_name: TagUrlQueryParamsChangedEvent.to_s
 
   has_many :triggered_alerts
+
+  has_many :additional_tags_to_inject_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s
+  has_many :tags_to_inject_during_audit, through: :additional_tags_to_inject_during_audit, source: :tag_to_inject
+  # has_many :additional_tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
+  # has_many :tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
 
   has_one :configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
   has_one :tag_preferences, class_name: TagPreference.to_s, dependent: :destroy
@@ -55,7 +61,7 @@ class Tag < ApplicationRecord
   after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
 
   # SCOPES
-  default_scope { includes(:tag_identifying_data, :tag_preferences) }
+  # default_scope { includes(:tag_identifying_data, :tag_preferences) }
   
   scope :release_monitoring_enabled, -> { where_tag_preferences_not({ release_check_minute_interval: 0 }) }
   scope :release_monitoring_disabled, -> { where_tag_preferences({ release_check_minute_interval: 0 }) }
@@ -169,6 +175,10 @@ class Tag < ApplicationRecord
   def human_state
     state.split('-').collect(&:capitalize).join(' ')
   end
+
+  # def most_current_audit
+  #   audits.most_current.limit(1).first
+  # end
   
   def most_recent_version
     return nil if release_monitoring_disabled?
@@ -315,6 +325,10 @@ class Tag < ApplicationRecord
 
   def try_friendly_slug
     (friendly_name || url_domain + url_path).gsub(' ', '_').gsub('/', '_').gsub('.', '')
+  end
+
+  def has_image?
+    tag_identifying_data&.image.present?
   end
 
   def try_image_url

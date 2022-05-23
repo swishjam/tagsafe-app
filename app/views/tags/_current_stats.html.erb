@@ -9,10 +9,7 @@
           <h5>Tagsafe Score</h5>
           <%= render 'partials/progress_ring', 
                 score: preferred_delta_performance_audit.tagsafe_score,
-                change_in_score: previous_score.nil? ? nil : preferred_delta_performance_audit.tagsafe_score - previous_score,
-                score_is_confident: current_audit.tagsafe_score_is_confident,
-                required_confidence_range: current_audit.performance_audit_configuration.required_tagsafe_score_range,
-                actual_confidence_range: current_audit.tagsafe_score_confidence_range
+                change_in_score: previous_score.nil? ? nil : preferred_delta_performance_audit.tagsafe_score - previous_score
           %>
         </div>
         <div class='col-9'>

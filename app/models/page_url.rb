@@ -28,7 +28,7 @@ class PageUrl < ApplicationRecord
   end
 
   def friendly_url
-    hostname + pathname
+    hostname + (pathname == '/' ? '' : pathname)
   end
 
   def should_scan_for_tags?

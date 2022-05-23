@@ -25,7 +25,7 @@ class PerformanceAuditCalculator < ApplicationRecord
     byte_size_weight: 0.05,
     perceptual_speed_index_weight: 0,
     ms_until_first_visual_change_weight: 0,
-    ms_until_last_visual_change_weight: 0,
+    ms_until_last_visual_change_weight: 0
   }
 
   # deduct n points of 100 for each metric: (Metric Value / Decrement Amount) * Weight
@@ -47,7 +47,7 @@ class PerformanceAuditCalculator < ApplicationRecord
     byte_size_score_decrement_amount: 20_000,
     perceptual_speed_index_score_decrement_amount: 0,
     ms_until_first_visual_change_score_decrement_amount: 0,
-    ms_until_last_visual_change_score_decrement_amount: 0,
+    ms_until_last_visual_change_score_decrement_amount: 0
   }
 
   def self.create_default(domain, active = true)

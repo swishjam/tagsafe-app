@@ -1,0 +1,23 @@
+<% audit = tag.most_current_audit %>
+<% tagsafe_score = audit&.tagsafe_score %>
+<div class='honeycomb-item'
+      data-controller='honeycomb'
+      data-honeycomb-tag-uid-value="<%=tag.uid%>"
+      data-honeycomb-tag-name-value="<%=tag.try_friendly_name%>"
+      data-honeycomb-has-audit-value="<%=audit.present?%>"
+      data-honeycomb-row-num-value="<%=row_num%>"
+      data-action='click->honeycomb#toggleTooltip'
+      style="--bg-color: <%=HoneycombHelper.bg_color_for(audit)%>;">
+  <div class='honeycomb-item-content d-block text-center'>
+    <% if tag.has_friendly_name? %>
+      <h6 class='honeycomb-title d-block mb-0'><%= tag.try_friendly_name %></h6>
+      <h6 class='honeycomb-sub-title d-block'><%= tag.url_based_on_preferences %></h6>
+    <% else %>
+      <h6 class='honeycomb-title'><%= tag.url_based_on_preferences %></h6>
+    <% end %>
+  </div>
+  <% if audit.present? %>
+    <form data-honeycomb-target="honeycombDetailsForm" method='GET' action='/honeycombs/<%=tag.uid%>' data-target="tag_<%=tag.uid%>_honeycomb_details">
+    </form>
+  <% end %>
+</div>

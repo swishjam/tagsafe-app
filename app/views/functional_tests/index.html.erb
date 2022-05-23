@@ -40,7 +40,7 @@
                   <% elsif !test.passed_dry_run %>
                     <span class='tagsafe-pill grey'>Needs validation</span>
                   <% else %>
-                    <%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_tests_on.count %>
+                    <%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_on.count %>
                   <% end %>
                 </div>
                 <div class='tagsafe-table-data text-end' style='width: 10%'>

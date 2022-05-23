@@ -4,7 +4,8 @@ class DryTestRun < TestRun
   end
 
   def after_passed
-    functional_test.update!(passed_dry_run: true, run_on_all_tags: true)
+    # functional_test.update!(passed_dry_run: true, run_on_all_tags: true)
+    functional_test.update!(passed_dry_run: true)
     update_audit_test_run_row(test_run: self, now: true)
   end
 

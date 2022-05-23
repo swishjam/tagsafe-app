@@ -1,14 +1,12 @@
 class ExecutionReason < ApplicationRecord
   scope :automated, -> { where(name: ['Activated Release Monitoring', 'Scheduled', 'New Release']) }
-  # scope :free, -> { where(name: ['Manual', 'Tagsafe Provided']) }
-  # scope :billable, -> { automated }
 
   TYPES_OF_EXECUTION_REASONS = [
     { method: :manual, name: 'Manual' },
     { method: :tagsafe_provided, name: 'Tagsafe Provided' },
     { method: :release_monitoring_activated, name: 'Activated Release Monitoring' },
     { method: :scheduled, name: 'Scheduled' },
-    { method: :new_release, name: 'New Release' },
+    { method: :new_release, name: 'New Release' }
   ]
   
   TYPES_OF_EXECUTION_REASONS.each do |type_of_execution_reason|

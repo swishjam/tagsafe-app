@@ -2,12 +2,14 @@ FactoryBot.define do
   factory :audit, aliases: [:completed_audit] do
     association :tag_version
     association :tag
-    # association :execution_reason
-    association :audited_url
-    primary { true }
-    performance_audit_iterations { 5 }
-    enqueued_at { DateTime.yesterday }
-    completed_at { DateTime.now }
+    association :execution_reason
+    association :page_url
+    include_performance_audit { true }
+    include_functional_tests { true }
+    include_page_load_resources { true }
+    num_functional_tests_to_run { 0 }
+    enqueued_suite_at { 20.minutes.ago }
+    performance_audit_completed_at { 1.minute.ago }
   end
 
   factory :audit_with_failed_performance_audit, parent: :audit do
@@ -15,9 +17,8 @@ FactoryBot.define do
   end
 
   factory :pending_audit, parent: :audit do
-    enqueued_at { 5.minutes.ago }
+    enqueued_suite_at { 5.minutes.ago }
     completed_at { nil }
-    primary { false }
   end
 end
 

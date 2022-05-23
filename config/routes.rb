@@ -69,6 +69,9 @@ Rails.application.routes.draw do
       post :validate
       patch :toggle_disable
     end
+    get '/functional_tests_to_run' => 'functional_tests_to_run#index'
+    post '/functional_tests_to_run' => 'functional_tests_to_run#create'
+    delete '/functional_test_to_run/:uid' => 'functional_tests_to_run#destroy', as: :destroy_functional_test_to_run
     resources :test_runs, only: [:index, :show], param: :uid do
       member do
         post :retry
@@ -96,6 +99,7 @@ Rails.application.routes.draw do
     resources :slack_notification_subscribers, only: [:create, :destroy], param: :uid
     resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy], param: :uid
     resources :tag_preferences, only: [:edit, :update], param: :uid
+    resources :additional_tags_to_inject_during_audit, only: [:create, :destroy], param: :uid
     resources :tag_versions, only: [:show, :index], param: :uid do
       member do
         get :audit_redirect
@@ -131,6 +135,13 @@ Rails.application.routes.draw do
       get '/waterfall' => 'page_load_resources#for_audit'
     end
   end
+
+  resources :honeycombs, only: [:index, :show], param: :uid do
+    collection do
+      get :chart
+    end
+  end
+
   resources :general_configuration, only: [:create, :update], param: :uid
 
   get '/admin' => redirect('/admin/performance')

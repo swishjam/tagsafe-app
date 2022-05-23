@@ -2,9 +2,9 @@ class FunctionalTest < ApplicationRecord
   belongs_to :domain
   belongs_to :created_by_user, class_name: User.to_s, optional: true
   
-  has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s
-  has_many :tags_to_run_tests_on, through: :functional_tests_to_run, source: 'tag', dependent: :destroy
-  accepts_nested_attributes_for :functional_tests_to_run
+  has_many :tags_to_run_on, class_name: FunctionalTestToRun.to_s, dependent: :destroy
+  has_many :tags, through: :tags_to_run_on, source: 'tag'
+  accepts_nested_attributes_for :tags_to_run_on
 
   has_many :test_runs, dependent: :destroy
   has_many :dry_test_runs, class_name: DryTestRun.to_s
@@ -69,6 +69,10 @@ class FunctionalTest < ApplicationRecord
     test_run_without_tag
   end
 
+  def tags_available_to_enable
+    domain.tags.where.not(id: tags.collect(&:id))
+  end
+
   def disable!
     update!(disabled_at: Time.now)
   end
@@ -94,11 +98,11 @@ class FunctionalTest < ApplicationRecord
   end
 
   def is_enabled_for_tag?(tag)
-    run_on_all_tags || tags_to_run_tests_on.include?(tag)
+    run_on_all_tags || tags.include?(tag)
   end
 
   def enable_for_tag(tag)
-    tags_to_run_tests_on << tag
+    tags << tag
   end
 
   private

@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "domain_#{current_domain.uid}_honeycomb_chart" do %>
+  <div class='honeycomb-chart p-5 <%= tags.count < 9 || (tags.count / 8).odd? ? 'odd-num-rows' : 'even-num-rows' %>'>
+    <% tags.each_slice(8).each_with_index do |row, i| %>
+      <div class='honeycomb-row'>
+        <% row.each do |tag| %>
+          <%= render 'honeycombs/honeycomb_item', tag: tag, row_num: i+1 %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,10 +1,6 @@
 FactoryBot.define do
-  factory :initial_audit_execution, class: ExecutionReason do
-    name { 'Initial Audit' }
-  end
-
   factory :manual_execution, class: ExecutionReason do
-    name { 'Manual Execution' }
+    name { 'Manual' }
   end
 
   factory :release_monitoring_activated, class: ExecutionReason do
@@ -12,14 +8,14 @@ FactoryBot.define do
   end
 
   factory :scheduled_execution, class: ExecutionReason do
-    name { 'Scheduled Execution' }
+    name { 'Scheduled' }
   end
 
-  factory :new_tag_version_execution, class: ExecutionReason do
-    name { 'New Tag Version' }
+  factory :new_release_execution, class: ExecutionReason do
+    name { 'New Release' }
   end
   
-  factory :retry_execution, class: ExecutionReason do
-    name { 'Retry' }
+  factory :tagsafe_provided_execution, class: ExecutionReason do
+    name { 'Tagsafe Provided' }
   end
 end

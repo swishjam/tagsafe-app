@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "tag_#{tag.uid}_honeycomb_details" do %>
+  <div class='container-fluid p-3'>
+    <h3 class='title'><%= tag.try_friendly_name %></h3>
+    <% if audit.present? %>
+      <div class='mb-3'>
+        <%= render 'partials/progress_ring', 
+            score: audit.tagsafe_score,
+            change_in_score: audit.audit_to_compare_with.nil? ? nil : audit.tagsafe_score - audit.audit_to_compare_with.tagsafe_score
+        %>
+        <h5 class='audit-description mb-0'>As of <%= time_ago_in_words(audit.performance_audit_completed_at) %> ago.</h5>
+        <span class='audit-sub-description'><%= audit.execution_reason.name %> audit performed on <%= audit.performance_audit_completed_at.formatted_short %></span>
+      </div>
+      <%= link_to tag_audit_path(tag, audit), class: 'floating-btn mb-4', target: '_blank' do %>
+        View audit details
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
