@@ -1,6 +1,7 @@
 def prepare_test!(options = {})
   stub_aws_calls unless options[:allow_aws_calls]
   unless options[:bypass_default_domain_create]
+    stub_valid_page_url_enforcement unless [:enforce_valid_page_url]
     @domain = create(:domain, url: 'https://www.tagsafe.io')
     create(:feature_price_in_credits, domain: @domain)
     create(:performance_audit_calculator, domain: @domain)

@@ -1,11 +1,11 @@
 class HoneycombsController < LoggedInController
   def chart
     tags = current_domain.tags.is_third_party_tag.includes(:tag_identifying_data, :tag_preferences, most_current_audit: :average_delta_performance_audit)
-    audits = current_domain.audits
+    honeycomb_rows = HoneycombChartFormatter.new(tags).format_rows!
     render turbo_stream: turbo_stream.replace(
       "domain_#{current_domain.uid}_honeycomb_chart",
       partial: 'honeycombs/chart',
-      locals: { tags: tags }
+      locals: {  honeycomb_rows: honeycomb_rows }
     )
   end
 

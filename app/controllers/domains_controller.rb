@@ -44,7 +44,7 @@ class DomainsController < LoggedOutController
     # domain = Domain.find_by!(uid: params[:uid])
     domain = current_user.domains.find_by!(uid: params[:uid])
     set_current_domain(domain)
-    redirect_to tags_path
+    redirect_to request.referrer
   end
   
   private

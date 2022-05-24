@@ -7,13 +7,8 @@
     align-items: center;
     justify-content: center;
     margin-top: -25px;
-    &:nth-child(even) {
-      margin-left: -112px;
-    }
-  }
-  &.even-num-rows {
-    .honeycomb-row:last-child {
-      margin-left: -112px;
+    &.mismatched {
+      margin-left: -109px;
     }
   }
 
@@ -85,19 +80,21 @@
   &.show {
     opacity: 1;
   }
-  .close-btn {
-    position: absolute;
-    top: 8px;
-    right: 2px;
-  }
   .tooltip-inner {
     background-color: white;
     box-shadow: $box-shadow-effect;
     color: $dark-grey-text;
     max-width: fit-content;
     min-width: 300px;
+    position: relative;
     .title {
       margin-top: 15px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 5px;
     }
   }
   &.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before, 
@@ -107,5 +104,13 @@
   &.bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, 
   &.bs-tooltip-bottom .tooltip-arrow::before{
     border-bottom-color: white;
+  }
+  &.bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before, 
+  &.bs-tooltip-start .tooltip-arrow::before{
+    border-left-color: white;
+  }
+  &.bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before, 
+  &.bs-tooltip-end .tooltip-arrow::before{
+    border-right-color: white;
   }
 }

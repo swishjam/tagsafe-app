@@ -1,9 +1,10 @@
 <%= turbo_frame_tag "domain_#{current_domain.uid}_honeycomb_chart" do %>
-  <div class='honeycomb-chart p-5 <%= tags.count < 9 || (tags.count / 8).odd? ? 'odd-num-rows' : 'even-num-rows' %>'>
-    <% tags.each_slice(8).each_with_index do |row, i| %>
-      <div class='honeycomb-row'>
+  <div class='honeycomb-chart p-5'>
+    <% honeycomb_rows.each_with_index do |row, row_index| %>
+      <% is_mismatched_last_row = row_index + 1 == honeycomb_rows.count && honeycomb_rows[row_index - 1].count.even? == honeycomb_rows[row_index].count.even? %>
+      <div class='honeycomb-row <%= is_mismatched_last_row ? 'mismatched' : nil %>'>
         <% row.each do |tag| %>
-          <%= render 'honeycombs/honeycomb_item', tag: tag, row_num: i+1 %>
+          <%= render 'honeycombs/honeycomb_item', tag: tag, row_num: row_index + 1 %>
         <% end %>
       </div>
     <% end %>

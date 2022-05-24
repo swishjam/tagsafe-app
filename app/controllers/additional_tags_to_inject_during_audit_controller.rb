@@ -2,7 +2,6 @@ class AdditionalTagsToInjectDuringAuditController < LoggedInController
   def create
     tag = current_domain.tags.find_by(uid: params[:tag_uid])
     tag_to_inject = current_domain.tags.find_by(uid: params[:tag_to_inject_uid])
-    binding.pry
     tag.additional_tags_to_inject_during_audit.create!(tag_to_inject: tag_to_inject)
     render turbo_stream: turbo_stream.replace(
       "tag_#{tag.uid}_additional_tags_to_inject_during_audit",

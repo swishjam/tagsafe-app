@@ -59,6 +59,7 @@ export default class extends Controller {
   }
 
   _fetchAndDisplayHoneycombDetails = () => {
+    if(!this.hasAuditValue) return;
     this.honeycombDetailsForm.dispatchEvent(new CustomEvent('submit', { bubbles: true }));
   }
 
