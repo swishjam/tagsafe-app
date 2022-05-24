@@ -1,5 +1,5 @@
 <% 
-  subscription_banner_message = case current_domain.current_subscription_plan.status
+  subscription_banner_message = case current_domain.current_subscription_plan&.status
                                 when 'past_due'
                                   "We've had some issues charging your payment method on file, we'll give it a couple of more tries but if we're unable to charge your account your subscription will become frozen. #{link_to 'Update your payment method', settings_billing_path} in order to maintain functionality."
                                 when 'incomplete_expired', 'unpaid'
@@ -14,7 +14,7 @@
   <div class='fixed-top-banner <%= current_domain.current_subscription_plan.past_due? ? 'warning' : 'error' %>'>
     <span><%= HtmlHelper.WARNING_ICON %> <%= subscription_banner_message.html_safe %></span>
   </div>
-<% elsif !current_domain.has_payment_method_on_file? && current_domain.current_subscription_plan.days_until_free_trial_expires(false) <= 3 %>
+<% elsif !current_domain.has_payment_method_on_file? && (current_domain.current_subscription_plan&.days_until_free_trial_expires(false) || Float::INFINITY <= 3) %>
   <div class='fixed-top-banner warning'>
     <span><%= HtmlHelper.WARNING_ICON %> Your free trial ends in <%= current_domain.current_subscription_plan.time_left_in_free_trial_in_words %>, <%= link_to 'add a payment method', settings_billing_path %> in order to prevent your account from being frozen.
   </div>
