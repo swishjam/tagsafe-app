@@ -4,7 +4,7 @@ module HoneycombHelper
       case audit&.tagsafe_score
       when nil then 'lightgrey'
       when 0..35 then '#d60000'
-      when 35..40 then '#d65200'
+      when 35..55 then '#d65200'
       when 55..60 then '#ef4800'
       when 60..65 then '#ef7000'
       when 65..70 then '#d67b00'
