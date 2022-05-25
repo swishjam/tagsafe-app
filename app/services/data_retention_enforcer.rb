@@ -43,7 +43,7 @@ class DataRetentionEnforcer
   end
 
   def purge_release_checks!
-    release_checks_to_purge = @domain.release_checks.older_than(Time.current - @release_check_and_uptime_check_retention_days.days, timestamp_column :'release_checks.executed_at')
+    release_checks_to_purge = @domain.release_checks.older_than(Time.current - @release_check_and_uptime_check_retention_days.days, timestamp_column: :'release_checks.executed_at')
     Rails.logger.info "DataRetentionEnforcer: Purging #{release_checks_to_purge.count} ReleaseChecks that are older than #{@release_check_and_uptime_check_retention_days} days."
     release_checks_to_purge.delete_all
   end
