@@ -79,8 +79,8 @@ module PerformanceAuditManager
 
     def capture_page_resources_if_necessary!
       if should_capture_page_resources_attributes?
-        PageLoadResource.insert_all(performance_audit_result.page_load_resources.formatted(individual_performance_audit.id))
-        BlockedResource.insert_all(performance_audit_result.blocked_resources.formatted_and_filtered(individual_performance_audit.id))
+        PageLoadResource.insert_all(performance_audit_result.page_load_resources.formatted(individual_performance_audit.id)) if performance_audit_result.has_page_load_resources?
+        BlockedResource.insert_all(performance_audit_result.blocked_resources.formatted_and_filtered(individual_performance_audit.id)) if performance_audit_result.has_blocked_resources?
       end
     end
 
