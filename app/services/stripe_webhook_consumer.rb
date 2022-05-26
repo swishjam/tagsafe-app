@@ -80,7 +80,7 @@ class StripeWebhookConsumer
                                 else 
                                   raise "Dont know how to find SubscriptionPlan for a #{stripe_event.dig('data', 'object', 'object')} Stripe Event object"
                                 end
-      SubscriptionPlan.find_by!(stripe_subscription_id: subscription_plan.stripe_subscription_id)
+      SubscriptionPlan.find_by!(stripe_subscription_id: stripe_subscription_id)
     end
   end
 

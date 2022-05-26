@@ -1,4 +1,4 @@
-body.settings, body.subscription_plans {
+body.settings, body.subscription_plans, body.welcome {
   nav.simple-subscription-selection-nav {
     box-shadow: 1px 3px 13px grey;
   }
@@ -12,6 +12,8 @@ body.settings, body.subscription_plans {
   }
   .subscription-packages-headers {
     border-bottom: 1px solid $soft-grey-border;
+  }
+  .pricing-matrix-cell {
     background: white;
   }
   .subscription-package-header-container {
@@ -45,13 +47,21 @@ body.settings, body.subscription_plans {
     .subscription-package-amount-header {
       font-size: 26px;
       font-weight: 800;
+      &.strikeout {
+        text-decoration: line-through;
+        font-weight: 500;
+        font-size: 22px;
+      }
     }
     .subscription-package-amount-sub-header {
       font-size: 18px;
+      ul {
+        list-style: circle;
+        text-align: left;
+      }
     }
   }
-  .feature-row {
-    background: white;
+  .subscription-feature-row {
     border-bottom: 1px solid $soft-grey-border;
     font-size: 20px;
     line-height: 1.7;
@@ -62,7 +72,9 @@ body.settings, body.subscription_plans {
       text-decoration-style: dotted;
     }
     &:not(.select-subscription-buttons-container):hover {
-      background-color: rgb(240, 240, 240);
+      .pricing-matrix-cell {
+        background-color: rgb(240, 240, 240);
+      }
     }
     .feature-title {
       padding: 15px;

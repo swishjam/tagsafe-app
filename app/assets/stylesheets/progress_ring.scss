@@ -56,7 +56,7 @@
   //   stroke-dashoffset: 0;
   // }
 
-  .progress-ring circle.circle-outline {
+  .progress-ring circle.circle-outline.animate {
     animation: progress 1s linear;
   }
 

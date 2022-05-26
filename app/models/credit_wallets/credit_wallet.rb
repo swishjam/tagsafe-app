@@ -101,7 +101,7 @@ class CreditWallet < ApplicationRecord
   end
 
   def credits_used_and_credits_remaining_match_total_credits_for_month
-    if credits_used.round(2) + credits_remaining.round(2) != total_credits_for_month
+    if (credits_used + credits_remaining).round != total_credits_for_month
       errors.add(:base, "CreditWallet mismatch, credits used (#{credits_used.round(2)}) + credits remaining (#{credits_remaining.round(2)}) does not equal total credits for month #{total_credits_for_month}")
     end
   end

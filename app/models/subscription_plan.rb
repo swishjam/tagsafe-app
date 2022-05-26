@@ -30,15 +30,15 @@ class SubscriptionPlan < ApplicationRecord
 
   DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS = {
     starter: {
-      month: 19_99,
-      year: 191_90
+      month: 19_00,
+      year: 182_40
     },
     scale: {
-      month: 79_99,
-      year: 767_90
+      month: 79_00,
+      year: 758_40
     },
     pro: {
-      month: 299_99,
+      month: 299_00,
       year: 2879_90
     }
   }

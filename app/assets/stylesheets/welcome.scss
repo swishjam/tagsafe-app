@@ -2,12 +2,21 @@
   font-family: 'Alfa Slab One', cursive;
 }
 
+footer {
+  background: rgb(159, 174, 255);
+}
+
 body.domain_audits.create, body.welcome, body.error-404 {
+  #content {
+    min-height: 75vh;
+    margin-bottom: 95px;
+  }
+  overflow-x: hidden;
   @media(max-width: 770px) {
-    background-image: linear-gradient(20deg, #95a3f5 0%, #ffffff 100%);  
+    background-image: linear-gradient(20deg, #95a3f54f 0%, #ffffff 100%);  
   }
   @media(min-width: 771px) {
-    background-image: linear-gradient(20deg, #95a3f5 0%, #ffffff 88%);
+    background-image: linear-gradient(20deg, #95a3f54f 0%, #ffffff 88%);
   }
   .main-header-wrapper {
     @media(min-width: 1201px) {
@@ -48,32 +57,6 @@ body.domain_audits.create, body.welcome, body.error-404 {
       font-size: 14px;
     }
   }
-  .splash-container#home {
-    height: calc(100vh - 66px);
-    position: relative;
-    .learn-more-div {
-      position: absolute;
-      margin-left: auto;
-      margin-right: auto;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      a {
-        color: black;
-        text-decoration: none;
-        transition: 500ms all;
-        font-size: 20px;
-        &:hover {
-          font-size: 22px;
-        }
-      }
-    }
-  }
-  .vh-80 { height: 80vh; }
-  .vh-100 { height: calc(100vh - 50px - 66px) }
-  .scroll-buffer {
-    height: 66px;
-  }
   .splash-container {
     font-family: 'Rubik', sans-serif;
     display: flex;
@@ -87,24 +70,12 @@ body.domain_audits.create, body.welcome, body.error-404 {
     @media(min-width: 741px) {
       padding: 50px;
     }
-    &.fade-to-secondary {
-      background-color: #dddaff;
-      background-image: linear-gradient(0deg, #dddaff 0%, #6e84ff 100%);
-    }
-    &.fade-to-white {
-      background-color: #dddaff;
-      background-image: linear-gradient(0deg, #dddaff 0%, #6e84ff 100%);      
-    }
-    &.fit-content {
-      height: auto;
-      min-height: 0;
-    }
-    &.three-quarter {
-      height: 75vh;
-    }
-    &.slivered {
-      height: 95vh;
-    }
+  }
+  #header-content {
+    height: 75vh;
+  }
+  #how-it-works-section, #whats-the-problem-section {
+    min-height: 75vh;
   }
   .feature-container {
     padding: 10px;
@@ -140,38 +111,30 @@ body.domain_audits.create, body.welcome, body.error-404 {
       }
     }
   }
-  .why-tagsafe-container {
-    .icon-container {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      img {
-        width: 100%;
-      }
+  .how-it-works-square {
+    border-radius: 20px;
+    background: white;
+    margin: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: $box-shadow-effect;
+    .how-it-works-icon {
+      width: 33%;
+      max-width: 100px;
+    }
+    h4 {
+      font-size: 32px;
     }
   }
   .feature-row {
-    margin: 40px 0 40px 0;
+    min-height: 65vh;
     align-items: center;
-    // .feature-screengrab-img-container {
-    //   transition: 500ms transform;
-    //   &:hover {
-    //     @media (hover: hover) and (pointer: fine) {
-    //       transform: scale(1.5);
-    //     }
-    //   }
-    // }
-    .notifications-carousel-container {
-      overflow: hidden;
-      img {
-        max-width: 300%;
-        width: 300%;
-        margin-left: 0;
-        transition: margin-left 500ms;
-      }
+    .feature-description {
+      font-size: 18px;
     }
   }
   .emphasize {
@@ -239,4 +202,243 @@ body.welcome.index .main-header-wrapper {
   display: inline-block;
   position: relative;
   margin-left: 10px;
+}
+
+
+.parallax-dashboard {
+  #browser-container {
+    position: relative;
+    height: fit-content;
+    width: 100%;
+    font-family: 'Rubik', sans-serif;
+    border-radius: 15px;
+    box-shadow: $box-shadow-effect;
+    #browser-top-bar {
+      width: 100%;
+      background-color: #dbdee7;
+      padding: 15px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      #browser-url-bar {
+        border-radius: 999px;
+        width: 85%;
+        height: 25px;
+        margin: 0 auto;
+        background-color: #AFAFB6;
+      }
+    }
+    #browser-page {
+      background: white;
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      min-height: 70vh;
+    }
+    #top-half-page, #bottom-half-page {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    #notifications-container {
+      position: absolute;
+      top: -5%;
+      right: 0;
+      width: 35%;
+      min-width: 250px;
+      max-width: 400px;
+      z-index: 10;
+    }
+    .notification-badge {
+      align-items: center;
+      margin: 5px;
+      width: 100%;
+      background: white;
+      border-radius: 5px;
+      box-shadow: $box-shadow-effect;
+      padding: 15px;
+      text-align: left;
+      font-size: 14px;
+      margin-left: 100vw;
+      transition: margin-left 1s ease;
+      .notification-icon {
+        width: 20%;
+        max-width: 200px;
+        margin-right: 15px;
+      }
+      &.slide-in {
+        margin-left: 5%;
+      }
+    }
+    #line-graph-container {
+      width: 100%;
+      padding: 15px;
+      text-align: left;
+      #line-graph {
+        position: relative;
+        #line-graph-revealer {
+          position: absolute;
+          top: 0;
+          right: 0;
+          background: white;
+        }
+        svg {
+          width: 100%;
+        }
+      }
+    }
+    #tagsafe-score-container {
+      position: relative;
+      width: 50%;
+      text-align: center;
+      #tagsafe-score {
+        position: absolute;
+        left: -100%;
+        transition: left 1s ease;
+        bottom: -50px;
+        width: 35%;
+        &.slide-in {
+          left: 10%;
+        }
+      }
+    }
+    #git-diff-container {
+      width: 50%;
+      #git-diffs {
+        width: 80%;
+        margin: 0 auto;
+        &.collapsed {
+          .git-diff-line {
+            width: 0;
+            .bold-line-change {
+              height: 0;
+            }
+          }
+        }
+        &:not(.collapsed) {
+          .git-diff-line {
+            width: 100%;
+            .bold-line-change {
+              height: 100%;
+            }
+          }
+        }
+        #additions, #deletions {
+          width: 50%;
+          float: left;
+        }
+        .git-diff-line {
+          transition: height, width 1s ease;
+          position: relative;
+          overflow: hidden;
+          height: 12px;
+          &.unchanged { background-color: #efefef; }
+          &.added { background-color: lightgreen; }
+          &.removed { background-color: #f6bcb6; }
+          .bold-line-change {
+            position: absolute;
+            height: 12px;
+            &.added { background-color: #00bb00; }
+            &.removed { background-color: #ff5555; }
+          }
+        }
+      }
+    }
+  }
+}
+
+body.welcome {
+ /* NAVIGATION */
+  nav {
+    width: 100%;
+    margin: 0 auto;
+    background: #fff;
+    padding: 50px 0;
+  }
+  nav.sticky-top {
+    box-shadow: 0px 0px 20px 1px grey;
+  }
+  nav ul {
+    list-style: none;
+    text-align: center;
+  }
+  nav ul li {
+    display: inline-block;
+  }
+  nav ul li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #aaa;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 10px;
+  }
+  nav ul li a,
+  nav ul li a:after,
+  nav ul li a:before {
+    transition: all .5s;
+  }
+  nav ul li a:hover {
+    color: #555;
+  }
+
+
+  /* stroke */
+  nav ul li a {
+    position: relative;
+  }
+  nav ul li a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #aaa;
+    height: 1px;
+  }
+  nav ul li a:hover:after {
+    width: 100%;
+  }
+
+  nav ul li a {
+    transition: all 2s;
+  }
+
+  nav ul li a:after {
+    text-align: left;
+    content: '.';
+    margin: 0;
+    opacity: 0;
+  }
+  nav ul li a:hover {
+    color: #fff;
+    z-index: 1;
+  }
+  nav ul li a:hover:after {
+    z-index: -10;
+    animation: fill 1s forwards;
+    -webkit-animation: fill 1s forwards;
+    -moz-animation: fill 1s forwards;
+    opacity: 1;
+  } 
+  @keyframes fill {
+    0% {
+      width: 0%;
+      height: 4px;
+    }
+    50% {
+      width: 100%;
+      height: 4px;
+    }
+    100% {
+      width: 100%;
+      height: 100%;
+      background: $tagsafe-secondary;
+    }
+  }
 }

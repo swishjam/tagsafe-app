@@ -8,11 +8,8 @@ class User < ApplicationRecord
   has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
   # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_domain_user_id
 
-  # has_many :email_notification_subscriptions, class_name: 'EmailNotificationSubscriber'
-  # has_many :new_tag_version_notification_subscriptions, class_name: 'NewTagVersionEmailSubscriber'
-  # has_many :audit_complete_notification_subscriptions, class_name: 'AuditCompleteNotificationSubscriber'
-
-  validates :email, presence: true, uniqueness: true
+  validates_presence_of :email, :password, :first_name, :last_name
+  validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
   after_create :send_welcome_email
 

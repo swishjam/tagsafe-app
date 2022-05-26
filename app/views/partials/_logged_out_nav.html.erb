@@ -1,23 +1,32 @@
 <% unless @hide_logged_out_nav %>
   <nav class="navbar navbar-expand-md navbar-light logged-out-nav p-2" data-controller='sticky-nav'>
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" data-controller='smooth-scroll' data-anchor='home'><%= image_tag asset_cdn_url('/tagsafe-logo-with-words.svg'), style: 'height: 40px' %></a>
+      <a class="navbar-brand ms-3" href="/" data-controller='smooth-scroll' data-anchor='home'><%= image_tag asset_cdn_url('/tagsafe-logo-with-words.svg'), style: 'height: 40px' %></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='why' data-scroll-offset='66'>Why Tagsafe?</a></li>
-          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='how' data-scroll-offset='66'>How it works</a></li>
-          <li class='nav-item'><a class='nav-link' href='#' data-controller='smooth-scroll' data-anchor='contact' data-scroll-offset='66'>Contact</a></li>
+      <div class="collapse navbar-collapse justify-content-end me-3" id="navbarText">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class='nav-item'>
+            <a class='nav-link' href='/pricing'>Pricing</a>
+          </li>
+          <li class='nav-item'>
+            <a class='nav-link' href='/contact-us'>Contact</a>
+          </li>
+          <% unless current_user.present? %>
+            <li class='nav-item'>
+              <a class='nav-link' href="/login">Log In</a>
+            </li>
+          <% end %>
         </ul>
-        <% if current_user.present? %>
-          <%= link_to 'Dashboard', tags_path, class: 'nav-link floating-btn m-1' %>
-        <% else %>
-          <a href="/login" class="nav-link floating-btn white-bg large m-1">Log In</a>
-          <%= link_to 'Get Started for Free', new_domain_path, class: 'nav-link floating-btn large m-1' %>
-        <% end %>
       </div>
+      <div class="navbar-nav m-auto mb-2 me-3 mb-lg-0">
+        <% if current_user.present? %>
+          <%= link_to 'Dashboard', tags_path, class: 'floating-btn m-1' %>
+        <% else %>
+          <%= link_to 'Get Started for Free', new_domain_path, class: 'floating-btn large m-1' %>
+        <% end %>
+      </ul>
     </div>
   </nav>
 <% end %>

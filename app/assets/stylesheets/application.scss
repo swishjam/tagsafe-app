@@ -208,7 +208,7 @@ body.logged-in:not(.domains) {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .container-fluid {
@@ -313,4 +313,36 @@ a.no-decoration {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 1s, opacity 1s linear;
+}
+
+.tooltip.tagsafe-tooltip {
+  &.show {
+    opacity: 1;
+  }
+  .tooltip-inner {
+    background-color: white;
+    box-shadow: $box-shadow-effect;
+    color: $dark-grey-text;
+    position: relative;
+    padding: 15px;
+    .title {
+      margin-top: 15px;
+    }
+  }
+  &.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before, 
+  &.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: white;
+  }
+  &.bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before, 
+  &.bs-tooltip-bottom .tooltip-arrow::before{
+    border-bottom-color: white;
+  }
+  &.bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before, 
+  &.bs-tooltip-start .tooltip-arrow::before{
+    border-left-color: white;
+  }
+  &.bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before, 
+  &.bs-tooltip-end .tooltip-arrow::before{
+    border-right-color: white;
+  }
 }
