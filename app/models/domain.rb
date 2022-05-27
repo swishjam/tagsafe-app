@@ -14,19 +14,19 @@ class Domain < ApplicationRecord
   has_many :bulk_debits, through: :credit_wallets
   has_many :domain_audits, dependent: :destroy
   has_many :domain_users, dependent: :destroy
+  has_many :users, through: :domain_users
   has_many :functional_tests, dependent: :destroy
+  has_many :test_runs, through: :functional_tests
   has_many :non_third_party_url_patterns, dependent: :destroy
   has_many :page_urls, dependent: :destroy
   has_many :performance_audit_calculators, dependent: :destroy
-  has_many :release_checks, through: :tags
   has_many :subscription_plans, dependent: :destroy
   # has_many :subscription_usage_record_updates
   has_many :tags, dependent: :destroy
+  has_many :release_checks, through: :tags
   has_many :tag_versions, through: :tags
-  has_many :test_runs, through: :functional_tests
   has_many :uptime_checks, through: :tags
   has_many :uptime_regions_to_check, through: :tags
-  has_many :users, through: :domain_users
   has_many :user_invites, dependent: :destroy
   has_many :url_crawls, dependent: :destroy
   has_many :url_crawl_retrieved_urls, through: :url_crawls

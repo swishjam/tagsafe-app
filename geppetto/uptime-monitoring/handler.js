@@ -4,8 +4,7 @@ const DataStoreManager = require('./src/dataStoreManager'),
         UptimeCheckRunner = require('./src/uptimeCheckRunner'),
         UptimeCheckConfig = require('./src/uptimeCheckConfig'),
         UptimeCheckResults = require('./src/uptimeCheckResults'),
-        crypto = require('crypto'),
-        moment = require('moment');
+        crypto = require('crypto');
 
 module.exports.checkTagsForUptime = async (event, context) => {
   console.log(`Running uptime check in ${process.env.AWS_REGION}.`);

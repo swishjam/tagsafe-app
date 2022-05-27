@@ -10,7 +10,7 @@
         <% if impact_result.zero? %>
           <span class='default-cursor'>No Impact</span>
         <% else %>
-          <% tooltip_title = "When #{tag.try_friendly_name} is present, #{metric_title} is #{impact_result.round(2)} #{unit} #{impact_result > 0 ? 'slower' : nil}" %>
+          <% tooltip_title = local_assigns[:tooltip_title] || "When #{tag.try_friendly_name} is present, #{metric_title} is #{impact_result.round(2)} #{unit} #{impact_result > 0 ? 'slower' : nil}" %>
           <% diff_in_metric = impact_result - (previous_impact_result || 0) %>
           <% unless previous_impact_result.nil? %>
             <% tooltip_title += ", #{diff_in_metric.positive? ? 'an increase' : 'a decrease'} of #{diff_in_metric.abs.round(2)} #{unit} from the previous audit." %>
@@ -18,8 +18,8 @@
           <span data-controller='tooltip'
                 data-bs-toggle='tooltip'
                 title="<%= tooltip_title %>" 
-                class="current-value default-cursor d-block">
-            <%= impact_result > 0 ? 'Adds' : nil %> <%= number_to_human(impact_result.round(2), units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>          
+                class="current-value default-cursor d-block w-fit">
+            <%= impact_result > 0 && unit == 'ms' ? 'Adds' : nil %> <%= number_to_human(impact_result.round(2), units: { unit: unit, thousand: unit == 'ms' ? 'seconds' : unit }) %>          
             <% unless previous_impact_result.nil? %>
               <% if diff_in_metric.zero? %>
                 (No Change)

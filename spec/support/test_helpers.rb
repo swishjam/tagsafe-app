@@ -1,8 +1,13 @@
 def prepare_test!(options = {})
   stub_aws_calls unless options[:allow_aws_calls]
-  @domain = create(:domain, url: 'https://www.tagsafe.io') unless options[:bypass_default_domain_create]
+  unless options[:bypass_default_domain_create]
+    stub_valid_page_url_enforcement unless [:enforce_valid_page_url]
+    @domain = create(:domain, url: 'https://www.tagsafe.io')
+    create(:feature_price_in_credits, domain: @domain)
+    create(:performance_audit_calculator, domain: @domain)
+  end
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
-  create_aws_event_bridge_rules unless [:bypass_aws_event_bridge_rules]
+  create_aws_event_bridge_rules unless options[:bypass_aws_event_bridge_rules]
   create_flags unless options[:bypass_flags]
 end
 
@@ -17,7 +22,7 @@ def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.c
     found_on_page_url: @domain.page_urls.first, 
     found_on_url_crawl: url_crawl
   )
-  release_check = create(:release_check, tag: tag, captured_new_tag_version: true)
+  release_check = create(:release_check, release_check_batch: create(:release_check_batch), tag: tag, captured_new_tag_version: true)
   TagManager::TagVersionCapturer.new(
     tag: tag, 
     content: '(function() { console.log("hello world"); })()', 
@@ -27,6 +32,68 @@ def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.c
   ).capture_new_tag_version!
   url_to_audit = create(:url_to_audit, tag: tag, page_url: @domain.page_urls.first)
   tag
+end
+
+def create_audit_with_performance_audits(domain:, tag:, tag_version:, execution_reason: ExecutionReason.MANUAL)
+  audit = create(:audit, 
+    domain: domain, 
+    tag: tag, 
+    tag_version: tag_version, 
+    execution_reason: execution_reason, 
+    performance_audit_calculator: @domain.current_performance_audit_calculator,
+    performance_audit_completed_at: nil
+  )
+  with_tag = create(:median_individual_performance_audit_with_tag, audit: audit)
+  without_tag = create(:median_individual_performance_audit_without_tag, audit: audit)
+  create(:average_delta_performance_audit, audit: audit, performance_audit_with_tag: with_tag, performance_audit_without_tag: without_tag)
+  audit.update_column :performance_audit_completed_at, 1.minute.ago
+  audit
+end
+
+def create_tag_version(
+  tag:, 
+  content: "(function() { console.log('Hello world!'); console.log('#{SecureRandom.hex(4)}'); })();", 
+  hashed_content: SecureRandom.hex(4), 
+  bytes: 100, 
+  commit_message: 'Some commit message...',
+  num_additions: 1,
+  num_deletions: 1,
+  total_changes: 2,
+  timestamp: Time.current
+)
+  release_check_batch = create(:release_check_batch)
+  release_check = create(:release_check, tag: tag, release_check_batch: release_check_batch)
+  
+  filename = "tag-version-#{hashed_content}.js"
+  file  = File.open(filename, "w") 
+  file.puts content.force_encoding('UTF-8')
+  file.close
+  js_file_data = { 
+    io: File.open(filename), 
+    filename: filename,
+    content_type: 'text/javascript'
+  }
+  tv = TagVersion.create!(
+    tag: tag,
+    hashed_content: hashed_content,
+    bytes: bytes,
+    release_check_captured_with: release_check,
+    js_file: js_file_data,
+    formatted_js_file: js_file_data,
+    commit_message: commit_message,
+    num_additions: num_additions,
+    num_deletions: num_deletions,
+    total_changes: total_changes,
+    created_at: timestamp,
+    updated_at: timestamp
+  )
+  File.delete(filename)
+  tv
+end
+
+
+def stub_tag_version_content
+  allow_any_instance_of(TagVersion).to receive(:content).and_return('STUBBED TAGVERSION CONTENT!')
 end
 
 def stub_aws_calls
@@ -60,13 +127,11 @@ def stub_tag_version_job
 end
 
 def create_execution_reasons
-  # run_rake_task('seed:mandatory_data')
-  create(:initial_audit_execution)
   create(:manual_execution)
   create(:release_monitoring_activated)
   create(:scheduled_execution)
-  create(:new_tag_version_execution)
-  create(:retry_execution)
+  create(:new_release_execution)
+  create(:tagsafe_provided_execution)
 end
 
 def create_flags

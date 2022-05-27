@@ -9,7 +9,8 @@ class CreditWallet < ApplicationRecord
   has_many :low_credit_notifications, class_name: LowCreditsCreditWalletNotification.to_s
   has_many :no_credit_notifications, class_name: NoCreditsCreditWalletNotification.to_s
   
-  validates_uniqueness_of :domain_id, scope: [:month, :subscription_plan_id], unless: :disabled?, message: Proc.new{ |wallet| "already has a wallet for the month of #{wallet.month}" }
+  validates_uniqueness_of :domain_id, scope: :month, message: Proc.new{ |wallet| "already has a wallet for the month of #{wallet.month}" }, unless: :disabled?
+  validate :credits_used_and_credits_remaining_match_total_credits_for_month
 
   before_validation :set_credits_used_and_credits_remaining, on: :create
 
@@ -29,18 +30,8 @@ class CreditWallet < ApplicationRecord
   }
 
   def self.for_domain(domain, create_if_nil: true, month: Time.current.month)
-    wallet = domain.credit_wallets
-                            .where(subscription_plan: domain.current_subscription_plan)
-                            .enabled
-                            .for_current_month
-                            .limit(1).first
+    wallet = domain.credit_wallets.enabled.for_current_month.limit(1).first
     wallet ||= generate_new_wallet(domain) if create_if_nil
-    wallet
-  end
-
-  def self.for_subscription_plan(subscription_plan, create_if_nil: true, month: Time.current.month)
-    wallet = subscription_plan.credit_wallets.enabled.for_current_month.limit(1).first
-    wallet ||= generate_new_wallet(subscription_plan.domain, subscription_plan) if create_if_nil
     wallet
   end
 
@@ -49,25 +40,28 @@ class CreditWallet < ApplicationRecord
     self.credits_used += num_credits
     self.credits_remaining -= num_credits
     self.save!
-    create_transaction!(
+    transactions.create!(
+      record_responsible_for_charge: record_responsible_for_debit,
+      credits_used: num_credits,
       num_credits_before_transaction: num_credits_remaining_before_debit,
-      record_responsible_for_charge: record_responsible_for_debit, 
-      reason: reason
+      num_credits_after_transaction: credits_remaining,
+      reason_for_transaction: reason
     )
   end
 
   def credit!(num_credits, record_responsible_for_credit: nil, reason:)
     num_credits_remaining_before_credit = self.credits_remaining
-    self.credits_used -= num_credits
+    self.credits_used -= num_credits unless INCREASABLE_CREDITS_FOR_MONTH_REASONS.include?(reason)
     self.credits_remaining += num_credits
+    self.total_credits_for_month += num_credits if INCREASABLE_CREDITS_FOR_MONTH_REASONS.include?(reason)
     self.save!
-    transaction = create_transaction!(
+    transactions.create!(
+      record_responsible_for_charge: record_responsible_for_credit,
+      credits_used: num_credits * -1,
       num_credits_before_transaction: num_credits_remaining_before_credit,
-      record_responsible_for_charge: record_responsible_for_credit, 
-      reason: reason
+      num_credits_after_transaction: credits_remaining,
+      reason_for_transaction: reason
     )
-    update_column(:total_credits_for_month, total_credits_for_month + num_credits) if INCREASABLE_CREDITS_FOR_MONTH_REASONS.include?(reason)
-    transaction
   end
 
   def has_credits?
@@ -88,31 +82,27 @@ class CreditWallet < ApplicationRecord
 
   private
 
-  def self.generate_new_wallet(domain, subscription_plan = domain.current_subscription_plan)
+  def self.generate_new_wallet(domain)
     if domain.subscription_features_configuration.nil?
       raise CreditWalletErrors::DomainHasNoSusbscriptionFeaturesConfiguration, <<~ERR
         Cannot create `CreditWallet` for #{domain.uid} because it does not have a `SubscriptionFeaturesConfiguration`. 
         This can happen if an `Audit` has completed before they select a `SubscriptionPlan`.
       ERR
     end
-    domain.credit_wallets.create!(subscription_plan: subscription_plan, month: Time.current.month, total_credits_for_month: domain.subscription_features_configuration.num_credits_provided_each_month)
+    domain.credit_wallets.create!(month: Time.current.month, total_credits_for_month: domain.subscription_features_configuration.num_credits_provided_each_month)
   rescue CreditWalletErrors::DomainHasNoSusbscriptionFeaturesConfiguration => e
     Rails.logger.error(e.inspect)
     Sentry.capture_exception(e)
   end
 
-  def create_transaction!(record_responsible_for_charge:, num_credits_before_transaction:, reason:)
-    transactions.create!(
-      record_responsible_for_charge: record_responsible_for_charge,
-      credits_used: num_credits_before_transaction - credits_remaining,
-      num_credits_before_transaction: num_credits_before_transaction,
-      num_credits_after_transaction: credits_remaining,
-      reason_for_transaction: reason
-    )
+  def set_credits_used_and_credits_remaining
+    self.credits_used = 0 unless self.credits_used.present?
+    self.credits_remaining = self.total_credits_for_month unless self.credits_remaining.present?
   end
 
-  def set_credits_used_and_credits_remaining
-    self.credits_used = 0
-    self.credits_remaining = self.total_credits_for_month
+  def credits_used_and_credits_remaining_match_total_credits_for_month
+    if (credits_used + credits_remaining).round != total_credits_for_month
+      errors.add(:base, "CreditWallet mismatch, credits used (#{credits_used.round(2)}) + credits remaining (#{credits_remaining.round(2)}) does not equal total credits for month #{total_credits_for_month}")
+    end
   end
 end

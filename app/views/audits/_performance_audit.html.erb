@@ -194,6 +194,7 @@
                   previous_impact_result: previous_audit ? previous_audit.preferred_delta_performance_audit.bytes : nil,
                   tagsafe_score_deduction: audit.preferred_delta_performance_audit.tagsafe_score_metric_deduction(:byte_size),
                   metric_definition: PerformanceMetricsDictionary.METRIC_DEFINITIONS[:bytes],
+                  tooltip_title: "The #{tag.try_friendly_name} javascript tag is #{audit.preferred_delta_performance_audit.bytes} bytes in size.",
                   unit: 'bytes',
                   previous_timestamp: previous_audit ? previous_audit.enqueued_suite_at : nil
                 } %>

@@ -1,0 +1,210 @@
+<div class='parallax-dashboard mb-5' data-controller='parallax-dashboard'>
+  <div id='browser-container' data-parallax-dashboard-target='browser'>
+    <div id='notifications-container'>
+      <div id='first-notification' class='notification-badge hidden' data-parallax-dashboard-target='firstNotification'>
+        <div class='d-flex align-items-center'>
+          <%= image_tag '/images/home/Google-Analytics-Logo.png', class: 'notification-icon' %>
+          <div class='notification-message'>
+            Google Analytics released an update to your tag and is now slowing down your page load by an additional 1.82 seconds.
+          </div>
+        </div>
+      </div>
+      <div id='second-notification' class='notification-badge hidden' data-parallax-dashboard-target='secondNotification'>
+        <div class='d-flex align-items-center'>
+          <%= image_tag '/images/home/Adobe-Analytics-Logo.jpeg', class: 'notification-icon' %>
+          <div class='notification-message'>
+            Your Adobe Analytics tag is causing your "Add to Cart" test to fail.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id='browser-top-bar'>
+      <div id='browser-url-bar'>
+        https://dashboard.tagsafe.io
+      </div>
+    </div>
+    <div id='browser-page'>
+
+      <div id='top-half-page' class='d-flex align-items-center justify-content-center h-100'>
+        <div id='line-graph-container'>
+          <h5>Tag Health</h5>
+          <div id='line-graph'>
+            <svg viewBox="0 0 1255 169" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path id='svg-line-path' d="M22.6587 42.7927C33.0967 42.7927 41.8405 50.7884 48.7991 50.7884H80.8998C87.8585 50.7884 91.3379 33.1763 101.776 33.1763C112.214 33.1763 129.611 44.3954 140.049 44.3954C150.487 44.3954 150.487 59.6212 160.925 59.6212C171.363 59.6212 171.363 38.305 178.321 38.305C188.759 38.305 188.759 48.0816 199.197 48.0816C209.636 48.0816 209.635 69.7184 220.074 69.7184C230.512 69.7184 230.512 21.9573 240.95 21.9573C247.908 21.9573 247.908 77.4114 258.346 77.4114C268.784 77.4114 272.536 38.305 282.974 38.305C293.412 38.305 289.963 28.3682 300.401 28.3682C310.839 28.3682 310.536 38.305 317.495 38.305C327.933 38.305 319.371 48.0816 329.809 48.0816C336.137 48.0816 348.629 46.7267 354.506 47.5169C356.885 43.1161 361.656 37.6639 367.455 37.6639C374.413 37.6639 369.685 50.7884 380.123 50.7884C390.561 50.7884 402.149 44.3954 412.587 44.3954C423.025 44.3954 428.834 42.7927 439.272 42.7927C449.71 42.7927 456.82 38.305 463.779 38.305C474.217 38.305 467.5 46.3186 477.938 46.3186C488.376 46.3186 487.105 33.1763 497.543 33.1763C507.981 33.1763 508.859 6.09034 519.297 6.09034C526.255 6.09034 526.255 3.20544 536.694 3.20544C547.132 3.20544 547.132 10.0971 557.57 10.0971C568.008 10.0971 568.008 29.4901 578.446 29.4901C588.884 29.4901 588.884 37.3434 595.842 37.3434C606.28 37.3434 606.28 53.2103 616.718 53.2103C627.156 53.2103 627.156 82.2196 637.594 82.2196C648.033 82.2196 651.572 21.9573 662.01 21.9573C668.969 21.9573 665.429 52.7295 675.867 52.7295C686.305 52.7295 690.783 30.4517 701.221 30.4517C711.659 30.4517 707.181 69.3978 717.619 69.3978C728.057 69.3978 728.057 52.7295 735.016 52.7295C745.454 52.7295 745.454 0 755.892 0C766.33 0 766.33 34.138 776.768 34.138C787.206 34.138 787.206 0.80136 797.644 0.80136C804.603 0.80136 807.326 29.4901 817.764 29.4901C828.202 29.4901 822.575 36.8626 833.013 36.8626H856.793C867.231 36.8626 867.231 35.2599 874.19 35.2599C884.628 35.2599 884.628 68.1156 895.066 68.1156C905.504 68.1156 905.504 28.3682 915.942 28.3682C926.38 28.3682 926.38 25.8038 936.818 25.8038C943.777 25.8038 943.777 46.3186 954.215 46.3186C964.653 46.3186 964.653 17.7902 975.091 17.7902C985.529 17.7902 985.529 27.4065 995.967 27.4065C1006.4 27.4065 1027.28 38.305 1034.24 38.305C1044.68 38.305 1044.77 42.7927 1055.21 42.7927C1065.64 42.7927 1065.55 37.6639 1075.99 37.6639C1082.95 37.6639 1086.28 17.7902 1096.71 17.7902C1107.15 17.7902 1115.8 0 1126.24 0C1136.68 0 1163.16 8.5 1173.6 8.5C1184.03 8.5 1183.85 21.9573 1194.29 21.9573C1204.73 21.9573 1201.02 28.1204 1209.81 33.1763C1218.72 38.305 1218.42 40.4104 1226.52 46.3186C1232.65 50.7884 1228.9 53.2103 1239.33 53.2103C1246.3 53.2103 1244.35 47.6008 1253.44 77.4114C1256.57 87.6916 1253.44 160.586 1253.44 169H0.874982C0.886105 160.586 0.873629 43.8344 0.874982 33.1763C6.09442 32.6955 19.8098 42.7927 22.6587 42.7927Z" fill="#007AFF" fill-opacity="0.7"/>
+              <path id='svg-fill-path' d="M22.6587 42.7927C33.0967 42.7927 41.8405 50.7884 48.7991 50.7884H80.8998C87.8585 50.7884 91.3379 33.1763 101.776 33.1763C112.214 33.1763 129.611 44.3954 140.049 44.3954C150.487 44.3954 150.487 59.6212 160.925 59.6212C171.363 59.6212 171.363 38.305 178.321 38.305C188.759 38.305 188.759 48.0816 199.197 48.0816C209.636 48.0816 209.635 69.7184 220.074 69.7184C230.512 69.7184 230.512 21.9573 240.95 21.9573C247.908 21.9573 247.908 77.4114 258.346 77.4114C268.784 77.4114 272.536 38.305 282.974 38.305C293.412 38.305 289.963 28.3682 300.401 28.3682C310.839 28.3682 310.536 38.305 317.495 38.305C327.933 38.305 319.371 48.0816 329.809 48.0816C336.137 48.0816 348.629 46.7267 354.506 47.5169C356.885 43.1161 361.656 37.6639 367.455 37.6639C374.413 37.6639 369.685 50.7884 380.123 50.7884C390.561 50.7884 402.149 44.3954 412.587 44.3954C423.025 44.3954 428.834 42.7927 439.272 42.7927C449.71 42.7927 456.82 38.305 463.779 38.305C474.217 38.305 467.5 46.3186 477.938 46.3186C488.376 46.3186 487.105 33.1763 497.543 33.1763C507.981 33.1763 508.859 6.09034 519.297 6.09034C526.255 6.09034 526.255 3.20544 536.694 3.20544C547.132 3.20544 547.132 10.0971 557.57 10.0971C568.008 10.0971 568.008 29.4901 578.446 29.4901C588.884 29.4901 588.884 37.3434 595.842 37.3434C606.28 37.3434 606.28 53.2103 616.718 53.2103C627.156 53.2103 627.156 82.2196 637.594 82.2196C648.033 82.2196 651.572 21.9573 662.01 21.9573C668.969 21.9573 665.429 52.7295 675.867 52.7295C686.305 52.7295 690.783 30.4517 701.221 30.4517C711.659 30.4517 707.181 69.3978 717.619 69.3978C728.057 69.3978 728.057 52.7295 735.016 52.7295C745.454 52.7295 745.454 0 755.892 0C766.33 0 766.33 34.138 776.768 34.138C787.206 34.138 787.206 0.80136 797.644 0.80136C804.603 0.80136 807.326 29.4901 817.764 29.4901C828.202 29.4901 822.575 36.8626 833.013 36.8626H856.793C867.231 36.8626 867.231 35.2599 874.19 35.2599C884.628 35.2599 884.628 68.1156 895.066 68.1156C905.504 68.1156 905.504 28.3682 915.942 28.3682C926.38 28.3682 926.38 25.8038 936.818 25.8038C943.777 25.8038 943.777 46.3186 954.215 46.3186C964.653 46.3186 964.653 17.7902 975.091 17.7902C985.529 17.7902 985.529 27.4065 995.967 27.4065C1006.4 27.4065 1027.28 38.305 1034.24 38.305C1044.68 38.305 1044.77 42.7927 1055.21 42.7927C1065.64 42.7927 1065.55 37.6639 1075.99 37.6639C1082.95 37.6639 1086.28 17.7902 1096.71 17.7902C1107.15 17.7902 1115.8 0 1126.24 0C1136.68 0 1163.16 8.5 1173.6 8.5C1184.03 8.5 1183.85 21.9573 1194.29 21.9573C1204.73 21.9573 1201.02 28.1204 1209.81 33.1763C1218.72 38.305 1218.42 40.4104 1226.52 46.3186C1232.65 50.7884 1228.9 53.2103 1239.33 53.2103C1246.3 53.2103 1244.35 47.6008 1253.44 77.4114C1256.57 87.6916 1253.44 160.586 1253.44 169H0.874982C0.886105 160.586 0.873629 43.8344 0.874982 33.1763C6.09442 32.6955 19.8098 42.7927 22.6587 42.7927Z" fill="url(#paint0_linear_166_161)"/>
+              <defs>
+                <linearGradient id="paint0_linear_166_161" x1="627.167" y1="-19.3929" x2="627.167" y2="169" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="white" stop-opacity="0"/>
+                  <stop offset="1" stop-color="white"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div id='bottom-half-page' class='d-sm-block d-md-flex align-items-center justify-content-evenly h-100'>
+        <div id='honeycomb-chart-container'>
+          <div class='d-flex align-items-center justify-content-space'>
+            <div class='honeycomb-chart'>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #93d600' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Amplitude" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="89.07"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="87.92">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/amplitude-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #efc409' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Yotpo" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="81.83"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="90.47">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/yotpo-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #60cf60' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Qualtrics" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="92.17"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="90.22">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/qualtrics-logo.svg', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #efc409' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Google Tag Manager" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="84.33"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="91.02">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/gtm-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #60cf60' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Dynamic Yield"
+                       data-feaux-honeycomb-item-tagsafe-score-value="90.08"
+                       data-feaux-honeycomb-item-previous-tagsafe-score-value="89.43">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/dynamic-yield-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #d6a100' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Intercom" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="80.22"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="85.63">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/intercom-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #60cf60' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Optimizely" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="92.93"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="89.11">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/optimizely-logo.svg', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #d6d200' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Segment" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="84.74"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="88.45">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/segment-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #93d600' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Pendo" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="88.21"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="87.39">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/Pendo-Logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #ef4800' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Google Analytics"
+                      data-feaux-honeycomb-item-tagsafe-score-value="56.84"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="88.23">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/Google-Analytics-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #efc409' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Adobe Analytics"
+                      data-feaux-honeycomb-item-tagsafe-score-value="80.32"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="88.43">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/adobe-analytics-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #93d600' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="NewRelic" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="93.42">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/new-relic-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id='git-diff-container'>
+          <div class='d-flex align-items-center justify-content-center'>
+            <div id='git-diffs' class='collapsed' data-parallax-dashboard-target='gitDiffs'>
+              <h5>Changes made to tag in last release</h5>
+              <div id='deletions'>
+                <% 20.times do %>
+                  <% random = rand() %>
+                  <div class='git-diff-line <%= random < 0.7 ? 'unchanged' : 'removed'%>'>
+                    <% if random > 0.8 %>
+                      <div class='bold-line-change removed' style='width: <%= rand() * 50 %>%; margin-left: <%= rand() * 100 %>%'></div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <div id='additions'>
+                <% 20.times do %>
+                  <% random = rand() %>
+                  <div class='git-diff-line <%= random < 0.7 ? 'unchanged' : 'added'%>'>
+                    <% if random > 0.8 %>
+                      <div class='bold-line-change added' style='width: <%= rand() * 50 %>%; margin-left: <%= rand() * 100 %>%'></div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

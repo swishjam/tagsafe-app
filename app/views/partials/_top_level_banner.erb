@@ -14,6 +14,10 @@
   <div class='fixed-top-banner <%= current_domain.current_subscription_plan.past_due? ? 'warning' : 'error' %>'>
     <span><%= HtmlHelper.WARNING_ICON %> <%= subscription_banner_message.html_safe %></span>
   </div>
+<% elsif !current_domain.has_payment_method_on_file? && (current_domain.current_subscription_plan&.days_until_free_trial_expires(false) || Float::INFINITY <= 3) %>
+  <div class='fixed-top-banner warning'>
+    <span><%= HtmlHelper.WARNING_ICON %> Your free trial ends in <%= current_domain.current_subscription_plan.time_left_in_free_trial_in_words %>, <%= link_to 'add a payment method', settings_billing_path %> in order to prevent your account from being frozen.
+  </div>
 <% elsif user_is_anonymous? && !@disable_anonymous_user_banner %>
   <div class='fixed-top-banner'>
     <span>Your Tagsafe data will be purged at midnight PST. <a href='/register?domain=<%= current_domain.uid %>'>Register for free now</a> to enable persistent data, automated audits, functional tests, alerts, and much more! <a href='/features' target='_blank'>Learn more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>.</span>

@@ -29,35 +29,35 @@ RSpec.describe CreditWallet, type: :model do
 
   describe '#debit!' do
     it 'decrements credits_remaining' do
-      @wallet.debit!(1, reason: CreditWalletTransaction::Reasons.UPTIME_CHECKS)
+      @wallet.debit!(1, record_responsible_for_debit: @domain, reason: CreditWalletTransaction::Reasons.UPTIME_CHECKS)
       expect(@wallet.credits_remaining).to eq(99)
     end
     it 'increments credits_used' do
-      @wallet.debit!(1, reason: CreditWalletTransaction::Reasons.UPTIME_CHECKS)
+      @wallet.debit!(1, record_responsible_for_debit: @domain, reason: CreditWalletTransaction::Reasons.UPTIME_CHECKS)
       expect(@wallet.credits_used).to eq(1)
     end
   end
 
   describe '#credit!' do
     it 'increments credits_remaining' do
-      @wallet.credit!(1, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
+      @wallet.credit!(1, record_responsible_for_credit: @domain, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
       expect(@wallet.credits_remaining).to eq(101)
     end
     
     it 'decrements credits_used' do
-      @wallet.credit!(1, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
+      @wallet.credit!(1, record_responsible_for_credit: @domain, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
       expect(@wallet.credits_used).to eq(-1)
     end
 
     it 'increases the `total_credits_for_month` for the credited amount if the reason is in the INCREASABLE_CREDITS_FOR_MONTH_REASONS array' do
       initial_total_credits_for_month = @wallet.total_credits_for_month
-      @wallet.credit!(1, reason: CreditWalletTransaction::Reasons.REPLENISHMENT_PURCHASE)
+      @wallet.credit!(1, record_responsible_for_credit: @domain, reason: CreditWalletTransaction::Reasons.REPLENISHMENT_PURCHASE)
       expect(@wallet.total_credits_for_month).to eq(initial_total_credits_for_month + 1)
     end
 
     it 'doesnt increases the `total_credits_for_month` for the credited amount if the reason is not in the INCREASABLE_CREDITS_FOR_MONTH_REASONS array' do
       initial_total_credits_for_month = @wallet.total_credits_for_month
-      @wallet.credit!(1, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
+      @wallet.credit!(1, record_responsible_for_credit: @domain, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
       expect(@wallet.reload.total_credits_for_month).to eq(initial_total_credits_for_month)      
     end
   end
@@ -65,7 +65,7 @@ RSpec.describe CreditWallet, type: :model do
   describe '#create_transaction' do
     it 'creates a CreditWalletTransaction after a debit!' do
       expect(@wallet.transactions.count).to be(0)
-      @wallet.debit!(1, reason: CreditWalletTransaction::Reasons.UPTIME_CHECKS)
+      @wallet.debit!(1, record_responsible_for_debit: @domain, reason: CreditWalletTransaction::Reasons.UPTIME_CHECKS)
       expect(@wallet.transactions.count).to be(1)
       expect(@wallet.transactions.first.credits_used).to be(1.0)
       expect(@wallet.transactions.first.num_credits_before_transaction).to be(100.0)
@@ -74,7 +74,7 @@ RSpec.describe CreditWallet, type: :model do
 
     it 'creates a CreditWalletTransaction after a credit!' do
       expect(@wallet.transactions.count).to be(0)
-      @wallet.credit!(1, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
+      @wallet.credit!(1, record_responsible_for_credit: @domain, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
       expect(@wallet.transactions.count).to be(1)
       expect(@wallet.transactions.first.credits_used).to be(-1.0)
       expect(@wallet.transactions.first.num_credits_before_transaction).to be(100.0)

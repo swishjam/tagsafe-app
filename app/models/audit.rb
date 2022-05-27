@@ -118,6 +118,8 @@ class Audit < ApplicationRecord
   scope :automated, -> { by_execution_reason(ExecutionReason.automated) }
   scope :billable, -> { successful_performance_audit }
 
+  # scope :most_current, -> { where(is_most_current: true) }
+
   def try_completion!
     if seconds_to_complete.nil? && completed?
       completed!
@@ -129,10 +131,23 @@ class Audit < ApplicationRecord
 
   def completed!
     update_column(:seconds_to_complete, Time.now - created_at)
-    make_primary! unless performance_audit_failed? || performance_audit_disabled?
+    mark_as_most_current_if_possible
     send_audit_completed_notifications_if_necessary
     send_audit_completed_emails
     issue_credits_for_any_failures
+    stream_updates_to_views(true)
+  end
+
+  def mark_as_most_current_if_possible
+    return if performance_audit_failed? || performance_audit_pending?
+    previous_most_current_audit = tag.most_current_audit
+    should_be_considered_most_current = previous_most_current_audit.nil? ||
+                                          tag_version.nil? || 
+                                          tag_version.most_recent_version? || 
+                                          previous_most_current_audit.tag_version.nil? || 
+                                          previous_most_current_audit.tag_version.created_at < tag_version.created_at
+    return unless should_be_considered_most_current
+    tag.update!(most_current_audit: self)
   end
 
   def audit_to_compare_with
@@ -176,24 +191,19 @@ class Audit < ApplicationRecord
     performance_audit_completed!(nil)
   end
 
-  def make_primary!
-    raise AuditError::InvalidPrimary, "audit is in a #{state} state, must be completed." unless completed?
-    return unless tag.should_roll_up_audits_by_tag_version?
-    primary_audit_from_before = tag_version.primary_audit
-    primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
-    update!(primary: true)
-    after_became_primary(true)
-  end
+  # def make_primary!
+  #   raise AuditError::InvalidPrimary, "audit is in a #{state} state, must be completed." unless completed?
+  #   return unless tag.should_roll_up_audits_by_tag_version?
+  #   primary_audit_from_before = tag_version.primary_audit
+  #   primary_audit_from_before.update!(primary: false) unless primary_audit_from_before.nil?
+  #   update!(primary: true)
+  #   after_became_primary(true)
+  # end
 
-  def after_became_primary(update_views_now = false)
-    # update_primary_audit_pill_for_tag_version(tag_version: tag_version, now: update_views_now)
+  def stream_updates_to_views(update_views_now = false)
     update_tag_table_row(tag: tag, now: update_views_now)
-    # update_tag_version_table_row(tag_version: tag_version, now: update_views_now)
     update_tag_current_stats(tag: tag, now: update_views_now)
-    re_render_audit_table(tag_version: tag_version, now: update_views_now)
-    re_render_tags_chart(domain: tag.domain, now: update_views_now)
-    re_render_tag_chart(tag: tag, now: update_views_now)
-    # update performance chart?...
+    re_render_audit_table(tag_version: tag_version, now: update_views_now)    
   end
 
   def send_audit_completed_emails

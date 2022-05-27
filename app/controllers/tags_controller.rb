@@ -13,7 +13,7 @@ class TagsController < LoggedInController
   end
 
   def select_tag_to_audit
-    tags = current_domain.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_domain')
+    tags = current_domain.tags.includes(:tag_identifying_data, :tag_preferences).order('tag_identifying_data.name, tags.url_domain')
     stream_modal(partial: "tags/select_tag_to_audit", locals: { tags: tags })
   end
 

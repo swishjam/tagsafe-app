@@ -141,17 +141,50 @@ body:not(.with-fixed-top-banner) .left-hand-navigation-toggle {
   cursor: pointer;
 }
 
-.logged-out-nav {
-  padding: 0.5rem;
-  transition: 500ms background-color;
-  &.transparent {
-    background-color: rgba(255, 255, 255, 0);
-  }
-  &.solid-white {
-    box-shadow: 0px 0px 20px 1px grey;
-    background-color: white;
-  }
-}
+// .logged-out-nav {
+//   padding: 0.5rem;
+//   transition: 500ms background-color;
+//   &.transparent {
+//     background-color: rgba(255, 255, 255, 0);
+//   }
+//   &.solid-white {
+//     box-shadow: 0px 0px 20px 1px grey;
+//     background-color: white;
+//   }
+//   .nav-item {
+//     transition: font-weight, border 500ms ease;
+//     .nav-link {
+//       transition: color 500ms ease;
+//     }
+//     &:hover {
+//       font-weight: 800;
+//       border-bottom: 1px solid $tagsafe-primary;
+//       .nav-link {
+//         color: $tagsafe-primary;
+//       }
+//     }
+//   }
+//   .feature-dropdown {
+//     font-weight: normal;
+//     .feature-dropdown-link {
+//       display: block;
+//       padding: 10px;
+//       color: black;
+//       font-size: 18px;
+//       text-decoration: none;
+//       display: inline-block;
+//       width: 100%;
+//       &:hover {
+//         background: rgb(234, 234, 234);
+//         border-right: 5px solid $tagsafe-primary;
+//       }
+//     }
+//     .feature-icon {
+//       width: 40px;
+//       display: inline-block;
+//     }
+//   }
+// }
 
 .page-navigation-items-container {
   background: #eeeeee;

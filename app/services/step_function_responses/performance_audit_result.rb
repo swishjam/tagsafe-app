@@ -100,6 +100,14 @@ module StepFunctionResponses
       !logs.blank?
     end
 
+    def has_page_load_resources?
+      ((parsed_results['results'] || {})['page_load_resources'] || []).any?
+    end
+
+    def has_blocked_resources?
+      blocked_resources.filtered.any?
+    end
+
     def page_trace_s3_url
       @page_trace_s3_url ||= parsed_results['tracing_results_s3_url']
     end

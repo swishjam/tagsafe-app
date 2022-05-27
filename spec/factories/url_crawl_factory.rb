@@ -5,7 +5,7 @@ FactoryBot.define do
     enqueued_at { 5.minutes.ago }
   end
 
-  factory :completed_url_crawl, class: UrlCrawl.to_s, parent: :pending_url_crawl do
+  factory :completed_url_crawl, class: UrlCrawl.to_s, aliases: [:url_crawl], parent: :pending_url_crawl do
     completed_at { 1.minute.ago }
     seconds_to_complete { 4.minutes }
     num_first_party_bytes { 100 }

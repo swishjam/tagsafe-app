@@ -9,15 +9,12 @@
           <h5>Tagsafe Score</h5>
           <%= render 'partials/progress_ring', 
                 score: preferred_delta_performance_audit.tagsafe_score,
-                change_in_score: previous_score.nil? ? nil : preferred_delta_performance_audit.tagsafe_score - previous_score,
-                score_is_confident: current_audit.tagsafe_score_is_confident,
-                required_confidence_range: current_audit.performance_audit_configuration.required_tagsafe_score_range,
-                actual_confidence_range: current_audit.tagsafe_score_confidence_range
+                change_in_score: previous_score.nil? ? nil : preferred_delta_performance_audit.tagsafe_score - previous_score
           %>
         </div>
         <div class='col-9'>
           <div class='row align-items-center'>
-            <div class='col-4 text-center'>
+            <div class='col-4 offset-2 text-center'>
               <h6 class='current-metric-title'>Last release:</h6>
               <% if tag.release_monitoring_enabled? %>
                 <h6 class='current-metric-value fw-bold'><%= tag.current_version&.created_at&.formatted_short || 'No releases' %></h6>
@@ -31,14 +28,6 @@
                 <h6 class='current-metric-value fw-bolder'><%= current_audit.passed_all_functional_tests? ? HtmlHelper.PASSED_ICON(color: 'green') : HtmlHelper.FAILED_ICON(color: 'red') %> <%= current_audit&.display_functional_test_results %></h6>
               <% else %>
                 <h6 class='current-metric-value fw-bolder'>N/A</h6>
-              <% end %>
-            </div>
-            <div class='col-4 text-center'>
-              <h6 class='current-metric-title'>DOM Changes Reponsible For</h6>
-              <% if current_audit.include_page_change_audit? && current_audit.page_change_audit&.completed_successfully? %>
-                <h6 class='current-metric-value fw-bold'><%= current_audit.page_change_audit&.absolute_changes %></h6>
-              <% else %>
-                <h6 class='current-metric-value fw-bold'>N/A</h6>
               <% end %>
             </div>
           </div>

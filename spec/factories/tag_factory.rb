@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :tag do |t|
     association :domain
-    association :found_on_page_url
-    association :found_on_url_crawl
+    association :found_on_page_url, factory: :page_url
+    association :found_on_url_crawl, factory: :completed_url_crawl
     # association :tag_identifying_data
     tag_preferences { create(:tag_preference, tag: self.instance) }
     full_url { 'https://www.thirdpartytag.com/script.js' }

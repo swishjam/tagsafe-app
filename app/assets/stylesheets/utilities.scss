@@ -438,6 +438,13 @@ form[data-controller=loading_form] {
     -webkit-animation: loading-pill-border-pulsate 1500ms linear 1500ms infinite; 
     animation: loading-pill-border-pulsate 1500ms linear 1500ms infinite; 
   }
+  &.removable .remove-btn {
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+      background: lightgrey;
+    }
+  }
   .fill {
     z-index: 0;
     position: absolute;

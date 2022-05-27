@@ -12,7 +12,6 @@ class SubscriptionPlan < ApplicationRecord
   scope :not_canceled, -> { where.not(status: 'canceled') }
   scope :trialing, -> { where(status: 'trialing') }
 
-  after_create :update_domains_credit_wallet
   after_update :send_updated_subscription_email_if_necessary
 
   class Packages
@@ -31,15 +30,15 @@ class SubscriptionPlan < ApplicationRecord
 
   DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS = {
     starter: {
-      month: 19_99,
-      year: 191_90
+      month: 19_00,
+      year: 182_40
     },
     scale: {
-      month: 79_99,
-      year: 767_90
+      month: 79_00,
+      year: 758_40
     },
     pro: {
-      month: 299_99,
+      month: 299_00,
       year: 2879_90
     }
   }
@@ -48,9 +47,13 @@ class SubscriptionPlan < ApplicationRecord
     amt_in_cents = DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS[package.to_sym][billing_interval.to_sym]
     if friendly
       if display_as_monthly && billing_interval.to_sym == BillingIntervals.YEAR
-        "$#{sprintf('%.2f', amt_in_cents / 100.0 / 12)}"
+        amt = amt_in_cents / 100.0 / 12
+        decimals = (amt % 1).zero? ? 0 : 2
+        "$#{sprintf("%.#{decimals}f", amt)}"
       else
-        "$#{sprintf('%.2f', amt_in_cents / 100.0)}"
+        amt = amt_in_cents / 100.0
+        decimals = (amt % 1).zero? ? 0 : 2
+        "$#{sprintf("%.#{decimals}f", amt)}"
       end
     else
       amt_in_cents
@@ -119,14 +122,14 @@ class SubscriptionPlan < ApplicationRecord
 
   private
 
-  def update_domains_credit_wallet
-    domains_wallet = CreditWallet.for_domain(domain, create_if_nil: false)
-    if domains_wallet && domains_wallet.subscription_plan_id.nil?
-      domains_wallet.update!(subscription_plan: self)
-    elsif domains_wallet.nil? || domains_wallet && domains_wallet.susbcription_plan != self
-      CreditWallet.for_subscription_plan(self)
-    end
-  end
+  # def update_domains_credit_wallet
+  #   domains_wallet = CreditWallet.for_domain(domain, create_if_nil: false)
+  #   if domains_wallet && domains_wallet.subscription_plan_id.nil?
+  #     domains_wallet.update!(subscription_plan: self)
+  #   elsif domains_wallet.nil? || domains_wallet && domains_wallet.subscription_plan != self
+  #     CreditWallet.for_subscription_plan(self)
+  #   end
+  # end
 
   def send_updated_subscription_email_if_necessary
     if saved_changes['amount']

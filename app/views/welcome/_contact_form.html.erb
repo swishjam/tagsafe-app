@@ -1,0 +1,44 @@
+<%= turbo_frame_tag 'contact_form' do %>
+  <% if local_assigns[:success_message] %>
+    <h3 class='text-center m-5'><%= success_message %></h3>
+  <% else %>
+    <%= form_with url: contact_path, data: { controller: 'loading_form' } do %>
+      <div class='form-floating m-3'>
+        <input id='email' name='email' type='email' class='form-control' placeholder='email' value="<%= current_user.present? ? current_user.email : nil %>">
+        <label for='email'>Email</label>
+      </div>
+      <div class='form-floating m-3'>
+        <input id='name' name='name' type='text' class='form-control' placeholder='name' value="<%= current_user.present? ? current_user.full_name : nil %>">
+        <label for='name'>Name</label>
+      </div>
+      <div class='form-floating m-3'>
+        <input id='company' name='company' type='text' class='form-control' placeholder='company'>
+        <label for='company'>Company</label>
+      </div>
+      <div class='form-floating m-3'>
+        <select id='reason' name='reason' class='form-select'>
+          <% if !params[:reason] %>
+            <option selected disabled>Select reason for reaching out</option>
+          <% else %>
+            <option disabled>Select reason for reaching out</option>
+          <% end %>
+          <% %w[pricing product_question demo_request other].each do |reason| %>
+            <% if params[:reason] == reason %>
+              <option value='<%= reason %>' selected><%= reason.split('_').map(&:capitalize).join(' ') %>
+            <% else %>
+              <option value='<%= reason %>'><%= reason.split('_').map(&:capitalize).join(' ') %>
+            <% end %>
+          <% end %>
+        </select>
+        <label for='reason'>Subject</label>
+      </div>
+      <div class='form-floating m-3'>
+        <textarea id="message" name="message" class="form-control" placeholder="Leave us a message here"></textarea>
+        <label for='message'>Message</label>
+      </div>
+      <div class='w-fit float-end m-3'>
+        <%= loading_submit_button 'Send', type: 'floating', button_class: 'large' %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

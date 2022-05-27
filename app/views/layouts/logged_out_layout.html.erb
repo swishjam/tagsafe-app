@@ -29,12 +29,11 @@
   </head>
 
   <body class="logged-out <%=controller_name%> <%= action_name %>">
-    <div class="container-fluid">
-      <%= render partial: 'partials/logged_out_nav' %>
-      <div id="content">
-        <%= yield %>
-      </div>
+    <%= render 'partials/logged_out_nav' %>
+    <div id="content">
+      <%= yield %>
     </div>
+    <%= render 'welcome/footer' %>
     <%= render 'partials/third_party_tags/google_analytics_script' %>
   </body>
 </html>

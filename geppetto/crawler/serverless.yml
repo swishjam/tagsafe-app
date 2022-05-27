@@ -1,4 +1,4 @@
-app: ${opt:stage}-tagsafe-lambda-functions
+app: crawler
 service: url-crawler
 org: collin
 
@@ -21,9 +21,6 @@ functions:
   find-third-party-tags:
     handler: handler.handle
     timeout: 90
-    # destinations:
-    #   onSuccess: arn:aws:sqs:us-east-1:407342930315:send-development-send-results-to-tagsafe-queue
-    #   onFailure: arn:aws:sqs:us-east-1:407342930315:send-development-send-results-to-tagsafe-queue
 
 package:
   patterns:

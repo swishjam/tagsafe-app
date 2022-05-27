@@ -1,4 +1,4 @@
-app: ${opt:stage}-tagsafe-lambda-functions
+app: test-runner
 service: functional-tests
 org: collin
 
@@ -23,7 +23,6 @@ functions:
     handler: handler.handle
     timeout: 90
     layers:
-      # - arn:aws:lambda:us-east-1:407342930315:layer:ffmpeg:3
       - ${file(./config/${opt:stage}.yml):FFMPEG_LAYER_ARN}
 
 package:

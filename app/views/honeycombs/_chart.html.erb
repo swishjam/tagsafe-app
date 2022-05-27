@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "domain_#{current_domain.uid}_honeycomb_chart" do %>
+  <div class='honeycomb-chart p-5'>
+    <% honeycomb_rows.each_with_index do |row, row_index| %>
+      <% is_mismatched_last_row = row_index + 1 == honeycomb_rows.count && honeycomb_rows[row_index - 1].count.even? == honeycomb_rows[row_index].count.even? %>
+      <div class='honeycomb-row <%= is_mismatched_last_row ? 'mismatched' : nil %>'>
+        <% row.each do |tag| %>
+          <%= render 'honeycombs/honeycomb_item', tag: tag, row_num: row_index + 1 %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

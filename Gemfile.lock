@@ -150,10 +150,6 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    ddtrace (0.54.2)
-      debase-ruby_core_source (<= 0.10.14)
-      msgpack
-    debase-ruby_core_source (0.10.14)
     debug_inspector (1.1.0)
     diff-lcs (1.4.4)
     diffy (3.4.0)
@@ -170,6 +166,8 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    faker (2.19.0)
+      i18n (>= 1.6, < 2)
     faraday (1.6.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -261,6 +259,7 @@ GEM
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     mysql2 (0.5.3)
+    newrelic_rpm (8.7.0)
     nio4r (2.5.8)
     nokogiri (1.12.2)
       mini_portile2 (~> 2.6.1)
@@ -451,10 +450,10 @@ DEPENDENCIES
   chartkick
   chromedriver-helper
   database_cleaner
-  ddtrace
   diffy
   dotenv-rails
   factory_bot_rails
+  faker
   font-awesome-sass (~> 5.15.1)
   groupdate
   hirefire-resource
@@ -468,6 +467,7 @@ DEPENDENCIES
   mimemagic!
   mocha
   mysql2 (>= 0.4.4, < 0.6.0)
+  newrelic_rpm
   pry-nav
   pry-rails
   puma (~> 3.11)

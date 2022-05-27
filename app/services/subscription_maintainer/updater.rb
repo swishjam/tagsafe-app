@@ -10,6 +10,12 @@ module SubscriptionMaintainer
     def update_current_subscription!
       update_stripe_subscription!
       update_subscription_plan!
+      SubscriptionFeaturesConfiguration.create_or_update_for_domain_by_subscription_package(@subscription_package, @domain)
+      FeaturePriceInCredits.create_or_update_for_domain_by_subscription_package(@subscription_package, @domain)
+      existing_credit_wallet = CreditWallet.for_domain(@domain, create_if_nil: false)
+      if existing_credit_wallet
+        WalletModerator::UpdateCreditsAfterSubscriptionChange.new(existing_credit_wallet).update!
+      end
     end
 
     private
