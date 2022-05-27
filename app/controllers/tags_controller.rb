@@ -4,7 +4,7 @@ class TagsController < LoggedInController
   end
 
   def show
-    @tag = current_domain.tags.find_by(uid: params[:uid])
+    @tag = current_domain.tags.includes(:tag_identifying_data, :tag_preferences).find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
@@ -43,7 +43,7 @@ class TagsController < LoggedInController
   end
 
   def edit
-    @tag = current_domain.tags.find_by(uid: params[:uid])
+    @tag = current_domain.tags.includes(:tag_identifying_data, :tag_preferences).find_by(uid: params[:uid])
     @selectable_uptime_regions = UptimeRegion.selectable.not_enabled_on_tag(@tag)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 

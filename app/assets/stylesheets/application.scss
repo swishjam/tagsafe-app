@@ -346,3 +346,15 @@ a.no-decoration {
     border-right-color: white;
   }
 }
+
+turbo-frame.display-loader-when-busy[busy] {
+  .tagsafe-spinner {
+    display: inline;
+  }
+}
+
+turbo-frame.display-loader-when-busy:not([busy]) {
+  .tagsafe-spinner {
+    display: none;
+  }
+}
