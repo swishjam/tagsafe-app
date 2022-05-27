@@ -1,7 +1,34 @@
 <%= render 'header' %>
 <%= render 'how_it_works' %>
 <%= render 'whats_the_problem' %>
-<%= render 'features' %>
+
+<div class="container-fluid mt-5" id='features'>
+  <%= render 'left_image_feature', 
+          title: 'Release Detection',  
+          image_url: '/images/home/release-detection.png', 
+          descriptions: [
+            'Your third party tag providers are constantly making changes to their tags without you ever knowing when these changes occur, what they consist of, and if they are hurting your site.',
+            'Tagsafe is the first solution that can detect when your tag providers make releases to your site, notify you, show you what changes were made, and if those changes negatively impacted your site.'
+          ] %>
+  
+  <%= render 'right_image_feature',
+          title: 'Performance Audits',
+          image_url: asset_cdn_url('/performance-group.png'),
+          descriptions: [
+            'Third party tags are one of the top causes of poor web performance, and because they are constantly changing it is near impossible to keep in front of.',
+            'Tagsafe performance audits measure exactly how much each of your tags impact key performance metrics. "Tagsafe Scores" act as a single metric that measures the overall health of a tag so you always have a constant snapshot of all of your tags\' health.'
+          ] %>
+
+  <%= render 'left_image_feature', 
+          title: 'Functional Tests',  
+          image_url: asset_cdn_url('/tests-group.png'), 
+          description: 'Tagsafe runs full end-to-end tests on your site and detects whenever a tag is breaking any functionality on your site so you never fall victim to a rogue third party release again.'%>
+
+  <%= render 'right_image_feature',
+          title: 'Uptime Monitoring',
+          image_url: '/images/home/uptime-monitoring.png',
+          description: "Tagsafe monitors the response and uptime of your tags in regions across the world so you can be sure one of your tags isn't causing a degraded experience for any of your users." %>
+</div>
 
 <div class='m-auto w-fit mt-5 mb-5'>
   <%= link_to 'Start free trial', new_domain_path, class: 'floating-btn large d-block m-auto w-fit' %>

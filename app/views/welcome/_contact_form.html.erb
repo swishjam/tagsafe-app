@@ -4,11 +4,11 @@
   <% else %>
     <%= form_with url: contact_path, data: { controller: 'loading_form' } do %>
       <div class='form-floating m-3'>
-        <input id='email' name='email' type='email' class='form-control' placeholder='email'>
+        <input id='email' name='email' type='email' class='form-control' placeholder='email' value="<%= current_user.present? ? current_user.email : nil %>">
         <label for='email'>Email</label>
       </div>
       <div class='form-floating m-3'>
-        <input id='name' name='name' type='text' class='form-control' placeholder='name'>
+        <input id='name' name='name' type='text' class='form-control' placeholder='name' value="<%= current_user.present? ? current_user.full_name : nil %>">
         <label for='name'>Name</label>
       </div>
       <div class='form-floating m-3'>

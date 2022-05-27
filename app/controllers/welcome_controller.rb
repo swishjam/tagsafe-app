@@ -13,6 +13,9 @@ class WelcomeController < LoggedOutController
       Provided Email: #{params[:email]}\n
       Provided Company: #{params[:company]}\n
       Provided Name: #{params[:name]}\n\n\n
+      Reason: #{params[:reason]}\n\n\n
+      Logged in User UID: #{current_user&.uid}\n\n\n
+      Logged in Domain UID: #{current_domain&.uid}\n\n\n
       Message:\n#{params[:message]}
     BODY
     TagsafeEmail::Generic.new(

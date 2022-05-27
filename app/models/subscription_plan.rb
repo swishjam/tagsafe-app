@@ -47,9 +47,13 @@ class SubscriptionPlan < ApplicationRecord
     amt_in_cents = DEFAULT_PACKAGE_AND_BILLING_INTERVAL_AMOUNTS[package.to_sym][billing_interval.to_sym]
     if friendly
       if display_as_monthly && billing_interval.to_sym == BillingIntervals.YEAR
-        "$#{sprintf('%.2f', amt_in_cents / 100.0 / 12)}"
+        amt = amt_in_cents / 100.0 / 12
+        decimals = (amt % 1).zero? ? 0 : 2
+        "$#{sprintf("%.#{decimals}f", amt)}"
       else
-        "$#{sprintf('%.2f', amt_in_cents / 100.0)}"
+        amt = amt_in_cents / 100.0
+        decimals = (amt % 1).zero? ? 0 : 2
+        "$#{sprintf("%.#{decimals}f", amt)}"
       end
     else
       amt_in_cents
