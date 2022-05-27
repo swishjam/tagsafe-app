@@ -35,7 +35,6 @@ const runPerformanceAudit = async (event, context) => {
     cachedResponsesS3Key,
     enableScreenRecording,
     firstPartyRequestUrl,
-    includePageTracing,
     includePageLoadResources,
     inlineInjectedScriptTags,
     navigationTimeoutMs,
@@ -49,6 +48,7 @@ const runPerformanceAudit = async (event, context) => {
     thirdPartyTagUrlsAndRulesToInject,
     thirdPartyTagUrlPatternsToAllow,
     throwErrorIfDOMCompleteIsZero,
+    uploadFilmstripFramesToS3,
     userAgent
     // stripAllCSS,
     // stripAllJS
@@ -123,11 +123,11 @@ const runPerformanceAudit = async (event, context) => {
   const tracer = new Tracer({
     page: page,
     cdpSession: puppeteerModerator.cdpSession,
-    enabled: includePageTracing,
+    enabled: true,
     filename: uniqueFilename
   });
   
-  const speedIndexComposer = new SpeedIndexComposer(tracer.localFilePath, uniqueFilename);
+  const speedIndexComposer = new SpeedIndexComposer(tracer.localFilePath, uniqueFilename, { uploadFramesToS3: uploadFilmstripFramesToS3 });
   const mainThreadAnalyzer = new MainThreadAnalyzer(tracer.localFilePath);
 
   const auditRunner = new AuditRunner({

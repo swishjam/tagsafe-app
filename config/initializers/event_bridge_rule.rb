@@ -1,4 +1,4 @@
-return if Rails.env.test?  
+return if Rails.env.test? || File.basename($0) == 'rake'
 
 def validate_all_event_bridge_rules_exist_in_tagsafe(should_attempt_sync_if_missing_rules = true)
   unfound_release_check_intervals = []

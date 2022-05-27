@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_21_214109) do
+ActiveRecord::Schema.define(version: 2022_05_27_191502) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -398,6 +398,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_214109) do
     t.integer "perf_audit_max_failures"
     t.boolean "roll_up_audits_by_tag_version"
     t.integer "num_recent_tag_versions_to_compare_in_release_monitoring"
+    t.boolean "perf_audit_include_filmstrip_frames"
     t.index ["parent_type", "parent_id"], name: "index_default_audit_configuration_on_parent"
     t.index ["uid"], name: "index_general_configurations_on_uid"
   end
@@ -556,6 +557,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_214109) do
     t.boolean "fail_when_confidence_range_not_met"
     t.integer "batch_size"
     t.integer "max_failures"
+    t.boolean "include_filmstrip_frames"
     t.index ["audit_id"], name: "index_performance_audit_configurations_on_audit_id"
     t.index ["uid"], name: "index_performance_audit_configurations_on_uid"
   end

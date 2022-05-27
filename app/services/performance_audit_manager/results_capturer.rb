@@ -85,7 +85,7 @@ module PerformanceAuditManager
     end
 
     def should_capture_speed_index_chart_data_and_frames?
-      performance_audit_result.speed_index_results.frames.any?
+      individual_performance_audit.audit.performance_audit_configuration.include_filmstrip_frames && performance_audit_result.speed_index_results.frames.any?
     end
 
     def should_capture_page_resources_attributes?

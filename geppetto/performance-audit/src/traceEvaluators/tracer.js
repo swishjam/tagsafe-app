@@ -67,12 +67,13 @@ class Tracer {
 
   stopTracing = async () => {
     if(!this.enabled) return;
-    console.log('Stopping tracing and uploading to S3...');
+    console.log('Stopping tracing...');
     await this.page.tracing.stop();
   }
 
   uploadToS3 = async () => {
     if(!this.enabled) return;
+    console.log('Uploading trace file to S3...');
     return this._s3Url = await s3.uploadToS3({ Body: fs.readFileSync(this.localFilePath), Key: `${this.filename}.json`, ACL: 'public-read' });
   }
 

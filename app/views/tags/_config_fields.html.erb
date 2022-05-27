@@ -43,8 +43,8 @@
             <% TagPreference::RELEASE_CHECK_INTERVALS.each do |interval| %>
               <% if feature_gate_keeper.can_access_feature?(interval[:value]) %>
                 <% if interval[:value] == tag.tag_preferences.release_check_minute_interval %>
-                  <div class='dropdown-item text-center active'>
-                    <%= HtmlHelper.PASSED_ICON(color: 'green') %> <%= interval[:name] %>
+                  <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                    <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> <%= interval[:name] %>
                   </div>
                 <% else %>
                   <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
@@ -59,16 +59,17 @@
                 </div>
               <% end %>
             <% end %>
+            <div class='dropdown-divider'></div>
             <% if tag.release_monitoring_disabled? %>
-              <div class='dropdown-item text-center active'>
-                <%= HtmlHelper.PASSED_ICON(color: 'green') %> Disabled
+              <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> Disabled
               </div>
             <% else %>
               <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
                 <%= f.hidden_field :scheduled_audit_minute_interval, value: tag.tag_preferences.scheduled_audit_minute_interval %>
                 <%= f.hidden_field :release_check_minute_interval, value: 0 %>
                 <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'>
-                  Disabled
+                  Disable
                 </div>
               <% end %>
             <% end %>
@@ -101,8 +102,8 @@
           <div class="dropdown-menu dropdown-menu-center p-3">
             <% TagPreference::SCHEDULED_AUDIT_INTERVALS.each do |interval| %>
               <% if interval[:value] == tag.tag_preferences.scheduled_audit_minute_interval %>
-                <div class='dropdown-item text-center active'>
-                  <%= HtmlHelper.PASSED_ICON(color: 'green') %> <%= interval[:name] %>
+                <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                  <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> <%= interval[:name] %>
                 </div>
               <% else %>
                 <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
@@ -112,16 +113,17 @@
                 <% end %>
               <% end %>
             <% end %>
+            <div class='dropdown-divider'></div>
             <% if tag.scheduled_audits_disabled? %>
-              <div class='dropdown-item text-center active'>
-                <%= HtmlHelper.PASSED_ICON(color: 'green') %> Disabled
+              <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> Disabled
               </div>
             <% else %>
               <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
                   <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>
                   <%= f.hidden_field :scheduled_audit_minute_interval, value: 0 %>
                 <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'>
-                  Disabled
+                  Disable
                 </div>
               <% end %>
             <% end %>

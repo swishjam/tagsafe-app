@@ -26,6 +26,7 @@ class EventConfig {
       thirdPartyTagUrlPatternsToAllow: this._eventConfigFor('third_party_tag_url_patterns_to_allow', []).concat(this._eventConfigFor('third_party_tag_urls_and_rules_to_inject').map(urlAndRule => urlAndRule.url)),
       thirdPartyTagUrlPatternsToNeverAllow: this._eventConfigFor('third_party_tag_url_patterns_to_never_allow', []),
       throwErrorIfDOMCompleteIsZero: this._booleanEventOptionsConfigFor('throw_error_if_dom_complete_is_zero', process.env.THROW_ERROR_IF_DOM_COMPLETE_IS_ZERO || true),
+      uploadFilmstripFramesToS3: this._booleanEventOptionsConfigFor('upload_filmstrip_frames_to_s3', true),
       userAgent: this._eventOptionsConfigFor('user_agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36')
     }
     this._logPerformanceAuditConfig();
