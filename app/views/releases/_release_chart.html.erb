@@ -30,7 +30,6 @@
       </div>
     </div>
     <div class='release-graph'>
-      <% binding.pry %>
       <% release_count_by_day.each_slice(7) do |arrays_of_days_and_release_count| %>
         <div class='release-graph-column'>
           <% arrays_of_days_and_release_count.each do |day_and_release_count| %>

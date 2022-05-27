@@ -66,6 +66,12 @@ export default class extends Controller {
   _initializeTooltip = () => {
     this.tooltip = new bootstrap.Tooltip(this.element, { 
       title: this.tooltipHtml,
+      template: `
+        <div class="tooltip" role="tooltip">
+          <div class="tooltip-inner"></div>
+          <div class="tooltip-arrow"></div>
+        </div>
+      `,
       html: true,
       trigger: 'manual',
       customClass: 'honeycomb-details-tooltip',

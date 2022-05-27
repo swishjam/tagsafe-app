@@ -1,0 +1,24 @@
+<section class='container-fluid text-center' id='home-section'>
+  <div class='d-flex align-items-center justify-content-center' id='header-content'>
+    <div class='main-header-wrapper p-5'>
+      <h1 class="main-header alfa-slab">
+        Third party tags <br/>
+        <span class='strikethrough'>are</span><span class='replace-text'>used to be</span><br/>
+        your #1 blindspot.
+      </h1>
+      <h2 class="sub-header">
+        Third party tags make your web application more vulnerable due to the lack of visibility, control, and stability they come with. 
+        Tagsafe provides a set of tools to put you back in control of your site.
+      </h2>
+      <div class='mt-5'>
+        <%= link_to 'Get started', new_registration_path, class: 'floating-btn large d-block m-auto w-fit' %>
+        <span>No credit card required.</span>
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-xs-12 col-sm-10 offset-sm-1'>
+      <%= render 'welcome/parallax_dashboard' %>
+    </div>
+  </div>
+</section>

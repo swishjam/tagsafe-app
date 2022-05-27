@@ -1,4 +1,4 @@
-<div class='parallax-dashboard' data-controller='parallax-dashboard'>
+<div class='parallax-dashboard mb-5' data-controller='parallax-dashboard'>
   <div id='browser-container' data-parallax-dashboard-target='browser'>
     <div id='notifications-container'>
       <div id='first-notification' class='notification-badge hidden' data-parallax-dashboard-target='firstNotification'>
@@ -19,11 +19,13 @@
       </div>
     </div>
     <div id='browser-top-bar'>
-      <div id='browser-url-bar'></div>
+      <div id='browser-url-bar'>
+        https://dashboard.tagsafe.io
+      </div>
     </div>
     <div id='browser-page'>
 
-      <div id='top-half-page'>
+      <div id='top-half-page' class='d-flex align-items-center justify-content-center h-100'>
         <div id='line-graph-container'>
           <h5>Tag Health</h5>
           <div id='line-graph'>
@@ -41,46 +43,164 @@
         </div>
       </div>
 
-      <div id='bottom-half-page'>
-        <div id='tagsafe-score-container'>
-          <h5>Tagsafe Score</h5>
-          <div class="progress-ring-container text-center">
-            <div class="progress-ring danger">
-              <svg>
-                <circle class='inner-circle' cx="70" cy="70" r="70"></circle>
-                <circle class='circle-outline hidden' cx="70" cy="70" r="70" style='stroke-dashoffset: 189.9' data-parallax-dashboard-target='tagsafeScoreRing'></circle>
-              </svg>
-              <div class="score default-cursor w-fit m-auto">
-                <h2 class='position-relative'>56.84</h2>
-                <span data-controller='tooltip' data-bs-toggle="tooltip" data-placement="top" title="The previous audit had a Tagsafe Score of 87.23.">
-                  <span><i class="fas fa-long-arrow-alt-down"></i> 30.39</span>
-                </span>
+      <div id='bottom-half-page' class='d-sm-block d-md-flex align-items-center justify-content-evenly h-100'>
+        <div id='honeycomb-chart-container'>
+          <div class='d-flex align-items-center justify-content-space'>
+            <div class='honeycomb-chart'>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #93d600' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Amplitude" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="89.07"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="87.92">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/amplitude-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #efc409' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Yotpo" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="81.83"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="90.47">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/yotpo-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #60cf60' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Qualtrics" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="92.17"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="90.22">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/qualtrics-logo.svg', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #efc409' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Google Tag Manager" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="84.33"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="91.02">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/gtm-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #60cf60' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Dynamic Yield"
+                       data-feaux-honeycomb-item-tagsafe-score-value="90.08"
+                       data-feaux-honeycomb-item-previous-tagsafe-score-value="89.43">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/dynamic-yield-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #d6a100' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Intercom" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="80.22"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="85.63">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/intercom-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #60cf60' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Optimizely" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="92.93"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="89.11">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/optimizely-logo.svg', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #d6d200' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Segment" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="84.74"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="88.45">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/segment-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #93d600' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Pendo" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="88.21"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="87.39">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/Pendo-Logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #ef4800' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Google Analytics"
+                      data-feaux-honeycomb-item-tagsafe-score-value="56.84"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="88.23">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/Google-Analytics-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+              </div>
+              <div class='honeycomb-row'>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #efc409' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="Adobe Analytics"
+                      data-feaux-honeycomb-item-tagsafe-score-value="80.32"
+                      data-feaux-honeycomb-item-previous-tagsafe-score-value="88.43">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/adobe-analytics-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
+                <div class='honeycomb-item' 
+                      style='--bg-color: #93d600' 
+                      data-controller='feaux-honeycomb-item' 
+                      data-feaux-honeycomb-item-tag-name-value="NewRelic" 
+                      data-feaux-honeycomb-item-tagsafe-score-value="93.42">
+                  <div class='honeycomb-item-content'>
+                    <%= image_tag '/images/home/new-relic-logo.png', lazy: 'true', class: 'img-fluid' %>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div id='git-diff-container'>
-          <h5>Changes made to tag in last release</h5>
-          <div id='git-diffs' class='collapsed' data-parallax-dashboard-target='gitDiffs'>
-            <div id='deletions'>
-              <% 20.times do %>
-                <% random = rand() %>
-                <div class='git-diff-line <%= random < 0.7 ? 'unchanged' : 'removed'%>'>
-                  <% if random > 0.8 %>
-                    <div class='bold-line-change removed' style='width: <%= rand() * 50 %>%; margin-left: <%= rand() * 100 %>%'></div>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-            <div id='additions'>
-              <% 20.times do %>
-                <% random = rand() %>
-                <div class='git-diff-line <%= random < 0.7 ? 'unchanged' : 'added'%>'>
-                  <% if random > 0.8 %>
-                    <div class='bold-line-change added' style='width: <%= rand() * 50 %>%; margin-left: <%= rand() * 100 %>%'></div>
-                  <% end %>
-                </div>
-              <% end %>
+          <div class='d-flex align-items-center justify-content-center'>
+            <div id='git-diffs' class='collapsed' data-parallax-dashboard-target='gitDiffs'>
+              <h5>Changes made to tag in last release</h5>
+              <div id='deletions'>
+                <% 20.times do %>
+                  <% random = rand() %>
+                  <div class='git-diff-line <%= random < 0.7 ? 'unchanged' : 'removed'%>'>
+                    <% if random > 0.8 %>
+                      <div class='bold-line-change removed' style='width: <%= rand() * 50 %>%; margin-left: <%= rand() * 100 %>%'></div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <div id='additions'>
+                <% 20.times do %>
+                  <% random = rand() %>
+                  <div class='git-diff-line <%= random < 0.7 ? 'unchanged' : 'added'%>'>
+                    <% if random > 0.8 %>
+                      <div class='bold-line-change added' style='width: <%= rand() * 50 %>%; margin-left: <%= rand() * 100 %>%'></div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>

@@ -13,20 +13,16 @@
           <li class='nav-item'>
             <a class='nav-link' href='/contact-us'>Contact</a>
           </li>
-          <% unless current_user.present? %>
+          <% if current_user.present? %>
+            <%= link_to 'Dashboard', tags_path, class: 'floating-btn m-1' %>
+          <% else %>
             <li class='nav-item'>
               <a class='nav-link' href="/login">Log In</a>
             </li>
+            <%= link_to 'Get Started for Free', new_domain_path, class: 'floating-btn large m-1' %>
           <% end %>
         </ul>
       </div>
-      <div class="navbar-nav m-auto mb-2 me-3 mb-lg-0">
-        <% if current_user.present? %>
-          <%= link_to 'Dashboard', tags_path, class: 'floating-btn m-1' %>
-        <% else %>
-          <%= link_to 'Get Started for Free', new_domain_path, class: 'floating-btn large m-1' %>
-        <% end %>
-      </ul>
     </div>
   </nav>
 <% end %>

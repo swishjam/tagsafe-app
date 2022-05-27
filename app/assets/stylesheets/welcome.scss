@@ -206,6 +206,9 @@ body.welcome.index .main-header-wrapper {
 
 
 .parallax-dashboard {
+  @media(max-width: 575px) {
+    margin: 15px;
+  }
   #browser-container {
     position: relative;
     height: fit-content;
@@ -233,20 +236,20 @@ body.welcome.index .main-header-wrapper {
       border-bottom-right-radius: 15px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       min-height: 70vh;
     }
     #top-half-page, #bottom-half-page {
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
+      flex-grow: 1;
     }
     #notifications-container {
       position: absolute;
       top: -5%;
       right: 0;
       width: 35%;
-      min-width: 250px;
+      min-width: 300px;
       max-width: 400px;
       z-index: 10;
     }
@@ -257,11 +260,15 @@ body.welcome.index .main-header-wrapper {
       background: white;
       border-radius: 5px;
       box-shadow: $box-shadow-effect;
-      padding: 15px;
       text-align: left;
-      font-size: 14px;
       margin-left: 100vw;
       transition: margin-left 1s ease;
+      padding: 15px;
+      font-size: 14px;
+      @media(max-width: 767px) {
+        padding: 10px;
+        font-size: 12px;
+      }
       .notification-icon {
         width: 20%;
         max-width: 200px;
@@ -288,26 +295,51 @@ body.welcome.index .main-header-wrapper {
         }
       }
     }
-    #tagsafe-score-container {
+    #honeycomb-chart-container {
       position: relative;
-      width: 50%;
       text-align: center;
-      #tagsafe-score {
-        position: absolute;
-        left: -100%;
-        transition: left 1s ease;
-        bottom: -50px;
-        width: 35%;
-        &.slide-in {
-          left: 10%;
+      padding: 25px 0 25px 0;
+      .honeycomb-chart {
+        .honeycomb-item:before {
+          margin-left: -52px;
+          @media(max-width: 995px) {
+            border-bottom: 15px solid var(--bg-color);
+            border-left: 26px solid transparent;
+            border-right: 26px solid transparent;
+            top: -15px;
+            margin-left: -26px;
+          }
+        }
+        .honeycomb-item {
+          @media(max-width: 995px) {
+            margin-top: 15px;
+            width: 52px;
+            height: 30px;
+          }
+          .honeycomb-item-content {
+            justify-content: center;
+            img {
+              max-height: 100%;
+            }
+          }
+        }
+        .honeycomb-item:after {
+          margin-left: -52px;
+          @media(max-width: 995px) {
+            border-top: 15px solid var(--bg-color);
+            border-left: 26px solid transparent;
+            border-right: 26px solid transparent;
+            bottom: -15px;
+            margin-left: -26px;
+          }
         }
       }
     }
     #git-diff-container {
-      width: 50%;
       #git-diffs {
         width: 80%;
         margin: 0 auto;
+        padding: 25px 0 25px 0;
         &.collapsed {
           .git-diff-line {
             width: 0;
@@ -355,6 +387,7 @@ body.welcome {
     margin: 0 auto;
     background: #fff;
     padding: 50px 0;
+    z-index: 1081;
   }
   nav.sticky-top {
     box-shadow: 0px 0px 20px 1px grey;

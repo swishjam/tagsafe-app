@@ -12,7 +12,7 @@ module HoneycombHelper
       when 75..80 then '#efc409'
       when 80..85 then '#d6d200'
       when 85..90 then '#93d600'
-      when 90..100 then '#60cf60'
+      when 90..95 then '#60cf60'
       when 95..100 then '#01e500'
       else nil
       end
