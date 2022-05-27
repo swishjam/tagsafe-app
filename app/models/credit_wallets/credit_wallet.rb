@@ -9,7 +9,7 @@ class CreditWallet < ApplicationRecord
   has_many :low_credit_notifications, class_name: LowCreditsCreditWalletNotification.to_s
   has_many :no_credit_notifications, class_name: NoCreditsCreditWalletNotification.to_s
   
-  validates_uniqueness_of :domain_id, scope: :month, message: Proc.new{ |wallet| "already has a wallet for the month of #{wallet.month}" }, unless: :disabled?
+  validate :one_credit_wallet_for_month, on: :create
   validate :credits_used_and_credits_remaining_match_total_credits_for_month
 
   before_validation :set_credits_used_and_credits_remaining, on: :create
@@ -80,6 +80,10 @@ class CreditWallet < ApplicationRecord
     (credits_used / total_credits_for_month) * 100
   end
 
+  def month_in_words
+    Date::MONTHNAMES[month]
+  end
+
   private
 
   def self.generate_new_wallet(domain)
@@ -98,6 +102,12 @@ class CreditWallet < ApplicationRecord
   def set_credits_used_and_credits_remaining
     self.credits_used = 0 unless self.credits_used.present?
     self.credits_remaining = self.total_credits_for_month unless self.credits_remaining.present?
+  end
+
+  def one_credit_wallet_for_month
+    if domain.credit_wallets.enabled.by_month(month).any?
+      errors.add(:base, "Domain #{domain.uid} already has a CreditWallet for #{month_in_words}")
+    end
   end
 
   def credits_used_and_credits_remaining_match_total_credits_for_month
