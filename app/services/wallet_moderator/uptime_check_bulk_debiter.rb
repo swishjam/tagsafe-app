@@ -26,7 +26,8 @@ module WalletModerator
     end
 
     def start_date_of_upcoming_bulk_debit
-      most_recent_uptime_debit.present? ? most_recent_uptime_debit.end_date : Time.current.last_month.beginning_of_month
+      # we should never really debit wallets outside of current month, default to previous month just in case of race condition timing
+      most_recent_uptime_debit.present? ? most_recent_uptime_debit.end_date : Time.current.beginning_of_month.last_month
     end
 
     def most_recent_uptime_debit
