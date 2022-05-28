@@ -1,6 +1,8 @@
 class SubscriptionFeaturesConfiguration < ApplicationRecord
   belongs_to :domain
 
+  validates :tag_sync_minute_cadence, inclusion: { in: [60, 360, 1_440] }
+
   DEFAULTS_FOR_PACKAGE = {
     starter: {
       package_inherited_from: 'starter',

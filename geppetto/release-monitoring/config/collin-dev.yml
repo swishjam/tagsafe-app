@@ -4,7 +4,7 @@ DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
 S3_AWS_ACCESS_KEY_ID: AKIAUZBED3ZB63Z7B77E
 S3_AWS_SECRET_ACCESS_KEY: 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
 
-MYSQL_HOST: 86o6ha6kvuuj.us-east-1.psdb.cloud
-MYSQL_USER: babluh3ifjpm
-MYSQL_PASSWORD: pscale_pw_KxY0fuC36ypQW5IcmLPPq4kUAnXPXJQXf9gtBNEPBlM
-MYSQL_DATABASE: collin-dev
+MYSQL_HOST: pds4kx1y2m0n.us-east-4.psdb.cloud
+MYSQL_USER: 5brtvts8zxz7
+MYSQL_PASSWORD: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
+MYSQL_DATABASE: tagsafe-production
