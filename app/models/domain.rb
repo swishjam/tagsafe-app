@@ -99,7 +99,7 @@ class Domain < ApplicationRecord
     errors.add(:base, "Invalid URL provided.")
   end
 
-  def credit_wallet_for_current_month
+  def credit_wallet_for_current_month_and_year
     CreditWallet.for_domain(self)
   end
 

@@ -3,8 +3,8 @@
     "deploy-prod": "serverless deploy --stage production",
     "deploy-staging": "serverless deploy --stage staging",
     "deploy-dev": "serverless deploy --stage collin-dev",
-    "locally": "serverless invoke local --function check-tags-for-releases --data '{ \"current_minute_interval\": \"15\" }' --stage collin-dev",
-    "single-tag-check-locally": "serverless invoke local --function check-tag-for-release --data '{ \"tag_id\": \"528\" }' --stage collin-dev"
+    "locally": "serverless invoke local --function check-tags-for-releases --data '{ \"current_minute_interval\": \"15\" }' --stage local",
+    "single-tag-check-locally": "serverless invoke local --function check-tag-for-release --data '{ \"tag_id\": \"528\" }' --stage local"
   },
   "dependencies": {
     "dotenv": "^16.0.0",

@@ -3,21 +3,35 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-test:
-  <<: *default
+pscale_collin_dev: &pscale_collin_dev
+  database: tagsafe-production
+  username: 5brtvts8zxz7
+  host: pds4kx1y2m0n.us-east-4.psdb.cloud
+  password: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
+
+pscale_credit_wallet_enhancments: &pscale_credit_wallet_enhancments
+  database: tagsafe-production
+  username: 07kxbkkpokum
+  host: drqkxa8s3yue.us-east-2.psdb.cloud
+  password: pscale_pw_PHeXFv57CGlSF0U9_BgJf5vPdfLiB7u-JducTw4L3Ao
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
+
+local: &local
   username: root
   password: password
   host: localhost
+
+test:
+  <<: *default
+  <<: *local
   database: tagsafe_test
 
 development:
   <<: *default
-  database: collin-dev
-  username: babluh3ifjpm
-  host: 86o6ha6kvuuj.us-east-1.psdb.cloud
-  password: pscale_pw_KxY0fuC36ypQW5IcmLPPq4kUAnXPXJQXf9gtBNEPBlM
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/cert.pem"
+  <<: *pscale_credit_wallet_enhancments
 
 staging:
   <<: *default

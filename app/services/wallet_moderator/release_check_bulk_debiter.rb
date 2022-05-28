@@ -8,6 +8,7 @@ module WalletModerator
       Rails.logger.info "WalletModerator::ReleaseCheckDebiter - debiting Domain #{@domain.uid} for #{release_check_credits_used} credits (#{num_release_checks_in_period} ReleaseChecks)"
       ReleaseChecksBulkDebit.debit!(
         amount: release_check_credits_used,
+        num_records_for_debited_date_range: num_release_checks_in_period,
         credit_wallet: CreditWallet.for_domain(@domain), 
         start_date: start_date_of_upcoming_bulk_debit,
         end_date: Time.current
@@ -21,11 +22,13 @@ module WalletModerator
     end
 
     def num_release_checks_in_period
-      @num_release_checks ||= @domain.release_checks.more_recent_than_or_equal_to(start_date_of_upcoming_bulk_debit, timestamp_column: :"release_checks.executed_at").count
+      @num_release_checks ||= start_date_of_upcoming_bulk_debit.nil? ? 
+                                                  @domain.release_checks.count : 
+                                                  @domain.release_checks.more_recent_than_or_equal_to(start_date_of_upcoming_bulk_debit, timestamp_column: :"release_checks.executed_at").count
     end
 
     def start_date_of_upcoming_bulk_debit
-      most_recent_release_debit.present? ? most_recent_release_debit.end_date : Time.current.last_month.beginning_of_month
+      most_recent_release_debit.present? ? most_recent_release_debit.end_date : nil
     end
 
     def most_recent_release_debit
