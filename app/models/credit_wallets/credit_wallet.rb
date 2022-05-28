@@ -9,18 +9,18 @@ class CreditWallet < ApplicationRecord
   has_many :low_credit_notifications, class_name: LowCreditsCreditWalletNotification.to_s
   has_many :no_credit_notifications, class_name: NoCreditsCreditWalletNotification.to_s
   
-  validates_uniqueness_of :domain_id, scope: :month, message: Proc.new{ |wallet| "already has a wallet for the month of #{wallet.month}" }, unless: :disabled?
+  validate :one_credit_wallet_for_month_and_year, on: :create
   validate :credits_used_and_credits_remaining_match_total_credits_for_month
 
   before_validation :set_credits_used_and_credits_remaining, on: :create
-
   after_update { WalletModerator::Notifications.new(self).send_change_in_credits_notifications }
 
   scope :by_month, -> (month_int) { where(month: month_int) }
-  scope :for_current_month, -> { by_month(Time.current.month) }
+  scope :by_year, -> (year_int) { where(year: year_int) }
+  scope :for_current_month_and_year, -> { by_month(Time.current.month).by_year(Time.current.year) }
   scope :disabled, -> { where.not(disabled_at: nil) }
   scope :enabled, -> { where(disabled_at: nil) }
-  scope :has_credits_remaining, -> { for_current_month.where('credits_remaining > 0') }
+  scope :has_credits_remaining, -> { for_current_month_and_year.where('credits_remaining > 0') }
 
   INCREASABLE_CREDITS_FOR_MONTH_REASONS = [CreditWalletTransaction::Reasons.REPLENISHMENT_PURCHASE, CreditWalletTransaction::Reasons.GIFT]
   DEFAULT_BEGINNING_CREDITS_FOR_PACKAGE = {
@@ -29,8 +29,8 @@ class CreditWallet < ApplicationRecord
     pro: 1_000_000
   }
 
-  def self.for_domain(domain, create_if_nil: true, month: Time.current.month)
-    wallet = domain.credit_wallets.enabled.for_current_month.limit(1).first
+  def self.for_domain(domain, create_if_nil: true)
+    wallet = domain.credit_wallets.enabled.for_current_month_and_year.limit(1).first
     wallet ||= generate_new_wallet(domain) if create_if_nil
     wallet
   end
@@ -80,6 +80,10 @@ class CreditWallet < ApplicationRecord
     (credits_used / total_credits_for_month) * 100
   end
 
+  def month_in_words
+    Date::MONTHNAMES[month]
+  end
+
   private
 
   def self.generate_new_wallet(domain)
@@ -89,7 +93,11 @@ class CreditWallet < ApplicationRecord
         This can happen if an `Audit` has completed before they select a `SubscriptionPlan`.
       ERR
     end
-    domain.credit_wallets.create!(month: Time.current.month, total_credits_for_month: domain.subscription_features_configuration.num_credits_provided_each_month)
+    domain.credit_wallets.create!(
+      month: Time.current.month,
+      year: Time.current.year,
+      total_credits_for_month: domain.subscription_features_configuration.num_credits_provided_each_month
+    )
   rescue CreditWalletErrors::DomainHasNoSusbscriptionFeaturesConfiguration => e
     Rails.logger.error(e.inspect)
     Sentry.capture_exception(e)
@@ -98,6 +106,12 @@ class CreditWallet < ApplicationRecord
   def set_credits_used_and_credits_remaining
     self.credits_used = 0 unless self.credits_used.present?
     self.credits_remaining = self.total_credits_for_month unless self.credits_remaining.present?
+  end
+
+  def one_credit_wallet_for_month_and_year
+    if domain.credit_wallets.enabled.by_month(month).by_year(year).any?
+      errors.add(:base, "Domain #{domain.uid} already has a CreditWallet for #{month_in_words}, #{year}")
+    end
   end
 
   def credits_used_and_credits_remaining_match_total_credits_for_month

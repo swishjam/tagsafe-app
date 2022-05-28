@@ -36,9 +36,10 @@ module.exports = class DataStoreManager {
           ON domains.id=tags.domain_id
         INNER JOIN subscription_plans
           ON subscription_plans.id=domains.current_subscription_plan_id
-        LEFT JOIN credit_wallets AS credit_wallet_for_current_month
-          ON credit_wallet_for_current_month.domain_id=domains.id AND
-          credit_wallet_for_current_month.month=${parseInt(moment(new Date()).format('M'))}
+        LEFT JOIN credit_wallets AS credit_wallet_for_current_month_and_year
+          ON credit_wallet_for_current_month_and_year.domain_id=domains.id AND
+          credit_wallet_for_current_month_and_year.month=${parseInt(moment(new Date()).format('M'))} AND
+          credit_wallet_for_current_month_and_year.year=${parseInt(moment(new Date()).format('Y'))}
         INNER JOIN uptime_regions_to_check 
           ON uptime_regions_to_check.tag_id=tags.id
         INNER JOIN uptime_regions 
@@ -47,8 +48,8 @@ module.exports = class DataStoreManager {
         uptime_regions.aws_name = "${process.env.AWS_REGION}" AND
         subscription_plans.status NOT IN ("incomplete_expired", "unpaid", "canceled") AND
         (
-          credit_wallet_for_current_month.credits_remaining IS NULL OR 
-          credit_wallet_for_current_month.credits_remaining > 0
+          credit_wallet_for_current_month_and_year.credits_remaining IS NULL OR 
+          credit_wallet_for_current_month_and_year.credits_remaining > 0
         )
       GROUP BY
         tag_id,

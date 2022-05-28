@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_27_191502) do
+ActiveRecord::Schema.define(version: 2022_05_28_155255) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -41,13 +41,14 @@ ActiveRecord::Schema.define(version: 2022_05_27_191502) do
   end
 
   create_table "additional_tags_to_inject_during_audit", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
     t.bigint "tag_id"
     t.bigint "tag_to_inject_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "uid"
     t.index ["tag_id"], name: "index_additional_tags_to_inject_during_audit_on_tag_id"
     t.index ["tag_to_inject_id"], name: "index_attida_on_tag_to_inject_id"
+    t.index ["uid"], name: "index_additional_tags_to_inject_during_audit_on_uid"
   end
 
   create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
@@ -135,6 +136,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_191502) do
     t.float "debit_amount"
     t.datetime "start_date"
     t.datetime "end_date"
+    t.integer "num_records_for_debited_date_range"
     t.index ["credit_wallet_id"], name: "index_bulk_debits_on_credit_wallet_id"
     t.index ["uid"], name: "index_bulk_debits_on_uid"
   end
@@ -178,6 +180,7 @@ ActiveRecord::Schema.define(version: 2022_05_27_191502) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "subscription_plan_id"
+    t.integer "year"
     t.index ["domain_id"], name: "index_credit_wallets_on_domain_id"
     t.index ["subscription_plan_id"], name: "index_credit_wallets_on_subscription_plan_id"
     t.index ["uid"], name: "index_credit_wallets_on_uid"

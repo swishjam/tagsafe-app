@@ -8,6 +8,7 @@ module WalletModerator
       Rails.logger.info "WalletModerator::UptimeCheckDebiter - debiting Domain #{@domain.uid} for #{uptime_check_credits_used} credits (#{num_uptime_checks_in_period} UptimeChecks)"
       UptimeChecksBulkDebit.debit!(
         amount: uptime_check_credits_used,
+        num_records_for_debited_date_range: num_uptime_checks_in_period,
         credit_wallet: CreditWallet.for_domain(@domain), 
         start_date: start_date_of_upcoming_bulk_debit,
         end_date: Time.current
@@ -25,7 +26,8 @@ module WalletModerator
     end
 
     def start_date_of_upcoming_bulk_debit
-      most_recent_uptime_debit.present? ? most_recent_uptime_debit.end_date : Time.current.last_month.beginning_of_month
+      # we should never really debit wallets outside of current month, default to previous month just in case of race condition timing
+      most_recent_uptime_debit.present? ? most_recent_uptime_debit.end_date : Time.current.beginning_of_month.last_month
     end
 
     def most_recent_uptime_debit

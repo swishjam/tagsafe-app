@@ -3,7 +3,7 @@
     "deploy-prod": "serverless deploy --stage production",
     "deploy-staging": "serverless deploy --stage staging",
     "deploy-dev": "serverless deploy --stage collin-dev",
-    "locally": "serverless invoke local --function check-tags-for-uptime --stage collin-dev",
+    "locally": "serverless invoke local --function check-tags-for-uptime --stage local",
     "tail-dev-logs": "serverless logs --function run-performance-audit --stage collin-dev -t",
     "tail-prod-logs": "serverless logs --function run-performance-audit --stage production -t",
     "deploy-to-all-regions-dev": "serverless deploy --stage=collin-dev --region=us-east-2 && serverless deploy --stage=collin-dev --region=us-west-1 && serverless deploy --stage=collin-dev --region=us-west-2 && serverless deploy --stage=collin-dev --region=ap-south-1 && serverless deploy --stage=collin-dev --region=eu-central-1 && serverless deploy --stage=collin-dev --region=eu-west-1 && serverless deploy --stage=collin-dev --region=eu-west-2 && serverless deploy --stage=collin-dev --region=eu-west-3 && serverless deploy --stage=collin-dev --region=ap-northeast-1 && serverless deploy --stage=collin-dev --region=ap-southeast-1 && serverless deploy --stage=collin-dev --region=ap-southeast-2 && serverless deploy --stage=collin-dev --region=sa-east-1 && serverless deploy --stage=collin-dev --region=ca-central-1",

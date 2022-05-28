@@ -1,7 +1,7 @@
-class Role < ApplicationRecord  
+class Role < ApplicationRecord
   uid_prefix 'role'
 
-  has_many :domain_user_role, class_name: 'DomainUserRole'
+  has_many :domain_user_role, class_name: DomainUserRole.to_s
   has_many :users, through: :roles_users
 
   def self.USER_ADMIN

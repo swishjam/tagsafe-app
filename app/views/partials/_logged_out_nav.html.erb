@@ -14,7 +14,7 @@
             <a class='nav-link' href='/contact-us'>Contact</a>
           </li>
           <% if current_user.present? %>
-            <%= link_to 'Dashboard', tags_path, class: 'floating-btn m-1' %>
+            <%= link_to 'Dashboard', tags_path, class: 'floating-btn large m-1' %>
           <% else %>
             <li class='nav-item'>
               <a class='nav-link' href="/login">Log In</a>

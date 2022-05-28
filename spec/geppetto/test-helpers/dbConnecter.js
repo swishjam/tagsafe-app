@@ -1,5 +1,6 @@
 const mysql = require('mysql'),
-        moment = require('moment');
+        moment = require('moment'),
+        fs = require('fs');
 
 module.exports = class DBConnection {
   static get connection() {
@@ -14,6 +15,7 @@ module.exports = class DBConnection {
         user     : process.env.MYSQL_USER,
         password : process.env.MYSQL_PASSWORD,
         database : process.env.MYSQL_DATABASE
+        // ssl: { ca: [ fs.readFileSync('cert.pem') ] }
       });
       this._connection.connect();
     }
@@ -23,6 +25,7 @@ module.exports = class DBConnection {
   static setUpTests = () => {
     beforeEach(async () => {
       await this.truncateTables();
+      console.log(`TABLES?? ${await this.query('SHOW TABLES')}`);
     })
     
     afterEach(async () => {

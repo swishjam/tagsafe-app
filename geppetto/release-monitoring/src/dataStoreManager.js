@@ -44,9 +44,10 @@ module.exports = class DataStoreManager {
           ON domains.id=tags.domain_id
         INNER JOIN subscription_plans
           ON subscription_plans.id=domains.current_subscription_plan_id
-        LEFT JOIN credit_wallets AS credit_wallet_for_current_month
-          ON credit_wallet_for_current_month.domain_id=domains.id AND
-          credit_wallet_for_current_month.month=${parseInt(moment(new Date()).format('M'))}
+        LEFT JOIN credit_wallets AS credit_wallet_for_current_month_and_year
+          ON credit_wallet_for_current_month_and_year.domain_id=domains.id AND
+          credit_wallet_for_current_month_and_year.month=${parseInt(moment(new Date()).format('M'))} AND
+          credit_wallet_for_current_month_and_year.year=${parseInt(moment(new Date()).format('Y'))}
         INNER JOIN tag_preferences 
           ON tag_preferences.tag_id=tags.id
         LEFT JOIN general_configurations 
@@ -65,8 +66,8 @@ module.exports = class DataStoreManager {
         tag_preferences.release_check_minute_interval = ${parseInt(interval)} AND
         subscription_plans.status NOT IN ("incomplete_expired", "unpaid", "canceled") AND
         (
-          credit_wallet_for_current_month.credits_remaining IS NULL OR 
-          credit_wallet_for_current_month.credits_remaining > 0
+          credit_wallet_for_current_month_and_year.credits_remaining IS NULL OR 
+          credit_wallet_for_current_month_and_year.credits_remaining > 0
         )
       GROUP BY
         tag_id,
