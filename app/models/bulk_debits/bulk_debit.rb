@@ -12,8 +12,14 @@ class BulkDebit < ApplicationRecord
     most_recent_first(timestamp_column: :'bulk_debits.end_date').limit(1).first
   end
 
-  def self.debit!(amount:, credit_wallet:, start_date:, end_date:)
-    bulk_debit = create!(debit_amount: amount, credit_wallet: credit_wallet, start_date: start_date, end_date: end_date)
+  def self.debit!(amount:, credit_wallet:, num_records_for_debited_date_range:, start_date:, end_date:)
+    bulk_debit = create!(
+      debit_amount: amount, 
+      credit_wallet: credit_wallet, 
+      num_records_for_debited_date_range: num_records_for_debited_date_range, 
+      start_date: start_date, 
+      end_date: end_date
+    )
     credit_wallet.debit!(amount, record_responsible_for_debit: bulk_debit, reason: self.transaction_reason)
     bulk_debit
   end
