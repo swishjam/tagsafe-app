@@ -30,27 +30,53 @@
       </div>
     </div>
     <div class='col-sm-6 d-flex align-items-center justify-content-start'>
-      <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences), data: { controller: 'submit-form-changes' } do |f| %>
-        <%= f.hidden_field :scheduled_audit_minute_interval, value: tag.tag_preferences.scheduled_audit_minute_interval %>
-        <select name='tag_preference[release_check_minute_interval]' class='form-select'>
-          <option selected="selected" value='0'>Disabled</option>
-          <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(domain) %>
-          <% TagPreference::RELEASE_CHECK_INTERVALS.each do |interval| %>
-            <% if feature_gate_keeper.can_access_feature?(interval[:value]) %>
-              <% if interval[:value] == tag.tag_preferences.release_check_minute_interval %>
-                <option value="<%=interval[:value] %>" selected="selected"><%= interval[:name] %></option>
+      <%= turbo_frame_tag "scheduled_audit_config", class: 'd-flex align-items-center display-loader-when-busy' do %>
+        <div class='dropdown-container me-3'>
+          <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+            <%= tag.tag_preferences.release_check_interval_in_words.capitalize %>
+            <span class='dropdown-indicator d-inline'>
+              <i class="fa-solid fa-chevron-up"></i>
+            </span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-center p-3">
+            <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(domain) %>
+            <% TagPreference::RELEASE_CHECK_INTERVALS.each do |interval| %>
+              <% if feature_gate_keeper.can_access_feature?(interval[:value]) %>
+                <% if interval[:value] == tag.tag_preferences.release_check_minute_interval %>
+                  <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                    <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> <%= interval[:name] %>
+                  </div>
+                <% else %>
+                  <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
+                    <%= f.hidden_field :scheduled_audit_minute_interval, value: tag.tag_preferences.scheduled_audit_minute_interval %>
+                    <%= f.hidden_field :release_check_minute_interval, value: interval[:value] %>
+                    <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'><%= interval[:name] %></div>
+                  <% end %>
+                <% end %>
               <% else %>
-                <option value="<%=interval[:value] %>"><%= interval[:name] %></option>
+                <div class='dropdown-item disabled' data-controller='tooltip' data-bs-toggle='tooltip' title="Your subscription plan does not allow for release monitoring intervals of <%= interval[:name] %>, consider upgrading your plan for more realtime release detection.">
+                  <i class="fa-solid fa-lock"></i> <%= interval[:name] %>
+                </div>
               <% end %>
-            <% else %>
-              <option disabled><%= interval[:name] %></option>
             <% end %>
-          <% end %>
-        </select>
-      <% end %>
-      <div class='on-change-loading-indicator'>
+            <div class='dropdown-divider'></div>
+            <% if tag.release_monitoring_disabled? %>
+              <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> Disabled
+              </div>
+            <% else %>
+              <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
+                <%= f.hidden_field :scheduled_audit_minute_interval, value: tag.tag_preferences.scheduled_audit_minute_interval %>
+                <%= f.hidden_field :release_check_minute_interval, value: 0 %>
+                <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'>
+                  Disable
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
         <%= display_loading_icon size: :small %>
-      </div>
+      <% end %>
     </div>
   </div>
 
@@ -65,22 +91,46 @@
       </div>
     </div>
     <div class='col-sm-6 d-flex align-items-center justify-content-start'>
-      <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences), data: { controller: 'submit-form-changes' } do |f| %>
-        <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>
-        <select name='tag_preference[scheduled_audit_minute_interval]' class='form-select'>
-          <option selected="selected" value='0'>Disabled</option>
-          <% TagPreference::SCHEDULED_AUDIT_INTERVALS.each do |interval| %>
-            <% if interval[:value] == tag.tag_preferences.scheduled_audit_minute_interval %>
-              <option value="<%=interval[:value] %>" selected="selected"><%= interval[:name] %></option>
-            <% else %>
-              <option value="<%=interval[:value] %>"><%= interval[:name] %></option>
+      <%= turbo_frame_tag "scheduled_audit_config", class: 'd-flex align-items-center display-loader-when-busy' do %>
+        <div class='dropdown-container me-3'>
+          <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+            <%= tag.tag_preferences.scheduled_audit_interval_in_words.capitalize %>
+            <span class='dropdown-indicator d-inline'>
+              <i class="fa-solid fa-chevron-up"></i>
+            </span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-center p-3">
+            <% TagPreference::SCHEDULED_AUDIT_INTERVALS.each do |interval| %>
+              <% if interval[:value] == tag.tag_preferences.scheduled_audit_minute_interval %>
+                <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                  <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> <%= interval[:name] %>
+                </div>
+              <% else %>
+                <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
+                  <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>
+                  <%= f.hidden_field :scheduled_audit_minute_interval, value: interval[:value] %>
+                  <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'><%= interval[:name] %></div>
+                <% end %>
+              <% end %>
             <% end %>
-          <% end %>
-        </select>
-      <% end %>
-      <div class='on-change-loading-indicator'>
+            <div class='dropdown-divider'></div>
+            <% if tag.scheduled_audits_disabled? %>
+              <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> Disabled
+              </div>
+            <% else %>
+              <%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences) do |f| %>
+                  <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>
+                  <%= f.hidden_field :scheduled_audit_minute_interval, value: 0 %>
+                <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'>
+                  Disable
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
         <%= display_loading_icon size: :small %>
-      </div>
+      <% end %>
     </div>
   </div>
 

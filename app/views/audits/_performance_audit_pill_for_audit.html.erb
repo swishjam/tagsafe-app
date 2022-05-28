@@ -27,7 +27,7 @@
                   style='font-size: 10px'
                   data-controller='tooltip' 
                   data-bs-toggle='tooltip' 
-                  title="Tagsafe score is within the confidence range specified (<#%= audit.tagsafe_score_confidence_range %>)">
+                  title="Tagsafe Score is within the confidence range specified (<#%= audit.tagsafe_score_confidence_range %>)">
               <i class="fa-solid fa-bullseye"></i>
             </span>
           <#% else %>
@@ -35,7 +35,7 @@
                   style='font-size: 10px'
                   data-controller='tooltip' 
                   data-bs-toggle='tooltip' 
-                  title="Tagsafe score is outside of the confidence range specified (Confidence range = <#%= audit.tagsafe_score_confidence_range %>, required range = <#%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
+                  title="Tagsafe Score is outside of the confidence range specified (Confidence range = <#%= audit.tagsafe_score_confidence_range %>, required range = <#%= audit.performance_audit_configuration.required_tagsafe_score_range %>)">
               <i class="fa-solid fa-question"></i>
             </span>
           <#% end %>
@@ -52,7 +52,7 @@
                   class='ms-1'
                   data-controller='tooltip'
                   data-bs-toggle='tooltip'
-                  title="Tagsafe score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous audit.">
+                  title="Tagsafe Score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous audit.">
                   <i class="<%=icon_class%>"></i> 
                   <%= diff_in_score %>
             </span>

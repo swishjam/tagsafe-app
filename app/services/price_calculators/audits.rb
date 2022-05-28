@@ -56,7 +56,7 @@ module PriceCalculators
 
     def price_for_speed_index_filmstrip
       return 0 if free_of_charge?
-      # TODO: need to make this configurable by audit!
+      return 0 unless audit.performance_audit_configuration.include_filmstrip_frames
       feature_prices.speed_index_filmstrip_price
     end
 

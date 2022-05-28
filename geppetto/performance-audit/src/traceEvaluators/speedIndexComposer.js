@@ -2,10 +2,14 @@ const speedline = require('speedline-core'),
         { uploadToS3 } = require('../s3');
 
 class SpeedIndexComposer {
-  constructor(tracePath, uniqueFilename) {
+  constructor(tracePath, uniqueFilename, { uploadFramesToS3 = true }) {
     this.tracePath = tracePath;
     this.uniqueFilename = uniqueFilename;
     this.maxNumFrames = parseInt(process.env.MAX_NUM_OF_SPEED_INDEX_FRAMES || '20');
+    this.uploadFramesToS3 = uploadFramesToS3;
+    if(!uploadFramesToS3) {
+      console.log('Not going to upload filmstrip frames to S3....');
+    }
   }
 
   gatherSpeedIndexResults = async () => {
@@ -45,7 +49,7 @@ class SpeedIndexComposer {
     for(let i = 0; i < speedlineResult.frames.length; i++) {
       const frame = speedlineResult.frames[i];
       const buffer = Buffer.from(frame.getImage());
-      const s3Url = i >= this.maxNumFrames ? null : await uploadToS3({ Body: buffer, Key: `${this.uniqueFilename}-frame-${i}.png`, ACL: 'public-read' });
+      const s3Url = !this.uploadFramesToS3 || i >= this.maxNumFrames ? null : await uploadToS3({ Body: buffer, Key: `${this.uniqueFilename}-frame-${i}.png`, ACL: 'public-read' });
       formattedFrameScreenshots.push({
         ms_from_start: frame.getTimeStamp() - baseTs,
         ts: frame.getTimeStamp(),

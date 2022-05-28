@@ -1,8 +1,8 @@
 {
   "individual_performance_audit_id": 9538,
   "tag_url_being_audited": "https://www.thirdpartytag.com/script.js",
-  "page_url_to_perform_audit_on": "https://www.canadiantire.ca/en.html",
-  "first_party_request_url": "https://www.canadiantire.ca/en.html",
+  "page_url_to_perform_audit_on": "https://www.tagsafe.io",
+  "first_party_request_url": "https://www.tagsafe.io",
   "third_party_tag_urls_and_rules_to_inject": [{ "url": "https://www.thirdpartytag.com/script.js", "load_type": "synchronous" }],
   "third_party_tag_url_patterns_to_allow": [],
   "cached_responses_s3_key": null,
@@ -16,7 +16,8 @@
     "inline_injected_script_tags": "false",
     "scroll_page": "false",
     "strip_all_images": "false",
-    "strip_all_css": "false"
+    "strip_all_css": "false",
+    "upload_filmstrip_frames_to_s3": true
   },
   "lambda_invoker_klass": "StepFunctionInvoker::PerformanceAuditer",
   "executed_step_function_id": 0,

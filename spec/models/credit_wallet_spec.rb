@@ -11,7 +11,7 @@ RSpec.describe CreditWallet, type: :model do
       wallet_2 = CreditWallet.create(domain: @domain, total_credits_for_month: 100, month: 1)
       expect(@wallet.valid?).to be(true)
       expect(wallet_2.valid?).to be(false)
-      expect(wallet_2.errors.full_messages[0]).to eq('Domain already has a wallet for the month of 1')
+      expect(wallet_2.errors.full_messages[0]).to eq("Domain #{@domain.uid} already has a CreditWallet for January")
     end
     
     # it 'raises an error if the wallets num_credits_remaining would go below 0' do

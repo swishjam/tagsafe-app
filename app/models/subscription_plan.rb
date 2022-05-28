@@ -85,7 +85,7 @@ class SubscriptionPlan < ApplicationRecord
   end
   alias is_on_free_trial? on_free_trial?
 
-  def days_until_free_trial_expires(round = true)
+  def days_until_free_trial_expires(round: true)
     return nil unless is_on_free_trial?
     exact_days = (free_trial_ends_at - Time.current) / 1.day
     round ? exact_days.floor : exact_days

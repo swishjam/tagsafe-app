@@ -5,6 +5,14 @@ module StepFunctionResponses
         @speed_index_results_hash = speed_index_results_hash
       end
 
+      def failed?
+        error_message.present?
+      end
+
+      def error_message
+        @speed_index_results_hash['error_message']
+      end
+
       def speed_index
         @speed_index_results_hash['speed_index']
       end

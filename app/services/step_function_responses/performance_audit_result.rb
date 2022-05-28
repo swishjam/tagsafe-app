@@ -31,7 +31,7 @@ module StepFunctionResponses
 
     def valid?
       return @valid if defined?(@valid)
-      @valid = step_function_successful? && error.nil? && blocked_correct_resources_for_audit_type?
+      @valid = step_function_successful? && error.nil? && blocked_correct_resources_for_audit_type? && speed_index_successful_if_required?
     end
 
     def invalid?
@@ -90,6 +90,13 @@ module StepFunctionResponses
       else
         raise StandardError, "Invalid individual performance audit type in PerformanceAuditResult: #{individual_performance_audit.class.to_s}"
       end
+    end
+
+    def speed_index_successful_if_required?
+      return true unless speed_index_results.failed?
+      return true if individual_performance_audit.audit.performance_audit_calculator.speed_index_weight.zero? && individual_performance_audit.audit.performance_audit_calculator.perceptual_speed_index_weight.zero?
+      @invalid_audit_error = "Error generating Speed Index, cannot calculate Tagsafe Score: #{speed_index_results.error_message}"
+      false
     end
 
     def logs

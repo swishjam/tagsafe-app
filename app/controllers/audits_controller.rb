@@ -66,6 +66,7 @@ class AuditsController < LoggedInController
           include_page_load_resources: params.dig(:config, :include_page_load_resources) == 'true',
           performance_audit_configuration: {
             # include_page_tracing: params.dig(:config, :performance_audit_settings, :include_page_trace) == 'true',
+            include_filmstrip_frames: params.dig(:config, :performance_audit_settings, :include_filmstrip_frames) == 'true',
             strip_all_images: params.dig(:config, :performance_audit_settings, :strip_all_images) == 'true',
             enable_screen_recording: params.dig(:config, :performance_audit_settings, :enable_screen_recording) == 'true',
             throw_error_if_dom_complete_is_zero: true,

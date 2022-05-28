@@ -32,7 +32,7 @@ module StepFunctionInvoker
           enable_screen_recording: @audit.performance_audit_configuration.enable_screen_recording.to_s,
           throw_error_if_dom_complete_is_zero: @audit.performance_audit_configuration.throw_error_if_dom_complete_is_zero.to_s,
           include_page_load_resources: true, # consumer will decide whether to capture them or not
-          include_page_tracing: @audit.performance_audit_configuration.include_page_tracing.to_s,
+          upload_filmstrip_frames_to_s3: @audit.performance_audit_configuration.include_filmstrip_frames.to_s,
           inline_injected_script_tags: @audit.performance_audit_configuration.inline_injected_script_tags.to_s,
           scroll_page: @audit.performance_audit_configuration.scroll_page.to_s,
           strip_all_images: @audit.performance_audit_configuration.strip_all_images.to_s,

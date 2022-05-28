@@ -94,6 +94,46 @@
     </div>
   </div>
 
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Enable screen recordings for automated performance audits?</span>
+        <span class='settings-description d-block'>
+          Enable screen recordings during performance audits, allowing you to watch the visual impact of a tag.<br/>
+          This setting can be overridden when running an audit manually.
+        </span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <div class='form-check form-switch'>
+          <%= f.check_box :perf_audit_enable_screen_recording, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <hr/>
+  <div class='row'>
+    <div class='col-6 d-flex align-items-center'>
+      <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Enable page load filmstrip for automated performance audits?</span>
+        <span class='settings-description d-block'>
+          Filmstrip frames allow you to view and measure the visual page load progression.<br/>
+          This setting can be overridden when running an audit manually.
+        </span>
+      </div>
+    </div>
+    <div class='col-6 d-flex align-items-center'>
+      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <div class='form-check form-switch'>
+          <%= f.check_box :perf_audit_include_filmstrip_frames, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <% if Util.env_is_true('PAGE_CHANGE_AUDITS_ENABLED') %>
     <hr/>
     <div class='row'>
@@ -116,45 +156,27 @@
 
 <div class='tagsafe-container mt-5'>
   <h4 class='mb-0'>Performance audit settings</h4>
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Strip all images in automated performance audits?</span>
-        <span class='settings-description d-block'>
-          In order to minimize outside performance factors, strip away all images from the page during performance 
-          audits by default?<br/>This setting can be overridden when running an audit manually.
-        </span>
+  <% if Util.env_is_true('EXPOSE_PERFORMANCE_AUDIT_STRIPE_IMAGES_CONFIG') %>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Strip all images in automated performance audits?</span>
+          <span class='settings-description d-block'>
+            In order to minimize outside performance factors, strip away all images from the page during performance 
+            audits by default?<br/>This setting can be overridden when running an audit manually.
+          </span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+          <div class='form-check form-switch'>
+            <%= f.check_box :perf_audit_strip_all_images, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
+          </div>
+        <% end %>
       </div>
     </div>
-    <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :perf_audit_strip_all_images, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Enable screen recordings for automated performance audits?</span>
-        <span class='settings-description d-block'>
-          Enable screen recordings during performance audits, allowing you to watch the visual impact of a tag.<br/>
-          This setting can be overridden when running an audit manually.
-        </span>
-      </div>
-    </div>
-    <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :perf_audit_enable_screen_recording, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
+  <% end %>
 
   <hr/>
   <div class='row'>
