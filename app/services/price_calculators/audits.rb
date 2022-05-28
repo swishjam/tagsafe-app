@@ -65,7 +65,7 @@ module PriceCalculators
     end
 
     def domain_wallet
-      @domain_wallet ||= audit.domain.credit_wallet_for_current_month_and_year_and_year
+      @domain_wallet ||= audit.domain.credit_wallet_for_current_month_and_year
     end
 
     def feature_prices
