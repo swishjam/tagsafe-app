@@ -4,7 +4,7 @@ class LambdaFunctionQueries
       SELECT 
         domains.id AS domain_id,
         subscription_plans.status AS subscription_status,
-        credit_wallet_for_current_month_and_year.credits_remaining AS remaining_credits,
+        credit_wallet_for_current_month_and_year_and_year.credits_remaining AS remaining_credits,
         tags.id AS tag_id,
         tags.full_url AS tag_url, 
         uptime_regions.aws_name AS region,
@@ -15,9 +15,9 @@ class LambdaFunctionQueries
           ON domains.id=tags.domain_id
         INNER JOIN subscription_plans
           ON subscription_plans.id=domains.current_subscription_plan_id
-        LEFT JOIN credit_wallets AS credit_wallet_for_current_month_and_year
-          ON credit_wallet_for_current_month_and_year.domain_id=domains.id AND
-          credit_wallet_for_current_month_and_year.month="#{Time.current.month}"
+        LEFT JOIN credit_wallets AS credit_wallet_for_current_month_and_year_and_year
+          ON credit_wallet_for_current_month_and_year_and_year.domain_id=domains.id AND
+          credit_wallet_for_current_month_and_year_and_year.month="#{Time.current.month}"
         INNER JOIN uptime_regions_to_check 
           ON uptime_regions_to_check.tag_id=tags.id
         INNER JOIN uptime_regions 
@@ -26,8 +26,8 @@ class LambdaFunctionQueries
         uptime_regions.aws_name = "#{region_name}" AND
         subscription_plans.status NOT IN ("incomplete_expired", "unpaid") AND
         (
-          credit_wallet_for_current_month_and_year.credits_remaining IS NULL OR 
-          credit_wallet_for_current_month_and_year.credits_remaining > 0
+          credit_wallet_for_current_month_and_year_and_year.credits_remaining IS NULL OR 
+          credit_wallet_for_current_month_and_year_and_year.credits_remaining > 0
         )
       GROUP BY
         domain_id,

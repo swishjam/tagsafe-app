@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class='col-6 d-flex align-items-center'>
-        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.total_credits_for_month) %> credits</span>
+        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.total_credits_for_month) %> credits</span>
       </div>
     </div>
 
@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class='col-6 d-flex align-items-center'>
-        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_used) %> credits</span>
+        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.credits_used) %> credits</span>
       </div>
     </div>
 
@@ -111,7 +111,7 @@
         </div>
       </div>
       <div class='col-6 d-flex align-items-center'>
-        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month.credits_remaining) %> credits</span>
+        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.credits_remaining) %> credits</span>
       </div>
     </div>
   </div>

@@ -48,9 +48,9 @@
           </div>
           <%= link_to 'Add Payment Method', settings_billing_path, class: 'add-payment-method-link' %>
         </div>
-      <% elsif current_domain.credit_wallet_for_current_month.credits_used / current_domain.credit_wallet_for_current_month.total_credits_for_month >= 0.85 %>
+      <% elsif current_domain.credit_wallet_for_current_month_and_year.credits_used / current_domain.credit_wallet_for_current_month_and_year.total_credits_for_month >= 0.85 %>
         <div class='free-trial-indicator-container low-credits text-center'>
-          <span class='d-block'><%= HtmlHelper.WARNING_ICON %> <%= current_domain.credit_wallet_for_current_month.credits_remaining %> credits remaining this month</span>
+          <span class='d-block'><%= HtmlHelper.WARNING_ICON %> <%= current_domain.credit_wallet_for_current_month_and_year.credits_remaining %> credits remaining this month</span>
           <%= link_to 'Add more', settings_billing_path, class: 'add-payment-method-link' %>
         </div>
       <% end %>
