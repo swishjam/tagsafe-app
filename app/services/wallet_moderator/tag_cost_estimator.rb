@@ -30,7 +30,7 @@ module WalletModerator
       @automated_performance_audit_credits_per_month ||= begin
         return 0 unless @tag.scheduled_audits_enabled? && automated_audit_settings.include_performance_audit
         price = feature_prices.automated_performance_audit_price
-        price += feature_prices.speed_index_filmstrip_price
+        price += feature_prices.speed_index_filmstrip_price if automated_audit_settings.perf_audit_include_filmstrip_frames
         price += feature_prices.puppeteer_recording_price if automated_audit_settings.perf_audit_enable_screen_recording 
         price += feature_prices.resource_waterfall_price if automated_audit_settings.include_page_load_resources
         scheduled_audits_per_day = 1_440 / @tag.tag_preferences.scheduled_audit_minute_interval
