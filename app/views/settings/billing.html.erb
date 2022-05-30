@@ -72,50 +72,26 @@
       </div>
     </div>
   <% end %>
+
+  <% unless current_domain.current_subscription_plan.delinquent? || current_domain.current_subscription_plan.canceled? %>
+    <hr/>
+    <div class='row'>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='settings-title d-block fw-bolder'>Credit usage</span>
+          <span class='settings-description d-block'>Credits are used for performance audits, functional tests, uptime monitoring, and release detection. On your current plan you receive <%= current_domain.subscription_features_configuration.num_credits_provided_each_month.to_i %> credits on the 1st of each month.</span>
+        </div>
+      </div>
+      <div class='col-6 d-flex align-items-center'>
+        <div class='d-block'>
+          <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.credits_used) %> / <%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.total_credits_for_month) %> credits (<%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.percent_used) %> %)</span>
+          <span class='d-block'><i class="fa-solid fa-arrow-rotate-right"></i> Credits refresh in <%= distance_of_time_in_words(Time.current, Time.current.next_month.beginning_of_month) %></span>
+          <%= link_to 'Detailed Credit Usage', credit_wallet_credit_wallet_transactions_path(current_domain.credit_wallet_for_current_month_and_year), target: '_blank' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
-
-
-<% unless current_domain.current_subscription_plan.delinquent? || current_domain.current_subscription_plan.canceled? %>
-  <div class='tagsafe-container p-5 mt-5'>
-    <div class='row'>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>Credits provided in subscription</span>
-          <span class='settings-description d-block'>The number of credits your account begins each month with.</span>
-        </div>
-      </div>
-      <div class='col-6 d-flex align-items-center'>
-        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.total_credits_for_month) %> credits</span>
-      </div>
-    </div>
-
-    <hr/>
-    <div class='row'>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>Credits used this month</span>
-          <span class='settings-description d-block'>The number of credits your account has used so far this month.</span>
-        </div>
-      </div>
-      <div class='col-6 d-flex align-items-center'>
-        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.credits_used) %> credits</span>
-      </div>
-    </div>
-
-    <hr/>
-    <div class='row'>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>Credits remaining this month</span>
-          <span class='settings-description d-block'>The number of credits your account has remaining for this month.</span>
-        </div>
-      </div>
-      <div class='col-6 d-flex align-items-center'>
-        <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.credits_remaining) %> credits</span>
-      </div>
-    </div>
-  </div>
-<% end %>
 
 <% unless !current_domain.current_subscription_plan || current_domain.current_subscription_plan.canceled? %>
   <div class='tagsafe-container mt-5 p-3 text-center'>

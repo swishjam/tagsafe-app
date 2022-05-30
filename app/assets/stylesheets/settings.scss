@@ -47,3 +47,19 @@ body.settings, body.tags.edit, body.alert_configurations {
     }
   }
 }
+
+body.credit_wallet_transactions {
+  .transaction-line-item-row {
+    cursor: default;
+    margin: 5px;
+    &:hover {
+      background: rgb(234, 234, 234);
+    }
+  }
+  .total-credits-used span {
+    padding-left: 30px;
+    padding-right: 30px;
+    border-top: 1px solid black;
+    font-weight: 900;
+  }
+}
