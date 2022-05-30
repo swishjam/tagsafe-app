@@ -4,12 +4,10 @@ module PriceCalculators
 
     def initialize(audit)
       @audit = audit
-      @calculated_price = 0
     end
 
-    def price
-      @calculated_price += price_for_manual_test_runs + price_for_automated_test_runs
-      @calculated_price += cumulative_price_for_performance_audit
+    def total_price
+      cumulative_price_for_performance_audit + price_for_manual_test_runs + price_for_automated_test_runs
     end
 
     def price_for(transaction_reason)
@@ -34,27 +32,7 @@ module PriceCalculators
     end
 
     private
-
-    # def price_for_performance_audit
-    #   return 0 if free_of_charge?
-    #   if !audit.include_performance_audit then 0
-    #   elsif audit.execution_reason.manual? then feature_prices.manual_performance_audit_price
-    #   elsif audit.execution_reason.automated? then feature_prices.automated_performance_audit_price
-    #   else
-    #     raise "Dont know how to calculate performance audit price for Audit #{audit.uid} with execution reason type of #{audit.execution_reason.name}."
-    #   end
-    # end
-
-    # def price_for_test_runs
-    #   return 0 if free_of_charge?
-    #   if !audit.include_functional_tests then 0
-    #   elsif audit.execution_reason.manual? then feature_prices.manual_test_run_price * audit.num_functional_tests_to_run
-    #   elsif audit.execution_reason.automated? then feature_prices.automated_test_run_price * audit.num_functional_tests_to_run
-    #   else
-    #     raise "Dont know how to calculate test run price for Audit #{audit.uid} with execution reason type of #{audit.execution_reason.name}."
-    #   end
-    # end
-
+    
     def price_for_automated_performance_audit
       @price_for_automated_performance_audit ||= begin
         return 0 if free_of_charge? || !audit.include_performance_audit || audit.execution_reason.manual?

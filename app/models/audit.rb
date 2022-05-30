@@ -435,7 +435,7 @@ class Audit < ApplicationRecord
   end
 
   def can_afford?
-    price_for_audit = PriceCalculators::Audits.new(self).price
+    price_for_audit = PriceCalculators::Audits.new(self).total_price
     return true if price_for_audit.zero?
     num_credits_in_wallet = domain.credit_wallet_for_current_month_and_year&.credits_remaining || Float::INFINITY
     return true if price_for_audit <= num_credits_in_wallet
