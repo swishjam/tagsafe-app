@@ -23,7 +23,7 @@ module WalletModerator
     end
 
     def credit_wallet!(force: false)
-      return unless wallet.present? && (audit.performance_audit_failed? || force)
+      return unless wallet.present? && (@audit.performance_audit_failed? || force)
       performance_audit_price = PriceCalculators::Audits.new(@audit).cumulative_price_for_performance_audit
       wallet.credit!(performance_audit_price, record_responsible_for_credit: @audit, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
     end
