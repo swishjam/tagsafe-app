@@ -51,7 +51,7 @@ class DataRetentionEnforcer
   def purge_url_crawls!
     url_crawls_to_purge = @domain.url_crawls.includes(:retrieved_urls).older_than(Time.current - @days_of_retention_for_domain.days, timestamp_column: :'url_crawls.created_at')
     Rails.logger.info "DataRetentionEnforcer: Purging #{url_crawls_to_purge.count} UrlCrawls that are older than #{@days_of_retention_for_domain} days."
-    url_crawls_to_purge.retrieved_urls.delete_all
+    url_crawls_to_purge.each{ |crawl| crawl.retrieved_urls.delete_all }
     url_crawls_to_purge.delete_all
   end
 end

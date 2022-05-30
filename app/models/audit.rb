@@ -80,7 +80,7 @@ class Audit < ApplicationRecord
   after_create_commit -> { prepend_audit_to_list(audit: self, now: true) }
   after_create_commit :enqueue_configured_audit_types
   after_create_commit :broadcast_audit_began_notification_if_necessary
-  after_create_commit :charge_domain_for_credits_used!
+  after_create_commit { WalletModerator::AuditTransactor.new(self).debit_wallet! }
   after_create_commit { tag.touch(:last_audit_began_at) }
 
   ##########
@@ -134,7 +134,7 @@ class Audit < ApplicationRecord
     mark_as_most_current_if_possible
     send_audit_completed_notifications_if_necessary
     send_audit_completed_emails
-    issue_credits_for_any_failures
+    WalletModerator::AuditTransactor.new(self).credit_wallet! if performance_audit_failed?
     stream_updates_to_views(true)
   end
 
@@ -432,19 +432,6 @@ class Audit < ApplicationRecord
     if !include_functional_tests && !include_page_change_audit && !include_performance_audit
       errors.add(:base, "An audit must have either performance audits, functional tests, or page change audits enabled.")
     end
-  end
-
-  def issue_credits_for_any_failures
-    return unless performance_audit_failed? || domain.credit_wallet_for_current_month_and_year.nil?
-    performance_audit_price = PriceCalculators::Audits.new(self).cumulative_price_for_performance_audit
-    domain.credit_wallet_for_current_month_and_year.credit!(performance_audit_price, record_responsible_for_credit: self, reason: CreditWalletTransaction::Reasons.FAILED_PERFORMANCE_AUDIT)
-  end
-
-  def charge_domain_for_credits_used!
-    return if performance_audit_failed?
-    price = PriceCalculators::Audits.new(self).price
-    return if price.zero?
-    domain.credit_wallet_for_current_month_and_year.debit!(price, record_responsible_for_debit: self, reason: CreditWalletTransaction::Reasons.AUDIT) unless price.zero?
   end
 
   def can_afford?

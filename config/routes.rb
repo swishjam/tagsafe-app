@@ -194,6 +194,9 @@ Rails.application.routes.draw do
       get :select
     end
   end
+  resources :credit_wallets, only: [], param: :uid do
+    resources :credit_wallet_transactions, only: :index
+  end
 
   post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'
