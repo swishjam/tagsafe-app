@@ -12,6 +12,9 @@
       <div class='container text-center'>
         <h3 class='tagsafe-font'>Enter the URL of your site you would like Tagsafe to monitor.</h3>
         <%= render 'domains/form', domain: @domain %>
+        <div class='mt-3'>
+          <%= link_to 'Cancel', tags_path %>
+        </div>
       </div>
     </div>
   </div>

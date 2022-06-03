@@ -135,8 +135,7 @@ body:not(.with-fixed-top-banner) .left-hand-navigation-toggle {
   transition: 100ms left;
   bottom: 0;
   position: fixed;
-  // background-color: $tagsafe-secondary;
-  background-color: #eeeeee;
+  background-color: white;
   padding: 5px;
   cursor: pointer;
 }

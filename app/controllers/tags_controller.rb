@@ -91,25 +91,22 @@ class TagsController < LoggedInController
 
   def update
     tag = current_domain.tags.find_by(uid: params[:uid])
-    params[:tag][:friendly_name] = params[:tag][:friendly_name].empty? ? nil : params[:tag][:friendly_name]
-    params[:tag][:tag_preferences_attributes][:id] = tag.tag_preferences.id
-    if tag.update(tag_params)
-      # if tag.saved_changes.any?
-        current_user.broadcast_notification(message: "#{tag.try_friendly_name} updated.", image: tag.try_image_url)
-      # end
-    else
-      current_user.broadcast_notification(message: tag.errors.full_sentences.join('\n'), image: tag.try_image_url)
-    end
+    tag.update!(tag_params)
     render turbo_stream: turbo_stream.replace(
-      "#{tag.id}_edit_general_settings",
-      partial: 'edit_general_settings',
-      locals: { tag: tag }
+      "tag_#{tag.uid}_config_fields",
+      partial: "tags/config_fields",
+      locals: {
+        domain: current_domain,
+        tag: tag,
+        selectable_uptime_regions: UptimeRegion.selectable.not_enabled_on_tag(tag),
+        notification_message: "Updated #{tag.try_friendly_name}."
+      }
     )
   end
 
   private
 
   def tag_params
-    params.require(:tag).permit(:friendly_name, :image, tag_preferences_attributes: %i[id enabled consider_query_param_changes_new_tag])
+    params.require(:tag).permit(:load_type)
   end
 end

@@ -11,7 +11,7 @@ module TagsafeEmail
         tag_friendly_name: tag.try_friendly_name,
         tag_image_url: tag.image_url,
         domain_url: tag.domain.url,
-        edit_tag_url: mail_safe_url("/tags/#{tag.uid}/edit")
+        edit_tag_url: mail_safe_url("/tags/#{tag.uid}/edit?_domain_uid=#{tag.domain.uid}")
       }
     end
   end

@@ -17,7 +17,7 @@ class GeneralConfiguration < ApplicationRecord
       perf_audit_batch_size: 3,
       perf_audit_minimum_num_sets: 3,
       perf_audit_maximum_num_sets: 20,
-      perf_audit_max_failures: 6,
+      perf_audit_max_failures: 10,
       perf_audit_fail_when_confidence_range_not_met: false,
       perf_audit_completion_indicator_type: PerformanceAudit.CONFIDENCE_RANGE_COMPLETION_INDICATOR_TYPE,
       perf_audit_required_tagsafe_score_range: (ENV['PERFORMANCE_AUDIT_DEFAULT_REQUIRED_TAGSAFE_SCORE_RANGE'] || 5.0).to_f,

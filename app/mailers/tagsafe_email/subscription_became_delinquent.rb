@@ -7,7 +7,8 @@ module TagsafeEmail
       @to_email = user.email
       @template_variables = {
         user_name: user.first_name,
-        update_payment_method_url: mail_safe_url("/settings/billing")
+        domain_url: domain.url_hostname,
+        update_payment_method_url: mail_safe_url("/settings/billing?_domain_uid=#{domain.uid}")
       }
     end
   end

@@ -39,7 +39,7 @@ class StripeWebhookConsumer
   def invoice_payment_failed
     Rails.logger.info "StripeWebhookConsumer Invoice Payment Failed!"
     subscription_plan.domain.admin_domain_users.each do |domain_user| 
-      TagsafeEmail::PaymentFailed.new(domain_user.user).send!
+      TagsafeEmail::PaymentFailed.new(domain_user.user, subscription_plan).send!
     end
   end
 

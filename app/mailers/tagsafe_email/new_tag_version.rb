@@ -9,7 +9,7 @@ module TagsafeEmail
         tag_friendly_name: tag_version.tag.try_friendly_name,
         tag_url: tag_version.tag.url_based_on_preferences,
         domain_url: tag_version.tag.domain.url,
-        audit_url: mail_safe_url("/tags/#{tag_version.tag.uid}/tag_versions/#{tag_version.uid}/audit_redirect")
+        audit_url: mail_safe_url("/tags/#{tag_version.tag.uid}/tag_versions/#{tag_version.uid}/audit_redirect?_domain_uid=#{tag_version.tag.domain.uid}")
       }
     end
   end

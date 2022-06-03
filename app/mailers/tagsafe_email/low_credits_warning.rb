@@ -11,7 +11,7 @@ module TagsafeEmail
         total_credits_for_month: credit_wallet.total_credits_for_month,
         credits_used: credit_wallet.credits_used,
         credits_remaining: credit_wallet.credits_remaining,
-        add_more_credits_url: mail_safe_url("/settings/billing")
+        add_more_credits_url: mail_safe_url("/settings/billing?_domain_uid=#{credit_wallet.domain.uid}")
       }
     end
   end

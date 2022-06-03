@@ -23,6 +23,41 @@
   <div class='row'>
     <div class='col-sm-6 d-flex align-items-center'>
       <div class='d-block'>
+        <span class='settings-title d-block fw-bolder'>Script tag load type</span>
+        <span class='settings-description d-block'>When Tagsafe runs an audit on the tag, how should the script tag load?</span>
+      </div>
+    </div>
+    <div class='col-sm-6 d-flex align-items-center justify-content-start'>
+      <div class='dropdown-container me-3'>
+        <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+          <%= tag.load_type.capitalize %>
+          <span class='dropdown-indicator d-inline'>
+            <i class="fa-solid fa-chevron-up"></i>
+          </span>
+        </div>
+        <div class="dropdown-menu dropdown-menu-center p-3">
+          <% %w[defer async synchronous].each do |load_type| %>
+            <% if load_type == tag.load_type %>
+              <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
+                <%= HtmlHelper.PASSED_ICON(color: 'green') %> <%= load_type.capitalize %>
+              </div>
+            <% else %>
+              <%= form_with model: tag, url: tag_path(tag), method: :patch do |f| %>
+                <%= f.hidden_field :load_type, value: load_type %>
+                <div class='dropdown-item text-center' data-controller='feaux-form-submit-button'><%= load_type.capitalize %></div>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <hr/>
+  <div class='row'>
+    <div class='col-sm-6 d-flex align-items-center'>
+      <div class='d-block'>
         <span class='settings-title d-block fw-bolder'>
           Release Monitoring Interval 
         </span>
@@ -169,9 +204,9 @@
     <div class='col-sm-6 d-flex align-items-center'>
       <div class='d-block'>
         <span class='settings-title d-block fw-bolder'>
-          Credits used per month 
+          Estimated credits per month 
         </span>
-        <span class='settings-description d-block'>How many credits per month this tag costs based on your current configuration.</span>
+        <span class='settings-description d-block'>The estimated amount of credits per month this tag costs based on your current configuration.</span>
       </div>
     </div>
     <div class='col-sm-6 d-flex align-items-center justify-content-start'>

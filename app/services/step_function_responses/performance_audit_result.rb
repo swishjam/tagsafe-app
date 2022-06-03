@@ -93,6 +93,7 @@ module StepFunctionResponses
     end
 
     def speed_index_successful_if_required?
+      return true if Util.env_is_true('DONT_FAIL_PERFORMANCE_AUDIT_WITH_SPEED_INDEX_ERRORS')
       return true unless speed_index_results.failed?
       return true if individual_performance_audit.audit.performance_audit_calculator.speed_index_weight.zero? && individual_performance_audit.audit.performance_audit_calculator.perceptual_speed_index_weight.zero?
       @invalid_audit_error = "Error generating Speed Index, cannot calculate Tagsafe Score: #{speed_index_results.error_message}"

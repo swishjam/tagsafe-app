@@ -5,12 +5,19 @@ module TagsafeEmail
     end
 
     def send!
-      return if Rails.env.test?
-      resp = self.class.sg_api.client.mail._("send").post(request_body: sendgrid_request_body)
-      on_delivery_failure(resp) if resp.status_code.to_i > 299
+      if should_mock_delivery?
+        Rails.logger.info "TagsafeEmail - Mocking delivery for #{self.class.to_s} email."
+      else
+        resp = self.class.sg_api.client.mail._("send").post(request_body: sendgrid_request_body)
+        on_delivery_failure(resp) if resp.status_code.to_i > 299
+      end
     end
 
     private
+
+    def should_mock_delivery?
+      Rails.env.test? || !Rails.env.production? && ENV['MOCK_EMAIL_DELIVERY'].present?
+    end
 
     def mail_safe_url(path)
       "#{ENV['CURRENT_HOST'] || 'https://www.tagsafe.io'}#{path}"
@@ -29,7 +36,10 @@ module TagsafeEmail
     end
 
     def from_email
-      self.class.from_email || @from_email || begin raise TagsafeEmailError::Invalid, "Subclass #{self.class.to_s} must implement `from_email`"; end;
+      email = self.class.from_email || @from_email || begin raise TagsafeEmailError::Invalid, "Subclass #{self.class.to_s} must implement `from_email`"; end;
+      split_email = email.to_s.split('@')
+      split_email[0] += Rails.env.production? ? '' : "+#{Rails.env}"
+      split_email.join('@')
     end
 
     def sendgrid_request_body

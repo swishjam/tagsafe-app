@@ -45,6 +45,7 @@ class Tag < ApplicationRecord
   accepts_nested_attributes_for :tag_preferences
 
   # VALIDATIONS
+  validates :load_type, inclusion: { in: %w[async defer synchronous] }
   validates_presence_of :full_url
   validates_uniqueness_of :full_url, 
                           scope: :domain_id, 
