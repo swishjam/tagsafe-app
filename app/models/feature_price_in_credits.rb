@@ -18,8 +18,8 @@ class FeaturePriceInCredits < ApplicationRecord
     scale: {
       automated_performance_audit_price: 5,
       automated_test_run_price: 5,
-      manual_performance_audit_price: 0,
-      manual_test_run_price: 0,
+      manual_performance_audit_price: 2.5,
+      manual_test_run_price: 2.5,
       puppeteer_recording_price: 1,
       speed_index_filmstrip_price: 1,
       resource_waterfall_price: 2,
@@ -29,8 +29,8 @@ class FeaturePriceInCredits < ApplicationRecord
     pro: {
       automated_performance_audit_price: 5,
       automated_test_run_price: 5,
-      manual_performance_audit_price: 0,
-      manual_test_run_price: 0,
+      manual_performance_audit_price: 2.5,
+      manual_test_run_price: 2.5,
       puppeteer_recording_price: 1,
       speed_index_filmstrip_price: 1,
       resource_waterfall_price: 2,

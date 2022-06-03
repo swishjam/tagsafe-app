@@ -22,12 +22,13 @@ module WalletModerator
     end
 
     def num_release_checks_in_period
-      @num_release_checks ||= @domain.release_checks.more_recent_than_or_equal_to(start_date_of_upcoming_bulk_debit, timestamp_column: :"release_checks.executed_at").count
+      @num_release_checks ||= @domain.release_checks.more_recent_than(start_date_of_upcoming_bulk_debit, timestamp_column: :"release_checks.executed_at").count
     end
 
     def start_date_of_upcoming_bulk_debit
       # we should never really debit wallets outside of current month, default to previous month just in case of race condition timing
-      most_recent_release_debit.present? ? most_recent_release_debit.end_date : Time.current.beginning_of_month.last_month
+      # if it's May 25th, start_date = March 31st, 11:59:59
+      most_recent_release_debit.present? ? most_recent_release_debit.end_date : Time.current.beginning_of_month.last_month.last_month.end_of_month
     end
 
     def most_recent_release_debit

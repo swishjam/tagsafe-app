@@ -61,7 +61,7 @@ class AuditsController < LoggedInController
         tag_version: tag_version, 
         options: {
           include_performance_audit: params.dig(:config, :include_performance_audit) == 'true',
-          include_page_change_audit: params.dig(:config, :include_page_change_audit) == 'true',
+          # include_page_change_audit: params.dig(:config, :include_page_change_audit) == 'true',
           include_functional_tests: params.dig(:config, :include_functional_tests) == 'true',
           include_page_load_resources: params.dig(:config, :include_page_load_resources) == 'true',
           performance_audit_configuration: {

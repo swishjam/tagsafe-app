@@ -1,14 +1,17 @@
 def prepare_test!(options = {})
   stub_aws_calls unless options[:allow_aws_calls]
+  stub_stripe_calls unless options[:allow_stripe_calls]
   unless options[:bypass_default_domain_create]
-    stub_valid_page_url_enforcement unless [:enforce_valid_page_url]
+    stub_valid_page_url_enforcement unless options[:enforce_valid_page_url]
     @domain = create(:domain, url: 'https://www.tagsafe.io')
     create(:feature_price_in_credits, domain: @domain)
     create(:performance_audit_calculator, domain: @domain)
+    create(:credit_wallet, domain: @domain)
   end
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
   create_aws_event_bridge_rules unless options[:bypass_aws_event_bridge_rules]
-  create_flags unless options[:bypass_flags]
+  create_uptime_regions unless options[:bypass_uptime_regions]
+  # create_flags unless options[:bypass_flags]
 end
 
 def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
@@ -106,6 +109,11 @@ def stub_aws_calls
   Aws.config.update(stub_responses: true)
 end
 
+def stub_stripe_calls
+  allow(Stripe::Customer).to receive(:create).and_return(OpenStruct.new(id: "cust_#{SecureRandom.hex(4)}"))
+  allow(Stripe::Subscription).to receive(:create).and_return(OpenStruct.new(id: "sub_#{SecureRandom.hex(4)}"))
+end
+
 def create_aws_event_bridge_rules
   create(:one_minute_release_check_aws_event_bridge_rule)
 end
@@ -132,6 +140,10 @@ def create_execution_reasons
   create(:scheduled_execution)
   create(:new_release_execution)
   create(:tagsafe_provided_execution)
+end
+
+def create_uptime_regions
+  create(:us_east_1)
 end
 
 def create_flags

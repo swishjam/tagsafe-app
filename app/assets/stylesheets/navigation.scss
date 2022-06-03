@@ -55,8 +55,8 @@ body:not(.with-fixed-top-banner) .navigation {
   transition: 500ms margin-left;
   width: 15vw;
   position: fixed;
-  // background-color: $tagsafe-secondary;
-  background-color: #eeeeee;
+  background-color: white;
+  // background-color: #eeeeee;
   border-right: 1px solid $soft-grey-border;
   color: $dark-grey-text;
   height: 100vh;

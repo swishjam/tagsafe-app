@@ -27,7 +27,7 @@ a.no-decoration {
 }
 
 .with-shadow {
-  box-shadow: 1px 1px 13px 0px grey;
+  box-shadow: $box-shadow-effect;
 }
 
 .no-border {
@@ -131,9 +131,11 @@ a.no-decoration {
   50% { box-shadow: 0 0 8px 3px $tagsafe-primary; }
 }
 
-.enlarge-slightly-on-hover:hover {
+.enlarge-slightly-on-hover {
   transition: 500ms all;
-  transform: scale(1.02, 1.02);
+  &:hover {
+    transform: scale(1.02, 1.02);
+  }
 }
 
 .tagsafe-spinner-grow, .tagsafe-spinner {

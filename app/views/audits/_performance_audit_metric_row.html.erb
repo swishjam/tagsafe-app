@@ -1,14 +1,14 @@
 <div class="metric-row col-md-12 col-lg-6">
   <div class='metric col-12'>
     <div class='row'>
-      <div class="col-6 metric-title">
+      <div class="col-5 metric-title d-flex align-items-center">
         <span data-controller='tooltip' data-bs-toggle='tooltip' title="<%= metric_definition %>">
           <%= metric_title %>
         </span>
       </div>
-      <div class="col-6 metric-value">
+      <div class="col-7 metric-value">
         <% if impact_result.zero? %>
-          <span class='default-cursor'>No Impact</span>
+          <span class='default-cursor no-impact'>No Impact</span>
         <% else %>
           <% tooltip_title = local_assigns[:tooltip_title] || "When #{tag.try_friendly_name} is present, #{metric_title} is #{impact_result.round(2)} #{unit} #{impact_result > 0 ? 'slower' : nil}" %>
           <% diff_in_metric = impact_result - (previous_impact_result || 0) %>
@@ -22,9 +22,9 @@
             <%= impact_result > 0 && unit == 'ms' ? 'Adds' : nil %> <%= number_to_human(impact_result.round(2), units: { unit: unit, thousand: unit == 'ms' ? 'seconds' : unit }) %>          
             <% unless previous_impact_result.nil? %>
               <% if diff_in_metric.zero? %>
-                (No Change)
+                <span class='change-in-score'>(No Change)</span>
               <% else %>
-                <span class="<%= diff_in_metric.positive? ? 'red-text' : 'green-text' %>" style='font-size: 12px'>
+                <span class="change-in-score <%= diff_in_metric.positive? ? 'red-text' : 'green-text' %>">
                   <% icon_class = diff_in_metric.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
                   <i class="<%= icon_class %>"></i>
                   <%= number_to_human(diff_in_metric.abs, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
@@ -38,7 +38,7 @@
           <span class='impact-to-tagsafe-score'
                 data-controller='tooltip'
                 data-bs-toggle='tooltip'
-                title="Lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
+                title="The impact the tag has to <%= metric_title %> lowered the Tagsafe Score by <%= tagsafe_score_deduction&.round(2) || 0 %> points.">
             <%= "- #{tagsafe_score_deduction&.round(2)}" || 0.0 %> Tagsafe Score impact
           </span>
         <% end %>

@@ -17,7 +17,11 @@ Rails.application.routes.draw do
 
   get '/demo' => 'demo#index'
 
-  resources :registrations, only: [:new, :create]
+  resources :registrations, only: [:new, :create] do
+    collection do
+      get :domain
+    end
+  end
   get '/register' => 'registrations#new'
   
   resources :domain_users, only: [:destroy, :index], param: :uid

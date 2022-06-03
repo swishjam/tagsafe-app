@@ -22,7 +22,7 @@ module WalletModerator
     end
 
     def num_uptime_checks_in_period
-      @num_uptime_checks ||= @domain.uptime_checks.more_recent_than_or_equal_to(start_date_of_upcoming_bulk_debit, timestamp_column: :"uptime_checks.executed_at").count
+      @num_uptime_checks ||= @domain.uptime_checks.more_recent_than(start_date_of_upcoming_bulk_debit, timestamp_column: :"uptime_checks.executed_at").count
     end
 
     def start_date_of_upcoming_bulk_debit

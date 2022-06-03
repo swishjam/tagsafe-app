@@ -7,8 +7,6 @@
         <%= form_with url: url_crawls_path, method: :POST do |f| %>
           <%= f.submit 'Sync third party tags', class: 'tagsafe-btn mt-3' %>
         <% end %>
-      <% elsif most_recent_crawl.pending? %>
-        <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
       <% else %>
         <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
       <% end %>

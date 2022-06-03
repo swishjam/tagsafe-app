@@ -22,6 +22,13 @@
             ) %> / month
           </div>
           <div class='subscription-package-amount-sub-header annual-billing-only'>(billed annually)</div>
+          <div class='subscription-package-amount-sub-header mt-3'>
+            Best for users with: 
+            <ul>
+              <li>Less than 10 tags</li>
+              <li>Runs nightly performance audits.</li>
+            </ul>
+          </div>
           <%= render 'subscription_plans/form', 
                           package: SubscriptionPlan::Packages.STARTER,
                           billing_interval: SubscriptionPlan::BillingIntervals.YEAR, 
@@ -157,29 +164,7 @@
             pro_package_support: 'Every 30 minutes',
             enterprise_package_support: 'Customizable' %>
 <%= render 'subscription_plans/feature_row', 
-            feature_title: "Manual performance audits",
-            feature_tooltip_title: "Performance audits generate Tagsafe Scores and attributes several other performance implications each of your tags comes with. You can run performance audits 'manually' from the Tagsafe interface.",
-            starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:manual_performance_audit_price]} credits / audit",
-            scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            scale_package_cost: "Free",
-            pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            pro_package_cost: "Free",
-            enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            enterprise_package_cost: "Free" %>
-<%= render 'subscription_plans/feature_row', 
-            feature_title: "Manual end-to-end tests",
-            feature_tooltip_title: "Write functional tests to validate your site's core functionality is operating correctly. You can run end-to-end tests 'manually' from the Tagsafe interface.",
-            starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:manual_test_run_price]} credits / test run",
-            scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            scale_package_cost: "Free",
-            pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            pro_package_cost: "Free",
-            enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-            enterprise_package_cost: "Free" %>
-<%= render 'subscription_plans/feature_row', 
-            feature_title: "Automated performance audits",
+            feature_title: "Performance audits",
             feature_tooltip_title: "Performance audits generate Tagsafe Scores and attributes several other performance implications each of your tags comes with. Configure Tagsafe to run audits on a set schedule, or after each tag release.",
             starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
             starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_performance_audit_price]} credits / automated audit",
@@ -190,7 +175,7 @@
             enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
             enterprise_package_cost: 'Customizable' %>
 <%= render 'subscription_plans/feature_row', 
-            feature_title: "Automated end-to-end tests",
+            feature_title: "End-to-end tests",
             feature_tooltip_title: "Write functional tests to validate your site's core functionality is operating correctly. Configure Tagsafe to run functional tests on a set schedule, or after each tag release.",
             starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
             starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_test_run_price]} credits / automated test run",

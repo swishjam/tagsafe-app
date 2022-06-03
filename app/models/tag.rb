@@ -231,7 +231,7 @@ class Tag < ApplicationRecord
   end
 
   def perform_audit!(execution_reason:, tag_version:, initiated_by_domain_user:, url_to_audit:, options: {})
-    AuditRunner.new(
+    AuditHandler::Runner.new(
       execution_reason: execution_reason,
       tag: self,
       tag_version: tag_version,

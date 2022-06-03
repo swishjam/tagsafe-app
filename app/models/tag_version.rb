@@ -61,7 +61,7 @@ class TagVersion < ApplicationRecord
   end
 
   def perform_audit(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
-    AuditRunner.new(
+    AuditHandler::Runner.new(
       tag_version: self,
       initiated_by_domain_user: initiated_by_domain_user,
       url_to_audit: url_to_audit,

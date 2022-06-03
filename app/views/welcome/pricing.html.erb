@@ -103,7 +103,7 @@
                 </ul>
               </div>
               <div class='d-flex justify-content-center'>
-                <%= link_to 'Contact us', '/contact', class: 'floating-btn large' %>
+                <%= link_to 'Contact us', contact_us_path(reason: 'pricing'), class: 'floating-btn large' %>
               </div>
             </div>
           </div>
@@ -127,38 +127,61 @@
                   pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
                   enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
       <%= render 'subscription_plans/feature_row', 
+                  feature_title: "Performance audits",
+                  feature_tooltip_title: "Performance audits generate Tagsafe Scores and attributes several other performance implications each of your tags comes with. Configure Tagsafe to run audits on a set schedule, after each tag release, or run them manually.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:manual_performance_audit_price]} credits / manual audit. \n\n#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_performance_audit_price]} credits / automated audit",
+                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
+      <%= render 'subscription_plans/feature_row', 
+                  feature_title: "End-to-end tests",
+                  feature_tooltip_title: "Write functional tests to validate your site's core functionality is operating correctly. Configure Tagsafe to run functional tests on a set schedule, after each tag release, or run them manually.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:manual_test_run_price]} credits / manual test run.\n\n #{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_test_run_price]} credits / automated test run.",
+                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
+      <%= render 'subscription_plans/feature_row', 
                   feature_title: "Page load recordings",
                   feature_tooltip_title: "Each performance audit comes with a full side-by-side screen recording of the page load in order to judge the visual imapct a tag has on your site's page load.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:puppeteer_recording_price]} credit / recording",
                   starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:puppeteer_recording_price]} credit / recording",
                   scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:scale][:puppeteer_recording_price]} credit / recording",
                   pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:pro][:puppeteer_recording_price]} credit / recording",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: 'Customizable' %>
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
       <%= render 'subscription_plans/feature_row', 
                   feature_title: "Page load filmstrips",
                   feature_tooltip_title: "Each performance audit comes with a full side-by-side filmstrip of the page load in order to judge the visual imapct a tag has on your site's page load.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:speed_index_filmstrip_price]} credit / film strip",
                   starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:speed_index_filmstrip_price]} credit / film strip",
                   scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:scale][:speed_index_filmstrip_price]} credit / film strip",
                   pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:pro][:speed_index_filmstrip_price]} credit / film strip",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: 'Customizable' %>
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
       <%= render 'subscription_plans/feature_row', 
                   feature_title: "Page load resources waterfall",
                   feature_tooltip_title: "During a performance audit Tagsafe captures all of the page resources and renders them into a waterfall view side-by-side so you can analyze the impact a tag has to your page load.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:resource_waterfall_price]} credits / waterfall",
                   starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:resource_waterfall_price]} credits / waterfall",
                   scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:scale][:resource_waterfall_price]} credits / waterfall",
                   pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:pro][:resource_waterfall_price]} credits / waterfall",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: "Customizable" %>
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green')  %>
+        <%= render 'subscription_plans/feature_row', 
+                  feature_title: "Release detection",
+                  feature_tooltip_title: "Select which tags you'd like Tagsafe to monitor in order to detect the tag provider makes changes to the tag. The amount of release checks used is dependent on the 'Realtime release detection' option you specify (see feature below), and the number of tags you elect to monitor.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:release_check_price]} credits / release check",
+                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
+        <%= render 'subscription_plans/feature_row', 
+                  feature_title: "Uptime monitoring",
+                  feature_tooltip_title: "Monitor the response times and status codes of your tags from selected regions around the world.",
+                  cost_in_credits: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:scale][:uptime_check_price] * 1_440} credits / day / region",
+                  starter_package_support: HtmlHelper.FAILED_ICON(color: 'red'),
+                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
+                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green') %>
       <%= render 'subscription_plans/feature_row', 
                   feature_title: "Automated tag synchronization cadence",
                   feature_tooltip_title: "Tagsafe continuously monitors your sites for any tags that have been added or removed. The cadence of the synchronizations determines who quickly Tagsafe identifies new or removed tags.",
@@ -167,77 +190,12 @@
                   pro_package_support: 'Every 30 minutes',
                   enterprise_package_support: 'Customizable' %>
       <%= render 'subscription_plans/feature_row', 
-                  feature_title: "Manual performance audits",
-                  feature_tooltip_title: "Performance audits generate Tagsafe Scores and attributes several other performance implications each of your tags comes with. You can run performance audits 'manually' from the Tagsafe interface.",
-                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:manual_performance_audit_price]} credits / audit",
-                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "Free",
-                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "Free",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: "Free" %>
-      <%= render 'subscription_plans/feature_row', 
-                  feature_title: "Manual end-to-end tests",
-                  feature_tooltip_title: "Write functional tests to validate your site's core functionality is operating correctly. You can run end-to-end tests 'manually' from the Tagsafe interface.",
-                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:manual_test_run_price]} credits / test run",
-                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "Free",
-                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "Free",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: "Free" %>
-      <%= render 'subscription_plans/feature_row', 
-                  feature_title: "Automated performance audits",
-                  feature_tooltip_title: "Performance audits generate Tagsafe Scores and attributes several other performance implications each of your tags comes with. Configure Tagsafe to run audits on a set schedule, or after each tag release.",
-                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_performance_audit_price]} credits / automated audit",
-                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_performance_audit_price]} credits / automated audit",
-                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_performance_audit_price]} credits / automated audit",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: 'Customizable' %>
-      <%= render 'subscription_plans/feature_row', 
-                  feature_title: "Automated end-to-end tests",
-                  feature_tooltip_title: "Write functional tests to validate your site's core functionality is operating correctly. Configure Tagsafe to run functional tests on a set schedule, or after each tag release.",
-                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_test_run_price]} credits / automated test run",
-                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_test_run_price]} credits / automated test run",
-                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:automated_test_run_price]} credits / automated test run",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: 'Customizable' %>
-      <%= render 'subscription_plans/feature_row', 
-                  feature_title: "Release detection",
-                  feature_tooltip_title: "Select which tags you'd like Tagsafe to monitor in order to detect the tag provider makes changes to the tag. The amount of release checks used is dependent on the 'Realtime release detection' option you specify (see feature below), and the number of tags you elect to monitor.",
-                  starter_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  starter_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:release_check_price]} credits / release check",
-                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:release_check_price]} credits / release check",
-                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:starter][:release_check_price]} credits / release check",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: 'Customizable' %>
-      <%= render 'subscription_plans/feature_row', 
                   feature_title: "Realtime release detection",
                   feature_tooltip_title: "The lowest cadence you can set your release monitoring for. The lower the cadence, the quicker Tagsafe will detect a release from your tag provider.",
                   starter_package_support: 'Within 6 hours',
                   scale_package_support: 'Within 60 minutes',
                   pro_package_support: 'Within 5 minutes',
                   enterprise_package_support: 'Within 1 minute' %>
-      <%= render 'subscription_plans/feature_row', 
-                  feature_title: "Uptime monitoring",
-                  feature_tooltip_title: "Monitor the response times and status codes of your tags from selected regions around the world.",
-                  starter_package_support: HtmlHelper.FAILED_ICON(color: 'red'),
-                  scale_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  scale_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:scale][:uptime_check_price] * 1_440} credits / day / region",
-                  pro_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  pro_package_cost: "#{FeaturePriceInCredits::DEFAULTS_FOR_PACKAGE[:pro][:uptime_check_price] * 1_440} credits / day / region",
-                  enterprise_package_support: HtmlHelper.PASSED_ICON(color: 'green'),
-                  enterprise_package_cost: 'Customizable' %>
       <%= render 'subscription_plans/feature_row', 
                   feature_title: "Advanced audit configurations",
                   feature_tooltip_title: "Access to advance audit configurations, such as defining number of parallel performance audits at a time for quicker results, and 'confidence range' preferences for accurate measurements.",
@@ -259,31 +217,31 @@
           <div class='row'>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='2'>
               <div class='column-content text-center annual-billing-only'>
-                <%= link_to 'Try for free', new_registration_path(plan: 'pro-annual'), class: 'floating-btn' %>
+                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
               </div>
               <div class='column-content text-center monthly-billing-only hidden'>
-                <%= link_to 'Try for free', new_registration_path(plan: 'pro-monthly'), class: 'floating-btn' %>
+                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
               </div>
             </div>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='3'>
               <div class='column-content text-center annual-billing-only'>
-                <%= link_to 'Try for free', new_registration_path(plan: 'pro-annual'), class: 'floating-btn' %>
+                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
               </div>
               <div class='column-content text-center monthly-billing-only hidden'>
-                <%= link_to 'Try for free', new_registration_path(plan: 'pro-monthly'), class: 'floating-btn' %>
+                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
               </div>
             </div>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='4'>
               <div class='column-content text-center annual-billing-only'>
-                <%= link_to 'Try for free', new_registration_path(plan: 'pro-annual'), class: 'floating-btn' %>
+                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
               </div>
               <div class='column-content text-center monthly-billing-only hidden'>
-                <%= link_to 'Try for free', new_registration_path(plan: 'pro-monthly'), class: 'floating-btn' %>
+                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
               </div>
             </div>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='5'>
               <div class='column-content text-center'>
-                <%= link_to 'Contact for pricing', '/contact', class: 'floating-btn' %>
+                <%= link_to 'Contact for pricing', contact_us_path(reason: 'pricing'), class: 'floating-btn' %>
               </div>
             </div>
           </div>

@@ -1,3 +1,5 @@
+return if Rails.env.test?
+
 Sentry.init do |config|
   config.dsn = 'https://8a99d2da90d1429097ea83c9396ae25c@o1079626.ingest.sentry.io/6084628'
   config.breadcrumbs_logger = [:active_support_logger, :http_logger]

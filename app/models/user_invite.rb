@@ -67,7 +67,7 @@ class UserInvite < ApplicationRecord
 
   def user_doesnt_exist
     if domain.users.find_by(email: email)
-      errors.add(:base, "User already belongs to #{domain.url}.")
+      errors.add(:base, "A user with the email of '#{email}' already belongs to #{domain.url}.")
     end
   end
 

@@ -1,5 +1,5 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :ensure_domain, only: [:accept, :redeem]
+  skip_before_action :ensure_domain, :ensure_subscription_plan, only: [:accept, :redeem]
 
   def new
     @user_invite = UserInvite.new
@@ -47,11 +47,8 @@ class UserInvitesController < LoggedInController
   def accept
     @user = User.new
     @user_invite = UserInvite.includes(:domain).find_by(token: params[:token])
+    @hide_footer = true
     @hide_logged_out_nav = true
-    unless @user_invite.redeemable?
-      display_inline_error("Invite expired. Please request a new invite from your admin.")
-      redirect_to root_path
-    end
     render :accept, layout: 'logged_out_layout'
   end
 

@@ -14,7 +14,7 @@ module SubscriptionMaintainer
       FeaturePriceInCredits.create_or_update_for_domain_by_subscription_package(@subscription_package, @domain)
       existing_credit_wallet = CreditWallet.for_domain(@domain, create_if_nil: false)
       if existing_credit_wallet
-        WalletModerator::UpdateCreditsAfterSubscriptionChange.new(existing_credit_wallet).update!
+        WalletModerator::UpdateCreditsAfterSubscriptionChange.update!(existing_credit_wallet)
       end
     end
 

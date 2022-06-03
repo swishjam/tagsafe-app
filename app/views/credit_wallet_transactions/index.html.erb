@@ -2,8 +2,8 @@
   <div class='container-fluid'>
     <div class='row'>
       <div class='col-12'>
-        <h1 class="page-title with-sub-title">Billing</h1>
-        <h2 class="page-sub-title">Credit Usage for <%= @credit_wallet.month_in_words %>, <%= @credit_wallet.year %></h2>
+        <h1 class="page-title with-sub-title">Credit Usage</h1>
+        <h2 class="page-sub-title"><%= @credit_wallet.month_in_words %>, <%= @credit_wallet.year %></h2>
       </div>
     </div>
   </div>
@@ -40,15 +40,19 @@
       <%= number_with_delimiter(@credit_wallet.total_credits_for_month) %>
     </div>
   </div>
-  <% @credit_wallet.transactions.group_by{ |transaction| transaction.human_reason }.each do |reason_for_transaction, transaction_collection| %>
+  <% @credit_wallet.transactions.includes(:record_responsible_for_charge).group_by{ |transaction| transaction.human_reason }.each do |reason_for_transaction, transaction_collection| %>
     <div class='row transaction-line-item-row'>
       <div class='col-6 transaction-reason-title'>
-        <%= transaction_collection.count %> <i><%= reason_for_transaction %>s</i>
+        <% if ['Uptime Checks', 'Release Checks'].includes?(reason_for_transaction) %>
+          <%= transaction_collection.sum{ |transaction| transaction.record_responsible_for_charge.num_records_for_debited_date_range } * transaction_collection.count %> <i><%= reason_for_transaction %></i>
+        <% else %>
+          <%= transaction_collection.count %> <i><%= reason_for_transaction %>s</i>
+        <% end %>
       </div>
       <% total_credits_used = transaction_collection.sum(&:credits_used) %>
       <% is_debit = total_credits_used.positive? %>
       <div class='col-6 transaction-cost-title <%= is_debit ? 'debit' : 'negative' %>' style='<%= is_debit ? 'padding-left: 50px;' : nil %>'>
-        <%= is_debit ? '-' : '+' %> <%= total_credits_used %>
+        <%= is_debit ? '-' : '+' %> <%= total_credits_used.round(2) %>
       </div>
     </div>
   <% end %>
@@ -58,7 +62,7 @@
     </div>
     <div class='col-6 total-credits-used'>
       <span class='w-fit'>
-        <%= number_with_delimiter(@credit_wallet.credits_used) %>
+        <%= number_with_delimiter(@credit_wallet.credits_used) %> (<%= number_with_delimiter(@credit_wallet.percent_used) %>)
       </span>
     </div>
   </div>

@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     redirect_to tags_path if current_user
+    @hide_footer = true
     @hide_logged_out_nav = true
     if params[:domain]
       @domain = Domain.find_by(uid: params[:domain])

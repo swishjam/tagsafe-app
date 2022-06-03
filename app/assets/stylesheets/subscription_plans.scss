@@ -20,18 +20,22 @@ body.settings, body.subscription_plans, body.welcome {
     &[data-column="1"] { 
       border-top: 6px solid orange;
       .subscription-package-title { color: orange; }
+      ul li:marker { color: orange; }
     }
     &[data-column="2"] { 
       border-top: 6px solid green;
       .subscription-package-title { color: green; }
+      ul li::before { color: green; }
     }
     &[data-column="3"] { 
       border-top: 6px solid rgb(73, 119, 255);
       .subscription-package-title { color: rgb(73, 119, 255); }
+      ul li::before { color: rgb(73, 119, 255); }
     }
     &[data-column="4"] { 
       border-top: 6px solid navy;
       .subscription-package-title { color: navy; }
+      ul li::before { color: navy; }
     }
     text-align: center;
     padding: 15px;

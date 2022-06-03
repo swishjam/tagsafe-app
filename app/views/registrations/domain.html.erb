@@ -11,13 +11,13 @@
           <div class='step-indicators mb-3'>
             <div class='step-indicator current'>
             </div>
-            <div class='step-indicator current'>
+            <div class='step-indicator incomplete'>
             </div>
             <div class='step-indicator incomplete'>
             </div>
           </div>
-          <h1 class='default-font-family mb-4'>Create account</h1>
-          <%= render 'form', domain: @domain, user: @user, button_text: 'Select your plan', button_icon_klass: 'fa-solid fa-arrow-right-long' %>
+          <h3 class='default-font-family'>What is the URL of your site you'd like Tagsafe to monitor?</h3>
+          <%= render 'domains/form', domain: @domain, button_text: "Create your account", button_icon_klass: 'fa-solid fa-arrow-right-long' %>
         </div>
       </div>
     </div>

@@ -31,7 +31,8 @@ test:
 
 development:
   <<: *default
-  <<: *pscale_credit_wallet_enhancments
+  <<: *local
+  database: tagsafe_development
 
 staging:
   <<: *default

@@ -15,7 +15,7 @@ class DataRetentionEnforcer
     purge_release_checks!
     purge_url_crawls!
 
-    Rails.logger.info "DataRetentionEnforcer: Completed purge for Domain #{@domain.uid} (#{@domain.url}) in #{Time.current - domain_start} seconds."
+    Rails.logger.info "DataRetentionEnforcer: Completed purge for Domain #{@domain.uid} (#{@domain.url}) in #{Time.current - start} seconds."
   end
 
   private

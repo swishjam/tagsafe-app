@@ -7,6 +7,12 @@ body.audits {
     border-top: 1px solid lightgrey;
     padding-top: 5px;
     cursor: default;
+    .current-value, .no-impact {
+      font-size: 24px;
+    }
+    .metric-title, .change-in-score, .impact-to-tagsafe-score {
+      font-size: 18px;
+    }
   }
   .performance-audit-progression-indicators-container {
     cursor: default;

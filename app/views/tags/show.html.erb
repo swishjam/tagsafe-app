@@ -6,7 +6,7 @@
       <div class='col-8'>
         <h1 class="page-title with-sub-title">Tag Details</h1>
         <h2 class='page-sub-title'>
-          <%= @tag.try_friendly_name %> 
+          <span class='d-inline-block'><%= @tag.try_friendly_name %></span>
           <% if @tag.release_monitoring_disabled? %>
             <%= image_tag '/images/disabled-release-monitoring.png', style: 'height: 16px;', title: 'Release monitoring is disabled for this tag, enable it in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
           <% end %>

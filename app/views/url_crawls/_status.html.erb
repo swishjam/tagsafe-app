@@ -2,10 +2,13 @@
 
 <%= turbo_frame_tag "#{url_crawl.uid}_url_crawl" do %>
   <% if url_crawl.pending? %>
-    <h2>Currently syncing third party tags from <%= url_crawl.page_url.friendly_url %>...</h2> 
-    <!-- <#%= display_loading_spinner type: 'grow' %> !-->
-    <div style='max-width: 200px; width: 20%; margin: auto;'>
-      <%= render 'partials/svgs/scanning_animation' %>
+    <div class='pending-url-crawl-container'>
+      <h2>Currently syncing third party tags from <%= url_crawl.page_url.friendly_url %>. </h2>
+      <h2>This should just take a minute or two. Once complete, we can begin auditing your individual tags.</h2> 
+      <!-- <#%= display_loading_spinner type: 'grow' %> !-->
+      <div style='max-width: 200px; width: 20%; margin: auto;'>
+        <%= render 'partials/svgs/scanning_animation' %>
+      </div>
     </div>
   <% elsif url_crawl.failed? %>
     <h3>Unable to sync third party tags from <%= url_crawl.page_url.friendly_url %>: <%= url_crawl.error_message %></h3>

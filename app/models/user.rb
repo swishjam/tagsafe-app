@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates_presence_of :email, :password, :first_name, :last_name
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
-  after_create :send_welcome_email
+  after_create { TagsafeEmail::Welcome.new(self).send! }
 
   def full_name
     "#{first_name} #{last_name}"
@@ -43,10 +43,6 @@ class User < ApplicationRecord
 
   def belongs_to_domain?(domain)
     !domain_user_for(domain).nil?
-  end
-
-  def send_welcome_email
-    TagsafeEmail::Welcome.new(self).send!
   end
 
   def can_remove_user_from_domain?(domain)

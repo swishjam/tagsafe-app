@@ -10,7 +10,7 @@ RSpec.describe WalletModerator::UpdateCreditsAfterSubscriptionChange do
       subscription_features_configuration = create(:subscription_features_configuration, domain: @domain, num_credits_provided_each_month: 100_000)
       wallet = create(:credit_wallet, domain: @domain, total_credits_for_month: 100, credits_remaining: 100, credits_used: 0)
       
-      WalletModerator::UpdateCreditsAfterSubscriptionChange.new(wallet).update!
+      WalletModerator::UpdateCreditsAfterSubscriptionChange.update!(wallet)
       
       expect(wallet.total_credits_for_month).to eq(subscription_features_configuration.num_credits_provided_each_month)
       expect(wallet.credits_used).to eq(0)
@@ -21,7 +21,7 @@ RSpec.describe WalletModerator::UpdateCreditsAfterSubscriptionChange do
       subscription_features_configuration = create(:subscription_features_configuration, domain: @domain, num_credits_provided_each_month: 100)
       wallet = create(:credit_wallet, domain: @domain, total_credits_for_month: 200, credits_used: 150, credits_remaining: 50)
 
-      WalletModerator::UpdateCreditsAfterSubscriptionChange.new(wallet).update!
+      WalletModerator::UpdateCreditsAfterSubscriptionChange.update!(wallet)
 
       expect(wallet.total_credits_for_month).to eq(subscription_features_configuration.num_credits_provided_each_month)
       expect(wallet.credits_used).to eq(150)
