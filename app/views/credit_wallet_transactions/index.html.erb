@@ -43,7 +43,7 @@
   <% @credit_wallet.transactions.includes(:record_responsible_for_charge).group_by{ |transaction| transaction.human_reason }.each do |reason_for_transaction, transaction_collection| %>
     <div class='row transaction-line-item-row'>
       <div class='col-6 transaction-reason-title'>
-        <% if ['Uptime Checks', 'Release Checks'].includes?(reason_for_transaction) %>
+        <% if ['Uptime Checks', 'Release Checks'].include?(reason_for_transaction) %>
           <%= transaction_collection.sum{ |transaction| transaction.record_responsible_for_charge.num_records_for_debited_date_range } * transaction_collection.count %> <i><%= reason_for_transaction %></i>
         <% else %>
           <%= transaction_collection.count %> <i><%= reason_for_transaction %>s</i>
