@@ -10,7 +10,7 @@ module.exports = class DataStoreManager {
         user     : process.env.MYSQL_USER,
         password : process.env.MYSQL_PASSWORD,
         database : process.env.MYSQL_DATABASE,
-        ssl: {}
+        ssl: 'Amazon RDS'
       });
       connection.connect();
       console.log(`Connected to DB!`);

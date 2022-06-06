@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AuditRunnerJobs::RunIndividualPerformanceAudit do
+RSpec.describe AuditRunnerJobs::RunPerformanceAudit do
   before(:each) do
     prepare_test!
     @tag = create(:tag, domain: @domain)

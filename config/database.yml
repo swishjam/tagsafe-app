@@ -3,47 +3,33 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-pscale_collin_dev: &pscale_collin_dev
-  database: tagsafe-production
-  username: 5brtvts8zxz7
-  host: pds4kx1y2m0n.us-east-4.psdb.cloud
-  password: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/cert.pem"
-
-pscale_credit_wallet_enhancments: &pscale_credit_wallet_enhancments
-  database: tagsafe-production
-  username: 07kxbkkpokum
-  host: drqkxa8s3yue.us-east-2.psdb.cloud
-  password: pscale_pw_PHeXFv57CGlSF0U9_BgJf5vPdfLiB7u-JducTw4L3Ao
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/cert.pem"
-
-local: &local
+test:
+  <<: *default
   username: root
   password: password
   host: localhost
-
-test:
-  <<: *default
-  <<: *local
   database: tagsafe_test
 
 development:
   <<: *default
-  <<: *local
   database: tagsafe_development
+  username: admin
+  password: waunyh2hvd_tym1EGH
+  host: collin-dev-db.cytsjoeoway1.us-east-1.rds.amazonaws.com
+  port: 3306
 
 staging:
   <<: *default
-  database: tagsafe-production
-  username: 8otvu8ilamwq
-  host: zndnr0yzsrhi.us-east-2.psdb.cloud
-  password: pscale_pw_oUBt1ZNscnlUfR_SXb34sSaFFUWyWcenNHLR5Xuf2wY
+  database: tagsafe_staging
+  username: admin
+  password: jpk-wqz!HRX7ugt0cnz
+  host: tagsafe-staging.cytsjoeoway1.us-east-1.rds.amazonaws.com
+  port: 3306
 
 production:
   <<: *default
-  database: tagsafe-production
-  username: bqmc4lhu2ms9
-  host: vtc9xo21h5ce.us-east-4.psdb.cloud
-  password: pscale_pw_bU3z9t9Y9sq1g4ncMOJpWOkGOitpQGSphA2WMoXwRzA
+  database: tagsafe_production
+  username: admin
+  password: DCR6qyd8muj*ezq4pek
+  host: tagsafe-production.cytsjoeoway1.us-east-1.rds.amazonaws.com
+  password: 3306

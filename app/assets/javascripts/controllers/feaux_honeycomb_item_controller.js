@@ -5,7 +5,8 @@ export default class extends Controller {
   static values = {
     tagName: String,
     tagsafeScore: Number,
-    previousTagsafeScore: Number
+    previousTagsafeScore: Number,
+    triggerOnLoad: Boolean
   }
 
   connect() {
@@ -39,10 +40,9 @@ export default class extends Controller {
         </div>
       `,
       html: true,
-      // trigger: 'manual',
       customClass: 'honeycomb-details-tooltip',
       sanitize: false,
-      // offset: [0, 35]
     });
+    if(this.triggerOnLoadValue) this.tooltip.show();
   }
 }
