@@ -17,6 +17,9 @@ module StepFunctionResponses
             'performance_audit_results_s3_url' key, instead it contained: #{response_payload}
           ERR
         end
+      rescue Aws::S3::Errors::NoSuchKey => e
+        Sentry.capture_exception(e)
+        { errorMessage: "An unexpected error occurred, the audit result is empty." }
       end
     end
 

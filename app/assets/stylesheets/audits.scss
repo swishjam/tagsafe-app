@@ -8,10 +8,10 @@ body.audits {
     padding-top: 5px;
     cursor: default;
     .current-value, .no-impact {
-      font-size: 24px;
+      font-size: 20px;
     }
     .metric-title, .change-in-score, .impact-to-tagsafe-score {
-      font-size: 18px;
+      font-size: 16px;
     }
   }
   .performance-audit-progression-indicators-container {
@@ -70,5 +70,14 @@ body.audits {
         text-align: center;
       }
     }
+  }
+}
+
+.performance-audit-stats-table {
+  .ipa-row.outlier {
+    background: lightcoral;
+  }
+  .ipa-row.warning {
+    background: lightyellow;
   }
 }

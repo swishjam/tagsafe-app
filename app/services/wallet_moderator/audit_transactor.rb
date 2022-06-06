@@ -17,7 +17,6 @@ module WalletModerator
         CreditWalletTransaction::Reasons.PERFORMANCE_AUDIT_RESOURCES_WATERFALL
       ].each do |debit_reason|
         num_credits_used_for_feature = price_calculator.price_for(debit_reason)
-        next if num_credits_used_for_feature.zero?
         wallet.debit!(num_credits_used_for_feature, record_responsible_for_debit: @audit, reason: debit_reason)
       end
     end

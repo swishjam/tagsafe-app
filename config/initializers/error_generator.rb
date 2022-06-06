@@ -19,6 +19,7 @@ end
 class PerformanceAuditError
   class InvalidType < StandardError; end;
   class NoPageTraceError < StandardError; end;
+  class AuditFailed < StandardError; end;
 end
 
 class FunctionalTestError

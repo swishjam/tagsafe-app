@@ -13,7 +13,7 @@
       <% end %>
     </div>
     <div class='row'>
-      <table class="table table-hover col-12 text-center" style="table-layout: fixed">
+      <table class="table table-hover col-12 text-center performance-audit-stats-table" style="table-layout: fixed">
         <thead>
           <tr>
             <th scope="col">Delta Audit Type</th>
@@ -62,7 +62,8 @@
           <% end %>
           <% if @individual_delta_audits.any? %>
             <% @individual_delta_audits.order(:tagsafe_score).each do |delta_audit| %>
-              <tr>
+              <% has_dom_complete_zero_ms = delta_audit.performance_audit_with_tag.dom_complete.zero? || delta_audit.performance_audit_with_tag.dom_complete.nil? || delta_audit.performance_audit_without_tag.dom_complete.zero? || delta_audit.performance_audit_without_tag.dom_complete.nil? %>
+              <tr data-delta-performance-audit-uid="<%= delta_audit.uid %>" data-performance-audit-with-tag-uid="<%= delta_audit.performance_audit_with_tag.uid %>" data-performance-audit-without-tag-uid="<%= delta_audit.performance_audit_without_tag.uid %>" class='ipa-row <%= delta_audit.is_outlier ? 'outlier' : nil %> <%= has_dom_complete_zero_ms ? 'warning' : nil %>' data-controller='tooltip' data-bs-toggle='tooltip' title='<%= has_dom_complete_zero_ms ? 'One of the performance audits returned a DOM Complete of 0 ms, which can skew results' : nil %>'>
                 <td><%= delta_audit.is_outlier ? 'Outlier' : 'Individual' %></td>
                 <td><%= delta_audit.dom_complete_delta %> ms</td>
                 <td><%= delta_audit.dom_content_loaded_delta %> ms</td>

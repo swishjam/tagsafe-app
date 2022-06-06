@@ -5,8 +5,8 @@ module PerformanceAuditManager
     end
     
     def run_next_batch_of_performance_audits_or_mark_as_completed!
-      if @audit.reached_maximum_failed_performance_audits?
-        @audit.performance_audit_error!("Reached maximum performance audit retry count of #{@audit.performance_audit_configuration.max_failures}, stopping audit.")
+      if reached_maximum_failed_performance_audits?
+        reached_maximum_failed_performance_audits!
       elsif completed_performance_audit_based_on_config?
         @audit.performance_audit_completed!(tagsafe_score_confidence_range)
       elsif would_meet_completion_criteria_after_removing_outliers?
@@ -76,6 +76,17 @@ module PerformanceAuditManager
 
     def reached_maximum_total_successful_performance_audits?
       @audit.delta_performance_audits.count >= @audit.performance_audit_configuration.maximum_num_sets
+    end
+
+    def reached_maximum_failed_performance_audits?
+      @audit.individual_performance_audits.failed.count >= @audit.performance_audit_configuration.max_failures
+    end
+
+    def reached_maximum_failed_performance_audits!
+      raise PerformanceAuditError::AuditFailed, @audit.performance_audits.failed.last&.error_message
+    rescue PerformanceAuditError::AuditFailed => e
+      Sentry.capture_exception(e)
+      @audit.performance_audit_error!("Reached maximum performance audit retry count of #{@audit.performance_audit_configuration.max_failures}, stopping audit.")
     end
 
     def reached_maximum_total_successful_performance_audits!

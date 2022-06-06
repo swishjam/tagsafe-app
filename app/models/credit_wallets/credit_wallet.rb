@@ -35,7 +35,8 @@ class CreditWallet < ApplicationRecord
     wallet
   end
 
-  def debit!(num_credits, record_responsible_for_debit: nil, reason:)
+  def debit!(num_credits, record_responsible_for_debit: nil, reason:, create_transaction_if_zero_credits: false)
+    return false if num_credits.zero? && !create_transaction_if_zero_credits
     num_credits_remaining_before_debit = self.credits_remaining
     self.credits_used += num_credits
     self.credits_remaining -= num_credits
@@ -49,7 +50,8 @@ class CreditWallet < ApplicationRecord
     )
   end
 
-  def credit!(num_credits, record_responsible_for_credit: nil, reason:)
+  def credit!(num_credits, record_responsible_for_credit: nil, reason:, create_transaction_if_zero_credits: false)
+    return false if num_credits.zero? && !create_transaction_if_zero_credits
     num_credits_remaining_before_credit = self.credits_remaining
     self.credits_used -= num_credits unless INCREASABLE_CREDITS_FOR_MONTH_REASONS.include?(reason)
     self.credits_remaining += num_credits
@@ -77,7 +79,7 @@ class CreditWallet < ApplicationRecord
   end
 
   def percent_used
-    (credits_used / total_credits_for_month) * 100
+    ((credits_used / total_credits_for_month) * 100).round(2)
   end
 
   def month_in_words

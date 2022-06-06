@@ -11,7 +11,7 @@
                                 end
 %>
 <% if subscription_banner_message %>
-  <div class='fixed-top-banner <%= current_domain.current_subscription_plan.past_due? ? 'warning' : 'error' %>'>
+  <div class='fixed-top-banner error'>
     <span><%= HtmlHelper.WARNING_ICON %> <%= subscription_banner_message.html_safe %></span>
   </div>
 <% elsif !current_domain.has_payment_method_on_file? && current_domain.has_current_subscription_plan? && current_domain.current_subscription_plan.on_free_trial? && current_domain.current_subscription_plan.days_until_free_trial_expires(round: false) <= 5 %>

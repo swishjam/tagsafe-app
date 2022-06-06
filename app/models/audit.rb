@@ -383,10 +383,6 @@ class Audit < ApplicationRecord
     end
   end
 
-  def reached_maximum_failed_performance_audits?
-    individual_performance_audits.failed.count >= performance_audit_configuration.max_failures
-  end
-
   ######################
   ## FUNCTIONAL TESTS ##
   ######################
