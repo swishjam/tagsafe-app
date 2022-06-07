@@ -1,0 +1,2 @@
+class NewTagVersionAlertConfiguration < AlertConfiguration
+end

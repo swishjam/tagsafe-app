@@ -1,0 +1,2 @@
+class RemovedTagAlertConfiguration < AlertConfiguration
+end

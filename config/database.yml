@@ -3,20 +3,28 @@ default: &default
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-test:
+pscale_collin_dev: &pscale_collin_dev
+  database: tagsafe-production
+  username: 5brtvts8zxz7
+  host: pds4kx1y2m0n.us-east-4.psdb.cloud
+  password: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
+
+local: &local
   <<: *default
+  database: tagsafe_development
   username: root
   password: password
   host: localhost
+
+test:
+  <<: *local
   database: tagsafe_test
 
 development:
-  <<: *default
+  <<: *local
   database: tagsafe_development
-  username: admin
-  password: waunyh2hvd_tym1EGH
-  host: collin-dev-db.cytsjoeoway1.us-east-1.rds.amazonaws.com
-  port: 3306
 
 staging:
   <<: *default
