@@ -5,6 +5,6 @@ S3_AWS_ACCESS_KEY_ID: AKIAV5V4H3GFRTGOCY52
 S3_AWS_SECRET_ACCESS_KEY: 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
 
 MYSQL_DATABASE: tagsafe_production
-MYSQL_USER: admin
+MYSQL_USER: 5brtvts8zxz7
 MYSQL_HOST: tagsafe-production.cytsjoeoway1.us-east-1.rds.amazonaws.com
 MYSQL_PASSWORD: DCR6qyd8muj*ezq4pek
