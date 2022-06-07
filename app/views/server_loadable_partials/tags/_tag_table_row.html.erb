@@ -8,7 +8,7 @@
         <div class='tag-name-container ms-3' 
               data-controller='tooltip'
               data-bs-toggle='tooltip'
-              title="<%=tag.full_url%>">
+              title="<%=tag.url_based_on_preferences%>">
           <% if tag.has_friendly_name? %>
             <span class='tag-friendly-name tag-row-header d-block'><%= tag.friendly_name %></span>
             <span class='tag-url tag-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>

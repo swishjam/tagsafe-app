@@ -4,6 +4,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 pscale_collin_dev: &pscale_collin_dev
+  <<: *default
   database: tagsafe-production
   username: 5brtvts8zxz7
   host: pds4kx1y2m0n.us-east-4.psdb.cloud
@@ -12,19 +13,17 @@ pscale_collin_dev: &pscale_collin_dev
   sslca: "/etc/ssl/cert.pem"
 
 local: &local
+  <<: *default
   username: root
   password: password
   host: localhost
 
 test:
-  <<: *default
   <<: *local
   database: tagsafe_test
 
 development:
-  <<: *default
-  <<: *local
-  database: tagsafe_development
+  <<: *pscale_collin_dev
 
 staging:
   <<: *default

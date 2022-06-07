@@ -14,7 +14,7 @@ class LoggedInController < ApplicationController
   end
 
   def ensure_domain
-    redirect_to new_domain_path if current_domain.nil?
+    redirect_to current_user.nil? ? domain_registrations_path : new_domain_path if current_domain.nil?
   end
 
   def ensure_subscription_plan

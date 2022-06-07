@@ -42,7 +42,8 @@ class AuditsController < LoggedInController
     urls_to_audit = @tag.urls_to_audit.includes(:page_url)
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
-      tag_version: tag_version, 
+      tag_version: tag_version,
+      feature_prices: current_domain.feature_prices_in_credits,
       current_tag_version: @tag.current_version,
       urls_to_audit: urls_to_audit,
       configuration: @tag.tag_or_domain_configuration

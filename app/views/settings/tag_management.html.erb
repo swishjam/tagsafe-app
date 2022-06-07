@@ -30,10 +30,10 @@
               <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
               <div class='d-inline-block' style='width: calc(100% - 55px); word-break: break-word; padding-left: 15px;'>
                 <% if tag.has_friendly_name? %>
-                  <span class='d-block'><b><%= tag.friendly_name %></b></span>
-                  <span class='d-block'><%= tag.domain_and_path %></span>
+                  <span class='d-block' style='font-size: 18px; font-weight: 800;'><%= tag.friendly_name %></span>
+                  <span class='d-block' style='font-size: 14px'><%= tag.url_based_on_preferences %></span>
                 <% else %>
-                  <b><%= tag.domain_and_path %></b>
+                  <span class='d-block' style='font-size: 18px; font-weight: 800;'><%= tag.url_based_on_preferences %></span>
                 <% end %>
               </div>
             </div>

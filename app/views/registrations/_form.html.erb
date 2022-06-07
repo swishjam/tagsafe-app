@@ -23,10 +23,6 @@
       <%= f.password_field :password, class: 'form-control', placeholder: 'password', required: true %>
       <%= f.label :password %>
     </div>
-    <div class='form-floating m-2'>
-      <input type='text' name='invite_code' id='invite_code' class='form-control' placeholder='ABC123' required>
-      <label for='invite_code'>Invite Code</label>
-    </div>
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
     <%= loading_submit_button type: 'floating', button_class: 'large mb-3' do %>
       <%= local_assigns[:button_text] || 'Sign up' %>

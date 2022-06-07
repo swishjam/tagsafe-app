@@ -4,8 +4,15 @@
   <div class='col-10'>
     <div class='row'>
       <div class='col-3 subscription-package-header-container' data-column='1'>
-        <div class='d-flex align-items-stretch justify-content-evenly flex-column h-100'>
+        <div class='d-flex align-items-stretch justify-content-between flex-column h-100'>
           <div class='subscription-package-title'>Starter</div>
+          <div class='subscription-package-amount-header annual-billing-only strikeout <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.MONTH ? 'hidden' : nil %>'>
+            <%= SubscriptionPlan.price_for(
+              package: SubscriptionPlan::Packages.STARTER, 
+              billing_interval: SubscriptionPlan::BillingIntervals.MONTH, 
+              friendly: true
+            ) %> / month
+          </div>
           <div class='subscription-package-amount-header monthly-billing-only <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.YEAR ? 'hidden' : nil %>'>
             <%= SubscriptionPlan.price_for(
               package: SubscriptionPlan::Packages.STARTER, 
@@ -21,7 +28,9 @@
               display_as_monthly: true
             ) %> / month
           </div>
-          <div class='subscription-package-amount-sub-header annual-billing-only'>(billed annually)</div>
+          <div class='subscription-package-amount-sub-header annual-billing-only <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.MONTH ? 'hidden' : nil %>'>
+            (billed annually)
+          </div>
           <div class='subscription-package-amount-sub-header mt-3'>
             Best for users with: 
             <ul>
@@ -40,8 +49,15 @@
         </div>
       </div>
       <div class='col-3 subscription-package-header-container' data-column='2'>
-        <div class='d-flex align-items-stretch justify-content-evenly flex-column h-100'>
+        <div class='d-flex align-items-stretch justify-content-between flex-column h-100'>
           <div class='subscription-package-title'>Scale</div>
+          <div class='subscription-package-amount-header annual-billing-only strikeout <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.MONTH ? 'hidden' : nil %>'>
+            <%= SubscriptionPlan.price_for(
+              package: SubscriptionPlan::Packages.SCALE, 
+              billing_interval: SubscriptionPlan::BillingIntervals.MONTH, 
+              friendly: true
+            ) %> / month
+          </div>
           <div class='subscription-package-amount-header monthly-billing-only <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.YEAR ? 'hidden' : nil %>'>
             <%= SubscriptionPlan.price_for(
               package: SubscriptionPlan::Packages.SCALE, 
@@ -57,7 +73,17 @@
                 display_as_monthly: true
               ) %> / month
           </div>
-          <div class='subscription-package-amount-sub-header annual-billing-only'>(billed annually)</div>
+          <div class='subscription-package-amount-sub-header annual-billing-only <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.MONTH ? 'hidden' : nil %>'>
+            (billed annually)
+          </div>
+          <div class='subscription-package-amount-sub-header mt-3'>
+            Best for users with: 
+            <ul>
+              <li>10 - 20 tags</li>
+              <li>Runs multiple performance audits per day per tag</li>
+              <li>Uptime monitoring enabled for select tags in select regions</li>
+            </ul>
+          </div>
           <%= render 'subscription_plans/form', 
                           package: SubscriptionPlan::Packages.SCALE, 
                           billing_interval: SubscriptionPlan::BillingIntervals.YEAR, 
@@ -69,8 +95,15 @@
         </div>
       </div>
       <div class='col-3 subscription-package-header-container' data-column='3'>
-        <div class='d-flex align-items-stretch justify-content-evenly flex-column h-100'>
+        <div class='d-flex align-items-stretch justify-content-between flex-column h-100'>
           <div class='subscription-package-title'>Pro</div>
+          <div class='subscription-package-amount-header annual-billing-only strikeout <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.MONTH ? 'hidden' : nil %>'>
+            <%= SubscriptionPlan.price_for(
+              package: SubscriptionPlan::Packages.PRO, 
+              billing_interval: SubscriptionPlan::BillingIntervals.MONTH, 
+              friendly: true
+            ) %> / month
+          </div>
           <div class='subscription-package-amount-header monthly-billing-only <%=current_billing_interval.to_sym == SubscriptionPlan::BillingIntervals.YEAR ? 'hidden' : nil %>'>
             <%= SubscriptionPlan.price_for(
               package: SubscriptionPlan::Packages.PRO, 
@@ -87,6 +120,15 @@
               ) %> / month
           </div>
           <div class='subscription-package-amount-sub-header annual-billing-only'>(billed annually)</div>
+          <div class='subscription-package-amount-sub-header mt-3'>
+            Best for users with: 
+            <ul>
+              <li>20+ tags</li>
+              <li>Runs performance audits multiple times per day</li>
+              <li>Uptime monitoring enabled for select tags in select regions
+              <li>Runs functional end-to-end tests</li>
+            </ul>
+          </div>
           <%= render 'subscription_plans/form', 
                           package: SubscriptionPlan::Packages.PRO, 
                           billing_interval: SubscriptionPlan::BillingIntervals.YEAR, 
@@ -98,9 +140,16 @@
         </div>
       </div>
       <div class='col-3 subscription-package-header-container' data-column='4'>
-        <div class='d-flex align-items-stretch justify-content-evenly flex-column h-100'>
+        <div class='d-flex align-items-stretch justify-content-between flex-column h-100'>
           <div class='subscription-package-title'>Enterprise</div>
           <div class='subscription-package-amount-header'>Contact for pricing</div>
+          <div class='subscription-package-amount-sub-header mt-3'>
+            <ul>
+              <li>Have multiple sites to monitor?</li>
+              <li>Require advanced features?</li>
+              <li>Want customized credits/pricing?</li>
+            </ul>
+          </div>
           <div class='d-flex justify-content-center'>
             <%= link_to 'Contact for pricing', contact_us_path(reason: 'pricing'), class: 'floating-btn large' %>
           </div>
@@ -112,9 +161,9 @@
 <%= render 'subscription_plans/feature_row', 
             feature_title: "Credits included per month",
             feature_tooltip_title: "Tagsafe uses a usage-based credit system. Credits are used to run performance audits, perform funtional tests, monitor uptime, and release detection.",
-            starter_package_support: SubscriptionFeaturesConfiguration::DEFAULTS_FOR_PACKAGE[:starter][:num_credits_provided_each_month],
-            scale_package_support: SubscriptionFeaturesConfiguration::DEFAULTS_FOR_PACKAGE[:scale][:num_credits_provided_each_month],
-            pro_package_support: SubscriptionFeaturesConfiguration::DEFAULTS_FOR_PACKAGE[:pro][:num_credits_provided_each_month],
+            starter_package_support: number_with_delimiter(SubscriptionFeaturesConfiguration::DEFAULTS_FOR_PACKAGE[:starter][:num_credits_provided_each_month]),
+            scale_package_support: number_with_delimiter(SubscriptionFeaturesConfiguration::DEFAULTS_FOR_PACKAGE[:scale][:num_credits_provided_each_month]),
+            pro_package_support: number_with_delimiter(SubscriptionFeaturesConfiguration::DEFAULTS_FOR_PACKAGE[:pro][:num_credits_provided_each_month]),
             enterprise_package_support: 'Customizable' %>
 <%= render 'subscription_plans/feature_row', 
             feature_title: "Tagsafe Scores",

@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :domain_audits, only: [:create], param: :uid do
+  resources :domain_audits, only: [:new, :create], param: :uid do
     member do
       get :global_bytes_breakdown
       get :individual_bytes_breakdown
