@@ -39,7 +39,7 @@
           <% %w[defer async synchronous].each do |load_type| %>
             <% if load_type == tag.load_type %>
               <div class='dropdown-item text-center active' style='color: rgb(110, 132, 255)'>
-                <%= HtmlHelper.PASSED_ICON(color: 'green') %> <%= load_type.capitalize %>
+                <%= HtmlHelper.PASSED_ICON(color: 'rgb(110, 132, 255)') %> <%= load_type.capitalize %>
               </div>
             <% else %>
               <%= form_with model: tag, url: tag_path(tag), method: :patch do |f| %>
