@@ -92,7 +92,7 @@
                 <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
                 <i class="far fa-times-circle unchecked top-right-icon red" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are disabled for this audit."></i>
                 <% if tag.functional_tests.count.zero? %>
-                  <i class='fas fa-exclamation-triangle p-absolute' style='top: 5px; left: 5px' data-controller='tooltip' data-bs-toggle='tooltip' title="You do not have any tests configured for this tag, you can enable them in the test suite tab in your left hand nav."></i>
+                  <i class='fas fa-exclamation-triangle position-absolute' style='top: 5px; left: 5px;' data-controller='tooltip' data-bs-toggle='tooltip' title="You do not have any tests configured for this tag, you can enable them in the test suite tab in your left hand nav."></i>
                 <% end %>
                 <div class='text'>Run functional tests</div>
                 <div class='icon checked'>
