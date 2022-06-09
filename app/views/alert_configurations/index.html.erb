@@ -1,0 +1,55 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class='page-title with-sub-title'>Alerts</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <div class='d-flex align-items-center'>
+          <%= link_to 'New Alert', new_alert_configuration_path, class: 'floating-btn' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: alert_configurations_path, text: 'Alerts' },
+    { url: triggered_alerts_path, text: 'Triggered Alerts' }
+  ] %>
+</div>
+
+<% if @alert_configurations.any? %>
+  <div class='p-3'>
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head'>
+        <div class='tagsafe-table-row header'>
+          <div class='tagsafe-table-cell header'>Name</div>
+          <div class='tagsafe-table-cell header'>Alert type</div>
+          <div class='tagsafe-table-cell header'>Subscribed tags</div>
+          <div class='tagsafe-table-cell header'>Subscribed users</div>
+          <div class='tagsafe-table-cell header'>Last triggered at</div>
+        </div>
+      </div>
+      <div class='tagsafe-table-body'>
+        <% @alert_configurations.each do |alert_config| %>
+          <%= link_to alert_configuration_path(alert_config), class: 'no-decoration' do %>
+            <div class='tagsafe-table-row hoverable'>
+              <div class='tagsafe-table-cell'><%= alert_config.name %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.class.user_facing_alert_name %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.tags.count %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.domain_users.count %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.triggered_alerts.most_recent_first.limit(1).first&.created_at&.formatted_long || 'Not yet triggered' %></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class='empty-state-view p-5 text-center'>
+    <h2>You have no alerts configured!</h2>
+    <h4>Set some up so that you can be notified when one of your tags is causing issues.</h4>
+    <div class='d-flex justify-content-center mt-3'>
+      <%= link_to 'Create an alert', new_alert_configuration_path, class: 'floating-btn large' %>
+    </div>
+  </div>
+<% end %>

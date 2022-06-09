@@ -1,47 +1,50 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_table", class: 'domain-tags-table-frame' do %>
   <% if tags.any? || local_assigns[:allow_empty_table] %>
-    <div class='tagsafe-table tags-table'>
-      <div class='tagsafe-table-head tagsafe-table-row square'>
-        <div class='tagsafe-table-header' style='width: 50%; position: relative;'>
-          
-          <div style='max-width: 80%' data-controller='tag-search-input' class='search-input-container <%= local_assigns[:search_query] ? 'expanded' : 'collapsed' %> me-2'>
-            <div data-tag-search-input-target='expandBtn' data-action='click->tag-search-input#toggleSearchInput' class='expand-btn w-fit'>
-              <i class="fa-solid fa-magnifying-glass"></i>
+    <div class='p-3'>
+      <div class='tagsafe-table tags-table'>
+        <div class='tagsafe-table-head square'>
+          <div class='tagsafe-table-row header'>
+            <div class='tagsafe-table-cell flex-3'>
+              
+              <div style='max-width: 80%' data-controller='tag-search-input' class='search-input-container <%= local_assigns[:search_query] ? 'expanded' : 'collapsed' %> me-2'>
+                <div data-tag-search-input-target='expandBtn' data-action='click->tag-search-input#toggleSearchInput' class='expand-btn w-fit'>
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <form class='search-form d-inline w-fit' method='GET' action='<%= server_loadable_partials_tags_path %>' data-tag-search-input-target='searchForm'>
+                  <input type='text' 
+                            name='q' 
+                            class='form-control d-inline search-input' 
+                            value="<%= local_assigns[:search_query] %>" 
+                            placeholder='Search tags' 
+                            data-tag-search-input-target='searchInput' 
+                            data-action='keyup->tag-search-input#searchTags blur->tag-search-input#collapseSearchInput'>
+                <div data-tag-search-input-target='loadingIndicator' class='loading-indicator'>
+                  <%= display_loading_icon size: :tiny %>
+                </div>
+                </form>
+              </div>
+
+              <span style='max-width: 20%; transition: 500ms width'>Tag</span>
             </div>
-            <form class='search-form d-inline w-fit' method='GET' action='<%= server_loadable_partials_tags_path %>' data-tag-search-input-target='searchForm'>
-              <input type='text' 
-                        name='q' 
-                        class='form-control d-inline search-input' 
-                        value="<%= local_assigns[:search_query] %>" 
-                        placeholder='Search tags' 
-                        data-tag-search-input-target='searchInput' 
-                        data-action='keyup->tag-search-input#searchTags blur->tag-search-input#collapseSearchInput'>
-            <div data-tag-search-input-target='loadingIndicator' class='loading-indicator'>
-              <%= display_loading_icon size: :tiny %>
-            </div>
-            </form>
+            <div class='tagsafe-table-cell'>Tagsafe Score</div>
+            <div class='tagsafe-table-cell'>Tests</div>
+            <div class='tagsafe-table-cell'>Last release</div>
           </div>
-
-          <span style='max-width: 20%; transition: 500ms width'>Tag</span>
         </div>
-        <div class='tagsafe-table-header' style='width: 16%'>Tagsafe Score</div>
-        <div class='tagsafe-table-header' style='width: 16%'>Tests</div>
-        <div class='tagsafe-table-header' style='width: 16%'>Last release</div>
-        <div class='tagsafe-table-header' style='width: 6%'></div>
-      </div>
-      <div class='tagsafe-table-body'>
-        <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_rows" do %>
-          <% tags.each do |tag| %>
-            <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, domain: domain %>
+        <div class='tagsafe-table-body'>
+          <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_rows" do %>
+            <% tags.each do |tag| %>
+              <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, domain: domain %>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
-    </div>
 
-    <% if tags.any? %>
-      <div class="pagination-container text-center">
-        <%= paginate tags %>
-      </div>
+      <% if tags.any? %>
+        <div class="pagination-container text-center">
+          <%= paginate tags %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 <% end %>

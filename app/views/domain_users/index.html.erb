@@ -25,21 +25,21 @@
       <%= link_to 'Sign up for free now', "/register?domain=#{current_domain.uid}", class: 'floating-btn tagsafe-purple-bg', target: '_top' %>
     </div>
   <% elsif @domain_users.any? %>
-    <div class='tagsafe-container p-0'>
+    <div class='p-3'>
       <div class='tagsafe-table'>
-        <div class='tagsafe-table-head tagsafe-table-row square'>
-          <div class='tagsafe-table-head' style='width: 25%;'>Name</div>
-          <div class='tagsafe-table-head' style='width: 25%;'>Email</div>
-          <div class='tagsafe-table-head' style='width: 25%;'>User since</div>
-          <div class='tagsafe-table-head' style='width: 25%;'></div>
+        <div class='tagsafe-table-row header square'>
+          <div class='tagsafe-table-cell'>Name</div>
+          <div class='tagsafe-table-cell'>Email</div>
+          <div class='tagsafe-table-cell'>User since</div>
+          <div class='tagsafe-table-cell'></div>
         </div>
         <div class='tagsafe-table-body'>
           <% @domain_users.each do |du| %>
             <div class='tagsafe-table-row'>
-              <div class='tagsafe-table-data' style='width: 25%'><%= du.user.full_name %></div>
-              <div class='tagsafe-table-data' style='width: 25%'><%= du.user.email %></div>
-              <div class='tagsafe-table-data' style='width: 25%'><%= du.user.created_at.formatted_long %></div>
-              <div class='tagsafe-table-data' style='width: 25%'>
+              <div class='tagsafe-table-cell'><%= du.user.full_name %></div>
+              <div class='tagsafe-table-cell'><%= du.user.email %></div>
+              <div class='tagsafe-table-cell'><%= du.user.created_at.formatted_long %></div>
+              <div class='tagsafe-table-cell'>
                 <% if du.user_id != current_user.id %>
                   <%= modal_link destroy_domain_user_modal_path(du), text: 'Remove User' %>
                 <% end %>

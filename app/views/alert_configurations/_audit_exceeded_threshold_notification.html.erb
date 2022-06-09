@@ -1,0 +1,7 @@
+<span class='d-flex'>
+  <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+  <span>
+    🚨 <%= alert_configuration.triggered_alert_description(triggered_alert) %> 🚨
+  </span>
+</span>
+<%= link_to "View Audit", tag_audit_path(tag, audit), target: '_top' %>

@@ -1,0 +1,19 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class='page-title with-sub-title'>New Alert</h1>
+    </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: alert_configurations_path, text: 'Alerts' },
+    { url: triggered_alerts_path, text: 'Triggered Alerts' }
+  ] %>
+</div>
+
+<div class='tagsafe-container'>
+  <div class='container-fluid'>
+    <div class='col-sm-12 col-md-8 m-auto'>
+      <%= render 'form', alert_configuration: @alert_configuration %>
+    </div>
+  </div>
+</div>

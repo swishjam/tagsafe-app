@@ -247,6 +247,10 @@ ul.pagination {
 a.no-decoration {
   text-decoration: none;
   color: black;
+  &:hover {
+    color: black;
+    text-decoration: none;
+  }
 }
 
 .full-screenable.expanded {

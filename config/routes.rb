@@ -60,9 +60,10 @@ Rails.application.routes.draw do
   end
   get '/third_party_impact' => 'domain_audits#show', as: :third_party_impact
 
-  get '/alerts' => 'triggered_alerts#index', as: :alerts
-  get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
-  resources :alert_configurations, only: [:show, :create, :update], param: :uid
+  # get '/alerts' => 'alert_configurations#index', as: :alerts
+  # get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
+  resources :alert_configurations, only: [:index, :show, :new, :create, :update], param: :uid
+  resources :triggered_alerts, only: [:index, :show], param: :uid
 
   resources :domains, only: [:create, :update, :new], param: :uid do
     resources :page_urls, only: [:update], param: :uid do

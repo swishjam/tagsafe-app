@@ -1,213 +1,39 @@
 <div class='page-title-container'>
   <div class='container-fluid'>
     <div class='row'>
-      <h1 class='page-title with-sub-title'>Alerts</h1>
-      <h2 class='page-sub-title'><%= @alert_configuration.tag.present? ? "For #{@alert_configuration.tag.try_friendly_name}" : "Global Settings" %></h2>
+      <h1 class='page-title with-sub-title'>Alert Details</h1>
+      <h2 class='page-sub-title'><%= @alert_configuration.name %> - <%= @alert_configuration.class.user_facing_alert_name %></h2>
     </div>
   </div>
   <% unless user_is_anonymous? %>
     <%= render 'partials/page_navigation_items', navigation_items: [
-      { url: '#', text: 'Triggered Alerts' },
-      { url: alert_configuration_path(current_domain_user.domain_alert_configuration), text: 'Global Alert Settings' }
+      { url: alert_configurations_path, text: 'Alerts' },
+      { url: triggered_alerts_path, text: 'Triggered Alerts' }
     ] %>
   <% end %>
 </div>
 
-<div class="tagsafe-container p-5">
-  <% unless @alert_configuration.tag.present? %>
+<div class="tagsafe-container p-5 text-center">
+  <span class='alert-title'><%= @alert_configuration.name %></span>
+  <span class='alert-description d-block'><%= @alert_configuration.trigger_rules_description %>.</span>
+  <div class='container-fluid mt-3'>
     <div class='row'>
-      <div class='col-8 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='settings-title d-block fw-bolder'>New tags</span>
-          <span class='settings-description d-block'>Send me an alert when Tagsafe identifies a new tag has been added to <%= current_domain.url %>.</span>
-        </div>
-      </div>
-      <div class='col-4 d-flex align-items-center'>
-        <%= form_for @alert_configuration, html: { class: 'w-fit' }, data: { controller: 'submit-form-changes' } do |f| %>
-          <div class='form-check form-switch'>
-            <%= f.check_box :alert_on_new_tags, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-          </div>
+      <div class='col-6 alert-sub-section text-center'>
+        <span class='alert-subs-section-title d-block'>Enabled tags</span>
+        <% if @alert_configuration.enable_for_all_tags %>
+          <span class='alert-subs-section-title d-block'>Set to trigger for all current and future tags.</span>
+        <% else %>
+          <% @alert_configuration.tags.each do |tag| %>
+            <div class='tagsafe-pill grey m-1'><%= tag.try_friendly_name %></div>
+          <% end %>
         <% end %>
       </div>
-    </div>
-    <hr/>
-  <% end %>
-
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Removed tags</span>
-        <span class='settings-description d-block'>Send me an alert when Tagsafe identifies a tag has been removed from <%= current_domain.url %>.</span>
+      <div class='col-6 alert-sub-section text-center'>
+        <span class='alert-subs-section-title d-block'>Subscribed users</span>
+        <% @alert_configuration.domain_users.each do |domain_user| %>
+          <div class='tagsafe-pill grey m-1'><%= domain_user.user.email %></div>
+        <% end %>
       </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :alert_on_removed_tags, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>New releases</span>
-        <span class='settings-description d-block'>Send me an alert when Tagsafe identifies a tag has pushed a chance to the tag on <%= current_domain.url %>.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :alert_on_new_tag_versions, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Automated audit results</span>
-        <span class='settings-description d-block'>Send me an alert with the results of the audit that is run when Tagsafe identifies a new release of a tag.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :alert_on_new_tag_version_audit_completions, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Tag exceeds Tagsafe Score threshold</span>
-        <span class='settings-description d-block'>Send me an alert when a tag exceeds my Tagsafe Score thresholds (specified below).</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :alert_on_tagsafe_score_exceeded_thresholds, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Tagsafe Score threshold</span>
-        <span class='settings-description d-block'>When a tag generates a Tagsafe Score below this, send me an alert.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' } do |f| %>
-        <div class='d-flex'>
-          <%= f.number_field :tagsafe_score_threshold, class: 'form-control' %>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Tagsafe Score percent drop threshold</span>
-        <span class='settings-description d-block'>When a tag's Tagsafe Score decreases by this percentage, send me an alert.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' } do |f| %>
-        <div class='d-flex input-group'>
-          <%= f.number_field :tagsafe_score_percent_drop_threshold, class: 'form-control' %>
-          <span class="input-group-text">%</span>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Tag exceeds response time threshold</span>
-        <span class='settings-description d-block'>Send me an alert when a tag's response time exceeds the specified threshold (set below).</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' }, data: { controller: 'submit-form-changes' } do |f| %>
-        <div class='form-check form-switch'>
-          <%= f.check_box :alert_on_slow_tag_response_times, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Tag response time threshold (ms)</span>
-        <span class='settings-description d-block'>When a tag's response time is greater than this, send me an alert.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' } do |f| %>
-        <div class='d-flex input-group'>
-          <%= f.number_field :tag_slow_response_time_ms_threshold, class: 'form-control' %>
-          <span class="input-group-text">ms</span>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Tag response time percent increase threshold</span>
-        <span class='settings-description d-block'>When a tag's response time increases by this percentage, send me an alert.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' } do |f| %>
-        <div class='d-flex input-group'>
-          <%= f.number_field :tag_slow_response_time_percent_increase_threshold, class: 'form-control' %>
-          <span class="input-group-text">%</span>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-8 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Number of slow responses before sending alert</span>
-        <span class='settings-description d-block'>When a tag's response time meets the set thresholds this many times in a row, send an alert.</span>
-      </div>
-    </div>
-    <div class='col-4 d-flex align-items-center'>
-      <%= form_for @alert_configuration, html: { class: 'w-fit' } do |f| %>
-        <div class='d-flex'>
-          <%= f.number_field :num_slow_responses_before_alert, class: 'form-control' %>
-          <%= f.submit 'Update', class: 'tagsafe-btn square' %>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>

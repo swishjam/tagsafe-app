@@ -12,7 +12,7 @@ class UptimeChecksController < LoggedInController
       "domain_#{current_domain.uid}_uptime_list",
       partial: 'uptime_checks/domain_list',
       locals: {
-        tags: current_domain.tags.page(params[:page] || 1).per(10),
+        tags: current_domain.tags.includes(:tag_preferences).page(params[:page] || 1).per(10),
         days_ago: params[:days_ago] || 7
       }
     )
