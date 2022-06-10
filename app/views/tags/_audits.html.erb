@@ -1,11 +1,11 @@
 <%= turbo_frame_tag "tag_#{tag.uid}_audits_table" do %>
   <div class='tagsafe-table'>
     <div class='tagsafe-table-row header'>
-      <div class='tagsafe-table-cell'>Date of Audit</div>
       <div class='tagsafe-table-cell'>Tagsafe Score</div>
       <div class='tagsafe-table-cell'>Tests Results</div>
       <div class='tagsafe-table-cell'>Performance Audited URL</div>
       <div class='tagsafe-table-cell'>Execution Reason</div>
+      <div class='tagsafe-table-cell'>Date of Audit</div>
     </div>
     <div class='tagsafe-table-body'>
       <%= turbo_frame_tag "tag_#{tag.uid}_audits_table_rows" do %>
@@ -16,9 +16,7 @@
                     locals: { 
                       streamed: local_assigns[:streamed],
                       include_execution_reason: true,
-                      include_tag_name: false,
-                      use_audit_date: true,
-                      hide_primary_audit_indicator: true
+                      include_tag_name: false
                     } 
         %>
       <% end %>

@@ -150,19 +150,19 @@ body.logged-in:not(.domains) {
     }
   }
 
-  .ellipsis-dropdown {
-    a.dropdown-link {
-      text-decoration: none;
-      color: #5d5c5c;
-      i {
-        font-size: 26px;
-      }
-      &:hover {
-        i {
-          color: black;
-        }
-      }
-    }
+  a.dropdown-link {
+    text-decoration: none;
+    color: #5d5c5c;
+    width: 100%;
+    text-align: center;
+    // i {
+    //   font-size: 26px;
+    // }
+    // &:hover {
+    //   i {
+    //     color: black;
+    //   }
+    // }
   }
 }
 

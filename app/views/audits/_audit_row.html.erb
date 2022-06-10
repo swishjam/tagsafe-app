@@ -15,17 +15,19 @@
         </div>
       <% end %>
       <div class='tagsafe-table-cell'>
-        <%= audit.created_at.date_only %> <br/>
-        <%= audit.created_at.time_only %>
-      </div>
-      <div class='tagsafe-table-cell'>
         <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit %>
       </div>
       <div class='tagsafe-table-cell'>
         <%= render 'test_runs/test_results_pill_for_audit', audit: audit %>
       </div>
       <div class='tagsafe-table-cell'><%= audit.page_url.full_url %></div>
-      <div class='tagsafe-table-cell'><%= audit.execution_reason.name %></div>
+      <% if local_assigns[:include_execution_reason] %>
+        <div class='tagsafe-table-cell'><%= audit.execution_reason.name %></div>
+      <% end %>
+      <div class='tagsafe-table-cell'>
+        <%= audit.created_at.date_only %> <br/>
+        <%= audit.created_at.time_only %>
+      </div>
     </div>
   <% end %>
 <% end %>

@@ -17,8 +17,12 @@ module Serializers
         @exceeded_metric_value = exceeded_metric_value.to_f
       end
 
-      def human_exceeded_metric
-        exceeded_metric.split('_').join(' ')
+      def human_exceeded_metric(capitalize: false)
+        if capitalize
+          exceeded_metric.split('_').map(&:capitalize!).join(' ')
+        else
+          exceeded_metric.split('_').join(' ')
+        end
       end
     
       def human_operator
