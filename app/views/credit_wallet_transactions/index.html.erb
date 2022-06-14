@@ -46,7 +46,7 @@
       <div class='row transaction-line-item-row'>
         <div class='col-6 transaction-reason-title'>
           <% if ['Uptime Checks', 'Release Checks'].include?(reason_for_transaction) %>
-            <%= number_with_delimiter(transaction_collection.sum{ |transaction| transaction.record_responsible_for_charge.num_records_for_debited_date_range } * transaction_collection.count) %> <i><%= reason_for_transaction %></i>
+            <%= number_with_delimiter(transaction_collection.sum{ |transaction| transaction.record_responsible_for_charge.num_records_for_debited_date_range }) %> <i><%= reason_for_transaction %></i>
           <% else %>
             <%= number_with_delimiter(transaction_collection.count) %> <i><%= reason_for_transaction %>s</i>
           <% end %>

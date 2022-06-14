@@ -229,7 +229,8 @@ const runPerformanceAudit = async (event, context) => {
 
   return {
     requestPayload: event,
-    responsePayload: { performance_audit_results_s3_url: performanceAuditResultsS3Url }
+    responsePayload: { performance_audit_results_s3_url: performanceAuditResultsS3Url },
+    jsonResults: process.env.INCLUDE_RAW_AUDIT_RESULTS_IN_RESPONSE === 'true' ? auditResults : null
   };
 }
 

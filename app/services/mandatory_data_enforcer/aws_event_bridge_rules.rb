@@ -17,6 +17,7 @@ module MandatoryDataEnforcer
         aws_rules.each do |aws_rule|
           tagsafe_aws_event_bridge_rule = AwsEventBridgeRule.find_by(region: region_name, name: aws_rule.name)
           if tagsafe_aws_event_bridge_rule.present?
+            tagsafe_aws_event_bridge_rule.fetch_from_aws
             next unless @update_existing
             update_existing_event_bridge_rule(tagsafe_aws_event_bridge_rule, region_name, aws_rule)
           else
