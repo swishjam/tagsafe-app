@@ -4,8 +4,7 @@ TAGSAFE_RECEIVER_REDIS_URL: redis://:7eNOflYjiQ5HSjW86vooxobjfv36AXYs@redis-1187
 S3_BUCKET_NAME: development-release-monitoring-new-versions
 DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
 
-# credit_wallet_enhancements branch
-MYSQL_HOST: drqkxa8s3yue.us-east-2.psdb.cloud
-MYSQL_USER: 07kxbkkpokum
-MYSQL_PASSWORD: pscale_pw_PHeXFv57CGlSF0U9_BgJf5vPdfLiB7u-JducTw4L3Ao
+MYSQL_HOST: pds4kx1y2m0n.us-east-4.psdb.cloud
+MYSQL_USER: 5brtvts8zxz7
+MYSQL_PASSWORD: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
 MYSQL_DATABASE: tagsafe-production

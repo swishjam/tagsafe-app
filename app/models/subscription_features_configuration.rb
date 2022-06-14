@@ -14,7 +14,7 @@ class SubscriptionFeaturesConfiguration < ApplicationRecord
     },
     scale: {
       package_inherited_from: 'scale',
-      num_credits_provided_each_month: 20_000,
+      num_credits_provided_each_month: 25_000,
       has_advance_performance_audit_configurations: false,
       tag_sync_minute_cadence: 360, # every 6 hours
       min_release_check_minute_interval: 60,
@@ -22,7 +22,7 @@ class SubscriptionFeaturesConfiguration < ApplicationRecord
     },
     pro: {
       package_inherited_from: 'pro',
-      num_credits_provided_each_month: 100_000,
+      num_credits_provided_each_month: 150_000,
       has_advance_performance_audit_configurations: true,
       tag_sync_minute_cadence: 60,
       min_release_check_minute_interval: 5,

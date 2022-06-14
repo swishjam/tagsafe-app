@@ -4,7 +4,7 @@ DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
 S3_AWS_ACCESS_KEY_ID: AKIAX25HXIYW2G6COTN3
 S3_AWS_SECRET_ACCESS_KEY: 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
 
-MYSQL_DATABASE: tagsafe_staging
-MYSQL_USER: admin
-MYSQL_HOST: tagsafe-staging.cytsjoeoway1.us-east-1.rds.amazonaws.com
-MYSQL_PASSWORD: jpk-wqz!HRX7ugt0cnz
+MYSQL_DATABASE: tagsafe-production
+MYSQL_USER: 8otvu8ilamwq
+MYSQL_HOST: zndnr0yzsrhi.us-east-2.psdb.cloud
+MYSQL_PASSWORD: pscale_pw_oUBt1ZNscnlUfR_SXb34sSaFFUWyWcenNHLR5Xuf2wY

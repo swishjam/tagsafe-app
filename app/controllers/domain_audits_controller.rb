@@ -1,6 +1,12 @@
 class DomainAuditsController < LoggedInController
-  skip_before_action :ensure_domain, only: :create
-  before_action :ensure_current_domain_audit, except: :create
+  skip_before_action :ensure_domain, only: [:create, :show]
+  before_action :ensure_current_domain_audit, except: [:create, :new]
+
+  def new
+    redirect_to request.referrer if current_user.nil? || !current_user.is_tagsafe_admin?(current_domain)
+    @domain_audit = DomainAudit.new
+    render 'domain_audits/new', layout: 'logged_out_layout'
+  end
 
   def show
     render_breadcrumbs(text: "Third Party Tag Impact")
@@ -116,7 +122,7 @@ class DomainAuditsController < LoggedInController
   end
 
   def create
-    domain_url = params[:domain_url].starts_with?('http') ? params[:domain_url] : "https://#{params[:domain_url]}"
+    domain_url = params[:domain_audit][:domain_url].starts_with?('http') ? params[:domain_audit][:domain_url] : "https://#{params[:domain_audit][:domain_url]}"
     domain = Domain.create(url: domain_url, is_generating_third_party_impact_trial: true)
     if domain.valid?
       domain_audit = DomainAudit.create(domain: domain, page_url: domain.page_urls.first)
@@ -126,7 +132,8 @@ class DomainAuditsController < LoggedInController
     else
       @domain_audit_url = domain_url
       @domain_audit_error = domain.errors.full_messages.first
-      render 'welcome/index', layout: 'logged_out_layout', status: :unprocessable_entity
+      @domain_audit = DomainAudit.new
+      render 'domain_audits/new', layout: 'logged_out_layout', status: :unprocessable_entity
     end
   end
 

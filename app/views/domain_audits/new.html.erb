@@ -1,0 +1,14 @@
+<div style='min-height: 100vh'>
+  <div class='col-8 offset-2 text-center'>
+    <h1 class='alfa-slab'>Perform Domain Audit</h1>
+    <%= form_with model: @domain_audit, data: { controller: 'loading_form' } do |f| %>
+      <div class='form-floating'>
+        <%= f.text_field :domain_url, class: 'form-control', placeholder: 'www.tagsafe.io' %>
+        <%= f.label :domain_url %>
+      </div>
+      <div class='mt-3'>
+        <%= loading_submit_button 'Run Domain Audit', type: 'floating', button_class: 'large' %>
+      </div>
+    <% end %>
+  </div>
+</div>

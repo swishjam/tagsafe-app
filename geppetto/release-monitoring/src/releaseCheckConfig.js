@@ -5,6 +5,7 @@ module.exports = class ReleaseCheckConfig {
     this.jsonConfig = jsonConfig;
     this.minuteInterval = minuteInterval || 0;
     this.dataStoreManager = new DataStoreManager();
+    console.log(`Using ReleaseCheckConfig: ${JSON.stringify(this.jsonConfig)}`);
   }
 
   get asJson() {
@@ -33,6 +34,7 @@ module.exports = class ReleaseCheckConfig {
 
   async recentHashedContent() {
     if(!this.jsonConfig['recent_hashed_content']) {
+      console.log(`Getting the ${this.numRecentTagVersionsToCompare} most recent tag versions to compare against...`);
       if(this.numRecentTagVersionsToCompare === 0) {
         this.jsonConfig['recent_hashed_content'] = [];
       } else {
