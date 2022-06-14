@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_28_155255) do
+ActiveRecord::Schema.define(version: 2022_06_06_225831) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -51,25 +51,27 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.index ["uid"], name: "index_additional_tags_to_inject_during_audit_on_uid"
   end
 
+  create_table "alert_configuration_domain_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "domain_user_id"
+    t.bigint "alert_configuration_id"
+    t.index ["alert_configuration_id"], name: "index_alert_configuration_domain_users_on_alert_configuration_id"
+    t.index ["domain_user_id"], name: "index_alert_configuration_domain_users_on_domain_user_id"
+  end
+
+  create_table "alert_configuration_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "alert_configuration_id"
+    t.index ["alert_configuration_id"], name: "index_alert_configuration_tags_on_alert_configuration_id"
+    t.index ["tag_id"], name: "index_alert_configuration_tags_on_tag_id"
+  end
+
   create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.bigint "domain_user_id"
     t.bigint "domain_id"
-    t.bigint "tag_id"
-    t.boolean "alert_on_new_tags"
-    t.boolean "alert_on_removed_tags"
-    t.boolean "alert_on_new_tag_versions"
-    t.boolean "alert_on_new_tag_version_audit_completions"
-    t.boolean "alert_on_tagsafe_score_exceeded_thresholds"
-    t.boolean "alert_on_slow_tag_response_times"
-    t.float "tagsafe_score_threshold"
-    t.float "tagsafe_score_percent_drop_threshold"
-    t.float "tag_slow_response_time_ms_threshold"
-    t.float "tag_slow_response_time_percent_increase_threshold"
-    t.integer "num_slow_responses_before_alert"
+    t.string "type"
+    t.string "trigger_rules"
+    t.boolean "enable_for_all_tags"
     t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
-    t.index ["domain_user_id"], name: "index_alert_configurations_on_domain_user_id"
-    t.index ["tag_id"], name: "index_alert_configurations_on_tag_id"
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end
 
@@ -859,6 +861,8 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.text "triggered_reason_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "alert_configuration_id"
+    t.index ["alert_configuration_id"], name: "index_triggered_alerts_on_alert_configuration_id"
     t.index ["initiating_record_type", "initiating_record_id"], name: "index_triggered_alerts_on_initiating_record"
     t.index ["tag_id"], name: "index_triggered_alerts_on_tag_id"
     t.index ["uid"], name: "index_triggered_alerts_on_uid"

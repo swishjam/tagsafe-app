@@ -3,21 +3,21 @@
                 functional_test_test_run_path(test_run.functional_test, test_run, for_audit: true) : 
                 functional_test_test_run_path(test_run.functional_test, test_run), 
                 class: 'no-decoration', target: '_top' do %>
-    <div class='tagsafe-table-row <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : 'nil'%>'>
+    <div class='tagsafe-table-row hoverable <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
       <% unless columns_to_exclude.include?('Date') %>
-        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.enqueued_at&.formatted_short || 'Enqueued' %></div>
+        <div class='tagsafe-table-cell'><%= test_run.enqueued_at&.formatted_short || 'Enqueued' %></div>
       <% end %>
       <% unless columns_to_exclude.include?('Test') %>
-        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.functional_test.title %> <%= test_run.is_retry? ? "(retry)" : nil %></div>
+        <div class='tagsafe-table-cell'><%= test_run.functional_test.title %> <%= test_run.is_retry? ? "(retry)" : nil %></div>
       <% end %>
       <% unless columns_to_exclude.include?('Description') %>
-        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.functional_test.description %></div>
+        <div class='tagsafe-table-cell'><%= test_run.functional_test.description %></div>
       <% end %>
       <% unless columns_to_exclude.include?('Type of Test') %>
-        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'><%= test_run.class.friendly_class_name %></div>
+        <div class='tagsafe-table-cell'><%= test_run.class.friendly_class_name %></div>
       <% end %>
       <% unless columns_to_exclude.include?('Results') %>
-        <div class='tagsafe-table-data' style='width: <%= column_width_percent %>%'>
+        <div class='tagsafe-table-cell'>
           <% if test_run.pending? %>
             <div class='tagsafe-pill tagsafe-primary-purple'>
               <%= display_loading_spinner size: :tiny %> <span class='text'>Test is running</span>

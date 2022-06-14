@@ -33,7 +33,8 @@ class Tag < ApplicationRecord
   has_many :removed_from_site_events, class_name: TagRemovedFromSiteEvent.to_s
   has_many :query_param_change_events, class_name: TagUrlQueryParamsChangedEvent.to_s
 
-  has_many :triggered_alerts
+  has_many :alert_configuration_tags
+  has_many :alert_configurations, through: :alert_configuration_tags
 
   has_many :additional_tags_to_inject_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s
   has_many :tags_to_inject_during_audit, through: :additional_tags_to_inject_during_audit, source: :tag_to_inject

@@ -1,42 +1,39 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_row_#{tag.uid}" do %>
   <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
-    <div class='tagsafe-table-row clickable <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
-      <div class='tagsafe-table-data' style='width: 50%'>
+    <div class='tagsafe-table-row hoverable <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+      <div class='tagsafe-table-cell flex-3'>
         <div class='tag-img-thumbnail-container'>
           <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
         </div>
-        <div class='tag-name-container ms-3' 
+        <div class='tag-name-container w-fit ms-3' 
               data-controller='tooltip'
               data-bs-toggle='tooltip'
               title="<%=tag.url_based_on_preferences%>">
           <% if tag.has_friendly_name? %>
-            <span class='tag-friendly-name tag-row-header d-block'><%= tag.friendly_name %></span>
-            <span class='tag-url tag-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+            <span class='tag-row-header d-block'><%= tag.friendly_name %></span>
+            <span class='tag-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
           <% else %>
             <span class='tag-url d-block'><%= tag.url_based_on_preferences %></span>
           <% end %>
         </div>
       </div>
-      <div class='tagsafe-table-data' style='width: 17%'>
+      <div class='tagsafe-table-cell'>
         <% audit_to_display = tag.most_current_audit %>
         <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit_to_display %>
       </div>
-      <div class='tagsafe-table-data' style='width: 17%'>
+      <div class='tagsafe-table-cell'>
         <% if audit_to_display.nil? %>
           --
         <% else %>
           <%= render 'test_runs/test_results_pill_for_audit', audit: audit_to_display %>
         <% end %>
       </div>
-      <div class='tagsafe-table-data' style='width: 17%'>
+      <div class='tagsafe-table-cell'>
         <% if tag.release_monitoring_enabled? %>
           <%= tag.last_released_at&.formatted_short || 'No releases' %>
         <% else %>
           <div class='tagsafe-pill grey small-text'>Release monitoring disabled</div>
         <% end %>
-      </div>
-      <div class='tagsafe-table-data text-end' style='width: 5%'>
-        <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
       </div>
     </div>
   <% end %>

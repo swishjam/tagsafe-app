@@ -20,9 +20,7 @@
           <%= display_loading_spinner %>
         </div>
       <% end %>
-      <div class='tagsafe-container p-0'>
-        <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
-      </div>
+      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
     <% else %>
       <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %><% end %>
       <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>

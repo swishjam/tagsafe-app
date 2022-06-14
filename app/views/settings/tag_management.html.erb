@@ -11,73 +11,57 @@
 </div>
 
 <div class="tagsafe-container">
-  <table class="table table-hover col-12" style="table-layout: fixed">
-    <thead>
-      <tr>
-        <th scope="col" style='width: 47%'>Tag</th>
-        <th scope="col" style='width: 12%'>Release Monitoring</th>
-        <th scope="col" style='width: 12%'>Uptime Monitoring</th>
-        <th scope="col" style='width: 12%'>Scheduled Audits</th>
-        <th scope="col" style='width: 12%'>Credits / Month</th>
-        <th scope="col" style='width: 5%'></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @tags.each do |tag| %>
-        <tr>
-          <td>
-            <div class='d-flex align-items-center'>
-              <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
-              <div class='d-inline-block' style='width: calc(100% - 55px); word-break: break-word; padding-left: 15px;'>
-                <% if tag.has_friendly_name? %>
-                  <span class='d-block' style='font-size: 18px; font-weight: 800;'><%= tag.friendly_name %></span>
-                  <span class='d-block' style='font-size: 14px'><%= tag.url_based_on_preferences %></span>
-                <% else %>
-                  <span class='d-block' style='font-size: 18px; font-weight: 800;'><%= tag.url_based_on_preferences %></span>
-                <% end %>
-              </div>
+  <div class="tagsafe-table">
+    <div class='tagsafe-table-row header'>
+      <div class='tagsafe-table-cell flex-3'>Tag</div>
+      <div class='tagsafe-table-cell'>Release Monitoring</div>
+      <div class='tagsafe-table-cell'>Uptime Monitoring</div>
+      <div class='tagsafe-table-cell'>Scheduled Audits</div>
+      <div class='tagsafe-table-cell'>Credits / Month</div>
+      <div class='tagsafe-table-cell'></div>
+    </div>
+    <% @tags.each do |tag| %>
+      <div class='tagsafe-table-row'>
+        <div class='tagsafe-table-cell flex-3'>
+          <%= image_tag tag.try_image_url, class: 'tag-thumbnail border me-2' %>
+          <% if tag.has_friendly_name? %>
+            <div class='d-block'>
+              <span class='d-block'><b><%= tag.friendly_name %></b></span>
+              <span class='d-block'><%= tag.domain_and_path %></span>
             </div>
-          </td>
-          <td>
-            <div class='d-flex align-items-center'>
-              <% if tag.release_monitoring_enabled? %>
-                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.release_check_interval_in_words %></div>
-              <% else %>
-                <div class='tagsafe-pill small-text grey force-content-width'>Disabled</div>
-              <% end %>
-            </div>
-          </td>
-          <td>
-            <div class='d-flex align-items-center'>
-              <% if tag.uptime_regions_to_check.none? %>
-                <div class='tagsafe-pill small-text grey'>0 regions</div>
-              <% else %>
-                <div class='tagsafe-pill small-text green force-content-width'><%= tag.uptime_regions_to_check.count %> regions</div>
-              <% end %>
-            </div>
-          </td>
-          <td>
-            <div class='d-flex align-items-center'>
-              <% if tag.scheduled_audits_enabled? %>
-                <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_interval_in_words %></div>
-              <% else %>
-                <div class='tagsafe-pill small-text grey force-content-width'>Disabled</div>
-              <% end %>
-            </div>
-          </td>
-          <td>
-            <div class='d-flex align-items-center'>
-              <%= number_with_delimiter(WalletModerator::TagCostEstimator.new(tag).total_credits_per_month) %>
-            </div>
-          </td>
-          <td>
-            <div class='d-flex align-items-center'>
-              <%= link_to 'Edit', edit_tag_path(tag) %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+          <% else %>
+            <b><%= tag.domain_and_path %></b>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-cell'>
+          <% if tag.release_monitoring_enabled? %>
+            <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.release_check_interval_in_words %></div>
+          <% else %>
+            <div class='tagsafe-pill small-text grey force-content-width'>Disabled</div>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-cell'>
+          <% if tag.uptime_regions_to_check.none? %>
+            <div class='tagsafe-pill small-text grey'>0 regions</div>
+          <% else %>
+            <div class='tagsafe-pill small-text green force-content-width'><%= tag.uptime_regions_to_check.count %> regions</div>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-cell'>
+          <% if tag.scheduled_audits_enabled? %>
+            <div class='tagsafe-pill small-text green force-content-width'><%= tag.tag_preferences.scheduled_audit_interval_in_words %></div>
+          <% else %>
+            <div class='tagsafe-pill small-text grey force-content-width'>Disabled</div>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-cell'>
+          <%= number_with_delimiter(WalletModerator::TagCostEstimator.new(tag).total_credits_per_month) %>
+        </div>
+        <div class='tagsafe-table-cell'>
+          <%= link_to 'Edit', edit_tag_path(tag) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
   <%= paginate @tags %>
 </div>

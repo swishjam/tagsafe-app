@@ -1,0 +1,77 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class='page-title with-sub-title'>New Alert</h1>
+    </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: alert_configurations_path, text: 'Alerts' },
+    { url: triggered_alerts_path, text: 'Triggered Alerts' }
+  ] %>
+</div>
+
+<div class='tagsafe-container'>
+  <div class='container-fluid'>
+    <div class='col-sm-12 col-md-10 m-auto'>
+      <div class='step-indicators w-fit m-auto'>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+      </div>
+      <h3 class='alert-configuration-step-title text-center mt-3'>Define alert criteria</h3>
+      <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form' } do %>
+          <input type='hidden' name='current_view' value='trigger_rules'>
+          <input type='hidden' name="alert_configuration[disabled]" value="<%= @alert_configuration.disabled %>">
+          <input type='hidden' name="alert_configuration[name]" value="<%= @alert_configuration.name %>">
+          <input type='hidden' name="alert_configuration[enabled_for_all_tags]" value="<%= @alert_configuration.enabled_for_all_tags %>">
+          <% @alert_configuration.domain_users.each do |domain_user| %>
+            <input type='hidden' name='domain_user_uids[]' value="<%= domain_user.uid %>">
+          <% end %>
+          <div class='form-floating d-flex mb-3'>
+            <input type='text' class='form-control' name='alert_configuration[name]' placeholder='Alert name' value="<%= @alert_configuration.name %>">
+            <label>Alert name</label>
+          </div>
+          <% if @alert_configuration.is_a?(PerformanceAuditExceededThresholdAlertConfiguration) %>
+            <div class='d-flex align-items-center' style='justify-content: space-evenly'>
+              <span class='me-1 text-center'>Trigger an alert when a tag's</span>
+              <div class='form-floating'>
+                <select class='form-select' name='alert_configuration[trigger_rules][exceeded_metric]'>
+                  <option disabled>Metric to monitor</option>
+                  <% PerformanceAuditExceededThresholdAlertConfiguration::MONITORABLE_FIELDS.each do |value_and_name| %>
+                    <option value="<%= value_and_name[:field] %>" 
+                            <%= @alert_configuration.trigger_rules.exceeded_metric == value_and_name[:field] ? 'selected' : nil %>>
+                      <%= value_and_name[:name] %>
+                    </option>
+                  <% end %>
+                </select>
+                <label>Metric to monitor</label>
+              </div>
+              <span class='m-1'>is</span>
+              <div class='form-floating'>
+                <select class='form-select' name='alert_configuration[trigger_rules][operator]'>
+                  <option disabled>Operator</option>
+                  <option value='less_than'  <%= @alert_configuration.trigger_rules.operator == 'less_than' ? 'selected' : nil %>>Less than</option>
+                  <option value='greater_than' <%= @alert_configuration.trigger_rules.operator == 'greater_than' ? 'selected' : nil %>>Greater than</option>
+                </select>
+                <label>Operator</label>
+              </div>
+              <div class='form-floating'>
+                <input class='form-control' type='number' name='alert_configuration[trigger_rules][exceeded_metric_value]' value='<%= @alert_configuration.trigger_rules.exceeded_metric_value %>' step='0.1'/>
+                <label>Metric Value</label>
+              </div>
+            </div>
+          <% end %>
+        <div class='mt-3 text-end'>
+          <%= loading_submit_button type: 'floating' do %>
+            Subscribe tags to alert <i class='fa-solid fa-arrow-right-long'></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

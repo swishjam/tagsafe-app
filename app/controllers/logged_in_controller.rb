@@ -9,7 +9,7 @@ class LoggedInController < ApplicationController
     if current_user.nil?
       log_user_out
       session[:redirect_url] = request.original_url
-      redirect_to login_path 
+      redirect_to domain_registrations_path 
     end
   end
 
@@ -22,7 +22,7 @@ class LoggedInController < ApplicationController
   end
 
   def set_current_domain_and_redirect_if_param_present
-    unless params[:_domain_uid].nil? && current_user.present?
+    unless params[:_domain_uid].nil? || current_user.nil?
       domain = current_user.domains.find_by!(uid: params[:_domain_uid])
       set_current_domain(domain)
       redirect_to request.path

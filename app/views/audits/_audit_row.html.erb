@@ -1,46 +1,33 @@
 <%= turbo_stream_from "audit_#{audit.uid}_row_stream" %>
 
-<%= turbo_frame_tag "audit_#{audit.uid}_row", class: "tagsafe-table-row clickable #{audit.is_primary? && streamed ? 'tagsafe-illuminate' : nil}" do %>
-  <% unless local_assigns[:hide_primary_audit_indicator] %>
-    <div class='tagsafe-table-data' style='width: <%= local_assigns[:include_tag_name] ? '5%' : '19%' %>'>
-      <% if audit.performance_audit_completed_successfully? %>
-        <% if audit.is_primary? %>
-          <% if local_assigns[:use_primary_indicator_insted_of_button] %>
-            <i class="fa-solid fa-star" style='font-size: 10px; color: #6e84ff' data-controller='tooltip' data-toggle='tooltip' title="Primary audit for audited tag version"></i>
-          <% else %>
-            <button class='tagsafe-btn white-text' style='font-size: 12px'>Primary Audit</button>
-          <% end %>
-        <% elsif !local_assigns[:use_primary_indicator_insted_of_button] %>
-          <%= form_with url: make_primary_tag_audit_path(audit.tag, audit.id), method: :post, data: { controller: 'loading_form', manage_primary_audit_target: 'form' } do |f| %>
-            <!-- <#%= loading_submit_button 'Make Primary', button_classes: 'outline' %>!-->
-            <%= f.submit 'Make Primary', class: 'tagsafe-btn outline', style: 'font-size: 12px' %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-  <div style='width: <%= local_assigns[:hide_primary_audit_indicator] ? '100%' : local_assigns[:include_tag_name] ? '95%' : '81%' %>'>
-    <%= link_to performance_audit_tag_audit_path(audit.tag, audit), class: 'no-decoration d-flex', target: '_top' do %>
+<%= turbo_frame_tag "audit_#{audit.uid}_row" do %>
+  <%= link_to performance_audit_tag_audit_path(audit.tag, audit), class: 'no-decoration', target: '_top' do %>
+    <div class='tagsafe-table-row hoverable'>
       <% if local_assigns[:include_tag_name] %>
-        <div class='tagsafe-table-data' style='width: 25%'><%= image_tag audit.tag.try_image_url, class: 'tag-thumbnail tiny border me-1' %><%= audit.tag.try_friendly_name %></div>
+        <div class='tagsafe-table-cell flex-3'>
+          <%= image_tag audit.tag.try_image_url, class: 'tag-thumbnail border me-1' %>
+          <div class='d-block ms-2'>
+            <span class='tag-row-header'><%= audit.tag.try_friendly_name %></span>
+            <% if audit.tag.has_friendly_name? %>
+              <span class='tag-row-sub-header'><%= audit.tag.url_based_on_preferences %></span>
+            <% end %>
+          </div>
+        </div>
       <% end %>
-      <div class='tagsafe-table-data' style='width: 22%'>
+      <div class='tagsafe-table-cell'>
+        <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit %>
+      </div>
+      <div class='tagsafe-table-cell'>
+        <%= render 'test_runs/test_results_pill_for_audit', audit: audit %>
+      </div>
+      <div class='tagsafe-table-cell'><%= audit.page_url.full_url %></div>
+      <% if local_assigns[:include_execution_reason] %>
+        <div class='tagsafe-table-cell'><%= audit.execution_reason.name %></div>
+      <% end %>
+      <div class='tagsafe-table-cell'>
         <%= audit.created_at.date_only %> <br/>
         <%= audit.created_at.time_only %>
       </div>
-      <div class='tagsafe-table-data' style='width: 20%'>
-        <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit %>
-      </div>
-      <div class='tagsafe-table-data' style='width: 23%'>
-        <%= render 'test_runs/test_results_pill_for_audit', audit: audit %>
-      </div>
-      <div class='tagsafe-table-data' style='width: 28%'><%= audit.page_url.full_url %></div>
-        <!-- <#% if local_assigns[:include_execution_reason] %> !-->
-          <div class='tagsafe-table-data' style='width: 15%'><%= audit.execution_reason.name %></div>
-        <!-- <#% end %> !-->
-      <div class='tagsafe-table-data justify-content-end' style='width: 5%'>
-        <span class='link-indicator hover-enlarge'><i class="fas fa-angle-double-right"></i></span>
-      </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 <% end %>

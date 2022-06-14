@@ -1,0 +1,156 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class='page-title with-sub-title'>New Alert</h1>
+    </div>
+  </div>
+  <%= render 'partials/page_navigation_items', navigation_items: [
+    { url: alert_configurations_path, text: 'Alerts' },
+    { url: triggered_alerts_path, text: 'Triggered Alerts' }
+  ] %>
+</div>
+
+<div class='tagsafe-container'>
+  <div class='container-fluid'>
+    <div class='col-sm-12 col-md-8 m-auto'>
+      <div class='step-indicators w-fit m-auto'>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+      </div>
+      <h3 class='alert-configuration-step-title text-center mt-3'>Select type of alert</h3>
+      <%= form_with model: @alert_configuration, url: alert_configurations_path, data: { controller: 'loading_form' } do %>
+        <div class='container-fluid'>
+          <div class='row mt-3'>
+            <div class='col-4'>
+              <div class='custom-checkbox-div-container h-100'>
+                <input name='alert_configuration[type]' 
+                        id='PerformanceAuditExceededThresholdAlertConfiguration' 
+                        value='PerformanceAuditExceededThresholdAlertConfiguration' 
+                        type='radio' 
+                        class='custom-checkbox-div-input'
+                        <%= @alert_configuration.is_a?(PerformanceAuditExceededThresholdAlertConfiguration) ? 'checked=checked' : nil %>>
+                <label class='custom-checkbox-div-label fill' 
+                        for='PerformanceAuditExceededThresholdAlertConfiguration'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title="<%= PerformanceAuditExceededThresholdAlertConfiguration.user_facing_alert_description %>">
+                  <i class="far fa-check-circle checked top-right-icon green"></i>
+                  <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                  <div class='text mb-0 text-center'>
+                    <%= PerformanceAuditExceededThresholdAlertConfiguration.user_facing_alert_name %>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class='col-4'>
+              <div class='custom-checkbox-div-container h-100'>
+                <input name='alert_configuration[type]' 
+                        id='NewTagVersionAlertConfiguration' 
+                        value='NewTagVersionAlertConfiguration' 
+                        type='radio' 
+                        class='custom-checkbox-div-input'
+                        <%= @alert_configuration.is_a?(NewTagVersionAlertConfiguration) ? 'checked=checked' : nil %>>
+                <label class='custom-checkbox-div-label fill' 
+                        for='NewTagVersionAlertConfiguration'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title="<%= PerformanceAuditExceededThresholdAlertConfiguration.user_facing_alert_description %>">
+                  <i class="far fa-check-circle checked top-right-icon green"></i>
+                  <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                  <div class='text mb-0 text-center'>
+                    <%= NewTagVersionAlertConfiguration.user_facing_alert_name %>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class='col-4'>
+              <div class='custom-checkbox-div-container h-100'>
+                <input name='alert_configuration[type]' 
+                        id='FunctionalTestSuiteFailedAlertConfiguration' 
+                        value='FunctionalTestSuiteFailedAlertConfiguration' 
+                        type='radio' 
+                        class='custom-checkbox-div-input'
+                        <%= @alert_configuration.is_a?(FunctionalTestSuiteFailedAlertConfiguration) ? 'checked=checked' : nil %>>
+                <label class='custom-checkbox-div-label fill' 
+                        for='FunctionalTestSuiteFailedAlertConfiguration'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title="<%= FunctionalTestSuiteFailedAlertConfiguration.user_facing_alert_description %>">
+                  <i class="far fa-check-circle checked top-right-icon green"></i>
+                  <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                  <div class='text mb-0 text-center'>
+                    <%= FunctionalTestSuiteFailedAlertConfiguration.user_facing_alert_name %>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class='row mt-3'>
+            <div class='col-4 offset-2'>
+              <div class='custom-checkbox-div-container h-100'>
+                <input name='alert_configuration[type]' 
+                        id='NewTagAlertConfiguration' 
+                        value='NewTagAlertConfiguration' 
+                        type='radio' 
+                        class='custom-checkbox-div-input'
+                        <%= @alert_configuration.is_a?(NewTagAlertConfiguration) ? 'checked=checked' : nil %>>
+                <label class='custom-checkbox-div-label fill' 
+                        for='NewTagAlertConfiguration'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title="<%= NewTagAlertConfiguration.user_facing_alert_description %>">
+                  <i class="far fa-check-circle checked top-right-icon green"></i>
+                  <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                  <div class='text mb-0 text-center'>
+                    <%= NewTagAlertConfiguration.user_facing_alert_name %>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class='col-4'>
+              <div class='custom-checkbox-div-container h-100'>
+                <input name='alert_configuration[type]' 
+                        id='TagRemovedAlertConfiguration' 
+                        value='TagRemovedAlertConfiguration' 
+                        type='radio' 
+                        class='custom-checkbox-div-input'
+                        <%= @alert_configuration.is_a?(TagRemovedAlertConfiguration) ? 'checked=checked' : nil %>>
+                <label class='custom-checkbox-div-label fill' 
+                        for='TagRemovedAlertConfiguration'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title="<%= TagRemovedAlertConfiguration.user_facing_alert_description %>">
+                  <i class="far fa-check-circle checked top-right-icon green"></i>
+                  <i class="far fa-times-circle unchecked top-right-icon red"></i>
+                  <div class='text mb-0 text-center'>
+                    <%= TagRemovedAlertConfiguration.user_facing_alert_name %>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <!--<div class='col-4'>
+              FailedNetworkRequestAlertConfiguration,
+              SlowNetworkResponseAlertConfiguration
+            </div>!-->
+          </div>
+        </div>
+        <% if @alert_configuration.errors.any? %>
+          <div class='mt-3 text-center'>
+            <%= render 'partials/inline_errors', errors: @alert_configuration.errors.full_messages %>
+          </div>
+        <% end %>
+        <div class='mt-3 text-end'>
+          <%= loading_submit_button type: 'floating' do %>
+            Define alert criteria <i class='fa-solid fa-arrow-right-long'></i>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

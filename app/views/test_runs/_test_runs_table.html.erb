@@ -7,18 +7,16 @@
     <div class='tagsafe-container p-0'>
       <div class='test-runs-table'>
         <div class='tagsafe-table'>
-          <div class='tagsafe-table-head tagsafe-table-row square'>
+          <div class='tagsafe-table-row header'>
             <% columns = ['Date', 'Test', 'Description', 'Type of Test', 'Results'] - (local_assigns[:columns_to_exclude] || []) %>
-            <% column_width_percent = 100/columns.count %>
             <% columns.each do |column| %>
-              <div class='tagsafe-table-header' style='width: <%= column_width_percent %>%'><%= column %></div>
+              <div class='tagsafe-table-cell'><%= column %></div>
             <% end %>
           </div>
           <div class='tagsafe-table-body'>
             <% test_runs.each do |test_run| %>
               <%= render 'test_run_row', 
                 test_run: test_run,
-                column_width_percent: column_width_percent, 
                 columns_to_exclude: local_assigns[:columns_to_exclude] || [],
                 for_audit: local_assigns[:for_audit]
               %>
