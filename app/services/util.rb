@@ -5,6 +5,10 @@ class Util
     end
     alias env_is_true env_is_true?
 
+    def string_is_numeric?(string)
+      true if Float(string) rescue false
+    end
+
     def integer_to_interval_in_words(minutes)
       case minutes.to_i
       when 0 then 'disabled'

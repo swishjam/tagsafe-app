@@ -13,14 +13,43 @@
   <% end %>
 </div>
 
-<div class="tagsafe-container p-5 text-center">
-  <span class='alert-title'><%= @alert_configuration.name %></span>
+<div class="tagsafe-container p-5 text-center position-relative">
+  <% unless params[:review] %>
+    <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn position-absolute" style='top: 5px; right: 5px;'>
+      <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <%= link_to 'Edit alert', trigger_rules_alert_configuration_path(@alert_configuration), class: 'dropdown-item' %> 
+        <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration) do %>
+          <input type='hidden' name='current_view' value='review'>
+          <input type='hidden' name='alert_configuration[name]' value="<%= @alert_configuration.name %>">
+          <input type='hidden' name='alert_configuration[trigger_rules]' value="<%= @alert_configuration.trigger_rules.to_json %>">
+          <input type='hidden' name='alert_configuration[enabled_for_all_tags]' value="<%= @alert_configuration.enabled_for_all_tags %>">
+          <% @alert_configuration.domain_users.each do |domain_user| %>
+            <input type='hidden' name='domain_user_uids[]' value='<%= domain_user.uid %>'>
+          <% end %>
+          <% @alert_configuration.tags.each do |tag| %>
+            <input type='hidden' name='tag_uids[]' value='<%= tag.uid %>'>
+          <% end %>
+          <input type='hidden' name='alert_configuration[disabled]' value='<%= !@alert_configuration.disabled %>'>
+          <input type='submit' class='dropdown-item' value="<%= @alert_configuration.disabled? ? "Activate" : "Disable" %> alert"/>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <span class='alert-title'>
+    <%= @alert_configuration.name %>
+    <% if @alert_configuration.disabled? %>
+      <div class='tagsafe-pill red small-text small-text'>disabled</div>
+    <% end %>
+  </span>
   <span class='alert-description d-block'><%= @alert_configuration.trigger_rules_description %>.</span>
   <div class='container-fluid mt-3'>
     <div class='row'>
       <div class='col-6 alert-sub-section text-center'>
-        <span class='alert-subs-section-title d-block'>Enabled tags</span>
-        <% if @alert_configuration.enable_for_all_tags %>
+        <span class='alert-subs-section-title d-block'>Enabled tags <span style='font-size: 12px;'><%= link_to 'Edit', alert_configuration_tags_path(@alert_configuration) %></span></span>
+        <% if @alert_configuration.enabled_for_all_tags %>
           <span class='alert-subs-section-title d-block'>Set to trigger for all current and future tags.</span>
         <% else %>
           <% @alert_configuration.tags.each do |tag| %>
@@ -29,63 +58,97 @@
         <% end %>
       </div>
       <div class='col-6 alert-sub-section text-center'>
-        <span class='alert-subs-section-title d-block'>Subscribed users</span>
+        <span class='alert-subs-section-title d-block'>Subscribed users <span style='font-size: 12px;'><%= link_to 'Edit', alert_configuration_domain_users_path(@alert_configuration) %></span></span>
         <% @alert_configuration.domain_users.each do |domain_user| %>
           <div class='tagsafe-pill grey m-1'><%= domain_user.user.email %></div>
         <% end %>
       </div>
     </div>
   </div>
+  <% if params[:review] && @alert_configuration.disabled? %>
+    <div class='mt-3'>
+      <div class='row'>
+        <div class='col-6 d-flex'>
+          <%= link_to alert_configuration_domain_users_path, class: 'floating-btn' do %>
+            <i class='fa-solid fa-arrow-left-long'></i> Subscribe users
+          <% end %>
+        </div>
+        <div class='col-6 d-flex justify-content-end'>
+          <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form' } do |f| %>
+            <input type='hidden' name='current_view' value='review'>
+            <input type='hidden' name='alert_configuration[name]' value="<%= @alert_configuration.name %>">
+            <input type='hidden' name='alert_configuration[trigger_rules]' value="<%= @alert_configuration.trigger_rules.to_json %>">
+            <input type='hidden' name='alert_configuration[enabled_for_all_tags]' value="<%= @alert_configuration.enabled_for_all_tags %>">
+            <% @alert_configuration.domain_users.each do |domain_user| %>
+              <input type='hidden' name='domain_user_uids[]' value='<%= domain_user.uid %>'>
+            <% end %>
+            <% @alert_configuration.tags.each do |tag| %>
+              <input type='hidden' name='tag_uids[]' value='<%= tag.uid %>'>
+            <% end %>
+            <input type='hidden' name='alert_configuration[disabled]' value="false">
+            <%= submit_loading_button type: 'floating' do %>
+              Activate alert <i class="fa-solid fa-circle-check"></i>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
-<div class='tagsafe-container'>
-  <% if @alert_configuration.triggered_alerts.any? %>
-    <div class='text-center mb-3'>
-      <span class='alert-title'>Triggered alerts</span>
-    </div>
-    <div class='tagsafe-table'>
-      <div class='tagsafe-table-row header'>
-        <div class='tagsafe-table-cell flex-3'>Responsible tag</div>
-        <div class='tagsafe-table-cell'><%= @alert_configuration.trigger_rules.human_exceeded_metric(capitalize: true) %> value</div>
-        <div class='tagsafe-table-cell'>Date of alert</div>
-        <div class='tagsafe-table-cell flex-0'></div>
+<% if !params[:review] %>
+  <div class='tagsafe-container'>
+    <% if @alert_configuration.triggered_alerts.any? %>
+      <div class='text-center mb-3'>
+        <span class='alert-title'>Triggered alerts</span>
       </div>
-      <% @alert_configuration.triggered_alerts.each do |triggered_alert| %>
-        <div class='tagsafe-table-row'>
-          <div class='tagsafe-table-cell flex-3'>
-            <% if tag.has_image? %>
-              <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail border me-2' %>
-            <% end %>
-            <div class='d-inline-block'>
-              <span class='tag-row-header'><%= triggered_alert.tag.try_friendly_name %></span>
-              <% if triggered_alert.tag.has_friendly_name? %>
-                <span class='tag-row-sub-header'><%= triggered_alert.tag.url_based_on_preferences %></span>
+      <div class='tagsafe-table'>
+        <div class='tagsafe-table-row header'>
+          <div class='tagsafe-table-cell flex-3'>Responsible tag</div>
+          <div class='tagsafe-table-cell'><%= @alert_configuration.trigger_rules.human_exceeded_metric(capitalize: true) %> value</div>
+          <div class='tagsafe-table-cell'>Date of alert</div>
+          <div class='tagsafe-table-cell flex-0'></div>
+        </div>
+        <% @alert_configuration.triggered_alerts.each do |triggered_alert| %>
+          <div class='tagsafe-table-row'>
+            <div class='tagsafe-table-cell flex-3'>
+              <% if tag.has_image? %>
+                <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail border me-2' %>
               <% end %>
+              <div class='d-inline-block'>
+                <span class='tag-row-header'><%= triggered_alert.tag.try_friendly_name %></span>
+                <% if triggered_alert.tag.has_friendly_name? %>
+                  <span class='tag-row-sub-header'><%= triggered_alert.tag.url_based_on_preferences %></span>
+                <% end %>
+              </div>
             </div>
-          </div>
-          <div class='tagsafe-table-cell'>
-            <%= triggered_alert.initiating_record.preferred_delta_performance_audit.send(@alert_configuration.trigger_rules.exceeded_metric) %>
-          </div>
-          <div class='tagsafe-table-cell'>
-            <div class='d-block'>
-              <span class='d-block'><%= triggered_alert.created_at.date_only %></span>
-              <span class='d-block'><%= triggered_alert.created_at.time_only %></span>
+            <div class='tagsafe-table-cell'>
+              <%= triggered_alert.initiating_record.preferred_delta_performance_audit.send(@alert_configuration.trigger_rules.exceeded_metric) %>
             </div>
-          </div>
-          <div class='tagsafe-table-cell flex-0 justify-content-end'>
-            <div class="dropdown dropleft show tagsafe-circular-btn">
-              <a class="dropdown-link no-decoration" data-controller='dropdown' id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-offset="0, 0" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v" style="font-size: 14px;"></i>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <%= link_to 'View Audit', tag_audit_path(triggered_alert.tag, triggered_alert.initiating_record), class: 'dropdown-item' %> 
-                <%= link_to 'View Tag Details', tag_path(triggered_alert.tag), class: 'dropdown-item' %> 
+            <div class='tagsafe-table-cell'>
+              <div class='d-block'>
+                <span class='d-block'><%= triggered_alert.created_at.date_only %></span>
+                <span class='d-block'><%= triggered_alert.created_at.time_only %></span>
+              </div>
+            </div>
+            <div class='tagsafe-table-cell flex-0 justify-content-end'>
+              <div class="dropdown dropleft show tagsafe-circular-btn">
+                <a class="dropdown-link no-decoration" data-controller='dropdown' id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-offset="0, 0" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v" style="font-size: 14px;"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <%= link_to 'View Audit', tag_audit_path(triggered_alert.tag, triggered_alert.initiating_record), class: 'dropdown-item' %> 
+                  <%= link_to 'View Tag Details', tag_path(triggered_alert.tag), class: 'dropdown-item' %> 
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-  <% end %>
-</div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class='text-center p-3'>
+        <span class='alert-title'>This alert has not triggered yet, when it does you will find the incidents listed here.</span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -62,7 +62,13 @@ Rails.application.routes.draw do
 
   # get '/alerts' => 'alert_configurations#index', as: :alerts
   # get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
-  resources :alert_configurations, only: [:index, :show, :new, :create, :update], param: :uid
+  resources :alert_configurations, only: [:index, :show, :new, :create, :update], param: :uid do
+    member do
+      get :trigger_rules
+      resources :alert_configuration_domain_users, only: [:index]
+      resources :alert_configuration_tags, only: [:index]
+    end
+  end
   resources :triggered_alerts, only: [:index, :show], param: :uid
 
   resources :domains, only: [:create, :update, :new], param: :uid do

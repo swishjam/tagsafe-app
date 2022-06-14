@@ -403,6 +403,21 @@ form[data-controller=loading_form] {
   }
 }
 
+
+.active-circular-icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(11, 184, 11);
+}
+
+.inactive-circular-icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff4343;
+}
+
 .tagsafe-pill {
   width: fit-content;
   display: inline-flex;
@@ -513,6 +528,7 @@ form[data-controller=loading_form] {
 }
 .custom-checkbox-div-container {
   display: inline-block;
+  padding: 0 15px 0 15px;
   .custom-checkbox-div-input {
     // visibility: hidden;
     display: none;

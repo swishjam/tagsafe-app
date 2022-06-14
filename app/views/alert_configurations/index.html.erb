@@ -33,9 +33,16 @@
         <% @alert_configurations.each do |alert_config| %>
           <%= link_to alert_configuration_path(alert_config), class: 'no-decoration' do %>
             <div class='tagsafe-table-row hoverable'>
-              <div class='tagsafe-table-cell'><%= alert_config.name %></div>
-              <div class='tagsafe-table-cell'><%= alert_config.class.user_facing_alert_name %></div>
-              <div class='tagsafe-table-cell'><%= alert_config.tags.count %></div>
+              <div class='tagsafe-table-cell'>
+                <span class='<%= alert_config.disabled? ? 'inactive-circular-icon' : 'active-circular-icon' %> me-2'
+                      data-controller='tooltip'
+                      data-bs-toggle='tooltip'
+                      title='Alert is <%= alert_config.disabled? ? 'inactive' : 'active' %>'></span> <%= alert_config.name %>
+              </div>
+              <div class='tagsafe-table-cell'>
+                <div class='tagsafe-pill tagsafe-primary-purple small-text'><%= alert_config.class.user_facing_alert_name %></div>
+              </div>
+              <div class='tagsafe-table-cell'><%= alert_config.enabled_for_all_tags ? 'All tags' : alert_config.tags.count %></div>
               <div class='tagsafe-table-cell'><%= alert_config.domain_users.count %></div>
               <div class='tagsafe-table-cell'><%= alert_config.triggered_alerts.most_recent_first.limit(1).first&.created_at&.formatted_long || 'Not yet triggered' %></div>
             </div>
@@ -43,10 +50,13 @@
         <% end %>
       </div>
     </div>
+    <div class='mt-3'>
+      <%= paginate @alert_configurations %>
+    </div>
   </div>
 <% else %>
   <div class='empty-state-view p-5 text-center'>
-    <h2>You have no alerts configured!</h2>
+    <h2>You haven't configured any alerts yet!</h2>
     <h4>Set some up so that you can be notified when one of your tags is causing issues.</h4>
     <div class='d-flex justify-content-center mt-3'>
       <%= link_to 'Create an alert', new_alert_configuration_path, class: 'floating-btn large' %>

@@ -134,6 +134,7 @@ class Audit < ApplicationRecord
     mark_as_most_current_if_possible
     send_audit_completed_notifications_if_necessary
     send_audit_completed_emails
+    AlertEvaluators::AuditExceededThreshold.new(self).trigger_alerts_if_criteria_is_met! unless performance_audit_failed?
     WalletModerator::AuditTransactor.new(self).credit_wallet! if performance_audit_failed?
     stream_updates_to_views(true)
   end

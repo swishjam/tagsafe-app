@@ -6,11 +6,15 @@
   <% end %>
   <%= form_with model: alert_configuration, data: { controller: 'loading_form' } do |f| %>
     <div class='form-floating'>
-      <%= f.text_field :name, class: 'form-control', placeholder: 'Name of alert' %>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Name of alert', required: true %>
       <label>Name of alert</label>
     </div>
     <div class='form-floating mt-3'>
-      <select name='alert_configuration[type]' class='form-select w-fit' data-alert-form-target='alertTypeDropdown'>
+      <select name='alert_configuration[type]' 
+              class='form-select w-fit' 
+              data-alert-form-target='alertTypeDropdown'
+              data-action='change->alert-form#updateFormVisibility'
+              required>
         <option disabled selected>Select type of alert</option>
         <% AlertConfiguration.TYPES.each do |type_klass| %>
           <option value='<%= type_klass.to_s %>'><%= type_klass.user_facing_alert_name %></option>
@@ -18,7 +22,16 @@
       </select>
       <label>Alert Type</label>
     </div>
-    <div class='form-floating mt-3' data-controller='custom-dropdown-inject-input' data-custom-dropdown-inject-input-injected-input-name-value="tag_uids[]">
+    <div class='form-check form-switch mt-3'>
+      <input type='checkbox' 
+              name='alert_configuration[enabled_for_all_tags]' 
+              id='enable-for-all-tags' 
+              class='form-check-input' 
+              value='true'
+              data-action='change->alert-form#toggleTagSelector'>
+      <label for='enable-for-all-tags'>Subscribe all current and future tags</label>
+    </div>
+    <div class='form-floating mt-3 me-2' data-controller='custom-dropdown-inject-input' data-alert-form-target='tagSelector' data-custom-dropdown-inject-input-injected-input-name-value="tag_uids[]">
       <div class='dropdown-container w-fit d-inline-block'>
         <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
           Tags to monitor
@@ -37,27 +50,30 @@
           <% end %>
         </div>
       </div>
-      <div class='w-fit d-inline-block p-3 mb-3' data-custom-dropdown-inject-input-target='injectedInputContainer'>
+      <div class='w-fit d-inline-block' data-custom-dropdown-inject-input-target='injectedInputContainer'>
       </div>
     </div>
 
-    <div class='hidden mb-3' data-alert-form-target='auditExceededThresholdFields'>
+    <div class='hidden mt-3 mb-3' data-alert-form-target='auditExceededThresholdFields'>
       <div class='d-flex align-items-center'>
-        <span class='me-1'>Trigger an alert when an audit's</span>
+        <span class='me-1 text-center'>Trigger an alert when an audit's</span>
         <div class='form-floating'>
           <select class='form-select' name='trigger_rules[exceeded_metric]'>
-            <option value='tagsafe_score' selected>Tagsafe Score</option>
-            <option value='dom_complete'>DOM Complete responsible for</option>
+            <option disabled>Metric to monitor</option>
+            <% PerformanceAuditExceededThresholdAlertConfiguration::MONITORABLE_FIELDS.each do |value_and_name| %>
+              <option value="<%= value_and_name[:field] %>" selected><%= value_and_name[:name] %></option>
+            <% end %>
           </select>
-          <label>Metric to exceed</label>
+          <label>Metric to monitor</label>
         </div>
         <span class='m-1'>is</span>
         <div class='form-floating'>
           <select class='form-select' type='number' name='trigger_rules[operator]'>
-            <option value='less_than'>Less than</option>
+            <option disabled>Operator</option>
+            <option value='less_than' selected>Less than</option>
             <option value='greater_than'>Greater than</option>
           </select>
-          <label>Metric Value</label>
+          <label>Operator</label>
         </div>
         <div class='form-floating'>
           <input class='form-control' type='number' name='trigger_rules[exceeded_metric_value]' value='75.0' step='0.1'/>

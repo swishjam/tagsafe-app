@@ -1,10 +1,11 @@
 module TagsafeEmail
-  class NewTagVersion < Base
+  class NewTagVersionAlert < Base
     self.sendgrid_template_id = :'d-588eaf33c727495b8e64c6113d64449c'
-    self.from_email = :'notifications@tagsafe.io'
+    self.from_email = :'alerts@tagsafe.io'
 
-    def initialize(user, tag_version)
+    def initialize(user:, alert_configuration:, initiating_record:, triggered_alert:)
       @to_email = user.email
+      tag_version = initiating_record
       @template_variables = {
         tag_friendly_name: tag_version.tag.try_friendly_name,
         tag_url: tag_version.tag.url_based_on_preferences,

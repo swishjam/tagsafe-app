@@ -6,11 +6,20 @@ module Serializers
       end
 
       def self.dump(trigger_rules)
-        # unless serialized_trigger_rules.is_a?(self)
-        #   raise ::ActiveRecord::SerializationTypeMismatch,
-        #     "Attribute was supposed to be a #{self}, but was a #{serialized_trigger_rules.class}. -- #{serialized_trigger_rules.inspect}"
-        # end
+        return trigger_rules if trigger_rules.is_a?(String)
         trigger_rules.to_json
+      end
+
+      def valid?
+        raise "Subclass #{self.class} must implement `valid?` instance_method."
+      end
+
+      def invalid?
+        raise "Subclass #{self.class} must implement `invalid?` instance_method."
+      end
+
+      def invalid_error_message
+        raise "Subclass #{self.class} must implement `invalid_error_message` instance_method."
       end
 
       def self.initialize_from_json(json_trigger_rules)

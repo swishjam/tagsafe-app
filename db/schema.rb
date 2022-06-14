@@ -75,7 +75,10 @@ ActiveRecord::Schema.define(version: 2022_06_06_225831) do
     t.string "name"
     t.string "type"
     t.string "trigger_rules"
-    t.boolean "enable_for_all_tags"
+    t.boolean "enabled_for_all_tags"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "disabled"
     t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end

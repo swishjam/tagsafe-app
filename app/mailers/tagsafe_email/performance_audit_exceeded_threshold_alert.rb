@@ -1,9 +1,10 @@
 module TagsafeEmail
-  class AuditExceededThresholdAlert < Base
+  class PerformanceAuditExceededThresholdAlert < Base
     self.sendgrid_template_id = :'d-f6a83a79f43f4742a78aebfedc0e4f89'
     self.from_email = :'alerts@tagsafe.io'
 
-    def initialize(user:, alert_configuration:, audit:)
+    def initialize(user:, alert_configuration:, initiating_record:, triggered_alert:)
+      audit = initiating_record
       @to_email = user.email
       @template_variables = {
         domain_url: audit.domain.url_hostname,

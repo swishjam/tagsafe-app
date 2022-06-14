@@ -3,7 +3,10 @@ class UpdateAlertConfigurationsSchema < ActiveRecord::Migration[6.1]
     add_column :alert_configurations, :name, :string
     add_column :alert_configurations, :type, :string
     add_column :alert_configurations, :trigger_rules, :string
-    add_column :alert_configurations, :enable_for_all_tags, :boolean
+    add_column :alert_configurations, :enabled_for_all_tags, :boolean
+    add_column :alert_configurations, :created_at, :datetime, null: false
+    add_column :alert_configurations, :updated_at, :datetime, null: false
+    add_column :alert_configurations, :disabled, :boolean
 
     remove_column :alert_configurations, :domain_user_id
     remove_column :alert_configurations, :tag_id
@@ -40,7 +43,10 @@ class UpdateAlertConfigurationsSchema < ActiveRecord::Migration[6.1]
   def down
     remove_column :alert_configurations, :type
     remove_column :alert_configurations, :trigger_rules
-    remove_column :alert_configurations, :enable_for_all_tags, :boolean
+    remove_column :alert_configurations, :enabled_for_all_tags, :boolean
+    remove_column :alert_configurations, :created_at
+    remove_column :alert_configurations, :updated_at
+    remove_column :alert_configurations, :disabled
 
     remove_reference :triggered_alerts, :alert_configuration
 

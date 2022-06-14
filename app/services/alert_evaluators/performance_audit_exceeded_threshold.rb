@@ -1,5 +1,5 @@
 module AlertEvaluators
-  class AuditExceededThreshold
+  class PerformanceAuditExceededThreshold
     def initialize(audit)
       @audit = audit
     end
@@ -34,8 +34,8 @@ module AlertEvaluators
 
     def audit_exceeded_threshold_alert_configurations_for_audited_tag
       @alert_configurations ||= begin 
-        alert_configs_for_tag = @audit.tag.alert_configurations.not_enabled_for_all_tags.by_klass(AuditExceededThresholdAlertConfiguration)
-        alert_configs_for_domain = @audit.domain.alert_configurations.enabled_for_all_tags.by_klass(AuditExceededThresholdAlertConfiguration)
+        alert_configs_for_tag = @audit.tag.alert_configurations.not_enabled_for_all_tags.by_klass(PerformanceAuditExceededThresholdAlertConfiguration)
+        alert_configs_for_domain = @audit.domain.alert_configurations.enabled_for_all_tags.by_klass(PerformanceAuditExceededThresholdAlertConfiguration)
         alert_configs_for_tag.to_a.concat(alert_configs_for_domain.to_a)
       end
     end

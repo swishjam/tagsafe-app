@@ -1,0 +1,14 @@
+<span class='d-flex'>
+  <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail border' %>
+  <span>
+    <%= alert_configuration.triggered_alert_description(triggered_alert) %>
+  </span>
+</span>
+<div class='container-fluid'>
+  <div class='col-6'>
+    <%= link_to "View released changes", git_diff_tag_tag_version_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+  </div>
+  <div class='col-6'>
+    <%= link_to "View audit", audit_redirect_tag_tag_version_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+  </div>
+</div>

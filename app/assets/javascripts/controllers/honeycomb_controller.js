@@ -41,11 +41,25 @@ export default class extends Controller {
     if(this.isDisplayingTooltip) {
       this.hideTooltip();
     } else {
-      this.tooltip.show();
-      this._fetchAndDisplayHoneycombDetails();
-      this.isDisplayingTooltip = true;
-      this.element.classList.add('tooltip-displayed');
+      this.displayTooltip();
     }
+  }
+
+  onHoneycombMouseover() {
+    this.mouseoverTimeoutFunc = setTimeout(() => {
+      this.displayTooltip();
+    }, 500);
+  }
+
+  onHoneycombMouseout() {
+    clearTimeout(this.mouseoverTimeoutFunc);
+  }
+
+  displayTooltip() {
+    this.tooltip.show();
+    this._fetchAndDisplayHoneycombDetails();
+    this.isDisplayingTooltip = true;
+    this.element.classList.add('tooltip-displayed');
   }
 
   hideTooltip() {

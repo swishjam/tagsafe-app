@@ -6,10 +6,12 @@
       data-honeycomb-tag-name-value="<%=tag.try_friendly_name%>"
       data-honeycomb-has-audit-value="<%=audit.present?%>"
       data-honeycomb-row-num-value="<%=row_num%>"
-      data-action='click->honeycomb#toggleTooltip'
+      data-action='click->honeycomb#toggleTooltip mouseover->honeycomb#onHoneycombMouseover mouseout->honeycomb#onHoneycombMouseout'
       style="--bg-color: <%=HoneycombHelper.bg_color_for(audit)%>;">
   <div class='honeycomb-item-content d-block text-center'>
-    <% if tag.has_friendly_name? %>
+    <% if tag.has_image? %>
+      <%= image_tag tag.try_image_url, class: 'tag-thumbnail' %>
+    <% elsif tag.has_friendly_name? %>
       <h6 class='honeycomb-title d-block mb-0'><%= tag.try_friendly_name %></h6>
       <h6 class='honeycomb-sub-title d-block'><%= tag.url_based_on_preferences %></h6>
     <% else %>
