@@ -7,9 +7,9 @@
         <div class='tagsafe-table-cell flex-3'>
           <%= image_tag audit.tag.try_image_url, class: 'tag-thumbnail border me-1' %>
           <div class='d-block ms-2'>
-            <span class='tag-row-header'><%= audit.tag.try_friendly_name %></span>
+            <span class='tag-row-header d-block'><%= audit.tag.try_friendly_name %></span>
             <% if audit.tag.has_friendly_name? %>
-              <span class='tag-row-sub-header'><%= audit.tag.url_based_on_preferences %></span>
+              <span class='tag-row-sub-header d-block'><%= audit.tag.url_based_on_preferences %></span>
             <% end %>
           </div>
         </div>

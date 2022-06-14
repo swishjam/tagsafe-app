@@ -20,7 +20,7 @@ class TriggeredAlert < ApplicationRecord
       ).send!
       domain_user.user.broadcast_notification(
         partial: "/alert_configurations/in_app_notification",
-        title: "🚨 #{alert_configuration.title}",
+        title: "🚨 #{alert_configuration.name}",
         image: tag.try_image_url,
         partial_locals: { 
           alert_configuration: alert_configuration,

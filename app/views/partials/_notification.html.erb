@@ -16,7 +16,7 @@
       <% end %>
       <div class='notification-content' style='width: <%= local_assigns[:image] ? 'calc(100% - 75px);' : '100%' %>'>
         <% if local_assigns[:title] %>
-          <span class='notification-title'><%= title %></span>
+          <h5 class='notification-title'><%= title %></h5>
         <% end %>
         <% if local_assigns[:partial] %>
           <%= render partial, partial_locals %>
