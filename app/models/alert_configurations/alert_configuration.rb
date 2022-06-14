@@ -41,11 +41,6 @@ class AlertConfiguration < ApplicationRecord
   scope :not_enabled_for_all_tags, -> { where(enabled_for_all_tags: false) }
   scope :by_klass, -> (klass) { where(type: klass.to_s) }
 
-  def self.in_app_notification_partial_path
-    file_name = self.to_s.gsub('AlertConfiguration', '').split(/(?=[A-Z])/).map{ |word| word.downcase! }.join('_')
-    "/alert_configurations/in_app_notifications/#{file_name}"
-  end
-
   def self.alert_email_klass
     "TagsafeEmail::#{self.to_s.gsub('AlertConfiguration', '')}Alert".constantize
   end

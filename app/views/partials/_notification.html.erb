@@ -1,21 +1,10 @@
 <div class='notification <%= local_assigns[:notification_type] %> <%= local_assigns[:error] ? 'error' : nil %>' data-controller='notification' data-persist-notification="<%= local_assigns[:auto_dismiss] == false %>">
   <div class='p-2'>
     <div class='notification-header'>
-      <div class='container-fluid'>
-        <span class='exit-btn tagsafe-circular-btn tiny' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
-        <div class='row'>
-          <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
-            <% if local_assigns[:title] %>
-              <span class='notification-title'><%= title %></span>
-            <% end %>
-          </div>
-          <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
-            <% if local_assigns[:timestamp] %>
-              <span class='notification-timestamp float-end'><%= timestamp %></span>
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <span class='exit-btn tagsafe-circular-btn tiny' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
+      <% if local_assigns[:timestamp] %>
+        <span class='notification-timestamp float-end'><%= timestamp %></span>
+      <% end %>
     </div>
   </div>
   <div class='col-12 container notification-body'>
@@ -26,6 +15,9 @@
         </div>
       <% end %>
       <div class='notification-content' style='width: <%= local_assigns[:image] ? 'calc(100% - 75px);' : '100%' %>'>
+        <% if local_assigns[:title] %>
+          <span class='notification-title'><%= title %></span>
+        <% end %>
         <% if local_assigns[:partial] %>
           <%= render partial, partial_locals %>
         <% else %>

@@ -21,7 +21,6 @@ pscale_alert_updates: &pscale_alert_updates
   ssl_mode: verify_identity
   sslca: "/etc/ssl/cert.pem"
 
-
 local: &local
   <<: *default
   database: tagsafe_development
@@ -34,7 +33,7 @@ test:
   database: tagsafe_test
 
 development:
-  <<: *pscale_alert_updates
+  <<: *pscale_collin_dev
 
 staging:
   <<: *default

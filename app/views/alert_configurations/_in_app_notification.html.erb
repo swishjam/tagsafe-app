@@ -1,0 +1,20 @@
+<h5 class='notification-message d-block mb-2'><%= alert_configuration.triggered_alert_description(triggered_alert) %></h5>
+
+<% if alert_configuration.is_a?(PerformanceAuditExceededThresholdAlertConfiguration) %>
+  <%= link_to "View Performance Audit", tag_audit_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+<% elsif alert_configuration.is_a?(FunctionalTestSuiteFailedAlertConfiguration) %>
+  <%= link_to "View Test Suite", test_runs_tag_audit_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+<% elsif alert_configuration.is_a?(NewTagAlertConfiguration) %>
+  <%= link_to 'View Tag', tag_path(triggered_alert.tag), target: '_top' %>
+<% elsif alert_configuration.is_a?(NewTagVersionAlertConfiguration) %>
+  <div class='row'>
+    <div class='col-6 text-center'>
+      <%= link_to "View changes", git_diff_tag_tag_version_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+    </div>
+    <div class='col-6 text-center'>
+      <%= link_to "View audit", audit_redirect_tag_tag_version_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+    </div>
+  </div>
+<% elsif alert_configuration.is_a?(TagRemovedAlertConfiguration) %>
+  <%= link_to 'View Tag', tag_path(triggered_alert.tag), target: '_top' %>
+<% end %>
