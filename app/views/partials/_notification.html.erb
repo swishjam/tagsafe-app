@@ -2,8 +2,8 @@
   <div class='p-2'>
     <div class='notification-header'>
       <div class='container-fluid'>
+        <span class='exit-btn tagsafe-circular-btn tiny' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
         <div class='row'>
-          <span class='exit-btn tagsafe-circular-btn tiny' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
           <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
             <% if local_assigns[:title] %>
               <span class='notification-title'><%= title %></span>

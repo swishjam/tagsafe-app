@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_06_225831) do
+ActiveRecord::Schema.define(version: 2022_06_14_185138) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_06_06_225831) do
   create_table "alert_configuration_domain_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "domain_user_id"
     t.bigint "alert_configuration_id"
+    t.string "uid"
     t.index ["alert_configuration_id"], name: "index_alert_configuration_domain_users_on_alert_configuration_id"
     t.index ["domain_user_id"], name: "index_alert_configuration_domain_users_on_domain_user_id"
   end
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(version: 2022_06_06_225831) do
   create_table "alert_configuration_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "tag_id"
     t.bigint "alert_configuration_id"
+    t.string "uid"
     t.index ["alert_configuration_id"], name: "index_alert_configuration_tags_on_alert_configuration_id"
     t.index ["tag_id"], name: "index_alert_configuration_tags_on_tag_id"
   end
@@ -71,6 +73,11 @@ ActiveRecord::Schema.define(version: 2022_06_06_225831) do
     t.string "type"
     t.string "trigger_rules"
     t.boolean "enable_for_all_tags"
+    t.boolean "disabled"
+    t.string "name"
+    t.string "enabled_for_all_tags"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end
@@ -854,11 +861,9 @@ ActiveRecord::Schema.define(version: 2022_06_06_225831) do
 
   create_table "triggered_alerts", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.string "type"
     t.bigint "tag_id"
     t.string "initiating_record_type"
     t.bigint "initiating_record_id"
-    t.text "triggered_reason_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "alert_configuration_id"

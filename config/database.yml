@@ -34,7 +34,7 @@ test:
   database: tagsafe_test
 
 development:
-  <<: *pscale_collin_dev
+  <<: *pscale_alert_updates
 
 staging:
   <<: *default
