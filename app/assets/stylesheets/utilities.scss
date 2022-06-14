@@ -409,6 +409,7 @@ form[data-controller=loading_form] {
   height: 10px;
   border-radius: 50%;
   background-color: rgb(11, 184, 11);
+  box-shadow: 0px 0px 7px 0px rgba(11, 184, 11, 0.6);
 }
 
 .inactive-circular-icon {
@@ -416,6 +417,7 @@ form[data-controller=loading_form] {
   height: 10px;
   border-radius: 50%;
   background-color: #ff4343;
+  box-shadow: 0px 0px 7px 0px #ff4343b3;
 }
 
 .tagsafe-pill {

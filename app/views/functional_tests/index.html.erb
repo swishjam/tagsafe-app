@@ -22,34 +22,28 @@
   <div class='tagsafe-container p-0'>
     <div class='row'>
       <div class='tagsafe-table'>
-        <div class='tagsafe-table-head tagsafe-row square'>
-          <div class='tagsafe-table-header' style='width: 25%'>Test</div>
-          <div class='tagsafe-table-header' style='width: 35%'>Description</div>
-          <div class='tagsafe-table-header' style='width: 25%'>Tags enabled on</div>
-          <div class='tagsafe-table-header' style='width: 10%'></div>
+        <div class='tagsafe-table-row header'>
+          <div class='tagsafe-table-cell'>Test</div>
+          <div class='tagsafe-table-cell'>Description</div>
+          <div class='tagsafe-table-cell'>Tags enabled on</div>
         </div>
-        <div class='tagsafe-table-body'>
-          <% @functional_tests.each do |test| %>
-            <%= link_to functional_test_path(test), class: 'no-decoration' do %>
-              <div class='tagsafe-table-row clickable'>
-                <div class='tagsafe-table-data' style='width: 25%'><%= test.title %></div>
-                <div class='tagsafe-table-data' style='width: 35%'><%= test.description %></div>
-                <div class='tagsafe-table-data' style='width: 25%'>
-                  <% if test.disabled? %>
-                    <span class='tagsafe-pill red'>Disabled</span>
-                  <% elsif !test.passed_dry_run %>
-                    <span class='tagsafe-pill grey'>Needs validation</span>
-                  <% else %>
-                    <%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_on.count %>
-                  <% end %>
-                </div>
-                <div class='tagsafe-table-data text-end' style='width: 10%'>
-                  <span class='link-indicator hover-enlarge float-end'><i class="fas fa-angle-double-right"></i></span>
-                </div>
+        <% @functional_tests.each do |test| %>
+          <%= link_to functional_test_path(test), class: 'no-decoration' do %>
+            <div class='tagsafe-table-row hoverable'>
+              <div class='tagsafe-table-cell'><%= test.title %></div>
+              <div class='tagsafe-table-cell'><%= test.description %></div>
+              <div class='tagsafe-table-cell'>
+                <% if test.disabled? %>
+                  <span class='tagsafe-pill red'>Disabled</span>
+                <% elsif !test.passed_dry_run %>
+                  <span class='tagsafe-pill grey'>Needs validation</span>
+                <% else %>
+                  <%= test.run_on_all_tags ? 'All tags' : test.tags_to_run_on.count %>
+                <% end %>
               </div>
-            <% end %>
+            </div>
           <% end %>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>

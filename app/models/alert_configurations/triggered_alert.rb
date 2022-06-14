@@ -19,7 +19,6 @@ class TriggeredAlert < ApplicationRecord
         alert_configuration: alert_configuration
       ).send!
       domain_user.user.broadcast_notification(
-        title: "🚨 #{alert_configuration.name} 🚨",
         partial: alert_configuration.class.in_app_notification_partial_path,
         partial_locals: { 
           alert_configuration: alert_configuration,

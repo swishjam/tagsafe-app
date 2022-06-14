@@ -1,3 +1,7 @@
-<div class='d-flex'>
-  <!-- In app notification partial goes here !-->
-</div>
+<span class='d-flex'>
+  <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail border' %>
+  <span>
+    <%= alert_configuration.triggered_alert_description(triggered_alert) %>
+  </span>
+</span>
+<%= link_to "View Tag Details", tag_path(triggered_alert.tag), target: '_top' %>

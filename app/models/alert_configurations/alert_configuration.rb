@@ -1,7 +1,6 @@
 class AlertConfiguration < ApplicationRecord
   class << self
-    attr_accessor :serializer_klass, 
-                  :is_domain_level_alert, 
+    attr_accessor :has_trigger_rules, 
                   :user_facing_alert_name,
                   :user_facing_alert_description
     
@@ -18,7 +17,7 @@ class AlertConfiguration < ApplicationRecord
     end
   end
   uid_prefix 'alrt'
-  self.is_domain_level_alert = false
+  self.has_trigger_rules = true
 
   belongs_to :domain
   has_many :triggered_alerts, dependent: :destroy
@@ -34,6 +33,10 @@ class AlertConfiguration < ApplicationRecord
 
   validate :has_acceptable_trigger_rules_validation
 
+  scope :active, -> { where(disabled: false) }
+  scope :enabled, -> { active }
+  scope :inactive, -> { where(disabled: true) }
+  scope :disabled, -> { inactive }
   scope :enabled_for_all_tags, -> { where(enabled_for_all_tags: true) }
   scope :not_enabled_for_all_tags, -> { where(enabled_for_all_tags: false) }
   scope :by_klass, -> (klass) { where(type: klass.to_s) }
@@ -56,7 +59,7 @@ class AlertConfiguration < ApplicationRecord
   end
 
   def has_acceptable_trigger_rules_validation
-    if enabled? && !trigger_rules.valid?
+    if self.class.has_trigger_rules && enabled? && !trigger_rules.valid?
       errors.add(:base, trigger_rules.invalid_error_message)
     end
   end

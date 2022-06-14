@@ -29,7 +29,7 @@
                   <i class="<%= icon_class %>"></i>
                   <%= number_to_human(diff_in_metric.abs, units: { unit: unit, thousand: unit ? 'seconds' : nil }) %>
                   <% unless previous_impact_result.zero? || impact_result.zero? %>
-                    (<%= ((diff_in_metric.to_f/previous_impact_result)*100).round(2) %>%)
+                    (<%= number_with_delimiter(((diff_in_metric.to_f/previous_impact_result)*100).round(2)) %>%)
                   <% end %>
                 </span>
               <% end %>

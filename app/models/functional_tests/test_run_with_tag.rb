@@ -1,7 +1,7 @@
 class TestRunWithTag < TestRun
   include Streamable
   belongs_to :audit
-  has_one :follow_up_test_run_without_tag, class_name: 'TestRunWithoutTag', foreign_key: :original_test_run_with_tag_id
+  has_one :follow_up_test_run_without_tag, class_name: TestRunWithoutTag.to_s, foreign_key: :original_test_run_with_tag_id
   has_one :test_run_without_tag, foreign_key: :original_test_run_with_tag_id
 
   scope :inconclusive, -> { joins(:follow_up_test_run_without_tag).with_tag.where(passed: false, follow_up_test_run_without_tag: { passed: false }) }

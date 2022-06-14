@@ -48,7 +48,7 @@ export default class extends Controller {
   onHoneycombMouseover() {
     this.mouseoverTimeoutFunc = setTimeout(() => {
       this.displayTooltip();
-    }, 500);
+    }, 1500);
   }
 
   onHoneycombMouseout() {

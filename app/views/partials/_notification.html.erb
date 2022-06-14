@@ -4,16 +4,16 @@
       <div class='container-fluid'>
         <div class='row'>
           <span class='exit-btn tagsafe-circular-btn tiny' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
-          <% if local_assigns[:title] %>
-            <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
+          <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
+            <% if local_assigns[:title] %>
               <span class='notification-title'><%= title %></span>
-            </div>
-          <% end %>
-          <% if local_assigns[:timestamp] %>
-            <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
+            <% end %>
+          </div>
+          <div class='col-6' style='overflow: hidden; text-oveflow: ellipsis;'>
+            <% if local_assigns[:timestamp] %>
               <span class='notification-timestamp float-end'><%= timestamp %></span>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

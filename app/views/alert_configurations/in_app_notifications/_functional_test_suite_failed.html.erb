@@ -1,8 +1,8 @@
 <h5 class='notification-message-header mb-2 text-center' style='font-size: 18px;'>🚨 <%= alert_configuration.name %> 🚨</h5>
-<span class='d-flex'>
+<div class='d-flex'>
   <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail border' %>
   <span>
     <%= alert_configuration.triggered_alert_description(triggered_alert) %>
   </span>
-</span>
-<%= link_to "View Performance Audit", tag_audit_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+</div>
+<%= link_to "View Audit", tag_audit_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
