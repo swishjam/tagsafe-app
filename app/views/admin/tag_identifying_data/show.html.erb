@@ -27,5 +27,17 @@
         </ul>
       </div>
     <% end %>
+
+    <div class='mt-4'>
+      <h4>Add new URL Patterns</h4>
+      <p>Use asterik for subdomains (ie: *.collin.com for all collin.com Tags)</p>
+      <%= form_with model: @tag_identifying_data.tag_identifying_data_domains.new, url: admin_tag_identifying_datum_tag_identifying_data_domains_path(@tag_identifying_data), data: { controller: 'loading_form' } do |f| %>
+        <div class='form-floating mb-2'>
+          <%= f.text_field :url_pattern, class: 'form-control', placeholder: 'URL Pattern' %>
+          <%= f.label :url_pattern %>
+        </div>
+        <%= submit_loading_button 'Add', button_class: 'large' %>
+      <% end %>
+    </div>
   </div>
 </div>

@@ -171,9 +171,11 @@ Rails.application.routes.draw do
     resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
     resources :aws_event_bridge_rules, only: [:index, :show, :update]
     resources :flags, only: [:index, :show], param: :uid do
-      resources :object_flags
+      resources :object_flags, param: :uid
     end
-    resources :tag_identifying_data
+    resources :tag_identifying_data, param: :uid do
+      resources :tag_identifying_data_domains, only: :create, param: :uid
+    end
       # member do
       #   post :apply_to_tags
       # end

@@ -15,4 +15,25 @@ class TagIdentifyingData < ApplicationRecord
       domain_url_pattern_for_tag
     )
   end
+
+  def apply_to_tags_without_tag_identifying_data
+    Tag.includes(:tag_identifying_data).where(tag_identifying_data: { id: nil }).map do |tag|
+      next unless matches?(tag)
+      tag.update!(tag_identifying_data: self)
+    end.compact!
+  end
+
+
+  def matches?(tag)
+    matches = false
+    tag_identifying_data_domains.each do |tag_identifying_data_domain|
+      split_domain = tag.url_domain.split('.')
+      domain_url_pattern_for_tag = "*.#{split_domain[split_domain.length - 2..].join('.')}"
+      if [tag.url_domain, domain_url_pattern_for_tag].include?(tag_identifying_data_domain.url_pattern)
+        matches = true
+        break
+      end
+    end
+    matches
+  end
 end

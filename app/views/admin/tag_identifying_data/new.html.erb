@@ -1,0 +1,23 @@
+<div class='col-8 offset-2'>
+  <h4 class='text-center mb-3'>Add new Tag Identifying Data</h4>
+  <%= form_with model: @tag_identifying_data, url: admin_tag_identifying_data_path, data: { controller: 'loading_form' } do |f| %>
+    <div class='form-floating'>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Name' %>
+      <%= f.label :name %>
+    </div>
+    <div class='form-floating mt-2'>
+      <%= f.text_field :company, class: 'form-control', placeholder: 'Name' %>
+      <%= f.label :company %>
+    </div>
+    <div class='form-floating mt-2'>
+      <%= f.text_field :homepage, class: 'form-control', placeholder: 'Name' %>
+      <%= f.label :homepage %>
+    </div>
+    <div class='form-floating mt-2'>
+      <%= f.text_field :category, class: 'form-control', placeholder: 'Name' %>
+      <%= f.label :category %>
+    </div>
+    <div class='text-center mt-3'>
+      <%= submit_loading_button 'Add', type: 'floating', button_class: 'large' %>
+    </div>
+  <% end %>
