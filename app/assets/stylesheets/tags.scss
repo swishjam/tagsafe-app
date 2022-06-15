@@ -8,17 +8,6 @@
   display: inline-block;
 }
 
-.tag-row-header {
-  font-size: 16px;
-  font-weight: 800;
-  color: $dark-grey-text;
-}
-.tag-row-sub-header {
-  font-size: 12px;
-  font-weight: 400;
-  color: $faded-grey-text;
-}
-
 .domain-tags-table-frame[busy] .search-input-container .loading-indicator {
   display: flex;
 }

@@ -4,10 +4,6 @@
       <h1 class='page-title with-sub-title'>New Alert</h1>
     </div>
   </div>
-  <%= render 'partials/page_navigation_items', navigation_items: [
-    { url: alert_configurations_path, text: 'Alerts' },
-    { url: triggered_alerts_path, text: 'Triggered Alerts' }
-  ] %>
 </div>
 
 <div class='tagsafe-container'>
@@ -61,9 +57,9 @@
                 <label for="<%=tag.uid%>" class='tagsafe-table-cell flex-4'>
                   <%= image_tag tag.try_image_url, class: 'tag-thumbnail border me-2' %>
                   <div class='d-block'>
-                    <span class='d-block tag-row-header'><%= tag.try_friendly_name %></span>
+                    <span class='d-block table-row-header'><%= tag.try_friendly_name %></span>
                     <% if tag.has_friendly_name? %>
-                      <span class='d-block tag-row-sub-header'><%= tag.url_based_on_preferences %></span>
+                      <span class='d-block table-row-sub-header'><%= tag.url_based_on_preferences %></span>
                     <% end %>
                   </div>
                 </label>
@@ -83,9 +79,9 @@
                 <label class='tagsafe-table-cell flex-4' for="<%=tag.uid%>">
                   <%= image_tag tag.try_image_url, class: 'tag-thumbnail border me-2' %>
                   <div class='d-block'>
-                    <span class='d-block tag-row-header'><%= tag.try_friendly_name %></span>
+                    <span class='d-block table-row-header'><%= tag.try_friendly_name %></span>
                     <% if tag.has_friendly_name? %>
-                      <span class='d-block tag-row-sub-header'><%= tag.url_based_on_preferences %></span>
+                      <span class='d-block table-row-sub-header'><%= tag.url_based_on_preferences %></span>
                     <% end %>
                   </div>
                 </label>

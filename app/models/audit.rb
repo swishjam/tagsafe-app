@@ -133,7 +133,6 @@ class Audit < ApplicationRecord
     update_column(:seconds_to_complete, Time.now - created_at)
     mark_as_most_current_if_possible
     send_audit_completed_notifications_if_necessary
-    AlertEvaluators::PerformanceAuditExceededThreshold.new(self).trigger_alerts_if_criteria_is_met! unless performance_audit_failed?
     WalletModerator::AuditTransactor.new(self).credit_wallet! if performance_audit_failed?
     stream_updates_to_views(true)
   end
@@ -166,6 +165,7 @@ class Audit < ApplicationRecord
       tagsafe_score_is_confident: tagsafe_score_confidence_range && tagsafe_score_confidence_range <= performance_audit_configuration.required_tagsafe_score_range
     )
     update_performance_audit_details_view(audit: self, now: true)
+    AlertEvaluators::PerformanceAuditExceededThreshold.new(self).trigger_alerts_if_criteria_is_met! unless performance_audit_failed?
     purge_non_median_performance_audit_recordings!
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
@@ -174,14 +174,12 @@ class Audit < ApplicationRecord
   end
 
   def functional_tests_completed!
-    update(functional_tests_completed_at: Time.now)
+    update(functional_tests_completed_at: Time.current)
+    AlertEvaluators::FunctionalTestSuiteFailed.new(self).trigger_alerts_if_criteria_is_met! unless passed_all_functional_tests?
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
     # update_tag_version_table_row(tag_version: tag_version, now: true)
     update_tag_table_row(tag: tag, now: true)
-    unless passed_all_functional_tests?
-      AlertEvaluators::FunctionalTestSuiteFailed.new(self).trigger_alerts_if_criteria_is_met!
-    end
   end
 
   def page_change_audit_completed!

@@ -12,9 +12,9 @@
       <div class='tagsafe-table-cell flex-3'>
         <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
         <div class='d-block ms-3'>
-          <span class='tag-row-header'><%= tag.try_friendly_name %></span>
+          <span class='table-row-header'><%= tag.try_friendly_name %></span>
           <% if tag.has_friendly_name? %>
-            <span class='tag-row-sub-header'><%= tag.url_based_on_preferences %></span>
+            <span class='table-row-sub-header'><%= tag.url_based_on_preferences %></span>
           <% end %>
         </div>
       </div>

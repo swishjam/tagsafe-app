@@ -139,13 +139,13 @@ module Streamable
     ## Audit streams ##
     ###################
 
-    def prepend_audit_to_list(audit:, hide_primary_audit_indicator: true, now: false)
+    def prepend_audit_to_list(audit:, now: false)
       stream_prepend!(
         now: now,
         stream: "tag_#{audit.tag.uid}_details_view_stream", 
         target: "tag_#{audit.tag.uid}_audits_table_rows",
         partial: 'audits/audit_row',
-        locals: { audit: audit, hide_primary_audit_indicator: hide_primary_audit_indicator }
+        locals: { audit: audit, include_execution_reason: true }
       )
       return if audit.run_on_live_tag?
       stream_prepend!(

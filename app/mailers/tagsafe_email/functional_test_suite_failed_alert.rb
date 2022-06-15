@@ -1,5 +1,5 @@
 module TagsafeEmail
-  class FunctionalTestSuiteFailed < Base
+  class FunctionalTestSuiteFailedAlert < Base
     self.sendgrid_template_id = :'d-c16d7f991e8d43a59523b7f0f335a7b5'
     self.from_email = :'alerts@tagsafe.io'
 

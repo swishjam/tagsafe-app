@@ -2,15 +2,9 @@
   <div class='container-fluid'>
     <div class='row'>
       <h1 class='page-title with-sub-title'>Alert Details</h1>
-      <h2 class='page-sub-title'><%= @alert_configuration.name %> - <%= @alert_configuration.class.user_facing_alert_name %></h2>
+      <h2 class='page-sub-title'><%= @alert_configuration.name %></h2>
     </div>
   </div>
-  <% unless user_is_anonymous? %>
-    <%= render 'partials/page_navigation_items', navigation_items: [
-      { url: alert_configurations_path, text: 'Alerts' },
-      { url: triggered_alerts_path, text: 'Triggered Alerts' }
-    ] %>
-  <% end %>
 </div>
 
 <div class="tagsafe-container p-5 text-center position-relative">
@@ -115,9 +109,9 @@
               <%= image_tag triggered_alert.tag.try_image_url, class: 'tag-thumbnail border me-2' %>
             <% end %>
             <div class='d-inline-block'>
-              <span class='tag-row-header d-block'><%= triggered_alert.tag.try_friendly_name %></span>
+              <span class='table-row-header d-block'><%= triggered_alert.tag.try_friendly_name %></span>
               <% if triggered_alert.tag.has_friendly_name? %>
-                <span class='tag-row-sub-header d-block'><%= triggered_alert.tag.url_based_on_preferences %></span>
+                <span class='table-row-sub-header d-block'><%= triggered_alert.tag.url_based_on_preferences %></span>
               <% end %>
             </div>
           </div>

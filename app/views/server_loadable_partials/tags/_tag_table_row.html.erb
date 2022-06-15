@@ -10,8 +10,8 @@
               data-bs-toggle='tooltip'
               title="<%=tag.url_based_on_preferences%>">
           <% if tag.has_friendly_name? %>
-            <span class='tag-row-header d-block'><%= tag.friendly_name %></span>
-            <span class='tag-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+            <span class='table-row-header underline-hover d-block'><%= tag.friendly_name %></span>
+            <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
           <% else %>
             <span class='tag-url d-block'><%= tag.url_based_on_preferences %></span>
           <% end %>

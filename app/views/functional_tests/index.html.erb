@@ -30,7 +30,7 @@
         <% @functional_tests.each do |test| %>
           <%= link_to functional_test_path(test), class: 'no-decoration' do %>
             <div class='tagsafe-table-row hoverable'>
-              <div class='tagsafe-table-cell'><%= test.title %></div>
+              <div class='tagsafe-table-cell table-row-header underline-hover'><%= test.title %></div>
               <div class='tagsafe-table-cell'><%= test.description %></div>
               <div class='tagsafe-table-cell'>
                 <% if test.disabled? %>

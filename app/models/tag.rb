@@ -59,8 +59,9 @@ class Tag < ApplicationRecord
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
   after_create_commit :apply_defaults
   after_create_commit :stream_new_tag_to_views
-  after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
-  after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
+  after_create_commit { AlertEvaluators::NewTag.new(self).trigger_alerts_if_criteria_is_met! }
+  # after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
+  # after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
 
   # SCOPES
   # default_scope { includes(:tag_identifying_data, :tag_preferences) }
@@ -247,9 +248,9 @@ class Tag < ApplicationRecord
     !removed_from_site_at.nil?
   end
 
-  def mark_as_removed_from_site!(removed_timestamp = Time.now)
+  def mark_as_removed_from_site!(removed_timestamp = Time.current)
     update!(removed_from_site_at: removed_timestamp)
-    RemovedTagAlert.create!(tag: self, initiating_record: self)
+    AlertEvaluators::TagRemoved.new(self).trigger_alerts_if_criteria_is_met!
   end
 
   def release_monitoring_enabled?

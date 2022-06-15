@@ -4,10 +4,6 @@
       <h1 class='page-title with-sub-title'>New Alert</h1>
     </div>
   </div>
-  <%= render 'partials/page_navigation_items', navigation_items: [
-    { url: alert_configurations_path, text: 'Alerts' },
-    { url: triggered_alerts_path, text: 'Triggered Alerts' }
-  ] %>
 </div>
 
 <div class='tagsafe-container'>
@@ -41,8 +37,8 @@
                 </div>
                 <label for="<%= domain_user.uid %>" class='tagsafe-table-cell flex-4'>
                   <div class='d-block'>
-                    <span class='d-block tag-row-header'><%= domain_user.user.full_name %></span>
-                    <span class='d-block tag-row-sub-header'><%= domain_user.user.email %></span>
+                    <span class='d-block table-row-header'><%= domain_user.user.full_name %></span>
+                    <span class='d-block table-row-sub-header'><%= domain_user.user.email %></span>
                   </div>
                 </label>
               </div>
@@ -54,8 +50,8 @@
                 </div>
                 <label for="<%= domain_user.uid %>" class='tagsafe-table-cell flex-4'>
                   <div class='d-block'>
-                    <span class='d-block tag-row-header'><%= domain_user.user.full_name %></span>
-                    <span class='d-block tag-row-sub-header'><%= domain_user.user.email %></span>
+                    <span class='d-block table-row-header'><%= domain_user.user.full_name %></span>
+                    <span class='d-block table-row-sub-header'><%= domain_user.user.email %></span>
                   </div>
                 </label>
               </div>

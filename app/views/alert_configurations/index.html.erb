@@ -11,10 +11,6 @@
       </div>
     </div>
   </div>
-  <%= render 'partials/page_navigation_items', navigation_items: [
-    { url: alert_configurations_path, text: 'Alerts' },
-    { url: triggered_alerts_path, text: 'Triggered Alerts' }
-  ] %>
 </div>
 
 <% if @alert_configurations.any? %>
@@ -37,10 +33,18 @@
                 <span class='<%= alert_config.disabled? ? 'inactive-circular-icon' : 'active-circular-icon' %> me-2'
                       data-controller='tooltip'
                       data-bs-toggle='tooltip'
-                      title='Alert is <%= alert_config.disabled? ? 'inactive' : 'active' %>'></span> <%= alert_config.name %>
+                      title='Alert is <%= alert_config.disabled? ? 'inactive' : 'active' %>'></span> 
+                <span class='table-row-header underline-hover'><%= alert_config.name %></span>
               </div>
               <div class='tagsafe-table-cell'>
-                <div class='tagsafe-pill tagsafe-primary-purple small-text'><%= alert_config.class.user_facing_alert_name %></div>
+                <% pill_color = {
+                  'PerformanceAuditExceededThresholdAlertConfiguration' => 'tagsafe-primary-purple',
+                  'NewTagVersionAlertConfiguration' => 'green',
+                  'FunctionalTestSuiteFailedAlertConfiguration' => 'orange',
+                  'TagRemoved' => 'red',
+                  'NewTagAlertConfiguration' => 'grey'
+                }[alert_config.class.to_s] %>
+                <div class='tagsafe-pill <%= pill_color %> small-text'><%= alert_config.class.user_facing_alert_name %></div>
               </div>
               <div class='tagsafe-table-cell'><%= alert_config.enabled_for_all_tags ? 'All tags' : alert_config.tags.count %></div>
               <div class='tagsafe-table-cell'><%= alert_config.domain_users.count %></div>
