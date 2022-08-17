@@ -65,6 +65,14 @@ class Domain < ApplicationRecord
     "#{u.scheme}://#{u.hostname}"
   end
 
+  def tagsafe_instrumentation_url
+    "https://#{ENV['TAGSAFE_INSTRUMENTATION_CLOUDFRONT_HOSTNAME']}/#{tagsafe_instrumentation_pathname}"
+  end
+
+  def tagsafe_instrumentation_pathname
+    "#{uid}-instrumentation.js"
+  end
+
   def is_test_domain?
     url_hostname == TEST_DOMAIN_HOSTNAME
   end

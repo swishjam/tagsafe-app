@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_14_201447) do
+ActiveRecord::Schema.define(version: 2022_08_02_123821) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -52,32 +52,33 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
   end
 
   create_table "alert_configuration_domain_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
     t.bigint "domain_user_id"
     t.bigint "alert_configuration_id"
-    t.string "uid"
     t.index ["alert_configuration_id"], name: "index_alert_configuration_domain_users_on_alert_configuration_id"
     t.index ["domain_user_id"], name: "index_alert_configuration_domain_users_on_domain_user_id"
+    t.index ["uid"], name: "index_alert_configuration_domain_users_on_uid"
   end
 
   create_table "alert_configuration_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
     t.bigint "tag_id"
     t.bigint "alert_configuration_id"
-    t.string "uid"
     t.index ["alert_configuration_id"], name: "index_alert_configuration_tags_on_alert_configuration_id"
     t.index ["tag_id"], name: "index_alert_configuration_tags_on_tag_id"
+    t.index ["uid"], name: "index_alert_configuration_tags_on_uid"
   end
 
   create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.bigint "domain_id"
+    t.string "name"
     t.string "type"
     t.string "trigger_rules"
-    t.boolean "enable_for_all_tags"
-    t.boolean "disabled"
-    t.string "name"
     t.boolean "enabled_for_all_tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "disabled"
     t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end
@@ -272,6 +273,7 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
     t.bigint "current_subscription_plan_id"
+    t.string "instrumentation_key"
     t.index ["current_subscription_plan_id"], name: "index_domains_on_current_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
@@ -787,6 +789,8 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.integer "num_deletions"
     t.text "commit_message"
     t.bigint "release_check_captured_with_id"
+    t.string "sha_256"
+    t.string "tag_version_identifier"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
@@ -814,6 +818,15 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.timestamp "created_at"
     t.datetime "deleted_at"
     t.bigint "most_current_audit_id"
+    t.boolean "is_tagsafe_hosted"
+    t.text "js_script", size: :long
+    t.integer "script_inject_priority"
+    t.string "script_inject_location"
+    t.boolean "script_inject_is_disabled"
+    t.boolean "execute_script_in_web_worker"
+    t.string "inject_script_at_event"
+    t.bigint "current_live_tag_version_id"
+    t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
     t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
@@ -848,15 +861,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
     t.index ["test_run_id_retried_from"], name: "index_test_runs_on_test_run_id_retried_from"
     t.index ["uid"], name: "index_test_runs_on_uid"
-  end
-
-  create_table "triggered_alert_domain_users", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "triggered_alert_id"
-    t.bigint "domain_user_id"
-    t.index ["domain_user_id"], name: "index_triggered_alert_domain_users_on_domain_user_id"
-    t.index ["triggered_alert_id"], name: "index_triggered_alert_domain_users_on_triggered_alert_id"
-    t.index ["uid"], name: "index_triggered_alert_domain_users_on_uid"
   end
 
   create_table "triggered_alerts", charset: "utf8", force: :cascade do |t|

@@ -1,0 +1,61 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title">Tag Management</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to new_tag_path, class: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
+          <div class='d-flex align-items-center'>
+            Add Tag
+            <!--<span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
+              <form class='hidden' action="<%=select_tag_to_audit_tags_path%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
+              </form>
+              ⌘n
+            </span>!-->
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='tagsafe-table p-3'>
+  <div class='tagsafe-table-head square'>
+    <div class='tagsafe-table-row header'>
+      <div class='tagsafe-table-cell flex-3'>Tag</div>
+      <div class='tagsafe-table-cell'>Load rule</div>
+      <div class='tagsafe-table-cell flex-0'></div>
+    </div>
+  </div>
+  <div class='tagsafe-table-body'>
+    <% @tags.each do |tag| %>
+      <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
+        <div class='tagsafe-table-row hoverable'>
+          <div class='tagsafe-table-cell flex-3'>
+            <div class='tag-img-thumbnail-container me-2'>
+              <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+            </div>
+            <% if tag.has_friendly_name? %>
+              <div class='d-block'>
+                <span class='table-row-header underline-hover d-block'><%= tag.friendly_name %></span>
+                <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+              </div>
+            <% else %>
+              <span class='table-row-header underline-hover d-block'><%= tag.url_based_on_preferences %></span>
+            <% end %>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <%= tag.load_type %>
+          </div>
+          <div class='tagsafe-table-cell flex-0 text-end'>
+            HI!
+          </div>
+        </div>
+
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= paginate @tags %>
+</div>

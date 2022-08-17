@@ -97,11 +97,13 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/tag_management' => 'tags#tag_manager', as: :tag_manager
   resources :tags, param: :uid do
     member do
       get :uptime
       get :audits
       get :uptime_metrics
+      post :toggle_disable
       resources :releases, only: :index, as: :tag_releases
     end
     collection do

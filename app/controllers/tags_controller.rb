@@ -3,6 +3,28 @@ class TagsController < LoggedInController
     render_breadcrumbs({ text: 'Monitor Center', active: true })
   end
 
+  def tag_manager
+    @tags = current_domain.tags.page(params[:page] || 1).per(20)
+    render_breadcrumbs(text: 'Tag Management')
+  end
+
+  def new
+    @tag = current_domain.tags.new
+    render_breadcrumbs(
+      { text: 'Tag Management', url: tag_manager_path },
+      { text: 'New Tag' }
+    )
+  end
+
+  def create
+    @tag = current_domain.tags.new(tag_params)
+    if @tag.save
+      redirect_to tag_path(@tag)
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def show
     @tag = current_domain.tags.includes(:tag_identifying_data, :tag_preferences).find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
@@ -77,18 +99,6 @@ class TagsController < LoggedInController
     )
   end
 
-  def notification_settings
-    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
-    if current_domain.completed_slack_setup?
-      @slack_channels_options = current_domain.slack_client.get_channels['channels'].map { |channel| channel['name'] }
-    end
-    render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path }, 
-      { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
-      { text: "Edit", active: true }
-    )
-  end
-
   def update
     tag = current_domain.tags.find_by(uid: params[:uid])
     tag.update!(tag_params)
@@ -104,9 +114,15 @@ class TagsController < LoggedInController
     )
   end
 
+  def toggle_disable
+    tag = current_domain.tags.find_by(uid: params[:uid])
+    tag.update!(script_inject_is_disabled: !tag.script_inject_is_disabled)
+    redirect_to request.referrer
+  end
+
   private
 
   def tag_params
-    params.require(:tag).permit(:load_type)
+    params.require(:tag).permit(:load_type, :full_url, :js_script, :is_tagsafe_hosted, :inject_script_at_event, :script_inject_location)
   end
 end

@@ -1,0 +1,35 @@
+<%= form_with model: tag, data: { controller: 'loading_form' } do |f| %>
+  <div class='form-floating'>
+    <%= f.text_field :full_url, class: 'form-control', placeholder: 'https://www.googleanalytics.com' %>
+    <%= f.label 'JS URL' %>
+  </div>
+  <div class='form-floating mt-2'>
+    <select class='form-select' name='tag[load_type]'>
+      <option value='defer' selected>Defer</option>
+      <option value='async'>Async</option>
+      <option value='synchronous'>Synchronous</option>
+    </select>
+    <label>Select load rule</label>
+  </div>
+  <div class='form-floating mt-2'>
+    <select class='form-select' name='tag[inject_script_at_event]'>
+      <option value='immediate' selected>Immediately</option>
+      <option value='load'>DOM load</option>
+    </select>
+    <label>Inject script at (timing)</label>
+  </div>
+  <div class='form-floating mt-2'>
+    <select class='form-select' name='tag[script_inject_location]'>
+      <option value='head' selected>Document Head</option>
+      <option value='body'>Before closing body tag</option>
+    </select>
+    <label>Inject script at (location)</label>
+  </div>
+  <%= f.hidden_field :is_tagsafe_hosted, value: true %>
+  <% if tag.errors.any? %>
+    <span class='mt-2 d-block' style='color: red'><%= tag.errors.full_messages.join('. ') %></span>
+  <% end %>
+  <div class='mt-2'>
+    <%= loading_submit_button 'Add Tag', type: 'floating', button_class: 'float-end' %>
+  </div>
+<% end %>

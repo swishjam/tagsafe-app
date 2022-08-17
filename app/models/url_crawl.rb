@@ -40,13 +40,13 @@ class UrlCrawl < ApplicationRecord
     consider_query_param_changes_new_tag: false,
     has_content: true
   )
-    parsed_url = URI.parse(tag_url)
+    # parsed_url = URI.parse(tag_url)
     tag = found_tags.create!(
       domain: domain,
       full_url: tag_url,
-      url_domain: parsed_url.host,
-      url_path: parsed_url.path,
-      url_query_param: parsed_url.query,
+      # url_domain: parsed_url.host,
+      # url_path: parsed_url.path,
+      # url_query_param: parsed_url.query,
       load_type: load_type,
       found_on_page_url: page_url,
       has_content: has_content,

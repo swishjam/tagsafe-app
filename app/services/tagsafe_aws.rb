@@ -6,13 +6,19 @@ class TagsafeAws
       end
 
       def get_object_by_s3_url(s3_url)
-        client.get_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+        client.get_object(bucket: url_to_bucket(s3_url), key: url_to_key(s3_url))
       end
 
       def delete_object_by_s3_url(s3_url)
-        client.delete_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+        client.delete_object(bucket: url_to_bucket(s3_url), key: url_to_key(s3_url))
       rescue => e
         puts "CANNOT DELETE #{s3_url}: #{e.message}"
+      end
+
+      def write_to_s3(bucket:, key:, content:, acl: nil)
+        args = { bucket: bucket, key: key, body: content }
+        args[:acl] = acl unless acl.nil?
+        client.put_object(args)
       end
 
       def url_to_bucket(s3_url)
@@ -21,6 +27,27 @@ class TagsafeAws
 
       def url_to_key(s3_url)
         URI.parse(s3_url).path.gsub('/', '')
+      end
+    end
+  end
+
+  class CloudFront
+    class << self
+      def client
+        @_client ||= Aws::CloudFront::Client.new(region: 'us-east-1')
+      end
+
+      def invalidate_cache(*paths)
+        client.create_invalidation(
+          distribution_id: ENV['TAGSAFE_INSTRUMENTATION_CLOUDFRONT_DISTRIBUTION_ID'],
+          invalidation_batch: {
+            paths: {
+              quantity: 1,
+              items: paths,
+            },
+            caller_reference: "#{Time.current.to_i}__#{paths.join('__')}"
+          }
+        )
       end
     end
   end
@@ -57,12 +84,13 @@ class TagsafeAws
       end
 
       def invoke_function(function_name:, payload:, async: true)
-        client.invoke(
+        resp = client.invoke(
           function_name: function_name,
           invocation_type: async ? 'Event' : 'RequestResponse',
           log_type: 'Tail',
           payload: JSON.generate(payload)
         )
+        async ? resp : JSON.parse(resp.payload.string)
       end
     end
   end

@@ -8,12 +8,14 @@ class Tag < ApplicationRecord
   uid_prefix 'tag'
   acts_as_paranoid
 
+  attribute :script_inject_is_disabled, default: false
+
   # RELATIONS
   belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :domain
   belongs_to :tag_identifying_data, optional: true
-  belongs_to :found_on_page_url, class_name: PageUrl.to_s
-  belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s
+  belongs_to :found_on_page_url, class_name: PageUrl.to_s, optional: true
+  belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s, optional: true
 
   has_many :audits, dependent: :destroy
   has_many :long_tasks, dependent: :destroy
@@ -46,7 +48,9 @@ class Tag < ApplicationRecord
   accepts_nested_attributes_for :tag_preferences
 
   # VALIDATIONS
-  validates :load_type, inclusion: { in: %w[async defer synchronous] }
+  validates :load_type, inclusion: { in: %w[async defer synchronous] }, unless: -> { js_script.present? }
+  validates :inject_script_at_event, inclusion: { in: %w[immediate load] }
+  validates :script_inject_location, inclusion: { in: %w[head body] }
   validates_presence_of :full_url
   validates_uniqueness_of :full_url, 
                           scope: :domain_id, 
@@ -54,10 +58,15 @@ class Tag < ApplicationRecord
                           message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" }
 
   # CALLBACKS
+  before_validation :set_url_attributes
+  before_create :set_default_tag_preferences
+  before_create :capture_first_tag_version_if_is_tagsafe_hosted
   broadcast_notification on: :create
   after_update_commit { update_tag_table_row(tag: self, now: true) }
   after_destroy_commit { remove_tag_from_from_table(tag: self) }
-  after_create_commit :apply_defaults
+  after_create_commit :find_and_set_url_attributes_if_script_provided
+  after_create_commit :write_current_instrumentation_to_cdn
+  after_create_commit :apply_tag_identifying_data_and_functional_tests
   after_create_commit :stream_new_tag_to_views
   after_create_commit { AlertEvaluators::NewTag.new(self).trigger_alerts_if_criteria_is_met! }
   # after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
@@ -68,6 +77,12 @@ class Tag < ApplicationRecord
   
   scope :release_monitoring_enabled, -> { where_tag_preferences_not({ release_check_minute_interval: 0 }) }
   scope :release_monitoring_disabled, -> { where_tag_preferences({ release_check_minute_interval: 0 }) }
+
+  scope :script_injection_enabled, -> { where(script_inject_is_disabled: false) }
+  scope :script_injection_disabled, -> { where(script_inject_is_disabled: true) }
+
+  scope :injected_in_head, -> { where(script_inject_location: 'head') }
+  scope :injected_in_body, -> { where(script_inject_location: 'body') }
 
   scope :scheduled_audits_enabled, -> { where_tag_preferences_not({ scheduled_audit_minute_interval: 0 }) }
   scope :scheduled_audits_disabled, -> { where_tag_preferences({ scheduled_audit_minute_interval: 0 }) }
@@ -136,6 +151,40 @@ class Tag < ApplicationRecord
     find_without_query_params(url, include_removed_tags: true)
   end
 
+  def set_url_attributes
+    if self.full_url.nil?
+      tag_urls = TagManager::FindTagInJsScript.find!(js_script)
+      Rails.logger.warn "Received #{tags.count} tag URLs when evaluting script for #{uid}, only saving one..." if tag_urls.count > 1
+      self.full_url = tag_urls[0]
+    end
+    parsed_url = URI.parse(full_url)
+    self.url_domain = parsed_url.host
+    self.url_path = parsed_url.path
+    self.url_query_param = parsed_url.query
+  end
+
+  def find_and_set_url_attributes_if_script_provided
+    binding.pry
+  end
+
+  def set_default_tag_preferences
+    return if tag_preferences.present?
+    self.tag_preferences_attributes = {
+      release_check_minute_interval: 30, 
+      scheduled_audit_minute_interval: 0, 
+      is_allowed_third_party_tag: false, 
+      is_third_party_tag: true, 
+      consider_query_param_changes_new_tag: false
+    }
+  end
+
+  def capture_first_tag_version_if_is_tagsafe_hosted
+    return unless is_tagsafe_hosted
+    TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version!
+  rescue TagManager::TagVersionFetcher::InvalidTagUrl, TagManager::TagVersionFetcher::InvalidFetch => e
+    errors.add(:base, e.message)
+  end
+
   def find_and_apply_tag_identifying_data(force_update = false)
     unless tag_identifying_data.present? || force_update
       update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
@@ -154,7 +203,11 @@ class Tag < ApplicationRecord
     try_image_url
   end
 
-  def apply_defaults
+  def write_current_instrumentation_to_cdn
+    TagsafeInstrumentationManager::InstrumentationWriter.new(domain).write_current_instrumentation_to_cdn
+  end
+
+  def apply_tag_identifying_data_and_functional_tests
     # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
     find_and_apply_tag_identifying_data
     # uptime_regions_to_check.create(uptime_region: UptimeRegion.US_EAST_1) # new uptime check logic no longer requires this...
@@ -182,6 +235,10 @@ class Tag < ApplicationRecord
   # def most_current_audit
   #   audits.most_current.limit(1).first
   # end
+
+  def current_sri_value
+    current_version.nil? ? nil : "sha256-#{current_version.sha_256}"
+  end
   
   def most_recent_version
     return nil if release_monitoring_disabled?

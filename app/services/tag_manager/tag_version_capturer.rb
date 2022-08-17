@@ -8,6 +8,13 @@ module TagManager
       @bytes = bytes
     end
 
+    def build_new_tag_version!
+      tag_version = @tag.tag_versions.new(tag_version_data)
+      @tag.marked_as_pending_tag_version_capture_at = nil
+      remove_temp_files
+      tag_version
+    end
+
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
@@ -21,6 +28,7 @@ module TagManager
     def tag_version_data
       {
         hashed_content: @hashed_content,
+        sha_256: Digest::SHA2.new(256).hexdigest(@content),
         bytes: @bytes,
         release_check_captured_with: @release_check,
         js_file: tag_version_js_file_data,
