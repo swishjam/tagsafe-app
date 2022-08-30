@@ -1,9 +1,12 @@
 import Tagsafe from './lib/tagsafe';
-import config from '../data/config'
+import configuration from '../data/config'
 
 window.Tagsafe = Tagsafe;
-window.Tagsafe.config = config;
-window.Tagsafe.init({ 
-  tagsToInjectImmediately: config.tagsToInjectImmediately, 
-  tagsToInjectOnLoad: config.tagsToInjectOnLoad 
-});
+const config = {
+  disabledTags: [],
+  enabledTags: [],
+  useDirectTagUrl: false,
+  ...configuration
+};
+
+window.Tagsafe.init(config);
