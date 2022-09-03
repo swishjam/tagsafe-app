@@ -531,8 +531,11 @@ form[data-controller=loading_form] {
   display: inline-block;
   padding: 0 15px 0 15px;
   .custom-checkbox-div-input {
-    // visibility: hidden;
     display: none;
+  }
+  .custom-checkbox-div-input:disabled + label.custom-checkbox-div-label {
+    cursor: not-allowed;
+    background-color: #f0f0f0;
   }
   .custom-checkbox-div-input + label.custom-checkbox-div-label {
     &.skinny {

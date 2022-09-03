@@ -1,0 +1,113 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class="page-title with-sub-title">New Tag</h1>
+      <h2 class="page-sub-title">Performance enhancements</h2>
+    </div>
+  </div>
+</div>
+
+<div class='p-3'>
+  <div class='col-8 m-auto'>
+    <%= render 'progression_indicators', step_num: 3, tag: @tag %>
+    <%= form_with model: @tag, url: tag_builder_update_path(@tag), class: 'tag-builder-form', data: { controller: 'loading_form' } do |f| %>
+      <div class='form-floating checkbox-row'>
+        <span class='custom-checkbox-row-label d-block'>Where should we host this tag?</span>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[is_tagsafe_hosted]' 
+                  id='tagsafe_hosted_true' 
+                  value='true' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.is_tagsafe_hosted.nil? || @tag.is_tagsafe_hosted ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='tagsafe_hosted_true'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Host the JS content on the Tagsafe domain. This leads to performance enhancements, and control over content updates.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Tagsafe-hosted
+            </div>
+          </label>
+        </div>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[is_tagsafe_hosted]' 
+                  id='tagsafe_hosted_false' 
+                  value='false' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.is_tagsafe_hosted == false ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='tagsafe_hosted_false'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Host the tag from the original host.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Original host <%= @tag.url_domain.blank? ? nil : "(#{@tag.url_domain})" %>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class='form-floating mt-2 checkbox-row'>
+        <span class='custom-checkbox-row-label d-block'>How should we execute the Javascript?</span>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[execute_script_in_web_worker]' 
+                  id='execute_script_in_web_worker_true' 
+                  value='true' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.execute_script_in_web_worker.blank? || @tag.execute_script_in_web_worker ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='execute_script_in_web_worker_true'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Execute this tag's javascript off the main thread in a web worker.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Execute script in web worker
+            </div>
+          </label>
+        </div>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[execute_script_in_web_worker]' 
+                  id='execute_script_in_web_worker_false' 
+                  value='false' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.execute_script_in_web_worker == false ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='execute_script_in_web_worker_false'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Execute this tag's javascript on the main thread.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Execute script in main thread
+            </div>
+          </label>
+        </div>
+      </div>
+      <% if @tag.errors.any? %>
+        <span class='mt-2 d-block' style='color: red'><%= @tag.errors.full_messages.join('. ') %></span>
+      <% end %>
+      <input type='hidden' name='current_view' value="performance">
+      <%= f.hidden_field :full_url, value: @tag.full_url %>
+      <%= f.hidden_field :js_script, value: @tag.js_script %>
+      <%= f.hidden_field :load_type, value: @tag.load_type %>
+      <%= f.hidden_field :script_inject_location, value: @tag.script_inject_location %>
+      <%= f.hidden_field :script_inject_event, value: @tag.script_inject_event %>
+      <%= f.hidden_field :script_inject_priority, value: @tag.script_inject_priority %>
+      <div class='mt-2'>
+        <%= loading_submit_button type: 'floating', button_class: 'float-end' do %>
+          Review configuration <i class='fa-solid fa-arrow-right-long'></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

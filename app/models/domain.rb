@@ -120,10 +120,6 @@ class Domain < ApplicationRecord
     tags.include?(tag)
   end
 
-  def allowed_third_party_tag_urls
-    tags.third_party_tags_that_shouldnt_be_blocked.collect(&:full_url)
-  end
-
   def crawl_and_capture_domains_tags
     if is_generating_third_party_impact_trial
       page_urls.each{ |page_url| page_url.crawl_for_tags! }

@@ -5,7 +5,7 @@ class AddTagLoadPriorityAndPlacement < ActiveRecord::Migration[6.1]
     add_column :tags, :script_inject_location, :string
     add_column :tags, :script_inject_is_disabled, :boolean
     add_column :tags, :execute_script_in_web_worker, :boolean
-    add_column :tags, :inject_script_at_event, :string
+    add_column :tags, :script_inject_event, :string
     add_reference :tags, :current_live_tag_version
 
     add_column :tag_versions, :sha_256, :string
@@ -18,7 +18,7 @@ class AddTagLoadPriorityAndPlacement < ActiveRecord::Migration[6.1]
     remove_column :tags, :script_inject_location
     remove_column :tags, :script_inject_is_disabled
     remove_column :tags, :execute_script_in_web_worker
-    remove_column :tags, :inject_script_at_event
+    remove_column :tags, :script_inject_event
     remove_column :tags, :current_live_tag_version_id
     
     remove_column :tag_versions, :sha_256

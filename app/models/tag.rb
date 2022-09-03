@@ -8,14 +8,16 @@ class Tag < ApplicationRecord
   uid_prefix 'tag'
   acts_as_paranoid
 
-  attribute :script_inject_is_disabled, default: false
+  attribute :execute_script_in_web_worker, default: false
 
   # RELATIONS
   belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :domain
   belongs_to :tag_identifying_data, optional: true
-  belongs_to :found_on_page_url, class_name: PageUrl.to_s, optional: true
-  belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s, optional: true
+  belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
+  belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
+
+  has_one_attached :js_script, service: :tag_js_script_s3
 
   has_many :audits, dependent: :destroy
   has_many :long_tasks, dependent: :destroy
@@ -44,66 +46,26 @@ class Tag < ApplicationRecord
   # has_many :tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
 
   has_one :configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
-  has_one :tag_preferences, class_name: TagPreference.to_s, dependent: :destroy
-  accepts_nested_attributes_for :tag_preferences
+  has_many :tag_configurations, dependent: :destroy
+  has_one :draft_tag_configuration
+  has_one :live_tag_configuration
+  accepts_nested_attributes_for :tag_configurations
 
   # VALIDATIONS
-  validates :load_type, inclusion: { in: %w[async defer synchronous] }, unless: -> { js_script.present? }
-  validates :inject_script_at_event, inclusion: { in: %w[immediate load] }
-  validates :script_inject_location, inclusion: { in: %w[head body] }
-  validates_presence_of :full_url
   validates_uniqueness_of :full_url, 
                           scope: :domain_id, 
                           conditions: -> { where(deleted_at: nil) },
-                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" }
+                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" },
+                          unless: -> { full_url.blank? }
 
   # CALLBACKS
-  before_validation :set_url_attributes
-  before_create :set_default_tag_preferences
-  before_create :capture_first_tag_version_if_is_tagsafe_hosted
-  broadcast_notification on: :create
-  after_update_commit { update_tag_table_row(tag: self, now: true) }
-  after_destroy_commit { remove_tag_from_from_table(tag: self) }
-  after_create_commit :find_and_set_url_attributes_if_script_provided
-  after_create_commit :write_current_instrumentation_to_cdn
-  after_create_commit :apply_tag_identifying_data_and_functional_tests
-  after_create_commit :stream_new_tag_to_views
-  after_create_commit { AlertEvaluators::NewTag.new(self).trigger_alerts_if_criteria_is_met! }
-  # after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
-  # after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
+  after_create :find_tag_url_in_js_script_if_necessary
+  after_create :set_js_script_fingerprint
+  after_create :set_url_attributes_if_necessary
+  after_create :apply_tag_identifying_data_and_functional_tests
 
   # SCOPES
-  # default_scope { includes(:tag_identifying_data, :tag_preferences) }
-  
-  scope :release_monitoring_enabled, -> { where_tag_preferences_not({ release_check_minute_interval: 0 }) }
-  scope :release_monitoring_disabled, -> { where_tag_preferences({ release_check_minute_interval: 0 }) }
-
-  scope :script_injection_enabled, -> { where(script_inject_is_disabled: false) }
-  scope :script_injection_disabled, -> { where(script_inject_is_disabled: true) }
-
-  scope :injected_in_head, -> { where(script_inject_location: 'head') }
-  scope :injected_in_body, -> { where(script_inject_location: 'body') }
-
-  scope :scheduled_audits_enabled, -> { where_tag_preferences_not({ scheduled_audit_minute_interval: 0 }) }
-  scope :scheduled_audits_disabled, -> { where_tag_preferences({ scheduled_audit_minute_interval: 0 }) }
-  
-  scope :still_on_site, -> { where(removed_from_site_at: nil) }
-  scope :removed, -> { where.not(removed_from_site_at: nil) }
-  
-  scope :is_third_party_tag, -> { where_tag_preferences({ is_third_party_tag: true }) }
-  scope :is_not_third_party_tag, -> { where_tag_preferences({ is_third_party_tag: false }) }
-
-  scope :allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: true }) }
-  scope :not_allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
-
-  scope :should_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: true }) }
-  scope :should_not_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: false }) }
-
-  scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
-  scope :should_run_uptime_checks, -> { enabled.still_on_site.is_third_party_tag }
-  scope :chartable, -> { is_third_party_tag.still_on_site.not_allowed_third_party_tag }
-  scope :has_content, -> { where(has_content: true) }
-  scope :doesnt_have_content, -> { where(has_content: false) }
+  scope :has_staged_changes, -> { where(has_staged_changes: true) }
 
   scope :domain_has_active_subscription_plan, -> { joins(:domain).where(Domain.has_valid_subscription) }
   scope :domain_has_invalid_subscription_plan, -> { joins(:domain).where(Domain.has_invalid_subscription) }
@@ -111,36 +73,21 @@ class Tag < ApplicationRecord
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
 
-  scope :where_tag_preferences, -> (where_clause) { joins(:tag_preferences).where(tag_preferences: where_clause) }
-  scope :where_tag_preferences_not, -> (where_clause) { joins(:tag_preferences).where.not(tag_preferences: where_clause) }
+  scope :where_live_tag_configuration, -> (where_clause) { joins(:live_tag_configuration).where(live_tag_configuration: where_clause) }
+  scope :where_live_tag_configuration_not, -> (where_clause) { joins(:live_tag_configuration).where.not(live_tag_configuration: where_clause) }
 
-  scope :where_release_check_interval, -> (interval) { where_tag_preferences(release_check_minute_interval: interval) }
-  scope :one_minute_interval_checks, -> { where_release_check_interval(1) }
-  scope :fifteen_minute_interval_checks, -> { where_release_check_interval(15) }
-  scope :thirty_minute_interval_checks, -> { where_release_check_interval(30) }
-  scope :one_hour_interval_checks, -> { where_release_check_interval(60) }
-  scope :three_hour_interval_checks, -> { where_release_check_interval(180) }
-  scope :six_hour_interval_checks, -> { where_release_check_interval(360) }
-  scope :twelve_hour_interval_checks, -> { where_release_check_interval(720) }
-  scope :twenty_four_hour_interval_checks, -> { where_release_check_interval(1440) }
-  scope :one_day_interval_checks, -> { twenty_four_hour_interval_checks }
-
-  scope :five_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 5) }
-  scope :fifteen_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 15) }
-  scope :thirty_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 30) }
-  scope :one_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 60) }
-  scope :three_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 180) }
-  scope :six_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 360) }
-  scope :twelve_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 720) }
-  scope :twenty_four_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 1440) }
+  scope :five_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 5) }
+  scope :fifteen_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 15) }
+  scope :thirty_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 30) }
+  scope :one_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 60) }
+  scope :three_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 180) }
+  scope :six_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 360) }
+  scope :twelve_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 720) }
+  scope :twenty_four_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 1440) }
 
   def self.find_without_query_params(url, include_removed_tags: false)
     parsed_url = URI.parse(url)
-    if include_removed_tags
-      should_not_consider_query_param_changes_new_tag.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
-    else
-      still_on_site.should_not_consider_query_param_changes_new_tag.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
-    end
+    find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
   end
 
   def self.find_removed_tag(url)
@@ -151,44 +98,62 @@ class Tag < ApplicationRecord
     find_without_query_params(url, include_removed_tags: true)
   end
 
-  def set_url_attributes
-    if self.full_url.nil?
-      tag_urls = TagManager::FindTagInJsScript.find!(js_script)
-      Rails.logger.warn "Received #{tags.count} tag URLs when evaluting script for #{uid}, only saving one..." if tag_urls.count > 1
-      self.full_url = tag_urls[0]
-    end
+  def has_url?
+    !full_url.blank?
+  end
+
+  def set_url_attributes_if_necessary
+    return if self.full_url.nil?
     parsed_url = URI.parse(full_url)
     self.url_domain = parsed_url.host
     self.url_path = parsed_url.path
     self.url_query_param = parsed_url.query
+    self.save!
   end
 
-  def find_and_set_url_attributes_if_script_provided
-    binding.pry
+  def find_tag_url_in_js_script_if_necessary
+    return unless has_js_script? && self.full_url.nil?
+    temp_file_js_script_content = File.read(attachment_changes['js_script'].attachable[:io])
+    tag_url = TagManager::FindTagInJsScript.find!(temp_file_js_script_content)
+    return if tag_url == self.full_url
+    self.full_url = tag_url
+    self.save!
   end
 
-  def set_default_tag_preferences
-    return if tag_preferences.present?
-    self.tag_preferences_attributes = {
-      release_check_minute_interval: 30, 
-      scheduled_audit_minute_interval: 0, 
-      is_allowed_third_party_tag: false, 
-      is_third_party_tag: true, 
-      consider_query_param_changes_new_tag: false
-    }
+  def set_js_script_fingerprint
+    return unless has_js_script? && js_script_fingerprint.nil?
+    self.js_script_fingerprint = Digest::MD5.hexdigest(js_script_content)
+    self.save!
   end
 
-  def capture_first_tag_version_if_is_tagsafe_hosted
-    return unless is_tagsafe_hosted
-    TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version!
-  rescue TagManager::TagVersionFetcher::InvalidTagUrl, TagManager::TagVersionFetcher::InvalidFetch => e
-    errors.add(:base, e.message)
+  def set_current_live_tag_version(tag_version)
+    update!(current_live_tag_version: tag_version)
+  end
+
+  def has_js_script?
+    js_script.attached?
+  end
+
+  def js_script_content(sanitize: true)
+    return nil unless js_script.attached?
+    content = js_script.download
+    return content unless sanitize
+    # https://github.com/babel/babel/issues/9765
+    content.gsub("\\", "\\\\\\\\").gsub("\n", "").gsub("\r", "")
   end
 
   def find_and_apply_tag_identifying_data(force_update = false)
-    unless tag_identifying_data.present? || force_update
+    if full_url.present? && (tag_identifying_data_id.nil? || force_update)
       update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
     end
+  end
+
+  def enabled?
+    live_tag_configuration && live_tag_configuration.enabled
+  end
+
+  def disabled?
+    !enabled?
   end
 
   def url_scheme
@@ -203,8 +168,8 @@ class Tag < ApplicationRecord
     try_image_url
   end
 
-  def write_current_instrumentation_to_cdn
-    TagsafeInstrumentationManager::InstrumentationWriter.new(domain).write_current_instrumentation_to_cdn
+  def able_to_be_tagsafe_hosted?
+    url_query_param.blank?
   end
 
   def apply_tag_identifying_data_and_functional_tests
@@ -214,18 +179,8 @@ class Tag < ApplicationRecord
     domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
   end
 
-  def stream_new_tag_to_views
-    if domain.tags.count == 1
-      # render the table empty and allow `append_tag_row_to_table` to add the new tag
-      re_render_tags_table(domain: domain, empty: true, now: true)
-      re_render_tags_chart(domain: domain, now: true)
-    end
-    append_tag_row_to_table(tag: self, now: true)
-  end
-
   def state
-    removed_from_site? ? 'removed' :
-      release_monitoring_enabled? ? 'active' : 'disabled'
+    live_tag_configuration.nil? ? 'pending' : live_tag_configuration.disabled? ? 'disabled' : 'live'
   end
 
   def human_state
@@ -241,8 +196,8 @@ class Tag < ApplicationRecord
   end
   
   def most_recent_version
-    return nil if release_monitoring_disabled?
-    tag_versions.where(most_recent: true).limit(1).first
+    # tag_versions.where(most_recent: true).limit(1).first
+    most_recent_tag_version
   end
   alias current_version most_recent_version
 
@@ -301,46 +256,12 @@ class Tag < ApplicationRecord
     ).run!
   end
 
-  def removed_from_site?
-    !removed_from_site_at.nil?
-  end
-
-  def mark_as_removed_from_site!(removed_timestamp = Time.current)
-    update!(removed_from_site_at: removed_timestamp)
-    AlertEvaluators::TagRemoved.new(self).trigger_alerts_if_criteria_is_met!
-  end
-
   def release_monitoring_enabled?
-    tag_preferences.release_monitoring_enabled?
+    live_tag_configuration.present? && live_tag_configuration.release_monitoring_enabled?
   end
 
   def scheduled_audits_enabled?
-    tag_preferences.scheduled_audits_enabled?
-  end
-
-  def uptime_monitoring_enabled?
-    uptime_regions_to_check.count > 0
-  end
-
-  def enable!
-    tag_preferences.update!(enabled: true)
-  end
-
-  def disabled?
-    tag_preferences.release_monitoring_disabled?
-  end
-  alias release_monitoring_disabled? disabled?
-
-  def scheduled_audits_disabled?
-    !scheduled_audits_enabled?
-  end
-
-  def uptime_monitoring_disabled?
-    !uptime_monitoring_enabled?
-  end
-
-  def disable!
-    tag_preferences.update!(enabled: false)
+    live_tag_configuration.present? && live_tag_configuration.scheduled_audits_enabled?
   end
 
   def tag_or_domain_configuration
@@ -352,11 +273,7 @@ class Tag < ApplicationRecord
   end
 
   def audit_to_display(include_pending: true)
-    # if should_roll_up_audits_by_tag_version?
-    #   current_version&.audit_to_display
-    # else
-      most_recent_successful_audit || (include_pending ? most_recent_pending_audit : nil)
-    # end
+    most_recent_successful_audit || (include_pending ? most_recent_pending_audit : nil)
   end
 
   def most_recent_successful_audit
@@ -380,7 +297,7 @@ class Tag < ApplicationRecord
   end
 
   def url_based_on_preferences
-    tag_preferences.consider_query_param_changes_new_tag ? full_url : domain_and_path
+    domain_and_path
   end
 
   def try_friendly_slug
@@ -397,6 +314,7 @@ class Tag < ApplicationRecord
   alias image_url try_image_url
 
   def domain_and_path
+    return if full_url.nil?
     "#{URI.parse(full_url).scheme}://#{url_domain}#{url_path}"
   end
 

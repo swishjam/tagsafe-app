@@ -1,7 +1,7 @@
-class TagPreference < ApplicationRecord
-  acts_as_paranoid
-  
+class TagConfiguration < ApplicationRecord
   belongs_to :tag
+
+  attribute :scheduled_audit_minute_interval, default: 0
   
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
   after_create { enable_aws_event_bridge_rules_for_release_check_interval_if_necessary! unless release_monitoring_disabled? }
@@ -10,6 +10,11 @@ class TagPreference < ApplicationRecord
   # validate :has_payment_method_on_file_when_necessary
   validates :release_check_minute_interval, inclusion: { in: [0, 1, 15, 30, 60, 180, 360, 720, 1_440] }
   validates :scheduled_audit_minute_interval, inclusion: { in: [0, 5, 15, 30, 60, 180, 360, 720, 1_440] }
+  validates :load_type, inclusion: { in: %w[async defer synchronous] }, if: -> { tag.has_url? }
+  validates :script_inject_event, inclusion: { in: %w[immediate load] }
+  validates :script_inject_location, inclusion: { in: %w[head body] }
+
+  scope :enabled, -> { where(enabled: true) }
 
   RELEASE_CHECK_INTERVALS = [
     { name: '1 minute', value: 1 },
@@ -78,7 +83,7 @@ class TagPreference < ApplicationRecord
 
   def disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(interval)
     return if interval.zero?
-    return if TagPreference.where(release_check_minute_interval: interval).any?
+    return if TagConfiguration.where(release_check_minute_interval: interval).any?
     ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(interval).disable!
   end
 

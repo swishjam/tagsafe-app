@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'welcome#index'
+  get '/__blank' => 'application#__blank'
   get '/pricing' => 'welcome#pricing', as: :pricing
   get '/contact-us' => 'welcome#contact_us', as: :contact_us
   post '/contact' => 'welcome#contact', as: :contact
@@ -72,6 +73,10 @@ Rails.application.routes.draw do
   resources :triggered_alerts, only: [:index, :show], param: :uid
 
   resources :domains, only: [:create, :update, :new], param: :uid do
+    member do
+      get '/review_staged_changes' => 'domains#review_staged_changes'
+      post '/promote_staged_changes' => 'domains#promote_staged_changes'
+    end
     resources :page_urls, only: [:update], param: :uid do
       collection do
         post '/create_or_update' => 'page_urls#create_or_update'
@@ -99,6 +104,18 @@ Rails.application.routes.draw do
 
   get '/tag_management' => 'tags#tag_manager', as: :tag_manager
   resources :tags, param: :uid do
+    resources :tag_configurations, except: [:index, :show]
+    collection do
+      post :promote
+      post '/builder/new' => 'tag_builder#new'
+    end
+    patch '/builder/update' => 'tag_builder#update'
+    get '/builder/resource' => 'tag_builder#resource'
+    get '/builder/load_rules' => 'tag_builder#load_rules'
+    get '/builder/performance' => 'tag_builder#performance'
+    get '/builder/position' => 'tag_builder#position'
+    get '/builder/review' => 'tag_builder#review'
+
     member do
       get :uptime
       get :audits

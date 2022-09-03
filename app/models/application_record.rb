@@ -18,8 +18,16 @@ class ApplicationRecord < ActiveRecord::Base
     uid
   end
 
-  def column_changed_to(column, value)
-    saved_changes[column] && saved_changes[column][1] == value && saved_changes[column][0] != value
+  def column_changed?(column)
+    saved_changes[column.to_s].present?
+  end
+
+  def column_became_non_nil?(column)
+    column_changed?(column) && !saved_changes[column][1].nil? && saved_changes[column][0].nil?
+  end
+
+  def column_changed_to?(column, value)
+    column_changed?(column) && saved_changes[column][1] == value && saved_changes[column][0] != value
   end
 
   class << self

@@ -1,6 +1,11 @@
 class DomainsController < LoggedOutController
   # skip_before_action :ensure_domain
 
+  def review_staged_changes
+    tags_with_staged_changes = current_domain.tags.has_staged_changes.includes(:draft_tag_configuration, :live_tag_configuration)
+    stream_modal(locals: { tags_with_staged_changes: tags_with_staged_changes})
+  end
+
   def new
     redirect_to select_subscription_plans_path if current_domain && params[:additional].nil?
     @domain = Domain.new

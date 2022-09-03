@@ -35,7 +35,7 @@ module MandatoryDataEnforcer
     private
 
     def self.verify_required_uptime_and_release_check_event_bridge_rules_exist!
-      TagPreference.SUPPORTED_RELEASE_CHECK_INTERVALS.each do |release_check_minute_interval|
+      TagConfiguration.SUPPORTED_RELEASE_CHECK_INTERVALS.each do |release_check_minute_interval|
         ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_check_minute_interval)
       end
       UptimeRegion::SELECTABLE_AWS_REGION_NAMES.each do |aws_region_name|

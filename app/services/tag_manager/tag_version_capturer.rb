@@ -8,17 +8,18 @@ module TagManager
       @bytes = bytes
     end
 
-    def build_new_tag_version!
-      tag_version = @tag.tag_versions.new(tag_version_data)
-      @tag.marked_as_pending_tag_version_capture_at = nil
-      remove_temp_files
-      tag_version
-    end
+    # def build_new_tag_version!
+    #   tag_version = @tag.tag_versions.new(tag_version_data)
+    #   @tag.marked_as_pending_tag_version_capture_at = nil
+    #   @tag.current_live_tag_version = tag_version # this doesn't get the hook...
+    #   remove_temp_files
+    #   tag_version
+    # end
 
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
-      @tag.update!(marked_as_pending_tag_version_capture_at: nil)
+      @tag.update!(marked_as_pending_tag_version_capture_at: nil, current_live_tag_version: tag_version)
       remove_temp_files
       tag_version
     end

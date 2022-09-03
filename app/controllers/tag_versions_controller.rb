@@ -13,10 +13,10 @@ class TagVersionsController < LoggedInController
   end
 
   def index
-    @tag_versions = TagVersion.where(tag_id: current_domain.tags.is_third_party_tag)
+    @tag_versions = TagVersion.where(tag_id: current_domain.tags)
                                 .most_recent_first
                                 .page(params[:page] || 1).per(params[:per_page || 10])
-    @number_of_tags = current_domain.tags.is_third_party_tag.release_monitoring_enabled.count
+    @number_of_tags = current_domain.tags.release_monitoring_enabled.count
     render_breadcrumbs({ text: 'Releases', active: true })
   end
 

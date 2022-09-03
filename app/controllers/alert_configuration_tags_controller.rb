@@ -4,7 +4,6 @@ class AlertConfigurationTagsController < LoggedInController
   def index
     @selected_tags = @alert_configuration.tags.includes(:tag_identifying_data)
     @unselected_tags = current_domain.tags.includes(:tag_identifying_data)
-                                            .is_third_party_tag
                                             .order('tag_identifying_data.name', 'tags.url_domain')
                                             .where.not(id: @selected_tags.collect(&:id))
   end

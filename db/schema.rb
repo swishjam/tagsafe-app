@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_02_123821) do
+ActiveRecord::Schema.define(version: 2022_09_02_205721) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -743,6 +743,24 @@ ActiveRecord::Schema.define(version: 2022_08_02_123821) do
     t.index ["uid"], name: "index_tag_allowed_performance_audit_third_party_urls_on_uid"
   end
 
+  create_table "tag_configurations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "type"
+    t.integer "release_check_minute_interval"
+    t.integer "scheduled_audit_minute_interval"
+    t.string "load_type"
+    t.boolean "is_tagsafe_hosted"
+    t.integer "script_inject_priority"
+    t.string "script_inject_location"
+    t.string "script_inject_event"
+    t.boolean "execute_script_in_web_worker"
+    t.boolean "enabled"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uid"
+    t.index ["tag_id"], name: "index_tag_configurations_on_tag_id"
+  end
+
   create_table "tag_identifying_data", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "name"
@@ -759,20 +777,6 @@ ActiveRecord::Schema.define(version: 2022_08_02_123821) do
     t.index ["tag_identifying_data_id"], name: "index_tag_identifying_data_domains_on_tag_identifying_data_id"
     t.index ["uid"], name: "index_tag_identifying_data_domains_on_uid"
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
-  end
-
-  create_table "tag_preferences", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.integer "tag_id"
-    t.boolean "is_allowed_third_party_tag"
-    t.boolean "is_third_party_tag"
-    t.boolean "consider_query_param_changes_new_tag"
-    t.integer "throttle_minute_threshold"
-    t.datetime "deleted_at"
-    t.integer "scheduled_audit_minute_interval"
-    t.integer "release_check_minute_interval"
-    t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
-    t.index ["uid"], name: "index_tag_preferences_on_uid"
   end
 
   create_table "tag_versions", charset: "utf8", force: :cascade do |t|
@@ -799,40 +803,27 @@ ActiveRecord::Schema.define(version: 2022_08_02_123821) do
   create_table "tags", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.integer "domain_id"
-    t.bigint "found_on_page_url_id"
-    t.bigint "found_on_url_crawl_id"
     t.bigint "tag_identifying_data_id"
-    t.integer "tag_image_id"
     t.string "url_domain"
     t.string "url_path"
     t.text "url_query_param"
     t.text "full_url"
-    t.string "load_type"
-    t.boolean "has_content"
     t.integer "last_captured_byte_size"
     t.datetime "marked_as_pending_tag_version_capture_at"
     t.timestamp "last_released_at"
     t.timestamp "last_audit_began_at"
-    t.timestamp "last_seen_in_url_crawl_at"
-    t.timestamp "removed_from_site_at"
     t.timestamp "created_at"
     t.datetime "deleted_at"
     t.bigint "most_current_audit_id"
-    t.boolean "is_tagsafe_hosted"
-    t.text "js_script", size: :long
-    t.integer "script_inject_priority"
-    t.string "script_inject_location"
-    t.boolean "script_inject_is_disabled"
-    t.boolean "execute_script_in_web_worker"
-    t.string "inject_script_at_event"
     t.bigint "current_live_tag_version_id"
+    t.boolean "has_staged_changes"
+    t.string "js_script_fingerprint"
+    t.bigint "most_recent_tag_version_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
-    t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
-    t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
     t.index ["most_current_audit_id"], name: "index_tags_on_most_current_audit_id"
+    t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
-    t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
   end
 

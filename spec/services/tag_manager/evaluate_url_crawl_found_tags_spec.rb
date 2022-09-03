@@ -86,7 +86,7 @@ RSpec.describe TagManager::EvaluateUrlCrawlFoundTags do
     @evaluator = TagManager::EvaluateUrlCrawlFoundTags.new(url_crawl: crawl, tag_urls: tag_urls_received)
     @evaluator.evaluate!
     
-    @tag_urls_on_site = @domain.tags.still_on_site.collect(&:full_url)
+    @tag_urls_on_site = @domain.tags.collect(&:full_url)
     @tag_urls_removed_from_site = @domain.tags.removed.collect(&:full_url)
   end
 
