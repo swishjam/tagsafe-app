@@ -7,12 +7,12 @@
         <h1 class="page-title with-sub-title">Tag Details</h1>
         <h2 class='page-sub-title'>
           <span class='d-inline-block'><%= @tag.try_friendly_name %></span>
-          <% if @tag.release_monitoring_disabled? %>
-            <%= image_tag '/images/disabled-release-monitoring.png', style: 'height: 16px;', title: 'Release monitoring is disabled for this tag, enable it in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
-          <% end %>
-          <% if @tag.scheduled_audits_disabled? %>
-            <%= image_tag '/images/disabled-automated-audits.png', style: 'height: 16px;', title: 'Scheduled audits are disabled for this tag, enable them in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
-          <% end %>
+          <!-- <#% if @tag.release_monitoring_disabled? %>
+            <#%= image_tag '/images/disabled-release-monitoring.png', style: 'height: 16px;', title: 'Release monitoring is disabled for this tag, enable it in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
+          <#% end %>
+          <#% if @tag.scheduled_audits_disabled? %>
+            <#%= image_tag '/images/disabled-automated-audits.png', style: 'height: 16px;', title: 'Scheduled audits are disabled for this tag, enable them in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
+          <#% end %> !-->
         </h2>
       </div>
       <div class='col-4 page-title-cta-container'>
@@ -35,18 +35,19 @@
   <%= render 'partials/page_navigation_items', navigation_items: [
     { text: 'Audit Details', url: tag_path(@tag) },
     { text: 'Uptime', url: uptime_tag_path(@tag) },
-    { text: 'Releases', url: tag_releases_path(@tag) }
+    { text: 'Releases', url: tag_releases_path(@tag) },
+    { text: 'Configuration', url: edit_tag_path(@tag) }
   ] %>
 </div>
 
 <%= render 'tags/current_stats', tag: @tag %>
 
 <div class="tagsafe-container">
-  <% if @tag.removed_from_site? %>
+  <% if @tag.disabled? %>
     <div class="row">
       <div class="col-12">
         <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
-          <%= HtmlHelper.WARNING_ICON %> Tag was removed from <%= current_domain.url %> at <%= @tag.removed_from_site_at.formatted_long %></h6>
+          <%= HtmlHelper.WARNING_ICON %> Tag is disabled</h6>
         </div>
       </div>
     </div>

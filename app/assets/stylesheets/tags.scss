@@ -1,3 +1,43 @@
+.tag-builder-progression-container {
+  width: fit-content;
+  margin: 0 auto;
+  .tag-builder-progression-indicator {
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    font-size: 18px;
+    &.complete { 
+      background-color: $tagsafe-secondary;
+      color: white;
+      cursor: pointer;
+      transition: 500ms ease;
+      &:hover {
+        background-color: $darker-tagsafe-purple;
+      }
+    }
+    &.active { 
+      background-color: $darker-tagsafe-purple;
+      color: white;
+      font-weight: 900;
+    }
+    &.inactive { background-color: darkgrey; }
+  }
+}
+
+.tag-form {
+  .custom-checkbox-row-label {
+    cursor: default;
+  }
+  .checkbox-row {
+    text-align: center;
+  }
+}
+
 .tag-img-thumbnail-container {
   width: 60px;
   text-align: center;
@@ -6,16 +46,6 @@
 .tag-name-container {
   width: calc(100% - 65px);
   display: inline-block;
-  .tag-row-header {
-    font-size: 16px;
-    font-weight: 800;
-    color: $dark-grey-text;
-  }
-  .tag-row-sub-header {
-    font-size: 12px;
-    font-weight: 400;
-    color: $faded-grey-text;
-  }
 }
 
 .domain-tags-table-frame[busy] .search-input-container .loading-indicator {
@@ -99,4 +129,13 @@ turbo-frame.frame-with-chart {
     font-weight: 900;
     color: black;
   }
+}
+
+.review-staged-changes-container {
+  .staged-change-row, .staged-change-row label {
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(235, 235, 235);
+    }
+  }  
 }

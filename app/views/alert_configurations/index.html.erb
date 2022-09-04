@@ -1,0 +1,69 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class='page-title with-sub-title'>Alerts</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <div class='d-flex align-items-center'>
+          <%= link_to 'New Alert', new_alert_configuration_path, class: 'floating-btn' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @alert_configurations.any? %>
+  <div class='p-3'>
+    <div class='tagsafe-table'>
+      <div class='tagsafe-table-head'>
+        <div class='tagsafe-table-row header'>
+          <div class='tagsafe-table-cell header'>Name</div>
+          <div class='tagsafe-table-cell header'>Alert type</div>
+          <div class='tagsafe-table-cell header'>Subscribed tags</div>
+          <div class='tagsafe-table-cell header'>Subscribed users</div>
+          <div class='tagsafe-table-cell header'>Last triggered at</div>
+        </div>
+      </div>
+      <div class='tagsafe-table-body'>
+        <% @alert_configurations.each do |alert_config| %>
+          <%= link_to alert_configuration_path(alert_config), class: 'no-decoration' do %>
+            <div class='tagsafe-table-row hoverable'>
+              <div class='tagsafe-table-cell'>
+                <span class='<%= alert_config.disabled? ? 'inactive-circular-icon' : 'active-circular-icon' %> me-2'
+                      data-controller='tooltip'
+                      data-bs-toggle='tooltip'
+                      title='Alert is <%= alert_config.disabled? ? 'inactive' : 'active' %>'></span> 
+                <span class='table-row-header underline-hover'><%= alert_config.name %></span>
+              </div>
+              <div class='tagsafe-table-cell'>
+                <% pill_color = {
+                  'PerformanceAuditExceededThresholdAlertConfiguration' => 'tagsafe-primary-purple',
+                  'NewTagVersionAlertConfiguration' => 'green',
+                  'FunctionalTestSuiteFailedAlertConfiguration' => 'orange',
+                  'TagRemoved' => 'red',
+                  'NewTagAlertConfiguration' => 'grey'
+                }[alert_config.class.to_s] %>
+                <div class='tagsafe-pill <%= pill_color %> small-text'><%= alert_config.class.user_facing_alert_name %></div>
+              </div>
+              <div class='tagsafe-table-cell'><%= alert_config.enabled_for_all_tags ? 'All tags' : alert_config.tags.count %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.domain_users.count %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.triggered_alerts.most_recent_first.limit(1).first&.created_at&.formatted_long || 'Not yet triggered' %></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class='mt-3'>
+      <%= paginate @alert_configurations %>
+    </div>
+  </div>
+<% else %>
+  <div class='empty-state-view p-5 text-center'>
+    <h2>You haven't configured any alerts yet!</h2>
+    <h4>Set some up so that you can be notified when one of your tags is causing issues.</h4>
+    <div class='d-flex justify-content-center mt-3'>
+      <%= link_to 'Create an alert', new_alert_configuration_path, class: 'floating-btn large' %>
+    </div>
+  </div>
+<% end %>

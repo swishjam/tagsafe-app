@@ -2,13 +2,13 @@ module ServerLoadablePartials
   class TagsController < BaseController
     def index
       if params[:q]
-        tags = current_domain.tags.includes(:tag_preferences, :tag_identifying_data, most_current_audit: :average_delta_performance_audit).joins(:tag_identifying_data)
+        tags = current_domain.tags.includes(:live_tag_configuration, :tag_identifying_data, most_current_audit: :average_delta_performance_audit).joins(:tag_identifying_data)
                                     .where('tag_identifying_data.name LIKE ? OR tags.full_url LIKE ?', "%#{params[:q]}%", "%#{params[:q]}%")
-                                    .order(last_audit_began_at: :DESC, removed_from_site_at: :ASC, last_released_at: :DESC)
+                                    .order(last_audit_began_at: :DESC, last_released_at: :DESC)
                                     .page(params[:page] || 1).per(params[:per_page] || 9)
       else
-        tags = current_domain.tags.includes(:tag_preferences, :tag_identifying_data, most_current_audit: :average_delta_performance_audit)
-                                    .order(last_audit_began_at: :DESC, removed_from_site_at: :ASC, last_released_at: :DESC)
+        tags = current_domain.tags.includes(:live_tag_configuration, :tag_identifying_data, most_current_audit: :average_delta_performance_audit)
+                                    .order(last_audit_began_at: :DESC, last_released_at: :DESC)
                                     .page(params[:page] || 1).per(params[:per_page] || 9)
       end
       render turbo_stream: turbo_stream.replace(

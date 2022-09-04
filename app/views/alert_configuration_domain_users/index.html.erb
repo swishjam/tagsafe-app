@@ -1,0 +1,77 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class='page-title with-sub-title'>New Alert</h1>
+    </div>
+  </div>
+</div>
+
+<div class='tagsafe-container'>
+  <div class='container-fluid'>
+    <div class='col-sm-12 col-md-8 m-auto'>
+      <div class='step-indicators w-fit m-auto'>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+      </div>
+      <h4 class='text-center mt-3'>Subscribe users to alert</h4>
+        <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form'} do |f| %>
+          <input type='hidden' name='current_view' value='domain_users'>
+          <input type='hidden' name='alert_configuration[disabled]' value="<%= @alert_configuration.disabled %>">
+          <input type='hidden' name='alert_configuration[name]' value="<%= @alert_configuration.name %>">
+          <input type='hidden' name='alert_configuration[trigger_rules]' value="<%= @alert_configuration.trigger_rules.to_json %>">
+          <input type='hidden' name='alert_configuration[enabled_for_all_tags]' value="<%= @alert_configuration.enabled_for_all_tags %>">
+          <% @alert_configuration.tags.each do |tag| %>
+            <input type='hidden' name='tag_uids[]' value="<%= tag.uid %>">
+          <% end %>
+          <div class='tagsafe-table' style='max-height: 80vh; overflow-y: scroll;'>
+            <% @selected_domain_users.each do |domain_user| %>
+              <div class='tagsafe-table-row'>
+                <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
+                  <input type='checkbox' name='domain_user_uids[]' id="<%= domain_user.uid %>" class='form-check-input' value='<%= domain_user.uid %>' checked/>
+                </div>
+                <label for="<%= domain_user.uid %>" class='tagsafe-table-cell flex-4'>
+                  <div class='d-block'>
+                    <span class='d-block table-row-header'><%= domain_user.user.full_name %></span>
+                    <span class='d-block table-row-sub-header'><%= domain_user.user.email %></span>
+                  </div>
+                </label>
+              </div>
+            <% end %>
+            <% @unselected_domain_users.each do |domain_user| %>
+              <div class='tagsafe-table-row'>
+                <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
+                  <input type='checkbox' name='domain_user_uids[]' id="<%= domain_user.uid %>" class='form-check-input' value='<%= domain_user.uid %>' />
+                </div>
+                <label for="<%= domain_user.uid %>" class='tagsafe-table-cell flex-4'>
+                  <div class='d-block'>
+                    <span class='d-block table-row-header'><%= domain_user.user.full_name %></span>
+                    <span class='d-block table-row-sub-header'><%= domain_user.user.email %></span>
+                  </div>
+                </label>
+              </div>
+            <% end %>
+          </div>
+          <div class='mt-3 text-end'>
+            <div class='row'>
+              <div class='col-6 d-flex'>
+                <%= link_to alert_configuration_tags_path, class: 'floating-btn' do %>
+                  <i class='fa-solid fa-arrow-left-long'></i> Subscribe tags
+                <% end %>
+              </div>
+              <div class='col-6'>
+                <%= loading_submit_button type: 'floating' do %>
+                  Review alert <i class='fa-solid fa-arrow-right-long'></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+    </div>
+  </div>
+</div>

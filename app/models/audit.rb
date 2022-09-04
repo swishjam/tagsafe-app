@@ -133,7 +133,6 @@ class Audit < ApplicationRecord
     update_column(:seconds_to_complete, Time.now - created_at)
     mark_as_most_current_if_possible
     send_audit_completed_notifications_if_necessary
-    send_audit_completed_emails
     WalletModerator::AuditTransactor.new(self).credit_wallet! if performance_audit_failed?
     stream_updates_to_views(true)
   end
@@ -166,6 +165,7 @@ class Audit < ApplicationRecord
       tagsafe_score_is_confident: tagsafe_score_confidence_range && tagsafe_score_confidence_range <= performance_audit_configuration.required_tagsafe_score_range
     )
     update_performance_audit_details_view(audit: self, now: true)
+    AlertEvaluators::PerformanceAuditExceededThreshold.new(self).trigger_alerts_if_criteria_is_met! unless performance_audit_failed?
     purge_non_median_performance_audit_recordings!
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
@@ -174,7 +174,8 @@ class Audit < ApplicationRecord
   end
 
   def functional_tests_completed!
-    update(functional_tests_completed_at: Time.now)
+    update(functional_tests_completed_at: Time.current)
+    AlertEvaluators::FunctionalTestSuiteFailed.new(self).trigger_alerts_if_criteria_is_met! unless passed_all_functional_tests?
     return if reload.try_completion!
     update_audit_table_row(audit: self, now: true)
     # update_tag_version_table_row(tag_version: tag_version, now: true)
@@ -204,12 +205,6 @@ class Audit < ApplicationRecord
     update_tag_table_row(tag: tag, now: update_views_now)
     update_tag_current_stats(tag: tag, now: update_views_now)
     re_render_audit_table(tag_version: tag_version, now: update_views_now)    
-  end
-
-  def send_audit_completed_emails
-    # usage_emailer = SubscriptionUsageAnalyzer::UsageForMonth.new(domain)
-    # usage_emailer.send_exceeded_usage_email_if_necessary
-    # usage_emailer.send_usage_warning_email_if_necessary
   end
 
   def broadcast_audit_began_notification_if_necessary
@@ -399,6 +394,14 @@ class Audit < ApplicationRecord
     test_runs_with_tag.inconclusive.count
   end
 
+  def num_failed_functional_tests
+    test_runs_with_tag.not_retries.conclusive.failed.count
+  end
+
+  def num_passed_functional_tests
+    test_runs_with_tag.not_retries.passed.count
+  end
+
   def completed_all_functional_tests?
     num_functional_tests_to_run_remaining.zero?
   end
@@ -408,7 +411,7 @@ class Audit < ApplicationRecord
   end
 
   def display_functional_test_results
-    "#{test_runs_with_tag.not_retries.passed.count} / #{num_functional_tests_to_run - test_runs_with_tag.not_retries.inconclusive.count}"
+    "#{num_passed_functional_tests} / #{num_functional_tests_to_run - test_runs_with_tag.not_retries.inconclusive.count}"
   end
 
   def num_functional_tests_to_run_including_without_tag_validation_runs

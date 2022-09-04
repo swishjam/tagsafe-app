@@ -1,6 +1,6 @@
 <% if audit.nil? %>
-  <% if tag.removed_from_site? %>
-    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No longer on site</span>
+  <% if tag.disabled? %>
+    <span class='tagsafe-pill orange small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>Disabled</span>
   <% elsif tag.release_monitoring_enabled? %>
     <span class='tagsafe-pill grey small-text <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>No audits for this release</span>
   <% else %>

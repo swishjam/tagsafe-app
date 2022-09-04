@@ -36,7 +36,15 @@
     <% end %>
 
   <% else %>
-    <div data-controller='hot-keys' data-action="form" data-key-code='13'>
+    <div data-controller='hot-keys audit-price-calculator' 
+          data-action="form" 
+          data-key-code='13'
+          data-audit-price-calculator-manual-performance-audit-credits-value="<%= feature_prices.manual_performance_audit_price %>"
+          data-audit-price-calculator-manual-functional-test-credits-value="<%= feature_prices.manual_test_run_price %>"
+          data-audit-price-calculator-num-functional-tests-value="<%= tag.functional_tests.count %>"
+          data-audit-price-calculator-resource-waterfall-credits-value="<%= feature_prices.resource_waterfall_price %>"
+          data-audit-price-calculator-screen-recording-credits-value="<%= feature_prices.puppeteer_recording_price %>"
+          data-audit-price-calculator-filmstrip-credits-value="<%= feature_prices.speed_index_filmstrip_price %>">
       <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form', hot_keys_target: 'formAction' } do |f| %>
         <div class='tagsafe-modal-body'>
           <% unless tag_version.nil? || current_tag_version.nil? %>
@@ -53,7 +61,13 @@
 
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px;'>
             <div class='custom-checkbox-div-container'>
-              <input name='config[include_performance_audit]' id='include_performance_audit' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_performance_audit ? "checked='checked'" : nil %>>
+              <input name='config[include_performance_audit]' 
+                      id='include_performance_audit' 
+                      value='true' 
+                      type='checkbox' 
+                      class='custom-checkbox-div-input' 
+                      <%= configuration.include_performance_audit ? "checked='checked'" : nil %>
+                      data-audit-price-calculator-target='performanceAuditCheckbox'>
               <label class='custom-checkbox-div-label' for='include_performance_audit'>
                 <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
                 <i class="far fa-times-circle unchecked top-right-icon red" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are disabled for this audit."></i>
@@ -67,10 +81,19 @@
               </label>
             </div>
             <div class='custom-checkbox-div-container'>
-              <input name='config[include_functional_tests]' id='include_functional_tests' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+              <input name='config[include_functional_tests]' 
+                      id='include_functional_tests' 
+                      value='true' 
+                      type='checkbox' 
+                      class='custom-checkbox-div-input' 
+                      <%= configuration.include_functional_tests ? "checked='checked'" : nil %>
+                      data-audit-price-calculator-target='functionalTestsCheckbox'>
               <label class='custom-checkbox-div-label' for='include_functional_tests'>
                 <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
                 <i class="far fa-times-circle unchecked top-right-icon red" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are disabled for this audit."></i>
+                <% if tag.functional_tests.count.zero? %>
+                  <i class='fas fa-exclamation-triangle position-absolute' style='top: 5px; left: 5px;' data-controller='tooltip' data-bs-toggle='tooltip' title="You do not have any tests configured for this tag, you can enable them in the test suite tab in your left hand nav."></i>
+                <% end %>
                 <div class='text'>Run functional tests</div>
                 <div class='icon checked'>
                   <%= render 'partials/svgs/test_tubes' %>
@@ -84,29 +107,56 @@
           <h5 class='mt-4'>Performance audit configuration:</h5>
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px;'>
             <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
-              <input name='config[include_page_load_resources]' id='include_page_load_resources' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>>
+              <input name='config[include_page_load_resources]' 
+                      id='include_page_load_resources' 
+                      value='true' 
+                      type='checkbox' 
+                      class='custom-checkbox-div-input' 
+                      <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>
+                      data-audit-price-calculator-target='resourceWaterfallCheckbox'>
               <label class='custom-checkbox-div-label fill skinny' for='include_page_load_resources'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
                 <i class="far fa-times-circle unchecked top-right-icon red"></i>
-                <div class='text mb-0'>Include page load waterfall resources</div>
+                <div class='text mb-0'>
+                  Include page load waterfall resources
+                  <i class="fa-solid fa-bars-progress d-block mt-2" style='font-size: 18px;'></i>
+                </div>
               </label>
             </div>
 
             <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
-              <input name='config[performance_audit_settings][enable_screen_recording]' id='enable_screen_recording' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>>
+              <input name='config[performance_audit_settings][enable_screen_recording]'
+                     id='enable_screen_recording' 
+                     value='true' 
+                     type='checkbox' 
+                     class='custom-checkbox-div-input' 
+                     <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>
+                     data-audit-price-calculator-target='screenRecordingCheckbox'>
               <label class='custom-checkbox-div-label fill skinny' for='enable_screen_recording'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
                 <i class="far fa-times-circle unchecked top-right-icon red"></i>
-                <div class='text mb-0'>Include screen recording</div>
+                <div class='text mb-0'>
+                  Include screen recording
+                  <i class="fa-solid fa-video d-block mt-2" style='font-size: 18px;'></i>
+                </div>
               </label>
             </div>
 
             <div class='custom-checkbox-div-container' style="width: 33%; padding: 0 15px 0 15px;">
-              <input name='config[performance_audit_settings][include_filmstrip_frames]' id='include_filmstrip_frames' value='true' type='checkbox' class='custom-checkbox-div-input' <%= configuration.perf_audit_include_filmstrip_frames ? "checked='checked'" : nil %>>
+              <input name='config[performance_audit_settings][include_filmstrip_frames]' 
+                      id='include_filmstrip_frames' 
+                      value='true' 
+                      type='checkbox' 
+                      class='custom-checkbox-div-input' 
+                      <%= configuration.perf_audit_include_filmstrip_frames ? "checked='checked'" : nil %>
+                      data-audit-price-calculator-target='filmstripCheckbox'>
               <label class='custom-checkbox-div-label fill skinny' for='include_filmstrip_frames'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
                 <i class="far fa-times-circle unchecked top-right-icon red"></i>
-                <div class='text mb-0'>Include filmstrip</div>
+                <div class='text mb-0'>
+                  Include filmstrip
+                  <i class="fa-solid fa-film d-block mt-2" style='font-size: 18px;'></i>
+                </div>
               </label>
             </div>
 
@@ -126,7 +176,13 @@
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px'>
             <% urls_to_audit.each do |url_to_audit| %>
               <div class='custom-checkbox-div-container'>
-                <input name='urls_to_audit[]' id="url_to_audit_<%= url_to_audit.id %>" value="<%= url_to_audit.id %>" type='checkbox' class='custom-checkbox-div-input' <%= configuration.include_functional_tests ? "checked='checked'" : nil %>>
+                <input name='urls_to_audit[]' 
+                        id="url_to_audit_<%= url_to_audit.id %>" 
+                        value="<%= url_to_audit.id %>" 
+                        type='checkbox' 
+                        class='custom-checkbox-div-input' 
+                        <%= configuration.include_functional_tests ? "checked='checked'" : nil %>
+                        data-audit-price-calculator-target='urlToAuditCheckbox'>
                 <label class='custom-checkbox-div-label fill skinny' for='url_to_audit_<%= url_to_audit.id %>'>
                   <i class="far fa-check-circle checked top-right-icon green"></i>
                   <i class="far fa-times-circle unchecked top-right-icon red"></i>
@@ -139,6 +195,7 @@
 
         <div class='tagsafe-modal-divider'></div>
         <div class='tagsafe-modal-footer text-end'>
+          <div class='w-fit d-inline-block me-3' data-audit-price-calculator-target='totalCredits' data-controller='tooltip' data-bs-toggle='tooltip' title='Based on the settings you have selected, the number of credits this audit will cost.'></div>
           <%= loading_submit_button do %>
             <div class='d-flex align-items-center'>
               Run Audit

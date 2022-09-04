@@ -9,13 +9,14 @@
       <ul>
         <% 
           nav_items = [
+            { path: tag_manager_path, text: 'Tag Manager', icon_class: 'fa-solid fa-tags' },
             { path: tags_path, text: "Monitor Center", icon_class: "fas fa-home" },
             { path: honeycombs_path, text: "Tag Health", icon_class: "fa-solid fa-heart-pulse" },
             { path: functional_tests_path, text: "Test Suite", icon_class: "fas fa-flask", active_nav_path_pattern: ['/functional_tests', '/test_run_log'] },
             { path: all_releases_path, text: "Tag Releases", icon_class: "fa-solid fa-code-branch" },
             { path: audit_log_path, text: "Audit Log", icon_class: "fa-solid fa-square-poll-vertical" },
             { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
-            { path: alerts_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alerts'] },
+            { path: alert_configurations_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alert_configurations'] },
             { path: domain_users_path, text: "Team Management", icon_class: "fas fa-users" },
             { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
           ]

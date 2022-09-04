@@ -1,0 +1,4 @@
+{
+  "urlToRunOn": "https://www.quantummetric.com",
+  "tagToCalculateCoverage": "https://cdn.quantummetric.com/instrumentation/quantum-qtm.js"
+}

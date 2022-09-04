@@ -15,19 +15,36 @@ module Admin
       end
     end
 
+    def new
+      @tag_identifying_data = TagIdentifyingData.new
+    end
+
+    def create
+      @tag_identifying_data = TagIdentifyingData.new(tag_identifying_data_params)
+      if @tag_identifying_data.save
+        redirect_to admin_tag_identifying_datum_path(@tag_identifying_data)
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def show
       @tag_identifying_data = TagIdentifyingData.find_by(uid: params[:uid])
     end
   
     def update
       tag_identifying_data = TagIdentifyingData.find_by(uid: params[:uid])
-      tag_identifying_data.update(tag_identifying_data_params)
+      tag_identifying_data.update(tag_identifying_data_image_params)
       redirect_to request.referrer
     end
   
     private
-    
+
     def tag_identifying_data_params
+      params.require(:tag_identifying_data).permit(:name, :company, :homepage, :category)
+    end
+    
+    def tag_identifying_data_image_params
       params.require(:tag_identifying_data).permit(:image)
     end
   end

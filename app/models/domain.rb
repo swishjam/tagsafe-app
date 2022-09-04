@@ -9,6 +9,7 @@ class Domain < ApplicationRecord
   has_one :subscription_features_configuration, dependent: :destroy
   has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
 
+  has_many :alert_configurations
   has_many :audits, dependent: :destroy
   has_many :credit_wallets, dependent: :destroy
   has_many :bulk_debits, through: :credit_wallets
@@ -64,6 +65,14 @@ class Domain < ApplicationRecord
     "#{u.scheme}://#{u.hostname}"
   end
 
+  def tagsafe_instrumentation_url
+    "https://#{ENV['TAGSAFE_INSTRUMENTATION_CLOUDFRONT_HOSTNAME']}/#{tagsafe_instrumentation_pathname}"
+  end
+
+  def tagsafe_instrumentation_pathname
+    "#{uid}-instrumentation.js"
+  end
+
   def is_test_domain?
     url_hostname == TEST_DOMAIN_HOSTNAME
   end
@@ -109,10 +118,6 @@ class Domain < ApplicationRecord
 
   def has_tag?(tag)
     tags.include?(tag)
-  end
-
-  def allowed_third_party_tag_urls
-    tags.third_party_tags_that_shouldnt_be_blocked.collect(&:full_url)
   end
 
   def crawl_and_capture_domains_tags

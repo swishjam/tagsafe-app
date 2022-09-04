@@ -9,19 +9,25 @@ module StepFunctionResponses
       if is_batch_of_uptime_checks_resulting_in_new_tag_versions?
         release_check_results.each do |release_check_result|
           rc = ReleaseCheck.create!(release_check_result.formatted_for_create)
-          TagManager::TagVersionCapturer.new(
-            tag: release_check_result.tag, 
-            content: release_check_result.new_content,
-            release_check: rc,
-            hashed_content: release_check_result.new_hashed_content,
-            bytes: release_check_result.new_bytesize
-          ).capture_new_tag_version!
-          TagsafeAws::S3.delete_object_by_s3_url(release_check_result.new_tag_version_s3_url)
+          capture_new_tag_version(release_check, release_check_result)
         end
       elsif release_check_results.any?
         ReleaseCheck.insert_all!(release_check_results_formatted_for_insert)
       end
       release_check_batch.touch(:processing_completed_at)
+    end
+
+    private
+
+    def capture_new_tag_version(release_check, release_check_result)
+      TagManager::TagVersionCapturer.new(
+        tag: release_check_result.tag, 
+        content: release_check_result.new_content,
+        release_check: release_check,
+        hashed_content: release_check_result.new_hashed_content,
+        bytes: release_check_result.new_bytesize
+      ).capture_new_tag_version!
+      TagsafeAws::S3.delete_object_by_s3_url(release_check_result.new_tag_version_s3_url)
     end
 
     def release_check_results_formatted_for_insert

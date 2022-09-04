@@ -17,6 +17,7 @@ module MandatoryDataEnforcer
         aws_rules.each do |aws_rule|
           tagsafe_aws_event_bridge_rule = AwsEventBridgeRule.find_by(region: region_name, name: aws_rule.name)
           if tagsafe_aws_event_bridge_rule.present?
+            tagsafe_aws_event_bridge_rule.fetch_from_aws
             next unless @update_existing
             update_existing_event_bridge_rule(tagsafe_aws_event_bridge_rule, region_name, aws_rule)
           else
@@ -34,7 +35,7 @@ module MandatoryDataEnforcer
     private
 
     def self.verify_required_uptime_and_release_check_event_bridge_rules_exist!
-      TagPreference.SUPPORTED_RELEASE_CHECK_INTERVALS.each do |release_check_minute_interval|
+      TagConfiguration.SUPPORTED_RELEASE_CHECK_INTERVALS.each do |release_check_minute_interval|
         ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_check_minute_interval)
       end
       UptimeRegion::SELECTABLE_AWS_REGION_NAMES.each do |aws_region_name|

@@ -54,20 +54,38 @@ module ChartHelper
     end
 
     def add_starting_and_current_datetime_plot_if_necessary
-      @chart_data.each do |tag, chart_data_hash|
-        chart_data_hash[:data].prepend([ Time.now, chart_data_hash[:data].first[1] ]) unless chart_data_hash[:data].none?
-        earliest_audit_timestamp_for_tag_in_chart = chart_data_hash[:data].last[0]
-        most_recent_audit_before_starting_datetime = tag.audits.completed_performance_audit
-                                                                .successful_performance_audit
-                                                                .most_recent_first
-                                                                .older_than(earliest_audit_timestamp_for_tag_in_chart)
-                                                                .limit(1).first
-        # dont add the starting timestamp for this tag if the earliest audit in the 
-        # chart was the first audit performed against this tag.
-        unless most_recent_audit_before_starting_datetime.nil?
-          chart_data_hash[:data] << [@start_datetime, most_recent_audit_before_starting_datetime.preferred_delta_performance_audit[@metric_key]]
+      @tags.each do |tag|
+        @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
+        if @chart_data[tag][:data].any?
+          add_starting_and_current_datetime_plot_for_tag_that_has_chart_data(tag)
+        else
+          add_starting_and_current_datetime_plot_for_tag_that_doesnt_have_any_chart_data(tag)
         end
       end
+    end
+
+    def add_starting_and_current_datetime_plot_for_tag_that_has_chart_data(tag)
+      @chart_data[tag][:data].prepend([ Time.current, @chart_data[tag][:data].first[1] ])
+      earliest_audit_timestamp_for_tag_in_chart = @chart_data[tag][:data].last[0]
+      most_recent_audit_before_starting_datetime = tag.audits.successful_performance_audit
+                                                              .most_recent_first
+                                                              .older_than(earliest_audit_timestamp_for_tag_in_chart)
+                                                              .limit(1).first
+      # dont add the starting timestamp for this tag if the earliest audit in the 
+      # chart was the first audit performed against this tag.
+      unless most_recent_audit_before_starting_datetime.nil?
+        @chart_data[tag][:data] << [@start_datetime, most_recent_audit_before_starting_datetime.preferred_delta_performance_audit[@metric_key]]
+      end
+    end
+
+    def add_starting_and_current_datetime_plot_for_tag_that_doesnt_have_any_chart_data(tag)
+      return if tag.most_current_audit.nil?
+      first_timestamp = tag.most_current_audit.created_at < @start_datetime ? @start_datetime : tag.most_current_audit.created_at
+      metric = tag.most_current_audit.average_delta_performance_audit[@metric_key]
+      @chart_data[tag][:data] = [ 
+        [Time.current, metric],
+        [first_timestamp, metric]
+      ]
     end
   end
 end

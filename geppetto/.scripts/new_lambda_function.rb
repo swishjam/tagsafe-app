@@ -36,7 +36,7 @@ File.open("#{root_dir}/serverless.yml", 'w') do |file|
       'stage' => '${opt:stage}',
       'environment' => {
         'NODE_ENV' => '${opt:stage}',
-        'S3_AWS_ACCESS_KEY_ID' => 'AKIAV5V4H3GFRTGOCY52'
+        'S3_AWS_ACCESS_KEY_ID' => 'AKIAV5V4H3GFRTGOCY52',
         'S3_AWS_SECRET_ACCESS_KEY' => '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'
       }
     },

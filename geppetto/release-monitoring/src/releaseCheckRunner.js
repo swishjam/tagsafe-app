@@ -21,6 +21,8 @@ module.exports = class ReleaseCheckerRunner {
       this.tagEvent('release-check-tag-url', this.releaseCheckConfig.tagUrl);
       this.releaseCheckResult = await this.releaseDetector.checkForRelease();
       if(this.releaseDetector.foundNewVersion()) {
+        this.tagEvent('detected-release-tag-id', this.releaseCheckConfig.tagId);
+        this.tagEvent('detected-release-tag-url', this.releaseCheckConfig.tagUrl);
         await this._onReleaseDetected();
       } else {
         this._onReleaseNotDetected();

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_28_155255) do
+ActiveRecord::Schema.define(version: 2022_09_02_205721) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -51,25 +51,35 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.index ["uid"], name: "index_additional_tags_to_inject_during_audit_on_uid"
   end
 
-  create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
+  create_table "alert_configuration_domain_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
     t.bigint "domain_user_id"
-    t.bigint "domain_id"
+    t.bigint "alert_configuration_id"
+    t.index ["alert_configuration_id"], name: "index_alert_configuration_domain_users_on_alert_configuration_id"
+    t.index ["domain_user_id"], name: "index_alert_configuration_domain_users_on_domain_user_id"
+    t.index ["uid"], name: "index_alert_configuration_domain_users_on_uid"
+  end
+
+  create_table "alert_configuration_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
     t.bigint "tag_id"
-    t.boolean "alert_on_new_tags"
-    t.boolean "alert_on_removed_tags"
-    t.boolean "alert_on_new_tag_versions"
-    t.boolean "alert_on_new_tag_version_audit_completions"
-    t.boolean "alert_on_tagsafe_score_exceeded_thresholds"
-    t.boolean "alert_on_slow_tag_response_times"
-    t.float "tagsafe_score_threshold"
-    t.float "tagsafe_score_percent_drop_threshold"
-    t.float "tag_slow_response_time_ms_threshold"
-    t.float "tag_slow_response_time_percent_increase_threshold"
-    t.integer "num_slow_responses_before_alert"
+    t.bigint "alert_configuration_id"
+    t.index ["alert_configuration_id"], name: "index_alert_configuration_tags_on_alert_configuration_id"
+    t.index ["tag_id"], name: "index_alert_configuration_tags_on_tag_id"
+    t.index ["uid"], name: "index_alert_configuration_tags_on_uid"
+  end
+
+  create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.string "name"
+    t.string "type"
+    t.string "trigger_rules"
+    t.boolean "enabled_for_all_tags"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "disabled"
     t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
-    t.index ["domain_user_id"], name: "index_alert_configurations_on_domain_user_id"
-    t.index ["tag_id"], name: "index_alert_configurations_on_tag_id"
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end
 
@@ -263,6 +273,7 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.string "stripe_customer_id"
     t.string "stripe_payment_method_id"
     t.bigint "current_subscription_plan_id"
+    t.string "instrumentation_key"
     t.index ["current_subscription_plan_id"], name: "index_domains_on_current_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
@@ -732,6 +743,24 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.index ["uid"], name: "index_tag_allowed_performance_audit_third_party_urls_on_uid"
   end
 
+  create_table "tag_configurations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "type"
+    t.integer "release_check_minute_interval"
+    t.integer "scheduled_audit_minute_interval"
+    t.string "load_type"
+    t.boolean "is_tagsafe_hosted"
+    t.integer "script_inject_priority"
+    t.string "script_inject_location"
+    t.string "script_inject_event"
+    t.boolean "execute_script_in_web_worker"
+    t.boolean "enabled"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "uid"
+    t.index ["tag_id"], name: "index_tag_configurations_on_tag_id"
+  end
+
   create_table "tag_identifying_data", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "name"
@@ -750,20 +779,6 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
-  create_table "tag_preferences", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.integer "tag_id"
-    t.boolean "is_allowed_third_party_tag"
-    t.boolean "is_third_party_tag"
-    t.boolean "consider_query_param_changes_new_tag"
-    t.integer "throttle_minute_threshold"
-    t.datetime "deleted_at"
-    t.integer "scheduled_audit_minute_interval"
-    t.integer "release_check_minute_interval"
-    t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
-    t.index ["uid"], name: "index_tag_preferences_on_uid"
-  end
-
   create_table "tag_versions", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.integer "tag_id"
@@ -778,6 +793,8 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.integer "num_deletions"
     t.text "commit_message"
     t.bigint "release_check_captured_with_id"
+    t.string "sha_256"
+    t.string "tag_version_identifier"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
@@ -786,31 +803,27 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
   create_table "tags", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.integer "domain_id"
-    t.bigint "found_on_page_url_id"
-    t.bigint "found_on_url_crawl_id"
     t.bigint "tag_identifying_data_id"
-    t.integer "tag_image_id"
     t.string "url_domain"
     t.string "url_path"
     t.text "url_query_param"
     t.text "full_url"
-    t.string "load_type"
-    t.boolean "has_content"
     t.integer "last_captured_byte_size"
     t.datetime "marked_as_pending_tag_version_capture_at"
     t.timestamp "last_released_at"
     t.timestamp "last_audit_began_at"
-    t.timestamp "last_seen_in_url_crawl_at"
-    t.timestamp "removed_from_site_at"
     t.timestamp "created_at"
     t.datetime "deleted_at"
     t.bigint "most_current_audit_id"
+    t.bigint "current_live_tag_version_id"
+    t.boolean "has_staged_changes"
+    t.string "js_script_fingerprint"
+    t.bigint "most_recent_tag_version_id"
+    t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
-    t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
-    t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
     t.index ["most_current_audit_id"], name: "index_tags_on_most_current_audit_id"
+    t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
-    t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
     t.index ["uid"], name: "index_tags_on_uid"
   end
 
@@ -841,24 +854,15 @@ ActiveRecord::Schema.define(version: 2022_05_28_155255) do
     t.index ["uid"], name: "index_test_runs_on_uid"
   end
 
-  create_table "triggered_alert_domain_users", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "triggered_alert_id"
-    t.bigint "domain_user_id"
-    t.index ["domain_user_id"], name: "index_triggered_alert_domain_users_on_domain_user_id"
-    t.index ["triggered_alert_id"], name: "index_triggered_alert_domain_users_on_triggered_alert_id"
-    t.index ["uid"], name: "index_triggered_alert_domain_users_on_uid"
-  end
-
   create_table "triggered_alerts", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.string "type"
     t.bigint "tag_id"
     t.string "initiating_record_type"
     t.bigint "initiating_record_id"
-    t.text "triggered_reason_text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "alert_configuration_id"
+    t.index ["alert_configuration_id"], name: "index_triggered_alerts_on_alert_configuration_id"
     t.index ["initiating_record_type", "initiating_record_id"], name: "index_triggered_alerts_on_initiating_record"
     t.index ["tag_id"], name: "index_triggered_alerts_on_tag_id"
     t.index ["uid"], name: "index_triggered_alerts_on_uid"

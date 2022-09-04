@@ -59,7 +59,7 @@ module ApplicationHelper
     session.delete(:anonymous_user_identifier)
   end
 
-  def stream_modal(partial:, turbo_frame_name: 'server_loadable_modal', locals: {})
+  def stream_modal(partial: "modals/#{action_name}.html.erb", turbo_frame_name: 'server_loadable_modal', locals: {})
     render turbo_stream: turbo_stream.replace(
       turbo_frame_name,
       partial: partial,

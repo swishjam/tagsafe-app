@@ -1,21 +1,18 @@
 <%= turbo_frame_tag local_assigns[:domain] ? "domain_#{domain.uid}_audits_table" : "tag_version_#{tag_version.uid}_audits_table" do %>
   <div class='tagsafe-table'>
-    <div class='tagsafe-table-head tagsafe-table-row square'>
-      <div class='tagsafe-table-header' style='width: <%= local_assigns[:include_tag_name] ? '5%' : '19%' %>'>
-        <% unless local_assigns[:include_tag_name] %>
-          Primary Audit <%= render 'partials/utils/help_tooltip', message: 'Each tag version can have many performance audits, but must have only one primary performance audit. The primary performance is used for benchmarking and comparing against previous versions.' %>
+    <div class='tagsafe-table-head square'>
+      <div class='tagsafe-table-row header'>
+        <% if local_assigns[:include_tag_name] %>
+          <div class='tagsafe-table-cell flex-3'>Audited Tag</div>
         <% end %>
+        <div class='tagsafe-table-cell'>Tagsafe Score</div>
+        <div class='tagsafe-table-cell'>Tests Results</div>
+        <div class='tagsafe-table-cell'>Performance Audited URL</div>
+        <% if local_assigns[:include_execution_reason] %>
+          <div class='tagsafe-table-cell'>Execution Reason</div>
+        <% end %>
+        <div class='tagsafe-table-cell'>Date of Audit</div>
       </div>
-      <% width_percent = local_assigns[:include_tag_name] ? '18' : '19' %>
-      <% if local_assigns[:include_tag_name] %>
-        <div class='tagsafe-table-header' style='width: <%= width_percent %>%'>Audited Tag</div>
-      <% end %>
-      <div class='tagsafe-table-header' style='width: <%= width_percent %>%'>Date of Audit</div>
-      <div class='tagsafe-table-header' style='width: <%= width_percent %>%'>Tagsafe Score</div>
-      <div class='tagsafe-table-header' style='width: <%= width_percent %>%'>Tests Results</div>
-      <!-- <div class='tagsafe-table-header' style='width: 15%'>Execution Reason</div> !-->
-      <div class='tagsafe-table-header' style='width: <%= width_percent %>%'>Performance Audited URL</div>
-      <div class='tagsafe-table-header' style='width: 5%'></div>
     </div>
     <div class='tagsafe-table-body'>
       <%= turbo_frame_tag local_assigns[:domain] ? "domain_#{domain.uid}_audits_table_rows" : "tag_version_#{tag_version.uid}_audits_table_rows" do %>
@@ -26,7 +23,7 @@
                     locals: { 
                       streamed: local_assigns[:streamed],
                       include_tag_name: local_assigns[:include_tag_name],
-                      use_primary_indicator_insted_of_button: local_assigns[:include_tag_name]
+                      include_execution_reason: local_assigns[:include_execution_reason]
                     } 
         %>
       <% end %>

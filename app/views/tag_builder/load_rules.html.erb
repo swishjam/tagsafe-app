@@ -1,0 +1,182 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class="page-title with-sub-title">New Tag</h1>
+      <h2 class="page-sub-title">Set load rules</h2>
+    </div>
+  </div>
+</div>
+
+<div class='p-3'>
+  <div class='col-8 m-auto'>
+    <%= render 'progression_indicators', step_num: 2, tag: @tag %>
+    <%= form_with model: @tag, url: tag_builder_update_path(@tag), class: 'tag-builder-form', data: { controller: 'loading_form' } do |f| %>
+      <div class='form-floating text-center'>
+        <span class='custom-checkbox-row-label d-block'
+              data-controller='tooltip'
+              data-bs-toggle='tooltip'
+              title="This sets the <script> tags load rule attribute (ie: <script async='true'>)">
+            Script load rule
+          </span>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[load_type]' 
+                  id='load_type_defer' 
+                  value='defer' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.load_type.blank? || @tag.load_type == 'defer' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='load_type_defer'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Load this script as a `defer` script tag.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Defer
+            </div>
+          </label>
+        </div>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[load_type]' 
+                  id='load_type_async' 
+                  value='async' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.load_type == 'async' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='load_type_async'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Load this script as an `async` script tag.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Async
+            </div>
+          </label>
+        </div>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[load_type]' 
+                  id='load_type_synchronous' 
+                  value='synchronous' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.load_type == 'synchronous' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='load_type_synchronous'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Load this script as an `synchronous` script tag.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Synchronous
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class='form-floating mt-2 text-center'>
+        <span class='custom-checkbox-row-label d-block' 
+              data-controller='tooltip' 
+              data-bs-toggle='tooltip' 
+              title="The location of where this script should be placed on the page.">
+          Injected script location
+        </span>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[script_inject_location]' 
+                  id='script_inject_location_head' 
+                  value='head' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.script_inject_location.blank? || @tag.script_inject_location == 'head' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='script_inject_location_head'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Inject this script into the head of the document.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Document Head
+            </div>
+          </label>
+        </div>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[script_inject_location]' 
+                  id='script_inject_location_body' 
+                  value='body' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.script_inject_location == 'body' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='script_inject_location_body'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Inject this script into the head of the document.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Document Body
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class='form-floating mt-2 text-center'>
+        <span class='custom-checkbox-row-label d-block'>Inject script at</span>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[script_inject_event]' 
+                  id='script_inject_location_immediate' 
+                  value='immediate' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.script_inject_event.blank? || @tag.script_inject_event == 'immediate' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='script_inject_location_immediate'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Inject this script into the page immediately.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Immediately
+            </div>
+          </label>
+        </div>
+        <div class='custom-checkbox-div-container h-100'>
+          <input name='tag[script_inject_event]' 
+                  id='script_inject_event_load'
+                  value='load' 
+                  type='radio' 
+                  class='custom-checkbox-div-input'
+                  <%= @tag.script_inject_event == 'load' ? 'checked=checked' : nil %>>
+          <label class='custom-checkbox-div-label fill' 
+                  for='script_inject_event_load'
+                  data-controller='tooltip'
+                  data-bs-toggle='tooltip'
+                  title="Inject this script into the page upon page load.">
+            <i class="far fa-check-circle checked top-right-icon green"></i>
+            <i class="far fa-times-circle unchecked top-right-icon red"></i>
+            <div class='text mb-0 text-center'>
+              Page load
+            </div>
+          </label>
+        </div>
+      </div>
+      <% if @tag.errors.any? %>
+        <span class='mt-2 d-block' style='color: red'><%= @tag.errors.full_messages.join('. ') %></span>
+      <% end %>
+      <input type='hidden' name='current_view' value="load_rules">
+      <%= f.hidden_field :full_url, value: @tag.full_url %>
+      <%= f.hidden_field :js_script, value: @tag.js_script %>
+      <%= f.hidden_field :is_tagsafe_hosted, value: @tag.is_tagsafe_hosted %>
+      <%= f.hidden_field :execute_script_in_web_worker, value: @tag.execute_script_in_web_worker %>
+      <%= f.hidden_field :script_inject_priority, value: @tag.script_inject_priority %>
+      <div class='mt-2'>
+        <%= loading_submit_button type: 'floating', button_class: 'float-end' do %>
+          Set performance enhancements <i class='fa-solid fa-arrow-right-long'></i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

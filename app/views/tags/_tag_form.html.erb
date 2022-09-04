@@ -1,0 +1,15 @@
+<%= form_with model: tag, data: { controller: 'loading_form' } do |f| %>
+  <div class='form-floating'>
+    <%= f.text_field :full_url, class: 'form-control', placeholder: 'https://www.googleanalytics.com' %>
+    <%= f.label 'JS URL' %>
+  </div>
+  <% if tag.errors.any? %>
+    <span class='mt-2 d-block' style='color: red'><%= tag.errors.full_messages.join('. ') %></span>
+  <% end %>
+  <input type='hidden' name='current_view' value="resource">
+  <div class='mt-2'>
+    <%= loading_submit_button type: 'floating', button_class: 'float-end' do %>
+      Set load rules <i class='fa-solid fa-arrow-right-long'></i>
+    <% end %>
+  </div>
+<% end %>

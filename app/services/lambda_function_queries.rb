@@ -1,5 +1,7 @@
 class LambdaFunctionQueries
   def self.uptime_check_query!(region_name:)
+
+
     sql = <<~SQL
       SELECT 
         domains.id AS domain_id,

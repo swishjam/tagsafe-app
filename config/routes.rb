@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'welcome#index'
+  get '/__blank' => 'application#__blank'
   get '/pricing' => 'welcome#pricing', as: :pricing
   get '/contact-us' => 'welcome#contact_us', as: :contact_us
   post '/contact' => 'welcome#contact', as: :contact
@@ -47,7 +48,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :domain_audits, only: [:create], param: :uid do
+  resources :domain_audits, only: [:new, :create], param: :uid do
     member do
       get :global_bytes_breakdown
       get :individual_bytes_breakdown
@@ -60,11 +61,22 @@ Rails.application.routes.draw do
   end
   get '/third_party_impact' => 'domain_audits#show', as: :third_party_impact
 
-  get '/alerts' => 'triggered_alerts#index', as: :alerts
-  get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
-  resources :alert_configurations, only: [:show, :create, :update], param: :uid
+  # get '/alerts' => 'alert_configurations#index', as: :alerts
+  # get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
+  resources :alert_configurations, only: [:index, :show, :new, :create, :update], param: :uid do
+    member do
+      get :trigger_rules
+      resources :alert_configuration_domain_users, only: [:index]
+      resources :alert_configuration_tags, only: [:index]
+    end
+  end
+  resources :triggered_alerts, only: [:index, :show], param: :uid
 
   resources :domains, only: [:create, :update, :new], param: :uid do
+    member do
+      get '/review_staged_changes' => 'domains#review_staged_changes'
+      post '/promote_staged_changes' => 'domains#promote_staged_changes'
+    end
     resources :page_urls, only: [:update], param: :uid do
       collection do
         post '/create_or_update' => 'page_urls#create_or_update'
@@ -90,11 +102,25 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/tag_management' => 'tags#tag_manager', as: :tag_manager
   resources :tags, param: :uid do
+    resources :tag_configurations, except: [:index, :show]
+    collection do
+      post :promote
+      post '/builder/new' => 'tag_builder#new'
+    end
+    patch '/builder/update' => 'tag_builder#update'
+    get '/builder/resource' => 'tag_builder#resource'
+    get '/builder/load_rules' => 'tag_builder#load_rules'
+    get '/builder/performance' => 'tag_builder#performance'
+    get '/builder/position' => 'tag_builder#position'
+    get '/builder/review' => 'tag_builder#review'
+
     member do
       get :uptime
       get :audits
       get :uptime_metrics
+      post :toggle_disable
       resources :releases, only: :index, as: :tag_releases
     end
     collection do
@@ -164,9 +190,11 @@ Rails.application.routes.draw do
     resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
     resources :aws_event_bridge_rules, only: [:index, :show, :update]
     resources :flags, only: [:index, :show], param: :uid do
-      resources :object_flags
+      resources :object_flags, param: :uid
     end
-    resources :tag_identifying_data
+    resources :tag_identifying_data, param: :uid do
+      resources :tag_identifying_data_domains, only: :create, param: :uid
+    end
       # member do
       #   post :apply_to_tags
       # end

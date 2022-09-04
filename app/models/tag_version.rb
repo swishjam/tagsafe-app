@@ -5,7 +5,7 @@ class TagVersion < ApplicationRecord
   acts_as_paranoid
   
   belongs_to :tag
-  belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s
+  belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
   has_many :audits, dependent: :destroy
   has_many :long_tasks, dependent: :destroy
   has_one_attached :js_file, service: :tag_version_s3
@@ -24,14 +24,12 @@ class TagVersion < ApplicationRecord
   validate :only_one_most_recent
 
   def after_creation
-    set_script_last_released_at_timestamp
+    tag.update!(last_released_at: created_at)
     make_most_recent!
+    AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met!
+    perform_audit_on_all_urls(execution_reason: first_version? ? ExecutionReason.RELEASE_MONITORING_ACTIVATED : ExecutionReason.NEW_RELEASE)
     update_tag_table_row(tag: tag, now: true)
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
-    send_new_tag_version_notifications!
-    unless tag.release_monitoring_disabled?
-      NewTagVersionJob.perform_now(self)
-    end
   end
 
   def sha
@@ -45,19 +43,6 @@ class TagVersion < ApplicationRecord
 
   def most_recent_version?
     most_recent
-  end
-
-  def send_new_tag_version_notifications!
-    unless first_version?
-      stream_notification_to_all_domain_users(
-        domain: tag.domain,
-        partial: "tag_versions/new_notification",
-        partial_locals: { tag_version: self, domain: tag.domain },
-        img: tag.try_image_url,
-        timestamp: created_at.formatted_short
-      )
-      NewTagVersionAlert.create!(tag: tag, initiating_record: self)
-    end
   end
 
   def perform_audit(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
@@ -151,10 +136,6 @@ class TagVersion < ApplicationRecord
 
   def image_url
     tag.try_image_url
-  end
-
-  def set_script_last_released_at_timestamp
-    tag.update(last_released_at: created_at)
   end
 
   def first_version?

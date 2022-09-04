@@ -44,9 +44,9 @@
                 <span class='total-additions fw-bold'>+<%= total_additions_for_all_tag_versions %></span>
                 <span class='total-deletions fw-bold'>-<%= total_deletions_for_all_tag_versions %></span>
                 <div class='changes-in-release-visualization'>
-                  <div class='visualization additions' style='width: <%= (total_additions_for_all_tag_versions / most_changes_by_a_tag_for_month.to_f)*100 %>%'>
+                  <div class='visualization additions' style='width: <%= (total_additions_for_all_tag_versions / total_changes_for_all_tag_versions.to_f)*100 %>%'>
                   </div>
-                  <div class='visualization deletions' style='width: <%= (total_deletions_for_all_tag_versions / most_changes_by_a_tag_for_month.to_f)*100 %>%; margin-left: <%= (total_additions_for_all_tag_versions / most_changes_by_a_tag_for_month.to_f)*100 %>%'>
+                  <div class='visualization deletions' style='width: <%= (total_deletions_for_all_tag_versions / total_changes_for_all_tag_versions.to_f)*100 %>%; margin-left: <%= (total_additions_for_all_tag_versions / total_changes_for_all_tag_versions.to_f)*100 %>%'>
                   </div>
                 </div>
               </div>

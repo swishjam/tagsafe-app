@@ -9,7 +9,7 @@ class AdditionalTagsToInjectDuringAuditController < LoggedInController
       locals: {
         domain: current_domain,
         tag: tag,
-        injectable_tags: current_domain.tags.is_third_party_tag.where.not(id: [tag.id].concat(tag.additional_tags_to_inject_during_audit.collect(&:id)))
+        injectable_tags: current_domain.tags.where.not(id: [tag.id].concat(tag.additional_tags_to_inject_during_audit.collect(&:id)))
       }
     )
   end
@@ -24,7 +24,7 @@ class AdditionalTagsToInjectDuringAuditController < LoggedInController
       locals: {
         domain: current_domain,
         tag: tag,
-        injectable_tags: current_domain.tags.is_third_party_tag.where.not(id: [tag.id].concat(tag.additional_tags_to_inject_during_audit.collect(&:id)))
+        injectable_tags: current_domain.tags.where.not(id: [tag.id].concat(tag.additional_tags_to_inject_during_audit.collect(&:id)))
       }
     )
   end

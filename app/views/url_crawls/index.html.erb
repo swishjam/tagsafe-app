@@ -21,36 +21,32 @@
 
 <div class="tagsafe-container text-center">
   <div class='col-12'>
-    <table class="table table-hover col-12 text-center" style="table-layout: fixed">
-      <thead>
-        <tr>
-          <th scope="col" style="width: 20%">Time of sync</th>
-          <th scope="col" style="width: 50%">URL synced from</th>
-          <th scope="col" style='width: 10%'>New tags found</th>
-          <th scope="col" style='width: 20%'>Status</th>
-          <th scope="col" style='width: 10%'></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @url_crawls.each do |crawl| %>
-          <tr>
-            <td style='word-break: break-word;'><%= crawl.enqueued_at.formatted_short %></td>
-            <td style='word-break: break-word;'><%= crawl.page_url.full_url %></td>
-            <td><%= crawl.found_tags.count %></td>
-            <td style='word-break: break-word;'>
-              <% if crawl.pending? %>
-                <div class='tagsafe-pill tagsafe-primary-purple placeholder-wave'><%= display_loading_icon size: :tiny %> Running</div>
-              <% elsif crawl.failed? %>
-                <div class='tagsafe-pill red' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= crawl.error_message %>">Failed</div>
-              <% else %>
-                <div class='tagsafe-pill green'>Success</div>
-              <% end %>
-            </td>
-            <td><%= link_to 'View Details', url_crawl_path(crawl) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="tagsafe-table">
+      <div class='tagsafe-table-row header'>
+        <div class="tagsafe-table-cell">Time of sync</div>
+        <div class="tagsafe-table-cell">URL synced from</div>
+        <div class='tagsafe-table-cell'>New tags found</div>
+        <div class='tagsafe-table-cell'>Status</div>
+        <div class='tagsafe-table-cell'></div>
+      </div>
+      <% @url_crawls.each do |crawl| %>
+        <div class='tagsafe-table-row'>
+          <div class='tagsafe-table-cell'><%= crawl.enqueued_at.formatted_short %></div>
+          <div class='tagsafe-table-cell'><%= crawl.page_url.full_url %></div>
+          <div class='tagsafe-table-cell'><%= crawl.found_tags.count %></div>
+          <div class='tagsafe-table-cell'>
+            <% if crawl.pending? %>
+              <div class='tagsafe-pill tagsafe-primary-purple placeholder-wave'><%= display_loading_icon size: :tiny %> Running</div>
+            <% elsif crawl.failed? %>
+              <div class='tagsafe-pill red' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= crawl.error_message %>">Failed</div>
+            <% else %>
+              <div class='tagsafe-pill green'>Success</div>
+            <% end %>
+          </div>
+          <div class='tagsafe-table-cell'><%= link_to 'View Details', url_crawl_path(crawl) %></div>
+        </div>
+      <% end %>
+    </div>
     <%= paginate @url_crawls %>
   </div>
 </div>

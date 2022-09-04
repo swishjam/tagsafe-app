@@ -1,2 +1,0 @@
-class SlowResponseTimeAlert < TriggeredAlert
-end

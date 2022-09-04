@@ -1,39 +1,95 @@
 .tagsafe-table {
-  text-align: left;
-  // border: 1px solid lightgrey;
+  width: 100%;
   .tagsafe-table-row {
-    width: 100%;
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid lightgrey;
-    padding: 5px;
-    &:not(.tagsafe-table-head):hover {
-      background: rgb(228, 228, 228);
+    border: 1px solid $soft-grey-border;
+    &.hoverable:hover {
+      background: #eeeeee;
+      .underline-hover {
+        text-decoration: underline;
+      }
     }
-    &.clickable:hover .hover-enlarge {
-      transform: scale(125%);
-      transition: 500ms all;
+    &.header {
+      background: #eeeeee;
+      cursor: default;
+      .tagsafe-table-cell {
+        font-size: 16px;
+        font-weight: 800;
+      }
     }
-  }
-  .tagsafe-table-head {
-    background: lightgrey;
-    color: $dark-grey-text;
-    padding: 10px;
-    &:not(.square) {
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+    &:not(.header) {
+      font-size: 14px;
     }
-  }
-  .tagsafe-table-body {
-    border: 1px solid lightgrey;
-  }
-  .tagsafe-table-header, .tagsafe-table-data {
-    display: inline-flex;
-    align-items: center;
-    word-break: break-word;
-    padding: 5px;
-  }
-  .tagsafe-table-data, .tagsafe-table-data * {
-    color: $dark-grey-text;
+    .tagsafe-table-cell {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      word-break: break-word;
+      .table-row-header {
+        font-size: 16px;
+        font-weight: 800;
+        color: $dark-grey-text;
+        display: block;
+      }
+      .table-row-sub-header {
+        font-size: 12px;
+        font-weight: 400;
+        color: $faded-grey-text;
+        display: block;
+      }
+      &.flex-0 {
+        flex: 0;
+      }
+      &.flex-3 {
+        flex: 3
+      }
+      &.flex-4 {
+        flex: 4
+      }
+      &:not(.flex-3), &:not(.flex-4) {
+        min-width: 100px;
+      }
+    }
   }
 }
+
+// .tagsafe-table {
+//   text-align: left;
+//   // border: 1px solid lightgrey;
+//   .tagsafe-table-row {
+//     width: 100%;
+//     display: flex;
+//     align-items: center;
+//     border-bottom: 1px solid lightgrey;
+//     padding: 5px;
+//     &:not(.tagsafe-table-head):hover {
+//       background: rgb(228, 228, 228);
+//     }
+//     &.clickable:hover .hover-enlarge {
+//       transform: scale(125%);
+//       transition: 500ms all;
+//     }
+//   }
+//   .tagsafe-table-head {
+//     background: lightgrey;
+//     color: $dark-grey-text;
+//     padding: 10px;
+//     &:not(.square) {
+//       border-top-left-radius: 10px;
+//       border-top-right-radius: 10px;
+//     }
+//   }
+//   .tagsafe-table-body {
+//     border: 1px solid lightgrey;
+//   }
+//   .tagsafe-table-header, .tagsafe-table-data {
+//     display: inline-flex;
+//     align-items: center;
+//     word-break: break-word;
+//     padding: 5px;
+//   }
+//   .tagsafe-table-data, .tagsafe-table-data * {
+//     color: $dark-grey-text;
+//   }
+// }

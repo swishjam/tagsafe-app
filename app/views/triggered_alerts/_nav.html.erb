@@ -2,7 +2,7 @@
   <div class='settings-sub-nav'>
     <% 
       nav_items = [
-        { path: alerts_path, text: 'Triggered Alerts' },
+        { path: alert_configurations_path, text: 'Triggered Alerts' },
         { path: alert_configuration_path(current_domain_user.domain_alert_configuration), text: 'Global Alert Settings' },
       ].each do |nav| 
     %>

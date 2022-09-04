@@ -42,7 +42,8 @@ class AuditsController < LoggedInController
     urls_to_audit = @tag.urls_to_audit.includes(:page_url)
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
-      tag_version: tag_version, 
+      tag_version: tag_version,
+      feature_prices: current_domain.feature_prices_in_credits,
       current_tag_version: @tag.current_version,
       urls_to_audit: urls_to_audit,
       configuration: @tag.tag_or_domain_configuration
@@ -80,16 +81,16 @@ class AuditsController < LoggedInController
     stream_modal(partial: 'audits/new', locals: { tag: @tag, tag_version: tag_version, audits_enqueued: audits_enqueued, audits_with_errors: audits_with_errors })
   end
 
-  def make_primary
-    @audit.make_primary!
-    current_user.broadcast_notification("Primary audit updated for #{@audit.tag.try_friendly_name} version #{audit.tag_version.sha}", image: audit.tag.try_image_url)
-    updated_audits_collection = @audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits)
-    render turbo_stream: turbo_stream.replace(
-      "tag_version_#{@audit.tag_version.uid}_audits_table",
-      partial: 'audits/audits_table',
-      locals: { tag_version: @tag_version, audits: updated_audits_collection, streamed: true }
-    )
-  end
+  # def make_primary
+  #   @audit.make_primary!
+  #   current_user.broadcast_notification("Primary audit updated for #{@audit.tag.try_friendly_name} version #{audit.tag_version.sha}", image: audit.tag.try_image_url)
+  #   updated_audits_collection = @audit.tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits)
+  #   render turbo_stream: turbo_stream.replace(
+  #     "tag_version_#{@audit.tag_version.uid}_audits_table",
+  #     partial: 'audits/audits_table',
+  #     locals: { tag_version: @tag_version, audits: updated_audits_collection, streamed: true }
+  #   )
+  # end
 
   def cloudwatch_logs
     @performance_audits_with_tag = @audit.performance_audits_with_tag

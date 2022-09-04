@@ -36,11 +36,8 @@
                   <li>Runs nightly performance audits.</li>
                 </ul>
               </div>
-              <div class='annual-billing-only d-flex justify-content-center'>
-                <%= link_to 'Try for free', new_domain_path(plan: 'starter-annual'), class: 'floating-btn large' %>
-              </div>
-              <div class='monthly-billing-only d-flex justify-content-center hidden'>
-                <%= link_to 'Try for free', new_domain_path(plan: 'starter-monthly'), class: 'floating-btn large' %>
+              <div class='d-flex justify-content-center'>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn large' %>
               </div>
             </div>
           </div>
@@ -59,11 +56,8 @@
                   <li>Uptime monitoring enabled for select tags in select regions</li>
                 </ul>
               </div>
-              <div class='annual-billing-only d-flex justify-content-center'>
-                <%= link_to 'Try for free', new_domain_path(plan: 'scale-annual'), class: 'floating-btn large' %>
-              </div>
-              <div class='monthly-billing-only d-flex justify-content-center hidden'>
-                <%= link_to 'Try for free', new_domain_path(plan: 'scale-monthly'), class: 'floating-btn large' %>
+              <div class='d-flex justify-content-center'>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn large' %>
               </div>
             </div>
           </div>
@@ -83,11 +77,8 @@
                   <li>Runs functional end-to-end tests</li>
                 </ul>
               </div>
-              <div class='annual-billing-only d-flex justify-content-center'>
-                <%= link_to 'Try for free', new_domain_path(plan: 'pro-annual'), class: 'floating-btn large' %>
-              </div>
-              <div class='monthly-billing-only d-flex justify-content-center hidden'>
-                <%= link_to 'Try for free', new_domain_path(plan: 'pro-monthly'), class: 'floating-btn large' %>
+              <div class='d-flex justify-content-center'>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn large' %>
               </div>
             </div>
           </div>
@@ -116,8 +107,8 @@
                   feature_title: "Credits included per month",
                   feature_tooltip_title: "Tagsafe uses a usage-based credit system. Credits are used to run performance audits, perform funtional tests, monitor uptime, and release detection.",
                   starter_package_support: '2,500',
-                  scale_package_support: '20,000',
-                  pro_package_support: '100,000',
+                  scale_package_support: '25,000',
+                  pro_package_support: '150,000',
                   enterprise_package_support: 'Customizable' %>
       <%= render 'subscription_plans/feature_row', 
                   feature_title: "Tagsafe Scores",
@@ -217,26 +208,26 @@
           <div class='row'>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='2'>
               <div class='column-content text-center annual-billing-only'>
-                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn' %>
               </div>
               <div class='column-content text-center monthly-billing-only hidden'>
-                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn' %>
               </div>
             </div>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='3'>
               <div class='column-content text-center annual-billing-only'>
-                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn' %>
               </div>
               <div class='column-content text-center monthly-billing-only hidden'>
-                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn' %>
               </div>
             </div>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='4'>
               <div class='column-content text-center annual-billing-only'>
-                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn' %>
               </div>
               <div class='column-content text-center monthly-billing-only hidden'>
-                <%= link_to 'Try for free', new_registration_path, class: 'floating-btn' %>
+                <%= link_to 'Try for free', domain_registrations_path, class: 'floating-btn' %>
               </div>
             </div>
             <div class='col-3 pricing-matrix-cell subscription-package-support-column' data-column='5'>

@@ -7,7 +7,7 @@
   </div>
   <% unless user_is_anonymous? %>
     <%= render 'partials/page_navigation_items', navigation_items: [
-      { url: alerts_path, text: 'Triggered Alerts' },
+      { url: alert_configurations_path, text: 'Triggered Alerts' },
       { url: alert_configuration_path(current_domain_user.domain_alert_configuration), text: 'Alert Settings' }
     ] %>
   <% end %>

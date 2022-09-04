@@ -1,0 +1,114 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <h1 class='page-title with-sub-title'>New Alert</h1>
+    </div>
+  </div>
+</div>
+
+<div class='tagsafe-container'>
+  <div class='container-fluid'>
+    <div class='col-sm-12 col-md-8 m-auto'>
+      <div class='step-indicators w-fit m-auto'>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator current'>
+        </div>
+        <div class='step-indicator incomplete'>
+        </div>
+      </div>
+      <h4 class='text-center mt-3'>Subscribe tags to alert</h4>
+        <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form'} do |f| %>
+          <input type='hidden' name='current_view' value='tags'>
+          <input type='hidden' name="alert_configuration[disabled]" value="<%= @alert_configuration.disabled %>">
+          <input type='hidden' name="alert_configuration[name]" value="<%= @alert_configuration.name %>">
+          <input type='hidden' name="alert_configuration[trigger_rules]" value="<%= @alert_configuration.trigger_rules.to_json %>">
+          <input type='hidden' name="alert_configuration[enabled_for_all_tags]" value="<%= @alert_configuration.enabled_for_all_tags %>">
+          <% @alert_configuration.domain_users.each do |domain_user| %>
+            <input type='hidden' name='domain_user_uids[]' value="<%= domain_user.uid %>">
+          <% end %>
+          <div class='tagsafe-table' data-controller='alert-form' style='max-height: 80vh; overflow-y: scroll;'>
+            <div class='tagsafe-table-row hoverable'>
+              <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
+                <input type='checkbox' 
+                        id="all-tags" 
+                        class='form-check-input' 
+                        name='alert_configuration[enabled_for_all_tags]'
+                        value='true' 
+                        data-action='change->alert-form#toggleAllTags'
+                        <%= @alert_configuration.enabled_for_all_tags ? 'checked' : nil %>/>
+              </div>
+              <label class='tagsafe-table-cell' for="all-tags">Enable for all current and future tags</label>
+            </div>
+            <% @selected_tags.each do |tag| %>
+              <div class='tagsafe-table-row hoverable'>
+                <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
+                  <input type='checkbox' 
+                          name='tag_uids[]' 
+                          id="<%= tag.uid %>" 
+                          class='form-check-input' 
+                          value='<%= tag.uid %>' 
+                          data-alert-form-target='tagSwitch' 
+                          <%= @alert_configuration.enabled_for_all_tags ? 'disabled=true' : nil %>
+                          checked />
+                </div>
+                <label for="<%=tag.uid%>" class='tagsafe-table-cell flex-4'>
+                  <%= image_tag tag.try_image_url, class: 'tag-thumbnail border me-2' %>
+                  <div class='d-block'>
+                    <span class='d-block table-row-header'><%= tag.try_friendly_name %></span>
+                    <% if tag.has_friendly_name? %>
+                      <span class='d-block table-row-sub-header'><%= tag.url_based_on_preferences %></span>
+                    <% end %>
+                  </div>
+                </label>
+              </div>
+            <% end %>
+            <% @unselected_tags.each do |tag| %>
+              <div class='tagsafe-table-row hoverable'>
+                <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
+                  <input type='checkbox' 
+                          name='tag_uids[]' 
+                          class='form-check-input' 
+                          id="<%=tag.uid %>" 
+                          value='<%= tag.uid %>' 
+                          data-alert-form-target='tagSwitch'
+                          <%= @alert_configuration.enabled_for_all_tags ? 'disabled=true checked=true' : nil %> />
+                </div>
+                <label class='tagsafe-table-cell flex-4' for="<%=tag.uid%>">
+                  <%= image_tag tag.try_image_url, class: 'tag-thumbnail border me-2' %>
+                  <div class='d-block'>
+                    <span class='d-block table-row-header'><%= tag.try_friendly_name %></span>
+                    <% if tag.has_friendly_name? %>
+                      <span class='d-block table-row-sub-header'><%= tag.url_based_on_preferences %></span>
+                    <% end %>
+                  </div>
+                </label>
+              </div>
+            <% end %>
+          </div>
+          <% if @alert_configuration.errors.any? %>
+            <div class='mt-3 text-center'>
+              <%= render 'partials/inline_errors', errors: @alert_configuration.errors.full_messages %>
+            </div>
+          <% end %>
+          <div class='mt-3'>
+            <div class='row'>
+              <div class='col-6 d-flex'>
+                <%= link_to trigger_rules_alert_configuration_path(@alert_configuration), class: 'floating-btn' do %>
+                  <i class='fa-solid fa-arrow-left-long'></i> Define alert criteria
+                <% end %>
+              </div>
+              <div class='col-6 text-end'>
+                <%= loading_submit_button type: 'floating' do %>
+                  Subscribe users <i class='fa-solid fa-arrow-right-long'></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

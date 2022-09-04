@@ -10,7 +10,7 @@ module.exports = class DataStoreManager {
         user     : process.env.MYSQL_USER,
         password : process.env.MYSQL_PASSWORD,
         database : process.env.MYSQL_DATABASE,
-        ssl: 'Amazon RDS'
+        ssl: {}
       });
       connection.connect();
       console.log(`Connected to DB!`);
@@ -29,9 +29,9 @@ module.exports = class DataStoreManager {
       SELECT 
         tags.id AS tag_id,
         tags.full_url AS tag_url, 
-        tag_preferences.release_check_minute_interval AS release_check_minute_interval, 
-        current_tag_versions.hashed_content AS current_hashed_content,
-        current_tag_versions.bytes AS current_version_bytes_size,
+        live_tag_configurations.release_check_minute_interval AS release_check_minute_interval, 
+        most_recent_tag_versions.hashed_content AS current_hashed_content,
+        most_recent_tag_versions.bytes AS current_version_bytes_size,
         tags.marked_as_pending_tag_version_capture_at AS marked_as_pending_tag_version_capture_at,
         CASE
           WHEN tag_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring IS NULL
@@ -42,33 +42,19 @@ module.exports = class DataStoreManager {
         tags
         INNER JOIN domains
           ON domains.id=tags.domain_id
-        INNER JOIN subscription_plans
-          ON subscription_plans.id=domains.current_subscription_plan_id
-        LEFT JOIN credit_wallets AS credit_wallet_for_current_month_and_year
-          ON credit_wallet_for_current_month_and_year.domain_id=domains.id AND
-          credit_wallet_for_current_month_and_year.month=${parseInt(moment(new Date()).format('M'))} AND
-          credit_wallet_for_current_month_and_year.year=${parseInt(moment(new Date()).format('Y'))}
-        INNER JOIN tag_preferences 
-          ON tag_preferences.tag_id=tags.id
-        LEFT JOIN general_configurations 
-          AS domain_general_configurations 
+        INNER JOIN tag_configurations AS live_tag_configurations 
+          ON live_tag_configurations.tag_id=tags.id 
+          AND live_tag_configurations.type = "LiveTagConfiguration"
+        INNER JOIN tag_versions AS most_recent_tag_versions
+          ON most_recent_tag_versions.id=tags.most_recent_tag_version_id
+        LEFT JOIN general_configurations AS domain_general_configurations 
           ON domain_general_configurations.parent_type = "Domain" 
           AND domain_general_configurations.parent_id=tags.domain_id
-        LEFT JOIN general_configurations 
-          AS tag_general_configurations 
+        LEFT JOIN general_configurations AS tag_general_configurations 
           ON tag_general_configurations.parent_type = "Tag" 
           AND tag_general_configurations.parent_id=tags.id
-        LEFT JOIN tag_versions 
-          AS current_tag_versions 
-          ON current_tag_versions.tag_id=tags.id 
-          AND current_tag_versions.most_recent = true
       WHERE 
-        tag_preferences.release_check_minute_interval = ${parseInt(interval)} AND
-        subscription_plans.status NOT IN ("incomplete_expired", "unpaid", "canceled") AND
-        (
-          credit_wallet_for_current_month_and_year.credits_remaining IS NULL OR 
-          credit_wallet_for_current_month_and_year.credits_remaining > 0
-        )
+        live_tag_configurations.release_check_minute_interval = ${parseInt(interval)}
       GROUP BY
         tag_id,
         tag_url, 
