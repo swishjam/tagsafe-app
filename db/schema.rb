@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_02_205721) do
+ActiveRecord::Schema.define(version: 2022_09_06_170140) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -430,6 +430,15 @@ ActiveRecord::Schema.define(version: 2022_09_02_205721) do
     t.index ["uid"], name: "index_html_snapshots_on_uid"
   end
 
+  create_table "instrumentation_builds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.text "description", size: :medium
+    t.datetime "created_at", null: false
+    t.index ["domain_id"], name: "index_instrumentation_builds_on_domain_id"
+    t.index ["uid"], name: "index_instrumentation_builds_on_uid"
+  end
+
   create_table "long_tasks", charset: "utf8", force: :cascade do |t|
     t.bigint "performance_audit_id"
     t.bigint "tag_id"
@@ -779,6 +788,14 @@ ActiveRecord::Schema.define(version: 2022_09_02_205721) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
+  create_table "tag_inject_page_url_rules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.string "type"
+    t.string "url"
+    t.boolean "is_regex_pattern"
+    t.index ["uid"], name: "index_tag_inject_page_url_rules_on_uid"
+  end
+
   create_table "tag_versions", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.integer "tag_id"
@@ -795,6 +812,7 @@ ActiveRecord::Schema.define(version: 2022_09_02_205721) do
     t.bigint "release_check_captured_with_id"
     t.string "sha_256"
     t.string "tag_version_identifier"
+    t.string "sha_512"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
@@ -819,6 +837,7 @@ ActiveRecord::Schema.define(version: 2022_09_02_205721) do
     t.boolean "has_staged_changes"
     t.string "js_script_fingerprint"
     t.bigint "most_recent_tag_version_id"
+    t.string "name"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["most_current_audit_id"], name: "index_tags_on_most_current_audit_id"

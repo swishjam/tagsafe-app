@@ -1,17 +1,19 @@
 export default class TagConfig {
-  constructor(tagConfigurationHash) {
+  constructor(tagConfigurationHash, options = { useDirectTagUrlsOnly: false }) {
     this.tagConfigurationHash = tagConfigurationHash;
+    this.useDirectTagUrlsOnly = options.useDirectTagUrlsOnly;
+    console.log(`Should TagConfig \`useDirectTagUrlsOnly\`? ${this.useDirectTagUrlsOnly}`);
   }
 
   _ = () => this._optionalAttr('_');
   uid = () => this._requiredAttr('uid');
   el = () => this._requiredAttr('el');
   loadRule = () => this._requiredAttr('loadRule');
-  script = () => this._requiredAttr('script');
+  script = () => this._providedOrGeneratedScript();
   directTagUrl = () => this._requiredAttr('directTagUrl');
-  tagsafeHostedTagUrl = () => this.tagConfigurationHash['tagsafeHostedTagUrl'] || this.directTagUrl();
+  tagsafeHostedTagUrl = () => this._tagsafeHostedUrlBasedOnOptions();
   injectLocation = () => this._requiredAttr('injectLocation');
-  sha256 = () => this._requiredAttr('sha256');
+  sha256 = () => this._sha256BasedOnOptions();
 
   toJson = () => {
     return {
@@ -24,6 +26,20 @@ export default class TagConfig {
       sha256: this.sha256(),
       script: this.script()
     }
+  }
+
+  _tagsafeHostedUrlBasedOnOptions = () => {
+    return this.useDirectTagUrlsOnly ? null : this._optionalAttr('tagsafeHostedTagUrl');
+  }
+
+  _sha256BasedOnOptions = () => {
+    return this.useDirectTagUrlsOnly ? null : this._optionalAttr('sha256');
+  }
+
+  _providedOrGeneratedScript = () => {
+    // if only a script URL is provided without a JS script, mimic a script that 
+    // will get intercepted and appropriate rules will be set
+    return this._optionalAttr('script') || `(function(scriptUrl, injectLocation) {var s = document.createElement("script");s.setAttribute("src", scriptUrl);s.setAttribute("data-tagsafe-injected", "true");var domLocation={head: document.head,body: document.body}[injectLocation];domLocation.appendChild(s);})("${this.directTagUrl()}", "${this.injectLocation()}")`
   }
 
   _optionalAttr(attribute) {

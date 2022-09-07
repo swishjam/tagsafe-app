@@ -7,8 +7,12 @@ export default class Tagsafe {
   static init(config = {
     tagsToInjectImmediately: [], 
     tagsToInjectOnLoad: [],
-    useDirectTagUrl: false,
-    tagsToDisable: []
+    useDirectTagUrlsOnly: false,
+    tagsToDisable: [],
+    // disableAllTags: {
+    //   enabled: false,
+    //   tagUrlsToEnable: []
+    // }
   }) {
     if(this._initialized) throw new Error(`Tagsafe already initialized.`);
     this._initialized = true;
@@ -19,8 +23,13 @@ export default class Tagsafe {
     window.Tagsafe.errorHandler = errorHandler;
     window.Tagsafe.metricsHandler = metricsHandler;
     
-    const tagConfigsToInjectImmediately = config.tagsToInjectImmediately.map(tagConfigHash => new TagConfig(tagConfigHash));
-    const tagConfigsToInjectOnLoad = config.tagsToInjectOnLoad.map(tagConfigHash => new TagConfig(tagConfigHash));
+    const tagConfigsToInjectImmediately = config.tagsToInjectImmediately.map( tagConfigHash => {
+      return new TagConfig(tagConfigHash, { useDirectTagUrlsOnly: config.useDirectTagUrlsOnly });
+    });
+    const tagConfigsToInjectOnLoad = config.tagsToInjectOnLoad.map( tagConfigHash => {
+      return new TagConfig(tagConfigHash, { useDirectTagUrlsOnly: config.useDirectTagUrlsOnly });
+    });
+
     const tagInjector = new TagInjector({ 
       tagConfigsToInjectImmediately, 
       tagConfigsToInjectOnLoad,

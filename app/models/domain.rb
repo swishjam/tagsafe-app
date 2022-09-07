@@ -66,11 +66,15 @@ class Domain < ApplicationRecord
   end
 
   def tagsafe_instrumentation_url
-    "https://#{ENV['TAGSAFE_INSTRUMENTATION_CLOUDFRONT_HOSTNAME']}/#{tagsafe_instrumentation_pathname}"
+    "https://#{ENV['CLOUDFRONT_HOSTNAME']}/#{tagsafe_instrumentation_pathname}"
   end
 
   def tagsafe_instrumentation_pathname
-    "#{uid}-instrumentation.js"
+    "manager/#{uid}-instrumentation.js"
+  end
+
+  def instrumentation_cache_seconds
+    60 * 5 # 5 minutes, until configurable
   end
 
   def is_test_domain?

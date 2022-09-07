@@ -1,0 +1,3 @@
+class PageUrlRuleToNotInjectTagOn < TagInjectPageUrlRule
+  
+end

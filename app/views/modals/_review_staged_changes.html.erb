@@ -34,7 +34,6 @@
                         <span class='tag-config live d-block'>Script resource load rule: <%= tag.live_tag_configuration.load_type || 'N/A' %></span>
                         <span class='tag-config live d-block'>Script location: <%= tag.live_tag_configuration.script_inject_location %></span>
                         <span class='tag-config live d-block'>Script inject event: <%= tag.live_tag_configuration.script_inject_event %></span>
-                        <span class='tag-config live d-block'>Execute script in web worker?: <%= tag.live_tag_configuration.execute_script_in_web_worker.to_s %></span>
                         <span class='tag-config live d-block'>Release check frequency: <%= tag.live_tag_configuration.release_check_interval_in_words %></span>
                         <span class='tag-config live d-block'>Script is enabled?: <%= tag.live_tag_configuration.enabled.to_s %></span>
                       <% end %>
@@ -44,7 +43,6 @@
                       <span class='tag-config live d-block'>Script resource load rule: <%= tag.draft_tag_configuration.load_type || 'N/A' %></span>
                       <span class='tag-config live d-block'>Script location: <%= tag.draft_tag_configuration.script_inject_location %></span>
                       <span class='tag-config live d-block'>Script inject event: <%= tag.draft_tag_configuration.script_inject_event %></span>
-                      <span class='tag-config live d-block'>Execute script in web worker?: <%= tag.draft_tag_configuration.execute_script_in_web_worker.to_s %></span>
                       <span class='tag-config live d-block'>Release check frequency: <%= tag.draft_tag_configuration.release_check_interval_in_words %></span>
                       <span class='tag-config live d-block'>Script is enabled?: <%= tag.draft_tag_configuration.enabled.to_s %></span>
                     </div>

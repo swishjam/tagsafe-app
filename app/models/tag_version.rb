@@ -66,11 +66,11 @@ class TagVersion < ApplicationRecord
     end
   end
 
-  def js_file_url(formatted: false, use_cloudfront_url: Util.env_is_true('USE_CLOUDFRONT_CDN_FOR_JS_FILES'))
+  def js_file_url(formatted: false, use_cloudfront_url: true)
     javascript_file = formatted ? formatted_js_file : js_file
     return javascript_file.url unless use_cloudfront_url
     parsed_url = URI.parse(javascript_file.url)
-    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
+    parsed_url.hostname = ENV['CLOUDFRONT_HOSTNAME']
     parsed_url.to_s
   end
 

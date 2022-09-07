@@ -41,11 +41,12 @@ module TagsafeInstrumentationManager
             'uid': '#{tag.uid}',
             'directTagUrl': '#{tag.has_url? ? tag.full_url : nil}',
             'tagsafeHostedTagUrl': '#{tag.live_tag_configuration.is_tagsafe_hosted ? tag.current_live_tag_version.js_file_url : nil}',
-            'loadRule': '#{tag.full_url.nil? ? nil : tag.live_tag_configuration.load_type || 'defer'}',
-            'script': '#{tag.has_js_script? ? tag.js_script_content(sanitize: true) : nil}',
+            'loadRule': '#{tag.live_tag_configuration.load_type || 'defer'}',
+            'script': `#{tag.has_js_script? ? tag.js_script_content(sanitize: true) : nil}`,
             'injectLocation': '#{tag.live_tag_configuration.script_inject_location}',
             'injectAt': '#{tag.live_tag_configuration.script_inject_event}',
-            'sha256': '#{tag.has_url? && tag.live_tag_configuration.is_tagsafe_hosted ? tag.current_live_tag_version.sha_256 : nil}'
+            'sha256': '#{tag.has_url? && tag.live_tag_configuration.is_tagsafe_hosted ? tag.current_live_tag_version.sha_256 : nil}',
+            'tag_version': '#{tag.current_live_tag_version&.uid}'
           }
         "
         js += ", " unless tags.count - 1 == i

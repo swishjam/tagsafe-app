@@ -4,7 +4,7 @@
     <title>Tagsafe</title>
     <%= turbo_include_tags %>
     <%= stimulus_include_tags %>
-    <script src='https://d3u10p06z9v5mh.cloudfront.net/dom_8e7bcfb3-instrumentation.js'></script>
+    <script src='https://<%= ENV['CLOUDFRONT_HOSTNAME'] || 'cdn.tagsafe.io' %>/manager/dom_8e7bcfb3-instrumentation.js'></script>
 
     <meta property="og:title" content="Tagsafe" />
     <meta property="og:description" content="Take control of your third party tags." />

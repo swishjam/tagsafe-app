@@ -9,12 +9,15 @@ module TagsafeInstrumentationManager
         bucket: 'tagsafe-instrumentation', 
         key: @domain.tagsafe_instrumentation_pathname, 
         content: compiled_instrumentation,
-        acl: 'public-read'
+        cache_control: "public, max-age=#{@domain.instrumentation_cache_seconds}, stale-while-revalidate=60",
+        acl: 'public-read',
+        content_type: 'text/javascript'
       )
     end
 
     def purge_domains_instrumentation_cloudfront_cache
       TagsafeAws::CloudFront.invalidate_cache("/#{@domain.tagsafe_instrumentation_pathname}")
+      # TagsafeAws::CloudFront.invalidate_cache(@domain.tagsafe_instrumentation_pathname)
     end
   end
 end

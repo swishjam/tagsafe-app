@@ -15,9 +15,12 @@ class TagsafeAws
         puts "CANNOT DELETE #{s3_url}: #{e.message}"
       end
 
-      def write_to_s3(bucket:, key:, content:, acl: nil)
+      def write_to_s3(bucket:, key:, content:, acl: nil, cache_control: nil, content_type: nil, include_md5: true)
         args = { bucket: bucket, key: key, body: content }
         args[:acl] = acl unless acl.nil?
+        args[:cache_control] = cache_control unless cache_control.nil?
+        args[:content_type] = content_type unless content_type.nil?
+        args[:content_md5] = Digest::MD5.base64digest(content) if include_md5
         client.put_object(args)
       end
 
@@ -38,6 +41,7 @@ class TagsafeAws
       end
 
       def invalidate_cache(*paths)
+        Rails.logger.info "TagsafeAws::Cloudfront -- Invaliding CloudFront cache for #{paths.join(', ')}."
         client.create_invalidation(
           distribution_id: ENV['TAGSAFE_INSTRUMENTATION_CLOUDFRONT_DISTRIBUTION_ID'],
           invalidation_batch: {
@@ -110,10 +114,12 @@ class TagsafeAws
       end
 
       def disable_rule(name, region:, event_bus_name: 'default')
+        Rails.logger.info "TagsafeAws::EventBridge -- Disabling rule: #{name}, for event bus: #{event_bus_name}, in region: #{region}."
         client(region).disable_rule(name: name, event_bus_name: event_bus_name)
       end
 
       def enable_rule(name, region:, event_bus_name: 'default')
+        Rails.logger.info "TagsafeAws::EventBridge -- Enabling rule: #{name}, for event bus: #{event_bus_name}, in region: #{region}."
         client(region).enable_rule(name: name, event_bus_name: event_bus_name)
       end
     end

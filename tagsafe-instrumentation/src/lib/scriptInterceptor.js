@@ -12,83 +12,86 @@ export default class ScriptInterceptor {
 
   _interceptAppendChild = () => {
     const ogAppendChild = Node.prototype.appendChild;
-    const urlsToInterceptMap = this.urlsToInterceptMap;
+    const scope = this;
     Node.prototype.appendChild = function() {
-      try {
-        const newNode = arguments[0];
-        if(newNode.nodeName === 'SCRIPT') {
-          const urlToRemapTo = urlsToInterceptMap[newNode.getAttribute('src')];
-          if(urlToRemapTo) {
-            console.log(`Intercepting Script node ${newNode.getAttribute('src')} -> ${urlToRemapTo}`);
-            window.Tagsafe.interceptedTags.push(newNode.getAttribute('src'));
-            arguments[0].src = urlToRemapTo;
-          }
-        }
-        return ogAppendChild.apply(this, arguments);
-      } catch(err) {
-        console.error(`Tagsafe intercept error: ${err}`);
-        return ogAppendChild.apply(this, arguments);
-      }
+      const appendChildScope = this;
+      return scope._reRouteInjectedElIfNecessary(
+        arguments[0],
+        () => ogAppendChild.apply(appendChildScope, arguments)
+      );
     };
   }
 
   _interceptInsertBefore = () => {
     const ogInsertBefore = Node.prototype.insertBefore;
-    const urlsToInterceptMap = this.urlsToInterceptMap;
+    const scope = this;
     Node.prototype.insertBefore = function() {
-      try {
-        const newNode = arguments[0];
-        if(newNode.nodeName === 'SCRIPT') {
-          const urlToRemapTo = urlsToInterceptMap[newNode.getAttribute('src')];
-          if(urlToRemapTo) {
-            console.log(`Intercepting Script node ${newNode.getAttribute('src')} -> ${urlToRemapTo}`);
-            window.Tagsafe.interceptedTags.push(newNode.getAttribute('src'));
-            arguments[0].src = urlToRemapTo;
-          }
-        }
-        return ogInsertBefore.apply(this, arguments);
-      } catch(err) {
-        console.error(`Tagsafe intercept error: ${err}`);
-        return ogInsertBefore.apply(this, arguments);
-      }
+      const insertBeforeScope = this;
+      return scope._reRouteInjectedElIfNecessary(
+        arguments[0],
+        () => ogInsertBefore.apply(insertBeforeScope, arguments)
+      );
     };
   }
 
   _interceptPrepend = function() {
     const ogPrepend = Node.prototype.prepend;
-    const urlsToInterceptMap = this.urlsToInterceptMap;
+    const scope = this;
     Node.prototype.prepend = function() {
-      try {
-        const newNode = arguments[0];
-        if(newNode.nodeName === 'SCRIPT') {
-          const urlToRemapTo = urlsToInterceptMap[newNode.getAttribute('src')];
-          if(urlToRemapTo) {
-            console.log(`Intercepting Script node ${newNode.getAttribute('src')} -> ${urlToRemapTo}`);
-            window.Tagsafe.interceptedTags.push(newNode.getAttribute('src'));
-            arguments[0].src = urlToRemapTo;
-          }
-        }
-        return ogPrepend.apply(this, arguments);
-      } catch(err) {
-        console.error(`Tagsafe intercept error: ${err}`);
-        return ogPrepend.apply(this, arguments);
-      }
+      const prependScope = this;
+      return scope._reRouteInjectedElIfNecessary(
+        arguments[0],
+        () => ogPrepend.apply(prependScope, arguments)
+      );
     };
   }
 
-  // _urlToRemapNodeTo = node => {
-  //   if(node.nodeName === 'SCRIPT') {
-  //     console.log(`Is ${node.getAttribute('src')} in?`)
-  //     console.log(this.urlsToInterceptMap);
-  //     const urlToRemap = this.urlsToInterceptMap[node.getAttribute('src')];
-  //     return typeof urlToRemap === 'string' && urlToRemap;
-  //   }
-  // }
+  _reRouteInjectedElIfNecessary = (newNode, dontReRouteCallback) => {
+    try {
+      if(newNode.nodeName === 'SCRIPT') {
+        const reRouteTagConfig = this.urlsToInterceptMap[newNode.getAttribute('src')];
+        if(reRouteTagConfig) {
+          return this._interceptInjectedScriptTag(newNode, reRouteTagConfig, dontReRouteCallback);
+        } else {
+          return dontReRouteCallback();
+        }
+      } else {
+        return dontReRouteCallback();
+      }
+    } catch(err) {
+      console.error(`Tagsafe intercept error: ${err}`);
+      return dontReRouteCallback();
+    }
+  }
 
-    // _monkeyPatchMethod = ({ originalMethod, scope, providedArguments }) => {
-  //   const newNode = providedArguments[0];
-  //   const urlToRemap = this._urlToRemapNodeTo(newNode);
-  //   if(urlToRemap) providedArguments[0].src = urlToRemap;
-  //   originalMethod.apply(scope, providedArguments)
-  // }
+  _interceptInjectedScriptTag = (newNode, tagConfig, onErrorCallback) => {
+    try {
+      const ogSrc = newNode.getAttribute('src');
+      console.log(`Intercepting Script node ${ogSrc} -> ${tagConfig.tagsafeHostedTagUrl()}`);
+      if(tagConfig.tagsafeHostedTagUrl()) {
+        newNode.setAttribute('src', tagConfig.tagsafeHostedTagUrl());
+        newNode.setAttribute('data-og-src', ogSrc);
+      }
+      if(tagConfig.sha256()) {
+        newNode.setAttribute('integrity', `sha256-${tagConfig.sha256()}`);
+        newNode.setAttribute('crossorigin', 'anonymous');
+      }
+      if(tagConfig.loadRule()) {
+        newNode.removeAttribute('async');
+        newNode.removeAttribute('defer');
+        newNode.setAttribute(tagConfig.loadRule(), 'true');
+      }
+      newNode.setAttribute('data-tagsafe-intercepted', 'true');
+      const domLocation = {
+        head: document.head,
+        body: document.body
+      }[tagConfig.injectLocation()] || document.head;
+      domLocation.appendChild(newNode);
+      window.Tagsafe.interceptedTags.push([ogSrc, tagConfig.tagsafeHostedTagUrl() || ogSrc]);
+      return newNode; 
+    } catch(err) {
+      console.error(`Tagsafe intecept error: ${err}`)
+      return onErrorCallback();
+    }
+  }
 }

@@ -19,7 +19,7 @@ class TagsController < LoggedInController
   def create
     @tag = current_domain.tags.new(tag_params)
     
-    unless !tag_params[:full_url].blank?
+    if tag_params[:full_url].blank?
       local_file_name = "#{Time.now.to_i}-#{(rand() * 100_000_000).to_i}-script.js"
       local_file = File.open(Rails.root.join('tmp', local_file_name), "w") 
       local_file.puts(params[:tag][:js_script].force_encoding('UTF-8'))
@@ -42,6 +42,9 @@ class TagsController < LoggedInController
   def promote
     tags = current_domain.tags.where(uid: params[:tag_uids_to_promote])
     TagManager::Promoter.promote_staged_changes(tags)
+    # need to think about the user experience for moving this to a background job
+    # the banner will still be present because of the staged changes
+    # PromoteTagsJob.perform_later(tags)
     redirect_to tag_manager_path
   end
 
@@ -143,6 +146,6 @@ class TagsController < LoggedInController
   private
 
   def tag_params
-    params.require(:tag).permit(:full_url)
+    params.require(:tag).permit(:full_url, :name)
   end
 end

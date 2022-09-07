@@ -19,7 +19,11 @@ module TagManager
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
-      @tag.update!(marked_as_pending_tag_version_capture_at: nil, current_live_tag_version: tag_version)
+      @tag.update!(
+        marked_as_pending_tag_version_capture_at: nil, 
+        current_live_tag_version: tag_version, # eventually this should move to after we run our audits and is verified to be safe
+        most_recent_tag_version: tag_version
+      )
       remove_temp_files
       tag_version
     end
@@ -29,7 +33,9 @@ module TagManager
     def tag_version_data
       {
         hashed_content: @hashed_content,
-        sha_256: Digest::SHA2.new(256).hexdigest(@content),
+         # what's written to file seems to be slightly different than the @content in memory?
+        sha_256: OpenSSL::Digest.new('SHA256').base64digest( File.read(tag_version_js_file_data[:io]) ),
+        # sha_512: OpenSSL::Digest.new('SHA512').base64digest(File.read(tag_version_js_file_data[:io]),
         bytes: @bytes,
         release_check_captured_with: @release_check,
         js_file: tag_version_js_file_data,
@@ -45,7 +51,7 @@ module TagManager
       { 
         io: File.open(js_file), 
         filename: db_filename(:compiled),
-        content_type: 'text/javascript'
+        content_type: 'application/javascript'
       }
     end
 

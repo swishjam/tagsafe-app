@@ -49,7 +49,10 @@ class Tag < ApplicationRecord
   has_many :tag_configurations, dependent: :destroy
   has_one :draft_tag_configuration
   has_one :live_tag_configuration
-  accepts_nested_attributes_for :tag_configurations
+
+  has_many :tag_inject_page_url_rules
+  has_many :page_url_rules_to_inject_tag_on, class_name: PageUrlRuleToInjectTagOn.to_s
+  has_many :page_url_rules_to_not_inject_tag_on, class_name: PageUrlRuleToNotInjectTagOn.to_s
 
   # VALIDATIONS
   validates_uniqueness_of :full_url, 
@@ -59,10 +62,8 @@ class Tag < ApplicationRecord
                           unless: -> { full_url.blank? }
 
   # CALLBACKS
-  after_create :find_tag_url_in_js_script_if_necessary
-  after_create :set_js_script_fingerprint
-  after_create :set_url_attributes_if_necessary
-  after_create :apply_tag_identifying_data_and_functional_tests
+  after_create :set_default_attributes_after_create
+  after_destroy { TagsafeInstrumentationManager::InstrumentationWriter.new(domain).write_current_instrumentation_to_cdn }
 
   # SCOPES
   scope :has_staged_changes, -> { where(has_staged_changes: true) }
@@ -102,27 +103,28 @@ class Tag < ApplicationRecord
     !full_url.blank?
   end
 
-  def set_url_attributes_if_necessary
-    return if self.full_url.nil?
-    parsed_url = URI.parse(full_url)
-    self.url_domain = parsed_url.host
-    self.url_path = parsed_url.path
-    self.url_query_param = parsed_url.query
-    self.save!
-  end
+  def set_default_attributes_after_create
+    temp_file_js_script_content = has_js_script? ? File.read(attachment_changes['js_script'].attachable[:io]) : nil
 
-  def find_tag_url_in_js_script_if_necessary
-    return unless has_js_script? && self.full_url.nil?
-    temp_file_js_script_content = File.read(attachment_changes['js_script'].attachable[:io])
-    tag_url = TagManager::FindTagInJsScript.find!(temp_file_js_script_content)
-    return if tag_url == self.full_url
-    self.full_url = tag_url
-    self.save!
-  end
+    if temp_file_js_script_content
+      self.full_url = TagManager::FindTagInJsScript.find!(temp_file_js_script_content)
+    end
+    
+    if self.full_url.present?
+      parsed_url = URI.parse(self.full_url)
+      self.url_domain = parsed_url.host
+      self.url_path = parsed_url.path
+      self.url_query_param = parsed_url.query
+    end
+    
+    if temp_file_js_script_content && self.js_script_fingerprint.nil?
+      self.js_script_fingerprint = Digest::MD5.hexdigest(temp_file_js_script_content)
+    end
 
-  def set_js_script_fingerprint
-    return unless has_js_script? && js_script_fingerprint.nil?
-    self.js_script_fingerprint = Digest::MD5.hexdigest(js_script_content)
+    if tag_identifying_data_id.nil? && self.full_url.present?
+      self.tag_identifying_data = TagIdentifyingData.for_tag(self)
+    end
+
     self.save!
   end
 
@@ -260,8 +262,16 @@ class Tag < ApplicationRecord
     live_tag_configuration.present? && live_tag_configuration.release_monitoring_enabled?
   end
 
+  def release_monitoring_disabled?
+    !release_monitoring_enabled?
+  end
+
   def scheduled_audits_enabled?
     live_tag_configuration.present? && live_tag_configuration.scheduled_audits_enabled?
+  end
+
+  def scheduled_audits_disabled?
+    !scheduled_audits_enabled?
   end
 
   def tag_or_domain_configuration
@@ -285,11 +295,11 @@ class Tag < ApplicationRecord
   end
 
   def has_friendly_name?
-    tag_identifying_data.present?
+    name.present? || tag_identifying_data.present?
   end
 
   def friendly_name
-    tag_identifying_data&.name
+    name || tag_identifying_data&.name
   end
 
   def try_friendly_name

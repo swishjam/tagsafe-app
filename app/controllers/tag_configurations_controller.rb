@@ -19,7 +19,8 @@ class TagConfigurationsController < LoggedInController
     params[:tag_configuration][:release_check_minute_interval] = 0 if ['false', nil].include?(params[:tag_configuration][:is_tagsafe_hosted])
     @tag_configuration = DraftTagConfiguration.new(tag_configuration_params)
     if @tag_configuration.save
-      redirect_to tag_path(@tag)
+      # redirect_to tag_path(@tag)
+      redirect_to tag_manager_path
     else
       render :new, status: :unprocessable_entity
     end

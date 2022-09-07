@@ -30,7 +30,7 @@
           <%= link_to alert_configuration_path(alert_config), class: 'no-decoration' do %>
             <div class='tagsafe-table-row hoverable'>
               <div class='tagsafe-table-cell'>
-                <span class='<%= alert_config.disabled? ? 'inactive-circular-icon' : 'active-circular-icon' %> me-2'
+                <span class='<%= alert_config.disabled? ? 'red-glowing-circular-icon' : 'green-glowing-circular-icon' %> me-2'
                       data-controller='tooltip'
                       data-bs-toggle='tooltip'
                       title='Alert is <%= alert_config.disabled? ? 'inactive' : 'active' %>'></span> 

@@ -25,35 +25,74 @@
   <div class='tagsafe-table-head square'>
     <div class='tagsafe-table-row header'>
       <div class='tagsafe-table-cell flex-3'>Tag</div>
-      <div class='tagsafe-table-cell'>Load rule</div>
+      <div class='tagsafe-table-cell'>Host location</div>
       <div class='tagsafe-table-cell flex-0'></div>
     </div>
   </div>
   <div class='tagsafe-table-body'>
     <% @tags.each do |tag| %>
-      <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
-        <div class='tagsafe-table-row hoverable'>
-          <div class='tagsafe-table-cell flex-3'>
+      <div class='tagsafe-table-row hoverable'>
+        <div class='tagsafe-table-cell flex-3'>
+          <%= link_to tag_path(tag), class: 'no-decoration w-100 d-flex align-items-center', target: '_top' do %>
             <div class='tag-img-thumbnail-container me-2'>
               <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
             </div>
-            <% if tag.has_friendly_name? %>
-              <div class='d-block'>
-                <span class='table-row-header underline-hover d-block'><%= tag.friendly_name %></span>
-                <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+            <div class='d-block'>
+              <span class='table-row-header underline-hover d-block'>
+                <%= tag.friendly_name %>
+                <% if tag.live_tag_configuration.nil? && tag.draft_tag_configuration.nil? %>
+                  <div class='red-glowing-circular-icon ms-2'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title='Tag configuration is incomplete, edit this tag in order to turn it live.'></div>
+                <% elsif tag.has_staged_changes %>
+                  <div class='orange-glowing-circular-icon ms-2'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title='Tag has staged changes, review changes to turn them live.'></div>
+                <% elsif tag.live_tag_configuration.disabled? %>
+                  <div class='red-glowing-circular-icon ms-2'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title='Tag is paused from firing.'></div>
+                <% else %>
+                  <div class='green-glowing-circular-icon ms-2'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title='Tag is active.'></div>
+                <% end %>
+              </span>
+              <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+            </div>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-cell'>
+          <% if (tag.live_tag_configuration || tag.draft_tag_configuration).is_tagsafe_hosted %>
+            <div class='tagsafe-pill tagsafe-primary-purple'>
+              Tagsafe-hosted
+            </div>
+          <% else %>
+            <div class='tagsafe-pill grey'>
+              Original host <%= tag.full_url.blank? ? nil : "(#{tag.url_domain})" %>
+            </div>
+          <% end %>
+        </div>
+        <div class='tagsafe-table-cell flex-0 text-end'>
+          <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style='top: 5px; right: 5px;'>
+            <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <%= link_to 'Edit tag', edit_tag_tag_configuration_path(tag, tag.draft_tag_configuration), class: 'dropdown-item no-decoration', target: '_top' %>
+              <%= link_to 'View tag', tag_path(tag), class: 'dropdown-item no-decoration', target: '_top' %>
+              <div class='dropdown-divider'></div>
+              <div class="dropdown-item">
+                Pause/disable tag
               </div>
-            <% else %>
-              <span class='table-row-header underline-hover d-block'><%= tag.url_based_on_preferences %></span>
-            <% end %>
-          </div>
-          <div class='tagsafe-table-cell'>
-          </div>
-          <div class='tagsafe-table-cell flex-0 text-end'>
-            HI!
+            </div>
           </div>
         </div>
-
-      <% end %>
+      </div>
     <% end %>
   </div>
 

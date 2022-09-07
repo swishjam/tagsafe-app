@@ -24,7 +24,7 @@ export default class TagInjector {
     let scriptUrlsToInterceptMap = {};
     this.tagConfigsToInjectImmediately.concat(this.tagConfigsToInjectOnLoad).forEach(tagConfig => {
       if(tagConfig.directTagUrl() && tagConfig.tagsafeHostedTagUrl()) {
-        scriptUrlsToInterceptMap[tagConfig.directTagUrl()] = tagConfig.tagsafeHostedTagUrl();
+        scriptUrlsToInterceptMap[tagConfig.directTagUrl()] = tagConfig;
       }
     })
     const scriptInterceptor = new ScriptInterceptor(scriptUrlsToInterceptMap);
@@ -38,22 +38,9 @@ export default class TagInjector {
   _injectTag(tagConfiguration) {
     try {
       const el = document.createElement(tagConfiguration.el());
-      el.setAttribute('data-tagsafe-injected', 'true');
       el.setAttribute('data-tagsafe-tag-uid', tagConfiguration.uid());
-      if(tagConfiguration.loadRule()) el.setAttribute(tagConfiguration.loadRule(), 'true');
-      if(tagConfiguration.script()) {
-        el.setAttribute('data-tagsafe-inline-script', 'true')
-        el.innerText = tagConfiguration.script();
-      } else if(tagConfiguration.tagsafeHostedTagUrl()) {
-        el.setAttribute('data-tagsafe-og-url', tagConfiguration.directTagUrl());
-        el.setAttribute('data-tagsafe-hosted', 'true');
-        el.setAttribute('src', tagConfiguration.tagsafeHostedTagUrl());
-      } else if(tagConfiguration.directTagUrl()) {
-        el.setAttribute('data-tagsafe-hosted', 'false');
-        el.setAttribute('src', tagConfiguration.directTagUrl());
-      }
-      // el.setAttribute('integrity', `sha256-${tagConfiguration.sha256()}`);
-      // el.setAttribute('crossorigin', 'anonymous');
+      el.setAttribute('data-tagsafe-inline-script', 'true'); 
+      el.innerText = tagConfiguration.script();
       const domLocation = {
         head: document.head,
         body: document.body
