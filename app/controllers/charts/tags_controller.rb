@@ -5,7 +5,7 @@ module Charts
       time_range = (params[:time_range] || "24_hours").to_sym
       if params[:tag_ids]
         tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
-        tags = current_domain.tags.includes(:live_tag_configuration).where(id: tag_ids)
+        tags = current_domain.tags.where(id: tag_ids)
         include_metric_select = params[:include_metric_select] == 'true'
         chart_data_getter = ChartHelper::TagsData.new(
           tags: tags, 

@@ -1,18 +1,4 @@
 <%= turbo_frame_tag "#{domain.uid}_domain_tags_container" do %>
-  <% if tags.none? %>
-    <% most_recent_crawl = domain.url_crawls&.most_recent %>
-    <div class='text-center p-5'>
-      <% if most_recent_crawl.nil? %>
-        <h2>Sync your third party tags from <%= current_domain.url_hostname %></h2>
-        <%= form_with url: url_crawls_path, method: :POST do |f| %>
-          <%= f.submit 'Sync third party tags', class: 'tagsafe-btn mt-3' %>
-        <% end %>
-      <% else %>
-        <%= render 'url_crawls/status', url_crawl: most_recent_crawl %>
-      <% end %>
-    </div>
-  <% end %>
-  
   <div class='col-12'>
     <% if tags.any? %>
       <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: charts_tags_path(current_domain.id, tag_ids: tags.collect(&:id), include_metric_select: true) do %>

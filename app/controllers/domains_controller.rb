@@ -1,9 +1,11 @@
 class DomainsController < LoggedOutController
-  # skip_before_action :ensure_domain
-
   def review_staged_changes
     tags_with_staged_changes = current_domain.tags.has_staged_changes.includes(:draft_tag_configuration, :live_tag_configuration)
     stream_modal(locals: { tags_with_staged_changes: tags_with_staged_changes})
+  end
+
+  def install_script
+    stream_modal(locals: { instrumentation_key: current_domain.instrumentation_key })
   end
 
   def new
@@ -24,7 +26,7 @@ class DomainsController < LoggedOutController
       else
         current_user.domains << @domain
         Role.USER_ADMIN.apply_to_domain_user(current_user.domain_user_for(@domain))
-        redirect_to tags_path
+        redirect_to tag_manager_path
       end
     else
       display_inline_errors(@domain.errors.full_messages)

@@ -35,14 +35,8 @@ class Domain < ApplicationRecord
   validates :url, presence: true
 
   before_validation :strip_pathname_from_url_and_initialize_page_url, on: :create
-  before_create { self.stripe_customer_id = Stripe::Customer.create({ email: "user@#{url_hostname}" }).id }
-  after_create { PerformanceAuditCalculator.create_default(self) }
-  after_create { GeneralConfiguration.create_default_for_domain(self) }
-  after_destroy do
-    Stripe::Customer.delete(self.stripe_customer_id) unless Rails.env.production?
-  rescue => e
-    puts "Can't delete Stripe Customer: #{self.stripe_customer_id}: #{e.message}"
-  end
+  before_create { self.instrumentation_key = "TAG-#{uid.split('dom_')[1]}" }
+  after_create { TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn }
 
   attribute :is_generating_third_party_impact_trial, default: false
 
@@ -70,7 +64,7 @@ class Domain < ApplicationRecord
   end
 
   def tagsafe_instrumentation_pathname
-    "manager/#{uid}-instrumentation.js"
+    "#{instrumentation_key}/instrumentation.js"
   end
 
   def instrumentation_cache_seconds

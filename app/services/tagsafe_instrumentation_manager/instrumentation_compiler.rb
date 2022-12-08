@@ -21,11 +21,11 @@ module TagsafeInstrumentationManager
       File.delete(compiled_instrumentation_file_path)
     end
 
-    private
+  private
 
     def run_webpack_system_command
       Dir.chdir(Rails.root.join('tagsafe-instrumentation')) do 
-        system "npm run build -- --env outputFilename=#{compiled_instrumentation_file_name}" 
+        system "npm run build -- --env outputFilename=#{compiled_instrumentation_local_file_name}" 
       end
     end
 
@@ -34,10 +34,10 @@ module TagsafeInstrumentationManager
     end
 
     def compiled_instrumentation_file_path
-      Rails.root.join('tagsafe-instrumentation', 'build', "#{compiled_instrumentation_file_name}.js")
+      Rails.root.join('tagsafe-instrumentation', 'build', "#{compiled_instrumentation_local_file_name}.js")
     end
 
-    def compiled_instrumentation_file_name
+    def compiled_instrumentation_local_file_name
       "#{@domain.uid}-instrumentation"
     end
   end

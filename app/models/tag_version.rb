@@ -8,8 +8,6 @@ class TagVersion < ApplicationRecord
   belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
   has_many :audits, dependent: :destroy
   has_many :long_tasks, dependent: :destroy
-  has_one_attached :js_file, service: :tag_version_s3
-  has_one_attached :formatted_js_file, service: :tag_version_s3
   
   scope :most_recent, -> { where(most_recent: true) }
   # only time total_changes = nil is if theres not other version to compare to?
@@ -19,8 +17,9 @@ class TagVersion < ApplicationRecord
 
   after_create :after_creation
   after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
+  after_destroy :purge_s3_files!
 
-  validate :has_attached_js_files
+  # validate :has_attached_js_files
   validate :only_one_most_recent
 
   def after_creation
@@ -31,6 +30,19 @@ class TagVersion < ApplicationRecord
     update_tag_table_row(tag: tag, now: true)
     add_tag_version_to_tag_details_view(tag_version: self, now: true)
   end
+
+  def s3_url(use_cdn: true, formatted: false)
+    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : ENV['CLOUDFRONT_HOSTNAME']
+    "https://#{url_host}#{s3_pathname(formatted: formatted)}"
+  end
+  alias js_file_url s3_url
+
+  def s3_pathname(formatted: false, strip_leading_slash: false)
+    # if there's a leading slash in the S3 file name, the first directory is just '/', strip it so the directory is the instrumentation key
+    unique_s3_file_name = "#{tag.hostname_and_path.gsub('.', '_').gsub('/', '_')}-#{uid}#{formatted ? '-formatted' : ''}"
+    "#{strip_leading_slash ? '' : '/'}tags/#{tag.domain.instrumentation_key}/#{unique_s3_file_name}.js"
+  end
+  alias js_file_pathname s3_pathname
 
   def sha
     hashed_content.slice(0, 8)
@@ -66,20 +78,19 @@ class TagVersion < ApplicationRecord
     end
   end
 
-  def js_file_url(formatted: false, use_cloudfront_url: true)
-    javascript_file = formatted ? formatted_js_file : js_file
-    return javascript_file.url unless use_cloudfront_url
-    parsed_url = URI.parse(javascript_file.url)
-    parsed_url.hostname = ENV['CLOUDFRONT_HOSTNAME']
-    parsed_url.to_s
-  end
-
   def content(formatted: false)
     if formatted
-      @formatted_content ||= formatted_js_file.download
+      @formatted_content ||= TagsafeAws::S3.get_object_by_s3_url(js_file_url(formatted: true))
+      # @formatted_content ||= formatted_js_file.download
     else
-      @content ||= js_file.download
+      @content ||= TagsafeAws::S3.get_object_by_s3_url(js_file_url(formatted: false))
+      # @content ||= js_file.download
     end
+  end
+
+  def purge_s3_files!
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(formatted: false))
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(formatted: true))
   end
 
   def audit_to_display

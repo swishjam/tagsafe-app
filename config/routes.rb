@@ -74,6 +74,7 @@ Rails.application.routes.draw do
 
   resources :domains, only: [:create, :update, :new], param: :uid do
     member do
+      get '/install' => 'domains#install_script', as: :install_script
       get '/review_staged_changes' => 'domains#review_staged_changes'
       post '/promote_staged_changes' => 'domains#promote_staged_changes'
     end

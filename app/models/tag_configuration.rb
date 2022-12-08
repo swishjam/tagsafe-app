@@ -6,7 +6,7 @@ class TagConfiguration < ApplicationRecord
   # validate :has_payment_method_on_file_when_necessary
   validates :release_check_minute_interval, inclusion: { in: [0, 1, 15, 30, 60, 180, 360, 720, 1_440] }
   validates :scheduled_audit_minute_interval, inclusion: { in: [0, 5, 15, 30, 60, 180, 360, 720, 1_440] }
-  validates :load_type, inclusion: { in: %w[async defer synchronous] }, if: -> { tag.has_url? }
+  validates :load_type, inclusion: { in: %w[async defer synchronous] }
   validates :script_inject_event, inclusion: { in: %w[immediate load] }
   validates :script_inject_location, inclusion: { in: %w[head body] }
 

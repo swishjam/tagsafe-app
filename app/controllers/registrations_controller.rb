@@ -10,7 +10,7 @@ class RegistrationsController < LoggedOutController
 
   def new
     redirect_to domain_registrations_path if current_domain.nil?
-    redirect_to select_subscription_plans_path if current_user.present?
+    # redirect_to select_subscription_plans_path if current_user.present?
     @hide_logged_out_nav = true
     @hide_footer = true
     @user = User.new

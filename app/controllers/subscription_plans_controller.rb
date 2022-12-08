@@ -1,12 +1,12 @@
 class SubscriptionPlansController < LoggedInController
-  skip_before_action :ensure_subscription_plan, only: [:select, :create]
+  # skip_before_action :ensure_subscription_plan, only: [:select, :create]
   
   def select
     can_select = !current_domain.has_current_subscription_plan? ||
                   current_domain.current_subscription_plan.canceled? ||
                   current_domain.current_subscription_plan.delinquent? ||
                   params[:update]
-    redirect_to tags_path unless can_select
+    redirect_to tag_manager_path unless can_select
     @hide_navigation = true
   end
 
@@ -18,7 +18,7 @@ class SubscriptionPlansController < LoggedInController
       free_trial_days: current_domain.subscription_plans.none? ? 14 : 
                         current_domain.has_payment_method_on_file? ? 0 : 1
     ).enroll!
-    redirect_to tags_path
+    redirect_to tag_manager_path
   end
 
   def update

@@ -1,5 +1,6 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :ensure_domain, :ensure_subscription_plan, only: [:accept, :redeem]
+  skip_before_action :ensure_domain, only: [:accept, :redeem]
+  # skip_before_action :ensure_domain, :ensure_subscription_plan, only: [:accept, :redeem]
 
   def new
     @user_invite = UserInvite.new
@@ -61,7 +62,7 @@ class UserInvitesController < LoggedInController
       if user.valid?
         invite.redeem!(user)
         set_current_user(user)
-        redirect_to tags_path
+        redirect_to tag_manager_path
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer

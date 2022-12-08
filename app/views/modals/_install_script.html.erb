@@ -1,0 +1,17 @@
+<%= render_as_modal title: 'Install Script' do %>
+  <div class='tagsafe-modal-body text-start'>
+    <h4>Paste this script at the very top of the `head` on each page of your web application.</h4>
+    <div class='code-block p-2'>
+      (function(i) { <br/>
+        var s = document.createElement('script'); <br/>
+        s.setAttribute('src', "https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>/instrumentation/"+i+".js"); <br/>
+        document.head.prepend(s); <br/>
+      })("<%= instrumentation_key %>"); <br/>
+    </div>
+  </div>
+  <div class='tagsafe-modal-divider mt-2'></div>
+    <div class='tagsafe-modal-footer text-end'>
+    </div>
+  </div>
+<% end %>
+  

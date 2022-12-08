@@ -2,7 +2,7 @@ class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
   before_action :ensure_domain
-  before_action :ensure_subscription_plan
+  # before_action :ensure_subscription_plan
   before_action :set_current_domain_and_redirect_if_param_present
 
   def authorize!

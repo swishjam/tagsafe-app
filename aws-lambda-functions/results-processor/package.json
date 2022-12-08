@@ -1,0 +1,24 @@
+{
+  "name": "send-results-to-tagsafe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-prod": "serverless deploy --stage production",
+    "locally": "serverless invoke local --function append-to-resque-queue --path ./test-data.json --stage local"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "node-fetch": "^2.0.0",
+    "redis": "^4.0.4"
+  },
+  "devDependencies": {
+    "serverless": "^3.12.0",
+    "serverless-lift": "^1.12.1",
+    "serverless-offline": "^8.5.0"
+  }
+}

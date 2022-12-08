@@ -1,41 +1,35 @@
-import TagInjector from './tagInjector';
-import TagConfig from './tagConfig';
-import ErrorHandler from './errorHandler';
 import MetricsHandler from './metricsHandler';
+import DataReporter from "./dataReporter";
+import ScriptInterceptor from './scriptInterceptor';
 
 export default class Tagsafe {
-  static init(config = {
-    tagsToInjectImmediately: [], 
-    tagsToInjectOnLoad: [],
-    useDirectTagUrlsOnly: false,
-    tagsToDisable: [],
-    // disableAllTags: {
-    //   enabled: false,
-    //   tagUrlsToEnable: []
-    // }
-  }) {
+  static init({ domainUid, tagConfigurations, settings }) {
     if(this._initialized) throw new Error(`Tagsafe already initialized.`);
     this._initialized = true;
     
-    window.Tagsafe.config = config;
-    const errorHandler = new ErrorHandler;
-    const metricsHandler = new MetricsHandler;
-    window.Tagsafe.errorHandler = errorHandler;
-    window.Tagsafe.metricsHandler = metricsHandler;
+    window.Tagsafe.metricsHandler = new MetricsHandler;
     
-    const tagConfigsToInjectImmediately = config.tagsToInjectImmediately.map( tagConfigHash => {
-      return new TagConfig(tagConfigHash, { useDirectTagUrlsOnly: config.useDirectTagUrlsOnly });
-    });
-    const tagConfigsToInjectOnLoad = config.tagsToInjectOnLoad.map( tagConfigHash => {
-      return new TagConfig(tagConfigHash, { useDirectTagUrlsOnly: config.useDirectTagUrlsOnly });
+    const dataReporter = new DataReporter({ 
+      reportingURL: settings.reportingURL,
+      domainUid,
+      sampleRate: settings.sampleRate,
+      debugMode: settings.debugMode
     });
 
-    const tagInjector = new TagInjector({ 
-      tagConfigsToInjectImmediately, 
-      tagConfigsToInjectOnLoad,
-      errorHandler,
-      metricsHandler
+    const scriptInterceptor = new ScriptInterceptor({ 
+      tagConfigurations, 
+      dataReporter, 
+      firstPartyDomains: settings.firstPartyDomains,
+      debugMode: settings.debugMode
     });
-    tagInjector.injectTagsIntoDOM();
+
+    scriptInterceptor.interceptInjectedScriptTags();
+
+    if(settings.debugMode) {
+      console.log('TagsafeJS initialized with');
+      console.log(tagConfigurations);
+      console.log(`First party domain(s): ${settings.firstPartyDomains.join(', ')}`);
+      console.log(`Reporting sample rate: ${settings.sampleRate * 100}%`)
+    }
   }
 }

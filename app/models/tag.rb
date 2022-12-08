@@ -17,9 +17,7 @@ class Tag < ApplicationRecord
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
   belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 
-  has_one_attached :js_script, service: :tag_js_script_s3
-
-  has_many :audits, dependent: :destroy
+  # has_many :audits, dependent: :destroy
   has_many :long_tasks, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
@@ -40,51 +38,28 @@ class Tag < ApplicationRecord
   has_many :alert_configuration_tags
   has_many :alert_configurations, through: :alert_configuration_tags
 
-  has_many :additional_tags_to_inject_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s
-  has_many :tags_to_inject_during_audit, through: :additional_tags_to_inject_during_audit, source: :tag_to_inject
-  # has_many :additional_tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
-  # has_many :tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
-
-  has_one :configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
-  has_many :tag_configurations, dependent: :destroy
-  has_one :draft_tag_configuration
-  has_one :live_tag_configuration
-
-  has_many :tag_inject_page_url_rules
-  has_many :page_url_rules_to_inject_tag_on, class_name: PageUrlRuleToInjectTagOn.to_s
-  has_many :page_url_rules_to_not_inject_tag_on, class_name: PageUrlRuleToNotInjectTagOn.to_s
-
   # VALIDATIONS
   validates_uniqueness_of :full_url, 
                           scope: :domain_id, 
                           conditions: -> { where(deleted_at: nil) },
-                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" },
-                          unless: -> { full_url.blank? }
+                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" }
 
   # CALLBACKS
-  after_create :set_default_attributes_after_create
-  after_destroy { TagsafeInstrumentationManager::InstrumentationWriter.new(domain).write_current_instrumentation_to_cdn }
+  before_create :set_url_attributes_and_find_tag_identifying_data
+  after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
 
   # SCOPES
-  scope :has_staged_changes, -> { where(has_staged_changes: true) }
-
-  scope :domain_has_active_subscription_plan, -> { joins(:domain).where(Domain.has_valid_subscription) }
-  scope :domain_has_invalid_subscription_plan, -> { joins(:domain).where(Domain.has_invalid_subscription) }
-
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
 
-  scope :where_live_tag_configuration, -> (where_clause) { joins(:live_tag_configuration).where(live_tag_configuration: where_clause) }
-  scope :where_live_tag_configuration_not, -> (where_clause) { joins(:live_tag_configuration).where.not(live_tag_configuration: where_clause) }
-
-  scope :five_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 5) }
-  scope :fifteen_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 15) }
-  scope :thirty_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 30) }
-  scope :one_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 60) }
-  scope :three_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 180) }
-  scope :six_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 360) }
-  scope :twelve_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 720) }
-  scope :twenty_four_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 1440) }
+  # scope :five_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 5) }
+  # scope :fifteen_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 15) }
+  # scope :thirty_minute_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 30) }
+  # scope :one_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 60) }
+  # scope :three_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 180) }
+  # scope :six_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 360) }
+  # scope :twelve_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 720) }
+  # scope :twenty_four_hour_scheduled_audit_intervals, -> { where_live_tag_configuration(scheduled_audit_minute_interval: 1440) }
 
   def self.find_without_query_params(url, include_removed_tags: false)
     parsed_url = URI.parse(url)
@@ -99,49 +74,21 @@ class Tag < ApplicationRecord
     find_without_query_params(url, include_removed_tags: true)
   end
 
-  def has_url?
-    !full_url.blank?
-  end
-
-  def set_default_attributes_after_create
-    temp_file_js_script_content = has_js_script? ? File.read(attachment_changes['js_script'].attachable[:io]) : nil
-
-    if temp_file_js_script_content
-      self.full_url = TagManager::FindTagInJsScript.find!(temp_file_js_script_content)
-    end
-    
-    if self.full_url.present?
-      parsed_url = URI.parse(self.full_url)
-      self.url_domain = parsed_url.host
-      self.url_path = parsed_url.path
-      self.url_query_param = parsed_url.query
-    end
-    
-    if temp_file_js_script_content && self.js_script_fingerprint.nil?
-      self.js_script_fingerprint = Digest::MD5.hexdigest(temp_file_js_script_content)
-    end
+  def set_url_attributes_and_find_tag_identifying_data
+    parsed_url = URI.parse(self.full_url)
+    self.url_domain = parsed_url.host
+    self.url_path = parsed_url.path
+    self.url_query_param = parsed_url.query
 
     if tag_identifying_data_id.nil? && self.full_url.present?
       self.tag_identifying_data = TagIdentifyingData.for_tag(self)
     end
 
-    self.save!
+    # self.save!
   end
 
   def set_current_live_tag_version(tag_version)
     update!(current_live_tag_version: tag_version)
-  end
-
-  def has_js_script?
-    js_script.attached?
-  end
-
-  def js_script_content(sanitize: true)
-    return nil unless js_script.attached?
-    content = js_script.download
-    return content unless sanitize
-    # https://github.com/babel/babel/issues/9765
-    content.gsub("\\", "\\\\\\\\").gsub("\n", "").gsub("\r", "")
   end
 
   def find_and_apply_tag_identifying_data(force_update = false)
@@ -151,7 +98,8 @@ class Tag < ApplicationRecord
   end
 
   def enabled?
-    live_tag_configuration && live_tag_configuration.enabled
+    true
+    # live_tag_configuration && live_tag_configuration.enabled
   end
 
   def disabled?
@@ -170,23 +118,8 @@ class Tag < ApplicationRecord
     try_image_url
   end
 
-  def able_to_be_tagsafe_hosted?
-    url_query_param.blank?
-  end
-
-  def apply_tag_identifying_data_and_functional_tests
-    # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
-    find_and_apply_tag_identifying_data
-    # uptime_regions_to_check.create(uptime_region: UptimeRegion.US_EAST_1) # new uptime check logic no longer requires this...
-    domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
-  end
-
   def state
-    live_tag_configuration.nil? ? 'pending' : live_tag_configuration.disabled? ? 'disabled' : 'live'
-  end
-
-  def human_state
-    state.split('-').collect(&:capitalize).join(' ')
+    # live_tag_configuration.nil? ? 'pending' : live_tag_configuration.disabled? ? 'disabled' : 'live'
   end
 
   # def most_current_audit
@@ -259,7 +192,8 @@ class Tag < ApplicationRecord
   end
 
   def release_monitoring_enabled?
-    live_tag_configuration.present? && live_tag_configuration.release_monitoring_enabled?
+    false
+    # live_tag_configuration.present? && live_tag_configuration.release_monitoring_enabled?
   end
 
   def release_monitoring_disabled?
@@ -267,7 +201,8 @@ class Tag < ApplicationRecord
   end
 
   def scheduled_audits_enabled?
-    live_tag_configuration.present? && live_tag_configuration.scheduled_audits_enabled?
+    false
+    # live_tag_configuration.present? && live_tag_configuration.scheduled_audits_enabled?
   end
 
   def scheduled_audits_disabled?
@@ -292,6 +227,10 @@ class Tag < ApplicationRecord
 
   def most_recent_pending_audit
     audits.pending_performance_audit.most_recent_first.limit(1).first
+  end
+
+  def name
+    # TODO: need to add to tags table
   end
 
   def has_friendly_name?
@@ -324,13 +263,13 @@ class Tag < ApplicationRecord
   alias image_url try_image_url
 
   def domain_and_path
-    return if full_url.nil?
-    "#{URI.parse(full_url).scheme}://#{url_domain}#{url_path}"
+    "#{URI.parse(full_url).scheme}://#{hostname_and_path}"
   end
 
-  def estimated_monthly_cost
-    SubscriptionMaintainer::PriceEstimator.new(self).estimate_monthly_price
+  def hostname_and_path
+    url_domain + url_path
   end
+
 
   ################
   ## TAG CHECKS ##
