@@ -13,7 +13,7 @@ module TagsafeInstrumentationManager
     private
 
     def config_file_location
-      Rails.root.join('tagsafe-instrumentation', 'data', @config_file_name)
+      Rails.root.join('tmp', "tagsafe-instrumentation-#{@domain.uid}", 'data', @config_file_name)
     end
 
     def config_file_content

@@ -8,7 +8,11 @@
       <% end %>
       <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
     <% else %>
-      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %><% end %>
+      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
+        <div class='text-center p-5'>
+          <h3 class='tagsafe-font'>No third party tags identified yet. Have you <%= modal_link install_script_domain_path(current_domain), text: 'installed your TagsafeJS tag' %>?</h3>
+        </div>
+      <% end %>
       <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
     <% end %>
   </div>

@@ -8,6 +8,7 @@ module ContextualUid
 
     base.before_validation :set_uid, on: :create
     base.validates :uid, on: :create, presence: true, uniqueness: true, unless: -> { self.class.should_skip_contextual_uid? }
+    base.validate :uid_is_immutable
     # validate_and_store_klass_and_subclasses_uid_prefixes(base)
   end
 
@@ -42,6 +43,12 @@ module ContextualUid
             Rails.logger.warn "ContextualUid loop. Duplicate UID generated for #{self.class.to_s} model (#{custom_uid})."
           end
         end
+      end
+    end
+
+    def uid_is_immutable
+      if uid_changed? && self.persisted?
+        errors.add(:base, "Cannot update UID.")
       end
     end
   end

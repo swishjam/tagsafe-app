@@ -32,7 +32,7 @@ class TagVersion < ApplicationRecord
   end
 
   def s3_url(use_cdn: true, formatted: false)
-    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : ENV['CLOUDFRONT_HOSTNAME']
+    url_host = use_cdn ? "https://tagsafe-#{Rails.env}-tag-versions.s3-us-east-1.amazonaws.com" : ENV['CLOUDFRONT_HOSTNAME']
     "https://#{url_host}#{s3_pathname(formatted: formatted)}"
   end
   alias js_file_url s3_url
@@ -80,17 +80,16 @@ class TagVersion < ApplicationRecord
 
   def content(formatted: false)
     if formatted
-      @formatted_content ||= TagsafeAws::S3.get_object_by_s3_url(js_file_url(formatted: true))
-      # @formatted_content ||= formatted_js_file.download
+      # TODO: use Cloudfront to download!
+      @formatted_content ||= TagsafeAws::S3.get_object_by_s3_url(js_file_url(use_cdn: false, formatted: true))
     else
-      @content ||= TagsafeAws::S3.get_object_by_s3_url(js_file_url(formatted: false))
-      # @content ||= js_file.download
+      @content ||= TagsafeAws::S3.get_object_by_s3_url(js_file_url(use_cdn: false, formatted: false))
     end
   end
 
   def purge_s3_files!
-    TagsafeAws::S3.delete_object_by_s3_url(s3_url(formatted: false))
-    TagsafeAws::S3.delete_object_by_s3_url(s3_url(formatted: true))
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(use_cdn: false, formatted: false))
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(use_cdn: false, formatted: true))
   end
 
   def audit_to_display

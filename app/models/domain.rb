@@ -9,9 +9,9 @@ class Domain < ApplicationRecord
   has_one :subscription_features_configuration, dependent: :destroy
   has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
 
-  has_many :tagsafe_js_events_batches, class_name: TagsafeJsEventsBatch.to_s
-  has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s
-  has_many :alert_configurations
+  has_many :tagsafe_js_events_batches, class_name: TagsafeJsEventsBatch.to_s, dependent: :destroy
+  has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s, dependent: :destroy
+  has_many :alert_configurations, dependent: :destroy
   has_many :audits, dependent: :destroy
   has_many :credit_wallets, dependent: :destroy
   has_many :bulk_debits, through: :credit_wallets
@@ -39,6 +39,7 @@ class Domain < ApplicationRecord
   # before_validation :strip_pathname_from_url_and_initialize_page_url, on: :create
   before_create { self.instrumentation_key = "TAG-#{uid.split('dom_')[1]}" }
   after_create { TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn }
+  after_destroy { TagsafeAws::S3.delete_object_by_s3_url(tagsafe_instrumentation_url(use_cdn: false)) }
 
   # attribute :is_generating_third_party_impact_trial, default: false
   attribute :tagsafe_js_reporting_sample_rate, default: 1.0
@@ -68,8 +69,9 @@ class Domain < ApplicationRecord
     "#{u.scheme}://#{u.hostname}"
   end
 
-  def tagsafe_instrumentation_url
-    "https://#{ENV['CLOUDFRONT_HOSTNAME']}/#{tagsafe_instrumentation_pathname}"
+  def tagsafe_instrumentation_url(use_cdn: true)
+    url_host = use_cdn ? 'tagsafe-instrumentation.s3.us-east-1.amazonaws.com' : ENV['CLOUDFRONT_HOSTNAME']
+    "https://#{url_host}/#{tagsafe_instrumentation_pathname}"
   end
 
   def tagsafe_instrumentation_pathname
