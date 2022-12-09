@@ -1,4 +1,4 @@
-export default async function newTagsConsumer(messages) {
+export default async function newDataConsumer(messages) {
   console.log(`newTagsConsumer ${messages.length} messages received`)
   
   const fetchPromises = messages.map(sendDataToResqueConnector);

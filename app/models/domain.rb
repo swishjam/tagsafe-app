@@ -9,6 +9,8 @@ class Domain < ApplicationRecord
   has_one :subscription_features_configuration, dependent: :destroy
   has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
 
+  has_many :new_tags_identified_batches, class_name: NewTagsIdentifiedBatch.to_s
+  has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s
   has_many :alert_configurations
   has_many :audits, dependent: :destroy
   has_many :credit_wallets, dependent: :destroy

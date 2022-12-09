@@ -22,7 +22,7 @@ export default class extends Controller {
 
   copyContent() {
     this.codeMirrorTextareaTarget.select();
-    navigator.clipboard.writeText(this.codeMirrorTextareaTarget.value);
+    navigator.clipboard.writeText(this.codeMirrorInstance.getValue());
     this.element.classList.add('tagsafe-illuminate');
     setTimeout(() => this.element.classList.remove('tagsafe-illuminate'), 5000);
   }

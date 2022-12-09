@@ -23,6 +23,7 @@ module TagsafeInstrumentationManager
           disabled: false,
           uid: '#{@domain.uid}',
           tagConfigurations: #{buld_tag_configurations_hash},
+          urlPatternsToNotCapture: #{@domain.tag_url_patterns_to_not_capture.collect(&:url_pattern)},
           settings: {
             reportingURL: '#{ENV['TAGSAFE_JS_REPORTING_URL']}',
             sampleRate: 1,

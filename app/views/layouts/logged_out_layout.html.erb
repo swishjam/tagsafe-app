@@ -4,7 +4,16 @@
     <title>Tagsafe</title>
     <%= turbo_include_tags %>
     <%= stimulus_include_tags %>
-    <script src='https://<%= ENV['CLOUDFRONT_HOSTNAME'] || 'cdn.tagsafe.io' %>/TAG-e6b86723/instrumentation.js'></script>
+    
+    <link href='https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>' rel='preconnect dns-prefetch' crossorigin>
+    <script>
+      (function(i) {
+        var s = document.createElement('script');
+        s.setAttribute('src','https://cdn-collin-dev.tagsafe.io/'+i+'/instrumentation.js');
+        document.head.prepend(s);
+      })('TAG-e6b86723');
+    </script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

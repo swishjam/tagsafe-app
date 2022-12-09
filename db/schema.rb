@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_07_202225) do
+ActiveRecord::Schema.define(version: 2022_12_08_150610) do
 
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
@@ -484,6 +484,17 @@ ActiveRecord::Schema.define(version: 2022_12_07_202225) do
     t.index ["tag_version_id"], name: "index_long_tasks_on_tag_version_id"
   end
 
+  create_table "new_tags_identified_batches", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "cloudflare_message_id"
+    t.bigint "domain_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cloudflare_message_id"], name: "index_new_tags_identified_batches_on_cloudflare_message_id"
+    t.index ["domain_id"], name: "index_new_tags_identified_batches_on_domain_id"
+    t.index ["uid"], name: "index_new_tags_identified_batches_on_uid"
+  end
+
   create_table "non_third_party_url_patterns", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.integer "domain_id"
@@ -820,6 +831,14 @@ ActiveRecord::Schema.define(version: 2022_12_07_202225) do
     t.index ["uid"], name: "index_tag_inject_page_url_rules_on_uid"
   end
 
+  create_table "tag_url_patterns_to_not_capture", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "domain_id"
+    t.string "url_pattern"
+    t.index ["domain_id"], name: "index_tag_url_patterns_to_not_capture_on_domain_id"
+    t.index ["uid"], name: "index_tag_url_patterns_to_not_capture_on_uid"
+  end
+
   create_table "tag_versions", charset: "utf8mb3", force: :cascade do |t|
     t.string "uid"
     t.integer "tag_id"
@@ -860,10 +879,14 @@ ActiveRecord::Schema.define(version: 2022_12_07_202225) do
     t.bigint "most_recent_tag_version_id"
     t.bigint "js_script_id"
     t.boolean "is_tagsafe_hosted"
+    t.bigint "new_tags_identified_batch_id"
+    t.datetime "last_seen_at"
+    t.datetime "removed_from_site_at"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["js_script_id"], name: "index_tags_on_js_script_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
+    t.index ["new_tags_identified_batch_id"], name: "index_tags_on_new_tags_identified_batch_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["uid"], name: "index_tags_on_uid"
   end

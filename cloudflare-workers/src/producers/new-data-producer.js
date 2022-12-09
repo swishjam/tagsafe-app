@@ -1,4 +1,4 @@
-export default async function newTagsProducer(request, env) {
+export default async function newDataProducer(request, env) {
   const payload = await request.json();
 
   console.log(payload)

@@ -1,9 +1,16 @@
 import { urlToDomain } from "./utils";
 
 export default class ScriptInterceptor {
-  constructor({ tagConfigurations, firstPartyDomains, dataReporter, debugMode = false }) {
+  constructor({ 
+    tagConfigurations, 
+    firstPartyDomains, 
+    urlPatternsToNotCapture, 
+    dataReporter, 
+    debugMode = false 
+  }) {
     this.firstPartyDomains = firstPartyDomains;
     this.tagConfigurations = tagConfigurations;
+    this.urlPatternsToNotCapture = urlPatternsToNotCapture;
     this.dataReporter = dataReporter;
     this.debugMode = debugMode;
     window.Tagsafe.interceptedTags = [];
@@ -19,9 +26,8 @@ export default class ScriptInterceptor {
     const ogAppendChild = Node.prototype.appendChild;
     const scope = this;
     Node.prototype.appendChild = function() {
-      const appendChildScope = this;
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      ogAppendChild.apply(appendChildScope, arguments);
+      ogAppendChild.apply(this, arguments);
     };
   }
 
@@ -29,9 +35,8 @@ export default class ScriptInterceptor {
     const ogInsertBefore = Node.prototype.insertBefore;
     const scope = this;
     Node.prototype.insertBefore = function() {
-      const insertBeforeScope = this;
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      ogInsertBefore.apply(insertBeforeScope, arguments);
+      ogInsertBefore.apply(this, arguments);
     };
   }
 
@@ -39,9 +44,7 @@ export default class ScriptInterceptor {
     const ogPrepend = Node.prototype.prepend;
     const scope = this;
     Node.prototype.prepend = function() {
-      const prependScope = this;
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      // ogPrepend.apply(prependScope, arguments)
       ogPrepend.apply(this, arguments);
     };
   }
@@ -51,7 +54,12 @@ export default class ScriptInterceptor {
       if(newNode.nodeName === 'SCRIPT') {
         const ogSrc = newNode.getAttribute('src');
         const reRouteTagConfig = this.tagConfigurations[ogSrc];
-        if(reRouteTagConfig) {
+        if(ogSrc && this.urlPatternsToNotCapture.find(pattern => ogSrc.includes(pattern))) {
+          window.Tagsafe.bypassedTags = window.Tagsafe.bypassedTags || [];
+          window.Tagsafe.bypassedTags.push(ogSrc);
+          return newNode;
+        } else if(reRouteTagConfig) {
+          this.dataReporter.recordInterceptedTag(ogSrc);
           return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
         } else {
           if(this._isThirdPartySrc(ogSrc)) {

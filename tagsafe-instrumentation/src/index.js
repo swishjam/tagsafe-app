@@ -9,7 +9,7 @@ if(configuration.disabled || params.has('tagsafe-disabled')) {
 } else {
   window.Tagsafe = Tagsafe;
   window.Tagsafe.config = configuration;
-  const { uid, tagConfigurations, settings } = configuration;
+  const { uid, tagConfigurations, urlPatternsToNotCapture, settings } = configuration;
   
   const mergedSettings = {
     reportingURL: 'https://tagsafe-api.tagsafe.workers.dev',
@@ -21,6 +21,7 @@ if(configuration.disabled || params.has('tagsafe-disabled')) {
   window.Tagsafe.init({ 
     domainUid: uid, 
     settings: mergedSettings,
-    tagConfigurations
+    tagConfigurations,
+    urlPatternsToNotCapture
   });
 }

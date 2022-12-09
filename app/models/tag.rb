@@ -14,6 +14,7 @@ class Tag < ApplicationRecord
   belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :domain
   belongs_to :tag_identifying_data, optional: true
+  belongs_to :new_tags_identified_batch
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
   belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 
@@ -46,6 +47,8 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   before_create :set_url_attributes_and_find_tag_identifying_data
+  # TODO: should we capture the first TagVersion for _all_ tags?
+  after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! }
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
 
   # SCOPES

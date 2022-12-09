@@ -1,7 +1,7 @@
 export default class DataReporter {
   constructor({ reportingURL, domainUid, sampleRate = 1, debugMode = false }) {
-    this.dataToReport = { new_tags: [], errors: [], warnings: [] };
-    this.dataReported = { new_tags: [], errors: [], warnings: [] };
+    this.dataToReport = { new_tags: [], intercepted_tags: [], errors: [], warnings: [] };
+    this.dataReported = { new_tags: [], intercepted_tags: [], errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
     this.reportingURL = reportingURL;
     this.domainUid = domainUid;
@@ -25,6 +25,13 @@ export default class DataReporter {
       load_type: loadType,
       page_url_found_on: window.location.href 
     });
+  }
+
+  recordInterceptedTag(tagUrl) {
+    this._recordData('intercepted_tags', { 
+      tag_url: tagUrl,
+      page_url_intercepted_on: window.location.href
+    })
   }
 
   recordWarning(warning) {
@@ -55,7 +62,7 @@ export default class DataReporter {
 
   async _reportPendingData() {
     try {
-      const body = { domain_uid: this.domainUid, ...this.dataToReport };
+      const body = { domain_uid: this.domainUid, ts: new Date(), ...this.dataToReport };
       if(this.debugMode) {
         console.log(`Sending data to Tagsafe API`);
         console.log(body);
@@ -74,7 +81,7 @@ export default class DataReporter {
   }
 
   _flushPendingData() {
-    this.dataToReport = { new_tags: [], errors: [], warnings: [] };
+    this.dataToReport = { new_tags: [], intercepted_tags: [], errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
   }
 }
