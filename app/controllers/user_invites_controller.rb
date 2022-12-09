@@ -62,7 +62,7 @@ class UserInvitesController < LoggedInController
       if user.valid?
         invite.redeem!(user)
         set_current_user(user)
-        redirect_to tag_manager_path
+        redirect_to tags_path
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer

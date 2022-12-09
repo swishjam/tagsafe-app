@@ -9,12 +9,12 @@ class LoggedInController < ApplicationController
     if current_user.nil?
       log_user_out
       session[:redirect_url] = request.original_url
-      redirect_to domain_registrations_path 
+      redirect_to new_registration_path 
     end
   end
 
   def ensure_domain
-    redirect_to current_user.nil? ? domain_registrations_path : new_domain_path if current_domain.nil?
+    redirect_to current_user.nil? ? new_registration_path : new_domain_path if current_domain.nil?
   end
 
   def ensure_subscription_plan

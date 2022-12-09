@@ -1,4 +1,6 @@
-class DomainsController < LoggedOutController
+class DomainsController < LoggedInController
+  skip_before_action :ensure_domain, only: [:new, :create]
+
   def review_staged_changes
     tags_with_staged_changes = current_domain.tags.has_staged_changes.includes(:draft_tag_configuration, :live_tag_configuration)
     stream_modal(locals: { tags_with_staged_changes: tags_with_staged_changes})
@@ -9,10 +11,10 @@ class DomainsController < LoggedOutController
   end
 
   def new
-    redirect_to select_subscription_plans_path if current_domain && params[:additional].nil?
     @domain = Domain.new
-    @hide_logged_out_nav = true
-    @hide_navigation = true
+    # @hide_logged_out_nav = true
+    # @hide_navigation = true
+    # @disable_navigation = true
   end
   
   def create
@@ -26,7 +28,7 @@ class DomainsController < LoggedOutController
       else
         current_user.domains << @domain
         Role.USER_ADMIN.apply_to_domain_user(current_user.domain_user_for(@domain))
-        redirect_to tag_manager_path
+        redirect_to tags_path
       end
     else
       display_inline_errors(@domain.errors.full_messages)

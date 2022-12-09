@@ -22,7 +22,9 @@
             <div class='navigation-profile-trigger dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
               <div class='display-text'>
                 <div class='domain-url-line'>
-                  <span class='domain-url'><%= current_domain.url %></span>
+                  <% unless current_domain.nil? %>
+                    <span class='domain-url'><%= current_domain.url %></span>
+                  <% end %>
                   <% if user_is_anonymous? %>
                     <span class='dropdown-indicator'>
                       <i class="fa-solid fa-chevron-up"></i>
@@ -45,7 +47,9 @@
                   <span class='d-block'><%= current_user.full_name %></span>
                   <span class='d-block'><%= current_user.email %></span>
                 <% end %>
-                <span class='d-block'><%= current_domain.url %></span>
+                <% unless current_domain.nil? %>
+                  <span class='d-block'><%= current_domain.url %></span>
+                <% end %>
               </div>
               <% if !user_is_anonymous? && current_user.belongs_to_multiple_domains? %>
                 <div class='dropdown-divider'></div>

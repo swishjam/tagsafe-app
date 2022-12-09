@@ -9,7 +9,7 @@ class Domain < ApplicationRecord
   has_one :subscription_features_configuration, dependent: :destroy
   has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
 
-  has_many :new_tags_identified_batches, class_name: NewTagsIdentifiedBatch.to_s
+  has_many :tagsafe_js_events_batches, class_name: TagsafeJsEventsBatch.to_s
   has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s
   has_many :alert_configurations
   has_many :audits, dependent: :destroy
@@ -36,11 +36,13 @@ class Domain < ApplicationRecord
 
   validates :url, presence: true
 
-  before_validation :strip_pathname_from_url_and_initialize_page_url, on: :create
+  # before_validation :strip_pathname_from_url_and_initialize_page_url, on: :create
   before_create { self.instrumentation_key = "TAG-#{uid.split('dom_')[1]}" }
   after_create { TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn }
 
-  attribute :is_generating_third_party_impact_trial, default: false
+  # attribute :is_generating_third_party_impact_trial, default: false
+  attribute :tagsafe_js_reporting_sample_rate, default: 1.0
+  validates :tagsafe_js_reporting_sample_rate, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 
   scope :registered, -> { where(is_generating_third_party_impact_trial: false) }
   scope :not_generating_third_party_impact_trial, -> { registered }
@@ -55,6 +57,11 @@ class Domain < ApplicationRecord
   scope :where_subscription_features_configuration, -> (where_clause) { joins(:subscription_features_configuration).where(subscription_features_configuration: where_clause) }
 
   TEST_DOMAIN_HOSTNAME = 'www.tagsafe-test.com'.freeze
+
+  # TODO: hack until we re-name Domains -> Containers
+  def name
+    full_url
+  end
 
   def parsed_domain_url
     u = URI.parse(url)

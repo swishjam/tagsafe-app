@@ -5,7 +5,7 @@ module Admin
     before_action :hide_side_navigation
   
     def verify_admin
-      redirect_to tag_manager_path if user_is_anonymous? || !current_user.is_tagsafe_admin?(current_domain)
+      redirect_to tags_path if user_is_anonymous? || !current_user.is_tagsafe_admin?(current_domain)
     end
 
     def hide_side_navigation

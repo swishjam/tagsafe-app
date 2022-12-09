@@ -20,7 +20,7 @@ class TagConfigurationsController < LoggedInController
     @tag_configuration = DraftTagConfiguration.new(tag_configuration_params)
     if @tag_configuration.save
       # redirect_to tag_path(@tag)
-      redirect_to tag_manager_path
+      redirect_to tags_path
     else
       render :new, status: :unprocessable_entity
     end

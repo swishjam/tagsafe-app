@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(version: 2022_12_08_150610) do
     t.string "stripe_payment_method_id"
     t.bigint "current_subscription_plan_id"
     t.string "instrumentation_key"
+    t.float "tagsafe_js_reporting_sample_rate"
     t.index ["current_subscription_plan_id"], name: "index_domains_on_current_subscription_plan_id"
     t.index ["uid"], name: "index_domains_on_uid"
     t.index ["url"], name: "index_domains_on_url"
@@ -482,17 +483,6 @@ ActiveRecord::Schema.define(version: 2022_12_08_150610) do
     t.index ["performance_audit_id"], name: "index_long_tasks_on_performance_audit_id"
     t.index ["tag_id"], name: "index_long_tasks_on_tag_id"
     t.index ["tag_version_id"], name: "index_long_tasks_on_tag_version_id"
-  end
-
-  create_table "new_tags_identified_batches", charset: "utf8mb3", force: :cascade do |t|
-    t.string "uid"
-    t.string "cloudflare_message_id"
-    t.bigint "domain_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["cloudflare_message_id"], name: "index_new_tags_identified_batches_on_cloudflare_message_id"
-    t.index ["domain_id"], name: "index_new_tags_identified_batches_on_domain_id"
-    t.index ["uid"], name: "index_new_tags_identified_batches_on_uid"
   end
 
   create_table "non_third_party_url_patterns", charset: "utf8mb3", force: :cascade do |t|
@@ -879,16 +869,27 @@ ActiveRecord::Schema.define(version: 2022_12_08_150610) do
     t.bigint "most_recent_tag_version_id"
     t.bigint "js_script_id"
     t.boolean "is_tagsafe_hosted"
-    t.bigint "new_tags_identified_batch_id"
     t.datetime "last_seen_at"
     t.datetime "removed_from_site_at"
+    t.bigint "tagsafe_js_events_batch_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["domain_id"], name: "index_tags_on_domain_id"
     t.index ["js_script_id"], name: "index_tags_on_js_script_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
-    t.index ["new_tags_identified_batch_id"], name: "index_tags_on_new_tags_identified_batch_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
+    t.index ["tagsafe_js_events_batch_id"], name: "index_tags_on_tagsafe_js_events_batch_id"
     t.index ["uid"], name: "index_tags_on_uid"
+  end
+
+  create_table "tagsafe_js_events_batches", charset: "utf8mb3", force: :cascade do |t|
+    t.string "uid"
+    t.string "cloudflare_message_id"
+    t.bigint "domain_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cloudflare_message_id"], name: "index_tagsafe_js_events_batches_on_cloudflare_message_id"
+    t.index ["domain_id"], name: "index_tagsafe_js_events_batches_on_domain_id"
+    t.index ["uid"], name: "index_tagsafe_js_events_batches_on_uid"
   end
 
   create_table "test_runs", charset: "utf8mb3", force: :cascade do |t|

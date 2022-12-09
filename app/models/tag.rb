@@ -14,7 +14,7 @@ class Tag < ApplicationRecord
   belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :domain
   belongs_to :tag_identifying_data, optional: true
-  belongs_to :new_tags_identified_batch
+  belongs_to :tagsafe_js_events_batch
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
   belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 

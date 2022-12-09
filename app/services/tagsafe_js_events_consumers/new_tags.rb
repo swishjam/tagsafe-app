@@ -3,7 +3,7 @@ module TagsafeJsEventsConsumers
 
     def consume!
       new_tags = 0
-      batch = NewTagsIdentifiedBatch.create!(cloudflare_message_id: @data['cloudflare_message_id'], domain: domain)
+      batch = TagsafeJsEventsBatch.create!(cloudflare_message_id: @data['cloudflare_message_id'], domain: domain)
       
       @data['intercepted_tags'].each{ |tag_data| update_existing_tag(tag_data) }
       @data['new_tags'].each{ |t| new_tags += 1 if capture_new_tag(t, batch) }
@@ -38,7 +38,7 @@ module TagsafeJsEventsConsumers
           stripped_url = [parsed_url.host, parsed_url.path].join('')
           domain.tag_url_patterns_to_not_capture.create(url_pattern: stripped_url)
         else
-          tag = domain.tags.create(full_url: tag_url, new_tags_identified_batch: batch, last_seen_at: DateTime.now)
+          tag = domain.tags.create(full_url: tag_url, tagsafe_js_events_batch: batch, last_seen_at: DateTime.now)
           if tag.errors.any?
             raise "Unable to add #{tag_url} to #{domain_uid}'s tags: #{tag.errors.full_messages.join('. ')}"
           end

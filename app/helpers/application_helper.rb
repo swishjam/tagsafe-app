@@ -88,7 +88,7 @@ module ApplicationHelper
   def no_access!(raise_error)
     raise NoAccessError if raise_error
     flash[:banner_error] = "No access."
-    redirect_to tag_manager_path
+    redirect_to tags_path
   end
 
   def display_toast_message(message)

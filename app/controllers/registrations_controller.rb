@@ -1,16 +1,15 @@
 class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
 
-  def domain
-    redirect_to new_registration_path if current_domain.present?
-    @hide_logged_out_nav = true
-    @hide_footer = true
-    @domain = Domain.new
-  end
+  # def domain
+  #   redirect_to new_registration_path if current_domain.present?
+  #   @hide_logged_out_nav = true
+  #   @hide_footer = true
+  #   @domain = Domain.new
+  # end
 
   def new
-    redirect_to domain_registrations_path if current_domain.nil?
-    # redirect_to select_subscription_plans_path if current_user.present?
+    redirect_to tags_path if current_user.present?
     @hide_logged_out_nav = true
     @hide_footer = true
     @user = User.new
@@ -30,7 +29,7 @@ class RegistrationsController < LoggedOutController
         redirect_to select_subscription_plans_path
       else
         set_current_user(@user)
-        redirect_to domain_registrations_path
+        redirect_to new_registration_path
       end
     else
       display_inline_errors(@user.errors.full_messages)

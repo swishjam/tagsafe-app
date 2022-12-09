@@ -17,8 +17,8 @@ def prepare_test!(options = {})
 end
 
 def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
-  new_tags_identified_batch = create(:new_tags_identified_batch, domain: @domain)
-  tag = create(tag_factory, full_url: tag_url, domain: @domain, new_tags_identified_batch: new_tags_identified_batch)
+  tagsafe_js_events_batch = create(:tagsafe_js_events_batch, domain: @domain)
+  tag = create(tag_factory, full_url: tag_url, domain: @domain, tagsafe_js_events_batch: tagsafe_js_events_batch)
   # url_to_audit = create(:url_to_audit, tag: tag, page_url: @domain.page_urls.first)
   tag
 end

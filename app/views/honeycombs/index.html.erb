@@ -22,8 +22,14 @@
   </div>
 </div>
 
-<%= turbo_frame_tag "domain_#{current_domain.uid}_honeycomb_chart", src: chart_honeycombs_path do %>
-  <div class='text-center p-5'>
-    <%= display_loading_spinner size: :large %>
+<% if current_domain.tags.any? %>
+  <%= turbo_frame_tag "domain_#{current_domain.uid}_honeycomb_chart", src: chart_honeycombs_path do %>
+    <div class='text-center p-5'>
+      <%= display_loading_spinner size: :large %>
+    </div>
+  <% end %>
+<% else %>
+  <div class='m-5 text-center'>
+    <h3>You don't have any tags yet...</h3>
   </div>
 <% end %>

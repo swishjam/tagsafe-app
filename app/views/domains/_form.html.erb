@@ -1,19 +1,11 @@
 <%= form_for domain, data: { controller: 'loading_form' } do |f| %>
-  <div class='row mb-3 mt-3'>
-    <div class='col-3 p-0'>
-      <select name='domain[protocol]' class='form-select text-center h-100' required>
-        <option class='dropdown-item' value='https://' selected>https://</option>
-        <option class='dropdown-item' value='http://'>http://</option>
-      </select>
-    </div>
-    <div class="form-floating col-9 p-0">
-      <input id='url' name='domain[url]' type='text' class='form-control' placeholder='www.tagsafe.io'>
-      <label for='url'>Site URL</label>
-    </div>
+  <div class="form-floating col-9 p-0 m-auto mb-3">
+    <input id='url' name='domain[url]' type='text' class='form-control' placeholder='My first container'>
+    <label for='url'>Container name</label>
   </div>
   <%= render 'partials/inline_errors', errors: domain.errors.full_messages %>
   <%= loading_submit_button type: 'floating', button_class: 'large' do %>
-    <%= local_assigns[:button_text] || 'Begin monitoring' %> 
+    <%= local_assigns[:button_text] || 'Create' %> 
     <% if local_assigns[:button_icon_klass] %>
       <i class="<%= local_assigns[:button_icon_klass] %>"></i>
     <% end %>

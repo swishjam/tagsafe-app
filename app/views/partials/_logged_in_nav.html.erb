@@ -9,7 +9,7 @@
       <ul>
         <% 
           nav_items = [
-            { path: tag_manager_path, text: 'Tag Manager', icon_class: 'fa-solid fa-tags' },
+            # { path: tag_manager_path, text: 'Tag Manager', icon_class: 'fa-solid fa-tags' },
             { path: tags_path, text: "Monitor Center", icon_class: "fas fa-home" },
             { path: honeycombs_path, text: "Tag Health", icon_class: "fa-solid fa-heart-pulse" },
             { path: functional_tests_path, text: "Test Suite", icon_class: "fas fa-flask", active_nav_path_pattern: ['/functional_tests', '/test_run_log'] },
@@ -38,12 +38,14 @@
             <% end %>
           </li>
         <% end %>
-        <li class='nav-item m-1'>
-          <%= modal_link install_script_domain_path(current_domain), klass: 'nav-link' do %>
-            <span class='nav-item-icon'><i class="fa-solid fa-code"></i></span> 
-            <span class='nav-item-text d-sm-none d-md-inline ms-1'>Install</span>
-          <% end %>
-        </li>
+        <% unless current_domain.nil? %>
+          <li class='nav-item m-1'>
+            <%= modal_link install_script_domain_path(current_domain), klass: 'nav-link' do %>
+              <span class='nav-item-icon'><i class="fa-solid fa-code"></i></span> 
+              <span class='nav-item-text d-sm-none d-md-inline ms-1'>Install</span>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </div>
     

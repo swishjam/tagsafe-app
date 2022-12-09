@@ -8,16 +8,20 @@
     <div class='form-half col-5'>
       <div class='w-100'>
         <div class='col-10 m-auto'>
-          <div class='step-indicators mb-3'>
+          <%
+=begin%>
+ <div class='step-indicators mb-3'>
             <div class='step-indicator current'>
             </div>
             <div class='step-indicator current'>
             </div>
             <div class='step-indicator incomplete'>
             </div>
-          </div>
+          </div> 
+<%
+=end%>
           <h1 class='default-font-family mb-4'>Create account</h1>
-          <%= render 'form', domain: @domain, user: @user, button_text: 'Select your plan', button_icon_klass: 'fa-solid fa-arrow-right-long' %>
+          <%= render 'form', domain: @domain, user: @user %>
         </div>
       </div>
     </div>

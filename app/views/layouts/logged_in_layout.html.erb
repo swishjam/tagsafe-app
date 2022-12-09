@@ -34,14 +34,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
-  <% has_top_banner = user_is_anonymous? || 
-                      current_domain&.current_subscription_plan&.delinquent? || 
-                      current_domain&.current_subscription_plan&.past_due? || 
-                      current_domain&.current_subscription_plan&.canceled? ||
-                      (!current_domain.has_payment_method_on_file? && 
-                          current_domain.has_current_subscription_plan? && 
-                          current_domain.current_subscription_plan.on_free_trial? && 
-                          current_domain.current_subscription_plan.days_until_free_trial_expires(round: false) <= 5) %>
+  <% has_top_banner = false %>
   <body class="logged-in <%=controller_name%> <%= action_name %> <%= has_top_banner ? 'with-fixed-top-banner' : nil %>">
     <div class='fixed-content-container'>
       <%= render 'partials/top_level_banner' %>

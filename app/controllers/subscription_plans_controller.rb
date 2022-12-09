@@ -6,7 +6,7 @@ class SubscriptionPlansController < LoggedInController
                   current_domain.current_subscription_plan.canceled? ||
                   current_domain.current_subscription_plan.delinquent? ||
                   params[:update]
-    redirect_to tag_manager_path unless can_select
+    redirect_to tags_path unless can_select
     @hide_navigation = true
   end
 
@@ -18,7 +18,7 @@ class SubscriptionPlansController < LoggedInController
       free_trial_days: current_domain.subscription_plans.none? ? 14 : 
                         current_domain.has_payment_method_on_file? ? 0 : 1
     ).enroll!
-    redirect_to tag_manager_path
+    redirect_to tags_path
   end
 
   def update

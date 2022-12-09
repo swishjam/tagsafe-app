@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :tag do |t|
     association :domain
-    association :new_tags_identified_batch
+    association :tagsafe_js_events_batch
     # association :tag_identifying_data
     full_url { 'https://www.thirdpartytag.com/script.js' }
     url_domain { 'www.thirdpartytag.com' }

@@ -21,9 +21,9 @@ RSpec.describe TagsafeJsEventsConsumers::NewTags do
 
   describe '#consume!' do
     it 'Creates a new NewTagsIdentifiedBatch' do
-      expect(@domain.new_tags_identified_batches.count).to be(1)
+      expect(@domain.tagsafe_js_events_batches.count).to be(1)
       @consumer.consume!
-      expect(@domain.new_tags_identified_batches.count).to be(2)
+      expect(@domain.tagsafe_js_events_batches.count).to be(2)
     end
 
     it 'updates existing tags from the provided `identified_tags` data' do

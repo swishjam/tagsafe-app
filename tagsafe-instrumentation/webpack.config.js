@@ -5,7 +5,7 @@ module.exports = env => ({
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: `${env.outputFilename}.js`
+    filename: 'output.js'
   },
   module: {
     rules: [

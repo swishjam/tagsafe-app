@@ -45,7 +45,7 @@ class TagsController < LoggedInController
     # need to think about the user experience for moving this to a background job
     # the banner will still be present because of the staged changes
     # PromoteTagsJob.perform_later(tags)
-    redirect_to tag_manager_path
+    redirect_to tags_path
   end
 
   def show

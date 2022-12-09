@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   layout 'logged_out_layout'
 
   def new
-    redirect_to tag_manager_path if current_user
+    redirect_to tags_path if current_user
     @hide_footer = true
     @hide_logged_out_nav = true
     if params[:domain]
