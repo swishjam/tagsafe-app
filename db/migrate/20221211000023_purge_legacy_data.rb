@@ -5,7 +5,7 @@ class PurgeLegacyData < ActiveRecord::Migration[6.1]
     drop_table :credit_wallet_notifications
     drop_table :credit_wallet_transactions
     drop_table :credit_wallets
-                drop_table :domain_audits
+    drop_table :domain_audits
     drop_table :feature_prices_in_credits
     drop_table :flags
     drop_table :html_snapshots

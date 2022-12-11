@@ -1,5 +1,4 @@
 class Domain < ApplicationRecord
-  include Flaggable
   include Streamable
   uid_prefix 'dom'
   acts_as_paranoid

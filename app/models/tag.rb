@@ -2,7 +2,6 @@ class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
   include HasExecutedStepFunction
   include Notifier
-  include Flaggable
   include Streamable
 
   uid_prefix 'tag'
@@ -143,14 +142,6 @@ class Tag < ApplicationRecord
 
   def has_no_versions?
     most_recent_version.nil?
-  end
-
-  def run_uptime_check_now!
-    RunReleaseCheckJob.perform_now(self)
-  end
-
-  def run_uptime_check_later!
-    RunReleaseCheckJob.perform_later(self)
   end
 
   def perform_audit_on_all_urls_on_current_tag_version!(execution_reason:, initiated_by_domain_user: nil)
