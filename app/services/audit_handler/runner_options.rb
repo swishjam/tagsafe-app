@@ -39,10 +39,6 @@ module AuditHandler
       option_value_for(:include_page_load_resources, default_configuration.include_page_load_resources)
     end
 
-    def include_page_change_audit 
-      option_value_for(:include_page_change_audit, default_configuration.include_page_change_audit)
-    end
-
     def include_functional_tests 
       option_value_for(:include_functional_tests, default_configuration.include_functional_tests)
     end

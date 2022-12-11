@@ -1,6 +1,5 @@
 class UserInvitesController < LoggedInController
   skip_before_action :ensure_domain, only: [:accept, :redeem]
-  # skip_before_action :ensure_domain, :ensure_subscription_plan, only: [:accept, :redeem]
 
   def new
     @user_invite = UserInvite.new

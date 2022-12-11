@@ -8,7 +8,8 @@ module TagsafeInstrumentationManager
       instrumentation_compiler.compile_instrumentation
       instrumentation_aws_handler.write_domains_compiled_instrumentation_to_s3(instrumentation_compiler.compiled_instrumentation)
       instrumentation_aws_handler.purge_domains_instrumentation_cloudfront_cache
-      # instrumentation_compiler.delete_compiled_instrumentation_file
+      instrumentation_compiler.delete_compiled_instrumentation_file
+      true
     end
 
     private

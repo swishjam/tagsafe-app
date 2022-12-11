@@ -27,7 +27,9 @@ export default class ScriptInterceptor {
     const scope = this;
     Node.prototype.appendChild = function() {
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      ogAppendChild.apply(this, arguments);
+      const returnVal = ogAppendChild.apply(this, arguments);
+      // window.dispatchEvent(new Event('Tagsafe::ScriptTagAddedToDOM'), { detail: returnVal });
+      return returnVal;
     };
   }
 
@@ -36,7 +38,9 @@ export default class ScriptInterceptor {
     const scope = this;
     Node.prototype.insertBefore = function() {
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      ogInsertBefore.apply(this, arguments);
+      const returnVal = ogInsertBefore.apply(this, arguments);
+      // window.dispatchEvent(new CustomEvent('Tagsafe::ScriptTagAddedToDOM'), { detail: returnVal });
+      return returnVal;
     };
   }
 
@@ -45,7 +49,9 @@ export default class ScriptInterceptor {
     const scope = this;
     Node.prototype.prepend = function() {
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      ogPrepend.apply(this, arguments);
+      const returnVal = ogPrepend.apply(this, arguments);
+      // window.dispatchEvent(new CustomEvent('Tagsafe::ScriptTagAddedToDOM'), { detail: returnVal });
+      return returnVal;
     };
   }
 

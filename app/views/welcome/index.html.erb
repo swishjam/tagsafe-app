@@ -1,3 +1,19 @@
+<% if request.path == '/demo' %>
+  <div class='performance-demo-box' data-controller='demo-performance-box'>
+    <h3 class='text-center'><%= request.query_parameters['tagsafe-disabled'] ? 'TagsafeJS Disabled' : 'TagsafeJS Enabled' %></h3>
+    <h4>DOM Content Loaded: <span data-demo-performance-box-target='domContentLoaded'>0</span> ms</h4>
+    <h4>Page Loaded: <span data-demo-performance-box-target='pageLoaded'>0</span> ms</h4>
+    <h4>Tags optimized by TagsafeJS <span data-demo-performance-box-target='numTagsOptimized'>0</span></h4>
+    <h4>Total 3rd party JS network request time: <span data-demo-performance-box-target='totalNetworkTime'>0</span> ms</h4>
+    <h5 class='pointer' data-action='click->demo-performance-box#toggleThirdPartyRequestsContainer'>
+      <i class="minimized open-icon fa-solid fa-caret-right me-1" data-demo-performance-box-target='openIcon'></i> 
+      Third party network requests:
+    </h5>
+    <div class='third-party-requests-container minimized' data-demo-performance-box-target='thirdPartyRequestsContainer'>
+    </div>
+  </div>
+<% end %>
+
 <%= render 'header' %>
 <%= render 'how_it_works' %>
 <%= render 'whats_the_problem' %>

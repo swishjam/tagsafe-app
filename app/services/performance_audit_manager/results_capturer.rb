@@ -23,7 +23,6 @@ module PerformanceAuditManager
       individual_performance_audit.update!(performance_audit_attrs)
       individual_performance_audit.update(performance_audit_children_attrs) unless performance_audit_children_attrs.empty?
       capture_speed_index_chart_data_and_frames_if_necessary!
-      capture_long_tasks_if_necessary!
       capture_page_resources_if_necessary!
     end
 
@@ -62,21 +61,6 @@ module PerformanceAuditManager
       end
     end
 
-    def capture_long_tasks_if_necessary!
-      performance_audit_result.main_thread_results.tags_long_tasks.each do |long_task_result|
-        LongTask.create!(
-          tag: individual_performance_audit.is_for_domain_audit? ? nil : individual_performance_audit.audit.tag,
-          tag_version: individual_performance_audit.is_for_domain_audit? ? nil : individual_performance_audit.audit.tag_version,
-          performance_audit: individual_performance_audit,
-          task_type: long_task_result.task_type,
-          start_time: long_task_result.start_time,
-          end_time: long_task_result.end_time,
-          duration: long_task_result.duration,
-          self_time: long_task_result.self_time
-        )
-      end
-    end
-
     def capture_page_resources_if_necessary!
       if should_capture_page_resources_attributes?
         PageLoadResource.insert_all(performance_audit_result.page_load_resources.formatted(individual_performance_audit.id)) if performance_audit_result.has_page_load_resources?
@@ -89,7 +73,7 @@ module PerformanceAuditManager
     end
 
     def should_capture_page_resources_attributes?
-      !individual_performance_audit.is_for_domain_audit? && individual_performance_audit.audit.include_page_load_resources
+      individual_performance_audit.audit.include_page_load_resources
     end
   end
 end

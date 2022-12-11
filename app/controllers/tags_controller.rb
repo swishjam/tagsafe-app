@@ -3,51 +3,6 @@ class TagsController < LoggedInController
     render_breadcrumbs({ text: 'Monitor Center', active: true })
   end
 
-  def tag_manager
-    @tags = current_domain.tags.page(params[:page] || 1).per(20)
-    render_breadcrumbs(text: 'Tag Management')
-  end
-
-  def new
-    @tag = current_domain.tags.new
-    render_breadcrumbs(
-      { text: 'Tag Management', url: tag_manager_path },
-      { text: 'New Tag' }
-    )
-  end
-
-  def create
-    @tag = current_domain.tags.new(tag_params)
-    
-    if tag_params[:full_url].blank?
-      local_file_name = "#{Time.now.to_i}-#{(rand() * 100_000_000).to_i}-script.js"
-      local_file = File.open(Rails.root.join('tmp', local_file_name), "w") 
-      local_file.puts(params[:tag][:js_script].force_encoding('UTF-8'))
-      local_file.close
-      @tag.js_script = { 
-        io: File.open(local_file), 
-        filename: local_file_name,
-        content_type: 'text/javascript'
-      }
-      # File.delete(local_file)
-    end
-
-    if @tag.save
-      redirect_to new_tag_tag_configuration_path(@tag)
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
-
-  def promote
-    tags = current_domain.tags.where(uid: params[:tag_uids_to_promote])
-    TagManager::Promoter.promote_staged_changes(tags)
-    # need to think about the user experience for moving this to a background job
-    # the banner will still be present because of the staged changes
-    # PromoteTagsJob.perform_later(tags)
-    redirect_to tags_path
-  end
-
   def show
     @tag = current_domain.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
@@ -58,7 +13,7 @@ class TagsController < LoggedInController
   end
 
   def select_tag_to_audit
-    tags = current_domain.tags.includes(:tag_identifying_data, :draft_tag_configurations).order('tag_identifying_data.name, tags.url_domain')
+    tags = current_domain.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_domain')
     stream_modal(partial: "tags/select_tag_to_audit", locals: { tags: tags })
   end
 

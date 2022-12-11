@@ -4,35 +4,24 @@ class Domain < ApplicationRecord
   uid_prefix 'dom'
   acts_as_paranoid
 
-  belongs_to :current_subscription_plan, class_name: SubscriptionPlan.to_s, optional: true
   has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
-  has_one :subscription_features_configuration, dependent: :destroy
-  has_one :feature_prices_in_credits, class_name: FeaturePriceInCredits.to_s, dependent: :destroy
 
   has_many :tagsafe_js_events_batches, class_name: TagsafeJsEventsBatch.to_s, dependent: :destroy
   has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s, dependent: :destroy
   has_many :alert_configurations, dependent: :destroy
   has_many :audits, dependent: :destroy
-  has_many :credit_wallets, dependent: :destroy
-  has_many :bulk_debits, through: :credit_wallets
-  has_many :domain_audits, dependent: :destroy
   has_many :domain_users, dependent: :destroy
   has_many :users, through: :domain_users
   has_many :functional_tests, dependent: :destroy
   has_many :test_runs, through: :functional_tests
-  has_many :non_third_party_url_patterns, dependent: :destroy
   has_many :page_urls, dependent: :destroy
   has_many :performance_audit_calculators, dependent: :destroy
-  has_many :subscription_plans, dependent: :destroy
-  # has_many :subscription_usage_record_updates
   has_many :tags, dependent: :destroy
   has_many :release_checks, through: :tags
   has_many :tag_versions, through: :tags
   has_many :uptime_checks, through: :tags
   has_many :uptime_regions_to_check, through: :tags
   has_many :user_invites, dependent: :destroy
-  has_many :url_crawls, dependent: :destroy
-  has_many :url_crawl_retrieved_urls, through: :url_crawls
 
   validates :url, presence: true
 
@@ -44,18 +33,6 @@ class Domain < ApplicationRecord
   # attribute :is_generating_third_party_impact_trial, default: false
   attribute :tagsafe_js_reporting_sample_rate, default: 1.0
   validates :tagsafe_js_reporting_sample_rate, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
-
-  scope :registered, -> { where(is_generating_third_party_impact_trial: false) }
-  scope :not_generating_third_party_impact_trial, -> { registered }
-  scope :generating_third_party_impact_trial, -> { where(is_generating_third_party_impact_trial: true) }
-
-  scope :has_valid_subscription, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.not_delinquent).merge(SubscriptionPlan.not_canceled) }
-  scope :has_invalid_subscription, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.delinquent) }
-  scope :on_free_trial, -> { joins(:current_subscription_plan).merge(SubscriptionPlan.trialing) }
-
-  scope :has_wallet_with_credits, -> { joins(:credit_wallets).merge(CreditWallet.has_credits_remaining) }
-  
-  scope :where_subscription_features_configuration, -> (where_clause) { joins(:subscription_features_configuration).where(subscription_features_configuration: where_clause) }
 
   TEST_DOMAIN_HOSTNAME = 'www.tagsafe-test.com'.freeze
 
@@ -70,7 +47,7 @@ class Domain < ApplicationRecord
   end
 
   def tagsafe_instrumentation_url(use_cdn: true)
-    url_host = use_cdn ? 'tagsafe-instrumentation.s3.us-east-1.amazonaws.com' : ENV['CLOUDFRONT_HOSTNAME']
+    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : 'tagsafe-instrumentation.s3.us-east-1.amazonaws.com'
     "https://#{url_host}/#{tagsafe_instrumentation_pathname}"
   end
 
@@ -84,10 +61,6 @@ class Domain < ApplicationRecord
 
   def is_test_domain?
     url_hostname == TEST_DOMAIN_HOSTNAME
-  end
-
-  def has_current_subscription_plan?
-    current_subscription_plan_id.present?
   end
 
   def url_hostname
@@ -117,36 +90,12 @@ class Domain < ApplicationRecord
     errors.add(:base, "Invalid URL provided.")
   end
 
-  def credit_wallet_for_current_month_and_year
-    CreditWallet.for_domain(self)
-  end
-
   def current_performance_audit_calculator
     performance_audit_calculators.currently_active.limit(1).first
   end
 
   def has_tag?(tag)
     tags.include?(tag)
-  end
-
-  def crawl_and_capture_domains_tags
-    if is_generating_third_party_impact_trial
-      page_urls.each{ |page_url| page_url.crawl_for_tags! }
-    else
-      page_urls.should_scan_for_tags.each{ |page_url| page_url.crawl_for_tags! }
-    end
-  end
-
-  def should_capture_tag?(url)
-    non_third_party_url_patterns.none?{ |url_pattern| url.include?(url_pattern.pattern) } 
-  end
-
-  def crawl_in_progress?
-    url_crawls.pending.any?
-  end
-
-  def has_payment_method_on_file?
-    stripe_payment_method_id.present?
   end
 
   def admin_domain_users

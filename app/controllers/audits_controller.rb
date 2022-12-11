@@ -1,5 +1,5 @@
 class AuditsController < LoggedInController
-  SHOW_VIEWS = %i[show performance_audit test_runs test_run page_change_audit waterfall git_diff]
+  SHOW_VIEWS = %i[show performance_audit test_runs test_run waterfall git_diff]
   before_action :find_tag, except: :all
   before_action :find_audit, except: %i[all index new create]
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
@@ -43,7 +43,6 @@ class AuditsController < LoggedInController
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
       tag_version: tag_version,
-      feature_prices: current_domain.feature_prices_in_credits,
       current_tag_version: @tag.current_version,
       urls_to_audit: urls_to_audit,
       configuration: @tag.tag_or_domain_configuration
@@ -62,7 +61,6 @@ class AuditsController < LoggedInController
         tag_version: tag_version, 
         options: {
           include_performance_audit: params.dig(:config, :include_performance_audit) == 'true',
-          # include_page_change_audit: params.dig(:config, :include_page_change_audit) == 'true',
           include_functional_tests: params.dig(:config, :include_functional_tests) == 'true',
           include_page_load_resources: params.dig(:config, :include_page_load_resources) == 'true',
           performance_audit_configuration: {

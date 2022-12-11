@@ -8,7 +8,6 @@ class GeneralConfiguration < ApplicationRecord
       parent: domain,
       include_performance_audit: true,
       include_page_load_resources: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
-      include_page_change_audit: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
       include_functional_tests: true,
       enable_monitoring_on_new_tags: true,
       roll_up_audits_by_tag_version: false,

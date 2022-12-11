@@ -476,3 +476,34 @@ body.welcome {
     }
   }
 }
+
+.performance-demo-box {
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: $box-shadow-effect;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 200000;
+  background: white;
+  max-width: 50%;
+  max-height: 75%;
+  overflow-y: scroll;
+  .open-icon {
+    transition: all 500ms ease;
+    &:not(.minimized) {
+      transform: rotate(90deg);
+    }
+  }
+  .third-party-requests-container {
+    transition: all 500ms ease;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    &.minimized {
+      height: 0;
+    }
+    &:not(.minimized) {
+      height: auto;
+    }
+  }
+}

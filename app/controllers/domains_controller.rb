@@ -1,20 +1,12 @@
 class DomainsController < LoggedInController
   skip_before_action :ensure_domain, only: [:new, :create]
 
-  def review_staged_changes
-    tags_with_staged_changes = current_domain.tags.has_staged_changes.includes(:draft_tag_configuration, :live_tag_configuration)
-    stream_modal(locals: { tags_with_staged_changes: tags_with_staged_changes})
-  end
-
   def install_script
     stream_modal(locals: { instrumentation_key: current_domain.instrumentation_key })
   end
 
   def new
     @domain = Domain.new
-    # @hide_logged_out_nav = true
-    # @hide_navigation = true
-    # @disable_navigation = true
   end
   
   def create
@@ -35,18 +27,6 @@ class DomainsController < LoggedInController
       @hide_navigation = true
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def update
-    params[:domain][:url] = "#{params[:domain][:protocol]}#{params[:domain][:url]}"
-    domain = Domain.find_by(uid: params[:uid])
-    if domain.update(domain_params)
-      domain.crawl_and_capture_domains_tags(true)
-      display_toast_message("Scanning #{domain.url} for third party tags.")
-    else
-      display_toast_error(domain.errors.full_messages.join(' '))
-    end
-    redirect_to request.referrer
   end
 
   def update_current_domain

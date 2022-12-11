@@ -13,7 +13,6 @@ def prepare_test!(options = {})
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
   create_aws_event_bridge_rules unless options[:bypass_aws_event_bridge_rules]
   create_uptime_regions unless options[:bypass_uptime_regions]
-  # create_flags unless options[:bypass_flags]
 end
 
 def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
@@ -143,18 +142,6 @@ end
 
 def create_uptime_regions
   create(:us_east_1)
-end
-
-def create_flags
-  # run_rake_task('seed:flags')
-  create(:strip_all_images_in_performance_audits_flag)
-  create(:strip_all_css_in_performance_audits_flag)
-  create(:num_performance_audit_iterations_flag)
-  create(:tagsafe_hosted_site_enabled_flag)
-  create(:inline_injected_script_tags_flag)
-  create(:include_performance_trace_flag)
-  create(:max_individual_performance_audit_retries_flag)
-  create(:include_page_load_resources_flag)
 end
 
 def run_rake_task(task)

@@ -2,7 +2,6 @@ class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
   before_action :ensure_domain
-  # before_action :ensure_subscription_plan
   before_action :set_current_domain_and_redirect_if_param_present
 
   def authorize!
@@ -15,10 +14,6 @@ class LoggedInController < ApplicationController
 
   def ensure_domain
     redirect_to current_user.nil? ? new_registration_path : new_domain_path if current_domain.nil?
-  end
-
-  def ensure_subscription_plan
-    redirect_to select_subscription_plans_path unless current_domain.has_current_subscription_plan?
   end
 
   def set_current_domain_and_redirect_if_param_present

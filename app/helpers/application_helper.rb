@@ -22,11 +22,6 @@ module ApplicationHelper
     log_user_out
   end
 
-  def current_domain_audit
-    return if session[:current_domain_audit_uid].nil?
-    @domain_audit ||= DomainAudit.includes(:domain, url_crawl: :found_tags).find_by(uid: session[:current_domain_audit_uid])
-  end
-
   def current_domain_user
     return if current_user.nil?
     @current_domain_user ||= current_user.domain_user_for(current_domain)
@@ -40,10 +35,6 @@ module ApplicationHelper
     session[:current_domain_uid] = domain.uid
   end
 
-  def set_current_domain_audit(domain_audit)
-    session[:current_domain_audit_uid] = domain_audit.uid
-  end
-
   def set_current_user(user)
     session[:current_user_uid] = user.uid
   end
@@ -55,8 +46,6 @@ module ApplicationHelper
   def log_user_out
     session.delete(:current_user_uid)
     session.delete(:current_domain_uid)
-    session.delete(:current_domain_audit_uid)
-    session.delete(:anonymous_user_identifier)
   end
 
   def stream_modal(partial: "modals/#{action_name}.html.erb", turbo_frame_name: 'server_loadable_modal', locals: {})

@@ -26,7 +26,7 @@ class RegistrationsController < LoggedOutController
         current_domain.mark_as_registered!
         Role.USER_ADMIN.apply_to_domain_user(@user.domain_user_for(current_domain))
         set_current_user(@user)
-        redirect_to select_subscription_plans_path
+        redirect_to tags_path
       else
         set_current_user(@user)
         redirect_to new_registration_path

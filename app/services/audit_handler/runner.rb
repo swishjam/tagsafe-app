@@ -35,7 +35,6 @@ module AuditHandler
         performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
         include_performance_audit: @runner_options.include_performance_audit,
         include_page_load_resources: @runner_options.include_page_load_resources,
-        include_page_change_audit: @runner_options.include_page_change_audit,
         include_functional_tests: @runner_options.include_functional_tests,
         num_functional_tests_to_run: @runner_options.include_functional_tests ? @tag.functional_tests.enabled.count : 0,
         performance_audit_configuration_attributes: {

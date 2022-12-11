@@ -1,2 +1,0 @@
-class PageUrlRuleToInjectTagOn < TagInjectPageUrlRule
-end

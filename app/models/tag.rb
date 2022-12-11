@@ -19,7 +19,6 @@ class Tag < ApplicationRecord
   belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 
   # has_many :audits, dependent: :destroy
-  has_many :long_tasks, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
   has_many :uptime_checks, dependent: :destroy
@@ -29,7 +28,6 @@ class Tag < ApplicationRecord
   accepts_nested_attributes_for :urls_to_audit
   has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
-  has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
   
   has_many :events, as: :triggerer, dependent: :destroy
   has_many :added_to_site_events, class_name: TagAddedToSiteEvent.to_s

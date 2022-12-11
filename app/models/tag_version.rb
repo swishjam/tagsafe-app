@@ -7,7 +7,6 @@ class TagVersion < ApplicationRecord
   belongs_to :tag
   belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
   has_many :audits, dependent: :destroy
-  has_many :long_tasks, dependent: :destroy
   
   scope :most_recent, -> { where(most_recent: true) }
   # only time total_changes = nil is if theres not other version to compare to?
@@ -32,7 +31,7 @@ class TagVersion < ApplicationRecord
   end
 
   def s3_url(use_cdn: true, formatted: false)
-    url_host = use_cdn ? "https://tagsafe-#{Rails.env}-tag-versions.s3-us-east-1.amazonaws.com" : ENV['CLOUDFRONT_HOSTNAME']
+    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : "tagsafe-#{Rails.env}-tag-versions.s3-us-east-1.amazonaws.com"
     "https://#{url_host}#{s3_pathname(formatted: formatted)}"
   end
   alias js_file_url s3_url

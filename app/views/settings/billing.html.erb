@@ -82,13 +82,6 @@
           <span class='settings-description d-block'>Credits are used for performance audits, functional tests, uptime monitoring, and release detection. On your current plan you receive <%= current_domain.subscription_features_configuration.num_credits_provided_each_month.to_i %> credits on the 1st of each month.</span>
         </div>
       </div>
-      <div class='col-6 d-flex align-items-center'>
-        <div class='d-block'>
-          <span class='d-block'><%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.credits_used) %> / <%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.total_credits_for_month) %> credits (<%= number_with_delimiter(current_domain.credit_wallet_for_current_month_and_year.percent_used) %> %)</span>
-          <span class='d-block'><i class="fa-solid fa-arrow-rotate-right"></i> Credits refresh in <%= distance_of_time_in_words(Time.current, Time.current.next_month.beginning_of_month) %></span>
-          <%= link_to 'Detailed Credit Usage', credit_wallet_credit_wallet_transactions_path(current_domain.credit_wallet_for_current_month_and_year), target: '_blank' %>
-        </div>
-      </div>
     </div>
   <% end %>
 </div>

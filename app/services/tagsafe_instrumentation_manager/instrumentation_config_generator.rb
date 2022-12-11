@@ -1,8 +1,7 @@
 module TagsafeInstrumentationManager
   class InstrumentationConfigGenerator
-    def initialize(domain, config_file_name: 'config.js')
+    def initialize(domain)
       @domain = domain
-      @config_file_name = config_file_name
     end
 
     def write_instrumentation_config_file
@@ -13,11 +12,11 @@ module TagsafeInstrumentationManager
     private
 
     def config_file_location
-      Rails.root.join('tmp', "tagsafe-instrumentation-#{@domain.uid}", 'data', @config_file_name)
+      Rails.root.join('tmp', "tagsafe-instrumentation-#{@domain.uid}", 'data', 'config.js')
     end
 
     def config_file_content
-      "
+      <<~CONFIG
         export default {
           buildTime: '#{Time.current.formatted_short}',
           disabled: false,
@@ -29,21 +28,20 @@ module TagsafeInstrumentationManager
             sampleRate: 1,
           }
         }
-      "
+      CONFIG
     end
 
     def buld_tag_configurations_hash
       js = '{'
       @domain.tags.each_with_index do |tag, i|
-        js += "
-          '#{tag.full_url}': {
-            'uid': '#{tag.uid}',
-            'defaultTagUrl': '#{tag.full_url}',
-            'configuredTagUrl': '#{tag.is_tagsafe_hosted ? tag.current_live_tag_version.js_file_url : nil}',
-            'sha256': '#{tag.is_tagsafe_hosted ? tag.current_live_tag_version.sha_256 : nil}',
-            'tagVersion': '#{tag.current_live_tag_version&.uid}'
+        js += <<~JS
+          #{tag.full_url}: {
+            uid: '#{tag.uid}',
+            configuredTagUrl: '#{tag.is_tagsafe_hosted ? tag.current_live_tag_version.js_file_url : nil}',
+            sha256: '#{tag.is_tagsafe_hosted ? tag.current_live_tag_version.sha_256 : nil}',
+            tagVersion: '#{tag.current_live_tag_version&.uid}'
           },
-        "
+        JS
       end
       js += '}'
     end

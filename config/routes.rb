@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy', as: :logout
 
-  get '/demo' => 'demo#index'
+  get '/demo' => 'welcome#index'
 
   resources :registrations, only: [:new, :create]
   get '/register' => 'registrations#new'
@@ -44,19 +44,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :domain_audits, only: [:new, :create], param: :uid do
-    member do
-      get :global_bytes_breakdown
-      get :individual_bytes_breakdown
-      get :performance_impact
-      get :speed_index
-      get :puppeteer_recording
-      get :tag_list
-      get :complete
-    end
-  end
-  get '/third_party_impact' => 'domain_audits#show', as: :third_party_impact
-
   # get '/alerts' => 'alert_configurations#index', as: :alerts
   # get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
   resources :alert_configurations, only: [:index, :show, :new, :create, :update], param: :uid do
@@ -71,8 +58,6 @@ Rails.application.routes.draw do
   resources :domains, only: [:create, :update, :new], param: :uid do
     member do
       get '/install' => 'domains#install_script', as: :install_script
-      get '/review_staged_changes' => 'domains#review_staged_changes'
-      post '/promote_staged_changes' => 'domains#promote_staged_changes'
     end
     resources :page_urls, only: [:update], param: :uid do
       collection do
@@ -99,9 +84,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/tag_management' => 'tags#tag_manager', as: :tag_manager
   resources :tags, param: :uid do
-    resources :tag_configurations, except: [:index, :show]
     collection do
       post :promote
       post '/builder/new' => 'tag_builder#new'
@@ -130,10 +113,6 @@ Rails.application.routes.draw do
 
     resources :uptime_regions_to_check, only: [:create, :destroy, :new], param: :uid
     resources :urls_to_audit, only: [:create, :destroy], param: :uid
-    resources :slack_notification_subscribers, only: [:create, :destroy], param: :uid
-    resources :tag_allowed_performance_audit_third_party_urls, only: [:create, :destroy], param: :uid
-    resources :tag_preferences, only: [:edit, :update], param: :uid
-    resources :additional_tags_to_inject_during_audit, only: [:create, :destroy], param: :uid
     resources :tag_versions, only: [:show, :index], param: :uid do
       member do
         get :audit_redirect
@@ -152,7 +131,6 @@ Rails.application.routes.draw do
         resources :performance_audit_speed_index_result, only: :index
         get :test_runs
         # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
-        get :page_change_audit
         get :waterfall
         get :git_diff
         get :cloudwatch_logs
@@ -163,7 +141,6 @@ Rails.application.routes.draw do
       # turbo frame src endpoints
       get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
       get '/test_run_for_audit/:uid' => 'test_runs#show_for_audit', as: :test_run_for_audit
-      resources :page_change_audits, only: :show, param: :uid
       resources :performance_audit_logs, only: :index
       resources :page_load_resources, only: :index
       get '/waterfall' => 'page_load_resources#for_audit'
@@ -183,12 +160,8 @@ Rails.application.routes.draw do
     get '/performance' => 'performance#index'
     get '/executed_step_function/for_obj/:parent_type/:parent_id' => 'executed_step_functions#for_obj'
     resources :domains, only: [:index, :show], param: :uid
-    resources :subscription_prices, only: [:index, :show, :new, :create], param: :uid
     resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
     resources :aws_event_bridge_rules, only: [:index, :show, :update]
-    resources :flags, only: [:index, :show], param: :uid do
-      resources :object_flags, param: :uid
-    end
     resources :tag_identifying_data, param: :uid do
       resources :tag_identifying_data_domains, only: :create, param: :uid
     end
@@ -213,28 +186,12 @@ Rails.application.routes.draw do
     end
   end
 
-  # resources :stripe_billing_portal, only: :new
-  resources :domain_payment_methods, only: [:new, :create]
-  resources :subscription_plans, only: [:create, :edit, :update], param: :uid do
-    member do
-      patch :cancel, param: :uid
-    end
-    collection do
-      get :select
-    end
-  end
-  resources :credit_wallets, only: [], param: :uid do
-    resources :credit_wallet_transactions, only: :index
-  end
-
   post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'
 
   get '/settings' => 'settings#global_settings'
   get '/settings/tag_management' => 'settings#tag_management'
   get '/settings/billing' => 'settings#billing'
-  resources :url_crawls, only: [:index, :show, :create], param: :uid
-  get '/settings/integrations/slack/oauth/redirect' => 'slack_settings#oauth_redirect'
 
   namespace :charts do
     resources :tags, only: [:index, :show], param: :uid

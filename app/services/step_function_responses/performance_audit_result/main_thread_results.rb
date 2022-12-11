@@ -22,10 +22,6 @@ module StepFunctionResponses
       def entire_main_thread_blocking_executions_ms
         @main_thread_results_hash['entire_main_thread_blocking_executions_ms'] || 0
       end
-
-      def tags_long_tasks
-        (@main_thread_results_hash['tags_long_tasks'] || []).map{ |task| LongTask.new(task) }
-      end
     end
   end
 end

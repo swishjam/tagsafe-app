@@ -15,7 +15,7 @@ module PerformanceAuditManager
       matching_performance_audit = other_klass.does_not_have_delta_audit
                                                 .completed_successfully
                                                 .in_batch(performance_audit.batch_identifier)
-                                                .where(audit: performance_audit.audit, domain_audit: performance_audit.domain_audit)
+                                                .where(audit: performance_audit.audit)
                                                 .limit(1)
                                                 .first
       return if matching_performance_audit.nil?
@@ -59,8 +59,7 @@ module PerformanceAuditManager
         bytes: @performance_audit_without_tag.bytes,
         performance_audit_with_tag: @performance_audit_with_tag,
         performance_audit_without_tag: @performance_audit_without_tag,
-        audit: @performance_audit_without_tag.audit,
-        domain_audit: @performance_audit_without_tag.domain_audit
+        audit: @performance_audit_without_tag.audit
       })
     end
 
@@ -76,8 +75,8 @@ module PerformanceAuditManager
 
     def tagsafe_score_from_delta_results(results)
       TagsafeScorer.new({ 
-        performance_audit_calculator: (@performance_audit_without_tag.audit || @performance_audit_without_tag.domain_audit).domain.current_performance_audit_calculator,
-        byte_size: @performance_audit_without_tag.is_for_domain_audit? ? 0 : @performance_audit_without_tag.bytes 
+        performance_audit_calculator: @performance_audit_without_tag.audit.domain.current_performance_audit_calculator,
+        byte_size: @performance_audit_without_tag.bytes 
       }.merge(results)).score!
     end
   end

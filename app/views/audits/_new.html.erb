@@ -39,12 +39,7 @@
     <div data-controller='hot-keys audit-price-calculator' 
           data-action="form" 
           data-key-code='13'
-          data-audit-price-calculator-manual-performance-audit-credits-value="<%= feature_prices.manual_performance_audit_price %>"
-          data-audit-price-calculator-manual-functional-test-credits-value="<%= feature_prices.manual_test_run_price %>"
-          data-audit-price-calculator-num-functional-tests-value="<%= tag.functional_tests.count %>"
-          data-audit-price-calculator-resource-waterfall-credits-value="<%= feature_prices.resource_waterfall_price %>"
-          data-audit-price-calculator-screen-recording-credits-value="<%= feature_prices.puppeteer_recording_price %>"
-          data-audit-price-calculator-filmstrip-credits-value="<%= feature_prices.speed_index_filmstrip_price %>">
+          data-audit-price-calculator-num-functional-tests-value="<%= tag.functional_tests.count %>">
       <%= form_with url: create_audit_path(tag), method: :post, data: { controller: 'loading_form', hot_keys_target: 'formAction' } do |f| %>
         <div class='tagsafe-modal-body'>
           <% unless tag_version.nil? || current_tag_version.nil? %>

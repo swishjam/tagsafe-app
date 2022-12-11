@@ -3,18 +3,8 @@ class PageUrl < ApplicationRecord
   uid_prefix 'url'
   belongs_to :domain
   has_many :audits
-  has_many :url_crawls
   has_many :tags_found_on_url, class_name: Tag.to_s, foreign_key: :found_on_page_url_id
 
-  scope :should_scan_for_tags, -> { where(should_scan_for_tags: true) }
-  scope :should_not_scan_for_tags, -> { where(should_scan_for_tags: false) }
-
-  before_validation :enforce_url_is_valid_and_can_be_reached
-  after_create :scan_for_tags_if_necessary
-  after_update :scan_for_tags_if_became_scannable
-
-  validate :is_part_of_domain_url
-  validate :at_least_one_scannable_url, on: :update
   validates_uniqueness_of :full_url, scope: :domain_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists on #{domain.url}."}
 
   def self.create_or_find_by_url(domain, url, should_scan_for_tags: false)
@@ -31,24 +21,7 @@ class PageUrl < ApplicationRecord
     hostname + (pathname == '/' ? '' : pathname)
   end
 
-  def should_scan_for_tags?
-    !domain.is_generating_third_party_impact_trial && should_scan_for_tags
-  end
-
-  def crawl_for_tags!
-    url_crawls.create!(domain_id: domain_id)
-  end
-
   private
-
-  def scan_for_tags_if_became_scannable
-    updated_to_scan = saved_changes['should_scan_for_tags'] && saved_changes['should_scan_for_tags'][1] == true
-    crawl_for_tags! if updated_to_scan
-  end
-
-  def scan_for_tags_if_necessary
-    crawl_for_tags! if should_scan_for_tags?
-  end
 
   def is_part_of_domain_url
     # simplify things by not providing multiples errors, weird results if `enforce_url_is_valid_and_can_be_reached` returns an error first
@@ -68,16 +41,6 @@ class PageUrl < ApplicationRecord
       
       if hostname_without_subdomain != domain_hostname_without_subdomain
         errors.add(:base, "Invalid URL #{full_url}. Must be a part of the *.#{domain_hostname_without_subdomain} domain.")
-      end
-    end
-  end
-
-  def at_least_one_scannable_url
-    updated_to_do_not_scan = changes['should_scan_for_tags'] && changes['should_scan_for_tags'][1] == false
-    if updated_to_do_not_scan
-      was_the_only_page_url_to_scan = domain.page_urls.should_scan_for_tags.count == 1
-      if was_the_only_page_url_to_scan
-        errors.add(:base, "Must have at least one URL to scan for third party tags.")
       end
     end
   end
