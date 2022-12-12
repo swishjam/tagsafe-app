@@ -37,8 +37,8 @@ module Notifier
 
   module InstanceMethods
     def broadcast_notification_to_all!(message, img = nil)
-      broadcast_prepend_to "#{domain_id}_domain_notifications_container", 
-                            target: "#{domain_id}_domain_notifications_container", 
+      broadcast_prepend_to "#{container_id}_container_notifications_container", 
+                            target: "#{container_id}_container_notifications_container", 
                             partial: 'partials/notification', 
                             locals: { message: message, image: img, model: self }
     end

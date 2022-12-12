@@ -1,8 +1,8 @@
 class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
-  before_action :ensure_domain
-  before_action :set_current_domain_and_redirect_if_param_present
+  before_action :ensure_container
+  before_action :set_current_container_and_redirect_if_param_present
 
   def authorize!
     if current_user.nil?
@@ -12,14 +12,15 @@ class LoggedInController < ApplicationController
     end
   end
 
-  def ensure_domain
-    redirect_to current_user.nil? ? new_registration_path : new_domain_path if current_domain.nil?
+  def ensure_container
+    return true if current_container.present?
+    redirect_to current_user.nil? ? new_registration_path : new_container_path
   end
 
-  def set_current_domain_and_redirect_if_param_present
-    unless params[:_domain_uid].nil? || current_user.nil?
-      domain = current_user.domains.find_by!(uid: params[:_domain_uid])
-      set_current_domain(domain)
+  def set_current_container_and_redirect_if_param_present
+    unless params[:_container_uid].nil? || current_user.nil?
+      container = current_user.containers.find_by!(uid: params[:_container_uid])
+      set_current_container(container)
       redirect_to request.path
     end
   end

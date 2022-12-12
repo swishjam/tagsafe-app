@@ -19,9 +19,10 @@ export default async function newDataConsumer(messages) {
 
 async function sendDataToResqueConnector(message) {
   const reqBody = {
-    tagsafe_consumer_resque_queue: 'critical',
-    tagsafe_consumer_resque_klass: 'TagsafeJsEventsConsumerJob',
+    tagsafe_consumer_resque_queue: 'tagsafe_js_events',
+    tagsafe_consumer_resque_klass: 'TagsafeJsEventBatchConsumerJob',
     data: {
+      enqueued_at_ts: new Date(),
       event_type: message.eventType || 'NewTags',
       cloudflare_message_id: message.id,
       ...message.body

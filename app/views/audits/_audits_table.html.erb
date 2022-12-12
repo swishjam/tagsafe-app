@@ -1,4 +1,4 @@
-<%= turbo_frame_tag local_assigns[:domain] ? "domain_#{domain.uid}_audits_table" : "tag_version_#{tag_version.uid}_audits_table" do %>
+<%= turbo_frame_tag local_assigns[:container] ? "container_#{container.uid}_audits_table" : "tag_version_#{tag_version.uid}_audits_table" do %>
   <div class='tagsafe-table'>
     <div class='tagsafe-table-head square'>
       <div class='tagsafe-table-row header'>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class='tagsafe-table-body'>
-      <%= turbo_frame_tag local_assigns[:domain] ? "domain_#{domain.uid}_audits_table_rows" : "tag_version_#{tag_version.uid}_audits_table_rows" do %>
+      <%= turbo_frame_tag local_assigns[:container] ? "container_#{container.uid}_audits_table_rows" : "tag_version_#{tag_version.uid}_audits_table_rows" do %>
         <%= render partial: 'audits/audit_row', 
                     # collection: tag_version.audits.order(primary: :DESC).most_recent_first(timestamp_column: :enqueued_suite_at).includes(:performance_audits), 
                     collection: audits,

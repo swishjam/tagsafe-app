@@ -1,19 +1,20 @@
-<%= turbo_frame_tag "#{domain.uid}_domain_tags_container" do %>
+<%= turbo_frame_tag "#{container.uid}_container_tags_container" do %>
   <div class='col-12'>
     <% if tags.any? %>
-      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", src: charts_tags_path(current_domain.id, tag_ids: tags.collect(&:id), include_metric_select: true) do %>
+      <%= turbo_frame_tag "#{container.uid}_container_tags_chart", src: charts_tags_path(current_container.id, tag_ids: tags.collect(&:id), include_metric_select: true) do %>
         <div class='tagsafe-container text-center'>
           <%= display_loading_spinner %>
         </div>
       <% end %>
-      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
+      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, container: container %>
     <% else %>
-      <%= turbo_frame_tag "#{domain.uid}_domain_tags_chart" do %>
+      <%= turbo_frame_tag "#{container.uid}_container_tags_chart" do %>
         <div class='text-center p-5'>
-          <h3 class='tagsafe-font'>No third party tags identified yet. Have you <%= modal_link install_script_domain_path(current_domain), text: 'installed your TagsafeJS tag' %>?</h3>
+          <h3 class='tagsafe-font'>We haven't yet received any data from your TagsafeJS tag yet.</h3> 
+          <h4 class='tagsafe-font'>Have you <%= modal_link install_script_container_path(current_container), text: 'installed your TagsafeJS tag' %>? If you have, give it a couple of minutes to collect some data and we'll be on our way!</h4>
         </div>
       <% end %>
-      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, domain: domain %>
+      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, container: container %>
     <% end %>
   </div>
 <% end %>

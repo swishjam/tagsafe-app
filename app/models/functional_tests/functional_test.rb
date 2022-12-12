@@ -1,5 +1,5 @@
 class FunctionalTest < ApplicationRecord
-  belongs_to :domain
+  belongs_to :container
   belongs_to :created_by_user, class_name: User.to_s, optional: true
   
   has_many :tags_to_run_on, class_name: FunctionalTestToRun.to_s, dependent: :destroy
@@ -70,7 +70,7 @@ class FunctionalTest < ApplicationRecord
   end
 
   def tags_available_to_enable
-    domain.tags.where.not(id: tags.collect(&:id))
+    container.tags.where.not(id: tags.collect(&:id))
   end
 
   def disable!
@@ -115,7 +115,7 @@ class FunctionalTest < ApplicationRecord
     if saved_changes['run_on_all_tags']
       run_on_all_tags_became = saved_changes['run_on_all_tags'][1]
       if run_on_all_tags_became == true
-        domain.tags.each{ |tag| enable_for_tag(tag) }
+        container.tags.each{ |tag| enable_for_tag(tag) }
       else
         # do nothing, leave each individual functional_tests_to_run to be disabled manually
       end

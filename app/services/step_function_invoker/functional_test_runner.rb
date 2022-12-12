@@ -20,7 +20,7 @@ module StepFunctionInvoker
         test_run_id: test_run.id,
         puppeteer_script: test_run.puppeteer_script_ran,
         expected_results: test_run.expected_results,
-        first_party_url: domain.url,
+        # first_party_url: container.url,
         third_party_tag_urls_and_rules_to_inject: script_injection_rules,
         third_party_tag_url_patterns_to_allow: allowed_request_urls,
         max_script_execution_ms: (@options[:max_script_execution_ms] || ENV['MAX_FUNCTIONAL_TEST_SCRIPT_EXECUTION_MS'] || 20_000).to_i,
@@ -36,7 +36,7 @@ module StepFunctionInvoker
     end
 
     def allowed_request_urls
-      domain.non_third_party_url_patterns.collect(&:pattern)
+      container.non_third_party_url_patterns.collect(&:pattern)
     end
 
     def functional_test
@@ -47,8 +47,8 @@ module StepFunctionInvoker
       @audit ||= test_run.audit
     end
 
-    def domain
-      @domain ||= functional_test.domain
+    def container
+      @container ||= functional_test.container
     end
 
     def tag_version

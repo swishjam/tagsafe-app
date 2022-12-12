@@ -1,5 +1,5 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :ensure_domain, only: [:accept, :redeem]
+  skip_before_action :ensure_container, only: [:accept, :redeem]
 
   def new
     @user_invite = UserInvite.new
@@ -7,13 +7,13 @@ class UserInvitesController < LoggedInController
       partial: 'user_invites/form',
       locals: { 
         user_invite: UserInvite.new, 
-        domain: current_domain 
+        container: current_container 
       }
     )
   end
 
   def create
-    invite = current_user.invite_user_to_domain!(params[:user_invite][:email], current_domain)
+    invite = current_user.invite_user_to_container!(params[:user_invite][:email], current_container)
     if invite.valid?
       stream_modal(
         partial: 'user_invites/form',
@@ -26,7 +26,7 @@ class UserInvitesController < LoggedInController
       stream_modal(
         partial: 'user_invites/form',
         locals: { 
-          domain: current_domain,
+          container: current_container,
           errors: invite.errors.full_messages,
           user_invite: invite
         }
@@ -36,17 +36,17 @@ class UserInvitesController < LoggedInController
 
   def index
     if params[:status] == 'pending'
-      @user_invites = current_domain.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
+      @user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
       render_breadcrumbs(text: 'Pending Invites')
     else
-      @user_invites = current_domain.user_invites.page(params[:page] || 1).per(params[:per_page] || 20)
+      @user_invites = current_container.user_invites.page(params[:page] || 1).per(params[:per_page] || 20)
       render_breadcrumbs(text: 'Invites')
     end
   end
 
   def accept
     @user = User.new
-    @user_invite = UserInvite.includes(:domain).find_by(token: params[:token])
+    @user_invite = UserInvite.includes(:container).find_by(token: params[:token])
     @hide_footer = true
     @hide_logged_out_nav = true
     render :accept, layout: 'logged_out_layout'

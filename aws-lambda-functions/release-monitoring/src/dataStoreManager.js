@@ -29,39 +29,21 @@ module.exports = class DataStoreManager {
       SELECT 
         tags.id AS tag_id,
         tags.full_url AS tag_url, 
-        live_tag_configurations.release_check_minute_interval AS release_check_minute_interval, 
+        tags.release_monitoring_interval_in_minutes AS release_monitoring_interval_in_minutes, 
         most_recent_tag_versions.hashed_content AS current_hashed_content,
         most_recent_tag_versions.bytes AS current_version_bytes_size,
-        tags.marked_as_pending_tag_version_capture_at AS marked_as_pending_tag_version_capture_at,
-        CASE
-          WHEN tag_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring IS NULL
-          THEN domain_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring
-          ELSE tag_general_configurations.num_recent_tag_versions_to_compare_in_release_monitoring
-        END AS num_recent_tag_versions_to_compare_in_release_monitoring
+        tags.marked_as_pending_tag_version_capture_at AS marked_as_pending_tag_version_capture_at
       FROM 
         tags
-        INNER JOIN domains
-          ON domains.id=tags.domain_id
-        INNER JOIN tag_configurations AS live_tag_configurations 
-          ON live_tag_configurations.tag_id=tags.id 
-          AND live_tag_configurations.type = "LiveTagConfiguration"
-        INNER JOIN tag_versions AS most_recent_tag_versions
+        INNER JOIN tag_versions AS most_recent_tag_versions 
           ON most_recent_tag_versions.id=tags.most_recent_tag_version_id
-        LEFT JOIN general_configurations AS domain_general_configurations 
-          ON domain_general_configurations.parent_type = "Domain" 
-          AND domain_general_configurations.parent_id=tags.domain_id
-        LEFT JOIN general_configurations AS tag_general_configurations 
-          ON tag_general_configurations.parent_type = "Tag" 
-          AND tag_general_configurations.parent_id=tags.id
       WHERE 
-        live_tag_configurations.release_check_minute_interval = ${parseInt(interval)}
+        tags.release_monitoring_interval_in_minutes = ${parseInt(interval)}
       GROUP BY
-        tag_id,
-        tag_url, 
-        release_check_minute_interval, 
+        tags.id, 
+        release_monitoring_interval_in_minutes, 
         current_hashed_content,
         current_version_bytes_size,
-        num_recent_tag_versions_to_compare_in_release_monitoring,
         marked_as_pending_tag_version_capture_at
     `)
     await this.killConnection();

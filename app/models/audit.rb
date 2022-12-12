@@ -4,8 +4,8 @@ class Audit < ApplicationRecord
   # include HasExecutedStepFunction
   uid_prefix 'aud'
 
-  belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
-  belongs_to :domain
+  belongs_to :initiated_by_container_user, class_name: ContainerUser.to_s, optional: true
+  belongs_to :container
   belongs_to :tag_version, optional: true
   belongs_to :tag
   belongs_to :execution_reason
@@ -131,7 +131,7 @@ class Audit < ApplicationRecord
     previous_most_current_audit = tag.most_current_audit
     should_be_considered_most_current = previous_most_current_audit.nil? ||
                                           tag_version.nil? || 
-                                          tag_version.most_recent_version? || 
+                                          # tag_version.most_recent_version? || 
                                           previous_most_current_audit.tag_version.nil? || 
                                           previous_most_current_audit.tag_version.created_at < tag_version.created_at
     return unless should_be_considered_most_current
@@ -193,7 +193,7 @@ class Audit < ApplicationRecord
 
   def broadcast_audit_began_notification_if_necessary
     return unless execution_reason.tagsafe_provided?
-    domain.users.each do |user|
+    container.users.each do |user|
       user.broadcast_notification(
         image: self.tag.try_image_url,
         partial: 'notifications/audits/tagsafe_provided_began',
@@ -203,14 +203,14 @@ class Audit < ApplicationRecord
   end
 
   def send_audit_completed_notifications_if_necessary
-    if initiated_by_domain_user.present?
-      initiated_by_domain_user.user.broadcast_notification(
+    if initiated_by_container_user.present?
+      initiated_by_container_user.user.broadcast_notification(
         image: self.tag.try_image_url,
         partial: 'notifications/audits/completed',
         partial_locals: { audit: self }
       )
     elsif execution_reason.tagsafe_provided?
-      domain.users.each do |user|
+      container.users.each do |user|
         user.broadcast_notification(
           image: self.tag.try_image_url,
           partial: 'notifications/audits/completed',
@@ -288,7 +288,7 @@ class Audit < ApplicationRecord
   alias is_primary? primary?
 
   def initiated_by_user?
-    initiated_by_domain_user_id.present?
+    initiated_by_container_user_id.present?
   end
 
   def run_on_live_tag?

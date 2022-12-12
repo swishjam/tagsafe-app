@@ -1,5 +1,5 @@
 class PerformanceAuditCalculator < ApplicationRecord
-  belongs_to :domain
+  belongs_to :container
   has_many :audits, dependent: :restrict_with_error
 
   before_destroy :ensure_can_destroy, prepend: true
@@ -50,8 +50,8 @@ class PerformanceAuditCalculator < ApplicationRecord
     ms_until_last_visual_change_score_decrement_amount: 0
   }
 
-  def self.create_default(domain, active = true)
-    default_args = { domain_id: domain.id, currently_active: active }
+  def self.create_default(container, active = true)
+    default_args = { container_id: container.id, currently_active: active }
     default_args.merge!(DEFAULT_DECREMENTS.merge(DEFAULT_WEIGHTS))
     create!(default_args)
   end
@@ -62,7 +62,7 @@ class PerformanceAuditCalculator < ApplicationRecord
   alias currently_active? active?
 
   def make_active
-    domain.current_performance_audit_calculator.update!(currently_active: false)
+    container.current_performance_audit_calculator.update!(currently_active: false)
     update!(currently_active: true)
   end
 
@@ -87,8 +87,8 @@ class PerformanceAuditCalculator < ApplicationRecord
   end
 
   def only_one_active
-    if domain.performance_audit_calculators.active.count > 1
-      errors.add(:base, "Only one active PerformanceAuditCalculator allowed per domain.")
+    if container.performance_audit_calculators.active.count > 1
+      errors.add(:base, "Only one active PerformanceAuditCalculator allowed per container.")
     end
   end
 

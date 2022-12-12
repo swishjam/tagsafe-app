@@ -9,8 +9,8 @@ module TagsafeEmail
       @template_variables = {
         tag_friendly_name: tag.try_friendly_name,
         tag_url: tag.url_based_on_preferences,
-        domain_url: tag.domain.url_hostname,
-        tag_details_url: mail_safe_url("/tags/#{tag.uid}?_domain_uid=#{tag_version.tag.domain.uid}")
+        container_name: tag.container.name,
+        tag_details_url: mail_safe_url("/tags/#{tag.uid}?_container_uid=#{tag_version.tag.container.uid}")
       }
     end
   end

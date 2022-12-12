@@ -1,3 +1,3 @@
 class AverageDeltaPerformanceAudit < DeltaPerformanceAudit
-  scope :billable_for_domain, -> (domain) { includes(:audit).where.not(tagsafe_score: nil).where(audit: domain.audits.billable) }
+  scope :billable_for_container, -> (container) { includes(:audit).where.not(tagsafe_score: nil).where(audit: container.audits.billable) }
 end

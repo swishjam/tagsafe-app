@@ -14,7 +14,7 @@ module TagManager
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
       @tag.update!(
         marked_as_pending_tag_version_capture_at: nil, 
-        current_live_tag_version: tag_version, # eventually this should move to after we run our audits and is verified to be safe
+        # current_live_tag_version: tag_version, # eventually this should move to after we run our audits and is verified to be safe
         most_recent_tag_version: tag_version
       )
       remove_temp_files

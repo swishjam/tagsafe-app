@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class='col-sm-6 d-flex align-items-center justify-content-start'>
-      <%= render 'urls_to_audit/index', domain: domain, tag: tag, urls_to_audit: tag.urls_to_audit %>
+      <%= render 'urls_to_audit/index', container: container, tag: tag, urls_to_audit: tag.urls_to_audit %>
     </div>
   </div>
 
@@ -74,7 +74,7 @@
             </span>
           </div>
           <div class="dropdown-menu dropdown-menu-center p-3">
-            <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(domain) %>
+            <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(container) %>
             <% TagPreference::RELEASE_CHECK_INTERVALS.each do |interval| %>
               <% if feature_gate_keeper.can_access_feature?(interval[:value]) %>
                 <% if interval[:value] == tag.tag_preferences.release_check_minute_interval %>

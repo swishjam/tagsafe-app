@@ -11,7 +11,7 @@ RSpec.describe Tag, type: :model do
   describe 'scopes - interval tag checks' do
     it 'returns the correct tags based on the tag preference\'s release_check_minute_interval' do
       TagPreference::RELEASE_CHECK_INTERVALS.each do |obj|
-        tag = build(:tag, full_url: "https://www.#{obj[:value]}-minute-interval-tag.com", domain: @domain, found_on_page_url: @domain.page_urls.first, found_on_url_crawl: @domain.url_crawls.first)
+        tag = build(:tag, full_url: "https://www.#{obj[:value]}-minute-interval-tag.com", domain: @container, found_on_page_url: @container.page_urls.first, found_on_url_crawl: @container.url_crawls.first)
         tag.tag_preferences.release_check_minute_interval = obj[:value]
         tag.save!
       end
@@ -129,7 +129,7 @@ RSpec.describe Tag, type: :model do
   describe '#perform_audit_on_all_urls!' do
     it 'calls perform_audit! on each url_to_audit and returns an array of audits' do
       url_to_audit_1 = @tag.urls_to_audit.first
-      page_url = @domain.add_url('https://www.test.com/test', should_scan_for_tags: false)
+      page_url = @container.add_url('https://www.test.com/test', should_scan_for_tags: false)
       url_to_audit_2 = create(:url_to_audit, tag: @tag, page_url: page_url)
 
       expect(@tag).to receive(:perform_audit!).with({

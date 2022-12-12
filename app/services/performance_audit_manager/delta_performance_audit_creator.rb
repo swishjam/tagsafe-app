@@ -75,7 +75,7 @@ module PerformanceAuditManager
 
     def tagsafe_score_from_delta_results(results)
       TagsafeScorer.new({ 
-        performance_audit_calculator: @performance_audit_without_tag.audit.domain.current_performance_audit_calculator,
+        performance_audit_calculator: @performance_audit_without_tag.audit.container.current_performance_audit_calculator,
         byte_size: @performance_audit_without_tag.bytes 
       }.merge(results)).score!
     end

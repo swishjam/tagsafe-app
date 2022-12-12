@@ -8,7 +8,7 @@
   <% unless user_is_anonymous? %>
     <%= render 'partials/page_navigation_items', navigation_items: [
       { url: alert_configurations_path, text: 'Triggered Alerts' },
-      { url: alert_configuration_path(current_domain_user.domain_alert_configuration), text: 'Alert Settings' }
+      { url: alert_configuration_path(current_container_user.container_alert_configuration), text: 'Alert Settings' }
     ] %>
   <% end %>
 </div>
@@ -16,7 +16,7 @@
 <% if user_is_anonymous? %>
   <div class='p-5 text-center'>
     <h4 class='mb-4'>In order to enable alerting functionality, you must be a registered user.</h4>
-    <a class='floating-btn' href='/register?domain=<%=current_domain.uid%>'>Sign up for free now</a>
+    <a class='floating-btn' href='/register?container=<%=current_container.uid%>'>Sign up for free now</a>
   </div>
 <% else %>
   <% if @triggered_alerts.none? %>

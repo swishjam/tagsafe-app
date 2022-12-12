@@ -9,14 +9,16 @@ class RenameDomainsToContainers < ActiveRecord::Migration[6.1]
 
     rename_table :domain_users, :container_users
     rename_table :alert_configuration_domain_users, :alert_configuration_container_users
+ 
+ 
     rename_table :domain_users_roles, :container_users_roles
 
     rename_column :alert_configuration_container_users, :domain_user_id, :container_user_id
-    rename_column :alert_configurations, :domain_user_id, :container_user_id
+    rename_column :container_users_roles, :domain_user_id, :container_user_id
 
+    rename_column :alert_configurations, :id, :container_user_id
     rename_column :audits, :domain_id, :container_id
     rename_column :container_users, :domain_id, :container_id
-    rename_column :container_users_roles, :domain_id, :container_id
     rename_column :functional_tests, :domain_id, :container_id
     rename_column :instrumentation_builds, :domain_id, :container_id
     rename_column :non_third_party_url_patterns, :domain_id, :container_id
@@ -27,7 +29,12 @@ class RenameDomainsToContainers < ActiveRecord::Migration[6.1]
     rename_column :tagsafe_js_events_batches, :domain_id, :container_id
     rename_column :user_invites, :domain_id, :container_id
 
-    # some extras while we're here...
+    rename_column :alert_configurations, :domain_id, :container_id
+    rename_column :audits, :initiated_by_domain_user_id, :initiated_by_container_user_id
+
+    drop_table :domain_audits
+
+    some extras while we're here...
     rename_column :tags, :url_domain, :url_hostname # UPDATE URL_DOMAINS EVERYWHERE TOO!
     remove_column :performance_audits, :domain_audit_id
     remove_column :delta_performance_audits, :domain_audit_id

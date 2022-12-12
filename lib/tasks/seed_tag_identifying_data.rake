@@ -2,6 +2,17 @@ require 'open-uri'
 
 JSON_DATA = [
    {
+      "name"=>'TagsafeJS',
+      'company'=>'Tagsafe',
+      'image_url'=>'https://d1d6tvxa5r22b2.cloudfront.net/tagsafe-logo.png',
+      'homepage'=>'https://www.tagafe.io',
+      'categories'=>['utility'],
+      'domains'=>[
+         'cdn-collin-dev.tagsafe.io',
+         'cdn.tagsafe.io'
+      ]
+   },
+   {
       "name"=>"ThirdPartyTag.com",
       "company"=>"Third Party Tag inc",
       "image_url"=>"https://icons.iconarchive.com/icons/google/noto-emoji-activities/1024/52707-party-popper-icon.png",
@@ -1693,7 +1704,9 @@ JSON_DATA = [
         "*.hsforms.net",
         "*.hsleadflows.net",
         "*.hsstatic.net",
-        "*.hubspot.net"
+        "*.hubspot.net",
+        '*.usemessages.com',
+        '*.hs-banner.com'
      ],
      "examples"=>[
         "forms.hubspot.com",

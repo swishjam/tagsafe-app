@@ -24,7 +24,7 @@
   <% end %>
   <hr/>
   <h5>Slack Notifications</h5>
-  <% if current_domain.completed_slack_setup? %>
+  <% if current_container.completed_slack_setup? %>
     <%= form_for SlackNotificationSubscriber.new, url: tag_slack_notification_subscribers_path(@tag), html: { class: 'form-inline', style: 'width: fit-content; margin: 0 auto' } do |f| %>
       <%= f.hidden_field :tag_id, value: @tag.id %>
       <div class="form-group">

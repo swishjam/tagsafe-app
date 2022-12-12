@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "#{domain.uid}_domain_tags_chart", class: 'frame-with-chart' do %>
+<%= turbo_frame_tag "#{container.uid}_container_tags_chart", class: 'frame-with-chart' do %>
   <% 
     chart_data = chart_data || ChartHelper::TagsData.new(
       tags: tags,

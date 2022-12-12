@@ -21,8 +21,8 @@ Rails.application.routes.draw do
   resources :registrations, only: [:new, :create]
   get '/register' => 'registrations#new'
   
-  resources :domain_users, only: [:destroy, :index], param: :uid
-  get "/domain_users/:uid/destroy_modal" => 'domain_users#destroy_modal', as: :destroy_domain_user_modal
+  resources :container_users, only: [:destroy, :index], param: :uid
+  get "/container_users/:uid/destroy_modal" => 'container_users#destroy_modal', as: :destroy_container_user_modal
   resources :user_invites, only: [:new, :create, :index]
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get '/uptime' => 'uptime_checks#index'
   # get '/uptime/:tag_uid/chart' => 'uptime_checks#tag_chart', as: :tag_uptime_chart
   get '/uptime/:tag_uid/list' => 'uptime_checks#tag_list', as: :tag_uptime_list
-  get '/uptime/list' => 'uptime_checks#domain_list', as: :domain_uptime_list
+  get '/uptime/list' => 'uptime_checks#container_list', as: :container_uptime_list
   get '/performance' => 'performance#index'
   get '/releases' => 'releases#all', as: :all_releases
   resources :releases, only: [] do
@@ -49,15 +49,15 @@ Rails.application.routes.draw do
   resources :alert_configurations, only: [:index, :show, :new, :create, :update], param: :uid do
     member do
       get :trigger_rules
-      resources :alert_configuration_domain_users, only: [:index]
+      resources :alert_configuration_container_users, only: [:index]
       resources :alert_configuration_tags, only: [:index]
     end
   end
   resources :triggered_alerts, only: [:index, :show], param: :uid
 
-  resources :domains, only: [:create, :update, :new], param: :uid do
+  resources :containers, only: [:create, :update, :new], param: :uid do
     member do
-      get '/install' => 'domains#install_script', as: :install_script
+      get '/install' => 'containers#install_script', as: :install_script
     end
     resources :page_urls, only: [:update], param: :uid do
       collection do
@@ -66,7 +66,7 @@ Rails.application.routes.draw do
     end
     resources :non_third_party_url_patterns, only: [:create, :destroy], param: :uid
   end
-  put '/update_current_domain/:uid' => 'domains#update_current_domain', as: :update_current_domain
+  put '/update_current_container/:uid' => 'containers#update_current_container', as: :update_current_container
 
   resources :functional_tests, param: :uid do
     member do
@@ -159,11 +159,11 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/performance' => 'performance#index'
     get '/executed_step_function/for_obj/:parent_type/:parent_id' => 'executed_step_functions#for_obj'
-    resources :domains, only: [:index, :show], param: :uid
+    resources :containers, only: [:index, :show], param: :uid
     resources :lambda_functions, controller: :executed_step_functions, only: [:index, :show], param: :uid
     resources :aws_event_bridge_rules, only: [:index, :show, :update]
     resources :tag_identifying_data, param: :uid do
-      resources :tag_identifying_data_domains, only: :create, param: :uid
+      resources :tag_identifying_data_containers, only: :create, param: :uid
     end
       # member do
       #   post :apply_to_tags
@@ -171,7 +171,7 @@ Rails.application.routes.draw do
       # collection do
       #   post :apply_all_to_tags
       # end
-      # resources :tag_image_domain_lookup_patterns, only: [:create, :destroy]
+      # resources :tag_image_container_lookup_patterns, only: [:create, :destroy]
     # end
   end
 
@@ -198,9 +198,9 @@ Rails.application.routes.draw do
     resources :uptime_checks, only: [:index, :show], param: :uid
   end
 
-  # get '/charts/domain/:domain_uid' => 'charts#tags', as: :domain_tags_chart
+  # get '/charts/container/:container_uid' => 'charts#tags', as: :container_tags_chart
   # get '/charts/tag/:tag_uid' => 'charts#tag', as: :tag_chart
-  # get '/charts/uptime/:domain_uid' => 'charts#tag_uptime', as: :tags_uptime_chart
+  # get '/charts/uptime/:container_uid' => 'charts#tag_uptime', as: :tags_uptime_chart
   get '/charts/admin_audit_performance' => 'charts#admin_audit_performance', as: :admin_audit_performance_chart
   get '/charts/admin_lambda_functions' => 'charts#admin_executed_step_functions', as: :admin_executed_step_functions_chart
 end

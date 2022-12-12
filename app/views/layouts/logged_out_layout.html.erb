@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Tagsafe</title>
-    <%= turbo_include_tags %>
-    <%= stimulus_include_tags %>
-    
+  <head>    
     <link href='https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>' rel='preconnect dns-prefetch' crossorigin>
-    <script>
-      (function(i) {
-        var s = document.createElement('script');
-        s.setAttribute('src','https://cdn-collin-dev.tagsafe.io/'+i+'/instrumentation.js');
-        document.head.prepend(s);
-      })('TAG-715e8f15');
-    </script>
+    <script src='https://cdn-collin-dev.tagsafe.io/TAG-4f707b08/instrumentation.js'></script>
 
     <!-- Google Tag Manager -->
     <script>
@@ -26,9 +16,13 @@
     <!-- End Google Tag Manager -->
 
     <meta property="og:title" content="Tagsafe" />
-    <meta property="og:description" content="Take control of your third party tags." />
+    <meta property="og:description" content="Take back control of your third party tags." />
     <meta property="og:image" content="https://www.tagsafe.io/images/tagsafe-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Tagsafe</title>
+    <%= turbo_include_tags %>
+    <%= stimulus_include_tags %>
     
     <script src="https://kit.fontawesome.com/d38fe451ee.js" crossorigin="anonymous"></script>
     <!-- Bootstrap -->

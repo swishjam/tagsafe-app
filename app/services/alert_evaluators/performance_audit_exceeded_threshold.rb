@@ -17,7 +17,7 @@ module AlertEvaluators
       return @exceeded_threshold_alert_configurations if defined?(@exceeded_threshold_alert_configurations)
       @exceeded_threshold_alert_configurations = []
       return @exceeded_threshold_alert_configurations if @audit.performance_audit_failed?
-      alert_configurations_for_tag_and_domain.each do |alert_configuration|
+      alert_configurations_for_tag_and_container.each do |alert_configuration|
         @exceeded_threshold_alert_configurations << alert_configuration if exceeded_alert_threshold?(alert_configuration)
       end
       @exceeded_threshold_alert_configurations

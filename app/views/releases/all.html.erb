@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<%= turbo_frame_tag "#{current_domain.uid}_release_chart", src: release_chart_releases_path(all_tags: true) do %>
+<%= turbo_frame_tag "#{current_container.uid}_release_chart", src: release_chart_releases_path(all_tags: true) do %>
   <div class='tagsafe-container text-center p-5'>
     <%= display_loading_icon %>
   </div>
@@ -32,7 +32,7 @@
   <% (0..2).each do |months_ago| %>
     <% start_date = Time.current.beginning_of_month - months_ago.months %>
     <% end_date = start_date.end_of_month %>
-    <%= turbo_frame_tag "#{current_domain.uid}_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}",
+    <%= turbo_frame_tag "#{current_container.uid}_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}",
                           src: rolled_up_release_list_releases_path(all_tags: true, start_date: start_date, end_date: end_date) do %>
       <div class='release-list-month'>
         <div class='release-list-month-header'>

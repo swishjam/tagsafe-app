@@ -8,7 +8,7 @@
 
   <div class='w-100'>
     <div class="col-xs-12 col-sm-10 col-md-8 col-xl-6 tagsafe-container with-shadow no-border text-center form-card m-auto mb-5">
-      <h1 class='tagsafe-font mb-5'>Join <%= @user_invite.domain.url_hostname %> on Tagsafe</h1>
+      <h1 class='tagsafe-font mb-5'>Join <%= @user_invite.container.name %> on Tagsafe</h1>
       <% if @user_invite.redeemable? %>
         <%= form_for @user, url: redeem_invite_path(@user_invite.token), data: { controller: 'loading_form' } do |f| %>
           <div class='form-floating m-2'>

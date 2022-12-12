@@ -1,4 +1,4 @@
-import { urlToDomain } from "./utils";
+import { isThirdPartyUrl, getScriptTagLoadType } from "./utils";
 
 export default class ScriptInterceptor {
   constructor({ 
@@ -13,7 +13,6 @@ export default class ScriptInterceptor {
     this.urlPatternsToNotCapture = urlPatternsToNotCapture;
     this.dataReporter = dataReporter;
     this.debugMode = debugMode;
-    window.Tagsafe.interceptedTags = [];
   }
 
   interceptInjectedScriptTags = () => {
@@ -55,29 +54,52 @@ export default class ScriptInterceptor {
     };
   }
 
+  _interceptedInsertAdjacentElement = function() {
+    const ogInsertAdjacentElement = Element.prototype.insertAdjacentElement;
+    const scope = this;
+    Element.prototype.insertAdjacentElement = function() {
+      console.error(`Intercepted insertAdjacentElement!!!!`);
+      arguments[1] = scope._reMapScriptTagIfNecessary(arguments[1]);
+      const returnVal = ogInsertAdjacentElement.apply(this, arguments);
+      return returnVal;
+    }
+  }
+
+  // _interceptAppend = function() {
+  //   const ogAppend = Element.prototype.append;
+  //   const scope = this;
+  //   Element.prototype.append = function() {
+  //   }
+  // }
+
+  // _interceptPrepend = function () {
+  //   const ogPrepend = Element.prototype.prepend;
+  //   const scope = this;
+  //   Element.prototype.prepend = function () {
+  //   }
+  // }
+
   _reMapScriptTagIfNecessary = newNode => {
     try {
       if(newNode.nodeName === 'SCRIPT') {
         const ogSrc = newNode.getAttribute('src');
         const reRouteTagConfig = this.tagConfigurations[ogSrc];
-        if(ogSrc && this.urlPatternsToNotCapture.find(pattern => ogSrc.includes(pattern))) {
-          window.Tagsafe.bypassedTags = window.Tagsafe.bypassedTags || [];
-          window.Tagsafe.bypassedTags.push(ogSrc);
-          return newNode;
-        } else if(reRouteTagConfig) {
-          this.dataReporter.recordInterceptedTag(ogSrc);
-          return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
-        } else {
-          if(this._isThirdPartySrc(ogSrc)) {
-            const loadType = newNode.getAttribute('async') !== null ? 'async' : 
-                              newNode.getAttribute('defer') !== null ? 'defer' : 'synchronous';
-            this.dataReporter.recordNewTag({ tagUrl: ogSrc, loadType });
+        newNode.setAttribute('data-tagsafe-intercepted', 'true');
+        if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
+          if (ogSrc && this.urlPatternsToNotCapture.find(pattern => ogSrc.includes(pattern))) {
+            window.Tagsafe.bypassedTags = window.Tagsafe.bypassedTags || [];
+            window.Tagsafe.bypassedTags.push(ogSrc);
+            return newNode;
+          } else if (reRouteTagConfig) {
+            this.dataReporter.recordInterceptedTag(ogSrc);
+            return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
+          } else {
+            const loadType = getScriptTagLoadType(newNode);
+            this.dataReporter.recordThirdPartyTag({ tagUrl: ogSrc, loadType });
           }
-          return newNode;
         }
-      } else {
-        return newNode;
       }
+      return newNode;
     } catch(err) {
       console.error(`Tagsafe intercept error: ${err}`);
       return newNode;
@@ -95,7 +117,7 @@ export default class ScriptInterceptor {
         newNode.setAttribute('integrity', `sha256-${tagConfig['sha256']}`);
         newNode.setAttribute('crossorigin', 'anonymous');
       }
-      newNode.setAttribute('data-tagsafe-intercepted', 'true');
+      newNode.setAttribute('data-tagsafe-optimized', 'true');
 
       if(this.debugMode) {
         console.log(`Intercepted ${ogSrc} ->`);
@@ -109,12 +131,6 @@ export default class ScriptInterceptor {
     } catch(err) {
       console.error(`Tagsafe intercept error: ${err}`)
       return newNode;
-    }
-  }
-
-  _isThirdPartySrc = src => {
-    if(src && src !== '') {
-      return !this.firstPartyDomains.includes(urlToDomain(src));
     }
   }
 }

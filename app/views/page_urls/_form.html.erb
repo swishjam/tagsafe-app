@@ -1,7 +1,7 @@
-<%= form_with url: create_or_update_domain_page_urls_path(domain), data: { controller: 'loading_form' } do |f| %>
+<%= form_with url: create_or_update_container_page_urls_path(container), data: { controller: 'loading_form' } do |f| %>
   <%= f.hidden_field :should_scan_for_tags, value: local_assigns[:should_scan_for_tags] || false %>
   <div class='form-floating d-flex mb-3'>
-    <%= f.text_field :full_url, class: 'form-control', value: "#{domain.url}/", placeholder: "#{domain.url}/url_with_tags" %>
+    <%= f.text_field :full_url, class: 'form-control', value: "https://www.example.com/", placeholder: "https://www.example.com/url_with_tags" %>
     <label for='url'>Page URL</label>
     <%= loading_submit_button button_class: 'square' do %>
       <div class='d-float align-items-center'>

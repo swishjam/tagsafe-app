@@ -9,36 +9,6 @@
   </div>
   <%= render 'settings_nav' %>
 </div>
-
-<div class="tagsafe-container">
-  <h4 class='mb-0'>Tag sync settings</h4>
-  <h6>How Tagsafe identifies and remains in sync with your third party tags.</h6>
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>URLs to sync tags from</span>
-        <span class='settings-description d-block'>Which URLs Tagsafe should sync third party tags from.</span>
-      </div>
-    </div>
-    <div class='col-6 d-flex align-items-center'>
-      <%= render 'page_urls/index', domain: current_domain, page_urls: current_domain.page_urls.should_scan_for_tags, should_scan_for_tags: true %>
-    </div>
-  </div>
-  
-  <hr/>
-  <div class='row'>
-    <div class='col-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>Non-third party tag URL patterns</span>
-        <span class='settings-description d-block'>Add any URL patterns that Tagsafe should not identify as third party tags (ie: cdn.staticassets.com)</span>
-      </div>
-    </div>
-    <div class='col-6 d-flex align-items-center'>
-      <%= render 'non_third_party_url_patterns/index', domain: current_domain %>
-    </div>
-  </div>
-</div>
   
 <div class="tagsafe-container mt-5">
   <h4 class='mb-0'>Automated audit settings</h4>
@@ -52,7 +22,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_performance_audit, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -69,7 +39,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_functional_tests, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -86,7 +56,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :include_page_load_resources, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -106,7 +76,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :perf_audit_enable_screen_recording, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -126,7 +96,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :perf_audit_include_filmstrip_frames, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>
@@ -144,7 +114,7 @@
         </div>
       </div>
       <div class='col-6 d-flex align-items-center'>
-        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
           <div class='form-check form-switch'>
             <%= f.check_box :include_page_change_audit, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
           </div>
@@ -169,7 +139,7 @@
         </div>
       </div>
       <div class='col-6 d-flex align-items-center'>
-        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+        <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
           <div class='form-check form-switch'>
             <%= f.check_box :perf_audit_strip_all_images, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
           </div>
@@ -187,9 +157,9 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <% advanced_config_feature_gate_keeper = FeatureGateKeepers::HasAdvancedPerformanceAuditConfigurations.new(current_domain) %>
+      <% advanced_config_feature_gate_keeper = FeatureGateKeepers::HasAdvancedPerformanceAuditConfigurations.new(current_container) %>
       <% if advanced_config_feature_gate_keeper.can_access_feature? %>
-        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
           <div class='d-flex'>
             <%= f.number_field :perf_audit_required_tagsafe_score_range, class: 'form-control' %>
             <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -198,7 +168,7 @@
       <% else %>
         <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
           <div class='d-flex'>
-            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_required_tagsafe_score_range %>' disabled>
+            <input class='form-control' value='<%= current_container.general_configuration.perf_audit_required_tagsafe_score_range %>' disabled>
             <button class='tagsafe-btn square' disabled>Update</button>
           </div>
         </form>
@@ -216,7 +186,7 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <% if advanced_config_feature_gate_keeper.can_access_feature? %>
-        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
           <div class='d-flex'>
             <%= f.number_field :perf_audit_minimum_num_sets, class: 'form-control' %>
             <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -225,7 +195,7 @@
       <% else %>
         <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
           <div class='d-flex'>
-            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_minimum_num_sets %>' disabled>
+            <input class='form-control' value='<%= current_container.general_configuration.perf_audit_minimum_num_sets %>' disabled>
             <button class='tagsafe-btn square' disabled>Update</button>
           </div>
         </form>
@@ -243,7 +213,7 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <% if advanced_config_feature_gate_keeper.can_access_feature? %>
-        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
           <div class='d-flex'>
             <%= f.number_field :perf_audit_maximum_num_sets, class: 'form-control' %>
             <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -252,7 +222,7 @@
       <% else %>
         <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
           <div class='d-flex'>
-            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_maximum_num_sets %>' disabled>
+            <input class='form-control' value='<%= current_container.general_configuration.perf_audit_maximum_num_sets %>' disabled>
             <button class='tagsafe-btn square' disabled>Update</button>
           </div>
         </form>
@@ -270,7 +240,7 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <% if advanced_config_feature_gate_keeper.can_access_feature? %>
-        <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
+        <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' } do |f| %>
           <div class='d-flex'>
             <%= f.number_field :perf_audit_batch_size, class: 'form-control' %>
             <%= f.submit 'Update', class: 'tagsafe-btn square' %>
@@ -279,7 +249,7 @@
       <% else %>
         <form class='w-fit m-auto' data-controller='tooltip' data-bs-toggle='tooltip' title="<%= advanced_config_feature_gate_keeper.reason %>">
           <div class='d-flex'>
-            <input class='form-control' value='<%= current_domain.general_configuration.perf_audit_batch_size %>' disabled>
+            <input class='form-control' value='<%= current_container.general_configuration.perf_audit_batch_size %>' disabled>
             <button class='tagsafe-btn square' disabled>Update</button>
           </div>
         </form>
@@ -296,7 +266,7 @@
       </div>
     </div>
     <div class='col-6 d-flex align-items-center'>
-      <%= form_for current_domain.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
+      <%= form_for current_container.general_configuration, html: { class: 'w-fit m-auto' }, data: { controller: 'submit-form-changes' } do |f| %>
         <div class='form-check form-switch'>
           <%= f.check_box :perf_audit_fail_when_confidence_range_not_met, class: 'form-check-input pointer', style: 'transform: scale(1.5)' %>
         </div>

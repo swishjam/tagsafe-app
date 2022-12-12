@@ -19,13 +19,13 @@ class AlertConfiguration < ApplicationRecord
   uid_prefix 'alrt'
   self.has_trigger_rules = true
 
-  belongs_to :domain
+  belongs_to :container
   has_many :triggered_alerts, dependent: :destroy
-  has_many :alert_configuration_domain_users, dependent: :destroy
-  has_many :domain_users, through: :alert_configuration_domain_users
+  has_many :alert_configuration_container_users, dependent: :destroy
+  has_many :container_users, through: :alert_configuration_container_users
   has_many :alert_configuration_tags, dependent: :destroy
   has_many :tags, through: :alert_configuration_tags
-  accepts_nested_attributes_for :alert_configuration_domain_users
+  accepts_nested_attributes_for :alert_configuration_container_users
   accepts_nested_attributes_for :alert_configuration_tags
 
   # should be set in subclass

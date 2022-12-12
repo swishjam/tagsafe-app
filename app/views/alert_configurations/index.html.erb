@@ -47,7 +47,7 @@
                 <div class='tagsafe-pill <%= pill_color %> small-text'><%= alert_config.class.user_facing_alert_name %></div>
               </div>
               <div class='tagsafe-table-cell'><%= alert_config.enabled_for_all_tags ? 'All tags' : alert_config.tags.count %></div>
-              <div class='tagsafe-table-cell'><%= alert_config.domain_users.count %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.container_users.count %></div>
               <div class='tagsafe-table-cell'><%= alert_config.triggered_alerts.most_recent_first.limit(1).first&.created_at&.formatted_long || 'Not yet triggered' %></div>
             </div>
           <% end %>

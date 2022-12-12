@@ -6,9 +6,9 @@ RSpec.describe DataRetention::TagVersions do
 
     organization = create(:organization)
     script = create(:script)
-    domain1 = create(:domain, organization: organization)
-    domain2 = create(:domain, url: 'https://www.google.com', organization: organization)
-    domain3 = create(:domain, url: 'https://www.stripe.com', organization: organization)
+    domain1 = create(:container, organization: organization)
+    domain2 = create(:container, url: 'https://www.google.com', organization: organization)
+    domain3 = create(:container, url: 'https://www.stripe.com', organization: organization)
 
     @most_recent_tag_version = create(:tag_version, script: script, hashed_content: 'blah', created_at: Time.now)
     @oldest_tag_version = create(:tag_version, script: script, created_at: 1.day.ago)

@@ -4,7 +4,7 @@
     <div class='row'>
       <div class='col-12'>
         <div class="form-floating d-flex">
-          <%= f.text_field :page_url, class: "form-control", value: "#{domain.url}/", placeholder: domain.url %>
+          <%= f.text_field :page_url, class: "form-control", value: "https://www.example.com", placeholder: "https://www.example.com" %>
           <label>Add new URL to audit</label>
           <%= loading_submit_button 'Add', button_class: 'square small' %>
         </div>

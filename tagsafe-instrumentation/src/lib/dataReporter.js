@@ -1,11 +1,14 @@
 export default class DataReporter {
-  constructor({ reportingURL, domainUid, sampleRate = 1, debugMode = false }) {
-    this.dataToReport = { new_tags: [], intercepted_tags: [], errors: [], warnings: [] };
-    this.dataReported = { new_tags: [], intercepted_tags: [], errors: [], warnings: [] };
+  constructor({ reportingURL, containerUid, sampleRate = 1, debugMode = false }) {
+    this.dataToReport = { third_party_tags: [], intercepted_tags: [], errors: [], warnings: [] };
+    this.dataReported = { third_party_tags: [], intercepted_tags: [], errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
     this.reportingURL = reportingURL;
-    this.domainUid = domainUid;
+    this.containerUid = containerUid;
     this.debugMode = debugMode;
+
+    window.Tagsafe.identifiedThirdPartyTags = [];
+    window.Tagsafe.optimizedTags = [];
 
     // sample rate of 1 means capture everything, 0 means capture nothing
     this.reportingEnabled = Math.random() < sampleRate;
@@ -19,19 +22,14 @@ export default class DataReporter {
     }
   }
 
-  recordNewTag({ tagUrl, loadType }) {
-    this._recordData('new_tags', { 
-      tag_url: tagUrl, 
-      load_type: loadType,
-      page_url_found_on: window.location.href 
-    });
+  recordThirdPartyTag({ tagUrl, loadType }) {
+    window.Tagsafe.identifiedThirdPartyTags.push(tagUrl);
+    this._recordData('third_party_tags', { tag_url: tagUrl, load_type: loadType });
   }
 
   recordInterceptedTag(tagUrl) {
-    this._recordData('intercepted_tags', { 
-      tag_url: tagUrl,
-      page_url_intercepted_on: window.location.href
-    })
+    window.Tagsafe.optimizedTags.push(tagUrl);
+    this._recordData('intercepted_tags', { tag_url: tagUrl });
   }
 
   recordWarning(warning) {
@@ -62,16 +60,19 @@ export default class DataReporter {
 
   async _reportPendingData() {
     try {
-      const body = { domain_uid: this.domainUid, ts: new Date(), ...this.dataToReport };
+      const body = { 
+        container_uid: this.containerUid, 
+        full_page_url: window.location.href,
+        tagsafe_js_ts: new Date(), 
+        ...this.dataToReport 
+      };
       if(this.debugMode) {
         console.log(`Sending data to Tagsafe API`);
         console.log(body);
       }
-      await fetch(this.reportingURL, {
-        method: 'POST',
-        body: JSON.stringify(body)
-      })
-      this.dataReported.new_tags.concat(this.dataToReport.new_tags);
+      await fetch(this.reportingURL, { method: 'POST', body: JSON.stringify(body) });
+      this.dataReported.third_party_tags.concat(this.dataToReport.third_party_tags);
+      this.dataReported.intercepted_tags.concat(this.dataToReport.intercepted_tags);
       this.dataReported.errors.concat(this.dataToReport.errors);
       this._flushPendingData();
     } catch (err) {
@@ -81,7 +82,7 @@ export default class DataReporter {
   }
 
   _flushPendingData() {
-    this.dataToReport = { new_tags: [], intercepted_tags: [], errors: [], warnings: [] };
+    this.dataToReport = { third_party_tags: [], intercepted_tags: [], errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
   }
 }

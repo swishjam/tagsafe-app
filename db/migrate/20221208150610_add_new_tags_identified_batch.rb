@@ -1,6 +1,6 @@
 class AddNewTagsIdentifiedBatch < ActiveRecord::Migration[6.1]
   def change
-    create_table :tagsafe_js_events_batches do |t|
+    create_table :tagsafe_js_event_batches do |t|
       t.string :uid, index: true
       t.string :cloudflare_message_id, index: true
       t.references :domain

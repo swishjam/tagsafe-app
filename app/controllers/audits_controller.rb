@@ -5,7 +5,7 @@ class AuditsController < LoggedInController
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
   def all
-    @audits = current_domain.audits
+    @audits = current_container.audits
                               .most_recent_first(timestamp_column: :created_at)
                               .includes(
                                 :performance_audits, 
@@ -45,7 +45,7 @@ class AuditsController < LoggedInController
       tag_version: tag_version,
       current_tag_version: @tag.current_version,
       urls_to_audit: urls_to_audit,
-      configuration: @tag.tag_or_domain_configuration
+      configuration: @tag.tag_or_container_configuration
     })
   end
 
@@ -55,7 +55,7 @@ class AuditsController < LoggedInController
     audits_with_errors = []
     @tag.urls_to_audit.where(id: params[:urls_to_audit]).each do |url_to_audit|
       audit = @tag.perform_audit!(
-        initiated_by_domain_user: current_domain_user,
+        initiated_by_container_user: current_container_user,
         execution_reason: ExecutionReason.MANUAL,
         url_to_audit: url_to_audit,
         tag_version: tag_version, 
@@ -105,7 +105,7 @@ class AuditsController < LoggedInController
   private
 
   def find_tag
-    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    @tag = current_container.tags.find_by(uid: params[:tag_uid])
   end
 
   def find_audit

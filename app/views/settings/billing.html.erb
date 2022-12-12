@@ -2,7 +2,7 @@
   <script src="https://js.stripe.com/v3/"></script>
 <% end %>
 
-<%= turbo_stream_from "domain_#{current_domain.uid}_billing_details_stream" %>
+<%= turbo_stream_from "container_#{current_container.uid}_billing_details_stream" %>
 
 <div class='page-title-container'>
   <div class='container-fluid'>
@@ -16,11 +16,11 @@
   <%= render 'settings/settings_nav' %>
 </div>
 
-<% if !current_domain.has_payment_method_on_file? && current_domain.current_subscription_plan&.is_on_free_trial? %>
+<% if !current_container.has_payment_method_on_file? && current_container.current_subscription_plan&.is_on_free_trial? %>
   <div class='container-fluid'>
     <div class='col-12'>
       <div class="alert alert-warning mb-3 mt-3 text-center" role="alert">
-        <i class="fas fa-exclamation-circle"></i> Your free trial ends in <%= current_domain.current_subscription_plan.time_left_in_free_trial_in_words %>, <%= modal_link new_domain_payment_method_path, text: 'add a payment method' %> in order to maintain functionality.
+        <i class="fas fa-exclamation-circle"></i> Your free trial ends in <%= current_container.current_subscription_plan.time_left_in_free_trial_in_words %>, <%= modal_link new_container_payment_method_path, text: 'add a payment method' %> in order to maintain functionality.
       </div>
     </div>
   </div>
@@ -36,14 +36,14 @@
     </div>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
-        <% if current_domain.current_subscription_plan.delinquent?  %>
+        <% if current_container.current_subscription_plan.delinquent?  %>
           <span class='d-block'>Subscription is frozen </span>
           <%= link_to 'Select new plan', select_subscription_plans_path(update: true) %>
-        <% elsif current_domain.current_subscription_plan.canceled?  %>
+        <% elsif current_container.current_subscription_plan.canceled?  %>
           <span class='d-block'>Subscription is canceled</span>
           <%= link_to 'Select new plan', select_subscription_plans_path(update: true) %>
         <% else %>
-          <span class='d-block'><%= current_domain.current_subscription_plan.human_package_type %> (billed <%= current_domain.current_subscription_plan.billing_interval_with_ly %>)</span>
+          <span class='d-block'><%= current_container.current_subscription_plan.human_package_type %> (billed <%= current_container.current_subscription_plan.billing_interval_with_ly %>)</span>
           <%= link_to 'Change Plan', select_subscription_plans_path(update: true) %>
         <% end %>
       </div>
@@ -51,7 +51,7 @@
   </div>
 
   <hr/>
-  <%= render 'billing_details', domain: current_domain, default_payment_method: @default_payment_method %>
+  <%= render 'billing_details', container: current_container, default_payment_method: @default_payment_method %>
 
   <% unless @next_invoice.nil? %>
     <hr/>
@@ -73,23 +73,23 @@
     </div>
   <% end %>
 
-  <% unless current_domain.current_subscription_plan.delinquent? || current_domain.current_subscription_plan.canceled? %>
+  <% unless current_container.current_subscription_plan.delinquent? || current_container.current_subscription_plan.canceled? %>
     <hr/>
     <div class='row'>
       <div class='col-6 d-flex align-items-center'>
         <div class='d-block'>
           <span class='settings-title d-block fw-bolder'>Credit usage</span>
-          <span class='settings-description d-block'>Credits are used for performance audits, functional tests, uptime monitoring, and release detection. On your current plan you receive <%= current_domain.subscription_features_configuration.num_credits_provided_each_month.to_i %> credits on the 1st of each month.</span>
+          <span class='settings-description d-block'>Credits are used for performance audits, functional tests, uptime monitoring, and release detection. On your current plan you receive <%= current_container.subscription_features_configuration.num_credits_provided_each_month.to_i %> credits on the 1st of each month.</span>
         </div>
       </div>
     </div>
   <% end %>
 </div>
 
-<% unless !current_domain.current_subscription_plan || current_domain.current_subscription_plan.canceled? %>
+<% unless !current_container.current_subscription_plan || current_container.current_subscription_plan.canceled? %>
   <div class='tagsafe-container mt-5 p-3 text-center'>
     <span class='settings-title d-block fw-bolder'>Cancel current subscription</span>
-    <%= form_with model: current_domain.current_subscription_plan, url: cancel_subscription_plan_path(current_domain.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
+    <%= form_with model: current_container.current_subscription_plan, url: cancel_subscription_plan_path(current_container.current_subscription_plan), class: '', data: { controller: 'loading_form' } do %>
       <%= loading_submit_button 'Cancel', button_class: 'red mt-2' %>
     <% end %>
   <% end %>

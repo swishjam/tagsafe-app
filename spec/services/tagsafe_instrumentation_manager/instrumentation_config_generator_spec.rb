@@ -12,12 +12,12 @@ RSpec.describe TagsafeInstrumentationManager::InstrumentationConfigGenerator do
       stub_const('ENV', ENV.to_hash.merge('TAGSAFE_JS_REPORTING_URL' => 'https://api.tagsafe.io/reporting'))
       allow(Time).to receive(:current).and_return(frozen_time)
 
-      expected_config_file_path = Rails.root.join('tmp', "tagsafe-instrumentation-#{@domain.uid}", 'data', 'config.js')
+      expected_config_file_path = Rails.root.join('tmp', "tagsafe-instrumentation-#{@container.uid}", 'data', 'config.js')
       expected_config_file_content = <<~CONFIG
         export default {
           buildTime: '#{frozen_time.formatted_short}',
           disabled: false,
-          uid: '#{@domain.uid}',
+          uid: '#{@container.uid}',
           tagConfigurations: {
             #{@tag.full_url}: {
               uid: '#{@tag.uid}',
@@ -35,7 +35,7 @@ RSpec.describe TagsafeInstrumentationManager::InstrumentationConfigGenerator do
       CONFIG
       
       allow(File).to receive(:write).with(expected_config_file_path, expected_config_file_content).exactly(:once)
-      TagsafeInstrumentationManager::InstrumentationConfigGenerator.new(@domain).write_instrumentation_config_file
+      TagsafeInstrumentationManager::InstrumentationConfigGenerator.new(@container).write_instrumentation_config_file
     end
   end
 end

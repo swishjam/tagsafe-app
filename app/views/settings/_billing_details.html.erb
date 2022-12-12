@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "domain_#{domain.uid}_billing_details" do %>
+<%= turbo_frame_tag "container_#{container.uid}_billing_details" do %>
   <div class='row'>
     <div class='col-6 d-flex align-items-center'>
       <div class='d-block'>
@@ -10,10 +10,10 @@
       <div class='d-block'>
         <% if default_payment_method %>
           <span class='d-block'><%= default_payment_method.card.brand %> ending in <%= default_payment_method.card.last4 %></span>
-          <%= modal_link new_domain_payment_method_path, text: 'Change Payment Method' %>
+          <%= modal_link new_container_payment_method_path, text: 'Change Payment Method' %>
         <% else %>
           <span class='d-block'>No payment method on file</span>
-          <%= modal_link new_domain_payment_method_path, text: 'Add Payment Method' %>
+          <%= modal_link new_container_payment_method_path, text: 'Add Payment Method' %>
         <% end %>
       </div>
     </div>

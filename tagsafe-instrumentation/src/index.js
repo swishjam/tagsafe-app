@@ -19,7 +19,7 @@ if(configuration.disabled || params.has('tagsafe-disabled')) {
   }
 
   window.Tagsafe.init({ 
-    domainUid: uid, 
+    containerUid: uid, 
     settings: mergedSettings,
     tagConfigurations,
     urlPatternsToNotCapture

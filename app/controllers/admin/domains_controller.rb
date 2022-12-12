@@ -1,11 +1,11 @@
 module Admin
-  class DomainsController < BaseController
+  class ContainersController < BaseController
     def index
-      @domains = Domain.all.order(:url).page(params[:page] || 1).per(10)
+      @containers = Container.all.order(:url).page(params[:page] || 1).per(10)
     end
 
     def show
-      @domain = Domain.find_by(uid: params[:uid])
+      @container = Container.find_by(uid: params[:uid])
     end
   end
 end

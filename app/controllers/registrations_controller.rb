@@ -1,30 +1,22 @@
 class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
-
-  # def domain
-  #   redirect_to new_registration_path if current_domain.present?
-  #   @hide_logged_out_nav = true
-  #   @hide_footer = true
-  #   @domain = Domain.new
-  # end
-
   def new
     redirect_to tags_path if current_user.present?
     @hide_logged_out_nav = true
     @hide_footer = true
     @user = User.new
-    if params[:domain]
-      @domain = Domain.find_by(uid: params[:domain])
+    if params[:container]
+      @container = Container.find_by(uid: params[:container])
     end
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      if current_domain
-        current_domain.add_user(@user)
-        current_domain.mark_as_registered!
-        Role.USER_ADMIN.apply_to_domain_user(@user.domain_user_for(current_domain))
+      if current_container
+        current_container.add_user(@user)
+        current_container.mark_as_registered!
+        Role.USER_ADMIN.apply_to_container_user(@user.container_user_for(current_container))
         set_current_user(@user)
         redirect_to tags_path
       else

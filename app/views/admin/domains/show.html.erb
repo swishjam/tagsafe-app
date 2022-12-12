@@ -1,16 +1,16 @@
-<h1 class='text-center'><%= @domain.url %></h1>
+<h1 class='text-center'><%= @container.name %></h1>
 
 <div class='container-fluid text-center'>
   <div class='row'>
     <div class='col-6'>
-      <h4>Signed up: <%= @domain.created_at.formatted_long %></h4>
+      <h4>Signed up: <%= @container.created_at.formatted_long %></h4>
     </div>
     <div class='col-6'>
       <h4>
-        Subscription Plan: <%= @domain.current_subscription_plan.package_type.capitalize %> Plan (<%= @domain.current_subscription_plan.billing_interval %>) <br/>
-        Status: <%= @domain.current_subscription_plan.status %> <br/>
-        <% if @domain.current_subscription_plan.trialing? %>
-          Free trial ends at: <%= @domain.current_subscription_plan.free_trial_ends_at.strftime("%m/%d/%y @ %l:%M %P %Z") %>
+        Subscription Plan: <%= @container.current_subscription_plan.package_type.capitalize %> Plan (<%= @container.current_subscription_plan.billing_interval %>) <br/>
+        Status: <%= @container.current_subscription_plan.status %> <br/>
+        <% if @container.current_subscription_plan.trialing? %>
+          Free trial ends at: <%= @container.current_subscription_plan.free_trial_ends_at.strftime("%m/%d/%y @ %l:%M %P %Z") %>
         <% end %>
       </h4>
     </div>
@@ -20,23 +20,23 @@
     <div class='col-6'>
       <h4>Admin users:</h4>
       <ul>
-        <% @domain.admin_domain_users.includes(:user).each do |domain_user| %>
-          <li><%= domain_user.user.email %></li>
+        <% @container.admin_container_users.includes(:user).each do |container_user| %>
+          <li><%= container_user.user.email %></li>
         <% end %>
       </ul>
     </div>
     <div class='col-6'>
       <h4>Feature restrictions:</h4>
       <p>
-        manual_performance_audits_included_per_month: <b><%= @domain.subscription_features_configuration.manual_performance_audits_included_per_month || 'n/a' %></b><br/>
-        manual_test_runs_included_per_month: <b><%= @domain.subscription_features_configuration.manual_test_runs_included_per_month || 'n/a' %></b><br/>
-        automated_performance_audits_included_per_month: <b><%= @domain.subscription_features_configuration.automated_performance_audits_included_per_month || 'n/a' %></b><br/>
-        automated_test_runs_included_per_month: <%= @domain.subscription_features_configuration.automated_test_runs_included_per_month || 'n/a' %> <br/>
-        uptime_checks_included_per_month: <b><%= @domain.subscription_features_configuration.uptime_checks_included_per_month || 'n/a' %></b><br/>
-        has_advance_performance_audit_configurations: <b><%= @domain.subscription_features_configuration.has_advance_performance_audit_configurations || 'n/a' %></b><br/>
-        tag_sync_minute_cadence: <b><%= @domain.subscription_features_configuration.tag_sync_minute_cadence || 'n/a' %></b><br/>
-        min_release_check_minute_interval: <b><%= @domain.subscription_features_configuration.min_release_check_minute_interval || 'n/a' %></b><br/>
-        data_retention_days: <b><%= @domain.subscription_features_configuration.data_retention_days || 'n/a' %></b><br/>
+        manual_performance_audits_included_per_month: <b><%= @container.subscription_features_configuration.manual_performance_audits_included_per_month || 'n/a' %></b><br/>
+        manual_test_runs_included_per_month: <b><%= @container.subscription_features_configuration.manual_test_runs_included_per_month || 'n/a' %></b><br/>
+        automated_performance_audits_included_per_month: <b><%= @container.subscription_features_configuration.automated_performance_audits_included_per_month || 'n/a' %></b><br/>
+        automated_test_runs_included_per_month: <%= @container.subscription_features_configuration.automated_test_runs_included_per_month || 'n/a' %> <br/>
+        uptime_checks_included_per_month: <b><%= @container.subscription_features_configuration.uptime_checks_included_per_month || 'n/a' %></b><br/>
+        has_advance_performance_audit_configurations: <b><%= @container.subscription_features_configuration.has_advance_performance_audit_configurations || 'n/a' %></b><br/>
+        tag_sync_minute_cadence: <b><%= @container.subscription_features_configuration.tag_sync_minute_cadence || 'n/a' %></b><br/>
+        min_release_check_minute_interval: <b><%= @container.subscription_features_configuration.min_release_check_minute_interval || 'n/a' %></b><br/>
+        data_retention_days: <b><%= @container.subscription_features_configuration.data_retention_days || 'n/a' %></b><br/>
       </p>
     </div>
   </div>
@@ -51,7 +51,7 @@
     </div>
     <div class='col-6'>
       <h5>SaaS Subscription:</h6>
-      <% @domain.current_subscription_plan.selected_subscription_price_options.each do |subscription_price_option| %>
+      <% @container.current_subscription_plan.selected_subscription_price_options.each do |subscription_price_option| %>
         <div style='border: 1px solid black'>
           <h6><%= subscription_price_option.name %></h6>
           <h6>Stripe Price ID: <%= subscription_price_option.stripe_price_id %></h6>

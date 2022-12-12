@@ -1,24 +1,19 @@
 def prepare_test!(options = {})
+  puts "\n\n"
   stub_aws_calls unless options[:allow_aws_calls]
   stub_stripe_calls unless options[:allow_stripe_calls]
   stub_instrumentation_build unless options[:allow_instrumentation_build]
   stub_tag_version_fetcher unless options[:allow_real_tag_version_fetches]
-  unless options[:bypass_default_domain_create]
-    stub_valid_page_url_enforcement unless options[:enforce_valid_page_url]
-    @domain = create(:domain, url: 'https://www.tagsafe.io')
-    create(:feature_price_in_credits, domain: @domain)
-    create(:performance_audit_calculator, domain: @domain)
-    create(:credit_wallet, domain: @domain)
-  end
+  @container = create(:container) unless options[:bypass_default_container_create]
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
   create_aws_event_bridge_rules unless options[:bypass_aws_event_bridge_rules]
   create_uptime_regions unless options[:bypass_uptime_regions]
 end
 
 def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
-  tagsafe_js_events_batch = create(:tagsafe_js_events_batch, domain: @domain)
-  tag = create(tag_factory, full_url: tag_url, domain: @domain, tagsafe_js_events_batch: tagsafe_js_events_batch)
-  # url_to_audit = create(:url_to_audit, tag: tag, page_url: @domain.page_urls.first)
+  tagsafe_js_events_batch = create(:tagsafe_js_events_batch, domain: @container)
+  tag = create(tag_factory, full_url: tag_url, domain: @container, tagsafe_js_events_batch: tagsafe_js_events_batch)
+  # url_to_audit = create(:url_to_audit, tag: tag, page_url: @container.page_urls.first)
   tag
 end
 
@@ -28,7 +23,7 @@ def create_audit_with_performance_audits(domain:, tag:, tag_version:, execution_
     tag: tag, 
     tag_version: tag_version, 
     execution_reason: execution_reason, 
-    performance_audit_calculator: @domain.current_performance_audit_calculator,
+    performance_audit_calculator: @container.current_performance_audit_calculator,
     performance_audit_completed_at: nil
   )
   with_tag = create(:median_individual_performance_audit_with_tag, audit: audit)
@@ -114,10 +109,6 @@ end
 
 def create_aws_event_bridge_rules
   create(:one_minute_release_check_aws_event_bridge_rule)
-end
-
-def stub_valid_page_url_enforcement
-  allow(PageUrl).to receive(:get_valid_parsed_url) { |url| URI.parse(url) }
 end
 
 def stub_all_resque_jobs

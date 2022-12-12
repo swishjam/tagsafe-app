@@ -4,16 +4,16 @@ module Streamable
   end
 
   module InstanceMethods
-    ####################
-    ## Domain streams ##
-    ####################
+    #######################
+    ## Container streams ##
+    #######################
 
-    def stream_notification_to_all_domain_users(domain:, now: true, message: nil, partial: nil, partial_locals: {}, img: nil, timestamp: nil)
+    def stream_notification_to_all_container_users(container:, now: true, message: nil, partial: nil, partial_locals: {}, img: nil, timestamp: nil)
       raise "Must provide either `partial` or `message` param" if message == nil && partial == nil
       stream_prepend!(
         now: true,
-        stream: "domain_#{domain.uid}_notifications_container", 
-        target: "domain_#{domain.uid}_notifications_container", 
+        stream: "container_#{container.uid}_notifications_container", 
+        target: "container_#{container.uid}_notifications_container", 
         partial: 'partials/notification', 
         locals: { 
           message: message, 
@@ -26,26 +26,26 @@ module Streamable
     end
 
     # really should just be used after the first Tag is created during onboarding
-    def re_render_tags_table(domain:, empty: false, now: false)
+    def re_render_tags_table(container:, empty: false, now: false)
       stream_replace!(
         now: now,
-        stream: "domain_#{domain.uid}_monitor_center_view_stream",
-        target: "#{domain.uid}_domain_tags_table",
+        stream: "container_#{container.uid}_monitor_center_view_stream",
+        target: "#{container.uid}_container_tags_table",
         partial: 'server_loadable_partials/tags/tag_table',
-        locals: { domain: domain, tags: empty ? [] : domain.tags.page(1).per(9), allow_empty_table: true }
+        locals: { container: container, tags: empty ? [] : container.tags.page(1).per(9), allow_empty_table: true }
       )
     end
 
-    def re_render_tags_chart(domain:, now: false)
+    def re_render_tags_chart(container:, now: false)
       return if Util.env_is_true('DISABLE_CHART_UPDATE_STREAMS')
-      tags = domain.tags.includes(:tag_preferences).order('removed_from_site_at ASC, last_released_at DESC').limit(9)
+      tags = container.tags.includes(:tag_preferences).order('removed_from_site_at ASC, last_released_at DESC').limit(9)
       stream_replace!(
         now: now,
-        stream: "domain_#{domain.uid}_monitor_center_view_stream",
-        target: "#{domain.uid}_domain_tags_chart",
+        stream: "container_#{container.uid}_monitor_center_view_stream",
+        target: "#{container.uid}_container_tags_chart",
         partial: 'charts/tags/index',
         locals: { 
-          domain: domain,
+          container: container,
           tags: tags,
           tag_ids: tags.collect(&:id),
           chart_data: nil,
@@ -62,20 +62,20 @@ module Streamable
     def append_tag_row_to_table(tag:, now: false)
       stream_append!(
         now: now, 
-        stream: "domain_#{tag.domain.uid}_monitor_center_view_stream",
-        target: "#{tag.domain.uid}_domain_tags_table_rows", 
+        stream: "container_#{tag.container.uid}_monitor_center_view_stream",
+        target: "#{tag.container.uid}_container_tags_table_rows", 
         partial: 'server_loadable_partials/tags/tag_table_row', 
-        locals: { tag: tag, domain: tag.domain } 
+        locals: { tag: tag, container: tag.container } 
       )
     end
 
     def update_tag_table_row(tag:, now: false)
       stream_replace!(
         now: now, 
-        stream: "domain_#{tag.domain.uid}_monitor_center_view_stream", 
-        target: "#{tag.domain.uid}_domain_tags_table_row_#{tag.uid}",
+        stream: "container_#{tag.container.uid}_monitor_center_view_stream", 
+        target: "#{tag.container.uid}_container_tags_table_row_#{tag.uid}",
         partial: 'server_loadable_partials/tags/tag_table_row',
-        locals: { tag: tag, domain: tag.domain }
+        locals: { tag: tag, container: tag.container }
       )
     end
 
@@ -108,7 +108,7 @@ module Streamable
     end
   
     def remove_tag_from_from_table(tag:, now: false)
-      stream_remove!(now: now, stream: "domain_#{tag.domain.uid}_monitor_center_view_stream", target: "#{tag.domain.uid}_domain_tags_table_row_#{tag.uid}")
+      stream_remove!(now: now, stream: "container_#{tag.container.uid}_monitor_center_view_stream", target: "#{tag.container.uid}_container_tags_table_row_#{tag.uid}")
     end
 
     ########################

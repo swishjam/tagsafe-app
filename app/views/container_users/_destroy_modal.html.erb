@@ -1,0 +1,13 @@
+<%= render_as_modal title: "Remove #{container_user.user.email}?" do %>
+  <div class='tagsafe-modal-body'>
+    <h4>Are you sure you'd like to remove <%= container_user.user.full_name %> from accessing the <%= current_container.name %> Tagsafe container?</h4>
+    <%= form_for container_user, method: :delete, data: { controller: 'loading_form' } do |f| %>
+      <%= submit_loading_button "Remove #{container_user.user.email}", button_class: 'red' %>
+    <% end %>
+  </div>
+  <div class='tagsafe-modal-footer'>
+    <% if local_assigns[:errors] %>
+      <%= render 'partials/inline_errors', local_assigns[:errors] %>
+    <% end %>
+  </div>
+<% end %>

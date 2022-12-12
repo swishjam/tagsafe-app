@@ -5,8 +5,12 @@ class TagsafeAws
         @_client ||= Aws::S3::Client.new(region: 'us-east-1')
       end
 
+      def get_object(bucket:, key:)
+        client.get_object(bucket: bucket, key: key)
+      end
+
       def get_object_by_s3_url(s3_url)
-        client.get_object(bucket: url_to_bucket(s3_url), key: url_to_key(s3_url))
+        get_object(bucket: url_to_bucket(s3_url), key: url_to_key(s3_url))
       end
 
       def delete_object_by_s3_url(s3_url)
@@ -29,7 +33,9 @@ class TagsafeAws
       end
 
       def url_to_key(s3_url)
-        URI.parse(s3_url).path.gsub('/', '')
+        key = URI.parse(s3_url).path
+        key[0] = '' if key.starts_with?('/')
+        key
       end
     end
   end

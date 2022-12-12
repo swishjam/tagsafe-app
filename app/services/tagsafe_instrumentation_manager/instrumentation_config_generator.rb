@@ -1,7 +1,9 @@
 module TagsafeInstrumentationManager
   class InstrumentationConfigGenerator
-    def initialize(domain)
-      @domain = domain
+    def initialize(container)
+      @container = container
+      @all_tags = container.tags.includes(:current_live_tag_version)
+      @tag_url_patterns_to_not_capture = container.tag_url_patterns_to_not_capture
     end
 
     def write_instrumentation_config_file
@@ -12,7 +14,7 @@ module TagsafeInstrumentationManager
     private
 
     def config_file_location
-      Rails.root.join('tmp', "tagsafe-instrumentation-#{@domain.uid}", 'data', 'config.js')
+      Rails.root.join('tmp', "tagsafe-instrumentation-#{@container.uid}", 'data', 'config.js')
     end
 
     def config_file_content
@@ -20,9 +22,9 @@ module TagsafeInstrumentationManager
         export default {
           buildTime: '#{Time.current.formatted_short}',
           disabled: false,
-          uid: '#{@domain.uid}',
+          uid: '#{@container.uid}',
           tagConfigurations: #{buld_tag_configurations_hash},
-          urlPatternsToNotCapture: #{@domain.tag_url_patterns_to_not_capture.collect(&:url_pattern)},
+          urlPatternsToNotCapture: #{@tag_url_patterns_to_not_capture.collect(&:url_pattern)},
           settings: {
             reportingURL: '#{ENV['TAGSAFE_JS_REPORTING_URL']}',
             sampleRate: 1,
@@ -33,9 +35,9 @@ module TagsafeInstrumentationManager
 
     def buld_tag_configurations_hash
       js = '{'
-      @domain.tags.each_with_index do |tag, i|
+      @all_tags.each_with_index do |tag, i|
         js += <<~JS
-          #{tag.full_url}: {
+          '#{tag.full_url}': {
             uid: '#{tag.uid}',
             configuredTagUrl: '#{tag.is_tagsafe_hosted ? tag.current_live_tag_version.js_file_url : nil}',
             sha256: '#{tag.is_tagsafe_hosted ? tag.current_live_tag_version.sha_256 : nil}',

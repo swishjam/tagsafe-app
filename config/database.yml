@@ -24,7 +24,7 @@ test:
   database: tagsafe_test
 
 development:
-  <<: *local
+  <<: *pscale_collin_dev
 
 staging:
   <<: *default

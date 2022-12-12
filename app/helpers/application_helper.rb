@@ -10,29 +10,29 @@ module ApplicationHelper
     current_user.nil?
   end
 
-  def current_domain
-    return @current_domain if defined?(@current_domain)
+  def current_container
+    return @current_container if defined?(@current_container)
     if user_is_anonymous?
-      return unless session[:current_domain_uid].present?
-      @current_domain = Domain.find_by(uid: session[:current_domain_uid])
+      return unless session[:current_container_uid].present?
+      @current_container = Container.find_by(uid: session[:current_container_uid])
     else
-      @current_domain = session[:current_domain_uid] ? current_user.domains.find_by(uid: session[:current_domain_uid]) : current_user.domains.first
+      @current_container = session[:current_container_uid] ? current_user.containers.find_by(uid: session[:current_container_uid]) : current_user.containers.first
     end
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
   end
 
-  def current_domain_user
+  def current_container_user
     return if current_user.nil?
-    @current_domain_user ||= current_user.domain_user_for(current_domain)
+    @current_container_user ||= current_user.container_user_for(current_container)
   end
 
   def current_anonymous_user_identifier
     session[:anonymous_user_identifier]
   end
 
-  def set_current_domain(domain)
-    session[:current_domain_uid] = domain.uid
+  def set_current_container(container)
+    session[:current_container_uid] = container.uid
   end
 
   def set_current_user(user)
@@ -45,7 +45,7 @@ module ApplicationHelper
 
   def log_user_out
     session.delete(:current_user_uid)
-    session.delete(:current_domain_uid)
+    session.delete(:current_container_uid)
   end
 
   def stream_modal(partial: "modals/#{action_name}.html.erb", turbo_frame_name: 'server_loadable_modal', locals: {})

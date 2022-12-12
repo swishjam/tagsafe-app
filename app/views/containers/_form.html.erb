@@ -1,9 +1,9 @@
-<%= form_for domain, data: { controller: 'loading_form' } do |f| %>
+<%= form_for container, data: { controller: 'loading_form' } do |f| %>
   <div class="form-floating col-9 p-0 m-auto mb-3">
-    <input id='url' name='domain[url]' type='text' class='form-control' placeholder='My first container'>
-    <label for='url'>Container name</label>
+    <%= f.text_field :name, class: 'form-control', placeholder: 'My first container' %>
+    <label for='name'>Container name</label>
   </div>
-  <%= render 'partials/inline_errors', errors: domain.errors.full_messages %>
+  <%= render 'partials/inline_errors', errors: container.errors.full_messages %>
   <%= loading_submit_button type: 'floating', button_class: 'large' do %>
     <%= local_assigns[:button_text] || 'Create' %> 
     <% if local_assigns[:button_icon_klass] %>

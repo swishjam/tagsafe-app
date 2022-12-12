@@ -1,6 +1,6 @@
 <div class='col-10 m-auto'>
-  <%= turbo_frame_tag "#{domain.id}_non_third_party_url_patterns" do %>
-    <%= form_for NonThirdPartyUrlPattern.new, url: domain_non_third_party_url_patterns_path(current_domain) do |f| %>
+  <%= turbo_frame_tag "#{container.id}_non_third_party_url_patterns" do %>
+    <%= form_for NonThirdPartyUrlPattern.new, url: container_non_third_party_url_patterns_path(current_container) do |f| %>
       <div class='form-floating d-flex mb-3'>
         <%= f.text_field :pattern, class: 'form-control', placeholder: 'www.tagsafe-assets.io' %>
         <label for='url-pattern'>URL Pattern</label>
@@ -10,11 +10,11 @@
 
     <div class='row'>
       <ul>
-        <% domain.non_third_party_url_patterns.each do |url_pattern| %>
+        <% container.non_third_party_url_patterns.each do |url_pattern| %>
           <%= turbo_frame_tag dom_id(url_pattern) do %>
             <div class='tagsafe-pill grey removable m-1'>
               <%= url_pattern.pattern %>
-              <%= form_with url: domain_non_third_party_url_pattern_path(domain, url_pattern), method: :delete, class: 'd-inline' do |f| %>
+              <%= form_with url: container_non_third_party_url_pattern_path(container, url_pattern), method: :delete, class: 'd-inline' do |f| %>
                 <span class='remove-btn pointer p-1' data-controller='feaux_form_submit_button'><i class='fa fa-times'></i></span>
               <% end %>
             </div>

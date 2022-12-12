@@ -107,7 +107,7 @@ module AuditHandler
     end
 
     def default_configuration
-      @configuration ||= @tag.tag_or_domain_configuration
+      @configuration ||= @tag.tag_or_container_configuration
     end
   
     def option_value_for(option, default_value)

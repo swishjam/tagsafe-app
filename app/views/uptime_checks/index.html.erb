@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<% if current_domain.uptime_regions_to_check.none? %>
+<% if current_container.uptime_regions_to_check.none? %>
   <div class='container-fluid'>
     <div class="alert alert-warning mb-3 mt-3 text-center" role="alert">
       <%= HtmlHelper.WARNING_ICON %> You are not monitoring uptime health for any of your tags. You can enable them in your <%= link_to 'tag management settings', settings_tag_management_path %>.
@@ -22,7 +22,7 @@
 <% end %>
 
 <div class="tagsafe-container">
-  <%= turbo_frame_tag "domain_#{current_domain.uid}_tags_uptime", src: charts_uptime_checks_path(tag_ids: @tags.collect(&:id)) do %>
+  <%= turbo_frame_tag "container_#{current_container.uid}_tags_uptime", src: charts_uptime_checks_path(tag_ids: @tags.collect(&:id)) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
     </div>
@@ -30,7 +30,7 @@
 </div>
 
 <div class="tagsafe-container" style='margin-top: 15px'>
-  <%= turbo_frame_tag "domain_#{current_domain.uid}_uptime_list", src: domain_uptime_list_path do %>
+  <%= turbo_frame_tag "container_#{current_container.uid}_uptime_list", src: container_uptime_list_path do %>
     <div class='text-center'>
       <%= display_loading_spinner %>
     </div>

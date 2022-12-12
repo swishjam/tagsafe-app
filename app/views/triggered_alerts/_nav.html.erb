@@ -3,7 +3,7 @@
     <% 
       nav_items = [
         { path: alert_configurations_path, text: 'Triggered Alerts' },
-        { path: alert_configuration_path(current_domain_user.domain_alert_configuration), text: 'Global Alert Settings' },
+        { path: alert_configuration_path(current_container_user.container_alert_configuration), text: 'Global Alert Settings' },
       ].each do |nav| 
     %>
       <% klass = request.path == nav[:path] ? 'current sub-nav-link' : 'sub-nav-link' %>

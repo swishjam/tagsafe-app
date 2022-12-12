@@ -4,7 +4,7 @@ class TagsController < LoggedInController
   end
 
   def show
-    @tag = current_domain.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
+    @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
@@ -13,12 +13,12 @@ class TagsController < LoggedInController
   end
 
   def select_tag_to_audit
-    tags = current_domain.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_domain')
+    tags = current_container.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_hostname')
     stream_modal(partial: "tags/select_tag_to_audit", locals: { tags: tags })
   end
 
   def uptime
-    @tag = current_domain.tags.find_by(uid: params[:uid])
+    @tag = current_container.tags.find_by(uid: params[:uid])
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Uptime", active: true }
@@ -26,7 +26,7 @@ class TagsController < LoggedInController
   end
 
   def uptime_metrics
-    tag = current_domain.tags.find_by(uid: params[:uid])
+    tag = current_container.tags.find_by(uid: params[:uid])
     average_response_ms = tag.average_response_time
     max_response_ms = tag.max_response_time
     failed_requests = tag.num_failed_requests
@@ -43,7 +43,7 @@ class TagsController < LoggedInController
   end
 
   def edit
-    @tag = current_domain.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
+    @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     @selectable_uptime_regions = UptimeRegion.selectable.not_enabled_on_tag(@tag)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
@@ -53,7 +53,7 @@ class TagsController < LoggedInController
   end
 
   def audits
-    tag = current_domain.tags.find_by(uid: params[:uid])
+    tag = current_container.tags.find_by(uid: params[:uid])
     audits = tag.audits.most_recent_first(timestamp_column: :created_at)
                         .includes(:performance_audits)
                         .page(params[:page] || 1)
@@ -69,7 +69,7 @@ class TagsController < LoggedInController
   end
 
   def audit_settings
-    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    @tag = current_container.tags.find_by(uid: params[:tag_uid])
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
       { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
@@ -78,13 +78,13 @@ class TagsController < LoggedInController
   end
 
   def update
-    tag = current_domain.tags.find_by(uid: params[:uid])
+    tag = current_container.tags.find_by(uid: params[:uid])
     tag.update!(tag_params)
     render turbo_stream: turbo_stream.replace(
       "tag_#{tag.uid}_config_fields",
       partial: "tags/config_fields",
       locals: {
-        domain: current_domain,
+        container: current_container,
         tag: tag,
         selectable_uptime_regions: UptimeRegion.selectable.not_enabled_on_tag(tag),
         notification_message: "Updated #{tag.try_friendly_name}."
@@ -93,7 +93,7 @@ class TagsController < LoggedInController
   end
 
   def toggle_disable
-    tag = current_domain.tags.find_by(uid: params[:uid])
+    tag = current_container.tags.find_by(uid: params[:uid])
     tag.update!(script_inject_is_disabled: !tag.script_inject_is_disabled)
     redirect_to request.referrer
   end
