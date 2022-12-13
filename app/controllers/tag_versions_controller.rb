@@ -2,8 +2,8 @@ class TagVersionsController < LoggedInController
   protect_from_forgery except: :content
 
   def git_diff
-    @tag = current_container.tags.find_by(uid: params[:tag_uid])
-    @tag_version = @tag.tag_versions.find_by(uid: params[:uid])
+    @tag = current_container.tags.find_by!(uid: params[:tag_uid])
+    @tag_version = @tag.tag_versions.find_by!(uid: params[:uid])
 
     render_breadcrumbs(
       { url: tags_path, text: "Monitor Center" },

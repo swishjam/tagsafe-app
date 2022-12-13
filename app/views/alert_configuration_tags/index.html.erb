@@ -20,7 +20,7 @@
         </div>
       </div>
       <h4 class='text-center mt-3'>Subscribe tags to alert</h4>
-        <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form'} do |f| %>
+        <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form' } do |f| %>
           <input type='hidden' name='current_view' value='tags'>
           <input type='hidden' name="alert_configuration[disabled]" value="<%= @alert_configuration.disabled %>">
           <input type='hidden' name="alert_configuration[name]" value="<%= @alert_configuration.name %>">

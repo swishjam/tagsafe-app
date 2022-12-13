@@ -127,11 +127,6 @@ module.exports = class DataStoreManager {
     })
   }
 
-  async _getUptimeRegionIdForCurrentRegion() {
-    const results = await this._queryDB(`SELECT id FROM uptime_regions WHERE uptime_regions.aws_name = "${process.env.AWS_REGION}"`)
-    return results[0].id;
-  }
-
   async _queryDB(sqlQuery) {
     return new Promise(resolve => {
       this._initializeMysqlIfNecessary();

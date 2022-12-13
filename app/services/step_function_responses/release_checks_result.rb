@@ -5,7 +5,6 @@ module StepFunctionResponses
     end
 
     def process_results!
-      binding.pry
       create_release_check_batch
       if is_batch_of_uptime_checks_resulting_in_new_tag_versions?
         release_check_results.each do |release_check_result|

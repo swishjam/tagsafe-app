@@ -71,7 +71,7 @@ module TagManager
 
     def diff_analyzer
       @diff_analyzer ||= DiffAnalyzer.new(
-        new_content: File.read(js_file),
+        new_content: File.read(formatted_js_file),
         previous_content: @tag.current_version.content(formatted: true),
         num_lines_of_context: 0,
         include_diff_info: false
