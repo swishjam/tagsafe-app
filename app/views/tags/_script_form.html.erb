@@ -6,8 +6,14 @@
 
 <div data-controller='streamed-script-tag'>
   <%= form_with model: tag, multipart: true, data: { controller: 'loading_form' } do |f| %>
-    <label>Paste JS snippet to inject on your page here</label>
-    <%= f.text_area :js_script, value: nil, class: 'code-mirror-textarea hidden', data: { controller: 'code-mirror', code_mirror_target: 'codeMirrorTextarea', dont_wrap_lines: 'true' } %>
+    <div class='form-floating'>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'My Third Party Tag...' %>
+      <%= f.label 'Tag Name' %>
+    </div>
+    <div class='form-floating mt-2'>
+      <label>Paste JS snippet to inject on your page here</label>
+      <%= f.text_area :js_script, value: nil, class: 'code-mirror-textarea hidden', data: { controller: 'code-mirror', code_mirror_target: 'codeMirrorTextarea' } %>
+    </div>
     <% if tag.errors.any? %>
       <span class='mt-2 d-block' style='color: red'><%= tag.errors.full_messages.join('. ') %></span>
     <% end %>

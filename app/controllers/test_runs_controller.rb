@@ -1,6 +1,6 @@
 class TestRunsController < LoggedInController
   def index
-    @functional_test = current_domain.functional_tests.find_by(uid: params[:functional_test_uid])
+    @functional_test = current_container.functional_tests.find_by(uid: params[:functional_test_uid])
     @test_runs = @functional_test.test_runs
                                   .most_recent_first(timestamp_column: :enqueued_at)
                                   .page(params[:page] || 1).per(params[:per_page] || 20)
@@ -13,7 +13,7 @@ class TestRunsController < LoggedInController
   end
 
   def index_for_audit
-    tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    tag = current_container.tags.find_by(uid: params[:tag_uid])
     audit = tag.audits.find_by(uid: params[:audit_uid])
     render turbo_stream: turbo_stream.replace(
       "audit_#{audit.uid}_test_runs",
@@ -32,7 +32,7 @@ class TestRunsController < LoggedInController
   end
 
   def show
-    @functional_test = current_domain.functional_tests.find_by(uid: params[:functional_test_uid])
+    @functional_test = current_container.functional_tests.find_by(uid: params[:functional_test_uid])
     @test_run = @functional_test.test_runs.find_by(uid: params[:uid])
     if params[:for_audit]
       @audit = @test_run.audit
@@ -57,7 +57,7 @@ class TestRunsController < LoggedInController
   end
 
   def all
-    @test_runs = current_domain.test_runs
+    @test_runs = current_container.test_runs
                                 .most_recent_first(timestamp_column: 'test_runs.created_at')
                                 .page(params[:page] || 1)
                                 .per(params[:per_page] || 20)
@@ -65,7 +65,7 @@ class TestRunsController < LoggedInController
   end
 
   def retry
-    functional_test = current_domain.functional_tests.find_by(uid: params[:functional_test_uid])
+    functional_test = current_container.functional_tests.find_by(uid: params[:functional_test_uid])
     test_run = functional_test.test_runs.find_by(uid: params[:uid])
     retried_test_run = test_run.retry!
     current_user.broadcast_notification(message: "Re-running functional test #{functional_test.title}")

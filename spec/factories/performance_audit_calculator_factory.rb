@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :performance_audit_calculator do
-    association :domain
+    association :container
     currently_active { true }
     dom_complete_weight { PerformanceAuditCalculator::DEFAULT_WEIGHTS[:dom_complete_weight] }
     dom_content_loaded_weight { PerformanceAuditCalculator::DEFAULT_WEIGHTS[:dom_content_loaded_weight] }

@@ -9,7 +9,7 @@
       <ul>
         <% 
           nav_items = [
-            { path: tag_manager_path, text: 'Tag Manager', icon_class: 'fa-solid fa-tags' },
+            # { path: tag_manager_path, text: 'Tag Manager', icon_class: 'fa-solid fa-tags' },
             { path: tags_path, text: "Monitor Center", icon_class: "fas fa-home" },
             { path: honeycombs_path, text: "Tag Health", icon_class: "fa-solid fa-heart-pulse" },
             { path: functional_tests_path, text: "Test Suite", icon_class: "fas fa-flask", active_nav_path_pattern: ['/functional_tests', '/test_run_log'] },
@@ -17,11 +17,11 @@
             { path: audit_log_path, text: "Audit Log", icon_class: "fa-solid fa-square-poll-vertical" },
             { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
             { path: alert_configurations_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alert_configurations'] },
-            { path: domain_users_path, text: "Team Management", icon_class: "fas fa-users" },
+            { path: container_users_path, text: "Team Management", icon_class: "fas fa-users" },
             { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
           ]
         %>
-        <% if user_is_anonymous? && current_domain_audit %>
+        <% if user_is_anonymous? && current_container_audit %>
           <li class='nav-item <%= request.path == third_party_impact_path ? 'current' : nil %> m-1'>
             <%= link_to third_party_impact_path, class: "nav-link #{request.path == third_party_impact_path ? 'current' : nil}" do %>
               <span class='nav-item-icon'><i class="fa-solid fa-window-maximize"></i></span> 
@@ -38,23 +38,15 @@
             <% end %>
           </li>
         <% end %>
+        <% unless current_container.nil? %>
+          <li class='nav-item m-1'>
+            <%= modal_link install_script_container_path(current_container), klass: 'nav-link' do %>
+              <span class='nav-item-icon'><i class="fa-solid fa-code"></i></span> 
+              <span class='nav-item-text d-sm-none d-md-inline ms-1'>Install</span>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
-      <% if current_domain.stripe_payment_method_id.nil? && current_domain.current_subscription_plan.is_on_free_trial? %>
-        <% days_left = current_domain.current_subscription_plan.days_until_free_trial_expires(round: false) %>
-        <div class='free-trial-indicator-container text-center'>
-          <i class="fa-solid fa-clock"></i> <%= current_domain.current_subscription_plan.time_left_in_free_trial_in_words %> left in free trial
-          <% color = days_left < 4 ? '#ff6c6c' : days_left < 8 ? '#ffbe6c' : '#65d565' %>
-          <div class='free-trial-meter m-1'>
-            <div class='fill' style='width: <%= (days_left / 14.0)*100 %>%; background-color: <%= color %>'></div>
-          </div>
-          <%= link_to 'Add Payment Method', settings_billing_path, class: 'add-payment-method-link' %>
-        </div>
-      <% elsif current_domain.credit_wallet_for_current_month_and_year.credits_used / current_domain.credit_wallet_for_current_month_and_year.total_credits_for_month >= 0.85 %>
-        <div class='free-trial-indicator-container low-credits text-center'>
-          <span class='d-block'><%= HtmlHelper.WARNING_ICON %> <%= current_domain.credit_wallet_for_current_month_and_year.credits_remaining %> credits remaining this month</span>
-          <%= link_to 'Add more', settings_billing_path, class: 'add-payment-method-link' %>
-        </div>
-      <% end %>
     </div>
     
     <div class='left-hand-navigation-toggle hide-btn <%= @collapsed_navigation ? 'hidden' : nil %>' data-side-navigation-target='hideBtn' data-action='click->side-navigation#hide'>

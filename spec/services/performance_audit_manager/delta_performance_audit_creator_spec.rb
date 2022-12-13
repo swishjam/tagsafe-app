@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PerformanceAuditManager::DeltaPerformanceAuditCreator do
   before(:each) do
     prepare_test!
-    tag = create(:tag, domain: @domain)
+    tag = create(:tag, domain: @container)
     tag_preference = create(:tag_preference, tag: tag, performance_audit_iterations: 1)
     @tag_version = create(:tag_version, tag: tag)
     @audit = create(:pending_audit, tag: tag, tag_version: @tag_version, performance_audit_iterations: 1, execution_reason: ExecutionReason.MANUAL)

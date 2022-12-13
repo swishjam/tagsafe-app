@@ -20,7 +20,7 @@
 
 <% if @test_runs.any? %>
   <div class='tagsafe-container p-0'>
-    <%= render 'test_runs_table', test_runs: @test_runs, turbo_frame_tag_name: "domain_#{current_domain.uid}_test_runs" %>
+    <%= render 'test_runs_table', test_runs: @test_runs, turbo_frame_tag_name: "container_#{current_container.uid}_test_runs" %>
   </div>
 <% else %>
   <div class='p-5 text-center'>

@@ -21,7 +21,7 @@
       </div>
       <h4 class='text-center mt-3'>Subscribe users to alert</h4>
         <%= form_with model: @alert_configuration, url: alert_configuration_path(@alert_configuration), data: { controller: 'loading_form'} do |f| %>
-          <input type='hidden' name='current_view' value='domain_users'>
+          <input type='hidden' name='current_view' value='container_users'>
           <input type='hidden' name='alert_configuration[disabled]' value="<%= @alert_configuration.disabled %>">
           <input type='hidden' name='alert_configuration[name]' value="<%= @alert_configuration.name %>">
           <input type='hidden' name='alert_configuration[trigger_rules]' value="<%= @alert_configuration.trigger_rules.to_json %>">
@@ -30,28 +30,28 @@
             <input type='hidden' name='tag_uids[]' value="<%= tag.uid %>">
           <% end %>
           <div class='tagsafe-table' style='max-height: 80vh; overflow-y: scroll;'>
-            <% @selected_domain_users.each do |domain_user| %>
+            <% @selected_container_users.each do |container_user| %>
               <div class='tagsafe-table-row'>
                 <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
-                  <input type='checkbox' name='domain_user_uids[]' id="<%= domain_user.uid %>" class='form-check-input' value='<%= domain_user.uid %>' checked/>
+                  <input type='checkbox' name='container_user_uids[]' id="<%= container_user.uid %>" class='form-check-input' value='<%= container_user.uid %>' checked/>
                 </div>
-                <label for="<%= domain_user.uid %>" class='tagsafe-table-cell flex-4'>
+                <label for="<%= container_user.uid %>" class='tagsafe-table-cell flex-4'>
                   <div class='d-block'>
-                    <span class='d-block table-row-header'><%= domain_user.user.full_name %></span>
-                    <span class='d-block table-row-sub-header'><%= domain_user.user.email %></span>
+                    <span class='d-block table-row-header'><%= container_user.user.full_name %></span>
+                    <span class='d-block table-row-sub-header'><%= container_user.user.email %></span>
                   </div>
                 </label>
               </div>
             <% end %>
-            <% @unselected_domain_users.each do |domain_user| %>
+            <% @unselected_container_users.each do |container_user| %>
               <div class='tagsafe-table-row'>
                 <div class='tagsafe-table-cell flex-0 justify-content-center form-check form-switch'>
-                  <input type='checkbox' name='domain_user_uids[]' id="<%= domain_user.uid %>" class='form-check-input' value='<%= domain_user.uid %>' />
+                  <input type='checkbox' name='container_user_uids[]' id="<%= container_user.uid %>" class='form-check-input' value='<%= container_user.uid %>' />
                 </div>
-                <label for="<%= domain_user.uid %>" class='tagsafe-table-cell flex-4'>
+                <label for="<%= container_user.uid %>" class='tagsafe-table-cell flex-4'>
                   <div class='d-block'>
-                    <span class='d-block table-row-header'><%= domain_user.user.full_name %></span>
-                    <span class='d-block table-row-sub-header'><%= domain_user.user.email %></span>
+                    <span class='d-block table-row-header'><%= container_user.user.full_name %></span>
+                    <span class='d-block table-row-sub-header'><%= container_user.user.email %></span>
                   </div>
                 </label>
               </div>

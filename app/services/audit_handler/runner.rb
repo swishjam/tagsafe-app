@@ -1,7 +1,7 @@
 module AuditHandler
   class Runner
     def initialize(
-      initiated_by_domain_user: nil, 
+      initiated_by_container_user: nil, 
       tag: nil, 
       tag_version:,
       use_live_version_of_tag: false,
@@ -9,7 +9,7 @@ module AuditHandler
       execution_reason:, 
       options: {}
     )
-      @initiated_by_domain_user = initiated_by_domain_user
+      @initiated_by_container_user = initiated_by_container_user
       @tag_version = tag_version
       @url_to_audit = url_to_audit
       @tag = tag || @tag_version.tag
@@ -25,17 +25,16 @@ module AuditHandler
   
     def create_audit!
       Audit.create(
-        initiated_by_domain_user: @initiated_by_domain_user,
+        initiated_by_container_user: @initiated_by_container_user,
         tag: @tag,
         tag_version: @tag_version,
-        domain: @tag.domain,
+        container: @tag.container,
         page_url: @url_to_audit.page_url,
         execution_reason: @execution_reason,
         primary: false,
-        performance_audit_calculator: @tag.domain.current_performance_audit_calculator,
+        performance_audit_calculator: @tag.container.current_performance_audit_calculator,
         include_performance_audit: @runner_options.include_performance_audit,
         include_page_load_resources: @runner_options.include_page_load_resources,
-        include_page_change_audit: @runner_options.include_page_change_audit,
         include_functional_tests: @runner_options.include_functional_tests,
         num_functional_tests_to_run: @runner_options.include_functional_tests ? @tag.functional_tests.enabled.count : 0,
         performance_audit_configuration_attributes: {

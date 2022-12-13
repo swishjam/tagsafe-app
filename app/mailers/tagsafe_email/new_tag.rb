@@ -10,8 +10,8 @@ module TagsafeEmail
         tag_url: tag.url_based_on_preferences,
         tag_friendly_name: tag.try_friendly_name,
         tag_image_url: tag.image_url,
-        domain_url: tag.domain.url,
-        edit_tag_url: mail_safe_url("/tags/#{tag.uid}/edit?_domain_uid=#{tag.domain.uid}")
+        container_name: tag.container_name,
+        edit_tag_url: mail_safe_url("/tags/#{tag.uid}/edit?_container_uid=#{tag.container.uid}")
       }
     end
   end

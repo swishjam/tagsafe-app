@@ -1,12 +1,12 @@
 class UrlsToAuditController < LoggedInController
   def create
-    tag = current_domain.tags.find_by(uid: params[:tag_uid])
-    page_url = PageUrl.create_or_find_by_url(current_domain, params[:url_to_audit][:page_url])
+    tag = current_container.tags.find_by(uid: params[:tag_uid])
+    page_url = PageUrl.create_or_find_by_url(current_container, params[:url_to_audit][:page_url])
     if !page_url.valid?
       render turbo_stream: turbo_stream.replace(
         "tag_#{tag.uid}_urls_to_audit_form",
         partial: 'urls_to_audit/form',
-        locals: { domain: current_domain, tag: tag, errors: page_url.errors.full_messages }
+        locals: { container: current_container, tag: tag, errors: page_url.errors.full_messages }
       )
     else
       url_to_audit = tag.urls_to_audit.new(page_url: page_url)
@@ -15,13 +15,13 @@ class UrlsToAuditController < LoggedInController
         render turbo_stream: turbo_stream.replace(
           "tag_#{tag.uid}_urls_to_audit",
           partial: 'urls_to_audit/index',
-          locals: { domain: current_domain, urls_to_audit: tag.urls_to_audit, tag: tag }
+          locals: { container: current_container, urls_to_audit: tag.urls_to_audit, tag: tag }
         )
       else
         render turbo_stream: turbo_stream.replace(
           "tag_#{tag.uid}_urls_to_audit_form",
           partial: 'urls_to_audit/form',
-          locals: { domain: current_domain, tag: tag, errors: url_to_audit.errors.full_messages }
+          locals: { container: current_container, tag: tag, errors: url_to_audit.errors.full_messages }
         )
       end
     end
@@ -29,7 +29,7 @@ class UrlsToAuditController < LoggedInController
     render turbo_stream: turbo_stream.replace(
       "tag_#{tag.uid}_urls_to_audit_form",
       partial: 'urls_to_audit/form',
-      locals: { domain: current_domain, urls_to_audit: tag.urls_to_audit, tag: tag, errors: [e.message] }
+      locals: { container: current_container, urls_to_audit: tag.urls_to_audit, tag: tag, errors: [e.message] }
     )
     # LEGACY TAGSAFE-HOSTED URL LOGIC, REVISIT IF WE WANT TO RE-IMPLEMENT
     # params[:url_to_audit][:audit_url] = params[:url_to_audit][:display_url]
@@ -50,14 +50,14 @@ class UrlsToAuditController < LoggedInController
   end
 
   def destroy
-    tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    tag = current_container.tags.find_by(uid: params[:tag_uid])
     url_to_audit = tag.urls_to_audit.find_by(uid: params[:uid])
     if url_to_audit.destroy
       # current_user.broadcast_notification("Removed #{url_to_audit.page_url.full_url} from #{tag.try_friendly_name}'s audit list.")
       render turbo_stream: turbo_stream.replace(
         "tag_#{tag.uid}_urls_to_audit",
         partial: 'urls_to_audit/index',
-        locals: { domain: current_domain, urls_to_audit: tag.urls_to_audit, tag: tag }
+        locals: { container: current_container, urls_to_audit: tag.urls_to_audit, tag: tag }
       )
     else
       current_user.broadcast_notification(message: url_to_audit.errors.full_messages)

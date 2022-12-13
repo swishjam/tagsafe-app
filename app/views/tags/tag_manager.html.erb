@@ -15,47 +15,71 @@
   </div>
 </div>
 
-<% if @tags.has_staged_changes.any? %>
-  <div class="alert alert-warning m-3 text-center" role="alert">
-    You have <%= @tags.has_staged_changes.count %> tags that are pending changes/ready to be deployed. <%= modal_link_to review_staged_changes_domain_path(current_domain), text: 'Review staged changes' %>
-  </div>
-<% end %>
-
-<div class='tagsafe-table p-3'>
-  <div class='tagsafe-table-head square'>
-    <div class='tagsafe-table-row header'>
-      <div class='tagsafe-table-cell flex-3'>Tag</div>
-      <div class='tagsafe-table-cell'>Load rule</div>
-      <div class='tagsafe-table-cell flex-0'></div>
+<% if @tags.any? %>
+  <div class='tagsafe-table p-3'>
+    <div class='tagsafe-table-head square'>
+      <div class='tagsafe-table-row header'>
+        <div class='tagsafe-table-cell flex-3'>Tag</div>
+        <div class='tagsafe-table-cell'>File size</div>
+        <div class='tagsafe-table-cell'>Host location</div>
+        <div class='tagsafe-table-cell flex-0'></div>
+      </div>
     </div>
-  </div>
-  <div class='tagsafe-table-body'>
-    <% @tags.each do |tag| %>
-      <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
+    <div class='tagsafe-table-body'>
+      <% @tags.each do |tag| %>
         <div class='tagsafe-table-row hoverable'>
           <div class='tagsafe-table-cell flex-3'>
-            <div class='tag-img-thumbnail-container me-2'>
-              <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
-            </div>
-            <% if tag.has_friendly_name? %>
+            <%= link_to tag_path(tag), class: 'no-decoration w-100 d-flex align-items-center', target: '_top' do %>
+              <div class='tag-img-thumbnail-container me-2'>
+                <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+              </div>
               <div class='d-block'>
-                <span class='table-row-header underline-hover d-block'><%= tag.friendly_name %></span>
+                <span class='table-row-header underline-hover d-block'>
+                  <%= tag.friendly_name %>
+                  <div class='green-glowing-circular-icon ms-2'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title='Tag is active.'></div>
+                </span>
                 <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
               </div>
-            <% else %>
-              <span class='table-row-header underline-hover d-block'><%= tag.url_based_on_preferences %></span>
             <% end %>
           </div>
           <div class='tagsafe-table-cell'>
+            <%=number_to_human_size(tag.current_live_tag_version.bytes) %>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <% if tag.is_tagsafe_hosted %>
+              <div class='tagsafe-pill tagsafe-primary-purple small-text'>
+                Tagsafe-hosted
+              </div>
+            <% else %>
+              <div class='tagsafe-pill grey small-text'>
+                Original host "(<%= tag.url_hostname %>)"
+              </div>
+            <% end %>
           </div>
           <div class='tagsafe-table-cell flex-0 text-end'>
-            HI!
+            <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style='top: 5px; right: 5px;'>
+              <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <!-- <#%= link_to 'Edit tag', edit_tag_tag_configuration_path(tag, tag.draft_tag_configuration), class: 'dropdown-item no-decoration', target: '_top' %> !-->
+                <%= link_to 'View tag', tag_path(tag), class: 'dropdown-item no-decoration', target: '_top' %>
+                <div class='dropdown-divider'></div>
+                <div class="dropdown-item">
+                  Pause/disable tag
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
       <% end %>
-    <% end %>
-  </div>
+    </div>
 
-  <%= paginate @tags %>
-</div>
+    <%= paginate @tags %>
+  </div>
+<% else %>
+  <h1 class='text-center p-5'>No tags yet...</h1>
+<% end %>

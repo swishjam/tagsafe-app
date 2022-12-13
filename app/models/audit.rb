@@ -4,15 +4,14 @@ class Audit < ApplicationRecord
   # include HasExecutedStepFunction
   uid_prefix 'aud'
 
-  belongs_to :initiated_by_domain_user, class_name: DomainUser.to_s, optional: true
-  belongs_to :domain
+  belongs_to :initiated_by_container_user, class_name: ContainerUser.to_s, optional: true
+  belongs_to :container
   belongs_to :tag_version, optional: true
   belongs_to :tag
   belongs_to :execution_reason
   belongs_to :page_url
   belongs_to :performance_audit_calculator
 
-  has_many :credit_wallet_transactions, as: :record_responsible_for_charge
   has_one :performance_audit_configuration, dependent: :destroy
   accepts_nested_attributes_for :performance_audit_configuration
 
@@ -63,15 +62,11 @@ class Audit < ApplicationRecord
   has_many :test_runs_with_tag, class_name: TestRunWithTag.to_s
   has_many :test_runs_without_tag, class_name: TestRunWithoutTag.to_s
 
-  has_one :page_change_audit, class_name: PageChangeAudit.to_s, dependent: :destroy
-
   ###############
   # VALIDATIONS #
   ###############
 
   validate :has_at_least_one_type_of_audit_enabled
-  validate :can_afford?
-  validate :has_valid_subscription?
 
   #############
   # CALLBACKS #
@@ -109,11 +104,6 @@ class Audit < ApplicationRecord
   scope :completed_functional_tests, -> { functional_tests_enabled.where.not(functional_tests_completed_at: nil ) }
   scope :at_least_one_functional_test_run, -> { includes(:test_runs).where.not(test_runs: { id: nil }) }
 
-  scope :page_change_audit_disabled, -> { where(include_page_change_audit: false) }
-  scope :page_change_audit_enabled, -> { where(include_page_change_audit: true) }
-  scope :pending_page_change_audit, -> { page_change_audit_enabled.where(page_change_audit_completed_at: nil) }
-  scope :completed_page_change_audit, -> { page_change_audit_enabled.where.not(page_change_audit_completed_at: nil) }
-
   scope :by_execution_reason, -> (execution_reason) { where(execution_reason: execution_reason) }
   scope :automated, -> { by_execution_reason(ExecutionReason.automated) }
   scope :billable, -> { successful_performance_audit }
@@ -133,7 +123,6 @@ class Audit < ApplicationRecord
     update_column(:seconds_to_complete, Time.now - created_at)
     mark_as_most_current_if_possible
     send_audit_completed_notifications_if_necessary
-    WalletModerator::AuditTransactor.new(self).credit_wallet! if performance_audit_failed?
     stream_updates_to_views(true)
   end
 
@@ -142,7 +131,7 @@ class Audit < ApplicationRecord
     previous_most_current_audit = tag.most_current_audit
     should_be_considered_most_current = previous_most_current_audit.nil? ||
                                           tag_version.nil? || 
-                                          tag_version.most_recent_version? || 
+                                          # tag_version.most_recent_version? || 
                                           previous_most_current_audit.tag_version.nil? || 
                                           previous_most_current_audit.tag_version.created_at < tag_version.created_at
     return unless should_be_considered_most_current
@@ -182,11 +171,6 @@ class Audit < ApplicationRecord
     update_tag_table_row(tag: tag, now: true)
   end
 
-  def page_change_audit_completed!
-    update(page_change_audit_completed_at: Time.now)
-    reload.try_completion!
-  end
-
   def performance_audit_error!(msg)
     update!(performance_audit_error_message: msg)
     performance_audit_completed!(nil)
@@ -209,7 +193,7 @@ class Audit < ApplicationRecord
 
   def broadcast_audit_began_notification_if_necessary
     return unless execution_reason.tagsafe_provided?
-    domain.users.each do |user|
+    container.users.each do |user|
       user.broadcast_notification(
         image: self.tag.try_image_url,
         partial: 'notifications/audits/tagsafe_provided_began',
@@ -219,14 +203,14 @@ class Audit < ApplicationRecord
   end
 
   def send_audit_completed_notifications_if_necessary
-    if initiated_by_domain_user.present?
-      initiated_by_domain_user.user.broadcast_notification(
+    if initiated_by_container_user.present?
+      initiated_by_container_user.user.broadcast_notification(
         image: self.tag.try_image_url,
         partial: 'notifications/audits/completed',
         partial_locals: { audit: self }
       )
     elsif execution_reason.tagsafe_provided?
-      domain.users.each do |user|
+      container.users.each do |user|
         user.broadcast_notification(
           image: self.tag.try_image_url,
           partial: 'notifications/audits/completed',
@@ -239,7 +223,6 @@ class Audit < ApplicationRecord
   def enqueue_configured_audit_types
     return if performance_audit_failed? # we need a better place to keep general audit errors....
     AuditRunnerJobs::RunPerformanceAudit.perform_later(self) if include_performance_audit
-    AuditRunnerJobs::RunPageChangeAudit.perform_later(self) if include_page_change_audit
     AuditRunnerJobs::RunFunctionalTestSuiteForAudit.perform_later(self) if include_functional_tests
   end
 
@@ -254,8 +237,7 @@ class Audit < ApplicationRecord
 
   def completed?
     (!include_performance_audit || performance_audit_completed?) && 
-      (!include_functional_tests || functional_tests_completed?) && 
-      (!include_page_change_audit || page_change_audit_completed?)
+      (!include_functional_tests || functional_tests_completed?)
   end
 
   def pending?
@@ -288,14 +270,6 @@ class Audit < ApplicationRecord
     include_functional_tests && !functional_tests_completed?
   end
 
-  def page_change_audit_completed?
-    include_page_change_audit && !page_change_audit_completed_at.nil?
-  end
-
-  def page_change_audit_pending?
-    include_page_change_audit && !page_change_audit_completed?
-  end
-
   def successful?
     !performance_audit_failed? && completed?
   end
@@ -314,7 +288,7 @@ class Audit < ApplicationRecord
   alias is_primary? primary?
 
   def initiated_by_user?
-    initiated_by_domain_user_id.present?
+    initiated_by_container_user_id.present?
   end
 
   def run_on_live_tag?
@@ -428,32 +402,8 @@ class Audit < ApplicationRecord
   private
 
   def has_at_least_one_type_of_audit_enabled
-    if !include_functional_tests && !include_page_change_audit && !include_performance_audit
+    if !include_functional_tests && !include_performance_audit
       errors.add(:base, "An audit must have either performance audits, functional tests, or page change audits enabled.")
-    end
-  end
-
-  def can_afford?
-    price_for_audit = PriceCalculators::Audits.new(self).total_price
-    return true if price_for_audit.zero?
-    num_credits_in_wallet = domain.credit_wallet_for_current_month_and_year&.credits_remaining || Float::INFINITY
-    return true if price_for_audit <= num_credits_in_wallet
-    insufficient_credits_message = "Your account has insufficient credits to run this audit. This audit would cost #{price_for_audit} credits based on your configuration, but you only have #{num_credits_in_wallet} credits remaining this month."
-    if execution_reason.manual?
-      errors.add(:base, insufficient_credits_message)
-    else
-      self.performance_audit_error_message = insufficient_credits_message
-    end
-  end
-
-  def has_valid_subscription?
-    return true if domain.current_subscription_plan.nil? # edge case where an Audit is run before SusbcriptionPlan is selected
-    return true unless domain.current_subscription_plan.delinquent? || domain.current_subscription_plan.canceled?
-    invalid_subscription_message = "Your Tagsafe subscription is frozen due to inability to charge your payment method on file. Update your payment method in order to continue using Tagsafe to it's full extent."
-    if execution_reason.manual?
-      errors.add(:base, invalid_subscription_message)
-    else
-      self.performance_audit_error_message = invalid_subscription_message
     end
   end
 end

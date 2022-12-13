@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe PerformanceAuditManager::ResultsCapturer do
   before(:each) do
     prepare_test!
-    tag = create(:tag, domain: @domain)
+    tag = create(:tag, domain: @container)
     tag_preference = create(:tag_preference, tag: tag)
     tag_version = create(:tag_version, tag: tag)
-    url_to_audit = create(:url_to_audit, tag: tag, display_url: @domain.url, audit_url: @domain.url)
+    url_to_audit = create(:url_to_audit, tag: tag, display_url: @container.url, audit_url: @container.url)
     audit = create(:audit, 
       execution_reason: ExecutionReason.MANUAL,
       enqueued_at: 10.minutes.ago,

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "#{domain.uid}_domain_tags_table", class: 'domain-tags-table-frame' do %>
+<%= turbo_frame_tag "#{container.uid}_container_tags_table", class: 'container-tags-table-frame' do %>
   <% if tags.any? || local_assigns[:allow_empty_table] %>
     <div class='p-3'>
       <div class='tagsafe-table tags-table'>
@@ -32,9 +32,9 @@
           </div>
         </div>
         <div class='tagsafe-table-body'>
-          <%= turbo_frame_tag "#{domain.uid}_domain_tags_table_rows" do %>
+          <%= turbo_frame_tag "#{container.uid}_container_tags_table_rows" do %>
             <% tags.each do |tag| %>
-              <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, domain: domain %>
+              <%= render 'server_loadable_partials/tags/tag_table_row', tag: tag, container: container %>
             <% end %>
           <% end %>
         </div>

@@ -1,3 +1,12 @@
 <% if @include_thirdpartytag_dotcom_tag %>
-  <script src='https://www.thirdpartytag.com/script.js'></script>
+  <script>
+    (function() {
+      var script = document.createElement('script');
+      script.setAttribute('src', 'https://www.thirdpartytag.com/script.js');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('synchronous', 'true');
+      document.head.appendChild(script);
+    })()
+  </script>
 <% end %>
+

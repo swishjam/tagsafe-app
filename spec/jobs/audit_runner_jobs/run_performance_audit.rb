@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AuditRunnerJobs::RunPerformanceAudit do
   before(:each) do
     prepare_test!
-    @tag = create(:tag, domain: @domain)
+    @tag = create(:tag, domain: @container)
     @tag_version = create(:tag_version, tag: @tag)
     url_to_audit = create(:url_to_audit, tag: @tag)
     @audit = create(:pending_audit, tag: @tag, tag_version: @tag_version, audited_url: url_to_audit, execution_reason: ExecutionReason.MANUAL)

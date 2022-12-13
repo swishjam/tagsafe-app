@@ -7,30 +7,45 @@ class TagVersion < ApplicationRecord
   belongs_to :tag
   belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
   has_many :audits, dependent: :destroy
-  has_many :long_tasks, dependent: :destroy
-  has_one_attached :js_file, service: :tag_version_s3
-  has_one_attached :formatted_js_file, service: :tag_version_s3
-  
-  scope :most_recent, -> { where(most_recent: true) }
+    
   # only time total_changes = nil is if theres not other version to compare to?
   # should we have a first class attribute for this?
   scope :first_version, -> { where(total_changes: nil) }
   scope :not_first_version, -> { where.not(total_changes: nil) }
+  # scope :most_recent, -> { where(most_recent: true) }
 
-  after_create :after_creation
-  after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
+  # after_create :after_creation
+  after_create { tag.update!(last_released_at: self.created_at) }
+  after_create { AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met! }
+  after_create { CurrentLiveTagVersionDecider.new(self).make_live_if_criteria_is_met! }
+  # after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
+  after_destroy :purge_s3_files!
 
-  validate :has_attached_js_files
-  validate :only_one_most_recent
+  # def after_creation
+  #   tag.update!(last_released_at: created_at)
+  #   make_most_recent!
+  #   AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met!
+  #   perform_audit_on_all_urls(execution_reason: first_version? ? ExecutionReason.RELEASE_MONITORING_ACTIVATED : ExecutionReason.NEW_RELEASE)
+  #   update_tag_table_row(tag: tag, now: true)
+  #   add_tag_version_to_tag_details_view(tag_version: self, now: true)
+  # end
 
-  def after_creation
-    tag.update!(last_released_at: created_at)
-    make_most_recent!
-    AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met!
-    perform_audit_on_all_urls(execution_reason: first_version? ? ExecutionReason.RELEASE_MONITORING_ACTIVATED : ExecutionReason.NEW_RELEASE)
-    update_tag_table_row(tag: tag, now: true)
-    add_tag_version_to_tag_details_view(tag_version: self, now: true)
+  def s3_url(use_cdn: true, formatted: false)
+    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : s3_bucket
+    "https://#{url_host}#{s3_pathname(formatted: formatted)}"
   end
+  alias js_file_url s3_url
+
+  def s3_bucket
+    "tagsafe-#{Rails.env}-tag-versions.s3-us-east-1.amazonaws.com"
+  end
+
+  def s3_pathname(formatted: false, strip_leading_slash: false)
+    # if there's a leading slash in the S3 file name, the first directory is just '/', strip it so the directory is the instrumentation key
+    unique_s3_file_name = "#{tag.hostname_and_path.gsub('.', '_').gsub('/', '_')}-#{uid}#{formatted ? '-formatted' : ''}"
+    "#{strip_leading_slash ? '' : '/'}tags/#{tag.container.instrumentation_key}/#{unique_s3_file_name}.js"
+  end
+  alias js_file_pathname s3_pathname
 
   def sha
     hashed_content.slice(0, 8)
@@ -41,45 +56,42 @@ class TagVersion < ApplicationRecord
     update!(most_recent: true)
   end
 
-  def most_recent_version?
-    most_recent
-  end
+  # def most_recent_version?
+  #   most_recent
+  # end
 
-  def perform_audit(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
+  def perform_audit(execution_reason:, initiated_by_container_user: nil, url_to_audit:, options: {})
     AuditHandler::Runner.new(
       tag_version: self,
-      initiated_by_domain_user: initiated_by_domain_user,
+      initiated_by_container_user: initiated_by_container_user,
       url_to_audit: url_to_audit,
       execution_reason: execution_reason,
       options: options
     ).run!
   end
 
-  def perform_audit_on_all_urls(execution_reason:, initiated_by_domain_user: nil, options: {})
+  def perform_audit_on_all_urls(execution_reason:, initiated_by_container_user: nil, options: {})
     tag.urls_to_audit.map do |url_to_audit| 
       perform_audit(
         url_to_audit: url_to_audit, 
         execution_reason: execution_reason, 
-        initiated_by_domain_user: initiated_by_domain_user,
+        initiated_by_container_user: initiated_by_container_user,
         options: options
       )
     end
   end
 
-  def js_file_url(formatted: false, use_cloudfront_url: Util.env_is_true('USE_CLOUDFRONT_CDN_FOR_JS_FILES'))
-    javascript_file = formatted ? formatted_js_file : js_file
-    return javascript_file.url unless use_cloudfront_url
-    parsed_url = URI.parse(javascript_file.url)
-    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
-    parsed_url.to_s
-  end
-
   def content(formatted: false)
     if formatted
-      @formatted_content ||= formatted_js_file.download
+      @formatted_content ||= HTTParty.get(js_file_url(formatted: true)).to_s
     else
-      @content ||= js_file.download
+      @content ||= HTTParty.get(js_file_url(formatted: false)).to_s
     end
+  end
+
+  def purge_s3_files!
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(use_cdn: false, formatted: false))
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(use_cdn: false, formatted: true))
   end
 
   def audit_to_display
@@ -153,21 +165,5 @@ class TagVersion < ApplicationRecord
 
   def change_in_bytes
     bytes - previous_version.bytes unless previous_version.nil?
-  end
-
-  ###############
-  # VALIDATIONS #
-  ###############
-
-  def only_one_most_recent
-    if most_recent && tag.tag_versions.where(most_recent: true).count > 1
-      errors.add(:base, "Cannot have multiple most_recent tag versions on a single tag.")
-    end
-  end
-
-  def has_attached_js_files
-    if js_file_url.nil? || formatted_js_file.nil?
-      errors.add(:base, "Attached JS file is required")
-    end
   end
 end

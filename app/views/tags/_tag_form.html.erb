@@ -1,5 +1,9 @@
 <%= form_with model: tag, data: { controller: 'loading_form' } do |f| %>
   <div class='form-floating'>
+    <%= f.text_field :name, class: 'form-control', placeholder: 'My Third Party Tag...' %>
+    <%= f.label 'Tag Name' %>
+  </div>
+  <div class='form-floating mt-2'>
     <%= f.text_field :full_url, class: 'form-control', placeholder: 'https://www.googleanalytics.com' %>
     <%= f.label 'JS URL' %>
   </div>

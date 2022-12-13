@@ -5,24 +5,15 @@ class SessionsController < ApplicationController
     redirect_to tags_path if current_user
     @hide_footer = true
     @hide_logged_out_nav = true
-    if params[:domain]
-      @domain = Domain.find_by(uid: params[:domain])
+    if params[:container]
+      @container = Container.find_by(uid: params[:container])
     end
   end
 
   def create
     @user = User.find_by(email: params[:email].downcase)
     if @user && @user.authenticate(params[:password])
-      # if params[:domain_uid]
-      #   domain = Domain.find_by(uid: params[:domain_uid])
-      #   domain.mark_as_registered!
-      #   domain.add_user(@user)
-      #   set_current_domain(@domain)
-      #   set_current_user(@user)
-      # else
-      #   set_current_user(@user)
-      # end
-      current_domain.add_user(@user) if current_domain && !@user.belongs_to_domain?(current_domain)
+      current_container.add_user(@user) if current_container && !@user.belongs_to_container?(current_container)
       set_current_user(@user)
       url_to_go_to = session[:redirect_url] || tags_path
       session.delete(:redirect_url)

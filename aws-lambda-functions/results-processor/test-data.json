@@ -1,0 +1,7 @@
+{
+  "Records": [
+    { 
+      "body": "{\"requestPayload\": { \"ProcessReceivedLambdaEventJobQueue\": \"lambda-local-test\" }, \"event_results\": { \"some_kind_of_key\": \"some_kidn_of_value?\" } }"
+    }
+  ]
+}

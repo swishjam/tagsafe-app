@@ -55,7 +55,6 @@
           <% end %>
         </div>
         <div class='tagsafe-table-cell'>
-          <%= number_with_delimiter(WalletModerator::TagCostEstimator.new(tag).total_credits_per_month) %>
         </div>
         <div class='tagsafe-table-cell'>
           <%= link_to 'Edit', edit_tag_path(tag) %>

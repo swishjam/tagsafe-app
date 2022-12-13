@@ -1,0 +1,38 @@
+name = "tagsafe-api"
+main = "src/index.js"
+compatibility_date = "2022-12-05"
+node_compat = true
+
+##################
+###    DEV    ####
+##################
+[env.dev]
+name = "dev-tagsafe-api"
+
+[[env.dev.queues.producers]]
+queue = "collin-dev-data-consumer"
+binding = "DATA_CONSUMER_QUEUE"
+
+[[env.dev.queues.consumers]]
+queue = "collin-dev-data-consumer"
+max_batch_size = 10 # optional: defaults to 10, consumer runs only once 10 messages in the queue
+max_batch_timeout = 5 # optional: defaults to 5 seconds, if max_batch_size has not been met, what interval will consumer run
+
+[env.dev.vars]
+
+###################
+### PRODUCTION ####
+###################
+[env.production]
+name = "tagsafe-api"
+
+[[env.production.queues.producers]]
+queue = "production-data-consumer"
+binding = "DATA_CONSUMER_QUEUE"
+
+[[env.production.queues.consumers]]
+queue = "production-data-consumer"
+max_batch_size = 10 # optional: defaults to 10
+max_batch_timeout = 5 # optional: defaults to 5 seconds
+
+[env.production.vars]

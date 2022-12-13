@@ -1,12 +1,27 @@
 import Tagsafe from './lib/tagsafe';
 import configuration from '../data/config'
+import { urlToDomain } from './lib/utils';
 
-window.Tagsafe = Tagsafe;
-const config = {
-  disabledTags: [],
-  enabledTags: [],
-  useDirectTagUrl: false,
-  ...configuration
-};
+const params = new URLSearchParams(window.location.search);
 
-window.Tagsafe.init(config);
+if(configuration.disabled || params.has('tagsafe-disabled')) {
+  console.warn('Tagsafe is disabled.');
+} else {
+  window.Tagsafe = Tagsafe;
+  window.Tagsafe.config = configuration;
+  const { uid, tagConfigurations, urlPatternsToNotCapture, settings } = configuration;
+  
+  const mergedSettings = {
+    reportingURL: 'https://tagsafe-api.tagsafe.workers.dev',
+    firstPartyDomains: [urlToDomain(window.location.href)],
+    debugMode: params.has('tagsafe-debugger'),
+    ...settings
+  }
+
+  window.Tagsafe.init({ 
+    containerUid: uid, 
+    settings: mergedSettings,
+    tagConfigurations,
+    urlPatternsToNotCapture
+  });
+}

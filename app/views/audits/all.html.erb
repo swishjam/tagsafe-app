@@ -1,4 +1,4 @@
-<%= turbo_stream_from "domain_#{current_domain.uid}_audits_view_stream" %>
+<%= turbo_stream_from "container_#{current_container.uid}_audits_view_stream" %>
 
 <div class='page-title-container'>
   <div class='container-fluid'>
@@ -23,5 +23,5 @@
 </div>
 
 <div class="tagsafe-container p-0">
-  <%= render 'audits_table', domain: current_domain, audits: @audits, include_tag_name: true %>
+  <%= render 'audits_table', container: current_container, audits: @audits, include_tag_name: true %>
 </div>

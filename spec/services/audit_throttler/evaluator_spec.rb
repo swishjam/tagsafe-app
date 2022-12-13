@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe AuditThrottler::Evaluator do
   before(:each) do
     prepare_test!
-    domain_1 = create(:domain)
-    domain_2 = create(:domain, url: 'www.google.com')
-    domain_3 = create(:domain, url: 'www.facebook.com')
+    domain_1 = create(:container)
+    domain_2 = create(:container, url: 'www.google.com')
+    domain_3 = create(:container, url: 'www.facebook.com')
     tag_1 = create(:tag, domain: domain_1)
 
     @previous_tag_version = create(:tag_version, tag: tag, created_at: 10.minutes.ago)

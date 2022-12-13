@@ -1,39 +1,19 @@
 def prepare_test!(options = {})
+  puts "\n\n"
   stub_aws_calls unless options[:allow_aws_calls]
   stub_stripe_calls unless options[:allow_stripe_calls]
-  unless options[:bypass_default_domain_create]
-    stub_valid_page_url_enforcement unless options[:enforce_valid_page_url]
-    @domain = create(:domain, url: 'https://www.tagsafe.io')
-    create(:feature_price_in_credits, domain: @domain)
-    create(:performance_audit_calculator, domain: @domain)
-    create(:credit_wallet, domain: @domain)
-  end
+  stub_instrumentation_build unless options[:allow_instrumentation_build]
+  stub_tag_version_fetcher unless options[:allow_real_tag_version_fetches]
+  @container = create(:container) unless options[:bypass_default_container_create]
   create_execution_reasons unless options[:bypass_default_execution_reasons_create]
   create_aws_event_bridge_rules unless options[:bypass_aws_event_bridge_rules]
   create_uptime_regions unless options[:bypass_uptime_regions]
-  # create_flags unless options[:bypass_flags]
 end
 
 def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
-  url_crawl = create(:completed_url_crawl, 
-    domain: @domain, 
-    page_url: @domain.page_urls.first
-  )
-  tag = create(tag_factory,
-    full_url: tag_url, 
-    domain: @domain, 
-    found_on_page_url: @domain.page_urls.first, 
-    found_on_url_crawl: url_crawl
-  )
-  release_check = create(:release_check, release_check_batch: create(:release_check_batch), tag: tag, captured_new_tag_version: true)
-  TagManager::TagVersionCapturer.new(
-    tag: tag, 
-    content: '(function() { console.log("hello world"); })()', 
-    release_check: release_check, 
-    hashed_content: 'abc123', 
-    bytes: 100
-  ).capture_new_tag_version!
-  url_to_audit = create(:url_to_audit, tag: tag, page_url: @domain.page_urls.first)
+  tagsafe_js_events_batch = create(:tagsafe_js_events_batch, domain: @container)
+  tag = create(tag_factory, full_url: tag_url, domain: @container, tagsafe_js_events_batch: tagsafe_js_events_batch)
+  # url_to_audit = create(:url_to_audit, tag: tag, page_url: @container.page_urls.first)
   tag
 end
 
@@ -43,7 +23,7 @@ def create_audit_with_performance_audits(domain:, tag:, tag_version:, execution_
     tag: tag, 
     tag_version: tag_version, 
     execution_reason: execution_reason, 
-    performance_audit_calculator: @domain.current_performance_audit_calculator,
+    performance_audit_calculator: @container.current_performance_audit_calculator,
     performance_audit_completed_at: nil
   )
   with_tag = create(:median_individual_performance_audit_with_tag, audit: audit)
@@ -100,26 +80,35 @@ def stub_tag_version_content
 end
 
 def stub_aws_calls
+  puts "Stubbing AWS calls"
   allow_any_instance_of(Aws::Lambda::Client).to receive(:invoke).and_return(OpenStruct.new(status_code: 200))
   allow_any_instance_of(Aws::States::Client).to receive(:start_execution).and_return(OpenStruct.new(status_code: 200))
   allow_any_instance_of(Aws::EventBridge::Client).to receive(:disable_rule).and_return(OpenStruct.new(status_code: 200))
   allow_any_instance_of(Aws::EventBridge::Client).to receive(:enable_rule).and_return(OpenStruct.new(status_code: 200))
+  allow_any_instance_of(Aws::S3::Client).to receive(:put_object).and_return(OpenStruct.new(status_code: 200))
   allow_any_instance_of(Aws::S3::Client).to receive(:get_object).and_return(OpenStruct.new(status_code: 200))
   allow_any_instance_of(Aws::S3::Client).to receive(:delete_object).and_return(OpenStruct.new(status_code: 200))
   Aws.config.update(stub_responses: true)
 end
 
 def stub_stripe_calls
+  puts "Stubbing Stripe calls"
   allow(Stripe::Customer).to receive(:create).and_return(OpenStruct.new(id: "cust_#{SecureRandom.hex(4)}"))
   allow(Stripe::Subscription).to receive(:create).and_return(OpenStruct.new(id: "sub_#{SecureRandom.hex(4)}"))
 end
 
-def create_aws_event_bridge_rules
-  create(:one_minute_release_check_aws_event_bridge_rule)
+def stub_instrumentation_build
+  puts "Stubbing instrumentaiton build."
+  allow_any_instance_of(TagsafeInstrumentationManager::InstrumentationWriter).to receive(:write_current_instrumentation_to_cdn).and_return(true)
 end
 
-def stub_valid_page_url_enforcement
-  allow(PageUrl).to receive(:get_valid_parsed_url) { |url| URI.parse(url) }
+def stub_tag_version_fetcher
+  puts "Stubbing TagVersion fetch with fake content."
+  allow_any_instance_of(TagManager::TagVersionFetcher).to receive(:fetch_tag_content!).and_return('(function() { console.log("foo!"); })();')
+end
+
+def create_aws_event_bridge_rules
+  create(:one_minute_release_check_aws_event_bridge_rule)
 end
 
 def stub_all_resque_jobs
@@ -144,18 +133,6 @@ end
 
 def create_uptime_regions
   create(:us_east_1)
-end
-
-def create_flags
-  # run_rake_task('seed:flags')
-  create(:strip_all_images_in_performance_audits_flag)
-  create(:strip_all_css_in_performance_audits_flag)
-  create(:num_performance_audit_iterations_flag)
-  create(:tagsafe_hosted_site_enabled_flag)
-  create(:inline_injected_script_tags_flag)
-  create(:include_performance_trace_flag)
-  create(:max_individual_performance_audit_retries_flag)
-  create(:include_page_load_resources_flag)
 end
 
 def run_rake_task(task)

@@ -8,18 +8,15 @@ module TagManager
       @bytes = bytes
     end
 
-    # def build_new_tag_version!
-    #   tag_version = @tag.tag_versions.new(tag_version_data)
-    #   @tag.marked_as_pending_tag_version_capture_at = nil
-    #   @tag.current_live_tag_version = tag_version # this doesn't get the hook...
-    #   remove_temp_files
-    #   tag_version
-    # end
-
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
+      upload_files_to_s3!(tag_version)
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
-      @tag.update!(marked_as_pending_tag_version_capture_at: nil, current_live_tag_version: tag_version)
+      @tag.update!(
+        marked_as_pending_tag_version_capture_at: nil, 
+        # current_live_tag_version: tag_version, # eventually this should move to after we run our audits and is verified to be safe
+        most_recent_tag_version: tag_version
+      )
       remove_temp_files
       tag_version
     end
@@ -29,11 +26,11 @@ module TagManager
     def tag_version_data
       {
         hashed_content: @hashed_content,
-        sha_256: Digest::SHA2.new(256).hexdigest(@content),
+         # what's written to file seems to be slightly different than the @content in memory?
+        sha_256: OpenSSL::Digest.new('SHA256').base64digest( File.read(js_file) ),
+        # sha_512: OpenSSL::Digest.new('SHA512').base64digest(File.read(tag_version_js_file[:io]),
         bytes: @bytes,
         release_check_captured_with: @release_check,
-        js_file: tag_version_js_file_data,
-        formatted_js_file: tag_version_formatted_js_file_data,
         commit_message: TagManager::CommitMessageParser.new(@content).try_to_get_commit_message,
         num_additions: num_additions,
         num_deletions: num_deletions,
@@ -41,20 +38,20 @@ module TagManager
       }
     end
 
-    def tag_version_js_file_data
-      { 
-        io: File.open(js_file), 
-        filename: db_filename(:compiled),
-        content_type: 'text/javascript'
-      }
+    def upload_files_to_s3!(tag_version)
+      upload_file_to_s3(js_file, tag_version)
+      upload_file_to_s3(formatted_js_file, tag_version, true)
     end
 
-    def tag_version_formatted_js_file_data
-      { 
-        io: File.open(formatted_js_file), 
-        filename: db_filename(:formatted),
+    def upload_file_to_s3(file, tag_version, is_formatted = false)
+      TagsafeAws::S3.write_to_s3(
+        bucket: "tagsafe-#{Rails.env}-tag-versions", 
+        key: tag_version.s3_pathname(formatted: is_formatted, strip_leading_slash: true),
+        content: File.read(file),
+        cache_control: 'public, immutable, max-age=31536000, stale-while-revalidate=86400', # cache for 1 year
+        acl: 'public-read',
         content_type: 'text/javascript'
-      }
+      )
     end
 
     def num_additions
@@ -74,7 +71,7 @@ module TagManager
 
     def diff_analyzer
       @diff_analyzer ||= DiffAnalyzer.new(
-        new_content: File.read(local_file_location(:formatted)),
+        new_content: File.read(js_file),
         previous_content: @tag.current_version.content(formatted: true),
         num_lines_of_context: 0,
         include_diff_info: false
@@ -95,10 +92,6 @@ module TagManager
         read_file: local_file_location(:compiled), 
         output_file: local_file_location(:formatted)
       ).beautify!
-    end
-
-    def db_filename(suffix)
-      "#{@tag.try_friendly_slug}-#{@hashed_content.slice(0, 8)}-#{Time.current.to_i}-#{suffix}.js"
     end
 
     def local_file_location(suffix)

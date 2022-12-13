@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
+  <head>    
+    <link href='https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>' rel='preconnect dns-prefetch' crossorigin>
+    <script src='https://cdn-collin-dev.tagsafe.io/TAG-4f707b08/instrumentation.js'></script>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){
+        w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NTWG72V');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Tagsafe" />
+    <meta property="og:description" content="Take back control of your third party tags." />
+    <meta property="og:image" content="https://www.tagsafe.io/images/tagsafe-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
     <title>Tagsafe</title>
     <%= turbo_include_tags %>
     <%= stimulus_include_tags %>
-    <script src='https://d3u10p06z9v5mh.cloudfront.net/dom_8e7bcfb3-instrumentation.js'></script>
-
-    <meta property="og:title" content="Tagsafe" />
-    <meta property="og:description" content="Take control of your third party tags." />
-    <meta property="og:image" content="https://www.tagsafe.io/images/tagsafe-logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     
     <script src="https://kit.fontawesome.com/d38fe451ee.js" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
@@ -23,10 +36,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Open+Sans+Condensed:wght@300&family=Rubik:wght@300&display=swap" rel="stylesheet">
 
-    <%= render 'partials/third_party_tags/thirdpartytag_dot_com_script' %>
-    <%= render 'partials/third_party_tags/segment_script' %>
-    <%= render 'partials/third_party_tags/new_relic_script' %>
-    <%= render 'partials/third_party_tags/amplitude_script' %>
+    <!--
+    <#%= render 'partials/third_party_tags/thirdpartytag_dot_com_script' %>
+    <#%= render 'partials/third_party_tags/segment_script' %>
+    <#%= render 'partials/third_party_tags/new_relic_script' %>
+    <#%= render 'partials/third_party_tags/amplitude_script' %>
+    !-->
   </head>
 
   <body class="logged-out <%=controller_name%> <%= action_name %>">

@@ -44,12 +44,14 @@
     </div>
   </div>
 <% else %>
-  <% unless (most_recent_check = @tag.release_checks.most_recent_first.limit(1).first).nil? %>
-    <div class='container-fluid text-end pt-3 pe-3'>
-      <span class='d-block'>Release detection interval is set for <%= @tag.tag_preferences.release_monitoring_interval_in_words %>.</span>
+  <div class='container-fluid text-end pt-3 pe-3'>
+    <% unless @tag.live_tag_configuration.nil? %>
+      <span class='d-block'>Release detection interval is set for <%= @tag.live_tag_configuration.release_monitoring_interval_in_words %>.</span>
+    <% end %>
+    <% if most_recent_check = @tag.release_checks.most_recent_first.limit(1).first %>
       <span class='d-block'>Last check ran <%= most_recent_check.executed_at.formatted_long %>.</span>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% end %>
 
 <%= turbo_frame_tag "#{@tag.uid}_release_chart", src: release_chart_releases_path(tag_uid: @tag.uid) do %>

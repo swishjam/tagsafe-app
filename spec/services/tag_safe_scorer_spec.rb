@@ -4,7 +4,7 @@ RSpec.describe TagsafeScorer do
   before(:each) do
     create_execution_reasons
     script = create(:script)
-    domain = create(:domain)
+    domain = create(:container)
     tag_version = create(:tag_version, script: script, bytes: 100_000)
     tag = create(:tag, script: script, domain: domain, first_tag_version: tag_version)
     audit = create(:audit, tag_version: tag_version, tag: tag, execution_reason: ExecutionReason.MANUAL)

@@ -130,7 +130,7 @@ module StepFunctionResponses
     private
 
     def try_to_calculate_delta_results_and_run_next_set_of_audits!
-      unless (individual_performance_audit.audit || individual_performance_audit.domain_audit).completed?
+      unless individual_performance_audit.audit.completed?
         create_delta_performance_audit_if_successful
         enqueue_next_batch_of_performance_audits_if_necessary
       end

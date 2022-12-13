@@ -7,7 +7,7 @@ module TagsafeEmail
       audit = initiating_record
       @to_email = user.email
       @template_variables = {
-        domain_url: audit.domain.url_hostname,
+        container_name: audit.container.name,
         tag_name: audit.tag.try_friendly_name,
         alert_name: alert_configuration.name,
         actual_metric_value: audit.preferred_delta_performance_audit.send(alert_configuration.trigger_rules.exceeded_metric),
@@ -15,7 +15,7 @@ module TagsafeEmail
         exceeded_metric: alert_configuration.trigger_rules.human_exceeded_metric,
         exceeded_metric_value: alert_configuration.trigger_rules.human_exceeded_metric_value,
         execution_reason: audit.execution_reason.name,
-        audit_url: mail_safe_url("/tag/#{audit.tag.uid}/audits/#{audit.uid}?_domain_uid=#{audit.domain.uid}")
+        audit_url: mail_safe_url("/tag/#{audit.tag.uid}/audits/#{audit.uid}?_container_uid=#{audit.container.uid}")
       }
     end
   end

@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src='https://d3u10p06z9v5mh.cloudfront.net/dom_8e7bcfb3-instrumentation.js'></script>
+    <%
+=begin%>
+ <link href='https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>' rel='preconnect dns-prefetch' crossorigin> 
+<%
+=end%>
+    <%
+=begin%>
+ <script src='https://<%= ENV['CLOUDFRONT_HOSTNAME'] || 'cdn.tagsafe.io' %>/manager/dom_8e7bcfb3-instrumentation.js'></script> 
+<%
+=end%>
     <title>Tagsafe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -17,16 +26,14 @@
     <%= yield :head %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="slack-app-id" content="A01HGPB713N">
-    <script>window.currentDomainUid = "<%= current_domain&.uid %>"</script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js" integrity="sha512-hG/Qw6E14LsVUaQRSgw0RrFA1wl5QPG1a4bCOUgwzkGPIVFsOPUPpbr90DFavEEqFMwFXPVI0NS4MzKsInlKxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
-  <% has_top_banner = user_is_anonymous? || 
-                      current_domain&.current_subscription_plan&.delinquent? || 
-                      current_domain&.current_subscription_plan&.past_due? || 
-                      current_domain&.current_subscription_plan&.canceled? ||
-                      (!current_domain.has_payment_method_on_file? && 
-                          current_domain.has_current_subscription_plan? && 
-                          current_domain.current_subscription_plan.on_free_trial? && 
-                          current_domain.current_subscription_plan.days_until_free_trial_expires(round: false) <= 5) %>
+  <% has_top_banner = false %>
   <body class="logged-in <%=controller_name%> <%= action_name %> <%= has_top_banner ? 'with-fixed-top-banner' : nil %>">
     <div class='fixed-content-container'>
       <%= render 'partials/top_level_banner' %>

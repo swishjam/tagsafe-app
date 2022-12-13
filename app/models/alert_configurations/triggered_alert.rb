@@ -11,14 +11,14 @@ class TriggeredAlert < ApplicationRecord
   private
 
   def emit_notifications!
-    alert_configuration.domain_users.each do |domain_user|
+    alert_configuration.container_users.each do |container_user|
       alert_configuration.class.alert_email_klass.new(
-        user: domain_user.user, 
+        user: container_user.user, 
         initiating_record: initiating_record,
         triggered_alert: self,
         alert_configuration: alert_configuration
       ).send!
-      domain_user.user.broadcast_notification(
+      container_user.user.broadcast_notification(
         partial: "/alert_configurations/in_app_notification",
         title: "🚨 #{alert_configuration.name}",
         image: tag.try_image_url,

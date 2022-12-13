@@ -20,7 +20,7 @@
       <div class='row video-players-row align-items-end'>
         
         <div class='text-center p-0' style='width: 42.5%'>
-          <h4>Page load with <%= performance_audit_with_tag.is_for_domain_audit? ? 'tags' : 'tag' %> present:</h4>
+          <h4>Page load with tag present:</h4>
           <% largest_timestamp = 0 %>
           <% 
             with_tag_timestamp_callbacks = [:main_thread_execution_tag_responsible_for, :speed_index, :dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric|
@@ -43,7 +43,7 @@
         </div>
 
         <div class='text-center p-0' style='width: 42.5%'>
-          <h4>Page load without <%= performance_audit_with_tag.is_for_domain_audit? ? 'tags' : 'tag' %> present:</h4>
+          <h4>Page load without tag present:</h4>
           <% 
             without_tag_timestamp_callbacks = [:main_thread_execution_tag_responsible_for, :speed_index, :dom_complete, :dom_interactive, :first_contentful_paint, :dom_content_loaded, :script_duration, :task_duration, :layout_duration].map do |metric| 
               timestamp = performance_audit_without_tag[metric] || 0

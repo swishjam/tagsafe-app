@@ -8,6 +8,6 @@ class NewTagVersionAlertConfiguration < AlertConfiguration
   end
   
   def triggered_alert_description(triggered_alert)
-    "Your #{triggered_alert.tag.try_friendly_name} released a new version to #{triggered_alert.tag.domain.url_hostname}."
+    "Your #{triggered_alert.tag.try_friendly_name} released a new version (for your #{triggered_alert.tag.container.name} container)."
   end
 end

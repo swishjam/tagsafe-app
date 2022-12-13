@@ -1,14 +1,13 @@
 class GeneralConfiguration < ApplicationRecord
   belongs_to :parent, polymorphic: true
 
-  before_destroy :cant_destroy_domain_parent
+  before_destroy :cant_destroy_container_parent
 
-  def self.create_default_for_domain(domain)
+  def self.create_default_for_container(container)
     create!(
-      parent: domain,
+      parent: container,
       include_performance_audit: true,
       include_page_load_resources: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
-      include_page_change_audit: Util.env_is_true('INCLUDE_PAGE_LOAD_RESOURCES_IN_DEFAULT_AUDIT_CONFIGURATION'),
       include_functional_tests: true,
       enable_monitoring_on_new_tags: true,
       roll_up_audits_by_tag_version: false,
@@ -34,9 +33,9 @@ class GeneralConfiguration < ApplicationRecord
 
   private
 
-  def cant_destroy_domain_parent
-    if parent.is_a?(Domain)
-      errors.add(:base, "Cannot destroy the Default Audit GeneralConfiguration for domain.")
+  def cant_destroy_container_parent
+    if parent.is_a?(Container)
+      errors.add(:base, "Cannot destroy the Default Audit GeneralConfiguration for container.")
     end
   end
 end

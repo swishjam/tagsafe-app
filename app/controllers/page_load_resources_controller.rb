@@ -1,6 +1,6 @@
 class PageLoadResourcesController < LoggedInController
   def for_audit
-    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    @tag = current_container.tags.find_by(uid: params[:tag_uid])
     @tag_version = TagVersion.find_by(uid: params[:tag_version_uid])
     @audit = Audit.find_by(uid: params[:audit_uid])
     render_breadcrumbs(
@@ -12,7 +12,7 @@ class PageLoadResourcesController < LoggedInController
   end
 
   def index
-    tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    tag = current_container.tags.find_by(uid: params[:tag_uid])
     audit = tag.audits.find_by(uid: params[:audit_uid])
     
     raise StandardError, 'Must pass `performance_audit_type` URL parameter' if params[:performance_audit_type].nil?

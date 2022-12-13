@@ -6,6 +6,6 @@ class UptimeCheck < ApplicationRecord
   scope :successful, -> { where(response_code: 200) }
   scope :failed, -> { where.not(response_code: [200, 204]) }
   
-  scope :billable_for_domain, -> (domain) { joins(:tag).where(tag: { domain_id: domain.id }) }
+  scope :billable_for_container, -> (container) { joins(:tag).where(tag: { container_id: container.id }) }
   scope :by_uptime_region, -> (uptime_region) { where(uptime_region: uptime_region) }
 end

@@ -89,22 +89,22 @@ body:not(.with-fixed-top-banner) #page-content-wrapper {
   font-family: 'Rubik', sans-serif;
 }
 
-body.logged-in.domains #page-content-wrapper {
-  &:not(.collapsed-navigation), &:not(.no-navigation) {
-    width: 85vw;
-    margin-left: 15vw;
-  }
-  &.collapsed-navigation {
-    width: 99vw;
-    margin-left: 1vw;
-  }
-  &.no-navigation {
-    width: 100vw;
-    margin-left: 0;
-  }
-}
+// body.logged-in.domains #page-content-wrapper {
+//   &:not(.collapsed-navigation), &:not(.no-navigation) {
+//     width: 85vw;
+//     margin-left: 15vw;
+//   }
+//   &.collapsed-navigation {
+//     width: 99vw;
+//     margin-left: 1vw;
+//   }
+//   &.no-navigation {
+//     width: 100vw;
+//     margin-left: 0;
+//   }
+// }
 
-body.logged-in:not(.domains) {
+body.logged-in {
   background-color: white;
   font-family: 'Rubik', sans-serif;
   #page-content-wrapper {

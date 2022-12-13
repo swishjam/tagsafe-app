@@ -1,0 +1,2 @@
+TAGSAFE_REDIS_URL: redis://:7eNOflYjiQ5HSjW86vooxobjfv36AXYs@redis-11872.c84.us-east-1-2.ec2.cloud.redislabs.com:11872
+DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: tagsafe_js_processor
