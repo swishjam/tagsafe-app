@@ -17,7 +17,7 @@ class Tag < ApplicationRecord
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
   belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 
-  # has_many :audits, dependent: :destroy
+  has_many :audits, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
   has_many :uptime_checks, dependent: :destroy
@@ -43,6 +43,7 @@ class Tag < ApplicationRecord
   # TODO: should we capture the first TagVersion for _all_ tags?
   after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! }
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
+  after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
@@ -70,9 +71,12 @@ class Tag < ApplicationRecord
     end
   end
 
+  def release_monitoring_interval_in_words
+    Util.integer_to_interval_in_words(release_monitoring_interval_in_minutes)
+  end
+
   def enabled?
     true
-    # live_tag_configuration && live_tag_configuration.enabled
   end
 
   def disabled?
@@ -92,7 +96,6 @@ class Tag < ApplicationRecord
   end
 
   def state
-    # live_tag_configuration.nil? ? 'pending' : live_tag_configuration.disabled? ? 'disabled' : 'live'
   end
 
   def most_recent_version

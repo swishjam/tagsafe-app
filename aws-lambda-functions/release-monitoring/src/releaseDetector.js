@@ -48,7 +48,9 @@ module.exports = class ReleaseDetector {
     if(!this.checkedForRelease) {
       throw new Error('`foundNewVersion` called before `checkForRelease` was run.')
     } else if(this.releaseConfig.shouldCheckForNewRelease){
-      return this.hashedContentChanged === true && this.byteSizeChanged === true && this.contentIsTheSameAsARecentVersion === false;
+      return this.hashedContentChanged === true && 
+              (process.env.REQUIRE_BYTE_CHANGE_FOR_NEW_VERSION !== 'true' || this.byteSizeChanged === true) && 
+              this.contentIsTheSameAsARecentVersion === false;
     }
   }
 

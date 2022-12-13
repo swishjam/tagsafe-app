@@ -16,19 +16,11 @@ class TagVersion < ApplicationRecord
 
   # after_create :after_creation
   after_create { tag.update!(last_released_at: self.created_at) }
-  after_create { AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met! }
-  after_create { CurrentLiveTagVersionDecider.new(self).make_live_if_criteria_is_met! }
+  # after_create { AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met! unless first_version? }
+  after_create_commit :broadcast_notification_to_all_users # temporary until we re-visit alerts
+  after_create { CurrentLiveTagVersionDecider.new(self).set_as_tags_live_version_if_criteria_is_met! unless first_version? }
   # after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
   after_destroy :purge_s3_files!
-
-  # def after_creation
-  #   tag.update!(last_released_at: created_at)
-  #   make_most_recent!
-  #   AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met!
-  #   perform_audit_on_all_urls(execution_reason: first_version? ? ExecutionReason.RELEASE_MONITORING_ACTIVATED : ExecutionReason.NEW_RELEASE)
-  #   update_tag_table_row(tag: tag, now: true)
-  #   add_tag_version_to_tag_details_view(tag_version: self, now: true)
-  # end
 
   def s3_url(use_cdn: true, formatted: false)
     url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : s3_bucket
@@ -165,5 +157,18 @@ class TagVersion < ApplicationRecord
 
   def change_in_bytes
     bytes - previous_version.bytes unless previous_version.nil?
+  end
+
+  private
+
+  def broadcast_notification_to_all_users
+    tag.container.container_users.each do |container_user|
+      container_user.user.broadcast_notification(
+        partial: "/notifications/tag_versions/new_tag_version",
+        title: "🚨 New release from #{tag.try_friendly_name || tag.url_based_on_preferences}",
+        image: tag.try_image_url,
+        partial_locals: { tag_version: self }
+      )
+    end
   end
 end
