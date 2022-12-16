@@ -42,15 +42,24 @@ module ChartHelper
     # end
 
     def add_all_audits_since_start_datetime
-      AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
-                                    .where(audits: { tag_id: tag_ids })
-                                    .more_recent_than_or_equal_to(@start_datetime, timestamp_column: 'audits.created_at')
-                                    .order('audits.created_at ASC')
-                                    .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
-        chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.created_at, dpa[@metric_key]] }
+      Audit.includes(:tag, :tag_version)
+              .where(tag_id: tag_ids)
+              .more_recent_than_or_equal_to(@start_datetime, timestamp_column: 'audits.created_at')
+              .order('audits.created_at ASC')
+              .group_by{ |audit| audit.tag }.each do |tag, audits|
+        chart_data_for_tag = audits.collect{ |audit| [audit.created_at, audit.tagsafe_score] }
         @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
         @chart_data[tag][:data].concat(chart_data_for_tag)
       end
+      # AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
+      #                               .where(audits: { tag_id: tag_ids })
+      #                               .more_recent_than_or_equal_to(@start_datetime, timestamp_column: 'audits.created_at')
+      #                               .order('audits.created_at ASC')
+      #                               .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
+      #   chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.created_at, dpa[@metric_key]] }
+      #   @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
+      #   @chart_data[tag][:data].concat(chart_data_for_tag)
+      # end
     end
 
     def add_starting_and_current_datetime_plot_if_necessary
@@ -67,14 +76,14 @@ module ChartHelper
     def add_starting_and_current_datetime_plot_for_tag_that_has_chart_data(tag)
       @chart_data[tag][:data].prepend([ Time.current, @chart_data[tag][:data].first[1] ])
       earliest_audit_timestamp_for_tag_in_chart = @chart_data[tag][:data].last[0]
-      most_recent_audit_before_starting_datetime = tag.audits.successful_performance_audit
-                                                              .most_recent_first
-                                                              .older_than(earliest_audit_timestamp_for_tag_in_chart)
-                                                              .limit(1).first
+      most_recent_audit_before_starting_datetime = tag.audits
+                                                        .most_recent_first
+                                                        .older_than(earliest_audit_timestamp_for_tag_in_chart)
+                                                        .limit(1).first
       # dont add the starting timestamp for this tag if the earliest audit in the 
       # chart was the first audit performed against this tag.
       unless most_recent_audit_before_starting_datetime.nil?
-        @chart_data[tag][:data] << [@start_datetime, most_recent_audit_before_starting_datetime.preferred_delta_performance_audit[@metric_key]]
+        @chart_data[tag][:data] << [@start_datetime, most_recent_audit_before_starting_datetime.tagsafe_score]
       end
     end
 

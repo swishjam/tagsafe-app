@@ -54,10 +54,10 @@ class TagsController < LoggedInController
 
   def audits
     tag = current_container.tags.find_by(uid: params[:uid])
-    audits = tag.audits.most_recent_first(timestamp_column: :created_at)
-                        .includes(:performance_audits)
-                        .page(params[:page] || 1)
-                        .per(params[:per_page] || 10)
+    audits = tag.audits
+                  .most_recent_first(timestamp_column: :created_at)
+                  .page(params[:page] || 1)
+                  .per(params[:per_page] || 10)
     render turbo_stream: turbo_stream.replace(
       "tag_#{tag.uid}_audits_table",
       partial: "tags/audits",
@@ -90,12 +90,6 @@ class TagsController < LoggedInController
         notification_message: "Updated #{tag.try_friendly_name}."
       }
     )
-  end
-
-  def toggle_disable
-    tag = current_container.tags.find_by(uid: params[:uid])
-    tag.update!(script_inject_is_disabled: !tag.script_inject_is_disabled)
-    redirect_to request.referrer
   end
 
   private

@@ -30,7 +30,6 @@ module TagManager
         release_check: nil, 
         hashed_content: Digest::MD5.hexdigest(content), 
         bytes: content.bytesize
-      # ).build_new_tag_version!
       ).capture_new_tag_version!
     end
   end

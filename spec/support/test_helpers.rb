@@ -10,16 +10,22 @@ def prepare_test!(options = {})
   create_uptime_regions unless options[:bypass_uptime_regions]
 end
 
-def create_tag_with_associations(tag_factory: :tag, tag_url: 'https://www.test.com/script.js')
-  tagsafe_js_events_batch = create(:tagsafe_js_events_batch, domain: @container)
-  tag = create(tag_factory, full_url: tag_url, domain: @container, tagsafe_js_events_batch: tagsafe_js_events_batch)
+def create_tag_with_associations(tag_url: 'https://www.test.com/script.js')
+  page_url = create(:page_url, container: @container)
+  tagsafe_js_event_batch = create(:tagsafe_js_event_batch, container: @container, page_url: page_url)
+  tag = create(
+    :tag,
+    full_url: tag_url, 
+    container: @container, 
+    tagsafe_js_event_batch: tagsafe_js_event_batch
+  )
   # url_to_audit = create(:url_to_audit, tag: tag, page_url: @container.page_urls.first)
   tag
 end
 
-def create_audit_with_performance_audits(domain:, tag:, tag_version:, execution_reason: ExecutionReason.MANUAL)
+def create_audit_with_performance_audits(container:, tag:, tag_version:, execution_reason: ExecutionReason.MANUAL)
   audit = create(:audit, 
-    domain: domain, 
+    container: container, 
     tag: tag, 
     tag_version: tag_version, 
     execution_reason: execution_reason, 
@@ -109,6 +115,7 @@ end
 
 def create_aws_event_bridge_rules
   create(:one_minute_release_check_aws_event_bridge_rule)
+  create(:three_hour_release_check_aws_event_bridge_rule)
 end
 
 def stub_all_resque_jobs

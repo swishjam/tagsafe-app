@@ -7,15 +7,7 @@ class TagsafeJsEventBatchConsumerJob < ApplicationJob
       third_party_tags_data: payload_parser.third_party_tags, 
       tagsafe_js_event_batch: payload_parser.tagsafe_js_event_batch
     )
-    intercepted_tags_consumer = TagsafeJsEventBatchConsumer::InterceptedTags.new(
-      container: payload_parser.container,
-      intercepted_tags_data: payload_parser.intercepted_tags, 
-      tagsafe_js_event_batch: payload_parser.tagsafe_js_event_batch
-    )
-
     third_party_tags_consumer.consume!
-    intercepted_tags_consumer.consume!
-
     payload_parser.tagsafe_js_event_batch.processing_completed!
 
     return if third_party_tags_consumer.num_updates.zero?

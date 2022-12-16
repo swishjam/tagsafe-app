@@ -3,8 +3,7 @@ class Container < ApplicationRecord
   uid_prefix 'cont'
   acts_as_paranoid
 
-  has_one :general_configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
-
+  has_many :instrumentation_builds, dependent: :destroy
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s, dependent: :destroy
   has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s, dependent: :destroy
   has_many :alert_configurations, dependent: :destroy
@@ -24,13 +23,15 @@ class Container < ApplicationRecord
 
   validates :name, presence: true
 
-  before_create { self.instrumentation_key = "TAG-#{uid.split('cont_')[1]}" }
+  before_create { self.instrumentation_key = "TAG-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
   after_create :publish_instrumentation!
   after_destroy { TagsafeAws::S3.delete_object_by_s3_url(tagsafe_instrumentation_url(use_cdn: false)) }
 
-  # attribute :is_generating_third_party_impact_trial, default: false
-  attribute :tagsafe_js_reporting_sample_rate, default: 1.0
-  validates :tagsafe_js_reporting_sample_rate, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  attribute :tagsafe_js_reporting_sample_rate, default: 0.05
+  attribute :tagsafe_js_enabled, default: true
+
+  validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :tagsafe_js_enabled, presence: true
 
   def publish_instrumentation!
     TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn
@@ -47,10 +48,6 @@ class Container < ApplicationRecord
 
   def instrumentation_cache_seconds
     60 * 5 # 5 minutes, until configurable
-  end
-
-  def current_performance_audit_calculator
-    performance_audit_calculators.currently_active.limit(1).first
   end
 
   def has_tag?(tag)

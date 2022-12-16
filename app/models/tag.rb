@@ -8,6 +8,9 @@ class Tag < ApplicationRecord
   acts_as_paranoid
 
   attribute :release_monitoring_interval_in_minutes, default: 180
+  attribute :tagsafe_js_intercepted_count, default: 0
+  attribute :tagsafe_js_not_intercepted_count, default: 0
+  attribute :tagsafe_js_optimized_count, default: 0
 
   # RELATIONS
   belongs_to :container
@@ -23,32 +26,39 @@ class Tag < ApplicationRecord
   has_many :uptime_checks, dependent: :destroy
   has_many :uptime_regions_to_check, class_name: UptimeRegionToCheck.to_s, dependent: :destroy
   has_many :uptime_regions, through: :uptime_regions_to_check
-  has_many :urls_to_audit, class_name: UrlToAudit.to_s, dependent: :destroy
-  accepts_nested_attributes_for :urls_to_audit
+  has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
+  has_many :page_urls, through: :page_urls_tag_found_on
   has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
-
-  has_many :alert_configuration_tags
+  has_many :alert_configuration_tags, dependent: :destroy
   has_many :alert_configurations, through: :alert_configuration_tags
 
+  accepts_nested_attributes_for :page_urls_tag_found_on
+
   # VALIDATIONS
+  validate :has_at_least_one_page_url_tag_found_on
+  validates :release_monitoring_interval_in_minutes, inclusion: { in: [0, 1, 15, 30, 60, 180, 360, 720, 1_440] }
+  validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates_uniqueness_of :full_url, 
                           scope: :container_id, 
                           conditions: -> { where(deleted_at: nil) },
-                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.container.url}" }
+                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on this Container (#{tag.container.name} - #{tag.container.uid})" }
 
   # CALLBACKS
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
+  before_create { self.last_seen_at = Time.current }
   # TODO: should we capture the first TagVersion for _all_ tags?
   after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! }
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
+  after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
+  scope :tagsafe_hosted, -> { where(is_tagsafe_hosted: true).where.not(current_live_tag_version: nil) }
 
   def set_parsed_url_attributes
     parsed_url = URI.parse(self.full_url)
@@ -66,9 +76,13 @@ class Tag < ApplicationRecord
   end
 
   def find_and_apply_tag_identifying_data(force_update = false)
-    if full_url.present? && (tag_identifying_data_id.nil? || force_update)
+    if full_url.present? && (!has_tag_identifying_data? || force_update)
       update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
     end
+  end
+
+  def has_tag_identifying_data?
+    tag_identifying_data_id.present?
   end
 
   def release_monitoring_interval_in_words
@@ -87,68 +101,27 @@ class Tag < ApplicationRecord
     URI.parse(full_url).scheme
   end
 
-  def after_create_notification_msg
-    "A new tag has been detected: #{full_url}"
-  end
-
   def notification_image_url
     try_image_url
   end
-
-  def state
-  end
-
-  def most_recent_version
-    # tag_versions.where(most_recent: true).limit(1).first
-    most_recent_tag_version
-  end
-  alias current_version most_recent_version
 
   def first_version
     tag_versions.most_recent_last.limit(1).first
   end
 
   def has_no_versions?
-    most_recent_version.nil?
+    most_recent_tag_version.nil?
   end
 
-  def perform_audit_on_all_urls_on_current_tag_version!(execution_reason:, initiated_by_container_user: nil)
-    if release_monitoring_enabled?
-      perform_audit_on_all_urls!(
-        execution_reason: execution_reason, 
-        tag_version: current_version,
-        initiated_by_container_user: initiated_by_container_user,
-      )
-    else
-      perform_audit_on_all_urls!(
-        execution_reason: execution_reason, 
-        initiated_by_container_user: initiated_by_container_user,
-        tag_version: nil
-      )
-    end
-  end
-
-  def perform_audit_on_all_urls!(execution_reason:, tag_version:, initiated_by_container_user: nil, options: {})
-    urls_to_audit.map do |url_to_audit|
-      perform_audit!(
-        execution_reason: execution_reason,
-        tag_version: tag_version,
-        initiated_by_container_user: initiated_by_container_user,
-        url_to_audit: url_to_audit,
-        options: options
-      )
-    end
-  end
-
-  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, url_to_audit:, options: {})
-    AuditHandler::Runner.new(
-      execution_reason: execution_reason,
+  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url_to_audit:, options: {})
+    Audit.run!(
       tag: self,
       tag_version: tag_version,
-      url_to_audit: url_to_audit,
+      page_url_to_audit: page_url_to_audit,
       initiated_by_container_user: initiated_by_container_user,
+      execution_reason: execution_reason,
       options: options
-    ).run!
+    )
   end
 
   def release_monitoring_enabled?
@@ -168,7 +141,8 @@ class Tag < ApplicationRecord
   end
 
   def tag_or_container_configuration
-    configuration || container.general_configuration
+    # configuration || container.general_configuration
+    container.general_configuration
   end
 
   def audit_to_display(include_pending: true)
@@ -203,10 +177,6 @@ class Tag < ApplicationRecord
     hostname_and_path
   end
 
-  def try_friendly_slug
-    (friendly_name || url_hostname + url_path).gsub(' ', '_').gsub('/', '_').gsub('.', '')
-  end
-
   def has_image?
     tag_identifying_data&.image.present?
   end
@@ -220,33 +190,18 @@ class Tag < ApplicationRecord
     url_hostname + url_path
   end
 
-  ################
-  ## TAG CHECKS ##
-  ################
-
-  def average_response_time(days_ago: 7)
-    uptime_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms)&.round(2)
-  end
-
-  def max_response_time(days_ago: 7, round: true)
-    uptime_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
-  end
-
-  def total_num_of_requests(days_ago: 7)
-    uptime_checks.more_recent_than(days_ago.days.ago).count
-  end
-
-  def num_failed_requests(days_ago: 7, successful_codes: [200, 204])
-    uptime_checks.more_recent_than(days_ago.days.ago).where.not(response_code: successful_codes).count
-  end
-
-  def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    failed_count = num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f
-    return 0 if failed_count.zero?
-    (failed_count / total_num_of_requests(days_ago: days_ago) * 100).round(2)
-  end
-
   private
+
+  def broadcast_new_tag_notification_to_all_users
+    container.container_users.each do |container_user|
+      container_user.user.broadcast_notification(
+        partial: "/notifications/tags/new_tag",
+        title: "🚨 New tag detected",
+        image: try_image_url,
+        partial_locals: { tag: self }
+      )
+    end
+  end
 
   def check_to_sync_aws_event_bridge_rules_if_necessary
     if saved_changes['release_monitoring_interval_in_minutes']
@@ -265,5 +220,11 @@ class Tag < ApplicationRecord
   def enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
     return false if release_monitoring_disabled?
     ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_monitoring_interval_in_minutes).enable!
+  end
+
+  def has_at_least_one_page_url_tag_found_on
+    if page_urls_tag_found_on.none?
+      errors.add(:base, "Tag must be associated with at least one PageUrl.")
+    end
   end
 end

@@ -1,4 +1,4 @@
-<span class='notification-message d-block mb-2'><%= tag_version.tag.try_friendly_name  %> pushed changes to their <%= tag_version.tag.url_based_on_preferences %> tag.</span>
+<span class='notification-message d-block mb-2'><%= tag_version.tag.try_friendly_name  %> pushed changes to their <%= tag_version.tag.has_tag_identifying_data? ? tag_version.tag.url_based_on_preferences : '' %> tag.</span>
 
 <div class='row'>
   <div class='col-6'>

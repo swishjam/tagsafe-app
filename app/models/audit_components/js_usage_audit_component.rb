@@ -1,0 +1,2 @@
+class JsUsageAuditComponent < AuditComponent
+end

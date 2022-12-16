@@ -19,14 +19,7 @@
       </div>
       <div class='tagsafe-table-cell'>
         <% audit_to_display = tag.most_current_audit %>
-        <%= render 'audits/performance_audit_pill_for_audit', tag: tag, audit: audit_to_display %>
-      </div>
-      <div class='tagsafe-table-cell'>
-        <% if audit_to_display.nil? %>
-          --
-        <% else %>
-          <%= render 'test_runs/test_results_pill_for_audit', audit: audit_to_display %>
-        <% end %>
+        <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag, audit: audit_to_display %>
       </div>
       <div class='tagsafe-table-cell'>
         <% if tag.release_monitoring_enabled? %>

@@ -34,24 +34,15 @@
   </div>
   <%= render 'partials/page_navigation_items', navigation_items: [
     { text: 'Audit Details', url: tag_path(@tag) },
-    { text: 'Uptime', url: uptime_tag_path(@tag) },
+    # { text: 'Uptime', url: uptime_tag_path(@tag) },
     { text: 'Releases', url: tag_releases_path(@tag) },
-    { text: 'Configuration', url: edit_tag_path(@tag) }
+    # { text: 'Configuration', url: edit_tag_path(@tag) }
   ] %>
 </div>
 
 <%= render 'tags/current_stats', tag: @tag %>
 
 <div class="tagsafe-container">
-  <% if @tag.disabled? %>
-    <div class="row">
-      <div class="col-12">
-        <div class="alert alert-danger col-10 offset-1 mt-3 text-center" role="alert">
-          <%= HtmlHelper.WARNING_ICON %> Tag is disabled</h6>
-        </div>
-      </div>
-    </div>
-  <% end %>
   <%= turbo_frame_tag "#{@tag.uid}_tag_chart", src: charts_tag_path(@tag) do %>
     <div class='text-center'>
       <%= display_loading_spinner %>

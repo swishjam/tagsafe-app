@@ -53,7 +53,8 @@ module StepFunctionInvoker
     def script_injection_rules
       return [] unless individual_performance_audit.is_a?(IndividualPerformanceAuditWithTag)
       js_file_url = @audit.run_on_tagsafe_tag_version? ? tag_version.js_file_url : tag.full_url
-      injection_rules = [{ url: js_file_url, load_type: tag.load_type || 'async' }]
+      injection_rules = [{ url: js_file_url, load_type: 'async' }]
+      # injection_rules = [{ url: js_file_url, load_type: tag.load_type || 'async' }]
       # tag.tags_to_inject_during_audit.each do |tag_to_inject|
       #   # always use the live tag for additional tags
       #   injection_rules << { url: tag_to_inject.full_url, load_type: tag_to_inject.load_type || 'async' }
@@ -61,7 +62,8 @@ module StepFunctionInvoker
     end
 
     def third_party_tag_url_patterns_to_allow
-      tag.container.non_third_party_url_patterns.collect(&:pattern)
+      # tag.container.non_third_party_url_patterns.collect(&:pattern)
+      []
     end
   end
 end

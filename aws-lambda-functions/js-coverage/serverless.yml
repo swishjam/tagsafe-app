@@ -1,4 +1,4 @@
-app: js-coverage
+app: js-coverage-evaluator
 service: tag-js-coverage
 org: collin
 

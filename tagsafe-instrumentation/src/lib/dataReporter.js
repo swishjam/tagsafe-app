@@ -1,7 +1,7 @@
 export default class DataReporter {
   constructor({ reportingURL, containerUid, sampleRate = 1, debugMode = false }) {
-    this.dataToReport = { third_party_tags: [], intercepted_tags: [], errors: [], warnings: [] };
-    this.dataReported = { third_party_tags: [], intercepted_tags: [], errors: [], warnings: [] };
+    this.dataToReport = { third_party_tags: [], errors: [], warnings: [] };
+    this.dataReported = { third_party_tags: [], errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
     this.reportingURL = reportingURL;
     this.containerUid = containerUid;
@@ -22,14 +22,14 @@ export default class DataReporter {
     }
   }
 
-  recordThirdPartyTag({ tagUrl, loadType }) {
+  recordThirdPartyTag({ tagUrl, loadType, interceptedByTagsafeJs, optimizedByTagsafeJs }) {
     window.Tagsafe.identifiedThirdPartyTags.push(tagUrl);
-    this._recordData('third_party_tags', { tag_url: tagUrl, load_type: loadType });
-  }
-
-  recordInterceptedTag(tagUrl) {
-    window.Tagsafe.optimizedTags.push(tagUrl);
-    this._recordData('intercepted_tags', { tag_url: tagUrl });
+    this._recordData('third_party_tags', { 
+      tag_url: tagUrl, 
+      load_type: loadType,
+      intercepted_by_tagsafe_js: interceptedByTagsafeJs,
+      optimized_by_tagsafe_js: optimizedByTagsafeJs
+    });
   }
 
   recordWarning(warning) {
@@ -72,7 +72,6 @@ export default class DataReporter {
       }
       await fetch(this.reportingURL, { method: 'POST', body: JSON.stringify(body) });
       this.dataReported.third_party_tags.concat(this.dataToReport.third_party_tags);
-      this.dataReported.intercepted_tags.concat(this.dataToReport.intercepted_tags);
       this.dataReported.errors.concat(this.dataToReport.errors);
       this._flushPendingData();
     } catch (err) {

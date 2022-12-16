@@ -26,9 +26,7 @@ export default class ScriptInterceptor {
     const scope = this;
     Node.prototype.appendChild = function() {
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      const returnVal = ogAppendChild.apply(this, arguments);
-      // window.dispatchEvent(new Event('Tagsafe::ScriptTagAddedToDOM'), { detail: returnVal });
-      return returnVal;
+      return ogAppendChild.apply(this, arguments);
     };
   }
 
@@ -37,9 +35,7 @@ export default class ScriptInterceptor {
     const scope = this;
     Node.prototype.insertBefore = function() {
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      const returnVal = ogInsertBefore.apply(this, arguments);
-      // window.dispatchEvent(new CustomEvent('Tagsafe::ScriptTagAddedToDOM'), { detail: returnVal });
-      return returnVal;
+      return ogInsertBefore.apply(this, arguments);
     };
   }
 
@@ -48,9 +44,7 @@ export default class ScriptInterceptor {
     const scope = this;
     Node.prototype.prepend = function() {
       arguments[0] = scope._reMapScriptTagIfNecessary(arguments[0]);
-      const returnVal = ogPrepend.apply(this, arguments);
-      // window.dispatchEvent(new CustomEvent('Tagsafe::ScriptTagAddedToDOM'), { detail: returnVal });
-      return returnVal;
+      return ogPrepend.apply(this, arguments);
     };
   }
 
@@ -58,26 +52,11 @@ export default class ScriptInterceptor {
     const ogInsertAdjacentElement = Element.prototype.insertAdjacentElement;
     const scope = this;
     Element.prototype.insertAdjacentElement = function() {
-      console.error(`Intercepted insertAdjacentElement!!!!`);
       arguments[1] = scope._reMapScriptTagIfNecessary(arguments[1]);
       const returnVal = ogInsertAdjacentElement.apply(this, arguments);
       return returnVal;
     }
   }
-
-  // _interceptAppend = function() {
-  //   const ogAppend = Element.prototype.append;
-  //   const scope = this;
-  //   Element.prototype.append = function() {
-  //   }
-  // }
-
-  // _interceptPrepend = function () {
-  //   const ogPrepend = Element.prototype.prepend;
-  //   const scope = this;
-  //   Element.prototype.prepend = function () {
-  //   }
-  // }
 
   _reMapScriptTagIfNecessary = newNode => {
     try {
@@ -90,12 +69,16 @@ export default class ScriptInterceptor {
             window.Tagsafe.bypassedTags = window.Tagsafe.bypassedTags || [];
             window.Tagsafe.bypassedTags.push(ogSrc);
             return newNode;
-          } else if (reRouteTagConfig) {
-            this.dataReporter.recordInterceptedTag(ogSrc);
-            return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
           } else {
-            const loadType = getScriptTagLoadType(newNode);
-            this.dataReporter.recordThirdPartyTag({ tagUrl: ogSrc, loadType });
+            this.dataReporter.recordThirdPartyTag({
+              tagUrl: newNode.getAttribute('src'),
+              loadType: getScriptTagLoadType(newNode),
+              interceptedByTagsafeJs: true,
+              optimizedByTagsafeJs: !!reRouteTagConfig
+            })
+            if (reRouteTagConfig) {
+              return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
+            }
           }
         }
       }
@@ -111,13 +94,15 @@ export default class ScriptInterceptor {
       const ogSrc = newNode.getAttribute('src');
       if (tagConfig['configuredTagUrl']) {
         newNode.setAttribute('src', tagConfig['configuredTagUrl']);
-        newNode.setAttribute('data-og-src', ogSrc);
+        newNode.setAttribute('data-tagsafe-og-src', ogSrc);
+        if(ogSrc !== tagConfig['configuredTagUrl']) {
+          newNode.setAttribute('data-tagsafe-optimized', 'true');
+        }
       }
       if(tagConfig['sha256']) {
         newNode.setAttribute('integrity', `sha256-${tagConfig['sha256']}`);
         newNode.setAttribute('crossorigin', 'anonymous');
       }
-      newNode.setAttribute('data-tagsafe-optimized', 'true');
 
       if(this.debugMode) {
         console.log(`Intercepted ${ogSrc} ->`);

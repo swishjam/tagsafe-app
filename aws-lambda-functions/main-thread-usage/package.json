@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "deploy-prod": "serverless deploy --stage production",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "locally": "serverless invoke local --function calculate-main-thread-usage --path ./test.json --stage local"
+  },
+  "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
+    "lighthouse": "^9.6.8",
+    "puppeteer-core": "^10.4.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^10.1.0",
+    "serverless": "^3.25.1"
+  }
+}

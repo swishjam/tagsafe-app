@@ -5,13 +5,13 @@ module AuditHandler
       tag: nil, 
       tag_version:,
       use_live_version_of_tag: false,
-      url_to_audit:, 
+      page_url_to_audit:, 
       execution_reason:, 
       options: {}
     )
       @initiated_by_container_user = initiated_by_container_user
       @tag_version = tag_version
-      @url_to_audit = url_to_audit
+      @page_url_to_audit = page_url_to_audit
       @tag = tag || @tag_version.tag
       @execution_reason = execution_reason
       @runner_options = RunnerOptions.new(@tag, options)
@@ -29,7 +29,7 @@ module AuditHandler
         tag: @tag,
         tag_version: @tag_version,
         container: @tag.container,
-        page_url: @url_to_audit.page_url,
+        page_url: @page_url_to_audit,
         execution_reason: @execution_reason,
         primary: false,
         performance_audit_calculator: @tag.container.current_performance_audit_calculator,

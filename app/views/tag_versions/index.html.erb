@@ -31,7 +31,7 @@
             <td scope='row'><%= image_tag tag_version.image_url, class: 'tag-thumbnail' %></td>
             <td scope="row"><%= tag_version.created_at.formatted %></td>
             <td scope="row" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'><%= tag_version.tag.try_friendly_name %></td>
-            <td scope="row"><%= render 'audits/performance_audit_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display %></td>
+            <td scope="row"><%= render 'audits/tagsafe_score_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display %></td>
             <% unless tag_version.audit_to_display.nil? %>
               <td scope="row"><%= link_to "View Results", tag_audit_path(tag_version.tag, tag_version.audit_to_display) %></td>
             <% end %>

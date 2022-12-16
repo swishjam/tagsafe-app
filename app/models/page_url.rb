@@ -5,7 +5,8 @@ class PageUrl < ApplicationRecord
   belongs_to :container
   has_many :audits
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s
-  has_many :tags_found_on_url, class_name: Tag.to_s, foreign_key: :found_on_page_url_id
+  has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
+  has_many :tags, through: :page_urls_tag_found_on
 
   validates_uniqueness_of :full_url, scope: :container_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists for Container #{container.name}."}
 
@@ -15,10 +16,19 @@ class PageUrl < ApplicationRecord
     hostname + (pathname == '/' ? '' : pathname)
   end
 
+  def url_without_query_params
+    parsed = parsed_url
+    parsed.query = nil
+    parsed.to_s
+  end
+
+  def parsed_url
+    URI.parse(full_url)
+  end
+
   private
   
   def set_parsed_url
-    parsed_url = URI.parse(self.full_url)
     self.hostname = parsed_url.host
     self.pathname = parsed_url.path
   end

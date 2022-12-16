@@ -61,7 +61,7 @@
                       value='true' 
                       type='checkbox' 
                       class='custom-checkbox-div-input' 
-                      <%= configuration.include_performance_audit ? "checked='checked'" : nil %>
+                      checked='checked'
                       data-audit-price-calculator-target='performanceAuditCheckbox'>
               <label class='custom-checkbox-div-label' for='include_performance_audit'>
                 <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
@@ -75,13 +75,15 @@
                 </div>
               </label>
             </div>
-            <div class='custom-checkbox-div-container'>
+            <%
+=begin%>
+ <div class='custom-checkbox-div-container'>
               <input name='config[include_functional_tests]' 
                       id='include_functional_tests' 
                       value='true' 
                       type='checkbox' 
                       class='custom-checkbox-div-input' 
-                      <%= configuration.include_functional_tests ? "checked='checked'" : nil %>
+                      <#%= configuration.include_functional_tests ? "checked='checked'" : nil %>
                       data-audit-price-calculator-target='functionalTestsCheckbox'>
               <label class='custom-checkbox-div-label' for='include_functional_tests'>
                 <i class="far fa-check-circle checked top-right-icon green" data-controller='tooltip' data-bs-toggle='tooltip' title="Performance audits are enabled for this audit."></i>
@@ -91,13 +93,15 @@
                 <% end %>
                 <div class='text'>Run functional tests</div>
                 <div class='icon checked'>
-                  <%= render 'partials/svgs/test_tubes' %>
+                  <#%= render 'partials/svgs/test_tubes' %>
                 </div>
                 <div class='icon unchecked'>
-                  <%= render 'partials/svgs/bw_test_tubes' %>
+                  <#%= render 'partials/svgs/bw_test_tubes' %>
                 </div>
               </label>
-            </div>
+            </div> 
+<%
+=end%>
           </div>
           <h5 class='mt-4'>Performance audit configuration:</h5>
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px;'>
@@ -107,7 +111,7 @@
                       value='true' 
                       type='checkbox' 
                       class='custom-checkbox-div-input' 
-                      <%= configuration.include_page_load_resources ? "checked='checked'" : nil %>
+                      checked='checked'
                       data-audit-price-calculator-target='resourceWaterfallCheckbox'>
               <label class='custom-checkbox-div-label fill skinny' for='include_page_load_resources'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
@@ -125,7 +129,7 @@
                      value='true' 
                      type='checkbox' 
                      class='custom-checkbox-div-input' 
-                     <%= configuration.perf_audit_enable_screen_recording ? "checked='checked'" : nil %>
+                     checked='checked'
                      data-audit-price-calculator-target='screenRecordingCheckbox'>
               <label class='custom-checkbox-div-label fill skinny' for='enable_screen_recording'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
@@ -143,7 +147,7 @@
                       value='true' 
                       type='checkbox' 
                       class='custom-checkbox-div-input' 
-                      <%= configuration.perf_audit_include_filmstrip_frames ? "checked='checked'" : nil %>
+                      checked='checked'
                       data-audit-price-calculator-target='filmstripCheckbox'>
               <label class='custom-checkbox-div-label fill skinny' for='include_filmstrip_frames'>
                 <i class="far fa-check-circle checked top-right-icon green"></i>
@@ -169,19 +173,19 @@
 
           <h5 class='mt-4'>URLs to audit:</h5>
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px'>
-            <% urls_to_audit.each do |url_to_audit| %>
+            <% page_urls_to_audit.each do |page_url_to_audit| %>
               <div class='custom-checkbox-div-container'>
-                <input name='urls_to_audit[]' 
-                        id="url_to_audit_<%= url_to_audit.id %>" 
-                        value="<%= url_to_audit.id %>" 
+                <input name='page_urls_to_audit[]' 
+                        id="<%= page_url_to_audit.uid %>" 
+                        value="<%= page_url_to_audit.uid %>" 
                         type='checkbox' 
                         class='custom-checkbox-div-input' 
-                        <%= configuration.include_functional_tests ? "checked='checked'" : nil %>
+                        checked='checked'
                         data-audit-price-calculator-target='urlToAuditCheckbox'>
-                <label class='custom-checkbox-div-label fill skinny' for='url_to_audit_<%= url_to_audit.id %>'>
+                <label class='custom-checkbox-div-label fill skinny' for='<%= page_url_to_audit.uid %>'>
                   <i class="far fa-check-circle checked top-right-icon green"></i>
                   <i class="far fa-times-circle unchecked top-right-icon red"></i>
-                  <div class='text'><%= url_to_audit.page_url.full_url %></div>
+                  <div class='text'><%= page_url_to_audit.friendly_url %></div>
                 </label>
               </div>
             <% end %>
@@ -190,7 +194,7 @@
 
         <div class='tagsafe-modal-divider'></div>
         <div class='tagsafe-modal-footer text-end'>
-          <div class='w-fit d-inline-block me-3' data-audit-price-calculator-target='totalCredits' data-controller='tooltip' data-bs-toggle='tooltip' title='Based on the settings you have selected, the number of credits this audit will cost.'></div>
+          <!-- <div class='w-fit d-inline-block me-3' data-audit-price-calculator-target='totalCredits' data-controller='tooltip' data-bs-toggle='tooltip' title='Based on the settings you have selected, the number of credits this audit will cost.'></div> !-->
           <%= loading_submit_button do %>
             <div class='d-flex align-items-center'>
               Run Audit

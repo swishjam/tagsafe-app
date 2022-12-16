@@ -7,8 +7,8 @@ RSpec.describe TagsafeJsEventBatchConsumer::PayloadParser do
       'cloudflare_message_id' => 'cldflr_abc123',
       'container_uid' => @container.uid,
       'full_page_url' => 'https://www.tagsafe.io/home',
-      'tagsafe_js_ts' => 5.minutes.ago.to_i, 
-      'enqueued_at_ts' => 4.minutes.ago.to_i,
+      'tagsafe_js_ts' => 5.minutes.ago.to_s, 
+      'enqueued_at_ts' => 4.minutes.ago.to_s,
       'intercepted_tags' => [{
         'tag_url' => 'https://cdn.example.com/script.js'
       }],
@@ -43,8 +43,8 @@ RSpec.describe TagsafeJsEventBatchConsumer::PayloadParser do
   describe '#tagsafe_js_event_batch' do
     it 'creates a new TagsafeJsEventBatch' do
       parser = TagsafeJsEventBatchConsumer::PayloadParser.new(@data)
-      expect(parser.tagsafe_js_event_batch.tagsafe_js_ts).to eq(Time.at(@data['tagsafe_js_ts']))
-      expect(parser.tagsafe_js_event_batch.enqueued_at).to eq(Time.at(@data['enqueued_at_ts']))
+      expect(parser.tagsafe_js_event_batch.tagsafe_js_ts).to eq(DateTime.parse(@data['tagsafe_js_ts']))
+      expect(parser.tagsafe_js_event_batch.enqueued_at).to eq(DateTime.parse(@data['enqueued_at_ts']))
     end
   end
 

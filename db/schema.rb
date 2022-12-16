@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_12_184320) do
+ActiveRecord::Schema.define(version: 2022_12_15_213222) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -72,39 +72,41 @@ ActiveRecord::Schema.define(version: 2022_12_12_184320) do
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end
 
-  create_table "audits", charset: "utf8", force: :cascade do |t|
+  create_table "audit_components", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
-    t.integer "execution_reason_id"
-    t.boolean "primary"
-    t.timestamp "created_at"
-    t.boolean "throttled", default: false
-    t.float "seconds_to_complete"
-    t.integer "tag_version_id"
-    t.datetime "deleted_at"
-    t.string "performance_audit_error_message"
-    t.integer "performance_audit_calculator_id"
-    t.bigint "page_url_id"
-    t.boolean "include_page_load_resources"
-    t.boolean "include_page_change_audit"
-    t.boolean "include_performance_audit"
-    t.boolean "include_functional_tests"
-    t.integer "num_functional_tests_to_run"
-    t.timestamp "enqueued_suite_at"
-    t.timestamp "performance_audit_completed_at"
-    t.timestamp "page_change_audit_completed_at"
-    t.timestamp "functional_tests_completed_at"
-    t.float "tagsafe_score_confidence_range"
-    t.integer "num_performance_audit_sets_ran"
-    t.bigint "initiated_by_container_user_id"
-    t.boolean "has_confident_tagsafe_score"
-    t.boolean "tagsafe_score_is_confident"
+    t.string "type"
+    t.bigint "audit_id"
+    t.float "score"
+    t.float "score_weight"
+    t.text "raw_results"
+    t.timestamp "started_at"
+    t.timestamp "completed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.timestamp "lambda_response_received_at"
+    t.string "error_message"
+    t.index ["audit_id"], name: "index_audit_components_on_audit_id"
+    t.index ["uid"], name: "index_audit_components_on_uid"
+  end
+
+  create_table "audits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
     t.bigint "container_id"
     t.bigint "tag_id"
+    t.bigint "tag_version_id"
+    t.bigint "page_url_id"
+    t.bigint "initiated_by_container_user_id"
+    t.float "tagsafe_score"
+    t.timestamp "started_at"
+    t.timestamp "completed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "execution_reason_id"
+    t.string "error_message"
     t.index ["container_id"], name: "index_audits_on_container_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
     t.index ["initiated_by_container_user_id"], name: "index_audits_on_initiated_by_container_user_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
-    t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
     t.index ["uid"], name: "index_audits_on_uid"
@@ -154,6 +156,7 @@ ActiveRecord::Schema.define(version: 2022_12_12_184320) do
     t.datetime "deleted_at"
     t.string "instrumentation_key"
     t.float "tagsafe_js_reporting_sample_rate"
+    t.boolean "tagsafe_js_enabled"
     t.index ["name"], name: "index_containers_on_name"
     t.index ["uid"], name: "index_containers_on_uid"
   end
@@ -308,6 +311,44 @@ ActiveRecord::Schema.define(version: 2022_12_12_184320) do
     t.index ["uid"], name: "index_instrumentation_builds_on_uid"
   end
 
+  create_table "legacy_audits", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.integer "execution_reason_id"
+    t.boolean "primary"
+    t.timestamp "created_at"
+    t.boolean "throttled", default: false
+    t.float "seconds_to_complete"
+    t.integer "tag_version_id"
+    t.datetime "deleted_at"
+    t.string "performance_audit_error_message"
+    t.integer "performance_audit_calculator_id"
+    t.bigint "page_url_id"
+    t.boolean "include_page_load_resources"
+    t.boolean "include_page_change_audit"
+    t.boolean "include_performance_audit"
+    t.boolean "include_functional_tests"
+    t.integer "num_functional_tests_to_run"
+    t.timestamp "enqueued_suite_at"
+    t.timestamp "performance_audit_completed_at"
+    t.timestamp "page_change_audit_completed_at"
+    t.timestamp "functional_tests_completed_at"
+    t.float "tagsafe_score_confidence_range"
+    t.integer "num_performance_audit_sets_ran"
+    t.bigint "initiated_by_container_user_id"
+    t.boolean "has_confident_tagsafe_score"
+    t.boolean "tagsafe_score_is_confident"
+    t.bigint "container_id"
+    t.bigint "tag_id"
+    t.index ["container_id"], name: "index_legacy_audits_on_container_id"
+    t.index ["execution_reason_id"], name: "index_legacy_audits_on_execution_reason_id"
+    t.index ["initiated_by_container_user_id"], name: "index_legacy_audits_on_initiated_by_container_user_id"
+    t.index ["page_url_id"], name: "index_legacy_audits_on_page_url_id"
+    t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
+    t.index ["tag_id"], name: "index_legacy_audits_on_tag_id"
+    t.index ["tag_version_id"], name: "index_legacy_audits_on_tag_version_id"
+    t.index ["uid"], name: "index_legacy_audits_on_uid"
+  end
+
   create_table "non_third_party_url_patterns", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.integer "container_id"
@@ -352,6 +393,17 @@ ActiveRecord::Schema.define(version: 2022_12_12_184320) do
     t.index ["hostname"], name: "index_page_urls_on_hostname"
     t.index ["pathname"], name: "index_page_urls_on_pathname"
     t.index ["uid"], name: "index_page_urls_on_uid"
+  end
+
+  create_table "page_urls_tag_found_on", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "page_url_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.timestamp "last_seen_at"
+    t.string "uid"
+    t.index ["page_url_id"], name: "index_page_urls_tag_found_on_on_page_url_id"
+    t.index ["tag_id"], name: "index_page_urls_tag_found_on_on_tag_id"
   end
 
   create_table "performance_audit_calculators", charset: "utf8", force: :cascade do |t|
@@ -555,6 +607,8 @@ ActiveRecord::Schema.define(version: 2022_12_12_184320) do
     t.string "sha_256"
     t.string "tag_version_identifier"
     t.string "sha_512"
+    t.bigint "audit_blocking_live_promotion_id"
+    t.index ["audit_blocking_live_promotion_id"], name: "index_tag_versions_on_audit_blocking_live_promotion_id"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
@@ -581,6 +635,12 @@ ActiveRecord::Schema.define(version: 2022_12_12_184320) do
     t.datetime "removed_from_site_at"
     t.bigint "tagsafe_js_event_batch_id"
     t.integer "release_monitoring_interval_in_minutes"
+    t.string "load_type"
+    t.boolean "is_tagsafe_js_interceptable"
+    t.integer "tagsafe_js_intercepted_count"
+    t.integer "tagsafe_js_optimized_count"
+    t.integer "tagsafe_js_not_intercepted_count"
+    t.boolean "is_tagsafe_hostable"
     t.index ["container_id"], name: "index_tags_on_container_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"

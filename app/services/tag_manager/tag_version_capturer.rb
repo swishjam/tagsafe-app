@@ -12,11 +12,7 @@ module TagManager
       tag_version = @tag.tag_versions.create!(tag_version_data)
       upload_files_to_s3!(tag_version)
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
-      @tag.update!(
-        marked_as_pending_tag_version_capture_at: nil, 
-        # current_live_tag_version: tag_version, # eventually this should move to after we run our audits and is verified to be safe
-        most_recent_tag_version: tag_version
-      )
+      @tag.update!(marked_as_pending_tag_version_capture_at: nil, most_recent_tag_version: tag_version)
       remove_temp_files
       tag_version
     end
@@ -72,7 +68,7 @@ module TagManager
     def diff_analyzer
       @diff_analyzer ||= DiffAnalyzer.new(
         new_content: File.read(formatted_js_file),
-        previous_content: @tag.current_version.content(formatted: true),
+        previous_content: @tag.most_recent_tag_version.content(formatted: true),
         num_lines_of_context: 0,
         include_diff_info: false
       )

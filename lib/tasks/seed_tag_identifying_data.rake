@@ -1691,6 +1691,7 @@ JSON_DATA = [
   {
      "name"=>"Hubspot",
      "homepage"=>"https://hubspot.com/",
+     "image_url"=>"https://pbs.twimg.com/profile_images/1500923494665797632/VytKgxOP_400x400.jpg",
      "categories"=>[
         "marketing"
      ],

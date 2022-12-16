@@ -1,0 +1,24 @@
+app: main-thread-usage
+service: main-thread-usage
+org: collin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage}
+  profile: ${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+    # CHROMIUM_EXECUTABLE: ${file(./config/${opt:stage}.yml):CHROMIUM_EXECUTABLE, ''}
+    # S3_AWS_ACCESS_KEY_ID: ${file(./config/${opt:stage}.yml):S3_AWS_ACCESS_KEY_ID}
+    # S3_AWS_SECRET_ACCESS_KEY: ${file(./config/${opt:stage}.yml):S3_AWS_SECRET_ACCESS_KEY}
+
+functions:
+  calculate-main-thread-usage:
+    handler: handler.handle
+    timeout: 90
+
+package:
+  patterns:
+    - '!node_modules/puppeteer/.local-chromium/**'

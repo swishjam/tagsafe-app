@@ -10,26 +10,33 @@ export default class thirdPartyTagIdentifier {
   reportAllThirdPartyTags() {
     // console.log('Going to look for scripts in 5 seconds....');
     // setTimeout(() => this._findAndReportThirdPartyTags(), 5_000);
-    if(document.readyState === 'interactive') {
-      this._findAndReportThirdPartyTags();
+    if(document.readyState === 'complete') {
+      setTimeout(() => this._findAndReportThirdPartyTags(), 1_000);
     } else {
       document.addEventListener("readystatechange", (event) => {
-        if (event.target.readyState === 'interactive') {
-          this._findAndReportThirdPartyTags();
+        if (event.target.readyState === 'complete') {
+          setTimeout(() => this._findAndReportThirdPartyTags(), 1_000);
         }
       })
     }
   }
  
   _findAndReportThirdPartyTags() {
-    window.Tagsafe.identifiedThirdPartyTags = [];
-    const thirdPartyTags = Array.from(
-      document.querySelectorAll('script[src]:not([data-tagsafe-intercepted])')
-    ).filter(script => isThirdPartyUrl(script.getAttribute('src'), this.firstPartyDomains));
-    thirdPartyTags.forEach(script => {
-      const tagUrl = script.getAttribute('src');
-      const loadType = getScriptTagLoadType(script);
-      this.dataReporter.recordThirdPartyTag({ tagUrl, loadType });
-    })
+    if(this.debugMode) console.log('Finding all third party script tags that ScriptInterceptor missed...');
+    Array.from(
+      document.querySelectorAll('script[src]:not([data-tagsafe-intercepted])') 
+    ).filter(script => {
+      const isThirdPartyTag = isThirdPartyUrl(script.getAttribute('src'), this.firstPartyDomains);
+      if(this.debugMode) {
+        console.log(`Is ${script.getAttribute('src')} a third party tag? ${isThirdPartyTag}`);
+      }
+      return isThirdPartyTag;
+    }).forEach(script => this._reportThirdPartyScript(script))
+  }
+
+  _reportThirdPartyScript(script) {
+    const loadType = getScriptTagLoadType(script);
+    const tagUrl = script.getAttribute('src');
+    this.dataReporter.recordThirdPartyTag({ tagUrl, loadType, interceptedByTagsafeJs: false, optimizedByTagsafeJs: false });
   }
 }

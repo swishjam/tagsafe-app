@@ -66,7 +66,7 @@ RSpec.describe Tag, type: :model do
     end
   end
 
-  # describe '#most_recent_version' do
+  # describe '#most_recent_tag_version' do
   #   it 'returns the TagVersion where most_recent = true' do
   #     tag_versions = 10.times.map do |i|
   #       uptime_check = create(:uptime_check, tag: @tag, captured_new_tag_version: true)

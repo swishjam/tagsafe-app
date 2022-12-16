@@ -1,4 +1,4 @@
-class CurrentLiveTagVersionDecider
+class LiveTagVersionPromoter
   def initialize(tag_version)
     @tag_version = tag_version
   end
