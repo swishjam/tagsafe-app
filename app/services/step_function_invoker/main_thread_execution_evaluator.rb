@@ -35,7 +35,7 @@ module StepFunctionInvoker
     end
 
     def page_url_to_audit
-      "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?disable-tagsafe=true' : ''}"
+      "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?tagsafe-disabled=true' : ''}"
     end
   end
 end

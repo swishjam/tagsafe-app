@@ -29,6 +29,7 @@ module.exports = class DataStoreManager {
       SELECT 
         tags.id AS tag_id,
         tags.full_url AS tag_url, 
+        tags.is_tagsafe_hostable as is_tagsafe_hostable,
         tags.release_monitoring_interval_in_minutes AS release_monitoring_interval_in_minutes, 
         most_recent_tag_versions.hashed_content AS current_hashed_content,
         most_recent_tag_versions.bytes AS current_version_bytes_size,
@@ -38,9 +39,11 @@ module.exports = class DataStoreManager {
         INNER JOIN tag_versions AS most_recent_tag_versions 
           ON most_recent_tag_versions.id=tags.most_recent_tag_version_id
       WHERE 
+        tags.is_tagsafe_hostable = true AND
         tags.release_monitoring_interval_in_minutes = ${parseInt(interval)}
       GROUP BY
         tags.id, 
+        is_tagsafe_hostable,
         release_monitoring_interval_in_minutes, 
         current_hashed_content,
         current_version_bytes_size,

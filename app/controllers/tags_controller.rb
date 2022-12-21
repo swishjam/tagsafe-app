@@ -8,7 +8,7 @@ class TagsController < LoggedInController
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
       { text: 'Monitor Center', url: tags_path }, 
-      { text: "#{@tag.try_friendly_name} Audit Details", active: true }
+      { text: "#{@tag.try_friendly_name} Details", active: true }
     )
   end
 

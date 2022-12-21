@@ -28,7 +28,7 @@ module TagManager
         tag: @tag, 
         content: content, 
         release_check: nil, 
-        hashed_content: Digest::MD5.hexdigest(content), 
+        hashed_content: Digest::MD5.hexdigest(content),
         bytes: content.bytesize
       ).capture_new_tag_version!
     end

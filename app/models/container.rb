@@ -9,7 +9,7 @@ class Container < ApplicationRecord
   has_many :alert_configurations, dependent: :destroy
   has_many :audits, dependent: :destroy
   has_many :container_users, dependent: :destroy
-  has_many :users, through: :conatiner_users
+  has_many :users, through: :container_users
   has_many :functional_tests, dependent: :destroy
   has_many :test_runs, through: :functional_tests
   has_many :page_urls, dependent: :destroy

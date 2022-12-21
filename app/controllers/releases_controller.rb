@@ -5,16 +5,16 @@ class ReleasesController < LoggedInController
 
   def index
     @tag = current_container.tags.find_by(uid: params[:uid])
-    render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path },
-      { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
-      { text: "Releases" }
-    )
+    container_or_tag = params[:all_tags] ? current_container : current_container.tags.find_by(uid: params[:uid])
+    range = Time.current.beginning_of_month.beginning_of_week.to_datetime..Time.current.end_of_month.to_datetime
+    @first_tag_version_date = container_or_tag.tag_versions.select(:created_at).most_recent_last(timestamp_column: :'tag_versions.created_at').limit(1).first&.created_at
+    @release_count_by_day = container_or_tag.tag_versions.not_first_version.group_by_day(:created_at, range: range).count
+    @most_releases_in_a_day = @release_count_by_day.max_by{|k,v| v}[1]
   end
 
   def release_chart
     container_or_tag = params[:all_tags] ? current_container : current_container.tags.find_by(uid: params[:tag_uid])
-    range = ((365.days.ago.beginning_of_week - 1.day).to_datetime..Time.current.beginning_of_day.to_datetime)
+    range = ((365.days.ago.beginning_of_week - 1.day).to_datetime..Time.current.end_of_month.to_datetime)
     num_releases_last_30_days = container_or_tag.tag_versions
                                               .not_first_version
                                               .more_recent_than_or_equal_to(30.days.ago.beginning_of_day, timestamp_column: :'tag_versions.created_at')
@@ -39,7 +39,7 @@ class ReleasesController < LoggedInController
     end_date = params[:end_date].to_datetime
     tag = current_container.tags.find_by(uid: params[:tag_uid])
     tags_tag_versions_for_month = tag.tag_versions
-                                      .includes(:tag)
+                                      .includes(:tag, :primary_audit)
                                       .not_first_version
                                       .more_recent_than_or_equal_to(start_date, timestamp_column: :'tag_versions.created_at')
                                       .older_than_or_equal_to(end_date, timestamp_column: :'tag_versions.created_at')

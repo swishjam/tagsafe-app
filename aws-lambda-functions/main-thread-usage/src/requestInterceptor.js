@@ -10,7 +10,7 @@ module.exports = class RequestInterceptor {
   async overrideProvidedRequests() {
     await this.page.setRequestInterception(true);
     this.page.on('request', async req => {
-      const urlToOverrideTo = this._urlToOverrideRequestUrlTo(req.url())
+      const urlToOverrideTo = this._urlToOverrideRequestUrlTo(req.url());
       if(urlToOverrideTo) {
         console.log(`Intercepting ${req.url()} and overriding it to ${urlToOverrideTo}!`);
         await req.continue({ url: urlToOverrideTo });

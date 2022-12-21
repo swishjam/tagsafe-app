@@ -1,4 +1,4 @@
-<span>Your audit for <%= audit.tag.try_friendly_name %> completed with a Tagsafe Score of <b><%= audit.tagsafe_score %></b>.</span>
+<span>Your audit for <%= audit.tag.try_friendly_name %> completed with a Tagsafe Score of <b><%= audit.formatted_tagsafe_score %></b>.</span>
 
 <div class='row'>
   <%= link_to "View results", tag_audit_path(audit.tag, audit), target: '_top' %>

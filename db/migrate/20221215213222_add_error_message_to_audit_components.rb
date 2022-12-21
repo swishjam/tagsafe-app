@@ -3,7 +3,8 @@ class AddErrorMessageToAuditComponents < ActiveRecord::Migration[6.1]
     add_column :audit_components, :error_message, :string
     add_column :audits, :error_message, :string
     
-    add_reference :tag_versions, :audit_blocking_live_promotion
     add_column :tags, :is_tagsafe_hostable, :boolean
+    add_reference :tag_versions, :primary_audit
+    add_column :tag_versions, :blocked_from_promoting_to_live, :boolean
   end
 end

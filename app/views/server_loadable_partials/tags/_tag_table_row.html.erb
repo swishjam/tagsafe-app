@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class='tagsafe-table-cell'>
-        <% audit_to_display = tag.most_current_audit %>
+        <% audit_to_display = tag.most_recent_successful_audit %>
         <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag, audit: audit_to_display %>
       </div>
       <div class='tagsafe-table-cell'>

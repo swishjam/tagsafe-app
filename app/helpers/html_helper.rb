@@ -29,7 +29,7 @@ module HtmlHelper
     end
 
     def JAVASCRIPT_ICON(color: nil)
-      font_awesome_icon('<i class="fab fa-js-square"></i>', color: color)
+      font_awesome_icon('fab fa-js-square', color: color)
     end
 
     private

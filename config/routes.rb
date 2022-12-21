@@ -85,17 +85,6 @@ Rails.application.routes.draw do
   end
 
   resources :tags, param: :uid do
-    collection do
-      post :promote
-      post '/builder/new' => 'tag_builder#new'
-    end
-    patch '/builder/update' => 'tag_builder#update'
-    get '/builder/resource' => 'tag_builder#resource'
-    get '/builder/load_rules' => 'tag_builder#load_rules'
-    get '/builder/performance' => 'tag_builder#performance'
-    get '/builder/position' => 'tag_builder#position'
-    get '/builder/review' => 'tag_builder#review'
-
     member do
       get :uptime
       get :audits

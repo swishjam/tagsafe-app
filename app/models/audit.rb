@@ -33,7 +33,7 @@ class Audit < ApplicationRecord
   validate :has_valid_audit_components
   validate :only_one_new_release_audit_per_tag_version
   validate :manual_executions_has_initiated_by_user
-  # validates :tagsafe_score, presence: true, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }
+  validates :tagsafe_score, presence: true, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }, if: :successful?
 
   def self.run!(
     tag:, 
@@ -54,6 +54,17 @@ class Audit < ApplicationRecord
     )
   end
 
+  def retry
+    raise "Cannot retry an audit that did not fail." unless failed?
+    Audit.run!(
+      tag: tag,
+      tag_version: tag_version,
+      page_url: page_url,
+      execution_reason: execution_reason,
+      initiated_by_container_user: initiated_by_container_user
+    )
+  end
+
   def calculate_tagsafe_score!
     raise "Cannot calculate score, not all AuditComponents have completed" unless all_components_completed?
     audit_components.sum(&:weighted_score_for_audit)
@@ -64,10 +75,15 @@ class Audit < ApplicationRecord
     self.tagsafe_score = calculate_tagsafe_score!
     self.completed_at = Time.current
     self.save!
-    broadcast_audit_completed_notification
     update_tag_details_audit_row
+    broadcast_audit_completed_notification
     return unless execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present? && tag.is_tagsafe_hosted
+    tag_version.update!(primary_audit: self)
     LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met!
+  end
+
+  def poor_scoring_audit_components
+    audit_components.where('score < 80')
   end
 
   def failed!(err_msg)
@@ -164,8 +180,8 @@ class Audit < ApplicationRecord
   def only_one_new_release_audit_per_tag_version
     return if tag_version.nil?
     return unless execution_reason.new_release?
-    if tag_version.audits.where(execution_reason: execution_reason).where.not(id: id).any?
-      errors.add(:base, "Tag Version #{tag_version.uid} already has an Audit with an Execution Reason of 'New Release'.")
+    if tag_version.audits.successful.where(execution_reason: execution_reason).where.not(id: id).any?
+      errors.add(:base, "Tag Version #{tag_version.uid} already has an Audit with an Execution Reason of `New Release``.")
     end
   end
 

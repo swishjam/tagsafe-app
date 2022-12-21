@@ -49,6 +49,7 @@ module.exports = class ReleaseCheckConfig {
   }
 
   get numRecentTagVersionsToCompare() {
-    return this.jsonConfig['num_recent_tag_versions_to_compare_in_release_monitoring'] || 5;
+    // return this.jsonConfig['num_recent_tag_versions_to_compare_in_release_monitoring'] || 5;
+    return parseInt(process.env.NUM_RECENT_TAG_VERSIONS_TO_COMPARE_NEW_VERSION_TO || 0);
   }
 }

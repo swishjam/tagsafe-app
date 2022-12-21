@@ -24,7 +24,7 @@ module TagManager
         hashed_content: @hashed_content,
          # what's written to file seems to be slightly different than the @content in memory?
         sha_256: OpenSSL::Digest.new('SHA256').base64digest( File.read(js_file) ),
-        # sha_512: OpenSSL::Digest.new('SHA512').base64digest(File.read(tag_version_js_file[:io]),
+        sha_512: OpenSSL::Digest.new('SHA512').base64digest( File.read(js_file) ),
         bytes: @bytes,
         release_check_captured_with: @release_check,
         commit_message: TagManager::CommitMessageParser.new(@content).try_to_get_commit_message,

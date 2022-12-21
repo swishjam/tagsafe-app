@@ -23,10 +23,10 @@ export default class MetricsHandler {
   }
 
   _onScriptLoaded(e) {
-    console.log(`${e.target.getAttribute('src')} loaded!`);
+    // console.log(`${e.target.getAttribute('src')} loaded!`);
   }
 
   _onScriptFailed(e) {
-    console.log(`${e.target.getAttribute('src')} errored!`);
+    // console.log(`${e.target.getAttribute('src')} errored!`);
   }
 }

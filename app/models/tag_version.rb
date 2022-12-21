@@ -3,9 +3,10 @@ class TagVersion < ApplicationRecord
   include Notifier
   include Streamable
   acts_as_paranoid
-  
+
   belongs_to :tag
   belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
+  belongs_to :primary_audit, class_name: Audit.to_s, optional: true
   has_one :tag_with_current_live_tag_version, class_name: Tag.to_s, foreign_key: :current_live_tag_version_id, dependent: :restrict_with_error
   has_one :tag_with_most_recent_tag_version, class_name: Tag.to_s, foreign_key: :most_recent_tag_version_id, dependent: :restrict_with_error
   has_many :audits, dependent: :destroy
@@ -13,12 +14,16 @@ class TagVersion < ApplicationRecord
   # should we have a first class attribute for this?
   scope :first_version, -> { where(total_changes: nil) }
   scope :not_first_version, -> { where.not(total_changes: nil) }
+  scope :blocked_from_promoting_to_live, -> { where(blocked_from_promoting_to_live: true) }
+  scope :currently_live, -> { Tag.includes(:current_live_tag_version) }
 
   after_create { tag.update!(last_released_at: self.created_at) }
-  after_create { perform_audit(execution_reason: ExecutionReason.NEW_RELEASE, page_url_to_audit: tag.page_urls.first) }
+  after_create { perform_audit(execution_reason: ExecutionReason.NEW_RELEASE, page_url_to_audit: tag.page_url_first_found_on) }
   after_create_commit { broadcast_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
+  after_create_commit { prepend_tag_version_to_tag_details_view }
   after_destroy :purge_s3_files!
   after_destroy { tag.update!(most_recent_tag_version: previous_version) if is_tags_most_recent_tag_version? }
+  after_update_commit { update_tag_details_view if saved_changes['primary_audit_id'] }
 
   def s3_url(use_cdn: true, formatted: false)
     url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : s3_bucket
@@ -79,8 +84,16 @@ class TagVersion < ApplicationRecord
     audits.find_by(execution_reason: ExecutionReason.NEW_RELEASE)
   end
 
+  def can_promote_to_live?
+    !primary_audit_is_pending? && primary_audit.tagsafe_score >= 80
+  end
+  
+  def primary_audit_is_pending?
+    primary_audit.nil?
+  end
+
   def audit_to_display
-    most_recent_successful_audit || most_recent_pending_audit || most_recent_failed_audit
+    primary_audit || audit_to_determine_promotability || most_recent_successful_audit || most_recent_pending_audit || most_recent_failed_audit
   end
 
   def most_recent_successful_audit
@@ -95,10 +108,6 @@ class TagVersion < ApplicationRecord
     audits.most_recent_first.failed.limit(1).first
   end
 
-  def has_pending_audit?
-    audits.pending.any?
-  end
-
   def previous_version
     tag.tag_versions.most_recent_first.older_than(created_at).limit(1).first
   end
@@ -111,6 +120,10 @@ class TagVersion < ApplicationRecord
 
   def image_url
     tag.try_image_url
+  end
+
+  def is_tags_current_live_tag_version?
+    self == tag.current_live_tag_version
   end
 
   def is_tags_most_recent_tag_version?
@@ -137,5 +150,29 @@ class TagVersion < ApplicationRecord
         partial_locals: { tag_version: self }
       )
     end
+  end
+
+  def prepend_tag_version_to_tag_details_view
+    broadcast_prepend_to(
+      "tag_#{tag.uid}_details_view_stream",
+      target: "tag_#{tag.uid}_tag_versions",
+      partial: 'tag_versions/tag_version_row',
+      locals: { 
+        tag_version: self,
+        streamed: true
+      }
+    )
+  end
+
+  def update_tag_details_view
+    broadcast_replace_to(
+      "tag_#{tag.uid}_details_view_stream",
+      target: "tag_version_#{uid}_row",
+      partial: "tag_versions/tag_version_row",
+      locals: {
+        tag_version: self,
+        streamed: true
+      }
+    )
   end
 end

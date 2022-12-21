@@ -44,6 +44,7 @@ module ChartHelper
     def add_all_audits_since_start_datetime
       Audit.includes(:tag, :tag_version)
               .where(tag_id: tag_ids)
+              .successful
               .more_recent_than_or_equal_to(@start_datetime, timestamp_column: 'audits.created_at')
               .order('audits.created_at ASC')
               .group_by{ |audit| audit.tag }.each do |tag, audits|

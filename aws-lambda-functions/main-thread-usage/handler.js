@@ -38,6 +38,8 @@ module.exports.handle = async (event, _context) => {
   await page.goto(page_url, { waituntil: navigation_wait_until });
   console.log(`Arrived at ${page_url}! Calculating main thread......`);
 
+  await new Promise(r => setTimeout(r, parseInt(process.env.ADDITIONAL_WAIT_TIME_AFTER_NAVIGATION || 2000)));
+
   await tracer.stopTracing();
   const mainThreadResults = new MainThreadAnalyzer(tracer.localFilePath).mainThreadExecutionForUrl(tag_url);
   tracer.purgeLocalFile();
@@ -45,9 +47,10 @@ module.exports.handle = async (event, _context) => {
   await puppeteerModerator.shutdown();
   if (!requestInterceptor.didOverwriteRequest()) throw new Error(`Cannot calculate Main Thread Execution, ${request_url_to_overwrite} not present on ${page_url}.`)
 
-  const score = 100 - 
+  let score = 100 - 
                 mainThreadResults.totalExecutionMsForUrlPatterns * parseFloat(total_main_thread_execution_multiplier) -
                 mainThreadResults.totalMainThreadBlockingMsForUrlPatterns * parseFloat(main_thread_blocking_multiplier);
+  score = score < 0 ? 0 : score;
 
   const responsePayload = {
     score,

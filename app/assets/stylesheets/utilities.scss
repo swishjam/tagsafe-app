@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.default-cursor {
+  cursor: default;
+}
+
 a.no-decoration {
   text-decoration: none !important;
 }
@@ -142,6 +146,12 @@ a.no-decoration {
   color: $tagsafe-primary;
   &.white {
     color: white;
+  }
+  &.black {
+    color: black;
+  }
+  &.grey {
+    color: grey;
   }
   &.tiny {
     width: 15px;
@@ -326,6 +336,18 @@ a.no-decoration {
   }
 }
 
+.page-header {
+  font-family: $tagsafe-font-family;
+  font-size: 2.5rem;
+  cursor: default;
+}
+
+.page-sub-header {
+  font-family: $tagsafe-font-family;
+  font-size: 1.5rem;
+  cursor: default;
+}
+
 .scanning-animation-container {
   position: relative;
   .scanning-animation {
@@ -428,6 +450,15 @@ form[data-controller=loading_form] {
   border-radius: 50%;
   background-color: #ff4343;
   box-shadow: 0px 0px 7px 0px #ff4343b3;
+}
+
+.code-block {
+  border: 1px solid #bebebe;
+  background-color: #efefef;
+  font-style: italic;
+  padding: 3px;
+  border-radius: 5px;
+  cursor: default;
 }
 
 .tagsafe-pill {

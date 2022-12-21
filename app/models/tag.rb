@@ -14,7 +14,7 @@ class Tag < ApplicationRecord
 
   # RELATIONS
   belongs_to :container
-  belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
+  # belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
   belongs_to :tagsafe_js_event_batch
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
@@ -49,8 +49,8 @@ class Tag < ApplicationRecord
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
   before_create { self.last_seen_at = Time.current }
   # TODO: should we capture the first TagVersion for _all_ tags?
-  after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! }
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
+  after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! if is_tagsafe_hostable }
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
   after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
@@ -59,6 +59,9 @@ class Tag < ApplicationRecord
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
   scope :tagsafe_hosted, -> { where(is_tagsafe_hosted: true).where.not(current_live_tag_version: nil) }
+  scope :not_tagsafe_hosted, -> { where(is_tagsafe_hosted: false) }
+  scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
+  scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
 
   def set_parsed_url_attributes
     parsed_url = URI.parse(self.full_url)
@@ -113,6 +116,20 @@ class Tag < ApplicationRecord
     most_recent_tag_version.nil?
   end
 
+  def most_current_audit
+    # TODO: make this more intelligent
+    most_recent_successful_audit
+  end
+
+  def page_url_first_found_on
+    page_urls_tag_found_on.includes(:page_url).most_recent_first.limit(1).first.page_url
+  end
+
+  def load_type_as_verb
+    return load_type if %w[async defer].include?(load_type)
+    "#{load_type}ly"
+  end
+
   def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url_to_audit:, options: {})
     Audit.run!(
       tag: self,
@@ -150,11 +167,11 @@ class Tag < ApplicationRecord
   end
 
   def most_recent_successful_audit
-    audits.completed_performance_audit.successful_performance_audit.most_recent_first.limit(1).first
+    audits.successful.most_recent_first.limit(1).first
   end
 
   def most_recent_pending_audit
-    audits.pending_performance_audit.most_recent_first.limit(1).first
+    audits.pending.most_recent_first.limit(1).first
   end
 
   def name

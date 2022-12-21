@@ -1,0 +1,92 @@
+<%= turbo_frame_tag "tag_version_#{tag_version.uid}_row" do %>
+  <div class='release-item <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+    <%  release_type = tag_version.primary_audit_is_pending? ? 
+                        'pending-audit' : tag_version.is_tags_current_live_tag_version? ? 
+                          'live' : tag_version.blocked_from_promoting_to_live ? 
+                            'blocked' : 'normal' %>
+    <div class='release-icon <%= release_type %>' data-controller='tooltip' title='<%= release_type == 'pending-audit' ? 'Performing audit on this release' : release_type == 'live' ? 'Version is currently live.' : release_type == 'blocked' ? 'Release was blocked by Tagsafe.' : nil  %>'>
+      <% if release_type == 'pending-audit' %>
+        <%= display_loading_spinner size: :tiny, color: 'grey' %>
+      <% elsif release_type == 'live' %>
+        <i class="fa-regular fa-star"></i>
+      <% elsif release_type == 'blocked' %>
+        <i class="fa-solid fa-ban"></i>
+      <% else %>
+        <i class="fa-solid fa-code-merge"></i>
+      <% end %>
+    </div>
+    <div class='release-content unrolled d-inline-block'>
+      <div class='container-fluid'>
+        <div class='row'>
+          <div class='col-6'>
+            <span class='release-date d-block'><%= tag_version.created_at.formatted_short %></span>
+            <% if local_assigns[:display_tag_name] %>
+              <span class='release-tag sub-header-light d-block'>
+                <%= tag_version.tag.try_friendly_name %>
+              </span>
+            <% end %>
+            <span class='release-sha sub-header-light d-block mt-1 mb-1'>
+              <span class='code-block'><%= tag_version.sha %></span>
+              <% if release_type == 'blocked' %>
+                <span data-controller='tooltip' title="<%= tag_version.primary_audit.poor_scoring_audit_components.collect(&:audit_breakdown_description).join(' ') %>">
+                <i class="fa-regular fa-circle-xmark blocked-icon"></i>
+              <% elsif %w[normal live].include?(release_type) %>
+                <i class="fa-regular fa-circle-check passed-icon"></i>
+              <% end %>
+            </span>
+            <span class='release-commit-message sub-header-light d-block'>
+              <% if tag_version.commit_message %>
+                <i class="fa-solid fa-comment"></i> <i><%= tag_version.commit_message %></i>
+              <% else %>
+                <!-- <i class="fa-solid fa-comment-slash"></i> No commit messsage provided !-->
+              <% end %>
+            </span>
+          </div>
+          <div class='col-6'>
+            <div class='w-fit float-end'>
+              <div class="dropdown show ellipsis-dropdown position-absolute top-0 end-0">
+                <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v" style="font-size: 12px;"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <%= link_to 'View git diff', git_diff_tag_tag_version_path(tag_version.tag, tag_version), class: 'dropdown-item', target: '_top' %> 
+                  <%= link_to 'View audits', tag_path(tag_version.tag), class: 'dropdown-item', target: '_top' %> 
+                </div>
+              </div>
+              <% if tag_version.total_changes.nil? %>
+                <!--<i>No changes to compare, this is the first version of <#%= tag_version.tag.try_friendly_name %></i>!-->
+              <% else %>
+                <div class='changes-in-release-visualization-container w-fit'>
+                  <div class='git-changes-visual-container d-inline-block'>
+                    <span class='num-additions-text'>+<%= tag_version.num_additions %></span> <span class='num-deletions-text'>-<%= tag_version.num_deletions %></span>
+                    <div class='git-changes-visual-squares-container' data-controller='tooltip' data-bs-toggle='tooltip' title='<%= tag_version.num_additions + tag_version.num_deletions %> lines changed: <%= tag_version.num_additions %> additions & <%= tag_version.num_deletions %> deletions.'>
+                      <% num_addition_squares = tag_version.total_changes.zero? ? 0 : 
+                                                  tag_version.total_changes <= 5 ? tag_version.num_additions :
+                                                    ((tag_version.num_additions.to_f / (tag_version.total_changes.to_f))*5.0).to_i %>
+                      <% num_deletion_squares = tag_version.total_changes.zero? ? 0 : 
+                                                  tag_version.total_changes <= 5 ? tag_version.num_deletions :
+                                                    ((tag_version.num_deletions.to_f / (tag_version.total_changes.to_f))*5.0).to_i %>
+                      <% num_neutral_squares = 5 - num_addition_squares - num_deletion_squares %>
+                      <% num_addition_squares.times do %>
+                        <div class='git-changes-visual-square addition'></div>
+                      <% end %>
+                      <% num_deletion_squares.times do %>
+                        <div class='git-changes-visual-square deletion'></div>
+                      <% end %>
+                      <% num_neutral_squares.times do %>
+                        <div class='git-changes-visual-square neutral'></div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              <div class='w-fit m-auto mt-3'>
+                <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display, compare_to_previous_score: false %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

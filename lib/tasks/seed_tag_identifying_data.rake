@@ -21,6 +21,15 @@ JSON_DATA = [
          "www.thirdpartytag.com"
       ]
    },
+      {
+      "name"=>"PostHog",
+      "company"=>"PostHog",
+      "image_url"=>"https://assets.stickpng.com/images/62cc4f997755665152a8df88.png",
+      "homepage"=>"https://www.posthog.com",
+      "domains"=>[
+         "*.posthog.com"
+      ]
+   },
   {
      "name"=>"Google/Doubleclick Ads",
      "company"=>"Google",

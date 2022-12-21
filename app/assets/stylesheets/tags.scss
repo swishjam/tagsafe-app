@@ -1,43 +1,3 @@
-.tag-builder-progression-container {
-  width: fit-content;
-  margin: 0 auto;
-  .tag-builder-progression-indicator {
-    cursor: default;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    margin: 10px;
-    font-size: 18px;
-    &.complete { 
-      background-color: $tagsafe-secondary;
-      color: white;
-      cursor: pointer;
-      transition: 500ms ease;
-      &:hover {
-        background-color: $darker-tagsafe-purple;
-      }
-    }
-    &.active { 
-      background-color: $darker-tagsafe-purple;
-      color: white;
-      font-weight: 900;
-    }
-    &.inactive { background-color: darkgrey; }
-  }
-}
-
-.tag-form {
-  .custom-checkbox-row-label {
-    cursor: default;
-  }
-  .checkbox-row {
-    text-align: center;
-  }
-}
-
 .tag-img-thumbnail-container {
   width: 60px;
   text-align: center;
@@ -50,6 +10,19 @@
 
 .domain-tags-table-frame[busy] .search-input-container .loading-indicator {
   display: flex;
+}
+
+.tag-details-container {
+  .tag-logo {
+    max-width: 75px; 
+    border-radius: 50%;
+    border: 1px solid lightgrey;
+    overflow: hidden;
+    margin: auto;
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .tags-table {
