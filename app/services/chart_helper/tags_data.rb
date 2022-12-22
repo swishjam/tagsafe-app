@@ -91,7 +91,7 @@ module ChartHelper
     def add_starting_and_current_datetime_plot_for_tag_that_doesnt_have_any_chart_data(tag)
       return if tag.most_current_audit.nil?
       first_timestamp = tag.most_current_audit.created_at < @start_datetime ? @start_datetime : tag.most_current_audit.created_at
-      metric = tag.most_current_audit.average_delta_performance_audit[@metric_key]
+      metric = tag.most_current_audit.tagsafe_score
       @chart_data[tag][:data] = [ 
         [Time.current, metric],
         [first_timestamp, metric]

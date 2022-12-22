@@ -104,14 +104,14 @@ Rails.application.routes.draw do
     resources :urls_to_audit, only: [:create, :destroy], param: :uid
     resources :tag_versions, only: [:show, :index], param: :uid do
       member do
+        get :promote
+        post :set_as_live_tag_version
+
         get :audit_redirect
-        get '/live_comparison' => 'tag_versions#live_comparison'
         get :content
         get :git_diff
         get :js
         get '/js.js' => 'tag_versions#js', as: :raw_js
-        get :tagsafe_instrumented_js
-        get '/tagsafe_instrumented_js.js' => 'tag_versions#tagsafe_instrumented_js'
       end
     end
     resources :audits, only: [:show, :index, :new, :create], param: :uid do

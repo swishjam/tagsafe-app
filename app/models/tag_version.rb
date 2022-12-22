@@ -130,6 +130,24 @@ class TagVersion < ApplicationRecord
     self == tag.most_recent_tag_version
   end
 
+  def newer_than_current_live_version?
+    return false if is_tags_current_live_tag_version?
+    created_at > tag.current_live_tag_version.created_at 
+  end
+
+  def older_than_current_live_version?
+    return false if is_tags_current_live_tag_version?
+    created_at < tag.current_live_tag_version.created_at
+  end
+
+  def num_releases_from_live_version
+    return 0 if is_tags_current_live_tag_version?
+    range = older_than_current_live_version? ? 
+              created_at..tag.current_live_tag_version.created_at : 
+              tag.current_live_tag_version.created_at..created_at
+    tag.tag_versions.where(created_at: range).where.not(id: id).count
+  end
+
   def first_version?
     previous_version.nil?
   end

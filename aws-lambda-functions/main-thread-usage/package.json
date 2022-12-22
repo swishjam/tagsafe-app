@@ -3,7 +3,8 @@
     "deploy-prod": "serverless deploy --stage production",
     "deploy-staging": "serverless deploy --stage staging",
     "deploy-dev": "serverless deploy --stage collin-dev",
-    "locally": "serverless invoke local --function calculate-main-thread-usage --path ./test.json --stage local"
+    "locally": "serverless invoke local --function calculate-main-thread-usage --path ./test.json --stage local",
+    "lighthouse": "serverless invoke local --function run-lighthouse-audit --path ./test.json --stage local"
   },
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",

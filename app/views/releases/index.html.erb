@@ -7,9 +7,7 @@
           <% arrays_of_days_and_release_count.each do |day_and_release_count| %>
             <% day = day_and_release_count[0] %>
             <% if day > Time.current %>
-              <div class='release-graph-day disabled'
-                    data-controller='tooltip'
-                    title='No releases on <%= day.strftime('%b %d, %Y') %> (future date).'>
+              <div class='release-graph-day disabled'>
                 <span class='d-block'><%= day.strftime('%b') %></span>
                 <span class='d-block'><%= day.strftime('%d') %></span>
               </div>

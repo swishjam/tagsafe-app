@@ -34,13 +34,13 @@
                 <i class="fa-regular fa-circle-check passed-icon"></i>
               <% end %>
             </span>
-            <span class='release-commit-message sub-header-light d-block'>
-              <% if tag_version.commit_message %>
+            <% if tag_version.commit_message %>
+              <span class='release-commit-message sub-header-light d-block mt-2'>
                 <i class="fa-solid fa-comment"></i> <i><%= tag_version.commit_message %></i>
-              <% else %>
-                <!-- <i class="fa-solid fa-comment-slash"></i> No commit messsage provided !-->
-              <% end %>
-            </span>
+              </span>
+            <% else %>
+              <!-- <i class="fa-solid fa-comment-slash"></i> No commit messsage provided !-->
+            <% end %>
           </div>
           <div class='col-6'>
             <div class='w-fit float-end'>
@@ -50,7 +50,15 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <%= link_to 'View git diff', git_diff_tag_tag_version_path(tag_version.tag, tag_version), class: 'dropdown-item', target: '_top' %> 
-                  <%= link_to 'View audits', tag_path(tag_version.tag), class: 'dropdown-item', target: '_top' %> 
+                  <%= link_to 'View audits', tag_path(tag_version.tag), class: 'dropdown-item', target: '_top' %>
+                  <div class="dropdown-divider"></div>
+                  <% if tag_version.can_promote_to_live? %>
+                    <%= modal_link_to promote_tag_tag_version_path(tag_version.tag, tag_version), text: "#{tag_version.older_than_current_live_version? ? 'Rollback' : 'Promote'}", klass: 'dropdown-item' %>
+                  <% else %>
+                    <span class='dropdown-item disabled' data-controller='tooltip' title='Tagsafe score too low'>
+                      <i class="fa-sharp fa-solid fa-ban"></i> <%= tag_version.older_than_current_live_version? ? 'Rollback' : 'Promote' %>
+                    </span>
+                  <% end %>
                 </div>
               </div>
               <% if tag_version.total_changes.nil? %>

@@ -18,6 +18,9 @@ functions:
   calculate-main-thread-usage:
     handler: handler.handle
     timeout: 90
+  run-lighthouse-audit:
+    handler: lighthouseHandler.handle
+    timeout: 90
 
 package:
   patterns:

@@ -19,6 +19,35 @@ class TagVersionsController < LoggedInController
                           .per(params[:per_page] || 10)
   end
 
+  def promote
+    tag_version = @tag.tag_versions.find_by!(uid: params[:uid])
+    is_rolling_back = tag_version.older_than_current_live_version?
+    is_promoting = !is_rolling_back
+    stream_modal(locals: { 
+      tag: @tag, 
+      tag_version: tag_version,
+      is_rolling_back: is_rolling_back,
+      is_promoting: !is_rolling_back,
+      num_releases_from_live_version: tag_version.num_releases_from_live_version
+    })
+  end
+
+  def set_as_live_tag_version
+    tag_version = @tag.tag_versions.find_by!(uid: params[:uid])
+    did_roll_back = tag_version.older_than_current_live_version?
+    @tag.set_current_live_tag_version_and_publish_instrumentation(tag_version)
+    stream_modal(
+      partial: 'modals/promote',
+      locals: { 
+        tag: @tag, 
+        tag_version: tag_version, 
+        did_roll_back: did_roll_back,
+        did_promote: !did_roll_back,
+        completed: true
+      }
+    )
+  end
+
   def update
     @tag_version = @tag.tag_versions.find_by(uid: params[:uid])
     raise "TODO"
