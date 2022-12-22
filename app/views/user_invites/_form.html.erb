@@ -1,10 +1,10 @@
 <%= render_as_modal title: 'Invite Teammate' do %>
   <% if local_assigns[:completed] %>
     <div class='tagsafe-modal-body'>
-      <h4>Invite sent to <%= invited_user_email %>.</h4>
+      <h4><%= HtmlHelper.PASSED_ICON(color: 'green') %> <span class='ms-2'>Invite sent to <%= invited_user_email %>.</span></h4>
     </div>
     <div class='tagsafe-modal-divider'></div>
-    <div class='tagsafe-modal-footer'>
+    <div class='tagsafe-modal-footer text-end'>
       <button class='tagsafe-btn' data-action='click->server-loadable-modal#hide'>Close</button>
     </div>
   <% else %>
@@ -15,7 +15,9 @@
           <%= f.label :email %>
         </div>
         <% if user_invite.errors.any? %>
-          <span class='d-block' style='color: red'><% user_invite.errors.full_messages.join(' ') %></span>
+          <% user_invite.errors.full_messages.each do |err| %>
+            <span class='d-block mt-1' style='color: red'><%= err %></span>
+          <% end %>
         <% end %>
       </div>
 

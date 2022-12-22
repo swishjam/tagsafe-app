@@ -6,7 +6,7 @@ export default {
 		return await newDataProducer(request, env);
 	},
 
-	async queue(batch, _env, _context) {
-		return await newDataConsumer(batch.messages)
+	async queue(batch, env, _context) {
+		return await newDataConsumer(batch.messages, env);
 	}
 }

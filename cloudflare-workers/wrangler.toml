@@ -17,8 +17,10 @@ binding = "DATA_CONSUMER_QUEUE"
 queue = "collin-dev-data-consumer"
 max_batch_size = 10 # optional: defaults to 10, consumer runs only once 10 messages in the queue
 max_batch_timeout = 5 # optional: defaults to 5 seconds, if max_batch_size has not been met, what interval will consumer run
+max_retries = 3
 
 [env.dev.vars]
+RESQUE_CONNECTOR_LAMBDA_FUNCTION_URL = "https://agtt4yi2qms6vl7zdnqlgiatzu0udzmp.lambda-url.us-east-1.on.aws/"
 
 ###################
 ### PRODUCTION ####
@@ -36,3 +38,4 @@ max_batch_size = 10 # optional: defaults to 10
 max_batch_timeout = 5 # optional: defaults to 5 seconds
 
 [env.production.vars]
+RESQUE_CONNECTOR_LAMBDA_FUNCTION_URL = "https://konbotex3fn5y3nlk6aggcokue0zkzgt.lambda-url.us-east-1.on.aws/"

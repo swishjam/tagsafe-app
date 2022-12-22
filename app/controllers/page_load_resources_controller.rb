@@ -4,7 +4,7 @@ class PageLoadResourcesController < LoggedInController
     @tag_version = TagVersion.find_by(uid: params[:tag_version_uid])
     @audit = Audit.find_by(uid: params[:audit_uid])
     render_breadcrumbs(
-      { url: tags_path, text: "Monitor Center" },
+      { url: root_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       { url: tag_audits_path(@tag), text: "#{@tag_version.sha} Audits" },
       { text: "#{@audit.created_at.formatted_short} Waterfall Chart", active: true },

@@ -18,29 +18,36 @@
     <div class='release-content unrolled d-inline-block'>
       <div class='container-fluid'>
         <div class='row'>
-          <div class='col-6'>
-            <span class='release-date d-block'><%= tag_version.created_at.formatted_short %></span>
-            <% if local_assigns[:display_tag_name] %>
-              <span class='release-tag sub-header-light d-block'>
-                <%= tag_version.tag.try_friendly_name %>
-              </span>
+          <div class='col-6 d-flex align-items-center'>
+            <% if local_assigns[:display_tag_name] && tag_version.tag.has_image? %>
+              <div class='w-fit d-inline-block me-2'>
+                <%= image_tag tag_version.tag.try_image_url, class: 'tag-thumbnail large border me-1' %>
+              </div>
             <% end %>
-            <span class='release-sha sub-header-light d-block mt-1 mb-1'>
-              <span class='code-block'><%= tag_version.sha %></span>
-              <% if release_type == 'blocked' %>
-                <span data-controller='tooltip' title="<%= tag_version.primary_audit.poor_scoring_audit_components.collect(&:audit_breakdown_description).join(' ') %>">
-                <i class="fa-regular fa-circle-xmark blocked-icon"></i>
-              <% elsif %w[normal live].include?(release_type) %>
-                <i class="fa-regular fa-circle-check passed-icon"></i>
+            <div class='w-fit d-inline-block'>
+              <% if local_assigns[:display_tag_name] %>
+                <span class='release-tag header-dark'>
+                  <%= tag_version.tag.try_friendly_name %>
+                </span>
               <% end %>
-            </span>
-            <% if tag_version.commit_message %>
-              <span class='release-commit-message sub-header-light d-block mt-2'>
-                <i class="fa-solid fa-comment"></i> <i><%= tag_version.commit_message %></i>
+              <span class='release-date sub-header-light d-block'><%= tag_version.created_at.formatted_short %></span>
+              <span class='release-sha sub-header-light d-block mt-1 mb-1'>
+                <span class='code-block'><%= tag_version.sha %></span>
+                <% if release_type == 'blocked' %>
+                  <span data-controller='tooltip' title="<%= tag_version.primary_audit.poor_scoring_audit_components.collect(&:audit_breakdown_description).join(' ') %>">
+                  <i class="fa-regular fa-circle-xmark blocked-icon"></i>
+                <% elsif %w[normal live].include?(release_type) %>
+                  <i class="fa-regular fa-circle-check passed-icon"></i>
+                <% end %>
               </span>
-            <% else %>
-              <!-- <i class="fa-solid fa-comment-slash"></i> No commit messsage provided !-->
-            <% end %>
+              <% if tag_version.commit_message %>
+                <span class='release-commit-message sub-header-light d-block mt-2'>
+                  <i class="fa-solid fa-comment"></i> <i><%= tag_version.commit_message %></i>
+                </span>
+              <% else %>
+                <!-- <i class="fa-solid fa-comment-slash"></i> No commit messsage provided !-->
+              <% end %>
+            </div>
           </div>
           <div class='col-6'>
             <div class='w-fit float-end'>

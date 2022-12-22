@@ -18,7 +18,7 @@ class ContainersController < LoggedInController
       else
         current_user.containers << @container
         Role.USER_ADMIN.apply_to_container_user(current_user.container_user_for(@container))
-        redirect_to tags_path
+        redirect_to root_path
       end
     else
       display_inline_errors(@container.errors.full_messages)

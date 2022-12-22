@@ -6,7 +6,7 @@ module TagsafeEmail
     def initialize(user_invite)
       @to_email = user_invite.email
       @template_variables = {
-        container_url: user_invite.container.url,
+        container_name: user_invite.container.name,
         accept_invite_url: mail_safe_url("/user_invites/#{user_invite.token}/accept"),
         inviter_name: user_invite.invited_by_user.full_name
       }

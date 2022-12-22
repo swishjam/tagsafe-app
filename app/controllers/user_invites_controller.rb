@@ -27,8 +27,8 @@ class UserInvitesController < LoggedInController
         partial: 'user_invites/form',
         locals: { 
           container: current_container,
-          errors: invite.errors.full_messages,
-          user_invite: invite
+          user_invite: invite,
+          completed: false
         }
       )
     end
@@ -61,7 +61,7 @@ class UserInvitesController < LoggedInController
       if user.valid?
         invite.redeem!(user)
         set_current_user(user)
-        redirect_to tags_path
+        redirect_to root_path
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer

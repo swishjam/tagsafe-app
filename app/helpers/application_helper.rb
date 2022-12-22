@@ -48,7 +48,7 @@ module ApplicationHelper
     session.delete(:current_container_uid)
   end
 
-  def stream_modal(partial: "modals/#{action_name}.html.erb", turbo_frame_name: 'server_loadable_modal', locals: {})
+  def stream_modal(partial: "modals/#{action_name}", turbo_frame_name: 'server_loadable_modal', locals: {})
     render turbo_stream: turbo_stream.replace(
       turbo_frame_name,
       partial: partial,
@@ -77,7 +77,7 @@ module ApplicationHelper
   def no_access!(raise_error)
     raise NoAccessError if raise_error
     flash[:banner_error] = "No access."
-    redirect_to tags_path
+    redirect_to root_path
   end
 
   def display_toast_message(message)

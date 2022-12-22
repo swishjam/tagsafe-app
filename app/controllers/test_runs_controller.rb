@@ -5,7 +5,7 @@ class TestRunsController < LoggedInController
                                   .most_recent_first(timestamp_column: :enqueued_at)
                                   .page(params[:page] || 1).per(params[:per_page] || 20)
     render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path },
+      { text: 'Monitor Center', url: root_path },
       { text: "Test Suite", url: functional_tests_path },
       { text: "#{@functional_test.title} Test", url: functional_test_path(@functional_test) },
       { text: "#{@functional_test.title} Test Runs", active: true }
@@ -41,7 +41,7 @@ class TestRunsController < LoggedInController
       @include_audit_nav = true
       @back_link = { text: 'Back to all tests', url: test_runs_tag_audit_path(@tag, @audit) }
       render_breadcrumbs(
-        { url: tags_path, text: "Monitor Center" },
+        { url: root_path, text: "Monitor Center" },
         { url: tag_path(@tag), text: "#{@tag.try_friendly_name} details" },
         { text: "#{@audit.created_at.formatted_short} audit", active: true }
       )

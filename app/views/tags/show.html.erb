@@ -1,16 +1,50 @@
 <%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %>
 
-<div class='d-flex align-items-center'>
+<div class='d-flex'>
   <div class='col-8'>
     <div class='tagsafe-container text-center tag-details-container'>
       
       <div class='text-end'>
-        <%= link_to new_tag_audit_path(@tag), class: 'floating-btn tagsafe-purple-bg' do %>
+        <%= link_to new_tag_audit_path(@tag), class: 'floating-btn tagsafe-purple-bg me-2' do %>
           Run Audit 
         <% end %>
-        <%= link_to edit_tag_path(@tag), class: 'floating-btn tagsafe-purple-bg ms-3', title: 'Edit tag settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
+        
+        <button class="floating-btn white-bg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-solid fa-gear"></i>
-        <% end %>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Update release monitoring cadence</a></li>
+          <div class='dropdown-divider'></div>
+          <% if @tag.is_tagsafe_hosted %>
+            <li>
+              <a class="dropdown-item link-danger" 
+                  data-controller='tooltip'
+                  title='Tag will no longer be hosted and optimized on Tagsafe CDN.'
+                  href="#">
+                <i class="fa-solid fa-bolt-slash"></i> Disable Tagsafe optimization
+              </a>
+            </li>
+          <% elsif @tag.is_tagsafe_hostable %>
+            <li>
+              <a class="dropdown-item disabled" 
+                  data-controller='tooltip'
+                  title='Tag is not eligible to be optimized by Tagsafe due to its dynamic content.'
+                  href="#">
+                <i class="fa-solid fa-ban"></i> Enable Tagsafe optimization
+              </a>
+            </li>
+          <% else %>
+            <li>
+              <a class="dropdown-item" 
+                  data-controller='tooltip'
+                  title='Moving forward the tag will be hosted and optimized on the Tagsafe CDN.'
+                  href="#">
+                <i class="fa-solid fa-bolt"></i>  Enable Tagsafe optimization
+              </a>
+            </li>
+          <% end %>
+        </ul>
       </div>
 
       <% if @tag.has_image? %>
@@ -21,46 +55,54 @@
       <h2 class='tagsafe-font page-header'><%= @tag.try_friendly_name %></h2>
       <% if @tag.has_friendly_name? %>
         <i class="fa-solid fa-link"></i> 
-        <span class='tagsafe-font page-sub-header' data-controller='tooltip' title='Tag URL'><%= @tag.url_based_on_preferences %></span>
+        <span class='tagsafe-font page-sub-header'><%= @tag.url_based_on_preferences %></span>
       <% end %>
+      <div class='col-12 mt-4'>
+        <div class='row'>
+          <div class='col-6 border-end'>
+            <h5 class='mb-0'><i class="fa-solid fa-bolt d-block"></i></h5>
+            <h3 class='tagsafe-font default-cursor'>TagsafeJS optimized</h3>
+          </div>
+          <div class='col-6'>
+            <% if @tag.current_live_tag_version.present? %>
+              <h5 class='mb-0'><i class="fa-solid fa-cloud-arrow-down d-block"></i></h5>
+              <h3 class='tagsafe-font default-cursor'>
+                <%= number_to_human_size(@tag.current_live_tag_version.bytes) %>
+                <% if @tag.current_live_tag_version.previous_tag_version %>
+                  <% byte_difference = @tag.current_live_tag_version.bytes - @tag.current_live_tag_version.previous_tag_version.bytes %>
+                  <% if byte_difference > 0 %>
+                    <span style='color: red'><i class="fa-solid fa-arrow-trend-up"></i> <%= number_to_human_size(byte_difference) %></span>
+                  <% elsif byte_difference < 0 %>
+                    <span style='color: green'><i class="fa-solid fa-arrow-trend-down"></i> <%= number_to_human_size(byte_difference) %></span>
+                  <% end %>
+                <% end %>
+              </h3>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class='col-4'>
-    <div class='tagsafe-container default-cursor'>
-      <span class='d-block m-1 cursor-default' data-controller='tooltip' title='Originally found on <%= @tag.page_url_first_found_on.hostname %> on <%= @tag.created_at.formatted_long %>.'>
-        <i class="fa-regular fa-calendar-plus"></i>
-        Added <%= @tag.created_at.date_only(short: false) %>
-      </span>
-      <span class='d-block m-1 cursor-default'>
-        <i class="fa-regular fa-file-code"></i>
-        Loaded <%= @tag.load_type_as_verb %>
-      </span>
-      <span class='d-block m-1 cursor-default'>
-        <i class="fa-solid fa-clock-rotate-left"></i> 
-        Release monitoring interval: <%= @tag.release_monitoring_interval_in_words %>
-      </span>
-      <span class='d-block m-1 cursor-default'>
-        <i class="fa-solid fa-bolt"></i> 
-        <b><%= @tag.is_tagsafe_hosted ? 'Is' : 'Is not' %></b> being optimized by TagsafeJS
-      </span>
-      <span class='d-block m-1 cursor-default'>
-        <i class="fa-regular fa-window-restore"></i>
-        Present on <%= @tag.page_urls.count %> pages.
-      </span>
-      <% if @tag.current_live_tag_version.present? %>
-        <span class='d-block m-1 cursor-default'>
-          <i class="fa-solid fa-cloud-arrow-down"></i>
-          <%= number_to_human_size(@tag.current_live_tag_version.bytes) %>
-          <% if @tag.current_live_tag_version.previous_tag_version %>
-            <% byte_difference = @tag.current_live_tag_version.bytes - @tag.current_live_tag_version.previous_tag_version.bytes %>
-            <% if byte_difference > 0 %>
-              <span style='color: red'><i class="fa-solid fa-arrow-trend-up"></i> <%= number_to_human_size(byte_difference) %></span>
-            <% elsif byte_difference < 0 %>
-              <span style='color: green'><i class="fa-solid fa-arrow-trend-down"></i> <%= number_to_human_size(byte_difference) %></span>
-            <% end %>
-          <% end %>
-        </span>
-      <% end %>
+    <div class='tagsafe-container default-cursor' style='height: calc(100% - 30px)'>
+      <div class='d-flex flex-column justify-content-evenly h-100'>
+        <h5 class='d-block m-1 cursor-default' data-controller='tooltip' title='Originally found on <%= @tag.page_url_first_found_on.hostname %> on <%= @tag.created_at.formatted_long %>.'>
+          <i class="fa-regular fa-calendar-plus me-1"></i>
+          Added <%= @tag.created_at.date_only(short: false) %>
+        </h5>
+        <h5 class='d-block m-1 cursor-default'>
+          <i class="fa-regular fa-file-code me-1"></i>
+          Loaded <%= @tag.load_type_as_verb %>
+        </h5>
+        <h5 class='d-block m-1 cursor-default'>
+          <i class="fa-solid fa-clock-rotate-left me-1"></i> 
+          Release monitoring interval: <%= @tag.release_monitoring_interval_in_words %>
+        </h5>
+        <h5 class='d-block m-1 cursor-default'>
+          <i class="fa-regular fa-window-restore me-1"></i>
+          Present on <%= @tag.page_urls.count %> pages.
+        </h5>
+      </div>
     </div>
   </div>
 </div>
@@ -77,7 +119,7 @@
   <div class='col-5'>
     <div class='tagsafe-container'>
       <h2 class='tagsafe-font'>Release Calendar</h2>
-      <%= turbo_frame_tag "tag_#{@tag.uid}_release_calendar", src: tag_releases_path(@tag) do %>
+      <%= turbo_frame_tag "#{@tag.uid}_release_calendar", src: release_calendar_releases_path(tag_uid: @tag.uid) do %>
         <div class='text-center p-5'>
           <%= display_loading_spinner %>
         </div>    

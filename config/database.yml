@@ -5,10 +5,11 @@ default: &default
 
 pscale_collin_dev: &pscale_collin_dev
   <<: *default
-  database: tagsafe-production
-  username: 5brtvts8zxz7
-  host: pds4kx1y2m0n.us-east-4.psdb.cloud
-  password: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
+  adapter: mysql2
+  database: tagsafe-app
+  username: m9rqiucjoxt1n7ifq2jr
+  host: us-east.connect.psdb.cloud
+  password: pscale_pw_1TnSNykRYawjNmjrJY718HelwrVM573a9wyWKJDYz4I
   ssl_mode: verify_identity
   sslca: "/etc/ssl/cert.pem"
 
@@ -26,16 +27,19 @@ test:
 development:
   <<: *pscale_collin_dev
 
-staging:
-  <<: *default
-  database: tagsafe-production
-  username: 8otvu8ilamwq
-  host: zndnr0yzsrhi.us-east-2.psdb.cloud
-  password: pscale_pw_oUBt1ZNscnlUfR_SXb34sSaFFUWyWcenNHLR5Xuf2wY
+# staging:
+#   <<: *default
+#   database: tagsafe-production
+#   username: 8otvu8ilamwq
+#   host: zndnr0yzsrhi.us-east-2.psdb.cloud
+#   password: pscale_pw_oUBt1ZNscnlUfR_SXb34sSaFFUWyWcenNHLR5Xuf2wY
 
 production:
   <<: *default
-  database: tagsafe-production
-  username: bqmc4lhu2ms9
-  host: vtc9xo21h5ce.us-east-4.psdb.cloud
-  password: pscale_pw_bU3z9t9Y9sq1g4ncMOJpWOkGOitpQGSphA2WMoXwRzA
+  adapter: mysql2
+  database: tagsafe-app
+  username: y555adcghcfw43l6jmgs
+  host: us-east.connect.psdb.cloud
+  password: pscale_pw_g5JwiYYyjBSKtGcp4kjlEQvOMrLBynYKqwANhddYnBA
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"

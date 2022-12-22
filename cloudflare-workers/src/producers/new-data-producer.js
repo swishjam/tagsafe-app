@@ -1,9 +1,7 @@
-import { now } from "moment";
-
 export default async function newDataProducer(request, env) {
   const payload = await request.json();
 
-  console.log(payload)
+  console.log(payload);
   await env.DATA_CONSUMER_QUEUE.send({ ts: Date.now(), ...payload })
   console.log(`Pushed data to Cloudflare Queue: ${JSON.stringify(payload)}`);
 
