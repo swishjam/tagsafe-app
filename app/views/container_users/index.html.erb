@@ -19,40 +19,37 @@
 </div>
 
 <%= turbo_frame_tag "container_#{current_container.uid}_container_users" do %>
-  <% if user_is_anonymous? %>
-    <div class='text-center p-5'>
-      <h4 class='empty-message mb-3'>You cannot invite teammates until you have registered to Tagsafe yourself.</h4> 
-      <%= link_to 'Sign up for free now', "/register?container=#{current_container.uid}", class: 'floating-btn tagsafe-purple-bg', target: '_top' %>
-    </div>
-  <% elsif @container_users.any? %>
-    <div class='p-3'>
-      <div class='tagsafe-table'>
-        <div class='tagsafe-table-row header square'>
-          <div class='tagsafe-table-cell'>Name</div>
-          <div class='tagsafe-table-cell'>Email</div>
-          <div class='tagsafe-table-cell'>User since</div>
-          <div class='tagsafe-table-cell'></div>
-        </div>
-        <div class='tagsafe-table-body'>
-          <% @container_users.each do |du| %>
-            <div class='tagsafe-table-row'>
-              <div class='tagsafe-table-cell'><%= du.user.full_name %></div>
-              <div class='tagsafe-table-cell'><%= du.user.email %></div>
-              <div class='tagsafe-table-cell'><%= du.user.created_at.formatted_long %></div>
-              <div class='tagsafe-table-cell'>
-                <% if du.user_id != current_user.id %>
-                  <%= modal_link destroy_container_user_modal_path(du), text: 'Remove User' %>
-                <% end %>
+  <div class='tagsafe-container'>
+    <% if @container_users.any? %>
+      <div class='p-3'>
+        <div class='tagsafe-table'>
+          <div class='tagsafe-table-row header square'>
+            <div class='tagsafe-table-cell'>Name</div>
+            <div class='tagsafe-table-cell'>Email</div>
+            <div class='tagsafe-table-cell'>User since</div>
+            <div class='tagsafe-table-cell'></div>
+          </div>
+          <div class='tagsafe-table-body'>
+            <% @container_users.each do |du| %>
+              <div class='tagsafe-table-row'>
+                <div class='tagsafe-table-cell'><%= du.user.full_name %></div>
+                <div class='tagsafe-table-cell'><%= du.user.email %></div>
+                <div class='tagsafe-table-cell'><%= du.user.created_at.formatted_long %></div>
+                <div class='tagsafe-table-cell'>
+                  <% if du.user_id != current_user.id %>
+                    <%= modal_link destroy_container_user_modal_path(du), text: 'Remove User' %>
+                  <% end %>
+                </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
-  <% else %>
-    <div class='p-5 text-center'>
-      <h4 class='empty-message mb-3'>You are the only Tagsafe user in <%= current_container.name %>!</h4> 
-      <%= modal_link new_user_invite_path, text: 'Start adding teammates', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
-    </div>
-  <% end %>
+    <% else %>
+      <div class='p-5 text-center'>
+        <h4 class='empty-message mb-3'>You are the only Tagsafe user in <%= current_container.name %>!</h4> 
+        <%= modal_link new_user_invite_path, text: 'Start adding teammates', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

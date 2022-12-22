@@ -1,7 +1,7 @@
 class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
   def new
-    redirect_to tags_path if current_user.present?
+    redirect_to root_path if current_user.present?
     @hide_logged_out_nav = true
     @hide_footer = true
     @user = User.new
@@ -18,7 +18,7 @@ class RegistrationsController < LoggedOutController
         current_container.mark_as_registered!
         Role.USER_ADMIN.apply_to_container_user(@user.container_user_for(current_container))
         set_current_user(@user)
-        redirect_to tags_path
+        redirect_to root_path
       else
         set_current_user(@user)
         redirect_to new_registration_path

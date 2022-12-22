@@ -1,7 +1,7 @@
 <% unless @hide_navigation %>
   <div class='navigation-wrapper <%= user_is_anonymous? ? 'anonymous-user' : 'authenticated-user' %>' data-controller='side-navigation'>
     <div class="navigation <%= @collapsed_navigation ? 'collapsed' : nil %>" data-side-navigation-target='leftHandNav' data-action='click->side-navigation#leftHandNavClick'>
-      <%= link_to tags_path do %>
+      <%= link_to root_path do %>
         <div class="logo-container">
           <%= image_tag asset_cdn_url('/tagsafe-logo.svg'), class: 'enlarge-slightly-on-hover img-fluid' %>
         </div>
@@ -10,15 +10,15 @@
         <% 
           nav_items = [
             # { path: tag_manager_path, text: 'Tag Manager', icon_class: 'fa-solid fa-tags' },
-            { path: tags_path, text: "Monitor Center", icon_class: "fas fa-home" },
-            { path: honeycombs_path, text: "Tag Health", icon_class: "fa-solid fa-heart-pulse" },
-            { path: functional_tests_path, text: "Test Suite", icon_class: "fas fa-flask", active_nav_path_pattern: ['/functional_tests', '/test_run_log'] },
+            { path: root_path, text: "Monitor Center", icon_class: "fas fa-home" },
+            # { path: honeycombs_path, text: "Tag Health", icon_class: "fa-solid fa-heart-pulse" },
+            # { path: functional_tests_path, text: "Test Suite", icon_class: "fas fa-flask", active_nav_path_pattern: ['/functional_tests', '/test_run_log'] },
             { path: all_releases_path, text: "Tag Releases", icon_class: "fa-solid fa-code-branch" },
-            { path: audit_log_path, text: "Audit Log", icon_class: "fa-solid fa-square-poll-vertical" },
-            { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
-            { path: alert_configurations_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alert_configurations'] },
+            # { path: audit_log_path, text: "Audit Log", icon_class: "fa-solid fa-square-poll-vertical" },
+            # { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
+            # { path: alert_configurations_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alert_configurations'] },
             { path: container_users_path, text: "Team Management", icon_class: "fas fa-users" },
-            { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
+            # { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
           ]
         %>
         <% if user_is_anonymous? && current_container_audit %>

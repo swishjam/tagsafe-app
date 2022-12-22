@@ -18,4 +18,6 @@
   ] %>
 </div>
 
-<%= render 'user_invites/index', container: current_container, user_invites: @user_invites, status: :pending %>
+<div class='tagsafe-container'>
+  <%= render 'user_invites/index', container: current_container, user_invites: @user_invites, status: :pending %>
+</div>

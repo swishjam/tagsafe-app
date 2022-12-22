@@ -1,14 +1,5 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
-  get '/__blank' => 'application#__blank'
-  get '/pricing' => 'welcome#pricing', as: :pricing
-  get '/contact-us' => 'welcome#contact_us', as: :contact_us
-  post '/contact' => 'welcome#contact', as: :contact
-  # get '/products/performance-audits' => 'welcome#performance_audits'
-  # get '/products/functional-tests' => 'welcome#functional_tests'
-  # get '/products/release-monitoring' => 'welcome#release_monitoring'
-  # get '/products/uptime-monitoring' => 'welcome#uptime_monitoring'
-
+  root 'tags#index'
   require 'resque/server'
   mount Resque::Server.new, at: '/queue'
 
@@ -38,9 +29,9 @@ Rails.application.routes.draw do
   get '/releases' => 'releases#all', as: :all_releases
   resources :releases, only: [] do
     collection do
-      get :release_chart
-      get :rolled_up_release_list
-      get :unrolled_release_list
+      get :release_calendar
+      # get :rolled_up_release_list
+      # get :unrolled_release_list
     end
   end
 

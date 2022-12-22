@@ -7,7 +7,7 @@ class TagsController < LoggedInController
     @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path }, 
+      { text: 'Monitor Center', url: root_path }, 
       { text: "#{@tag.try_friendly_name} Details", active: true }
     )
   end
@@ -20,7 +20,7 @@ class TagsController < LoggedInController
   def uptime
     @tag = current_container.tags.find_by(uid: params[:uid])
     render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path }, 
+      { text: 'Monitor Center', url: root_path }, 
       { text: "#{@tag.try_friendly_name} Uptime", active: true }
     )
   end
@@ -46,7 +46,7 @@ class TagsController < LoggedInController
     @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     @selectable_uptime_regions = UptimeRegion.selectable.not_enabled_on_tag(@tag)
     render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path }, 
+      { text: 'Monitor Center', url: root_path }, 
       { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
       { text: "Edit", active: true }
     )
@@ -71,7 +71,7 @@ class TagsController < LoggedInController
   def audit_settings
     @tag = current_container.tags.find_by(uid: params[:tag_uid])
     render_breadcrumbs(
-      { text: 'Monitor Center', url: tags_path }, 
+      { text: 'Monitor Center', url: root_path }, 
       { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
       { text: "Edit", active: true }
     )

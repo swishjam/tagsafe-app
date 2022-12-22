@@ -16,7 +16,7 @@ class UserInvite < ApplicationRecord
   validate :user_doesnt_have_pending_invite
 
   def self.invite!(email, container, invited_by_user)
-    create!(
+    create(
       container: container,
       email: email,
       invited_by_user: invited_by_user,
@@ -67,7 +67,7 @@ class UserInvite < ApplicationRecord
 
   def user_doesnt_exist
     if container.users.find_by(email: email)
-      errors.add(:base, "A user with the email of '#{email}' already belongs to #{container.url}.")
+      errors.add(:base, "A user with the email of '#{email}' already has access to your #{container.name} container.")
     end
   end
 

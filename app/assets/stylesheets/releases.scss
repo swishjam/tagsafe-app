@@ -36,12 +36,12 @@
     &.release-heat-1 { background: #eaedf0; }
     &.disabled { 
       background: repeating-linear-gradient(
-        -45deg,
-        rgb(143, 143, 143),
-        rgb(143, 143, 143) 10px,
-        rgb(94, 94, 94) 10px,
-        rgb(94, 94, 94) 20px
-      );
+        -45deg, 
+        #8f8f8f, 
+        #8f8f8f 5px, 
+        #eaedf0 5px, 
+        #eaedf0 12px
+      )
     }
   }
   .release-graph-legend {

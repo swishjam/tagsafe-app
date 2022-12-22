@@ -9,7 +9,7 @@ class IndividualPerformanceAuditsController < LoggedInController
     @failed_individual_audits = @audit.individual_performance_audits.failed
     @pending_individual_audits = @audit.individual_performance_audits.pending
     render_breadcrumbs(
-      { url: tags_path, text: "Monitor Center" },
+      { url: root_path, text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       # { url: tag_audits_path(@tag), text: "#{@tag_version.sha} Audits" },
       { url: performance_audit_tag_audit_path(@tag, @audit), text: "#{@audit.created_at.formatted_short} Audit" },

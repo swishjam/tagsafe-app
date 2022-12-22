@@ -1,7 +1,7 @@
-export default async function newDataConsumer(messages) {
-  console.log(`newTagsConsumer ${messages.length} messages received`)
+export default async function newDataConsumer(messages, env) {
+  console.log(`newTagsConsumer ${messages.length} messages received`);
   
-  const fetchPromises = messages.map(sendDataToResqueConnector);
+  const fetchPromises = messages.map(message => sendDataToResqueConnector(message, env.RESQUE_CONNECTOR_LAMBDA_FUNCTION_URL));
 
   const fetchResults = await Promise.all(fetchPromises);
   const failedRequest = fetchResults.find(resp => !resp.ok)
@@ -17,7 +17,7 @@ export default async function newDataConsumer(messages) {
   return { status: 200, numMessages: messages.length }
 }
 
-async function sendDataToResqueConnector(message) {
+async function sendDataToResqueConnector(message, lambdaEndpoint) {
   const reqBody = {
     tagsafe_consumer_resque_queue: 'tagsafe_js_events',
     tagsafe_consumer_resque_klass: 'TagsafeJsEventBatchConsumerJob',
@@ -28,7 +28,8 @@ async function sendDataToResqueConnector(message) {
       ...message.body
     }
   };
-  return fetch('https://agtt4yi2qms6vl7zdnqlgiatzu0udzmp.lambda-url.us-east-1.on.aws/', {
+  // return fetch('https://agtt4yi2qms6vl7zdnqlgiatzu0udzmp.lambda-url.us-east-1.on.aws/', {
+  return fetch(lambdaEndpoint, {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
     body: JSON.stringify(reqBody)

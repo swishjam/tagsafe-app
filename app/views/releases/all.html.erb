@@ -21,27 +21,25 @@
   </div>
 </div>
 
-<%= turbo_frame_tag "#{current_container.uid}_release_chart", src: release_chart_releases_path(all_tags: true) do %>
-  <div class='tagsafe-container text-center p-5'>
-    <%= display_loading_icon %>
-  </div>
-<% end %>
-
-<div class='release-list-container'>
-  <h4 class='mb-3'>Recent releases</h4>
-  <% (0..2).each do |months_ago| %>
-    <% start_date = Time.current.beginning_of_month - months_ago.months %>
-    <% end_date = start_date.end_of_month %>
-    <%= turbo_frame_tag "#{current_container.uid}_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}",
-                          src: rolled_up_release_list_releases_path(all_tags: true, start_date: start_date, end_date: end_date) do %>
-      <div class='release-list-month'>
-        <div class='release-list-month-header'>
-          <span class='header-text'>
-            <%= start_date.beginning_of_month.strftime('%B, %Y') %>
-            <%= display_loading_icon size: :tiny %>
-          </span>
+<div class='d-flex'>
+  <div class='col-5'>
+    <div class='tagsafe-container'>
+      <%= turbo_frame_tag "#{current_container.uid}_release_calendar", src: release_calendar_releases_path(all_tags: true) do %>
+        <div class='text-center p-5'>
+          <%= display_loading_icon %>
         </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class='col-7'>
+    <div class='tagsafe-container'>
+      <h4 class='mb-3'>Recent releases</h4>
+      <div class='ps-4 pe-4'>
+        <% @tag_versions.each do |tag_version| %>
+          <%= render 'tag_versions/tag_version_row', tag_version: tag_version, display_tag_name: true %>
+        <% end %>
       </div>
-    <% end %>
-  <% end %>
+    </div>
+  </div>
 </div>
