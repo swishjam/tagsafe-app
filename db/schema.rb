@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_14_201447) do
+ActiveRecord::Schema.define(version: 2022_12_15_213222) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -40,81 +40,73 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "additional_tags_to_inject_during_audit", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "alert_configuration_container_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
-    t.bigint "tag_id"
-    t.bigint "tag_to_inject_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["tag_id"], name: "index_additional_tags_to_inject_during_audit_on_tag_id"
-    t.index ["tag_to_inject_id"], name: "index_attida_on_tag_to_inject_id"
-    t.index ["uid"], name: "index_additional_tags_to_inject_during_audit_on_uid"
-  end
-
-  create_table "alert_configuration_domain_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "domain_user_id"
+    t.bigint "container_user_id"
     t.bigint "alert_configuration_id"
-    t.string "uid"
     t.index ["alert_configuration_id"], name: "index_alert_configuration_domain_users_on_alert_configuration_id"
-    t.index ["domain_user_id"], name: "index_alert_configuration_domain_users_on_domain_user_id"
+    t.index ["container_user_id"], name: "index_alert_configuration_domain_users_on_domain_user_id"
+    t.index ["uid"], name: "index_alert_configuration_domain_users_on_uid"
   end
 
   create_table "alert_configuration_tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
     t.bigint "tag_id"
     t.bigint "alert_configuration_id"
-    t.string "uid"
     t.index ["alert_configuration_id"], name: "index_alert_configuration_tags_on_alert_configuration_id"
     t.index ["tag_id"], name: "index_alert_configuration_tags_on_tag_id"
+    t.index ["uid"], name: "index_alert_configuration_tags_on_uid"
   end
 
-  create_table "alert_configurations", charset: "utf8", force: :cascade do |t|
+  create_table "alert_configurations", primary_key: "container_user_id", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.bigint "domain_id"
+    t.bigint "container_id"
+    t.string "name"
     t.string "type"
     t.string "trigger_rules"
-    t.boolean "enable_for_all_tags"
-    t.boolean "disabled"
-    t.string "name"
     t.boolean "enabled_for_all_tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["domain_id"], name: "index_alert_configurations_on_domain_id"
+    t.boolean "disabled"
+    t.index ["container_id"], name: "index_alert_configurations_on_container_id"
     t.index ["uid"], name: "index_alert_configurations_on_uid"
   end
 
-  create_table "audits", charset: "utf8", force: :cascade do |t|
+  create_table "audit_components", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
-    t.integer "execution_reason_id"
-    t.boolean "primary"
-    t.timestamp "created_at"
-    t.boolean "throttled", default: false
-    t.float "seconds_to_complete"
-    t.integer "tag_version_id"
-    t.integer "tag_id"
-    t.datetime "deleted_at"
-    t.string "performance_audit_error_message"
-    t.integer "performance_audit_calculator_id"
+    t.string "type"
+    t.bigint "audit_id"
+    t.float "score"
+    t.float "score_weight"
+    t.text "raw_results"
+    t.timestamp "started_at"
+    t.timestamp "completed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.timestamp "lambda_response_received_at"
+    t.string "error_message"
+    t.index ["audit_id"], name: "index_audit_components_on_audit_id"
+    t.index ["uid"], name: "index_audit_components_on_uid"
+  end
+
+  create_table "audits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "container_id"
+    t.bigint "tag_id"
+    t.bigint "tag_version_id"
     t.bigint "page_url_id"
-    t.boolean "include_page_load_resources"
-    t.boolean "include_page_change_audit"
-    t.boolean "include_performance_audit"
-    t.boolean "include_functional_tests"
-    t.integer "num_functional_tests_to_run"
-    t.timestamp "enqueued_suite_at"
-    t.timestamp "performance_audit_completed_at"
-    t.timestamp "page_change_audit_completed_at"
-    t.timestamp "functional_tests_completed_at"
-    t.float "tagsafe_score_confidence_range"
-    t.integer "num_performance_audit_sets_ran"
-    t.bigint "initiated_by_domain_user_id"
-    t.boolean "has_confident_tagsafe_score"
-    t.boolean "tagsafe_score_is_confident"
-    t.bigint "domain_id"
-    t.index ["domain_id"], name: "index_audits_on_domain_id"
+    t.bigint "initiated_by_container_user_id"
+    t.float "tagsafe_score"
+    t.timestamp "started_at"
+    t.timestamp "completed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "execution_reason_id"
+    t.string "error_message"
+    t.index ["container_id"], name: "index_audits_on_container_id"
     t.index ["execution_reason_id"], name: "index_audits_on_execution_reason_id"
-    t.index ["initiated_by_domain_user_id"], name: "index_audits_on_initiated_by_domain_user_id"
+    t.index ["initiated_by_container_user_id"], name: "index_audits_on_initiated_by_container_user_id"
     t.index ["page_url_id"], name: "index_audits_on_page_url_id"
-    t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
     t.index ["tag_id"], name: "index_audits_on_tag_id"
     t.index ["tag_version_id"], name: "index_audits_on_tag_version_id"
     t.index ["uid"], name: "index_audits_on_uid"
@@ -138,61 +130,35 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["uid"], name: "index_blocked_resources_on_uid"
   end
 
-  create_table "bulk_debits", charset: "utf8", force: :cascade do |t|
+  create_table "container_users", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.bigint "credit_wallet_id"
-    t.string "type"
-    t.float "debit_amount"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.integer "num_records_for_debited_date_range"
-    t.index ["credit_wallet_id"], name: "index_bulk_debits_on_credit_wallet_id"
-    t.index ["uid"], name: "index_bulk_debits_on_uid"
+    t.integer "user_id"
+    t.integer "container_id"
+    t.index ["container_id"], name: "index_container_users_on_container_id"
+    t.index ["uid"], name: "index_container_users_on_uid"
+    t.index ["user_id"], name: "index_container_users_on_user_id"
   end
 
-  create_table "credit_wallet_notifications", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "credit_wallet_id"
-    t.string "type"
-    t.float "total_credits_for_month_at_time_of_notification"
-    t.float "credits_used_at_time_of_notification"
-    t.float "credits_remaining_at_time_of_notification"
-    t.timestamp "sent_at"
-    t.index ["credit_wallet_id"], name: "index_credit_wallet_notifications_on_credit_wallet_id"
-    t.index ["uid"], name: "index_credit_wallet_notifications_on_uid"
+  create_table "container_users_roles", charset: "utf8", force: :cascade do |t|
+    t.string "uid", null: false
+    t.integer "container_user_id"
+    t.integer "role_id"
+    t.index ["container_user_id"], name: "index_container_users_roles_on_container_user_id"
+    t.index ["role_id"], name: "index_container_users_roles_on_role_id"
+    t.index ["uid"], name: "index_container_users_roles_on_uid"
   end
 
-  create_table "credit_wallet_transactions", charset: "utf8", force: :cascade do |t|
+  create_table "containers", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.bigint "credit_wallet_id"
-    t.string "record_responsible_for_charge_type"
-    t.bigint "record_responsible_for_charge_id"
-    t.float "credits_used"
-    t.float "num_credits_before_transaction"
-    t.float "num_credits_after_transaction"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "reason_for_transaction"
-    t.index ["credit_wallet_id"], name: "index_credit_wallet_transactions_on_credit_wallet_id"
-    t.index ["record_responsible_for_charge_type", "record_responsible_for_charge_id"], name: "index_cwt_record_for_charge"
-    t.index ["uid"], name: "index_credit_wallet_transactions_on_uid"
-  end
-
-  create_table "credit_wallets", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "domain_id"
-    t.integer "month"
-    t.integer "total_credits_for_month"
-    t.float "credits_used"
-    t.float "credits_remaining"
-    t.datetime "disabled_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "subscription_plan_id"
-    t.integer "year"
-    t.index ["domain_id"], name: "index_credit_wallets_on_domain_id"
-    t.index ["subscription_plan_id"], name: "index_credit_wallets_on_subscription_plan_id"
-    t.index ["uid"], name: "index_credit_wallets_on_uid"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.string "instrumentation_key"
+    t.float "tagsafe_js_reporting_sample_rate"
+    t.boolean "tagsafe_js_enabled"
+    t.index ["name"], name: "index_containers_on_name"
+    t.index ["uid"], name: "index_containers_on_uid"
   end
 
   create_table "delta_performance_audits", charset: "utf8", force: :cascade do |t|
@@ -212,7 +178,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_outlier"
-    t.bigint "domain_audit_id"
     t.integer "bytes"
     t.float "main_thread_execution_tag_responsible_for_delta"
     t.float "speed_index_delta"
@@ -223,58 +188,9 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.float "entire_main_thread_execution_ms_delta"
     t.float "entire_main_thread_blocking_executions_ms_delta"
     t.index ["audit_id"], name: "index_delta_performance_audits_on_audit_id"
-    t.index ["domain_audit_id"], name: "index_delta_performance_audits_on_domain_audit_id"
     t.index ["performance_audit_with_tag_id"], name: "index_dpa_performance_audit_with_tag_id"
     t.index ["performance_audit_without_tag_id"], name: "index_dpa_performance_audit_without_tag_id"
     t.index ["uid"], name: "index_delta_performance_audits_on_uid"
-  end
-
-  create_table "domain_audits", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "domain_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "page_url_id"
-    t.datetime "completed_at"
-    t.string "error_message"
-    t.bigint "url_crawl_id"
-    t.index ["domain_id"], name: "index_domain_audits_on_domain_id"
-    t.index ["page_url_id"], name: "index_domain_audits_on_page_url_id"
-    t.index ["uid"], name: "index_domain_audits_on_uid"
-    t.index ["url_crawl_id"], name: "index_domain_audits_on_url_crawl_id"
-  end
-
-  create_table "domain_users", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.integer "user_id"
-    t.integer "domain_id"
-    t.index ["domain_id"], name: "index_domain_users_on_domain_id"
-    t.index ["uid"], name: "index_domain_users_on_uid"
-    t.index ["user_id"], name: "index_domain_users_on_user_id"
-  end
-
-  create_table "domain_users_roles", charset: "utf8", force: :cascade do |t|
-    t.string "uid", null: false
-    t.integer "domain_user_id"
-    t.integer "role_id"
-    t.index ["domain_user_id"], name: "index_domain_users_roles_on_domain_user_id"
-    t.index ["role_id"], name: "index_domain_users_roles_on_role_id"
-    t.index ["uid"], name: "index_domain_users_roles_on_uid"
-  end
-
-  create_table "domains", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "deleted_at"
-    t.boolean "is_generating_third_party_impact_trial"
-    t.string "stripe_customer_id"
-    t.string "stripe_payment_method_id"
-    t.bigint "current_subscription_plan_id"
-    t.index ["current_subscription_plan_id"], name: "index_domains_on_current_subscription_plan_id"
-    t.index ["uid"], name: "index_domains_on_uid"
-    t.index ["url"], name: "index_domains_on_url"
   end
 
   create_table "email_notification_subscribers", charset: "utf8", force: :cascade do |t|
@@ -325,38 +241,9 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["uid"], name: "index_execution_reasons_on_uid"
   end
 
-  create_table "feature_prices_in_credits", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "domain_id"
-    t.float "automated_performance_audit_price"
-    t.float "automated_test_run_price"
-    t.float "manual_performance_audit_price"
-    t.float "manual_test_run_price"
-    t.float "puppeteer_recording_price"
-    t.float "speed_index_filmstrip_price"
-    t.float "resource_waterfall_price"
-    t.float "uptime_check_price"
-    t.float "release_check_price"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["domain_id"], name: "index_feature_prices_in_credits_on_domain_id"
-    t.index ["uid"], name: "index_feature_prices_in_credits_on_uid"
-  end
-
-  create_table "flags", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "name"
-    t.string "slug"
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "default_value"
-    t.index ["uid"], name: "index_flags_on_uid"
-  end
-
   create_table "functional_tests", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.bigint "domain_id"
+    t.bigint "container_id"
     t.bigint "created_by_user_id"
     t.string "title"
     t.string "description"
@@ -367,8 +254,8 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.boolean "run_on_all_tags"
     t.boolean "passed_dry_run"
     t.timestamp "disabled_at"
+    t.index ["container_id"], name: "index_functional_tests_on_container_id"
     t.index ["created_by_user_id"], name: "index_functional_tests_on_created_by_user_id"
-    t.index ["domain_id"], name: "index_functional_tests_on_domain_id"
     t.index ["uid"], name: "index_functional_tests_on_uid"
   end
 
@@ -415,67 +302,59 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["uid"], name: "index_general_configurations_on_uid"
   end
 
-  create_table "html_snapshots", charset: "utf8", force: :cascade do |t|
+  create_table "instrumentation_builds", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
-    t.string "type"
-    t.string "html_s3_location"
-    t.timestamp "enqueued_at"
-    t.timestamp "completed_at"
-    t.bigint "page_change_audit_id"
-    t.string "screenshot_s3_location"
-    t.datetime "lambda_response_received_at"
-    t.index ["page_change_audit_id"], name: "index_html_snapshots_on_page_change_audit_id"
-    t.index ["uid"], name: "index_html_snapshots_on_uid"
+    t.bigint "container_id"
+    t.text "description", size: :medium
+    t.datetime "created_at", null: false
+    t.index ["container_id"], name: "index_instrumentation_builds_on_container_id"
+    t.index ["uid"], name: "index_instrumentation_builds_on_uid"
   end
 
-  create_table "long_tasks", charset: "utf8", force: :cascade do |t|
-    t.bigint "performance_audit_id"
-    t.bigint "tag_id"
-    t.bigint "tag_version_id"
-    t.string "task_type"
-    t.float "start_time"
-    t.float "end_time"
-    t.float "duration"
-    t.float "self_time"
+  create_table "legacy_audits", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.index ["performance_audit_id"], name: "index_long_tasks_on_performance_audit_id"
-    t.index ["tag_id"], name: "index_long_tasks_on_tag_id"
-    t.index ["tag_version_id"], name: "index_long_tasks_on_tag_version_id"
+    t.integer "execution_reason_id"
+    t.boolean "primary"
+    t.timestamp "created_at"
+    t.boolean "throttled", default: false
+    t.float "seconds_to_complete"
+    t.integer "tag_version_id"
+    t.datetime "deleted_at"
+    t.string "performance_audit_error_message"
+    t.integer "performance_audit_calculator_id"
+    t.bigint "page_url_id"
+    t.boolean "include_page_load_resources"
+    t.boolean "include_page_change_audit"
+    t.boolean "include_performance_audit"
+    t.boolean "include_functional_tests"
+    t.integer "num_functional_tests_to_run"
+    t.timestamp "enqueued_suite_at"
+    t.timestamp "performance_audit_completed_at"
+    t.timestamp "page_change_audit_completed_at"
+    t.timestamp "functional_tests_completed_at"
+    t.float "tagsafe_score_confidence_range"
+    t.integer "num_performance_audit_sets_ran"
+    t.bigint "initiated_by_container_user_id"
+    t.boolean "has_confident_tagsafe_score"
+    t.boolean "tagsafe_score_is_confident"
+    t.bigint "container_id"
+    t.bigint "tag_id"
+    t.index ["container_id"], name: "index_legacy_audits_on_container_id"
+    t.index ["execution_reason_id"], name: "index_legacy_audits_on_execution_reason_id"
+    t.index ["initiated_by_container_user_id"], name: "index_legacy_audits_on_initiated_by_container_user_id"
+    t.index ["page_url_id"], name: "index_legacy_audits_on_page_url_id"
+    t.index ["performance_audit_calculator_id"], name: "index_audits_on_peformance_audit_calculator_id"
+    t.index ["tag_id"], name: "index_legacy_audits_on_tag_id"
+    t.index ["tag_version_id"], name: "index_legacy_audits_on_tag_version_id"
+    t.index ["uid"], name: "index_legacy_audits_on_uid"
   end
 
   create_table "non_third_party_url_patterns", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.integer "domain_id"
+    t.integer "container_id"
     t.string "pattern"
-    t.index ["domain_id"], name: "index_non_third_party_url_patterns_on_domain_id"
+    t.index ["container_id"], name: "index_non_third_party_url_patterns_on_container_id"
     t.index ["uid"], name: "index_non_third_party_url_patterns_on_uid"
-  end
-
-  create_table "object_flags", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "object_type"
-    t.bigint "object_id"
-    t.bigint "flag_id"
-    t.string "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["flag_id"], name: "index_object_flags_on_flag_id"
-    t.index ["object_type", "object_id"], name: "index_object_flags_on_object"
-    t.index ["uid"], name: "index_object_flags_on_uid"
-  end
-
-  create_table "page_change_audits", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "audit_id"
-    t.boolean "tag_causes_page_changes"
-    t.integer "num_additions_between_without_tag_snapshots"
-    t.integer "num_deletions_between_without_tag_snapshots"
-    t.integer "num_additions_between_with_tag_snapshot_without_tag_snapshot"
-    t.integer "num_deletions_between_with_tag_snapshot_without_tag_snapshot"
-    t.string "initial_html_content_s3_url"
-    t.string "error_message"
-    t.index ["audit_id"], name: "index_page_change_audits_on_audit_id"
-    t.index ["uid"], name: "index_page_change_audits_on_uid"
   end
 
   create_table "page_load_resources", charset: "utf8", force: :cascade do |t|
@@ -500,7 +379,7 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
   end
 
   create_table "page_urls", charset: "utf8", force: :cascade do |t|
-    t.bigint "domain_id"
+    t.bigint "container_id"
     t.string "full_url"
     t.string "hostname"
     t.string "pathname"
@@ -509,16 +388,27 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.string "uid"
     t.boolean "should_scan_for_tags"
     t.string "screenshot_s3_url"
-    t.index ["domain_id"], name: "index_page_urls_on_domain_id"
+    t.index ["container_id"], name: "index_page_urls_on_container_id"
     t.index ["full_url"], name: "index_page_urls_on_full_url"
     t.index ["hostname"], name: "index_page_urls_on_hostname"
     t.index ["pathname"], name: "index_page_urls_on_pathname"
     t.index ["uid"], name: "index_page_urls_on_uid"
   end
 
+  create_table "page_urls_tag_found_on", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.bigint "page_url_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.timestamp "last_seen_at"
+    t.string "uid"
+    t.index ["page_url_id"], name: "index_page_urls_tag_found_on_on_page_url_id"
+    t.index ["tag_id"], name: "index_page_urls_tag_found_on_on_tag_id"
+  end
+
   create_table "performance_audit_calculators", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.bigint "domain_id"
+    t.bigint "container_id"
     t.boolean "currently_active"
     t.float "dom_complete_weight"
     t.float "dom_content_loaded_weight"
@@ -546,7 +436,7 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.float "perceptual_speed_index_score_decrement_amount"
     t.float "ms_until_first_visual_change_score_decrement_amount"
     t.float "ms_until_last_visual_change_score_decrement_amount"
-    t.index ["domain_id"], name: "index_performance_audit_calculators_on_domain_id"
+    t.index ["container_id"], name: "index_performance_audit_calculators_on_container_id"
     t.index ["uid"], name: "index_performance_audit_calculators_on_uid"
   end
 
@@ -614,7 +504,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.string "page_trace_s3_url"
     t.string "batch_identifier"
     t.datetime "lambda_response_received_at"
-    t.bigint "domain_audit_id"
     t.integer "bytes"
     t.float "main_thread_execution_tag_responsible_for"
     t.float "speed_index"
@@ -625,7 +514,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.float "entire_main_thread_execution_ms"
     t.float "entire_main_thread_blocking_executions_ms"
     t.index ["audit_id"], name: "index_performance_audit_averages_on_audit_id"
-    t.index ["domain_audit_id"], name: "index_performance_audits_on_domain_audit_id"
     t.index ["uid"], name: "index_performance_audits_on_uid"
   end
 
@@ -676,71 +564,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["uid"], name: "index_roles_on_uid"
   end
 
-  create_table "slack_notification_subscribers", charset: "utf8", force: :cascade do |t|
-    t.string "type"
-    t.string "channel"
-    t.bigint "tag_id"
-    t.index ["tag_id"], name: "index_slack_notification_subscribers_on_tag_id"
-  end
-
-  create_table "slack_settings", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.integer "organization_id"
-    t.string "access_token"
-    t.integer "app_id"
-    t.integer "team_id"
-    t.string "team_name"
-    t.index ["organization_id"], name: "index_slack_settings_on_organization_id"
-    t.index ["uid"], name: "index_slack_settings_on_uid"
-  end
-
-  create_table "subscription_features_configurations", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.boolean "has_advance_performance_audit_configurations"
-    t.integer "min_release_check_minute_interval"
-    t.integer "data_retention_days"
-    t.integer "tag_sync_minute_cadence"
-    t.bigint "domain_id"
-    t.string "package_inherited_from"
-    t.float "num_credits_provided_each_month"
-    t.index ["domain_id"], name: "index_subscription_features_configurations_on_domain_id"
-    t.index ["uid"], name: "index_subscription_features_configurations_on_uid"
-  end
-
-  create_table "subscription_plans", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "domain_id"
-    t.string "stripe_subscription_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "status"
-    t.datetime "free_trial_ends_at"
-    t.string "package_type"
-    t.string "billing_interval"
-    t.float "amount"
-    t.index ["domain_id"], name: "index_subscription_plans_on_domain_id"
-    t.index ["uid"], name: "index_subscription_plans_on_uid"
-  end
-
-  create_table "subscription_usage_record_updates", charset: "utf8", force: :cascade do |t|
-    t.bigint "subscription_plan_id"
-    t.bigint "domain_id"
-    t.float "billed_amount_in_cents"
-    t.datetime "bill_start_datetime"
-    t.datetime "bill_end_datetime"
-    t.string "uid"
-    t.index ["domain_id"], name: "index_subscription_usage_record_updates_on_domain_id"
-    t.index ["subscription_plan_id"], name: "index_subscription_usage_record_updates_on_subscription_plan_id"
-  end
-
-  create_table "tag_allowed_performance_audit_third_party_urls", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.string "url_pattern"
-    t.integer "tag_id"
-    t.index ["tag_id"], name: "index_tag_allowed_performance_audit_third_party_urls_on_tag_id"
-    t.index ["uid"], name: "index_tag_allowed_performance_audit_third_party_urls_on_uid"
-  end
-
   create_table "tag_identifying_data", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.string "name"
@@ -759,18 +582,12 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
-  create_table "tag_preferences", charset: "utf8", force: :cascade do |t|
+  create_table "tag_url_patterns_to_not_capture", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.integer "tag_id"
-    t.boolean "is_allowed_third_party_tag"
-    t.boolean "is_third_party_tag"
-    t.boolean "consider_query_param_changes_new_tag"
-    t.integer "throttle_minute_threshold"
-    t.datetime "deleted_at"
-    t.integer "scheduled_audit_minute_interval"
-    t.integer "release_check_minute_interval"
-    t.index ["tag_id"], name: "index_tag_preferences_on_tag_id"
-    t.index ["uid"], name: "index_tag_preferences_on_uid"
+    t.bigint "container_id"
+    t.string "url_pattern"
+    t.index ["container_id"], name: "index_tag_url_patterns_to_not_capture_on_container_id"
+    t.index ["uid"], name: "index_tag_url_patterns_to_not_capture_on_uid"
   end
 
   create_table "tag_versions", charset: "utf8", force: :cascade do |t|
@@ -787,6 +604,12 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.integer "num_deletions"
     t.text "commit_message"
     t.bigint "release_check_captured_with_id"
+    t.string "sha_256"
+    t.string "tag_version_identifier"
+    t.string "sha_512"
+    t.bigint "primary_audit_id"
+    t.boolean "blocked_from_promoting_to_live"
+    t.index ["primary_audit_id"], name: "index_tag_versions_on_primary_audit_id"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"
     t.index ["uid"], name: "index_tag_versions_on_uid"
@@ -794,33 +617,55 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
 
   create_table "tags", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.integer "domain_id"
-    t.bigint "found_on_page_url_id"
-    t.bigint "found_on_url_crawl_id"
+    t.integer "container_id"
     t.bigint "tag_identifying_data_id"
-    t.integer "tag_image_id"
-    t.string "url_domain"
+    t.string "url_hostname"
     t.string "url_path"
     t.text "url_query_param"
     t.text "full_url"
-    t.string "load_type"
-    t.boolean "has_content"
     t.integer "last_captured_byte_size"
     t.datetime "marked_as_pending_tag_version_capture_at"
     t.timestamp "last_released_at"
-    t.timestamp "last_audit_began_at"
-    t.timestamp "last_seen_in_url_crawl_at"
-    t.timestamp "removed_from_site_at"
     t.timestamp "created_at"
     t.datetime "deleted_at"
-    t.bigint "most_current_audit_id"
-    t.index ["domain_id"], name: "index_tags_on_domain_id"
-    t.index ["found_on_page_url_id"], name: "index_tags_on_found_on_page_url_id"
-    t.index ["found_on_url_crawl_id"], name: "index_tags_on_found_on_url_crawl_id"
-    t.index ["most_current_audit_id"], name: "index_tags_on_most_current_audit_id"
+    t.bigint "current_live_tag_version_id"
+    t.boolean "has_staged_changes"
+    t.bigint "most_recent_tag_version_id"
+    t.boolean "is_tagsafe_hosted"
+    t.datetime "last_seen_at"
+    t.datetime "removed_from_site_at"
+    t.bigint "tagsafe_js_event_batch_id"
+    t.integer "release_monitoring_interval_in_minutes"
+    t.string "load_type"
+    t.boolean "is_tagsafe_js_interceptable"
+    t.integer "tagsafe_js_intercepted_count"
+    t.integer "tagsafe_js_optimized_count"
+    t.integer "tagsafe_js_not_intercepted_count"
+    t.boolean "is_tagsafe_hostable"
+    t.index ["container_id"], name: "index_tags_on_container_id"
+    t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
+    t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
-    t.index ["tag_image_id"], name: "index_tags_on_tag_image_id"
+    t.index ["tagsafe_js_event_batch_id"], name: "index_tags_on_tagsafe_js_event_batch_id"
     t.index ["uid"], name: "index_tags_on_uid"
+  end
+
+  create_table "tagsafe_js_event_batches", charset: "utf8", force: :cascade do |t|
+    t.string "uid"
+    t.string "cloudflare_message_id"
+    t.bigint "container_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.timestamp "tagsafe_js_ts"
+    t.timestamp "enqueued_at"
+    t.timestamp "tagsafe_consumer_received_at"
+    t.timestamp "tagsafe_consumer_processed_at"
+    t.float "seconds_to_complete"
+    t.bigint "page_url_id"
+    t.index ["cloudflare_message_id"], name: "index_tagsafe_js_event_batches_on_cloudflare_message_id"
+    t.index ["container_id"], name: "index_tagsafe_js_event_batches_on_container_id"
+    t.index ["page_url_id"], name: "index_tagsafe_js_event_batches_on_page_url_id"
+    t.index ["uid"], name: "index_tagsafe_js_event_batches_on_uid"
   end
 
   create_table "test_runs", charset: "utf8", force: :cascade do |t|
@@ -848,15 +693,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["original_test_run_with_tag_id"], name: "index_test_runs_on_original_test_run_with_tag_id"
     t.index ["test_run_id_retried_from"], name: "index_test_runs_on_test_run_id_retried_from"
     t.index ["uid"], name: "index_test_runs_on_uid"
-  end
-
-  create_table "triggered_alert_domain_users", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "triggered_alert_id"
-    t.bigint "domain_user_id"
-    t.index ["domain_user_id"], name: "index_triggered_alert_domain_users_on_domain_user_id"
-    t.index ["triggered_alert_id"], name: "index_triggered_alert_domain_users_on_triggered_alert_id"
-    t.index ["uid"], name: "index_triggered_alert_domain_users_on_uid"
   end
 
   create_table "triggered_alerts", charset: "utf8", force: :cascade do |t|
@@ -918,32 +754,6 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["uptime_region_id"], name: "index_uptime_regions_to_check_on_uptime_region_id"
   end
 
-  create_table "url_crawl_retrieved_urls", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.bigint "url_crawl_id"
-    t.text "url"
-    t.index ["uid"], name: "index_url_crawl_retrieved_urls_on_uid"
-    t.index ["url_crawl_id"], name: "index_url_crawl_retrieved_urls_on_url_crawl_id"
-  end
-
-  create_table "url_crawls", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.integer "domain_id"
-    t.datetime "enqueued_at"
-    t.datetime "completed_at"
-    t.text "error_message"
-    t.string "url"
-    t.float "seconds_to_complete"
-    t.datetime "deleted_at"
-    t.bigint "page_url_id"
-    t.integer "num_first_party_bytes"
-    t.integer "num_third_party_bytes"
-    t.datetime "lambda_response_received_at"
-    t.index ["domain_id"], name: "index_url_crawls_on_domain_id"
-    t.index ["page_url_id"], name: "index_url_crawls_on_page_url_id"
-    t.index ["uid"], name: "index_url_crawls_on_uid"
-  end
-
   create_table "urls_to_audit", charset: "utf8", force: :cascade do |t|
     t.bigint "tag_id"
     t.boolean "primary"
@@ -954,27 +764,16 @@ ActiveRecord::Schema.define(version: 2022_06_14_201447) do
     t.index ["uid"], name: "index_urls_to_audit_on_uid"
   end
 
-  create_table "urls_to_crawl", charset: "utf8", force: :cascade do |t|
-    t.string "uid"
-    t.integer "domain_id"
-    t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.index ["domain_id"], name: "index_urls_to_crawl_on_domain_id"
-    t.index ["uid"], name: "index_urls_to_crawl_on_uid"
-  end
-
   create_table "user_invites", charset: "utf8", force: :cascade do |t|
     t.string "uid"
-    t.integer "domain_id"
+    t.integer "container_id"
     t.string "email"
     t.string "token"
     t.timestamp "expires_at"
     t.timestamp "created_at"
     t.integer "invited_by_user_id"
     t.timestamp "redeemed_at"
-    t.index ["domain_id"], name: "index_user_invites_on_domain_id"
+    t.index ["container_id"], name: "index_user_invites_on_container_id"
     t.index ["invited_by_user_id"], name: "index_user_invites_on_invited_by_user_id"
     t.index ["token"], name: "index_user_invites_on_token"
     t.index ["uid"], name: "index_user_invites_on_uid"

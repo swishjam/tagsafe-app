@@ -7,7 +7,7 @@ module TagsafeEmail
       @to_email = user.email
       audit = initiating_record
       @template_variables = {
-        domain_url: alert_configuration.domain.url_hostname,
+        container_url: alert_configuration.container.url_hostname,
         tag_name: triggered_alert.tag.try_friendly_name,
         num_passed_tests: audit.num_passed_functional_tests,
         num_total_tests: audit.num_functional_tests_to_run - audit.test_runs_with_tag.not_retries.inconclusive.count,

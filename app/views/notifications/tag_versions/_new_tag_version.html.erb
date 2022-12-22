@@ -1,0 +1,12 @@
+<span class='notification-message d-block mb-2'><%= tag_version.tag.try_friendly_name  %> pushed changes to their <%= tag_version.tag.has_tag_identifying_data? ? tag_version.tag.url_based_on_preferences : '' %> tag.</span>
+
+<div class='row'>
+  <div class='col-6'>
+    <%= link_to "View release", git_diff_tag_tag_version_path(tag_version.tag, tag_version), target: '_top' %>
+  </div>
+  <% if local_assigns[:audit] %>
+    <div class='col-6'>
+      <%= link_to "View audit", audit_redirect_tag_tag_version_path(triggered_alert.tag, triggered_alert.initiating_record), target: '_top' %>
+    </div>
+  <% end %>
+</div>

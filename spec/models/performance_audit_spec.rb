@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PerformanceAudit, type: :model do
   before(:each) do
     prepare_test!
-    tag = create(:tag, domain: @domain)
+    tag = create(:tag, domain: @container)
     create(:tag_preference, tag: tag)
     tag_version = create(:tag_version, tag: tag)
     @audit = create(:pending_audit, tag: tag, tag_version: tag_version, execution_reason: ExecutionReason.MANUAL)

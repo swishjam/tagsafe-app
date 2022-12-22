@@ -1,4 +1,4 @@
-<%= turbo_stream_from "domain_#{current_domain.uid}_user_invites_stream" %>
+<%= turbo_stream_from "container_#{current_container.uid}_user_invites_stream" %>
 
 <div class='page-title-container'>
   <div class='container-fluid'>
@@ -13,9 +13,9 @@
     </div>
   </div>
   <%= render 'partials/page_navigation_items', navigation_items: [
-    { url: domain_users_path, text: "Teammates" },
+    { url: container_users_path, text: "Teammates" },
     { url: user_invites_path(status: :pending), text: "Pending Invites" }
   ] %>
 </div>
 
-<%= render 'user_invites/index', domain: current_domain, user_invites: @user_invites, status: :pending %>
+<%= render 'user_invites/index', container: current_container, user_invites: @user_invites, status: :pending %>

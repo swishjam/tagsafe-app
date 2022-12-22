@@ -10,8 +10,8 @@ class TagIdentifyingDataDomain < ApplicationRecord
 
 
   def matches?(tag)
-    return true if tag.url_domain == url_pattern
-    split_domain = tag.url_domain.split('.')
+    return true if tag.url_hostname == url_pattern
+    split_domain = tag.url_hostname.split('.')
     domain_url_pattern_for_tag = "*.#{split_domain[split_domain.length - 2..].join('.')}"
     domain_url_pattern_for_tag == url_pattern
   end

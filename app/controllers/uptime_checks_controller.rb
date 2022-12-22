@@ -1,25 +1,25 @@
 class UptimeChecksController < LoggedInController
   def index
     @days_ago = (params[:days_ago] || 7).to_i
-    @tags = current_domain.tags.chartable
+    @tags = current_container.tags.chartable
                                 .order('last_released_at DESC')
                                 .page(params[:page] || 1).per(params[:per_page] || 9)
     render_breadcrumbs(text: 'Uptime')
   end
 
-  def domain_list
+  def container_list
     render turbo_stream: turbo_stream.replace(
-      "domain_#{current_domain.uid}_uptime_list",
-      partial: 'uptime_checks/domain_list',
+      "container_#{current_container.uid}_uptime_list",
+      partial: 'uptime_checks/container_list',
       locals: {
-        tags: current_domain.tags.includes(:tag_preferences).page(params[:page] || 1).per(10),
+        tags: current_container.tags.includes(:tag_preferences).page(params[:page] || 1).per(10),
         days_ago: params[:days_ago] || 7
       }
     )
   end
 
   def tag_list
-    tag = current_domain.tags.includes(:uptime_regions).find_by(uid: params[:tag_uid])
+    tag = current_container.tags.includes(:uptime_regions).find_by(uid: params[:tag_uid])
     selected_uptime_regions = UptimeRegion.where(aws_name: params[:aws_region_names] || 'us-east-1')
     paginated_uptime_checks = tag.uptime_checks
                                     .includes(:uptime_region)

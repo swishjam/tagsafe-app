@@ -1,4 +1,6 @@
 class ExecutionReason < ApplicationRecord
+  has_many :audits
+  
   scope :automated, -> { where(name: ['Activated Release Monitoring', 'Scheduled', 'New Release']) }
 
   TYPES_OF_EXECUTION_REASONS = [

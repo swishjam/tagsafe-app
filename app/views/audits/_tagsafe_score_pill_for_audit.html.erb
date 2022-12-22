@@ -1,0 +1,37 @@
+<% if !audit %>
+  <div class='tagsafe-pill grey small-text'>
+    No audits performed
+  </div>
+<% elsif audit.completed? %>
+  <% color = audit.tagsafe_score >= 90 ? 'green' : audit.tagsafe_score >= 75 ? 'orange' : 'red' %>
+  <div class='position-relative'>
+    <div class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
+      <%= audit.formatted_tagsafe_score %>
+      <% unless local_assigns[:compare_to_previous_score] == false %>
+        <% audit_to_compare_against = audit.audit_to_compare_with %>
+        <% if audit_to_compare_against %>
+          <% previous_score = audit_to_compare_against.tagsafe_score.round(2) %>
+          <% diff_in_score = (audit.tagsafe_score - previous_score).round(2) %>
+          <% icon_class = diff_in_score.positive? ? 'fas fa-long-arrow-alt-up' : 'fas fa-long-arrow-alt-down' %>
+          <span style='font-size: 0.75rem'
+                class='ms-1'
+                data-controller='tooltip'
+                data-bs-toggle='tooltip'
+                title="Tagsafe Score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous audit.">
+                <i class="<%=icon_class%>"></i> 
+                <%= diff_in_score %>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% elsif audit.failed? %>
+  <div class='tagsafe-pill red' data-controller='tooltip' title='<%= audit.error_message %>' style='font-size: 0.75rem'>
+    Audit failed
+  </div>
+<% else %>
+  <div class='tagsafe-pill tagsafe-primary-purple' style='font-size: 0.75rem'>
+    <span class='me-1'>Running audit</span>
+    <%= display_loading_icon size: :tiny %>
+  </div>
+<% end %>

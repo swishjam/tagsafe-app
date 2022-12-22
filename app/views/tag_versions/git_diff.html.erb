@@ -5,12 +5,6 @@
         <h1 class="page-title with-sub-title">Git Diff</h1>
         <h2 class='page-sub-title'>
           <%= @tag.try_friendly_name %> - <%= @tag_version.sha %>
-          <% if @tag.release_monitoring_disabled? %>
-            <%= image_tag '/images/disabled-release-monitoring.png', style: 'height: 16px;', title: 'Release monitoring is disabled for this tag, enable it in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
-          <% end %>
-          <% if @tag.scheduled_audits_disabled? %>
-            <%= image_tag '/images/disabled-automated-audits.png', style: 'height: 16px;', title: 'Scheduled audits are disabled for this tag, enable them in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
-          <% end %>
         </h2>
       </div>
       <div class='col-4 page-title-cta-container'>
@@ -30,11 +24,6 @@
       </div>
     </div>
   </div>
-  <%= render 'partials/page_navigation_items', navigation_items: [
-    { text: 'Audit Details', url: tag_path(@tag) },
-    { text: 'Uptime', url: uptime_tag_path(@tag) },
-    { text: 'Releases', url: tag_releases_path(@tag) }
-  ] %>
 </div>
 
 <div class="p-5">

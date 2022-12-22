@@ -1,0 +1,15 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <h1 class="page-title">Get Started</h1>
+  </div>
+</div>
+
+<div class='container text-center p-5'>
+  <div class='d-flex align-items-center justify-content-center mb-2'>
+    <h3 class='tagsafe-font d-inline'>Name your Tagsafe container</h3>
+    <span class='ms-2' data-controller='tooltip' data-bs-toggle='tooltip' title="A container houses all of your tags and provides your unique TagsafeJS script. Typically for each site you own, you have one unique container.">
+      <%= HtmlHelper.QUESTION_MARK_ICON %>
+    </span>
+  </div>
+  <%= render 'containers/form', container: @container %>
+</div>

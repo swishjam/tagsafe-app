@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js" integrity="sha512-hG/Qw6E14LsVUaQRSgw0RrFA1wl5QPG1a4bCOUgwzkGPIVFsOPUPpbr90DFavEEqFMwFXPVI0NS4MzKsInlKxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<%= render_as_modal title: 'Install Script' do %>
+  <div class='tagsafe-modal-body text-start'>
+    <h4>Paste this script at the very top of the `head` on each page of your web application.</h4>
+    <div class='code-block p-2'>
+      <div class='code-mirror-container readonly' data-controller='code-mirror'>
+        <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
+        <textarea data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<script>\r\n  (function(i) {\r\n    var s = document.createElement('script');\r\n    s.setAttribute('src','https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>/'+i+'/instrumentation.js');\r\n    document.head.prepend(s);\r\n  })('<%= instrumentation_key %>');\r\n</script>"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class='tagsafe-modal-divider mt-2'></div>
+    <div class='tagsafe-modal-footer text-end'>
+    </div>
+  </div>
+<% end %>
+  

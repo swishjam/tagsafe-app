@@ -1,5 +1,5 @@
 class UserInvite < ApplicationRecord  
-  belongs_to :domain
+  belongs_to :container
   belongs_to :invited_by_user, class_name: User.to_s
 
   scope :pending, -> { where(redeemed_at: nil) }
@@ -15,9 +15,9 @@ class UserInvite < ApplicationRecord
   validate :user_doesnt_exist
   validate :user_doesnt_have_pending_invite
 
-  def self.invite!(email, domain, invited_by_user)
+  def self.invite!(email, container, invited_by_user)
     create!(
-      domain: domain,
+      container: container,
       email: email,
       invited_by_user: invited_by_user,
       expires_at: DateTime.now + 1.day,
@@ -26,7 +26,7 @@ class UserInvite < ApplicationRecord
   end
 
   def redeem!(new_user)
-    new_user.domains << domain
+    new_user.containers << container
     touch(:redeemed_at)
   end
 
@@ -52,13 +52,13 @@ class UserInvite < ApplicationRecord
 
   def re_render_pending_invite_list
     broadcast_replace_to(
-      "domain_#{domain.uid}_user_invites_stream",
-      target: "domain_#{domain.uid}_pending_invites",
+      "container_#{container.uid}_user_invites_stream",
+      target: "container_#{container.uid}_pending_invites",
       partial: 'user_invites/index',
       locals: { 
-        domain: domain,
+        container: container,
         status: :pending,
-        user_invites: domain.user_invites.pending 
+        user_invites: container.user_invites.pending 
       }
     )
   end
@@ -66,13 +66,13 @@ class UserInvite < ApplicationRecord
   private
 
   def user_doesnt_exist
-    if domain.users.find_by(email: email)
-      errors.add(:base, "A user with the email of '#{email}' already belongs to #{domain.url}.")
+    if container.users.find_by(email: email)
+      errors.add(:base, "A user with the email of '#{email}' already belongs to #{container.url}.")
     end
   end
 
   def user_doesnt_have_pending_invite
-    if domain.user_invites.redeemable.find_by(email: email)
+    if container.user_invites.redeemable.find_by(email: email)
       errors.add(:base, "User already has a pending invite.")
     end
   end

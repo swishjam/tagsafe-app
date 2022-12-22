@@ -6,15 +6,15 @@ RSpec.describe HoneycombChartFormatter do
   end
 
   def create_tags(num_tags)
-    url_crawl = create(:completed_url_crawl, domain: @domain, page_url: @domain.page_urls.first)
+    url_crawl = create(:completed_url_crawl, domain: @container, page_url: @container.page_urls.first)
     num_tags.times.map do
       url = Faker::Internet.unique.url(path: '/script.js')
       create(:tag, 
-        domain: @domain, 
+        domain: @container, 
         full_url: url, 
         url_domain: URI.parse(url).hostname, 
         url_path: '/script.js', 
-        found_on_page_url: @domain.page_urls.first, 
+        found_on_page_url: @container.page_urls.first, 
         found_on_url_crawl: url_crawl
       )
     end

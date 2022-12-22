@@ -7,10 +7,10 @@
           <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_tag_path(tag, chart_metric: chart_metric.to_s) %>
         </div>
       </div>
-      <div class='col-6 text-end'>
+      <!--<div class='col-6 text-end'>
         <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
           <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
-            <i class="metric-icon fa-solid fa-chart-line"></i>  <%= display_metric %>
+            <i class="metric-icon fa-solid fa-chart-line"></i>  <#%= display_metric %>
             <span class='dropdown-indicator d-inline'>
               <i class="fa-solid fa-chevron-up"></i>
             </span>
@@ -20,12 +20,12 @@
               Charted metric
             </div>
             <div class='dropdown-divider'></div>
-            <% DeltaPerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
-              <%= link_to metric_type[:title], charts_tag_path(tag, time_range: time_range, chart_metric: metric_type[:column].to_s), class: "dropdown-item text-center #{metric_type[:column].to_s === chart_metric.to_s ? 'active' : nil}" %>
-            <% end %>
+            <#% DeltaPerformanceAudit::CHARTABLE_COLUMNS.each do |metric_type| %>
+              <#%= link_to metric_type[:title], charts_tag_path(tag, time_range: time_range, chart_metric: metric_type[:column].to_s), class: "dropdown-item text-center #{metric_type[:column].to_s === chart_metric.to_s ? 'active' : nil}" %>
+            <#% end %>
           </div>
         </div>
-      </div>
+      </div> !-->
     </div>
     <div class='mt-2 <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' data-controller='streamed-script-tag'>
       <%= 

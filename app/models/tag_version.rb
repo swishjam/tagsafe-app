@@ -3,91 +3,101 @@ class TagVersion < ApplicationRecord
   include Notifier
   include Streamable
   acts_as_paranoid
-  
+
   belongs_to :tag
-  belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s
+  belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
+  belongs_to :primary_audit, class_name: Audit.to_s, optional: true
+  has_one :tag_with_current_live_tag_version, class_name: Tag.to_s, foreign_key: :current_live_tag_version_id, dependent: :restrict_with_error
+  has_one :tag_with_most_recent_tag_version, class_name: Tag.to_s, foreign_key: :most_recent_tag_version_id, dependent: :restrict_with_error
   has_many :audits, dependent: :destroy
-  has_many :long_tasks, dependent: :destroy
-  has_one_attached :js_file, service: :tag_version_s3
-  has_one_attached :formatted_js_file, service: :tag_version_s3
-  
-  scope :most_recent, -> { where(most_recent: true) }
-  # only time total_changes = nil is if theres not other version to compare to?
+    
   # should we have a first class attribute for this?
   scope :first_version, -> { where(total_changes: nil) }
   scope :not_first_version, -> { where.not(total_changes: nil) }
+  scope :blocked_from_promoting_to_live, -> { where(blocked_from_promoting_to_live: true) }
+  scope :currently_live, -> { Tag.includes(:current_live_tag_version) }
 
-  after_create :after_creation
-  after_destroy { tag.tag_versions.most_recent_first.limit(1).first&.make_most_recent! unless tag.nil? }
+  after_create { tag.update!(last_released_at: self.created_at) }
+  after_create { perform_audit(execution_reason: ExecutionReason.NEW_RELEASE, page_url_to_audit: tag.page_url_first_found_on) }
+  after_create_commit { broadcast_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
+  after_create_commit { prepend_tag_version_to_tag_details_view }
+  after_destroy :purge_s3_files!
+  after_destroy { tag.update!(most_recent_tag_version: previous_version) if is_tags_most_recent_tag_version? }
+  after_update_commit { update_tag_details_view if saved_changes['primary_audit_id'] }
 
-  validate :has_attached_js_files
-  validate :only_one_most_recent
-
-  def after_creation
-    tag.update!(last_released_at: created_at)
-    make_most_recent!
-    AlertEvaluators::NewTagVersion.new(self).trigger_alerts_if_criteria_is_met!
-    perform_audit_on_all_urls(execution_reason: first_version? ? ExecutionReason.RELEASE_MONITORING_ACTIVATED : ExecutionReason.NEW_RELEASE)
-    update_tag_table_row(tag: tag, now: true)
-    add_tag_version_to_tag_details_view(tag_version: self, now: true)
+  def s3_url(use_cdn: true, formatted: false)
+    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : s3_bucket
+    "https://#{url_host}#{s3_pathname(formatted: formatted)}"
   end
+  alias js_file_url s3_url
+
+  def s3_bucket
+    "tagsafe-#{Rails.env}-tag-versions.s3-us-east-1.amazonaws.com"
+  end
+
+  def s3_pathname(formatted: false, strip_leading_slash: false)
+    # if there's a leading slash in the S3 file name, the first directory is just '/', strip it so the directory is the instrumentation key
+    unique_s3_file_name = "#{tag.hostname_and_path.gsub('.', '_').gsub('/', '_')}-#{uid}#{formatted ? '-formatted' : ''}"
+    "#{strip_leading_slash ? '' : '/'}tags/#{tag.container.instrumentation_key}/#{unique_s3_file_name}.js"
+  end
+  alias js_file_pathname s3_pathname
 
   def sha
     hashed_content.slice(0, 8)
   end
-
-  def make_most_recent!
-    tag.most_recent_version.update!(most_recent: false) unless first_version? || tag.most_recent_version.nil?
-    update!(most_recent: true)
-  end
-
-  def most_recent_version?
-    most_recent
-  end
-
-  def perform_audit(execution_reason:, initiated_by_domain_user: nil, url_to_audit:, options: {})
-    AuditHandler::Runner.new(
-      tag_version: self,
-      initiated_by_domain_user: initiated_by_domain_user,
-      url_to_audit: url_to_audit,
+  
+  def perform_audit(execution_reason:, page_url_to_audit:, initiated_by_container_user: nil, options: {})
+    Audit.run!(
+      tag: tag, 
+      tag_version: self, 
+      page_url: page_url_to_audit, 
       execution_reason: execution_reason,
-      options: options
-    ).run!
+      initiated_by_container_user: initiated_by_container_user
+    )
   end
 
-  def perform_audit_on_all_urls(execution_reason:, initiated_by_domain_user: nil, options: {})
-    tag.urls_to_audit.map do |url_to_audit| 
+  def perform_audit_on_all_urls(execution_reason:, initiated_by_container_user: nil, options: {})
+    tag.page_urls.map do |page_url_to_audit| 
       perform_audit(
-        url_to_audit: url_to_audit, 
+        page_url_to_audit: page_url_to_audit, 
         execution_reason: execution_reason, 
-        initiated_by_domain_user: initiated_by_domain_user,
+        initiated_by_container_user: initiated_by_container_user,
         options: options
       )
     end
   end
 
-  def js_file_url(formatted: false, use_cloudfront_url: Util.env_is_true('USE_CLOUDFRONT_CDN_FOR_JS_FILES'))
-    javascript_file = formatted ? formatted_js_file : js_file
-    return javascript_file.url unless use_cloudfront_url
-    parsed_url = URI.parse(javascript_file.url)
-    parsed_url.hostname = ENV['CLOUDFRONT_TAG_VERSION_S3_HOSTNAME']
-    parsed_url.to_s
-  end
-
   def content(formatted: false)
     if formatted
-      @formatted_content ||= formatted_js_file.download
+      @formatted_content ||= HTTParty.get(js_file_url(formatted: true)).to_s
     else
-      @content ||= js_file.download
+      @content ||= HTTParty.get(js_file_url(formatted: false)).to_s
     end
   end
 
+  def purge_s3_files!
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(use_cdn: false, formatted: false))
+    TagsafeAws::S3.delete_object_by_s3_url(s3_url(use_cdn: false, formatted: true))
+  end
+
+  def audit_to_determine_promotability
+    audits.find_by(execution_reason: ExecutionReason.NEW_RELEASE)
+  end
+
+  def can_promote_to_live?
+    !primary_audit_is_pending? && primary_audit.tagsafe_score >= 80
+  end
+  
+  def primary_audit_is_pending?
+    primary_audit.nil?
+  end
+
   def audit_to_display
-    most_recent_successful_audit || most_recent_pending_audit || most_recent_failed_audit
+    primary_audit || audit_to_determine_promotability || most_recent_successful_audit || most_recent_pending_audit || most_recent_failed_audit
   end
 
   def most_recent_successful_audit
-    audits.most_recent_first.successful_performance_audit.limit(1).first
+    audits.most_recent_first.successful.limit(1).first
   end
 
   def most_recent_pending_audit
@@ -95,47 +105,47 @@ class TagVersion < ApplicationRecord
   end
 
   def most_recent_failed_audit
-    audits.most_recent_first.failed_performance_audit.limit(1).first
-  end
-
-  def has_pending_audit?
-    audits.pending.any?
-  end
-
-  def should_throttle_audit?
-    throttler.should_throttle?
-  end
-
-  def throttle_audit!
-    throttler.throttle!
-  end
-
-  def throttler
-    @throttler ||= AuditThrottler::Evaluator.new(self)
-  end
-
-  def primary_audit
-    audits.primary.limit(1).first
-  end
-
-  def total_num_delta_performance_audits_performed_across_all_audits
-    audits.includes(:performance_audit_configuration).collect{ |a| a.performance_audit_configuration.num_performance_audits_to_run }.inject(:+)
-  end
-
-  def tagsafe_score
-    primary_audit&.preferred_delta_performance_audit&.tagsafe_score
+    audits.most_recent_first.failed.limit(1).first
   end
 
   def previous_version
     tag.tag_versions.most_recent_first.older_than(created_at).limit(1).first
   end
+  alias previous_tag_version previous_version
 
   def next_version
     tag.tag_versions.most_recent_first.more_recent_than(created_at).limit(1).first
   end
+  alias next_tag_version next_version
 
   def image_url
     tag.try_image_url
+  end
+
+  def is_tags_current_live_tag_version?
+    self == tag.current_live_tag_version
+  end
+
+  def is_tags_most_recent_tag_version?
+    self == tag.most_recent_tag_version
+  end
+
+  def newer_than_current_live_version?
+    return false if is_tags_current_live_tag_version?
+    created_at > tag.current_live_tag_version.created_at 
+  end
+
+  def older_than_current_live_version?
+    return false if is_tags_current_live_tag_version?
+    created_at < tag.current_live_tag_version.created_at
+  end
+
+  def num_releases_from_live_version
+    return 0 if is_tags_current_live_tag_version?
+    range = older_than_current_live_version? ? 
+              created_at..tag.current_live_tag_version.created_at : 
+              tag.current_live_tag_version.created_at..created_at
+    tag.tag_versions.where(created_at: range).where.not(id: id).count
   end
 
   def first_version?
@@ -147,27 +157,40 @@ class TagVersion < ApplicationRecord
     js_file.purge if js_file && js_file.persisted?
   end
 
-  def bytesize
-    bytes
-  end
+  private
 
-  def change_in_bytes
-    bytes - previous_version.bytes unless previous_version.nil?
-  end
-
-  ###############
-  # VALIDATIONS #
-  ###############
-
-  def only_one_most_recent
-    if most_recent && tag.tag_versions.where(most_recent: true).count > 1
-      errors.add(:base, "Cannot have multiple most_recent tag versions on a single tag.")
+  def broadcast_notification_to_all_users
+    tag.container.container_users.each do |container_user|
+      container_user.user.broadcast_notification(
+        partial: "/notifications/tag_versions/new_tag_version",
+        title: "🚨 New release",
+        image: tag.try_image_url,
+        partial_locals: { tag_version: self }
+      )
     end
   end
 
-  def has_attached_js_files
-    if js_file_url.nil? || formatted_js_file.nil?
-      errors.add(:base, "Attached JS file is required")
-    end
+  def prepend_tag_version_to_tag_details_view
+    broadcast_prepend_to(
+      "tag_#{tag.uid}_details_view_stream",
+      target: "tag_#{tag.uid}_tag_versions",
+      partial: 'tag_versions/tag_version_row',
+      locals: { 
+        tag_version: self,
+        streamed: true
+      }
+    )
+  end
+
+  def update_tag_details_view
+    broadcast_replace_to(
+      "tag_#{tag.uid}_details_view_stream",
+      target: "tag_version_#{uid}_row",
+      partial: "tag_versions/tag_version_row",
+      locals: {
+        tag_version: self,
+        streamed: true
+      }
+    )
   end
 end

@@ -1,8 +1,0 @@
-<%= form_with model: tag.tag_preferences, url: tag_tag_preference_path(tag, tag.tag_preferences), class: 'd-inline-block', data: { controller: 'loading_form', action: 'submit->server-loadable-modal#hide' } do |f| %>
-  <%= f.hidden_field :price_increase_confirmed, value: true %>
-  <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>
-  <%= f.hidden_field :scheduled_audit_minute_interval, value: tag.tag_preferences.scheduled_audit_minute_interval %>
-  <!-- CONFIRM THIS VALUE OVERRIDES ABOVE VALUES !-->
-  <%= f.hidden_field attr_being_updated.to_sym, value: attr_being_updated_value %>
-  <%= loading_submit_button 'Confirm price change', type: 'floating' %>
-<% end %>

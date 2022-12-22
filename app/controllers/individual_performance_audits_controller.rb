@@ -1,6 +1,6 @@
 class IndividualPerformanceAuditsController < LoggedInController
   def index
-    @tag = current_domain.tags.find_by(uid: params[:tag_uid])
+    @tag = current_container.tags.find_by(uid: params[:tag_uid])
     @audit = @tag.audits.includes(:performance_audits).find_by(uid: params[:audit_uid])
 
     @average_delta_audit = @audit.average_delta_performance_audit

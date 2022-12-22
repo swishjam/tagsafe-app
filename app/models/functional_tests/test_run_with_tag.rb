@@ -7,7 +7,7 @@ class TestRunWithTag < TestRun
   scope :inconclusive, -> { joins(:follow_up_test_run_without_tag).with_tag.where(passed: false, follow_up_test_run_without_tag: { passed: false }) }
   scope :conclusive, -> { joins(:follow_up_test_run_without_tag).where(passed: false, follow_up_test_run_without_tag: { passed: true }).or(passed) }
 
-  scope :billable_for_domain, -> (domain) { joins(:audit).where(audit: domain.audits.billable) }
+  scope :billable_for_container, -> (container) { joins(:audit).where(audit: container.audits.billable) }
 
   def self.friendly_class_name
     'Test Run With Tag'

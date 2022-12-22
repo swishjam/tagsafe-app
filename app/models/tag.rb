@@ -2,320 +2,188 @@ class Tag < ApplicationRecord
   include Rails.application.routes.url_helpers
   include HasExecutedStepFunction
   include Notifier
-  include Flaggable
   include Streamable
 
   uid_prefix 'tag'
   acts_as_paranoid
 
+  attribute :release_monitoring_interval_in_minutes, default: 180
+  attribute :tagsafe_js_intercepted_count, default: 0
+  attribute :tagsafe_js_not_intercepted_count, default: 0
+  attribute :tagsafe_js_optimized_count, default: 0
+
   # RELATIONS
-  belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
-  belongs_to :domain
+  belongs_to :container
+  # belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
-  belongs_to :found_on_page_url, class_name: PageUrl.to_s
-  belongs_to :found_on_url_crawl, class_name: UrlCrawl.to_s
+  belongs_to :tagsafe_js_event_batch
+  belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
+  belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 
   has_many :audits, dependent: :destroy
-  has_many :long_tasks, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
   has_many :uptime_checks, dependent: :destroy
   has_many :uptime_regions_to_check, class_name: UptimeRegionToCheck.to_s, dependent: :destroy
   has_many :uptime_regions, through: :uptime_regions_to_check
-  has_many :urls_to_audit, class_name: UrlToAudit.to_s, dependent: :destroy
-  accepts_nested_attributes_for :urls_to_audit
+  has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
+  has_many :page_urls, through: :page_urls_tag_found_on
   has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
   has_many :functional_tests, through: :functional_tests_to_run
-  has_many :tag_allowed_performance_audit_third_party_urls, dependent: :destroy
-  
-  has_many :events, as: :triggerer, dependent: :destroy
-  has_many :added_to_site_events, class_name: TagAddedToSiteEvent.to_s
-  has_many :removed_from_site_events, class_name: TagRemovedFromSiteEvent.to_s
-  has_many :query_param_change_events, class_name: TagUrlQueryParamsChangedEvent.to_s
-
-  has_many :alert_configuration_tags
+  has_many :alert_configuration_tags, dependent: :destroy
   has_many :alert_configurations, through: :alert_configuration_tags
 
-  has_many :additional_tags_to_inject_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s
-  has_many :tags_to_inject_during_audit, through: :additional_tags_to_inject_during_audit, source: :tag_to_inject
-  # has_many :additional_tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
-  # has_many :tags_to_inject_self_during_audit, class_name: AdditionalTagToInjectDuringAudit.to_s, foreign_key: :tag_to_inject_id
-
-  has_one :configuration, as: :parent, class_name: GeneralConfiguration.to_s, dependent: :destroy
-  has_one :tag_preferences, class_name: TagPreference.to_s, dependent: :destroy
-  accepts_nested_attributes_for :tag_preferences
+  accepts_nested_attributes_for :page_urls_tag_found_on
 
   # VALIDATIONS
-  validates :load_type, inclusion: { in: %w[async defer synchronous] }
-  validates_presence_of :full_url
+  validate :has_at_least_one_page_url_tag_found_on
+  validates :release_monitoring_interval_in_minutes, inclusion: { in: [0, 1, 15, 30, 60, 180, 360, 720, 1_440] }
+  validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates_uniqueness_of :full_url, 
-                          scope: :domain_id, 
+                          scope: :container_id, 
                           conditions: -> { where(deleted_at: nil) },
-                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on #{tag.domain.url}" }
+                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on this Container (#{tag.container.name} - #{tag.container.uid})" }
 
   # CALLBACKS
-  broadcast_notification on: :create
-  after_update_commit { update_tag_table_row(tag: self, now: true) }
-  after_destroy_commit { remove_tag_from_from_table(tag: self) }
-  after_create_commit :apply_defaults
-  after_create_commit :stream_new_tag_to_views
-  after_create_commit { AlertEvaluators::NewTag.new(self).trigger_alerts_if_criteria_is_met! }
-  # after_create_commit { TagAddedToSiteEvent.create(triggerer: self) }
-  # after_create_commit { NewTagAlert.create!(initiating_record: self, tag: self) }
+  before_create :set_parsed_url_attributes
+  before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
+  before_create { self.last_seen_at = Time.current }
+  # TODO: should we capture the first TagVersion for _all_ tags?
+  after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
+  after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! if is_tagsafe_hostable }
+  after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
+  after_create_commit :broadcast_new_tag_notification_to_all_users
+  after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
-  # default_scope { includes(:tag_identifying_data, :tag_preferences) }
-  
-  scope :release_monitoring_enabled, -> { where_tag_preferences_not({ release_check_minute_interval: 0 }) }
-  scope :release_monitoring_disabled, -> { where_tag_preferences({ release_check_minute_interval: 0 }) }
-
-  scope :scheduled_audits_enabled, -> { where_tag_preferences_not({ scheduled_audit_minute_interval: 0 }) }
-  scope :scheduled_audits_disabled, -> { where_tag_preferences({ scheduled_audit_minute_interval: 0 }) }
-  
-  scope :still_on_site, -> { where(removed_from_site_at: nil) }
-  scope :removed, -> { where.not(removed_from_site_at: nil) }
-  
-  scope :is_third_party_tag, -> { where_tag_preferences({ is_third_party_tag: true }) }
-  scope :is_not_third_party_tag, -> { where_tag_preferences({ is_third_party_tag: false }) }
-
-  scope :allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: true }) }
-  scope :not_allowed_third_party_tag, -> { where_tag_preferences({ is_allowed_third_party_tag: false }) }
-
-  scope :should_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: true }) }
-  scope :should_not_consider_query_param_changes_new_tag, -> { where_tag_preferences({ consider_query_param_changes_new_tag: false }) }
-
-  scope :third_party_tags_that_shouldnt_be_blocked, -> { is_third_party_tag.allowed_third_party_tag }
-  scope :should_run_uptime_checks, -> { enabled.still_on_site.is_third_party_tag }
-  scope :chartable, -> { is_third_party_tag.still_on_site.not_allowed_third_party_tag }
-  scope :has_content, -> { where(has_content: true) }
-  scope :doesnt_have_content, -> { where(has_content: false) }
-
-  scope :domain_has_active_subscription_plan, -> { joins(:domain).where(Domain.has_valid_subscription) }
-  scope :domain_has_invalid_subscription_plan, -> { joins(:domain).where(Domain.has_invalid_subscription) }
-
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
+  scope :tagsafe_hosted, -> { where(is_tagsafe_hosted: true).where.not(current_live_tag_version: nil) }
+  scope :not_tagsafe_hosted, -> { where(is_tagsafe_hosted: false) }
+  scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
+  scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
 
-  scope :where_tag_preferences, -> (where_clause) { joins(:tag_preferences).where(tag_preferences: where_clause) }
-  scope :where_tag_preferences_not, -> (where_clause) { joins(:tag_preferences).where.not(tag_preferences: where_clause) }
+  def set_parsed_url_attributes
+    parsed_url = URI.parse(self.full_url)
+    self.url_hostname = parsed_url.host
+    self.url_path = parsed_url.path
+    self.url_query_param = parsed_url.query
 
-  scope :where_release_check_interval, -> (interval) { where_tag_preferences(release_check_minute_interval: interval) }
-  scope :one_minute_interval_checks, -> { where_release_check_interval(1) }
-  scope :fifteen_minute_interval_checks, -> { where_release_check_interval(15) }
-  scope :thirty_minute_interval_checks, -> { where_release_check_interval(30) }
-  scope :one_hour_interval_checks, -> { where_release_check_interval(60) }
-  scope :three_hour_interval_checks, -> { where_release_check_interval(180) }
-  scope :six_hour_interval_checks, -> { where_release_check_interval(360) }
-  scope :twelve_hour_interval_checks, -> { where_release_check_interval(720) }
-  scope :twenty_four_hour_interval_checks, -> { where_release_check_interval(1440) }
-  scope :one_day_interval_checks, -> { twenty_four_hour_interval_checks }
-
-  scope :five_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 5) }
-  scope :fifteen_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 15) }
-  scope :thirty_minute_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 30) }
-  scope :one_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 60) }
-  scope :three_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 180) }
-  scope :six_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 360) }
-  scope :twelve_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 720) }
-  scope :twenty_four_hour_scheduled_audit_intervals, -> { where_tag_preferences(scheduled_audit_minute_interval: 1440) }
-
-  def self.find_without_query_params(url, include_removed_tags: false)
-    parsed_url = URI.parse(url)
-    if include_removed_tags
-      should_not_consider_query_param_changes_new_tag.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
-    else
-      still_on_site.should_not_consider_query_param_changes_new_tag.find_by(url_domain: parsed_url.host, url_path: parsed_url.path)
-    end
+    parsed_url.scheme = 'https' if parsed_url.scheme.nil?
+    self.full_url = parsed_url.to_s
   end
 
-  def self.find_removed_tag(url)
-    removed.find_by(full_url: url)
-  end
-
-  def self.find_removed_tag_without_query_params(url)
-    find_without_query_params(url, include_removed_tags: true)
+  def set_current_live_tag_version_and_publish_instrumentation(tag_version)
+    update!(current_live_tag_version: tag_version)
+    container.publish_instrumentation!
   end
 
   def find_and_apply_tag_identifying_data(force_update = false)
-    unless tag_identifying_data.present? || force_update
+    if full_url.present? && (!has_tag_identifying_data? || force_update)
       update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
     end
+  end
+
+  def has_tag_identifying_data?
+    tag_identifying_data_id.present?
+  end
+
+  def release_monitoring_interval_in_words
+    Util.integer_to_interval_in_words(release_monitoring_interval_in_minutes)
+  end
+
+  def enabled?
+    true
+  end
+
+  def disabled?
+    !enabled?
   end
 
   def url_scheme
     URI.parse(full_url).scheme
   end
 
-  def after_create_notification_msg
-    "A new tag has been detected: #{full_url}"
-  end
-
   def notification_image_url
     try_image_url
   end
-
-  def apply_defaults
-    # TagImageDomainLookupPattern.find_and_apply_image_to_tag(self)
-    find_and_apply_tag_identifying_data
-    # uptime_regions_to_check.create(uptime_region: UptimeRegion.US_EAST_1) # new uptime check logic no longer requires this...
-    domain.functional_tests.run_on_all_tags.each{ |test| test.enable_for_tag(self) }
-  end
-
-  def stream_new_tag_to_views
-    if domain.tags.count == 1
-      # render the table empty and allow `append_tag_row_to_table` to add the new tag
-      re_render_tags_table(domain: domain, empty: true, now: true)
-      re_render_tags_chart(domain: domain, now: true)
-    end
-    append_tag_row_to_table(tag: self, now: true)
-  end
-
-  def state
-    removed_from_site? ? 'removed' :
-      release_monitoring_enabled? ? 'active' : 'disabled'
-  end
-
-  def human_state
-    state.split('-').collect(&:capitalize).join(' ')
-  end
-
-  # def most_current_audit
-  #   audits.most_current.limit(1).first
-  # end
-  
-  def most_recent_version
-    return nil if release_monitoring_disabled?
-    tag_versions.where(most_recent: true).limit(1).first
-  end
-  alias current_version most_recent_version
 
   def first_version
     tag_versions.most_recent_last.limit(1).first
   end
 
   def has_no_versions?
-    most_recent_version.nil?
+    most_recent_tag_version.nil?
   end
 
-  def run_uptime_check_now!
-    RunReleaseCheckJob.perform_now(self)
+  def most_current_audit
+    # TODO: make this more intelligent
+    most_recent_successful_audit
   end
 
-  def run_uptime_check_later!
-    RunReleaseCheckJob.perform_later(self)
+  def page_url_first_found_on
+    page_urls_tag_found_on.includes(:page_url).most_recent_first.limit(1).first.page_url
   end
 
-  def perform_audit_on_all_urls_on_current_tag_version!(execution_reason:, initiated_by_domain_user: nil)
-    if release_monitoring_enabled?
-      perform_audit_on_all_urls!(
-        execution_reason: execution_reason, 
-        tag_version: current_version,
-        initiated_by_domain_user: initiated_by_domain_user,
-      )
-    else
-      perform_audit_on_all_urls!(
-        execution_reason: execution_reason, 
-        initiated_by_domain_user: initiated_by_domain_user,
-        tag_version: nil
-      )
-    end
+  def load_type_as_verb
+    return load_type if %w[async defer].include?(load_type)
+    "#{load_type}ly"
   end
 
-  def perform_audit_on_all_urls!(execution_reason:, tag_version:, initiated_by_domain_user: nil, options: {})
-    urls_to_audit.map do |url_to_audit|
-      perform_audit!(
-        execution_reason: execution_reason,
-        tag_version: tag_version,
-        initiated_by_domain_user: initiated_by_domain_user,
-        url_to_audit: url_to_audit,
-        options: options
-      )
-    end
-  end
-
-  def perform_audit!(execution_reason:, tag_version:, initiated_by_domain_user:, url_to_audit:, options: {})
-    AuditHandler::Runner.new(
-      execution_reason: execution_reason,
+  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url_to_audit:, options: {})
+    Audit.run!(
       tag: self,
       tag_version: tag_version,
-      url_to_audit: url_to_audit,
-      initiated_by_domain_user: initiated_by_domain_user,
+      page_url_to_audit: page_url_to_audit,
+      initiated_by_container_user: initiated_by_container_user,
+      execution_reason: execution_reason,
       options: options
-    ).run!
-  end
-
-  def removed_from_site?
-    !removed_from_site_at.nil?
-  end
-
-  def mark_as_removed_from_site!(removed_timestamp = Time.current)
-    update!(removed_from_site_at: removed_timestamp)
-    AlertEvaluators::TagRemoved.new(self).trigger_alerts_if_criteria_is_met!
+    )
   end
 
   def release_monitoring_enabled?
-    tag_preferences.release_monitoring_enabled?
+    release_monitoring_interval_in_minutes > 0
+  end
+
+  def release_monitoring_disabled?
+    !release_monitoring_enabled?
   end
 
   def scheduled_audits_enabled?
-    tag_preferences.scheduled_audits_enabled?
+    false
   end
-
-  def uptime_monitoring_enabled?
-    uptime_regions_to_check.count > 0
-  end
-
-  def enable!
-    tag_preferences.update!(enabled: true)
-  end
-
-  def disabled?
-    tag_preferences.release_monitoring_disabled?
-  end
-  alias release_monitoring_disabled? disabled?
 
   def scheduled_audits_disabled?
     !scheduled_audits_enabled?
   end
 
-  def uptime_monitoring_disabled?
-    !uptime_monitoring_enabled?
-  end
-
-  def disable!
-    tag_preferences.update!(enabled: false)
-  end
-
-  def tag_or_domain_configuration
-    configuration || domain.general_configuration
-  end
-
-  def should_roll_up_audits_by_tag_version?
-    release_monitoring_disabled? ? false : domain.general_configuration.roll_up_audits_by_tag_version
+  def tag_or_container_configuration
+    # configuration || container.general_configuration
+    container.general_configuration
   end
 
   def audit_to_display(include_pending: true)
-    # if should_roll_up_audits_by_tag_version?
-    #   current_version&.audit_to_display
-    # else
-      most_recent_successful_audit || (include_pending ? most_recent_pending_audit : nil)
-    # end
+    most_recent_successful_audit || (include_pending ? most_recent_pending_audit : nil)
   end
 
   def most_recent_successful_audit
-    audits.completed_performance_audit.successful_performance_audit.most_recent_first.limit(1).first
+    audits.successful.most_recent_first.limit(1).first
   end
 
   def most_recent_pending_audit
-    audits.pending_performance_audit.most_recent_first.limit(1).first
+    audits.pending.most_recent_first.limit(1).first
+  end
+
+  def name
+    # TODO: need to add to tags table
   end
 
   def has_friendly_name?
-    tag_identifying_data.present?
+    name.present? || tag_identifying_data.present?
   end
 
   def friendly_name
-    tag_identifying_data&.name
+    name || tag_identifying_data&.name
   end
 
   def try_friendly_name
@@ -323,11 +191,7 @@ class Tag < ApplicationRecord
   end
 
   def url_based_on_preferences
-    tag_preferences.consider_query_param_changes_new_tag ? full_url : domain_and_path
-  end
-
-  def try_friendly_slug
-    (friendly_name || url_domain + url_path).gsub(' ', '_').gsub('/', '_').gsub('.', '')
+    hostname_and_path
   end
 
   def has_image?
@@ -339,37 +203,45 @@ class Tag < ApplicationRecord
   end
   alias image_url try_image_url
 
-  def domain_and_path
-    "#{URI.parse(full_url).scheme}://#{url_domain}#{url_path}"
+  def hostname_and_path
+    url_hostname + url_path
   end
 
-  def estimated_monthly_cost
-    SubscriptionMaintainer::PriceEstimator.new(self).estimate_monthly_price
+  private
+
+  def broadcast_new_tag_notification_to_all_users
+    container.container_users.each do |container_user|
+      container_user.user.broadcast_notification(
+        partial: "/notifications/tags/new_tag",
+        title: "🚨 New tag detected",
+        image: try_image_url,
+        partial_locals: { tag: self }
+      )
+    end
   end
 
-  ################
-  ## TAG CHECKS ##
-  ################
-
-  def average_response_time(days_ago: 7)
-    uptime_checks.more_recent_than(days_ago.days.ago).average(:response_time_ms)&.round(2)
+  def check_to_sync_aws_event_bridge_rules_if_necessary
+    if saved_changes['release_monitoring_interval_in_minutes']
+      previous_release_monitoring_interval_in_minutes = saved_changes['release_monitoring_interval_in_minutes'][0]
+      enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
+      disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(previous_release_monitoring_interval_in_minutes)
+    end
   end
 
-  def max_response_time(days_ago: 7, round: true)
-    uptime_checks.more_recent_than(days_ago.days.ago).maximum(:response_time_ms)
+  def disable_aws_event_bridge_rules_if_no_release_checks_enabled_for_interval(interval)
+    return false if interval.nil? || interval.zero?
+    return false if Tag.where(release_monitoring_interval_in_minutes: interval).any?
+    ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(interval).disable!
   end
 
-  def total_num_of_requests(days_ago: 7)
-    uptime_checks.more_recent_than(days_ago.days.ago).count
+  def enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
+    return false if release_monitoring_disabled?
+    ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_monitoring_interval_in_minutes).enable!
   end
 
-  def num_failed_requests(days_ago: 7, successful_codes: [200, 204])
-    uptime_checks.more_recent_than(days_ago.days.ago).where.not(response_code: successful_codes).count
-  end
-
-  def fail_rate(days_ago: 7, successful_codes: [200, 204])
-    failed_count = num_failed_requests(days_ago: days_ago, successful_codes: successful_codes).to_f
-    return 0 if failed_count.zero?
-    (failed_count / total_num_of_requests(days_ago: days_ago) * 100).round(2)
+  def has_at_least_one_page_url_tag_found_on
+    if page_urls_tag_found_on.none?
+      errors.add(:base, "Tag must be associated with at least one PageUrl.")
+    end
   end
 end

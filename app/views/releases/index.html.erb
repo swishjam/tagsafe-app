@@ -1,78 +1,43 @@
-<div class='page-title-container'>
-  <div class='container-fluid'>
-    <div class='row'>
-      <div class='col-8'>
-        <h1 class="page-title with-sub-title">Tag Releases</h1>
-        <h2 class='page-sub-title'>
-          <%= @tag.try_friendly_name %> 
-          <% if @tag.release_monitoring_disabled? %>
-            <%= image_tag '/images/disabled-release-monitoring.png', style: 'height: 16px;', title: 'Release monitoring is disabled for this tag, enable it in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
+<%= turbo_frame_tag "tag_#{@tag.uid}_release_calendar" do %>
+  <div class='release-graph-with-headers m-auto'>
+    <h4 class='text-center'><%= Time.current.strftime('%B') %></h4>
+    <div class='release-graph'>
+      <% @release_count_by_day.each_slice(7) do |arrays_of_days_and_release_count| %>
+        <div class='release-graph-row'>
+          <% arrays_of_days_and_release_count.each do |day_and_release_count| %>
+            <% day = day_and_release_count[0] %>
+            <% if day > Time.current %>
+              <div class='release-graph-day disabled'>
+                <span class='d-block'><%= day.strftime('%b') %></span>
+                <span class='d-block'><%= day.strftime('%d') %></span>
+              </div>
+            <% else %>
+              <% num_releases = day_and_release_count[1] %>
+              <% rate_of_release_heat = num_releases.to_f / @most_releases_in_a_day %>
+              <div class='release-graph-day release-heat-<%= rate_of_release_heat >= 0.75 ? 5 :
+                                                              rate_of_release_heat >= 0.5 ? 4 :
+                                                              rate_of_release_heat >= 0.25 ? 3 :
+                                                              rate_of_release_heat > 0.0 ? 2 : 
+                                                              1 %>' 
+                    data-controller='tooltip' 
+                    data-bs-toggle='tooltip' 
+                    title="<%= num_releases.zero? ? 'No' : num_releases %> releases on <%= day.strftime("%b %d, %Y") %>.">
+                <span class='d-block'><%= day.strftime('%b') %></span>
+                <span class='d-block'><%= day.strftime('%d') %></span>
+              </div>
+            <% end %>
           <% end %>
-          <% if @tag.scheduled_audits_disabled? %>
-            <%= image_tag '/images/disabled-automated-audits.png', style: 'height: 16px;', title: 'Scheduled audits are disabled for this tag, enable them in your tag settings.', data: { controller: 'tooltip', bs_toggle: 'tooltip' } %>
-          <% end %>
-        </h2>
-      </div>
-      <div class='col-4 page-title-cta-container'>
-        <%= modal_link new_tag_audit_path(@tag), klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
-          <div class='d-flex align-items-center'>
-            Run Audit 
-            <span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
-              <form class='hidden' action="<%=new_tag_audit_path(@tag)%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
-              </form>
-              ⌘a
-            </span>
-          </div>
-        <% end %>
-        <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', title: 'Edit tag settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
-          <i class="fa-solid fa-gear"></i>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <%= render 'partials/page_navigation_items', navigation_items: [
-    { text: 'Audit Details', url: tag_path(@tag) },
-    { text: 'Uptime', url: uptime_tag_path(@tag) },
-    { text: 'Releases', url: tag_releases_path(@tag) }
-  ] %>
-</div>
-
-<% if @tag.release_monitoring_disabled? %>
-  <div class='container-fluid'>
-    <div class="alert alert-warning mt-3 text-center" role="alert">
-      <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', edit_tag_path(@tag) %>.
-    </div>
-  </div>
-<% else %>
-  <% unless (most_recent_check = @tag.release_checks.most_recent_first.limit(1).first).nil? %>
-    <div class='container-fluid text-end pt-3 pe-3'>
-      <span class='d-block'>Release detection interval is set for <%= @tag.tag_preferences.release_monitoring_interval_in_words %>.</span>
-      <span class='d-block'>Last check ran <%= most_recent_check.executed_at.formatted_long %>.</span>
-    </div>
-  <% end %>
-<% end %>
-
-<%= turbo_frame_tag "#{@tag.uid}_release_chart", src: release_chart_releases_path(tag_uid: @tag.uid) do %>
-  <div class='tagsafe-container text-center p-5'>
-    <%= display_loading_icon %>
-  </div>
-<% end %>
-
-<div class='release-list-container'>
-  <h4 class='mb-3'>Recent releases</h4>
-  <% (0..2).each do |months_ago| %>
-    <% start_date = Time.current.beginning_of_month - months_ago.months %>
-    <% end_date = start_date.end_of_month %>
-    <%= turbo_frame_tag "#{@tag.uid}_release_list_for_#{start_date.month}-#{start_date.year}_to_#{end_date.month}-#{end_date.year}",
-                          src: rolled_up_release_list_releases_path(tag_uid: @tag.uid, start_date: start_date, end_date: end_date, hide_tag_name: true) do %>
-      <div class='release-list-month'>
-        <div class='release-list-month-header'>
-          <span class='header-text'>
-            <%= start_date.beginning_of_month.strftime('%B, %Y') %>
-            <%= display_loading_icon size: :tiny %>
-          </span>
         </div>
-      </div>
-    <% end %>
-  <% end %>
-</div>
+      <% end %>
+    </div>
+    <div class='release-graph-legend mt-3 text-end'>
+      <span>Less Releases</span>
+      <div class='release-graph-day release-heat-1'></div>
+      <div class='release-graph-day release-heat-2'></div>
+      <div class='release-graph-day release-heat-3'></div>
+      <div class='release-graph-day release-heat-4'></div>
+      <div class='release-graph-day release-heat-5'></div>
+      <span>More Releases</span>
+    </div>
+  </div>
+<% end %>

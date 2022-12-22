@@ -30,7 +30,7 @@
           <%= link_to alert_configuration_path(alert_config), class: 'no-decoration' do %>
             <div class='tagsafe-table-row hoverable'>
               <div class='tagsafe-table-cell'>
-                <span class='<%= alert_config.disabled? ? 'inactive-circular-icon' : 'active-circular-icon' %> me-2'
+                <span class='<%= alert_config.disabled? ? 'red-glowing-circular-icon' : 'green-glowing-circular-icon' %> me-2'
                       data-controller='tooltip'
                       data-bs-toggle='tooltip'
                       title='Alert is <%= alert_config.disabled? ? 'inactive' : 'active' %>'></span> 
@@ -47,7 +47,7 @@
                 <div class='tagsafe-pill <%= pill_color %> small-text'><%= alert_config.class.user_facing_alert_name %></div>
               </div>
               <div class='tagsafe-table-cell'><%= alert_config.enabled_for_all_tags ? 'All tags' : alert_config.tags.count %></div>
-              <div class='tagsafe-table-cell'><%= alert_config.domain_users.count %></div>
+              <div class='tagsafe-table-cell'><%= alert_config.container_users.count %></div>
               <div class='tagsafe-table-cell'><%= alert_config.triggered_alerts.most_recent_first.limit(1).first&.created_at&.formatted_long || 'Not yet triggered' %></div>
             </div>
           <% end %>

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "tag_#{tag.uid}_current_stats" do %>
-  <% current_audit = tag.audit_to_display %>
+  <% current_audit = false %>
   <% if current_audit && current_audit.performance_audit_completed? %>
     <% preferred_delta_performance_audit = current_audit.preferred_delta_performance_audit %>
     <div class='tagsafe-container tag-current-stats-container'>

@@ -5,14 +5,27 @@ class TagsafeAws
         @_client ||= Aws::S3::Client.new(region: 'us-east-1')
       end
 
+      def get_object(bucket:, key:)
+        client.get_object(bucket: bucket, key: key)
+      end
+
       def get_object_by_s3_url(s3_url)
-        client.get_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+        get_object(bucket: url_to_bucket(s3_url), key: url_to_key(s3_url))
       end
 
       def delete_object_by_s3_url(s3_url)
-        client.delete_object({ bucket: url_to_bucket(s3_url), key: url_to_key(s3_url) })
+        client.delete_object(bucket: url_to_bucket(s3_url), key: url_to_key(s3_url))
       rescue => e
         puts "CANNOT DELETE #{s3_url}: #{e.message}"
+      end
+
+      def write_to_s3(bucket:, key:, content:, acl: nil, cache_control: nil, content_type: nil, include_md5: true)
+        args = { bucket: bucket, key: key, body: content }
+        args[:acl] = acl unless acl.nil?
+        args[:cache_control] = cache_control unless cache_control.nil?
+        args[:content_type] = content_type unless content_type.nil?
+        args[:content_md5] = Digest::MD5.base64digest(content) if include_md5
+        client.put_object(args)
       end
 
       def url_to_bucket(s3_url)
@@ -20,7 +33,31 @@ class TagsafeAws
       end
 
       def url_to_key(s3_url)
-        URI.parse(s3_url).path.gsub('/', '')
+        key = URI.parse(s3_url).path
+        key[0] = '' if key.starts_with?('/')
+        key
+      end
+    end
+  end
+
+  class CloudFront
+    class << self
+      def client
+        @_client ||= Aws::CloudFront::Client.new(region: 'us-east-1')
+      end
+
+      def invalidate_cache(*paths)
+        Rails.logger.info "TagsafeAws::Cloudfront -- Invaliding CloudFront cache for #{paths.join(', ')}."
+        client.create_invalidation(
+          distribution_id: ENV['TAGSAFE_INSTRUMENTATION_CLOUDFRONT_DISTRIBUTION_ID'],
+          invalidation_batch: {
+            paths: {
+              quantity: 1,
+              items: paths,
+            },
+            caller_reference: "#{Time.current.to_i}__#{paths.join('__')}"
+          }
+        )
       end
     end
   end
@@ -57,12 +94,13 @@ class TagsafeAws
       end
 
       def invoke_function(function_name:, payload:, async: true)
-        client.invoke(
+        resp = client.invoke(
           function_name: function_name,
           invocation_type: async ? 'Event' : 'RequestResponse',
           log_type: 'Tail',
           payload: JSON.generate(payload)
         )
+        async ? resp : JSON.parse(resp.payload.string)
       end
     end
   end
@@ -82,10 +120,12 @@ class TagsafeAws
       end
 
       def disable_rule(name, region:, event_bus_name: 'default')
+        Rails.logger.info "TagsafeAws::EventBridge -- Disabling rule: #{name}, for event bus: #{event_bus_name}, in region: #{region}."
         client(region).disable_rule(name: name, event_bus_name: event_bus_name)
       end
 
       def enable_rule(name, region:, event_bus_name: 'default')
+        Rails.logger.info "TagsafeAws::EventBridge -- Enabling rule: #{name}, for event bus: #{event_bus_name}, in region: #{region}."
         client(region).enable_rule(name: name, event_bus_name: event_bus_name)
       end
     end

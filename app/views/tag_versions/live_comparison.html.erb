@@ -1,5 +1,0 @@
-<div class='tagsafe-container col-10 offset-1 text-center'>
-  <%= turbo_frame_tag "#{@tag_version.uid}_diff", src: live_comparison_server_loadable_partials_tag_tag_version_path(@tag, @tag_version) do %>
-    <%= display_loading_spinner %>
-  <% end %>
-</div>

@@ -40,7 +40,7 @@
           </span>
         </div>
         <div class="dropdown-menu dropdown-menu-center p-3">
-          <% current_domain.tags.is_third_party_tag.each do |tag| %>
+          <% current_container.tags.is_third_party_tag.each do |tag| %>
             <div class='dropdown-item' 
                   data-action='click->custom-dropdown-inject-input#injectAsInput' 
                   data-input-value="<%= tag.uid %>"

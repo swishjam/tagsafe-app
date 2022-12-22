@@ -1,0 +1,23 @@
+{
+  "name": "functional-test-run",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-prod": "serverless deploy --stage production",
+    "locally": "serverless invoke local --function measure-tag-performance --path ./test.json --stage local"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
+    "dotenv": "^16.0.1",
+    "lighthouse": "^9.6.8",
+    "puppeteer-core": "^10.4.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^15.5.0"
+  }
+}

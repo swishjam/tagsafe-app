@@ -25,8 +25,8 @@
           <input type='hidden' name="alert_configuration[disabled]" value="<%= @alert_configuration.disabled %>">
           <input type='hidden' name="alert_configuration[name]" value="<%= @alert_configuration.name %>">
           <input type='hidden' name="alert_configuration[enabled_for_all_tags]" value="<%= @alert_configuration.enabled_for_all_tags %>">
-          <% @alert_configuration.domain_users.each do |domain_user| %>
-            <input type='hidden' name='domain_user_uids[]' value="<%= domain_user.uid %>">
+          <% @alert_configuration.container_users.each do |container_user| %>
+            <input type='hidden' name='container_user_uids[]' value="<%= container_user.uid %>">
           <% end %>
           <div class='form-floating d-flex mb-3'>
             <input type='text' class='form-control' name='alert_configuration[name]' placeholder='Alert name' value="<%= @alert_configuration.name %>">

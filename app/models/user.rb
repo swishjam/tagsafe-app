@@ -3,10 +3,10 @@ class User < ApplicationRecord
   has_secure_password
   acts_as_paranoid
 
-  has_many :domain_users, dependent: :destroy
-  has_many :domains, through: :domain_users
+  has_many :container_users, dependent: :destroy
+  has_many :containers, through: :container_users
   has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
-  # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_domain_user_id
+  # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_container_user_id
 
   validates_presence_of :email, :password, :first_name, :last_name
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
@@ -21,36 +21,36 @@ class User < ApplicationRecord
     first_name[0] + last_name[0]
   end
 
-  def is_user_admin?(domain)
-    has_role_for_domain?(domain, Role.USER_ADMIN)
+  def is_user_admin?(container)
+    has_role_for_container?(container, Role.USER_ADMIN)
   end
 
-  def is_tagsafe_admin?(domain)
-    has_role_for_domain?(domain, Role.TAGSAFE_ADMIN)
+  def is_tagsafe_admin?(container)
+    has_role_for_container?(container, Role.TAGSAFE_ADMIN)
   end
 
-  def has_role_for_domain?(domain, role)
-    DomainUserRole.where(domain_user: domain_user_for(domain), role: role).exists?
+  def has_role_for_container?(container, role)
+    ContainerUserRole.where(container_user: container_user_for(container), role: role).exists?
   end
 
-  def domain_user_for(domain)
-    domain_users.find_by(domain: domain)
+  def container_user_for(container)
+    container_users.find_by(container: container)
   end
 
-  def belongs_to_multiple_domains?
-    domains.count > 1
+  def belongs_to_multiple_containers?
+    containers.count > 1
   end
 
-  def belongs_to_domain?(domain)
-    !domain_user_for(domain).nil?
+  def belongs_to_container?(container)
+    !container_user_for(container).nil?
   end
 
-  def can_remove_user_from_domain?(domain)
-    domains.include? domain
+  def can_remove_user_from_container?(container)
+    containers.include? container
   end
 
-  def invite_user_to_domain!(email_to_invite, domain)
-    UserInvite.invite!(email_to_invite, domain, self)
+  def invite_user_to_container!(email_to_invite, container)
+    UserInvite.invite!(email_to_invite, container, self)
   end
 
   def subscribed_to_notification?(notification_class, tag)

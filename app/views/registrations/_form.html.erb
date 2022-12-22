@@ -1,9 +1,9 @@
 <!-- <#%= turbo_frame_tag 'new_registration' do %> !-->
   <%= form_with model: user, url: registrations_path, data: { controller: 'loading_form' } do |f| %>
-    <% if local_assigns[:domain] %>
+    <% if local_assigns[:container] %>
       <div class='form-floating m-2'>
-        <input type='hidden' name="domain_uid" value="<%=domain.uid%>">
-        <input type="text" class="form-control" value="<%=domain.url%>" disabled="true">
+        <input type='hidden' name="container_uid" value="<%=container.uid%>">
+        <input type="text" class="form-control" value="<%=container.name%>" disabled="true">
         <label>Site URL</label>
       </div>
     <% end %>
@@ -25,14 +25,14 @@
     </div>
     <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
     <%= loading_submit_button type: 'floating', button_class: 'large mb-3' do %>
-      <%= local_assigns[:button_text] || 'Sign up' %>
+      <%= local_assigns[:button_text] || 'Get Started' %>
       <% if local_assigns[:button_icon_klass] %>
         <i class="<%= button_icon_klass %>"></i>
       <% end %>
     <% end %>
     <div class='row'>
-      <% if local_assigns[:domain] %>
-        <%= link_to 'Login', "#{login_path}?domain=#{domain.uid}" %>
+      <% if local_assigns[:container] %>
+        <%= link_to 'Login', "#{login_path}?container=#{container.uid}" %>
       <% else %>
         <%= link_to 'Login', login_path %>
       <% end %>

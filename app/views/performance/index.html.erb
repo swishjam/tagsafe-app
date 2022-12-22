@@ -21,7 +21,7 @@
 </div>
 
 <% if @tags.any? %>
-  <%= turbo_frame_tag "#{current_domain.uid}_domain_tags_chart", src: charts_tags_path(tag_ids: @tags.collect(&:id), include_metric_select: true) do %>
+  <%= turbo_frame_tag "#{current_container.uid}_container_tags_chart", src: charts_tags_path(tag_ids: @tags.collect(&:id), include_metric_select: true) do %>
     <div class='tagsafe-containe text-center p-5'>
       <%= display_loading_icon %>
     </div>

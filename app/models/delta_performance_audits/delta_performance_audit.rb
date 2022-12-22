@@ -1,13 +1,10 @@
 class DeltaPerformanceAudit < ApplicationRecord
   belongs_to :audit, optional: true
-  belongs_to :domain_audit, optional: true
   belongs_to :performance_audit_with_tag, foreign_key: :performance_audit_with_tag_id, class_name: PerformanceAudit.to_s
   belongs_to :performance_audit_without_tag, foreign_key: :performance_audit_without_tag_id, class_name: PerformanceAudit.to_s
 
   scope :outliers, -> { where(is_outlier: true) }
   scope :not_outliers, -> { where(is_outlier: false) }
-
-  validate :belongs_to_audit_or_domain_audit
 
   TAGSAFE_SCORE_THRESHOLDS = { good: 90, warn: 80 }
   CHARTABLE_COLUMNS = [
@@ -84,11 +81,5 @@ class DeltaPerformanceAudit < ApplicationRecord
       ms_until_last_visual_change_delta: ms_until_last_visual_change_delta,
       byte_size: bytes
     )
-  end
-
-  def belongs_to_audit_or_domain_audit
-    if audit.nil? && domain_audit.nil?
-      errors.add(:base, "DeltaPerformanceAudit must belongs to either a DomainAudit or Audit.")
-    end
   end
 end

@@ -2,12 +2,32 @@ require 'open-uri'
 
 JSON_DATA = [
    {
+      "name"=>'TagsafeJS',
+      'company'=>'Tagsafe',
+      'image_url'=>'https://d1d6tvxa5r22b2.cloudfront.net/tagsafe-logo.png',
+      'homepage'=>'https://www.tagafe.io',
+      'categories'=>['utility'],
+      'domains'=>[
+         'cdn-collin-dev.tagsafe.io',
+         'cdn.tagsafe.io'
+      ]
+   },
+   {
       "name"=>"ThirdPartyTag.com",
       "company"=>"Third Party Tag inc",
       "image_url"=>"https://icons.iconarchive.com/icons/google/noto-emoji-activities/1024/52707-party-popper-icon.png",
       "homepage"=>"https://www.thirdpartytag.com",
       "domains"=>[
          "www.thirdpartytag.com"
+      ]
+   },
+      {
+      "name"=>"PostHog",
+      "company"=>"PostHog",
+      "image_url"=>"https://assets.stickpng.com/images/62cc4f997755665152a8df88.png",
+      "homepage"=>"https://www.posthog.com",
+      "domains"=>[
+         "*.posthog.com"
       ]
    },
   {
@@ -1680,6 +1700,7 @@ JSON_DATA = [
   {
      "name"=>"Hubspot",
      "homepage"=>"https://hubspot.com/",
+     "image_url"=>"https://pbs.twimg.com/profile_images/1500923494665797632/VytKgxOP_400x400.jpg",
      "categories"=>[
         "marketing"
      ],
@@ -1693,7 +1714,9 @@ JSON_DATA = [
         "*.hsforms.net",
         "*.hsleadflows.net",
         "*.hsstatic.net",
-        "*.hubspot.net"
+        "*.hubspot.net",
+        '*.usemessages.com',
+        '*.hs-banner.com'
      ],
      "examples"=>[
         "forms.hubspot.com",

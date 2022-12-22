@@ -21,8 +21,10 @@
           <div class="navigation-profile-dropdown-container dropdown-container w-fit">
             <div class='navigation-profile-trigger dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
               <div class='display-text'>
-                <div class='domain-url-line'>
-                  <span class='domain-url'><%= current_domain.url %></span>
+                <div class='container-url-line'>
+                  <% unless current_container.nil? %>
+                    <span class='container-url'><%= current_container.name %></span>
+                  <% end %>
                   <% if user_is_anonymous? %>
                     <span class='dropdown-indicator'>
                       <i class="fa-solid fa-chevron-up"></i>
@@ -45,24 +47,26 @@
                   <span class='d-block'><%= current_user.full_name %></span>
                   <span class='d-block'><%= current_user.email %></span>
                 <% end %>
-                <span class='d-block'><%= current_domain.url %></span>
+                <% unless current_container.nil? %>
+                  <span class='d-block'><%= current_container.name %></span>
+                <% end %>
               </div>
-              <% if !user_is_anonymous? && current_user.belongs_to_multiple_domains? %>
+              <% if !user_is_anonymous? && current_user.belongs_to_multiple_containers? %>
                 <div class='dropdown-divider'></div>
-                <% current_user.domains.each do |domain| %>
-                  <div class='dropdown-item text-center <%= domain == current_domain ? 'active' : nil %>'>
-                    <% if domain == current_domain %>
-                      <%= domain.url %>
+                <% current_user.containers.each do |container| %>
+                  <div class='dropdown-item text-center <%= container == current_container ? 'active' : nil %>'>
+                    <% if container == current_container %>
+                      <%= container.name %>
                     <% else %>
-                      <%= form_with model: domain, url: update_current_domain_path(domain.uid), method: :put do |f| %>
-                        <span data-controller='feaux_form_submit_button'><%= domain.url %></span>
+                      <%= form_with model: container, url: update_current_container_path(container.uid), method: :put do |f| %>
+                        <span data-controller='feaux_form_submit_button'><%= container.name %></span>
                       <% end %>
                     <% end %>
                   </div>
                 <% end %>
               <% end %>
               <div class='dropdown-divider'></div>
-              <%= link_to 'Add New Domain', new_domain_path(additional: true), class: 'dropdown-item text-center no-decoration' %>
+              <%= link_to 'Add New Container', new_container_path(additional: true), class: 'dropdown-item text-center no-decoration' %>
               <%= link_to 'Settings', settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
               <% unless user_is_anonymous? %>
                 <%= link_to 'Billing', settings_billing_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>

@@ -1,4 +1,4 @@
-<%= turbo_stream_from "domain_#{current_domain.uid}_monitor_center_view_stream" %>
+<%= turbo_stream_from "container_#{current_container.uid}_monitor_center_view_stream" %>
 
 <div class='page-title-container'>
   <div class='container-fluid'>
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<%= turbo_frame_tag "#{current_domain.uid}_domain_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
+<%= turbo_frame_tag "#{current_container.uid}_container_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
   <div class='text-center p-5'>
     <%= display_loading_spinner size: :large %>
   </div>

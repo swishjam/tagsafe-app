@@ -1,0 +1,30 @@
+<%= render_as_modal title: "#{local_assigns[:is_rolling_back] || local_assigns[:did_roll_back] ? "Rollback to" : "Promote"} #{tag_version.sha}" do %>
+  <% if local_assigns[:completed] %>
+    <div class='tagsafe-modal-body'>
+      <h4 class='tagsafe-font'><%= HtmlHelper.PASSED_ICON(color: 'green') %> Successfully <%= did_roll_back ? "rolled back" : "promoted" %> <span class='code-block'><%= tag_version.sha %></span>
+    </div>
+    <div class='tagsafe-modal-divider mt-2'></div>
+    <div class='tagsafe-modal-footer text-end'>
+      <button class='floating-btn me-2' data-action='server-loadable-modal#close'>Close</button>
+    </div>
+  <% else %>
+    <div class='tagsafe-modal-body text-center'>
+      <h2 class='tagsafe-font'>
+        <%= is_rolling_back ? "Rollback" : "Promote" %> <%= tag.try_friendly_name %> to <span class='code-block'><%= tag_version.sha %></span>? 
+      </h2>
+      <h5>
+        This version was originally released on <%= tag_version.created_at.formatted_long %>, and is 
+        <%= num_releases_from_live_version %> <%= is_rolling_back ? "releases behind" : "releases ahead of" %> the current live version.
+      </h5>
+    </div>
+    <div class='tagsafe-modal-divider mt-2'></div>
+    <div class='tagsafe-modal-footer text-end'>
+      <%= form_with url: set_as_live_tag_version_tag_tag_version_path(tag, tag_version), data: { controller: 'loading_form' } do |f| %>
+        <button class='floating-btn white-bg me-2' data-action='server-loadable-modal#close'>Cancel</button>
+        <%= loading_submit_button type: 'floating' do %>
+          <%= is_rolling_back ? "Rollback" : "Promote" %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

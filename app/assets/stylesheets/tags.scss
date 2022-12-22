@@ -12,6 +12,19 @@
   display: flex;
 }
 
+.tag-details-container {
+  .tag-logo {
+    max-width: 75px; 
+    border-radius: 50%;
+    border: 1px solid lightgrey;
+    overflow: hidden;
+    margin: auto;
+    img {
+      width: 100%;
+    }
+  }
+}
+
 .tags-table {
   .search-input-container {
     position: relative;
@@ -89,4 +102,13 @@ turbo-frame.frame-with-chart {
     font-weight: 900;
     color: black;
   }
+}
+
+.review-staged-changes-container {
+  .staged-change-row, .staged-change-row label {
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(235, 235, 235);
+    }
+  }  
 }

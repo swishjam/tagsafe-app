@@ -1,0 +1,85 @@
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row'>
+      <div class='col-8'>
+        <h1 class="page-title">Tag Management</h1>
+      </div>
+      <div class='col-4 page-title-cta-container'>
+        <%= link_to new_tag_path do %>
+          <button class='page-title-cta-btn floating-btn tagsafe-purple-bg'>
+            <div class='d-flex align-items-center'>Add Tag</div>
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @tags.any? %>
+  <div class='tagsafe-table p-3'>
+    <div class='tagsafe-table-head square'>
+      <div class='tagsafe-table-row header'>
+        <div class='tagsafe-table-cell flex-3'>Tag</div>
+        <div class='tagsafe-table-cell'>File size</div>
+        <div class='tagsafe-table-cell'>Host location</div>
+        <div class='tagsafe-table-cell flex-0'></div>
+      </div>
+    </div>
+    <div class='tagsafe-table-body'>
+      <% @tags.each do |tag| %>
+        <div class='tagsafe-table-row hoverable'>
+          <div class='tagsafe-table-cell flex-3'>
+            <%= link_to tag_path(tag), class: 'no-decoration w-100 d-flex align-items-center', target: '_top' do %>
+              <div class='tag-img-thumbnail-container me-2'>
+                <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
+              </div>
+              <div class='d-block'>
+                <span class='table-row-header underline-hover d-block'>
+                  <%= tag.friendly_name %>
+                  <div class='green-glowing-circular-icon ms-2'
+                        data-controller='tooltip'
+                        data-bs-toggle='tooltip'
+                        title='Tag is active.'></div>
+                </span>
+                <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
+              </div>
+            <% end %>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <%=number_to_human_size(tag.current_live_tag_version.bytes) %>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <% if tag.is_tagsafe_hosted %>
+              <div class='tagsafe-pill tagsafe-primary-purple small-text'>
+                Tagsafe-hosted
+              </div>
+            <% else %>
+              <div class='tagsafe-pill grey small-text'>
+                Original host "(<%= tag.url_hostname %>)"
+              </div>
+            <% end %>
+          </div>
+          <div class='tagsafe-table-cell flex-0 text-end'>
+            <div class="dropdown dropleft show ellipsis-dropdown tagsafe-circular-btn" style='top: 5px; right: 5px;'>
+              <a class="dropdown-link" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <!-- <#%= link_to 'Edit tag', edit_tag_tag_configuration_path(tag, tag.draft_tag_configuration), class: 'dropdown-item no-decoration', target: '_top' %> !-->
+                <%= link_to 'View tag', tag_path(tag), class: 'dropdown-item no-decoration', target: '_top' %>
+                <div class='dropdown-divider'></div>
+                <div class="dropdown-item">
+                  Pause/disable tag
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= paginate @tags %>
+  </div>
+<% else %>
+  <h1 class='text-center p-5'>No tags yet...</h1>
+<% end %>

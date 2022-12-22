@@ -12,15 +12,6 @@ pscale_collin_dev: &pscale_collin_dev
   ssl_mode: verify_identity
   sslca: "/etc/ssl/cert.pem"
 
-pscale_alert_updates: &pscale_alert_updates
-  <<: *default
-  database: tagsafe-production
-  username: th6mlmwbe2vi
-  host: yyb5pgooicdr.us-east-3.psdb.cloud
-  password: pscale_pw_BbdKSiWnyXISF0xrn-6mdSJZJG9oyxajoHwirfTjK14
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/cert.pem"
-
 local: &local
   <<: *default
   database: tagsafe_development

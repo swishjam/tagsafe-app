@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ChartHelper::TagsData do
   before(:each) do
     prepare_test!
-    tag = create(:tag, domain: @domain)
+    tag = create(:tag, domain: @container)
     url_to_audit = create(:url_to_audit, tag: tag, audit_url: 'https://www.tagsafe.io', display_url: 'https://www.tagsafe.io')
     two_days_ago = 2.days.ago
 
@@ -13,7 +13,7 @@ RSpec.describe ChartHelper::TagsData do
     create_tag_version_and_audit_data_for_timestamp(tag, url_to_audit, 1.day.ago) # included
     create_tag_version_and_audit_data_for_timestamp(tag, url_to_audit, 30.minutes.ago) # not included
 
-    @chart_helper = ChartHelper::TagsData.new(tags: @domain.tags, metric_key: 'tagsafe_score', start_time: two_days_ago, end_time: 1.hour.ago)
+    @chart_helper = ChartHelper::TagsData.new(tags: @container.tags, metric_key: 'tagsafe_score', start_time: two_days_ago, end_time: 1.hour.ago)
   end
 
   def create_tag_version_and_audit_data_for_timestamp(tag, url_to_audit, timestamp)
@@ -23,7 +23,7 @@ RSpec.describe ChartHelper::TagsData do
       tag: tag,
       audited_url: url_to_audit, 
       execution_reason: ExecutionReason.NEW_RELEASE, 
-      performance_audit_calculator: @domain.current_performance_audit_calculator, 
+      performance_audit_calculator: @container.current_performance_audit_calculator, 
       performance_audit_iterations: 1,
       primary: true
     )

@@ -1,6 +1,15 @@
 <div class='release-item'>
-  <div class='release-icon'>
-    <i class="fa-solid fa-code-merge"></i>
+  <%  release_type = tag_version.is_tags_current_live_tag_version? ? 
+                      'live' : tag_version.blocked_from_promoting_to_live ? 
+                        'blocked' : 'normal' %>
+  <div class='release-icon <%= release_type %>' data-controller='tooltip' title='<%= release_type == 'live' ? 'Version is currently live.' : release_type == 'blocked' ? 'Release was blocked by Tagsafe.' : nil  %>'>
+    <% if release_type == 'live' %>
+      <i class="fa-regular fa-star"></i>
+    <% elsif release_type == 'blocked' %>
+      <i class="fa-solid fa-ban"></i>
+    <% else %>
+      <i class="fa-solid fa-code-merge"></i>
+    <% end %>
   </div>
   <div class='release-content unrolled d-inline-block'>
     <div class='container-fluid'>
@@ -12,7 +21,9 @@
               <%= tag_version.tag.try_friendly_name %>
             </span>
           <% end %>
-          <span class='release-sha sub-header-light d-block'><%= tag_version.sha %></span>
+          <span class='release-sha sub-header-light d-block'>
+            <%= tag_version.sha %>
+          </span>
           <span class='release-commit-message sub-header-light d-block'>
             <% if tag_version.commit_message %>
               <i class="fa-solid fa-comment"></i> <i><%= tag_version.commit_message %></i>
@@ -47,7 +58,7 @@
               </div>
             <% end %>
             <div class='w-fit m-auto mt-3'>
-              <%= render 'audits/performance_audit_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display, compare_to_previous_score: false %>
+              <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display, compare_to_previous_score: false %>
             </div>
           </div>
         </div>

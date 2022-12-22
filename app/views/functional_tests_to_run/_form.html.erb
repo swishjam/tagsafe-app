@@ -2,7 +2,7 @@
   <%= form_with url: functional_test_functional_tests_to_run_path(functional_test), data: { controller: 'loading_form' } do %>
     <select name='functional_test_to_run[tag_uid]' class='form-select m-auto' style='width: fit-content'>
       <option disabled selected>Select tag for future tests</option>
-      <% functional_test.tags_available_to_enable.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_domain').each do |tag| %>
+      <% functional_test.tags_available_to_enable.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_hostname').each do |tag| %>
         <option value='<%=tag.uid%>'>
           <% if tag.has_friendly_name? %>
             <%= tag.try_friendly_name %> (<%= tag.url_based_on_preferences %>)

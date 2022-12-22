@@ -2,11 +2,11 @@
   
 <% if @tag.release_monitoring_disabled? %>
   <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
-    <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled. <%= link_to 'Enable it here', edit_tag_path(@tag) %> so Tagsafe can identify when <%= @tag.try_friendly_name %> makes releases, visualize what changes they made, and benchmark against each release. With release monitoring disabled, Tagsafe uses whatever the live version of the tag is on <%= current_domain.url_hostname %>.
+    <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled. <%= link_to 'Enable it here', edit_tag_path(@tag) %> so Tagsafe can identify when <%= @tag.try_friendly_name %> makes releases, visualize what changes they made, and benchmark against each release. With release monitoring disabled, Tagsafe uses whatever the live version of the tag is.
   </div>
 <% elsif @audit.tag_version.nil? %>
   <div class="alert alert-warning col-10 offset-1 mt-3 text-center" role="alert">
-    <%= HtmlHelper.WARNING_ICON %> At the time this audit was run, Tagsafe had not yet captured a tag version due to your release monitoring interval set in your settings. Tagsafe ran the audit against whatever the live version of <%= @tag.try_friendly_name %> was on <%= current_domain.url_hostname %> at that time.
+    <%= HtmlHelper.WARNING_ICON %> At the time this audit was run, Tagsafe had not yet captured a tag version due to your release monitoring interval set in your settings. Tagsafe ran the audit against whatever the live version of <%= @tag.try_friendly_name %> was at that time.
   </div>
 <% else %>
   <% if @audit.tag_version.first_version? %>

@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class='col-sm-6 d-flex align-items-center justify-content-start'>
-      <%= render 'urls_to_audit/index', domain: domain, tag: tag, urls_to_audit: tag.urls_to_audit %>
+      <%= render 'urls_to_audit/index', container: container, tag: tag, urls_to_audit: tag.urls_to_audit %>
     </div>
   </div>
 
@@ -74,7 +74,7 @@
             </span>
           </div>
           <div class="dropdown-menu dropdown-menu-center p-3">
-            <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(domain) %>
+            <% feature_gate_keeper = FeatureGateKeepers::CanEnableReleaseCheckInterval.new(container) %>
             <% TagPreference::RELEASE_CHECK_INTERVALS.each do |interval| %>
               <% if feature_gate_keeper.can_access_feature?(interval[:value]) %>
                 <% if interval[:value] == tag.tag_preferences.release_check_minute_interval %>
@@ -192,38 +192,6 @@
           Other tags to include during audits
         </span>
         <span class='settings-description d-block'>Tagsafe blocks all other third party tags during audits. Specify any additional third party tags you'd like to include during audits for this tag here.</span>
-      </div>
-    </div>
-    <div class='col-sm-6 d-flex align-items-center justify-content-start'>
-      <%= render 'additional_tags_to_inject_during_audit/index', tag: tag, injectable_tags: domain.tags.is_third_party_tag.where.not(id: [tag.id].concat(tag.additional_tags_to_inject_during_audit.collect(&:id))) %>
-    </div>
-  </div>
-
-  <hr/>
-  <div class='row'>
-    <div class='col-sm-6 d-flex align-items-center'>
-      <div class='d-block'>
-        <span class='settings-title d-block fw-bolder'>
-          Estimated credits per month 
-        </span>
-        <span class='settings-description d-block'>The estimated amount of credits per month this tag costs based on your current configuration.</span>
-      </div>
-    </div>
-    <div class='col-sm-6 d-flex align-items-center justify-content-start'>
-      <% cost_estimator = WalletModerator::TagCostEstimator.new(tag) %>
-      <div class='d-block w-100'>
-        <span class='d-block'>Release Monitoring: <span class='float-end' style='font-weight: 900'><%= number_with_delimiter(cost_estimator.release_monitoring_credits_per_month) %> credits</span></span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.release_check_price %> credits / release check)</span>
-        <span class='d-block mt-2'>Uptime Monitoring: <span class='float-end' style='font-weight: 900'><%= number_with_delimiter(cost_estimator.uptime_monitoring_credits_per_month) %> credits</span></span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.uptime_check_price %> credits / uptime check)</span>
-        <span class='d-block mt-2'>Automated Performance Audits: <span class='float-end' style='font-weight: 900'><%= number_with_delimiter(cost_estimator.automated_performance_audit_credits_per_month) %> credits</span></span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.automated_performance_audit_price %> credits / performance audit)</span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.puppeteer_recording_price %> credits / page load recording)</span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.speed_index_filmstrip_price %> credits / page load filmstrip)</span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.resource_waterfall_price %> credits / page load resources waterfall)</span>
-        <span class='d-block mt-2'>Automated Functional Tests: <span class='float-end' style='font-weight: 900'><%= number_with_delimiter(cost_estimator.automated_test_run_credits_per_month) %> credits</span></span>
-        <span class='d-block'>(<%= tag.domain.feature_prices_in_credits.automated_test_run_price %> credits / test run)</span>
-        <span class='d-block mt-2' style='font-size: 18px;'>Total: <span class='float-end' class='font-weight: 900'><%= number_with_delimiter(cost_estimator.total_credits_per_month) %> credits / month</span></span>
       </div>
     </div>
   </div>

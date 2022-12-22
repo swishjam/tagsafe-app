@@ -1,2 +1,0 @@
-class NewTagVersionEvent < Event
-end

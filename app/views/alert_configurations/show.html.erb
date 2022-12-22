@@ -20,8 +20,8 @@
           <input type='hidden' name='alert_configuration[name]' value="<%= @alert_configuration.name %>">
           <input type='hidden' name='alert_configuration[trigger_rules]' value="<%= @alert_configuration.trigger_rules.to_json %>">
           <input type='hidden' name='alert_configuration[enabled_for_all_tags]' value="<%= @alert_configuration.enabled_for_all_tags %>">
-          <% @alert_configuration.domain_users.each do |domain_user| %>
-            <input type='hidden' name='domain_user_uids[]' value='<%= domain_user.uid %>'>
+          <% @alert_configuration.container_users.each do |container_user| %>
+            <input type='hidden' name='container_user_uids[]' value='<%= container_user.uid %>'>
           <% end %>
           <% @alert_configuration.tags.each do |tag| %>
             <input type='hidden' name='tag_uids[]' value='<%= tag.uid %>'>
@@ -52,9 +52,9 @@
         <% end %>
       </div>
       <div class='col-6 alert-sub-section text-center'>
-        <span class='alert-subs-section-title d-block'>Subscribed users <span style='font-size: 12px;'><%= link_to 'Edit', alert_configuration_domain_users_path(@alert_configuration) %></span></span>
-        <% @alert_configuration.domain_users.each do |domain_user| %>
-          <div class='tagsafe-pill grey m-1'><%= domain_user.user.email %></div>
+        <span class='alert-subs-section-title d-block'>Subscribed users <span style='font-size: 12px;'><%= link_to 'Edit', alert_configuration_container_users_path(@alert_configuration) %></span></span>
+        <% @alert_configuration.container_users.each do |container_user| %>
+          <div class='tagsafe-pill grey m-1'><%= container_user.user.email %></div>
         <% end %>
       </div>
     </div>
@@ -63,7 +63,7 @@
     <div class='mt-3'>
       <div class='row'>
         <div class='col-6 d-flex'>
-          <%= link_to alert_configuration_domain_users_path, class: 'floating-btn' do %>
+          <%= link_to alert_configuration_container_users_path, class: 'floating-btn' do %>
             <i class='fa-solid fa-arrow-left-long'></i> Subscribe users
           <% end %>
         </div>
@@ -73,8 +73,8 @@
             <input type='hidden' name='alert_configuration[name]' value="<%= @alert_configuration.name %>">
             <input type='hidden' name='alert_configuration[trigger_rules]' value="<%= @alert_configuration.trigger_rules.to_json %>">
             <input type='hidden' name='alert_configuration[enabled_for_all_tags]' value="<%= @alert_configuration.enabled_for_all_tags %>">
-            <% @alert_configuration.domain_users.each do |domain_user| %>
-              <input type='hidden' name='domain_user_uids[]' value='<%= domain_user.uid %>'>
+            <% @alert_configuration.container_users.each do |container_user| %>
+              <input type='hidden' name='container_user_uids[]' value='<%= container_user.uid %>'>
             <% end %>
             <% @alert_configuration.tags.each do |tag| %>
               <input type='hidden' name='tag_uids[]' value='<%= tag.uid %>'>

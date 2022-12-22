@@ -6,12 +6,12 @@ class TagIdentifyingData < ApplicationRecord
   accepts_nested_attributes_for :tag_identifying_data_domains
 
   def self.for_tag(tag)
-     split_domain = tag.url_domain.split('.')
+     split_domain = tag.url_hostname.split('.')
      domain_url_pattern_for_tag = "*.#{split_domain[split_domain.length - 2..].join('.')}"
     joins(:tag_identifying_data_domains).find_by("
       tag_identifying_data_domains.url_pattern = ? OR 
       tag_identifying_data_domains.url_pattern = ?", 
-      tag.url_domain, 
+      tag.url_hostname, 
       domain_url_pattern_for_tag
     )
   end
@@ -27,9 +27,9 @@ class TagIdentifyingData < ApplicationRecord
   def matches?(tag)
     matches = false
     tag_identifying_data_domains.each do |tag_identifying_data_domain|
-      split_domain = tag.url_domain.split('.')
+      split_domain = tag.url_hostname.split('.')
       domain_url_pattern_for_tag = "*.#{split_domain[split_domain.length - 2..].join('.')}"
-      if [tag.url_domain, domain_url_pattern_for_tag].include?(tag_identifying_data_domain.url_pattern)
+      if [tag.url_hostname, domain_url_pattern_for_tag].include?(tag_identifying_data_domain.url_pattern)
         matches = true
         break
       end
