@@ -12,17 +12,15 @@ module MandatoryDataEnforcer
     end
 
     def import_or_update_event_bridge_rules_from_aws
-      UptimeRegion::SELECTABLE_AWS_REGION_NAMES.each do |region_name|
-        aws_rules = TagsafeAws::EventBridge.list_rules(region: region_name).rules
-        aws_rules.each do |aws_rule|
-          tagsafe_aws_event_bridge_rule = AwsEventBridgeRule.find_by(region: region_name, name: aws_rule.name)
-          if tagsafe_aws_event_bridge_rule.present?
-            tagsafe_aws_event_bridge_rule.fetch_from_aws
-            next unless @update_existing
-            update_existing_event_bridge_rule(tagsafe_aws_event_bridge_rule, region_name, aws_rule)
-          else
-            create_new_event_bridge_rule(region_name, aws_rule)
-          end
+      aws_rules = TagsafeAws::EventBridge.list_rules(region: 'us-east-1').rules
+      aws_rules.each do |aws_rule|
+        tagsafe_aws_event_bridge_rule = AwsEventBridgeRule.find_by(region: 'us-east-1', name: aws_rule.name)
+        if tagsafe_aws_event_bridge_rule.present?
+          tagsafe_aws_event_bridge_rule.fetch_from_aws
+          next unless @update_existing
+          update_existing_event_bridge_rule(tagsafe_aws_event_bridge_rule, 'us-east-1', aws_rule)
+        else
+          create_new_event_bridge_rule('us-east-1', aws_rule)
         end
       end
       Rails.logger.info "Completed sync, created #{@created_rules} new `AwsEventBridgeRules`, updated #{@updated_rules} existing `AwsEventBridgeRules`"
@@ -35,12 +33,13 @@ module MandatoryDataEnforcer
     private
 
     def self.verify_required_uptime_and_release_check_event_bridge_rules_exist!
-      TagConfiguration.SUPPORTED_RELEASE_CHECK_INTERVALS.each do |release_check_minute_interval|
+      Tag::SUPPORTED_RELEASE_MONITORING_INTERVALS.each do |release_check_minute_interval|
+        next if release_check_minute_interval.zero?
         ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_check_minute_interval)
       end
-      UptimeRegion::SELECTABLE_AWS_REGION_NAMES.each do |aws_region_name|
-        UptimeCheckScheduleAwsEventBridgeRule.for_region_name!(aws_region_name)
-      end
+      # UptimeRegion::SELECTABLE_AWS_REGION_NAMES.each do |aws_region_name|
+      #   UptimeCheckScheduleAwsEventBridgeRule.for_region_name!(aws_region_name)
+      # end
       Rails.logger.info "Validates all AwsEventBridgeRules present."
     end
 

@@ -35,9 +35,10 @@ class Tag < ApplicationRecord
 
   accepts_nested_attributes_for :page_urls_tag_found_on
 
+  SUPPORTED_RELEASE_MONITORING_INTERVALS = [0, 1, 15, 30, 60, 180, 360, 720, 1_440]
   # VALIDATIONS
   validate :has_at_least_one_page_url_tag_found_on
-  validates :release_monitoring_interval_in_minutes, inclusion: { in: [0, 1, 15, 30, 60, 180, 360, 720, 1_440] }
+  validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates_uniqueness_of :full_url, 
                           scope: :container_id, 

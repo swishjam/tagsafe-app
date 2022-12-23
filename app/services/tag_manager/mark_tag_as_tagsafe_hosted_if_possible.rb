@@ -9,7 +9,7 @@ module TagManager
     end
 
     def determine!
-      if tag_has_static_content?
+      if is_in_unhostable_tag_list? || tag_has_static_content?
         @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: true)
       else
         @tag.update!(is_tagsafe_hostable: false, is_tagsafe_hosted: false)
@@ -17,6 +17,13 @@ module TagManager
     end
 
     private
+
+    def is_in_unhostable_tag_list?
+      %w[
+        cdn-collin-dev.tagsafe.io
+        cdn.tagsafe.io
+      ].include?(@tag.url_hostname)
+    end
 
     def tag_has_static_content?
       [
