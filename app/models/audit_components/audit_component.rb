@@ -5,7 +5,7 @@ class AuditComponent < ApplicationRecord
   serialize :raw_results, JSON
   
   before_create { self.started_at = Time.current }
-  after_create :perform_audit!
+  after_create_commit :perform_audit!
 
   scope :completed, -> { where.not(completed_at: nil) }
   scope :successful, -> { completed.where(error_message: nil) }

@@ -14,7 +14,7 @@ class Audit < ApplicationRecord
   belongs_to :initiated_by_container_user, class_name: ContainerUser.to_s, optional: true
   belongs_to :execution_reason
 
-  has_many :audit_components
+  has_many :audit_components, dependent: :destroy
   has_one :main_thread_execution_audit_component
   has_one :js_file_size_audit_component
   has_one :js_usage_audit_component
