@@ -6,7 +6,7 @@ module TagsafeInstrumentationManager
 
     def write_containers_compiled_instrumentation_to_s3(compiled_instrumentation)
       TagsafeAws::S3.write_to_s3(
-        bucket: 'tagsafe-instrumentation', 
+        bucket: "tagsafe-#{Rails.env}-instrumentation", 
         key: @container.tagsafe_instrumentation_pathname, 
         content: compiled_instrumentation,
         cache_control: "public, max-age=#{@container.instrumentation_cache_seconds}, stale-while-revalidate=60",
