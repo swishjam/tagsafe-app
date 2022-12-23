@@ -65,11 +65,6 @@ class Audit < ApplicationRecord
     )
   end
 
-  def calculate_tagsafe_score!
-    raise "Cannot calculate score, not all AuditComponents have completed" unless all_components_completed?
-    audit_components.sum(&:weighted_score_for_audit)
-  end
-
   def completed!
     raise "Audit is already marked as completed." if completed?
     self.tagsafe_score = calculate_tagsafe_score!
@@ -80,6 +75,11 @@ class Audit < ApplicationRecord
     return unless execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present? && tag.is_tagsafe_hosted
     tag_version.update!(primary_audit: self)
     LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met!
+  end
+
+  def calculate_tagsafe_score!
+    raise "Cannot calculate score, not all AuditComponents have completed" unless all_components_completed?
+    audit_components.sum(&:weighted_score_for_audit)
   end
 
   def poor_scoring_audit_components

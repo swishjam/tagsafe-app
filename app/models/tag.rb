@@ -89,6 +89,14 @@ class Tag < ApplicationRecord
     tag_identifying_data_id.present?
   end
 
+  def has_most_recent_tag_version?
+    most_recent_tag_version_id.present?
+  end
+
+  def has_current_live_tag_version?
+    current_live_tag_version_id.present?
+  end
+
   def release_monitoring_interval_in_words
     Util.integer_to_interval_in_words(release_monitoring_interval_in_minutes)
   end

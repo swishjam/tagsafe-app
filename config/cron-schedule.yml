@@ -3,10 +3,6 @@ re_enqueue_failed_jobs:
   cron: "*/1 * * * *" # every 1 minute
   queue: critical # probably not the right queue but it needs to be in a queue with low volume, this job should be very quick
   description: "Checks the Failed Resque queue for jobs that failed with `DirtyExits` and re-enqueues them."
-# run_bulk_debits_job:
-#   class: Schedule::RunBulkDebitsJob
-#   cron: "0 */1 * * *"
-#   queue: normal
 mark_tags_removed_from_site:
   class: Schedule::MarkTagsRemovedFromSiteJob
   cron: "0 0 * * *" # every night at midnight
@@ -15,59 +11,3 @@ clean_out_retention_data:
   class: Schedule::CleanOutOfRetentionDataJob
   cron: "0 0 * * *" # every night at midnight
   queue: normal
-# purge_domains_generating_third_party_impact_trial:
-#   class: Schedule::PurgeDomainsGeneratingThirdPartyImpactTrialJob
-#   cron: "0 0 * * *"
-#   queue: normal
-
-# CrawlUrlsJobs
-# one_hour_crawl_urls_for_third_party_tags:
-#   class: Schedule::CrawlUrlsJobs::OneHourInterval
-#   cron: "0 */1 * * *" # every 1 hour
-#   description: "Scans each domain for any new third party tags."
-#   queue: normal
-# six_hour_crawl_urls_for_third_party_tags:
-#   class: Schedule::CrawlUrlsJobs::SixHourInterval
-#   cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
-#   description: "Scans each domain for any new third party tags."
-#   queue: normal
-# twenty_four_hour_crawl_urls_for_third_party_tags:
-#   class: Schedule::CrawlUrlsJobs::TwentyFourHourInterval
-#   cron: "0 0 * * *" # midnight
-#   description: "Scans each domain for any new third party tags."
-#   queue: normal
-
-# # ScheduledAuditJobs
-# five_minute_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::FiveMinuteScheduledAuditInterval
-#   cron: "*/5 * * * *" # every 5th minute
-#   description: "Checks all tags set for 1 minute intervals to evalute if there's a new version."
-#   queue: scheduled_audit_queue
-# fifteen_minute_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::FifteenMinuteScheduledAuditInterval
-#   cron: "*/15 * * * *" # every 15th minute
-#   queue: scheduled_audit_queue
-# thirty_minute_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::ThirtyMinuteScheduledAuditInterval
-#   cron: "*/30 * * * *" # every 30th minute
-#   queue: scheduled_audit_queue
-# one_hour_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::OneHourScheduledAuditInterval
-#   cron: "0 * * * *" # every hour
-#   queue: scheduled_audit_queue
-# three_hour_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::ThreeHourScheduledAuditInterval
-#   cron: "0 0,3,6,9,12,15,18,21 * * *" # midnight, 3, 6, 9, noon, 3, 6, 9
-#   queue: critical
-# six_hour_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::SixHourScheduledAuditInterval
-#   cron: "0 0,6,12,18 * * *" # midnight, 6, 12, 6
-#   queue: scheduled_audit_queue
-# twelve_hour_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::TwelveHourScheduledAuditInterval
-#   cron: "0 0,12 * * *" # midnight, noon
-#   queue: scheduled_audit_queue
-# twenty_four_hour_scheduled_audits:
-#   class: Schedule::ScheduledAuditJobs::TwentyFourHourScheduledAuditInterval
-#   cron: "0 0 * * *" # midnight
-#   queue: scheduled_audit_queue
