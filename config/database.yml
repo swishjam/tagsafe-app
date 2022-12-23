@@ -20,21 +20,44 @@ local: &local
   password: password
   host: localhost
 
+re_architect: &re_architect
+  <<: *default
+  adapter: mysql2
+  database: tagsafe-app
+  username: v4kxfo7lg621lf4cdnnq
+  host: us-east.connect.psdb.cloud
+  password: pscale_pw_OpgsZ045sPRK2r32xahFYYIVd7k13Z9kVqOzCKO27WH
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
+
 test:
   <<: *local
   database: tagsafe_test
 
+# development:
+#   <<: *pscale_collin_dev
+
 development:
-  <<: *pscale_collin_dev
+  <<: *default
+  adapter: mysql2
+  database: tagsafe
+  username: vo3mcbuid2u4alzivjqe
+  host: us-east.connect.psdb.cloud
+  password: pscale_pw_xH5dKq9EAcgQNTCbf46oXZoYXyXsZUt84phhhWEUEei
+  ssl_mode: verify_identity
+  sslca: "/etc/ssl/cert.pem"
+
 
 # staging:
 #   <<: *default
 
 production:
   <<: *default
-  database: tagsafe-app
-  username: 1t7vj3ce3zcbbb9yjk2l
+  adapter: mysql2
+  database: tagsafe
+  username: vo3mcbuid2u4alzivjqe
   host: us-east.connect.psdb.cloud
-  password: pscale_pw_WK2LdE5yjgRjsJ6Pa7EykSY28naR9Zd0GZOu2hNcYKq
+  password: pscale_pw_xH5dKq9EAcgQNTCbf46oXZoYXyXsZUt84phhhWEUEei
   ssl_mode: verify_identity
   sslca: "/etc/ssl/cert.pem"
+
