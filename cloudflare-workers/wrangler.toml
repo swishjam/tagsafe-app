@@ -21,6 +21,7 @@ max_retries = 3
 
 [env.dev.vars]
 RESQUE_CONNECTOR_LAMBDA_FUNCTION_URL = "https://agtt4yi2qms6vl7zdnqlgiatzu0udzmp.lambda-url.us-east-1.on.aws/"
+SENTRY_DSN = "https://12fec84d712f4dd9af3a13a6766c9867@o1079626.ingest.sentry.io/4504380124561408"
 
 ###################
 ### PRODUCTION ####
@@ -39,3 +40,4 @@ max_batch_timeout = 5 # optional: defaults to 5 seconds
 
 [env.production.vars]
 RESQUE_CONNECTOR_LAMBDA_FUNCTION_URL = "https://konbotex3fn5y3nlk6aggcokue0zkzgt.lambda-url.us-east-1.on.aws/"
+SENTRY_DSN = "https://12fec84d712f4dd9af3a13a6766c9867@o1079626.ingest.sentry.io/4504380124561408"

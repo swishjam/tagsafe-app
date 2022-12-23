@@ -1,0 +1,1 @@
+{"version":3,"file":"sdk.d.ts","sourceRoot":"","sources":["../src/sdk.ts"],"names":[],"mappings":"AAAA,OAAO,EAA0B,GAAG,EAAE,MAAM,cAAc,CAAC;AAM3D,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,SAAS,CAAC;AAGvC;;GAEG;AACH,qBAAa,MAAO,SAAQ,GAAG;gBACjB,OAAO,EAAE,OAAO;IAuC5B;;;;;;;OAOG;IACH,cAAc,CAAC,IAAI,EAAE,OAAO;CAG7B"}
