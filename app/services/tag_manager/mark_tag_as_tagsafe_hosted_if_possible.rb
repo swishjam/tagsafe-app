@@ -9,10 +9,10 @@ module TagManager
     end
 
     def determine!
-      if is_in_unhostable_tag_list? || tag_has_static_content?
-        @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: true)
-      else
+      if is_in_unhostable_tag_list? || !tag_has_static_content?
         @tag.update!(is_tagsafe_hostable: false, is_tagsafe_hosted: false)
+      else
+        @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: true)
       end
     end
 

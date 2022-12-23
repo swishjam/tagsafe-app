@@ -4,7 +4,7 @@ TAGSAFE_RECEIVER_REDIS_URL: redis://:7eNOflYjiQ5HSjW86vooxobjfv36AXYs@redis-1187
 S3_BUCKET_NAME: development-release-monitoring-new-versions
 DEFAULT_TAGSAFE_CONSUMER_JOB_QUEUE: lambda_results
 
-MYSQL_HOST: pds4kx1y2m0n.us-east-4.psdb.cloud
-MYSQL_USER: 5brtvts8zxz7
-MYSQL_PASSWORD: pscale_pw_6NepzsiSIxbvVLhdkc868dEgFcqrsf0BISwCPuUInkM
-MYSQL_DATABASE: tagsafe-production
+MYSQL_HOST: us-east.connect.psdb.cloud
+MYSQL_USER: 3fbw76z6trwgacpzjxoy
+MYSQL_PASSWORD: pscale_pw_6GxJNAU1IALSMtX4lu63O9RL1Vzbs0XFiXHi84QkDVo
+MYSQL_DATABASE: tagsafe

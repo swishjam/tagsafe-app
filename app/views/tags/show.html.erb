@@ -60,8 +60,12 @@
       <div class='col-12 mt-4'>
         <div class='row'>
           <div class='col-6 border-end'>
-            <h5 class='mb-0'><i class="fa-solid fa-bolt d-block"></i></h5>
-            <h3 class='tagsafe-font default-cursor'>TagsafeJS optimized</h3>
+            <% if @tag.is_tagsafe_hosted %>
+              <h5 class='mb-0'><i class="fa-solid fa-bolt d-block"></i></h5>
+              <h3 class='tagsafe-font default-cursor'>TagsafeJS optimized</h3>
+            <% else %>
+              <h3 class='tagsafe-font default-cursor'>Not TagsafeJS optimized</h3>
+            <% end %>
           </div>
           <div class='col-6'>
             <% if @tag.current_live_tag_version.present? %>
