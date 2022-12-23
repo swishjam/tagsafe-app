@@ -17,7 +17,6 @@ module TagsafeInstrumentationManager
 
     def purge_containers_instrumentation_cloudfront_cache
       TagsafeAws::CloudFront.invalidate_cache("/#{@container.tagsafe_instrumentation_pathname}")
-      # TagsafeAws::CloudFront.invalidate_cache(@container.tagsafe_instrumentation_pathname)
     end
   end
 end

@@ -25,6 +25,8 @@ module TagsafeJsEventBatchConsumer
 
     def container
       @container ||= Container.find_by!(uid: container_uid)
+    rescue ActiveRecord::RecordNotFound => e
+      raise InvalidPayloadError, "Could not find Container for provided container_uid: #{container_uid}"
     end
 
     def cloudflare_message_id

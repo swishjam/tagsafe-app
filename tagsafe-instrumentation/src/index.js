@@ -15,7 +15,8 @@ if(configuration.disabled || params.has('tagsafe-disabled') || params.has('disab
     reportingURL: 'https://tagsafe-api.tagsafe.workers.dev',
     firstPartyDomains: [urlToDomain(window.location.href)],
     debugMode: params.has('tagsafe-debugger'),
-    ...settings
+    ...settings,
+    sampleRate: params.has('tagsafe-force-reporting') ? 1.0 : settings.sampleRate,
   }
 
   window.Tagsafe.init({ 
