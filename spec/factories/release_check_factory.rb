@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :release_check do
-    association :tag
     association :release_check_batch
+    association :tag
     executed_at { Time.current }
     captured_new_tag_version { false }
     bytesize_changed { false }

@@ -13,11 +13,13 @@ end
 def create_tag_with_associations(tag_url: 'https://www.test.com/script.js')
   page_url = create(:page_url, container: @container)
   tagsafe_js_event_batch = create(:tagsafe_js_event_batch, container: @container, page_url: page_url)
+  stub_http_requests_to(tag_url)
   tag = create(
     :tag,
     full_url: tag_url, 
     container: @container, 
-    tagsafe_js_event_batch: tagsafe_js_event_batch
+    tagsafe_js_event_batch: tagsafe_js_event_batch,
+    page_urls: [page_url]
   )
   # url_to_audit = create(:url_to_audit, tag: tag, page_url: @container.page_urls.first)
   tag
@@ -80,6 +82,10 @@ def create_tag_version(
   tv
 end
 
+def stub_http_requests_to(url, response_body: 'stubbed response body!', response_code: 200)
+  stubbed_resp = OpenStruct.new(body: response_body, code: response_code, to_s: response_body)
+  allow(HTTParty).to receive(:get).with(url, any_args).and_return(stubbed_resp)
+end
 
 def stub_tag_version_content
   allow_any_instance_of(TagVersion).to receive(:content).and_return('STUBBED TAGVERSION CONTENT!')

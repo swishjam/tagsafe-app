@@ -68,6 +68,7 @@
             <% end %>
           </div>
           <div class='col-6'>
+            <h3><%= number_to_human_size(@tag.most_recent_tag_version.tagsafe_minified_byte_size) %> (Tagsafe saved <%= number_to_human_size(@tag.most_recent_tag_version.bytes_saved_with_tagsafe_minification) %>)</h3>
             <% if @tag.current_live_tag_version.present? %>
               <h5 class='mb-0'><i class="fa-solid fa-cloud-arrow-down d-block"></i></h5>
               <h3 class='tagsafe-font default-cursor'>

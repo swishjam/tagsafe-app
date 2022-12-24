@@ -14,8 +14,16 @@ class TagVersion < ApplicationRecord
   # should we have a first class attribute for this?
   scope :first_version, -> { where(total_changes: nil) }
   scope :not_first_version, -> { where.not(total_changes: nil) }
+
   scope :blocked_from_promoting_to_live, -> { where(blocked_from_promoting_to_live: true) }
   scope :currently_live, -> { Tag.includes(:current_live_tag_version) }
+
+  scope :unable_to_minify, -> { where(tagsafe_minified_byte_size: -1) }
+  scope :successfully_minified, -> { where.not(tagsafe_minified_byte_size: -1) }
+
+  #############
+  # CALLBACKS #
+  #############
 
   after_create { tag.update!(last_released_at: self.created_at) }
   after_create { perform_audit(execution_reason: ExecutionReason.NEW_RELEASE, page_url_to_audit: tag.page_url_first_found_on) }
@@ -120,6 +128,13 @@ class TagVersion < ApplicationRecord
 
   def image_url
     tag.try_image_url
+  end
+
+  def bytes_saved_with_tagsafe_minification
+    return 0 if tagsafe_minified_byte_size.negative?
+    difference = original_content_byte_size - tagsafe_minified_byte_size
+    return 0 if difference.negative?
+    difference
   end
 
   def is_tags_current_live_tag_version?
