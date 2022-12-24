@@ -15,7 +15,7 @@ export default {
 	},
 
 	async queue(batch, env, context) {
-		const Sentry = new Toucan({ dsn: env.SENTRY_DSN, context, request, environment: env.ENVIRONMENT });
+		const Sentry = new Toucan({ dsn: env.SENTRY_DSN, context, request: batch, environment: env.ENVIRONMENT });
 		try {
 			return await newDataConsumer(batch.messages, env);
 		} catch(err) {

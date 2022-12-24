@@ -23,9 +23,7 @@ module StepFunctionResponses
       TagManager::TagVersionCapturer.new(
         tag: release_check_result.tag, 
         content: release_check_result.new_content,
-        release_check: release_check,
-        hashed_content: release_check_result.new_hashed_content,
-        bytes: release_check_result.new_bytesize
+        release_check: release_check
       ).capture_new_tag_version!
       TagsafeAws::S3.delete_object_by_s3_url(release_check_result.new_tag_version_s3_url)
     end

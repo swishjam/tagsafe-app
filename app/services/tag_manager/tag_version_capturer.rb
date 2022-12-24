@@ -1,11 +1,9 @@
 module TagManager
   class TagVersionCapturer
-    def initialize(tag:, content:, release_check:, hashed_content:, bytes:)
+    def initialize(tag:, content:, release_check:)
       @tag = tag
-      @content = content
+      @original_content = content
       @release_check = release_check
-      @hashed_content = hashed_content
-      @bytes = bytes
     end
 
     def capture_new_tag_version!
@@ -21,17 +19,33 @@ module TagManager
 
     def tag_version_data
       {
-        hashed_content: @hashed_content,
-         # what's written to file seems to be slightly different than the @content in memory?
+        hashed_content: Digest::MD5.hexdigest(@original_content),
+         # what's written to file seems to be slightly different than the @original_content in memory?
         sha_256: OpenSSL::Digest.new('SHA256').base64digest( File.read(js_file) ),
         sha_512: OpenSSL::Digest.new('SHA512').base64digest( File.read(js_file) ),
-        bytes: @bytes,
+        bytes: @original_content.bytesize,
+        original_content_byte_size: @original_content.bytesize,
+        tagsafe_minified_byte_size: @successfully_minified ? tagsafe_minified_or_original_content.bytesize : -1,
         release_check_captured_with: @release_check,
-        commit_message: TagManager::CommitMessageParser.new(@content).try_to_get_commit_message,
+        commit_message: TagManager::CommitMessageParser.new(@original_content).try_to_get_commit_message,
         num_additions: num_additions,
         num_deletions: num_deletions,
         total_changes: total_changes
       }
+    end
+
+    def tagsafe_minified_or_original_content
+      @tagsafe_minified_or_original_content ||= begin
+        @successfully_minified = false
+        compiled_js = Uglifier.compile(@original_content)
+        return @original_content if compiled_js.blank?
+        @successfully_minified = true
+        "/* HELLO FROM TAGSAFE MINIFICATION! */ #{compiled_js}"
+        # compiled_js
+      rescue => e
+        @successfully_minified = false
+        @original_content
+      end
     end
 
     def upload_files_to_s3!(tag_version)
@@ -77,13 +91,16 @@ module TagManager
     def js_file
       return @js_file if @js_file
       @js_file = File.open(local_file_location(:compiled), "w") 
-      @js_file.puts @content.force_encoding('UTF-8')
+      # @js_file.puts @original_content.force_encoding('UTF-8')
+      @js_file.puts tagsafe_minified_or_original_content.force_encoding('UTF-8')
       @js_file.close
       @js_file
     end
 
     def formatted_js_file
       return @formatted_js_file if @formatted_js_file
+      # we're using Tagsafe-minified content here, so every TagVersion is going be re-minified
+      # in the event a tag is not minifiying their code, it'd be helpful to use the un-minified content for the diff
       @formatted_js_file = TagManager::JsBeautifier.new(
         read_file: local_file_location(:compiled), 
         output_file: local_file_location(:formatted)
