@@ -1,11 +1,12 @@
 module TagManager
   class TagVersionCapturer
-    def initialize(tag:, content:, release_check:, hashed_content:, bytes:)
+    def initialize(tag:, content:, release_check:)
       @tag = tag
-      @content = content
+      @original_content = content
       @release_check = release_check
-      @hashed_content = hashed_content
-      @bytes = bytes
+      
+      @minifier = TagsafeMinifier.new(@original_content)
+      @minifier.minified_content
     end
 
     def capture_new_tag_version!
@@ -21,13 +22,15 @@ module TagManager
 
     def tag_version_data
       {
-        hashed_content: @hashed_content,
-         # what's written to file seems to be slightly different than the @content in memory?
+        hashed_content: Digest::MD5.hexdigest(@original_content),
+         # what's written to file seems to be slightly different than the @original_content in memory?
         sha_256: OpenSSL::Digest.new('SHA256').base64digest( File.read(js_file) ),
         sha_512: OpenSSL::Digest.new('SHA512').base64digest( File.read(js_file) ),
-        bytes: @bytes,
+        bytes: @original_content.bytesize,
+        original_content_byte_size: @original_content.bytesize,
+        tagsafe_minified_byte_size: @minifier.minified_successfully? ? @minifier.minified_content.bytesize : -1,
         release_check_captured_with: @release_check,
-        commit_message: TagManager::CommitMessageParser.new(@content).try_to_get_commit_message,
+        commit_message: TagManager::CommitMessageParser.try_to_get_commit_message(@original_content),
         num_additions: num_additions,
         num_deletions: num_deletions,
         total_changes: total_changes
@@ -77,17 +80,18 @@ module TagManager
     def js_file
       return @js_file if @js_file
       @js_file = File.open(local_file_location(:compiled), "w") 
-      @js_file.puts @content.force_encoding('UTF-8')
+      @js_file.puts @minifier.minified_content.force_encoding('UTF-8')
       @js_file.close
       @js_file
     end
 
     def formatted_js_file
       return @formatted_js_file if @formatted_js_file
-      @formatted_js_file = TagManager::JsBeautifier.new(
-        read_file: local_file_location(:compiled), 
-        output_file: local_file_location(:formatted)
-      ).beautify!
+      @formatted_js_file = File.open(local_file_location(:formatted), 'w')
+      formatted_js_content = TagManager::JsBeautifier.beautify_string!(@original_content)
+      @formatted_js_file.puts formatted_js_content.force_encoding('UTF-8')
+      @formatted_js_file.close
+      @formatted_js_file
     end
 
     def local_file_location(suffix)
@@ -96,7 +100,7 @@ module TagManager
                                         'tag_versions',
                                         Time.now.month.to_s, 
                                         Time.now.day.to_s,
-                                        @tag.id.to_s)}/#{@hashed_content}-#{suffix}.js"
+                                        @tag.id.to_s)}/#{Digest::MD5.hexdigest(@original_content)}-#{suffix}.js"
     end
 
     def remove_temp_files

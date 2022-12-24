@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_15_213222) do
+ActiveRecord::Schema.define(version: 2022_12_24_015744) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -609,6 +609,8 @@ ActiveRecord::Schema.define(version: 2022_12_15_213222) do
     t.string "sha_512"
     t.bigint "primary_audit_id"
     t.boolean "blocked_from_promoting_to_live"
+    t.integer "original_content_byte_size"
+    t.integer "tagsafe_minified_byte_size"
     t.index ["primary_audit_id"], name: "index_tag_versions_on_primary_audit_id"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"

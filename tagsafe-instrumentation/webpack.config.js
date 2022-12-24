@@ -5,8 +5,10 @@ module.exports = env => ({
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'output.js'
+    filename: 'output.js',
+    sourceMapFilename: "output.js.map"
   },
+  devtool: "source-map",
   module: {
     rules: [
       {
