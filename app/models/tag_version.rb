@@ -130,6 +130,10 @@ class TagVersion < ApplicationRecord
     tag.try_image_url
   end
 
+  def tagsafe_saved_bytes?
+    bytes_saved_with_tagsafe_minification > 0
+  end
+
   def bytes_saved_with_tagsafe_minification
     return 0 if tagsafe_minified_byte_size.negative?
     difference = original_content_byte_size - tagsafe_minified_byte_size
