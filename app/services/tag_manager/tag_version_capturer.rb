@@ -40,8 +40,7 @@ module TagManager
         compiled_js = Uglifier.compile(@original_content)
         return @original_content if compiled_js.blank?
         @successfully_minified = true
-        "/* HELLO FROM TAGSAFE MINIFICATION! */ #{compiled_js}"
-        # compiled_js
+        compiled_js
       rescue => e
         @successfully_minified = false
         @original_content
