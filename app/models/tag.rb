@@ -14,7 +14,7 @@ class Tag < ApplicationRecord
 
   # RELATIONS
   belongs_to :container
-  # belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
+  belongs_to :primary_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
   belongs_to :tagsafe_js_event_batch
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
@@ -55,6 +55,7 @@ class Tag < ApplicationRecord
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
   after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
+  after_update { after_live_tag_version_changed if saved_changes['current_live_tag_version_id'] }
 
   # SCOPES
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
@@ -76,6 +77,7 @@ class Tag < ApplicationRecord
 
   def set_current_live_tag_version_and_publish_instrumentation(tag_version)
     update!(current_live_tag_version: tag_version)
+    tag.update!(primary_audit: tag_version.primary_audit)
     container.publish_instrumentation!
   end
 

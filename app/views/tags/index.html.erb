@@ -1,10 +1,16 @@
 <%= turbo_stream_from "container_#{current_container.uid}_monitor_center_view_stream" %>
 
+<%= render 'partials/page_navigation_items', navigation_items: [
+  { url: root_path, text: 'Tags Overview' }, 
+  { url: all_releases_path, text: 'Tag Releases' },
+  { url: '#', text: 'Settings' },
+  ] %>
+
 <div class='page-title-container'>
   <div class='container-fluid'>
     <div class='row'>
       <div class='col-8'>
-        <h1 class="page-title">Monitor Center</h1>
+        <h1 class="page-title">Tags</h1>
       </div>
       <div class='col-4 page-title-cta-container'>
         <%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>

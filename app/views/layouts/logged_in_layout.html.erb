@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%
-=begin%>
- <link href='https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>' rel='preconnect dns-prefetch' crossorigin> 
-<%
-=end%>
-    <%
-=begin%>
- <script src='https://<%= ENV['CLOUDFRONT_HOSTNAME'] || 'cdn.tagsafe.io' %>/manager/dom_8e7bcfb3-instrumentation.js'></script> 
-<%
-=end%>
     <title>Tagsafe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -41,8 +31,9 @@
       <%= render 'partials/server_loadable_modal' %>
     </div>
     <div class="content-and-nav-container d-flex">
-      <%= render 'partials/logged_in_nav' %>
-      <div id="page-content-wrapper" class="<%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>">
+      <!-- <#%= render 'partials/logged_in_nav' %> !-->
+      <!-- <div id="page-content-wrapper" class="<#%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>"> !-->
+      <div id="page-content-wrapper" class='no-navigation'>
         <%= render 'partials/top_level_nav_bar' %>
         <%= yield %>
       </div>

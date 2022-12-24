@@ -29,18 +29,6 @@ module ChartHelper
       "charts:#{tag_ids.join('-')}_#{@metric_key}_#{@start_datetime.beginning_of_minute}"
     end
 
-    # def add_current_timestamp_to_chart_data
-    #   @tags.map do |tag|
-    #     most_recent_audit = tag.most_recent_successful_audit
-    #     unless most_recent_audit.nil?
-    #       @chart_data[tag] = { 
-    #         name: @use_metric_key_as_plot_name ? @metric_key.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' ') : tag.try_friendly_name, 
-    #         data: [ [DateTime.now, most_recent_audit.preferred_delta_performance_audit[@metric_key]] ] 
-    #       }
-    #     end
-    #   end
-    # end
-
     def add_all_audits_since_start_datetime
       Audit.includes(:tag, :tag_version)
               .where(tag_id: tag_ids)
@@ -49,23 +37,14 @@ module ChartHelper
               .order('audits.created_at ASC')
               .group_by{ |audit| audit.tag }.each do |tag, audits|
         chart_data_for_tag = audits.collect{ |audit| [audit.created_at, audit.tagsafe_score] }
-        @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
+        @chart_data[tag] = @chart_data[tag] || { name: @use_metric_key_as_plot_name ? 'Tagsafe Score' : tag.try_friendly_name, data: [] }
         @chart_data[tag][:data].concat(chart_data_for_tag)
       end
-      # AverageDeltaPerformanceAudit.includes(audit: [:tag, :tag_version])
-      #                               .where(audits: { tag_id: tag_ids })
-      #                               .more_recent_than_or_equal_to(@start_datetime, timestamp_column: 'audits.created_at')
-      #                               .order('audits.created_at ASC')
-      #                               .group_by{ |dpa| dpa.audit.tag }.each do |tag, delta_performance_audits|
-      #   chart_data_for_tag = delta_performance_audits.collect{ |dpa| [dpa.audit.created_at, dpa[@metric_key]] }
-      #   @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
-      #   @chart_data[tag][:data].concat(chart_data_for_tag)
-      # end
     end
 
     def add_starting_and_current_datetime_plot_if_necessary
       @tags.each do |tag|
-        @chart_data[tag] = @chart_data[tag] || { name: tag.try_friendly_name, data: [] }
+        @chart_data[tag] = @chart_data[tag] || { name: @use_metric_key_as_plot_name ? 'Tagsafe Score' : tag.try_friendly_name, data: [] }
         if @chart_data[tag][:data].any?
           add_starting_and_current_datetime_plot_for_tag_that_has_chart_data(tag)
         else

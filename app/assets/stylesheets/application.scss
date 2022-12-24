@@ -89,25 +89,10 @@ body:not(.with-fixed-top-banner) #page-content-wrapper {
   font-family: 'Rubik', sans-serif;
 }
 
-// body.logged-in.domains #page-content-wrapper {
-//   &:not(.collapsed-navigation), &:not(.no-navigation) {
-//     width: 85vw;
-//     margin-left: 15vw;
-//   }
-//   &.collapsed-navigation {
-//     width: 99vw;
-//     margin-left: 1vw;
-//   }
-//   &.no-navigation {
-//     width: 100vw;
-//     margin-left: 0;
-//   }
-// }
-
 body.logged-in {
-  // background-color: white;
+  background-color: white;
   font-family: 'Rubik', sans-serif;
-  background-color: #eeeeee;
+  // background-color: #eeeeee;
   #page-content-wrapper {
     margin: 0;
     margin-bottom: 50px;
@@ -132,7 +117,7 @@ body.logged-in {
     padding: 5px 15px 0px 15px;
     .page-title {
       font-family: 'Open Sans Condensed', sans-serif;
-      font-size: 72px;
+      font-size: 4rem;
       text-align: left;
       &.with-sub-title {
         margin-bottom: 0;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_24_015744) do
+ActiveRecord::Schema.define(version: 2022_12_24_224533) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -644,9 +644,11 @@ ActiveRecord::Schema.define(version: 2022_12_24_015744) do
     t.integer "tagsafe_js_optimized_count"
     t.integer "tagsafe_js_not_intercepted_count"
     t.boolean "is_tagsafe_hostable"
+    t.bigint "primary_audit_id"
     t.index ["container_id"], name: "index_tags_on_container_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
+    t.index ["primary_audit_id"], name: "index_tags_on_primary_audit_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["tagsafe_js_event_batch_id"], name: "index_tags_on_tagsafe_js_event_batch_id"
     t.index ["uid"], name: "index_tags_on_uid"

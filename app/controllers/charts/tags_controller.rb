@@ -59,7 +59,9 @@ module Charts
           container: current_container,
           chart_metric: chart_metric, 
           display_metric: chart_metric.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' '),
-          time_range: time_range
+          time_range: time_range,
+          hide_time_range_selector: params[:hide_time_range_selector],
+          hide_chart_titles: params[:hide_chart_titles]
         }
       )
     end

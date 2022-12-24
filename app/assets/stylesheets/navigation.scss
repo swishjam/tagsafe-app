@@ -6,20 +6,23 @@ body:not(.with-fixed-top-banner) .navigation {
   margin-top: 0;
 }
 
-#page-content-wrapper.collapsed-navigation .top-level-nav-bar{
-  width: 99vw;
-}
-
-#page-content-wrapper:not(.collapsed-navigation) .top-level-nav-bar{
-  width: 85vw;
-}
-
 .top-level-nav-bar {
-  transition: 500ms width, margin-left;
+  width: 100vw;
   background: white;
   padding: 15px 30px 15px 30px;
-  // height: 55px;
-  border-bottom: 1px solid #d2d2d2;
+  .tagsafe-logo {
+    width: 50px;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  .breadcrumb {
+    display: inline-flex;
+    .breadcrumb-item.active {
+      color: black;
+      font-weight: 800;
+      cursor: default;
+    }
+  }
   .navigation-profile-dropdown-container {
     max-width: 100%;
     .domain-url-line {
@@ -47,149 +50,14 @@ body:not(.with-fixed-top-banner) .navigation {
   }
 }
 
-.navigation {
-  &.collapsed {
-    margin-left: -14vw;
-    // cursor: pointer;
-  }
-  transition: 500ms margin-left;
-  width: 15vw;
-  position: fixed;
-  background-color: white;
-  // background-color: #eeeeee;
-  border-right: 1px solid $soft-grey-border;
-  color: $dark-grey-text;
-  height: 100vh;
-  padding: 10px;
-  font-size: 14px;
-  overflow-y: scroll;
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  a.nav-link {
-    color: #5d5c5c;
-    &.current, &:hover {
-      color: white;
-    }
-  }
-  li.nav-item {
-    border-radius: 20px;
-    text-decoration: none;
-    &:hover {
-      background: $tagsafe-primary;
-      color: white;
-    }
-    &.current {
-      background: $tagsafe-primary;
-      color: white;
-    }
-  }
-  .logo-container {
-    margin: 25px;
-    text-align: center;
-  }
-  .free-trial-indicator-container {
-    padding: 5px;
-    .free-trial-meter {
-      border-radius: 999px;
-      background-color: grey;
-      overflow: hidden;
-      height: 15px;
-      width: 100%;
-      .fill {
-        height: 100%;
-      }
-    }
-    .add-payment-method-link {
-      color: #5d5c5c;
-      text-decoration: underline;
-      text-decoration-style: dotted;
-    }
-  }
-}
-
-body.with-fixed-top-banner .left-hand-navigation-toggle {
-  margin-top: 75px;
-}
-
-body:not(.with-fixed-top-banner) .left-hand-navigation-toggle {
-  margin-top: 0;
-}
-
-.left-hand-navigation-toggle {
-  &.show-btn {
-    left: calc(1vw - 1px);
-    &:hover i {
-      margin-left: 1px;
-    }
-  }
-  &.hide-btn {
-    left: calc(15vw - 1px);
-    &:hover i {
-      margin-left: -1px;
-    }
-  }
-  border: 1px solid $soft-grey-border;
-  border-left: 0;
-  transition: 100ms left;
-  bottom: 0;
-  position: fixed;
-  background-color: white;
-  padding: 5px;
-  cursor: pointer;
-}
-
-// .logged-out-nav {
-//   padding: 0.5rem;
-//   transition: 500ms background-color;
-//   &.transparent {
-//     background-color: rgba(255, 255, 255, 0);
-//   }
-//   &.solid-white {
-//     box-shadow: 0px 0px 20px 1px grey;
-//     background-color: white;
-//   }
-//   .nav-item {
-//     transition: font-weight, border 500ms ease;
-//     .nav-link {
-//       transition: color 500ms ease;
-//     }
-//     &:hover {
-//       font-weight: 800;
-//       border-bottom: 1px solid $tagsafe-primary;
-//       .nav-link {
-//         color: $tagsafe-primary;
-//       }
-//     }
-//   }
-//   .feature-dropdown {
-//     font-weight: normal;
-//     .feature-dropdown-link {
-//       display: block;
-//       padding: 10px;
-//       color: black;
-//       font-size: 18px;
-//       text-decoration: none;
-//       display: inline-block;
-//       width: 100%;
-//       &:hover {
-//         background: rgb(234, 234, 234);
-//         border-right: 5px solid $tagsafe-primary;
-//       }
-//     }
-//     .feature-icon {
-//       width: 40px;
-//       display: inline-block;
-//     }
-//   }
-// }
-
 .page-navigation-items-container {
-  background: #eeeeee;
+  // background: #eeeeee;
+  background-color: white;
   padding: 0px 30px 0px 30px;
+  border-bottom: 1px solid #d2d2d2;
+  margin-bottom: 3rem;
   .page-navigation-item {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     width: fit-content;
     display: inline-block;
@@ -198,12 +66,12 @@ body:not(.with-fixed-top-banner) .left-hand-navigation-toggle {
     color: $faded-grey-text;
     transition: 250ms border-bottom, font-weight;
     &.active {
-      border-bottom: 5px solid $tagsafe-primary;
+      border-bottom: 3px solid $tagsafe-primary;
       font-weight: 900;
       color: $dark-grey-text;
     }
     &:hover {
-      border-bottom: 5px solid $tagsafe-primary;
+      border-bottom: 3px solid $tagsafe-primary;
       font-weight: 900;
       color: $dark-grey-text;
     }

@@ -3,6 +3,13 @@
     <div class='container-fluid'>
       <div class='row align-items-center'>
         <div class='col-8'>
+          <div class='tagsafe-logo'>
+            <%= link_to root_path do %>
+              <div class="logo-container">
+                <%= image_tag asset_cdn_url('/tagsafe-logo.svg'), class: 'enlarge-slightly-on-hover img-fluid' %>
+              </div>
+            <% end %>
+          </div>
           <% if @breadcrumbs && @breadcrumbs.any? %>
             <ol class="breadcrumb mb-0 p-0">
               <% @breadcrumbs.each do |crumb| %>

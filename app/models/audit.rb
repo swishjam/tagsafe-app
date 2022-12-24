@@ -70,11 +70,15 @@ class Audit < ApplicationRecord
     self.tagsafe_score = calculate_tagsafe_score!
     self.completed_at = Time.current
     self.save!
+
     update_tag_details_audit_row
     broadcast_audit_completed_notification
-    return unless execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present? && tag.is_tagsafe_hosted
-    tag_version.update!(primary_audit: self)
-    LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met!
+    tag.update!(primary_audit: self) if successful? && !tag_version.present?
+    
+    if execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present? && tag.is_tagsafe_hosted
+      tag_version.update!(primary_audit: self)
+      LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met!
+    end
   end
 
   def calculate_tagsafe_score!
@@ -120,7 +124,11 @@ class Audit < ApplicationRecord
   end
 
   def audit_to_compare_with
-    tag.audits.successful.by_page_url(page_url).most_recent_first.older_than(created_at).limit(1).first
+    if tag_version && tag_version.previous_version
+      tag_version.previous_version.primary_audit
+    else
+      tag.audits.successful.by_page_url(page_url).most_recent_first.older_than(created_at).limit(1).first
+    end
   end
 
   def formatted_tagsafe_score
