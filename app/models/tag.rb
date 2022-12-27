@@ -36,6 +36,7 @@ class Tag < ApplicationRecord
   accepts_nested_attributes_for :page_urls_tag_found_on
 
   SUPPORTED_RELEASE_MONITORING_INTERVALS = [0, 1, 15, 30, 60, 180, 360, 720, 1_440]
+  
   # VALIDATIONS
   validate :has_at_least_one_page_url_tag_found_on
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
@@ -55,7 +56,6 @@ class Tag < ApplicationRecord
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
   after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
-  after_update { after_live_tag_version_changed if saved_changes['current_live_tag_version_id'] }
 
   # SCOPES
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
@@ -76,8 +76,7 @@ class Tag < ApplicationRecord
   end
 
   def set_current_live_tag_version_and_publish_instrumentation(tag_version)
-    update!(current_live_tag_version: tag_version)
-    tag.update!(primary_audit: tag_version.primary_audit)
+    update!(current_live_tag_version: tag_version, primary_audit: tag_version.primary_audit)
     container.publish_instrumentation!
   end
 
@@ -154,6 +153,10 @@ class Tag < ApplicationRecord
 
   def release_monitoring_enabled?
     release_monitoring_interval_in_minutes > 0
+  end
+
+  def most_recent_release_check
+    release_checks.most_recent_first.limit(1).first
   end
 
   def release_monitoring_disabled?

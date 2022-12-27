@@ -1,0 +1,42 @@
+<%= turbo_frame_tag "#{tag.uid}_settings" do %>
+  <div class='col-10 offset-1'>
+    <% if local_assigns[:success_message] %>
+      <div class='alert alert-success mt-2'>
+        <h5 class='d-flex align-items-center'><span class='me-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
+      </div>
+    <% end %>
+    <%= form_with model: tag, data: { controller: 'loading_form' } do |f| %>
+      <div class='form-floating mt-5'>
+        <span class='form-label fs-5 fw-bolder d-block'>Release monitoring interval</label>
+        <span class='form-label fs-6 d-block'>How often should Tagsafe check <%= tag.url_based_on_preferences %> for a new release?</span>
+        <select name='tag[release_monitoring_interval_in_minutes]' 
+                id='release-monitoring-interval' 
+                class='form-select w-fit' 
+                <%= !tag.is_tagsafe_hostable ? 'disabled' : nil %>
+                style='width: fit-content'
+                required>
+          <option disabled>Release monitoring interval</option>
+          <% Tag::SUPPORTED_RELEASE_MONITORING_INTERVALS.each do |interval| %>
+            <option value='<%= interval %>' <%= interval == tag.release_monitoring_interval_in_minutes ? 'selected' : nil %>>
+              <%= Util.integer_to_interval_in_words(interval).capitalize %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+      <div class="form-check form-switch mt-5 ps-0 pb-5">
+        <span class='form-label fs-5 fw-bolder d-block'>Tagsafe-hosted and optimized</span>
+        <span class='form-label fs-6 d-block'>Disable to use the tag's default CDN instead of Tagsafe's optimized CDN.</span>
+        <input type='checkbox' 
+                name='tag[is_tagsafe_hosted]'
+                class='form-check-input ms-3 pointer' 
+                role='switch' 
+                style='scale: 2' 
+                <%= tag.is_tagsafe_hosted ? 'checked=checked' : nil%>
+                <%= !tag.is_tagsafe_hostable ? 'disabled' : nil %>>
+      </div>
+      <div class='text-end'>
+        <%= loading_submit_button 'Update tag settings', type: 'floating' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

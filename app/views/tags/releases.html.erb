@@ -1,27 +1,17 @@
+<%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %>
+
 <%= render 'partials/page_navigation_items', navigation_items: [
             { url: tag_path(@tag), text: "Tag details" },
             { url: tag_releases_path(@tag), text: "Tag releases" },
             { url: '#', text: "Tag audits" },
             { url: settings_tag_path(@tag), text: "Tag settings" },
   ] %>
-
+  
 <div class='page-title-container'>
   <div class='container-fluid'>
     <div class='row'>
       <div class='col-8'>
-        <div class='d-flex align-items-center'>
-          <% if @tag.has_image? %>
-            <div class='me-2'>
-              <%= image_tag @tag.try_image_url, class: 'tag-thumbnail' %>
-            </div>
-          <% end %>
-          <div>
-            <h1 class="page-title with-sub-title d-flex align-items-center fs-1">
-              <%= @tag.try_friendly_name %> details
-            </h1>
-            <h2 class='page-sub-title fs-6'><%= @tag.url_based_on_preferences %></h2>
-          </div>
-        </div>
+        <h1 class="page-title"><%= @tag.try_friendly_name %> releases</h1>
       </div>
       <div class='col-4 page-title-cta-container'>
         <%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
@@ -42,26 +32,32 @@
 <div class='d-flex'>
   <div class='col-5'>
     <div class='tagsafe-container'>
+      <h2 class='tagsafe-font'>Release Calendar</h2>
       <%= turbo_frame_tag "#{@tag.uid}_release_calendar", src: release_calendar_releases_path(tag_uid: @tag.uid) do %>
         <div class='text-center p-5'>
-          <%= display_loading_icon %>
-        </div>
+          <%= display_loading_spinner %>
+        </div>    
       <% end %>
     </div>
   </div>
 
   <div class='col-7'>
-    <div class='tagsafe-container'>
-      <% if @tag_versions.any? %>
-        <h4 class='mb-3'>Recent releases</h4>
-        <div class='ps-4 pe-4'>
-          <% @tag_versions.each do |tag_version| %>
-            <%= render 'tag_versions/tag_version_row', tag_version: tag_version, display_tag_name: false %>
-          <% end %>
-        </div>
-      <% else %>
-        <div class='empty-state text-center p-5'>
-          <h4 class='fs-3'><%= @tag.try_friendly_name %> has not made any releases to their tag yet.</h4>
+    <div class='tagsafe-container p-5'>
+      <h2 class='tagsafe-font d-inline me-2'>
+        Releases 
+      </h2>
+      <% if most_recent_check = @tag.release_checks.most_recent_first.limit(1).first %>
+        <span class='d-block w-fit default-cursor'
+                data-controller='tooltip' 
+                title='Release monitoring interval is set for <%= @tag.release_monitoring_interval_in_words %>.'>
+          As of <%= time_ago_in_words(most_recent_check.created_at) %> ago.
+        </span>
+      <% elsif @tag.release_monitoring_disabled? %>
+        <%= HtmlHelper.WARNING_ICON %> Release monitoring is disabled for this tag.
+      <% end %>
+      <%= turbo_frame_tag "tag_#{@tag.uid}_tag_versions", src: tag_tag_versions_path(@tag) do %>
+        <div class='text-center p-5'>
+          <%= display_loading_spinner %>
         </div>
       <% end %>
     </div>

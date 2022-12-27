@@ -2,9 +2,10 @@
   <%= link_to tag_path(tag), class: 'no-decoration' do %>
     <div class='tag-card'>
       <div class='chart-container'>
+        <!-- <#%= turbo_frame_tag "#{tag.uid}_tag_chart", src: charts_tag_path(tag, hide_time_range_selector: true, hide_chart_titles: true) do %> !-->
         <%= turbo_frame_tag "#{tag.uid}_tag_chart", src: charts_tag_path(tag, hide_time_range_selector: true, hide_chart_titles: true) do %>
           <div class='text-center p-3'>
-            <%= display_loading_spinner size: :tiny %>
+            <%= display_loading_spinner size: :small %>
           </div>
         <% end %>
       </div>
@@ -24,7 +25,7 @@
           <% end %>
         </div>
         <% if tag.last_released_at %>
-          <span class='tag-card-text'>Last release: <%= time_ago_in_words(tag.last_released_at) %> ago</span>
+          <span class='tag-card-text'>Last release: <%= tag.last_released_at.nil? ? 'Never' : "#{time_ago_in_words(tag.last_released_at)} ago" %></span>
         <% end %>
       </div>
     </div>

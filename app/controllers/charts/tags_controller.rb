@@ -41,27 +41,22 @@ module Charts
     end
   
     def show
-      time_range = (params[:time_range] || "24_hours").to_sym
       tag = current_container.tags.find_by(uid: params[:uid])
-      chart_metric = (params[:chart_metric] || 'tagsafe_score').to_sym
-      chart_data_getter = ChartHelper::TagsData.new(
-        tags: [tag], 
-        time_range: time_range,
-        metric_key: chart_metric,
-        use_metric_key_as_plot_name: true
-      )
+      time_range = (params[:time_range] || "24_hours").to_sym
+      chart_helper = ChartHelper::TagData.new(tag: tag, time_range: time_range)
+      chart_data = chart_helper.chart_data
       render turbo_stream: turbo_stream.replace(
         "#{tag.uid}_tag_chart",
         partial: 'charts/tags/show',
         locals: { 
-          chart_data: chart_data_getter.chart_data, 
+          chart_data: chart_data, 
           tag: tag, 
           container: current_container,
-          chart_metric: chart_metric, 
-          display_metric: chart_metric.to_s.gsub('delta', '').strip.split('_').map(&:capitalize).join(' '),
           time_range: time_range,
+          start_datetime: (chart_helper.start_datetime.to_f * 1_000).floor,
           hide_time_range_selector: params[:hide_time_range_selector],
-          hide_chart_titles: params[:hide_chart_titles]
+          hide_chart_titles: params[:hide_chart_titles],
+          graph_zone_options: chart_helper.graph_zone_data
         }
       )
     end

@@ -1,7 +1,5 @@
 <div class="progress-ring-container text-center">
-  <div class="progress-ring <%= score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:good] ? 
-                                          'good' : score >= DeltaPerformanceAudit::TAGSAFE_SCORE_THRESHOLDS[:warn] ? 
-                                            'warn' : 'danger'%>">
+  <div class="progress-ring <%= score >= 90 ? 'good' : score >= 80 ? 'warn' : 'danger'%>">
     <svg>
       <circle class='inner-circle' cx="70" cy="70" r="70"></circle>
       <circle class='circle-outline animate' cx="70" cy="70" r="70" style='stroke-dashoffset: <%= 440 - (440*score) / 100 %>'></circle>

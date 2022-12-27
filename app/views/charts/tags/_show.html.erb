@@ -5,7 +5,7 @@
       <div class='row align-items-center'>
         <div class='col-6'>
           <div class='d-inline-block m-3'>
-            <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_tag_path(tag, chart_metric: chart_metric.to_s) %>
+            <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_tag_path(tag) %>
           </div>
         </div>
         <!--<div class='col-6 text-end'>
@@ -31,26 +31,37 @@
     <% end %>
     <div class='mt-2 <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' data-controller='streamed-script-tag'>
       <%= 
-        title = chart_metric == :tagsafe_score ? "Tagsafe Score" : "Impact to #{display_metric}"
-        line_chart chart_data,
+        area_chart chart_data,
           id: tag.uid,
           download: true, 
-          title: local_assigns[:hide_chart_titles] ? nil : title,
-          ytitle: local_assigns[:hide_chart_titles] ? nil : title,
+          title: local_assigns[:hide_chart_titles] ? nil : "Tagsafe Score",
+          ytitle: local_assigns[:hide_chart_titles] ? nil : "Tagsafe Score",
           xtitle: local_assigns[:hide_chart_titles] ? nil : 'Time of audit',
-          discrete: local_assigns[:hide_chart_titles] ? true : false,
           legend: false,
           curve: false,
+          code: Rails.env.development?,
           library: { 
-            tooltip: { 
-              # pointFormat: '{point.x.dateFormat("%H:M %m/%d)}',
-              # pointFormatter: 'function(point) { debugger; return point }'
+            plotOptions: { 
+              area: { 
+                pointPlacement: 'on',
+                zoneAxis: 'x',
+                zones: graph_zone_options,
+                tooltip: {
+                  # pointFormat: '{series.name}: <b>{point.y}</b><br/>'
+                  xDateFormat: '%A, %B %d @ %I:%M %p'
+                }
+              }
             },
-            xAxis: { labels: { enabled: false }}, 
+            xAxis: {
+              minPadding: 0,
+              maxPadding: 0,
+              min: start_datetime,
+              # max: Time.current,
+              labels: { enabled: local_assigns[:hide_chart_titles] ? false : true }}, 
             yAxis: { 
               min: 0,
               max: 100,
-              labels: { enabled: false }
+              labels: { enabled: local_assigns[:hide_chart_titles] ? false : true }
             }
           },
           messages: { empty: "No audits performed." } 

@@ -91,9 +91,6 @@ module TagManager
       :harmony => false             # Enable ES6/Harmony mode (experimental). Disabling mangling and compressing is recommended with Harmony mode.
     }
 
-    def initialize()
-    end
-
     def self.minify!(tag_content)
       Uglifier.compile(tag_content)
     end

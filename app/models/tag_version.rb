@@ -25,7 +25,7 @@ class TagVersion < ApplicationRecord
   # CALLBACKS #
   #############
 
-  after_create { tag.update!(last_released_at: self.created_at) }
+  after_create { tag.update!(last_released_at: self.created_at) unless first_version? }
   after_create { perform_audit(execution_reason: ExecutionReason.NEW_RELEASE, page_url_to_audit: tag.page_url_first_found_on) }
   after_create_commit { broadcast_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
   after_create_commit { prepend_tag_version_to_tag_details_view }

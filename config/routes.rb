@@ -75,8 +75,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tags, param: :uid do
+  resources :tags, except: [:edit, :new, :delete], param: :uid do
     member do
+      get '/settings' => 'tags#edit'
       get :uptime
       get :audits
       get :uptime_metrics
