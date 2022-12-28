@@ -29,6 +29,7 @@ class Audit < ApplicationRecord
   scope :pending, -> { where(completed_at: nil) }
 
   scope :by_page_url, -> (page_url) { where(page_url: page_url) }
+  scope :by_execution_reason, -> (execution_reason) { where(execution_reason: execution_reason) }
 
   validate :has_valid_audit_components
   validate :only_one_new_release_audit_per_tag_version

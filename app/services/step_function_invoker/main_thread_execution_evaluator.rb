@@ -20,7 +20,7 @@ module StepFunctionInvoker
   
     def request_payload
       { 
-        page_url: page_url, 
+        page_url: stringified_page_url, 
         tag_url: @tag.url_based_on_preferences,
         request_url_to_overwrite: @tag.full_url,
         request_url_to_overwrite_to: should_use_tagsafe_hosted_tag_version? ? @audit.tag_version.js_file_url : @tag.full_url,
@@ -34,7 +34,7 @@ module StepFunctionInvoker
       @tag.is_tagsafe_hosted? && @audit.tag_version.present?
     end
 
-    def page_url
+    def stringified_page_url
       "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?tagsafe-disabled=true' : ''}"
     end
   end
