@@ -31,7 +31,7 @@ class Container < ApplicationRecord
   attribute :tagsafe_js_enabled, default: true
 
   validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
-  validates :tagsafe_js_enabled, presence: true
+  # validates :tagsafe_js_enabled, presence: true
 
   def publish_instrumentation!
     TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn
@@ -48,6 +48,14 @@ class Container < ApplicationRecord
 
   def instrumentation_cache_seconds
     60 * 5 # 5 minutes, until configurable
+  end
+
+  def tagsafe_js_enabled?
+    tagsafe_js_enabled
+  end
+
+  def tagsafe_js_disabled?
+    !tagsafe_js_enabled?
   end
 
   def has_tag?(tag)

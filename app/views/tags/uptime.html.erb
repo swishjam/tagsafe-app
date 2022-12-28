@@ -18,7 +18,7 @@
             </span>
           </div>
         <% end %>
-        <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3' do %>
+        <%= link_to settings_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3' do %>
           <i class="fa-solid fa-gear"></i>
         <% end %>
       </div>
@@ -34,7 +34,7 @@
 <% if @tag.uptime_regions_to_check.count.zero? %>
   <div class='container-fluid'>
     <div class="alert alert-danger mt-3 text-center" role="alert">
-      <%= HtmlHelper.WARNING_ICON %> Uptime monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', edit_tag_path(@tag) %>.
+      <%= HtmlHelper.WARNING_ICON %> Uptime monitoring is disabled for <%= @tag.try_friendly_name %>, you can enable it in <%= link_to 'your settings', settings_tag_path(@tag) %>.
     </div>
   </div>
 <% end %>

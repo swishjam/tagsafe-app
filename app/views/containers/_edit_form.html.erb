@@ -1,0 +1,27 @@
+<%= turbo_frame_tag "container_settings" do %>
+  <% if local_assigns[:success_message] %>
+    <div class='alert alert-success mb-3'>
+      <h5 class='d-flex align-items-center mb-0'><span class='me-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
+    </div>
+  <% end %>
+  <%= form_with model: container, data: { controller: 'loading_form' } do |f| %>
+    <div class='form-floating mb-3'>
+      <%= f.text_field :name, value: container.name, class: 'form-control' %>
+      <label>Container name</label>
+    </div>
+    <div class='border p-3'>
+      <h5 class='fw-bolder'>TagsafeJS Enabled</h5>
+      <% if container.tagsafe_js_enabled %>
+        <h6>Toggling this setting off will prevent TagsafeJS from initializing on your page and optimizing/monitoring your tags. You can re-enable whenever you'd like.</h6>
+      <% else %>
+        <h6>TagsafeJS is currently disabled from running on your pages, toggle this option on to re-enable it.</h6>
+      <% end %>
+      <div class="form-check form-switch mt-4">
+        <%= f.check_box :tagsafe_js_enabled, class: 'form-check-input pointer', checked: container.tagsafe_js_enabled, style: 'scale: 2; margin-left: -1rem;' %>
+      </div>
+    </div>
+    <div class='mt-4 text-end'>
+      <%= loading_submit_button 'Update settings', type: 'floating' %>
+    </div>
+  <% end %>
+<% end %>

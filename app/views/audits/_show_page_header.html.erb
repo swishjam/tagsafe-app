@@ -20,7 +20,7 @@
             </span>
           </div>
         <% end %>
-        <%= link_to edit_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', title: 'Edit tag settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
+        <%= link_to settings_tag_path(@tag), class: 'page-title-cta-btn floating-btn tagsafe-purple-bg ms-3', title: 'Edit tag settings', data: { controller: 'tooltip', bs_toggle: 'tooltip' } do %>
           <i class="fa-solid fa-gear"></i>
         <% end %>
       </div>

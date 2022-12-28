@@ -1,0 +1,29 @@
+<%= render 'tags/root_paths_page_navigation', 
+              page_title: 'Team Management', 
+              cta_button_html: modal_link(new_user_invite_path, text: 'Invite User', klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg') %>
+
+
+<div class='d-flex'>
+  <div class='col-2'>
+    <%= render 'settings_nav' %>
+  </div>
+  <div class='col-10'>
+    <div class='mb-3 p-5'>
+      <h4>Pending invites</h4>
+      <%= turbo_frame_tag "container_#{current_container.uid}_invites", src: user_invites_path do %>
+        <div class='text-center'>
+          <%= display_loading_icon %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class='p-5'>
+      <h4>Team members</h4>
+      <%= turbo_frame_tag "container_#{current_container.uid}_container_users", src: container_users_path do %>
+        <div class='text-center'>
+          <%= display_loading_icon %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

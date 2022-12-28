@@ -13,7 +13,7 @@
           <% if @breadcrumbs && @breadcrumbs.any? %>
             <ol class="breadcrumb mb-0 p-0">
               <% @breadcrumbs.each do |crumb| %>
-                <li class="breadcrumb-item <%= crumb[:active] ? 'active' : nil %>">
+                <li class="breadcrumb-item <%= crumb[:url].nil? ? 'active' : nil %>">
                   <% if crumb[:url] %>
                     <%= link_to crumb[:text], crumb[:url] %>
                   <% else %>
@@ -75,9 +75,6 @@
               <div class='dropdown-divider'></div>
               <%= link_to 'Add New Container', new_container_path(additional: true), class: 'dropdown-item text-center no-decoration' %>
               <%= link_to 'Settings', settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
-              <% unless user_is_anonymous? %>
-                <%= link_to 'Billing', settings_billing_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
-              <% end %>
               <%= link_to 'Help', '#', class: 'dropdown-item text-center no decoration', target: '_top' %>
               <div class='dropdown-divider'></div>
               <%= link_to 'Sign out', logout_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>

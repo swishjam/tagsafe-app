@@ -34,6 +34,22 @@ class AuditComponent < ApplicationRecord
     audit.after_audit_component_failed(self)
   end
 
+  def completed?
+    completed_at.present?
+  end
+
+  def successful?
+    completed? && !failed?
+  end
+
+  def failed?
+    error_message.present?
+  end
+
+  def pending?
+    completed_at.nil?
+  end
+
   def weighted_score_for_audit
     score_weight * score
   end

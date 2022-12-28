@@ -54,7 +54,7 @@ module TagsafeJsEventBatchConsumer
           load_type: tag_data.load_type,
           tagsafe_js_intercepted_count: tag_data.intercepted_by_tagsafe_js? ? 1 : 0,
           tagsafe_js_not_intercepted_count: tag_data.intercepted_by_tagsafe_js? ? 0 : 1,
-          page_urls_tag_found_on_attributes: [{ page_url: @tagsafe_js_event_batch.page_url }]
+          page_urls_tag_found_on_attributes: [{ page_url: @tagsafe_js_event_batch.page_url, should_audit: true }]
         )
         raise "Unable to add #{tag_data.url} to #{@container.uid}'s tags: #{tag.errors.full_messages.join('. ')}" if tag.errors.any?
         @num_updates += 1

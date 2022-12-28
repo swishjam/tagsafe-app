@@ -62,19 +62,25 @@ class TagsController < LoggedInController
   end
 
   def audits
-    tag = current_container.tags.find_by(uid: params[:uid])
-    audits = tag.audits
-                  .most_recent_first(timestamp_column: :created_at)
-                  .page(params[:page] || 1)
-                  .per(params[:per_page] || 10)
-    render turbo_stream: turbo_stream.replace(
-      "tag_#{tag.uid}_audits_table",
-      partial: "tags/audits",
-      locals: {
-        tag: tag,
-        audits: audits
-      }
+    @tag = current_container.tags.find_by(uid: params[:uid])
+    @audits = @tag.audits.most_recent_first(timestamp_column: :created_at).page(params[:page] || 1).per(params[:per_page] || 10)
+    render_breadcrumbs(
+      { url: root_path, text: 'Monitor Center' },
+      { text: "#{@tag.try_friendly_name} audits" }
     )
+    respond_to do |format|
+      format.html { render 'audits' }
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(
+          "tag_#{@tag.uid}_audits_table",
+          partial: "tags/audits",
+          locals: {
+            tag: @tag,
+            audits: @audits
+          }
+        )
+      }
+    end
   end
 
   private

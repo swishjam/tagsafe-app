@@ -56,10 +56,17 @@
                   <i class="fas fa-ellipsis-v" style="font-size: 12px;"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <%= link_to 'View git diff', git_diff_tag_tag_version_path(tag_version.tag, tag_version), class: 'dropdown-item', target: '_top' %> 
-                  <%= link_to 'View audits', tag_path(tag_version.tag), class: 'dropdown-item', target: '_top' %>
+                  <%= link_to 'View released changes', git_diff_tag_tag_version_path(tag_version.tag, tag_version), class: 'dropdown-item', target: '_top' %> 
+                  <% if tag_version.primary_audit %>
+                    <%= link_to 'View primary audit', tag_audit_path(tag_version.tag, tag_version.primary_audit), class: 'dropdown-item', target: '_top' %>
+                  <% end %>
+                  <%= link_to 'View all audits', audits_tag_path(tag_version.tag), class: 'dropdown-item', target: '_top' %>
                   <div class="dropdown-divider"></div>
-                  <% if tag_version.can_promote_to_live? %>
+                  <% if tag_version.is_tags_current_live_tag_version? %>
+                    <span class='dropdown-item disabled' data-controller='tooltip' title='This version is currently live'>
+                      <i class="fa-regular fa-star"></i> Promote
+                    </span>
+                  <% elsif tag_version.can_promote_to_live? %>
                     <%= modal_link_to promote_tag_tag_version_path(tag_version.tag, tag_version), text: "#{tag_version.older_than_current_live_version? ? 'Rollback' : 'Promote'}", klass: 'dropdown-item' %>
                   <% else %>
                     <span class='dropdown-item disabled' data-controller='tooltip' title='Tagsafe score too low'>

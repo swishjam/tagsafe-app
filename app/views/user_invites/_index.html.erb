@@ -1,17 +1,17 @@
-<%= turbo_frame_tag "container_#{container.uid}_#{status}_invites" do %>
+<%= turbo_frame_tag "container_#{container.uid}_invites" do %>
   <% if user_invites.any? %>
     <div class='tagsafe-table'>
       <div class='tagsafe-table-row header square'>
-        <div class='tagsafe-table-cell' style='width: 33%;'>Invited user email</div>
-        <div class='tagsafe-table-cell' style='width: 33%;'>Expires at</div>
-        <div class='tagsafe-table-cell' style='width: 33%;'>Invited by</div>
+        <div class='tagsafe-table-cell'>Invited user email</div>
+        <div class='tagsafe-table-cell'>Expires at</div>
+        <div class='tagsafe-table-cell'>Invited by</div>
       </div>
       <div class='tagsafe-table-body'>
         <% user_invites.each do |invite| %>
           <div class='tagsafe-table-row'>
-            <div class='tagsafe-table-cell' style='width: 33%'><%= invite.email %></div>
-            <div class='tagsafe-table-cell' style='width: 33%'><%= invite.expires_at.formatted_long %></div>
-            <div class='tagsafe-table-cell' style='width: 33%'><%= invite.invited_by_user.email %></div>
+            <div class='tagsafe-table-cell'><%= invite.email %></div>
+            <div class='tagsafe-table-cell'><%= invite.expires_at.formatted_long %></div>
+            <div class='tagsafe-table-cell'><%= invite.invited_by_user.email %></div>
           </div>
         <% end %>
       </div>

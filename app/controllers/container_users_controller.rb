@@ -10,12 +10,6 @@ class ContainerUsersController < LoggedInController
   def index
     @container_users = current_container.container_users.includes(:user)
     render_breadcrumbs(text: 'Team Management')
-    # render turbo_stream: turbo_stream.replace(
-    #   "container_#{current_container.uid}_container_users",
-    #   partial: "container_users/index",
-    #   locals: {
-    #   }
-    # )
   end
 
   def destroy

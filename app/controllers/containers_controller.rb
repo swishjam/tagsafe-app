@@ -27,8 +27,18 @@ class ContainersController < LoggedInController
     end
   end
 
+  def update
+    current_container.update(container_params)
+    # render 'settings/global_settings'
+    binding.pry
+    render turbo_stream: turbo_stream.replace(
+      'container_settings',
+      partial: 'containers/edit_form',
+      locals: { container: current_container, success_message: 'Container settings updated.' }
+    )
+  end
+
   def update_current_container
-    # container = Container.find_by!(uid: params[:uid])
     container = current_user.containers.find_by!(uid: params[:uid])
     set_current_container(container)
     redirect_to request.referrer
@@ -37,6 +47,6 @@ class ContainersController < LoggedInController
   private
 
   def container_params
-    params.require(:container).permit(:name)
+    params.require(:container).permit(:name, :tagsafe_js_enabled)
   end
 end

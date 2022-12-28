@@ -1,33 +1,6 @@
 <%= turbo_stream_from "tag_#{@tag.uid}_details_view_stream" %>
 
-<%= render 'partials/page_navigation_items', navigation_items: [
-            { url: tag_path(@tag), text: "Tag details" },
-            { url: tag_releases_path(@tag), text: "Tag releases" },
-            { url: '#', text: "Tag audits" },
-            { url: settings_tag_path(@tag), text: "Tag settings" },
-  ] %>
-  
-<div class='page-title-container'>
-  <div class='container-fluid'>
-    <div class='row'>
-      <div class='col-8'>
-        <h1 class="page-title"><%= @tag.try_friendly_name %> releases</h1>
-      </div>
-      <div class='col-4 page-title-cta-container'>
-        <%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
-          <div class='d-flex align-items-center'>
-            Run Audit 
-            <span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
-              <form class='hidden' action="<%=select_tag_to_audit_tags_path%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
-              </form>
-              ⌘a
-            </span>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render 'tags/show_page_navigation', page_title: "#{@tag.try_friendly_name} releases" %>
 
 <div class='d-flex'>
   <div class='col-5'>

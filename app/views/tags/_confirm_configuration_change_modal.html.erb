@@ -35,7 +35,7 @@
   </div>
   <div class='tagsafe-modal-divider'></div>
   <div class='tagsafe-modal-footer text-end'>
-    <%= link_to 'Cancel', edit_tag_path(tag), target: '_top', class: 'floating-btn white-bg d-inline-block' %>
+    <%= link_to 'Cancel', settings_tag_path(tag), target: '_top', class: 'floating-btn white-bg d-inline-block' %>
     <%= form_with url: update_url, class: 'd-inline-block', data: { controller: 'loading_form' } do |f| %>
       <%= f.hidden_field :price_increase_confirmed, value: true %>
       <%= f.hidden_field :release_check_minute_interval, value: tag.tag_preferences.release_check_minute_interval %>

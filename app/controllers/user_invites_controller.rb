@@ -35,13 +35,7 @@ class UserInvitesController < LoggedInController
   end
 
   def index
-    if params[:status] == 'pending'
-      @user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
-      render_breadcrumbs(text: 'Pending Invites')
-    else
-      @user_invites = current_container.user_invites.page(params[:page] || 1).per(params[:per_page] || 20)
-      render_breadcrumbs(text: 'Invites')
-    end
+    @user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def accept

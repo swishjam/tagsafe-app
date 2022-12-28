@@ -2,7 +2,7 @@
   <div class='tagsafe-pill grey small-text'>
     No audits performed
   </div>
-<% elsif audit.completed? %>
+<% elsif audit.successful? %>
   <% color = audit.tagsafe_score >= 90 ? 'green' : audit.tagsafe_score >= 75 ? 'orange' : 'red' %>
   <div class='position-relative'>
     <div class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
