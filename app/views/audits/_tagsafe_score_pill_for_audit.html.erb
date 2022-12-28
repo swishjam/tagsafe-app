@@ -2,7 +2,7 @@
   <div class='tagsafe-pill grey small-text'>
     No audits performed
   </div>
-<% elsif audit.completed? %>
+<% elsif audit.successful? %>
   <% color = audit.tagsafe_score >= 90 ? 'green' : audit.tagsafe_score >= 75 ? 'orange' : 'red' %>
   <div class='position-relative'>
     <div class='tagsafe-pill <%= color %> <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
@@ -16,7 +16,6 @@
           <span style='font-size: 0.75rem'
                 class='ms-1'
                 data-controller='tooltip'
-                data-bs-toggle='tooltip'
                 title="Tagsafe Score <%= diff_in_score.positive? ? 'increased' : 'dropped' %> <%= diff_in_score.abs %> points from the previous audit.">
                 <i class="<%=icon_class%>"></i> 
                 <%= diff_in_score %>

@@ -1,5 +1,8 @@
-<% if false %>
+<% if current_container.tagsafe_js_disabled? %>
   <div class='fixed-top-banner warning'>
-    
+    <div>
+      <span class='me-2'><%= HtmlHelper.WARNING_ICON %></span> 
+      Your TagsafeJS is currently disabled, your tags are not being optimized or monitored. You can enable TagsafeJS in <%= link_to 'your settings', settings_path %>.
+    </div>
   </div>
 <% end %>

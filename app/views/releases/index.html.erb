@@ -1,43 +1,30 @@
-<%= turbo_frame_tag "#{@container_or_tag.uid}_release_calendar" do %>
-  <div class='release-graph-with-headers m-auto'>
-    <h4 class='text-center'><%= Time.current.strftime('%B') %></h4>
-    <div class='release-graph'>
-      <% @release_count_by_day.each_slice(7) do |arrays_of_days_and_release_count| %>
-        <div class='release-graph-row'>
-          <% arrays_of_days_and_release_count.each do |day_and_release_count| %>
-            <% day = day_and_release_count[0] %>
-            <% if day > Time.current %>
-              <div class='release-graph-day disabled'>
-                <span class='d-block'><%= day.strftime('%b') %></span>
-                <span class='d-block'><%= day.strftime('%d') %></span>
-              </div>
-            <% else %>
-              <% num_releases = day_and_release_count[1] %>
-              <% rate_of_release_heat = num_releases.to_f / @most_releases_in_a_day %>
-              <div class='release-graph-day release-heat-<%= rate_of_release_heat >= 0.75 ? 5 :
-                                                              rate_of_release_heat >= 0.5 ? 4 :
-                                                              rate_of_release_heat >= 0.25 ? 3 :
-                                                              rate_of_release_heat > 0.0 ? 2 : 
-                                                              1 %>' 
-                    data-controller='tooltip' 
-                    data-bs-toggle='tooltip' 
-                    title="<%= num_releases.zero? ? 'No' : num_releases %> releases on <%= day.strftime("%b %d, %Y") %>.">
-                <span class='d-block'><%= day.strftime('%b') %></span>
-                <span class='d-block'><%= day.strftime('%d') %></span>
-              </div>
-            <% end %>
-          <% end %>
+<%= render 'tags/show_page_navigation', page_title: "#{@tag.try_friendly_name} releases" %>
+
+<div class='d-flex'>
+  <div class='col-5'>
+    <div class='tagsafe-container'>
+      <%= turbo_frame_tag "#{@tag.uid}_release_calendar", src: release_calendar_releases_path(tag_uid: @tag.uid) do %>
+        <div class='text-center p-5'>
+          <%= display_loading_icon %>
         </div>
       <% end %>
     </div>
-    <div class='release-graph-legend mt-3 text-end'>
-      <span>Less Releases</span>
-      <div class='release-graph-day release-heat-1'></div>
-      <div class='release-graph-day release-heat-2'></div>
-      <div class='release-graph-day release-heat-3'></div>
-      <div class='release-graph-day release-heat-4'></div>
-      <div class='release-graph-day release-heat-5'></div>
-      <span>More Releases</span>
+  </div>
+
+  <div class='col-7'>
+    <div class='tagsafe-container'>
+      <% if @tag_versions.any? %>
+        <h4 class='mb-3'>Recent releases</h4>
+        <div class='ps-4 pe-4'>
+          <% @tag_versions.each do |tag_version| %>
+            <%= render 'tag_versions/tag_version_row', tag_version: tag_version, display_tag_name: false %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class='empty-state text-center p-5'>
+          <h4 class='fs-3'><%= @tag.try_friendly_name %> has not made any releases to their tag yet.</h4>
+        </div>
+      <% end %>
     </div>
   </div>
-<% end %>
+</div>

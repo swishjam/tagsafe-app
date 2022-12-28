@@ -4,6 +4,15 @@ class ReleasesController < LoggedInController
     render_breadcrumbs(text: 'Releases')
   end
 
+  def index
+    @tag = current_container.tags.find_by!(uid: params[:uid])
+    @tag_versions = @tag.tag_versions.most_recent_first.page(params[:page]).per(15)
+    render_breadcrumbs(
+      { text: 'Monitor Center', url: root_path },
+      { text: "#{@tag.try_friendly_name} releases" }
+    )
+  end
+
   def release_calendar
     @container_or_tag = params[:all_tags] ? current_container : current_container.tags.find_by!(uid: params[:tag_uid])
     range = Time.current.beginning_of_month.beginning_of_week.to_datetime..Time.current.end_of_month.to_datetime

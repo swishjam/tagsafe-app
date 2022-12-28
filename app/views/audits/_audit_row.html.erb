@@ -1,7 +1,7 @@
 <%= turbo_stream_from "audit_#{audit.uid}_row_stream" %>
 
 <%= turbo_frame_tag "audit_#{audit.uid}_row" do %>
-  <%= link_to performance_audit_tag_audit_path(audit.tag, audit), class: 'no-decoration', target: '_top' do %>
+  <%= link_to tag_audit_path(audit.tag, audit), class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row hoverable'>
       <% if local_assigns[:include_tag_name] %>
         <div class='tagsafe-table-cell flex-3'>
@@ -18,7 +18,14 @@
         <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag, audit: audit %>
       </div>
       <div class='tagsafe-table-cell'>
-        <div class='tagsafe-pill grey small-text'><%= audit.tag_version.present? ? audit.tag_version.sha : 'Live version' %></div>
+        <% if audit.tag_version.present? %>
+          <div class='meta-info-pill'>
+            <div class='title'><%= audit.tag_version.tag_version_identifier %></div>
+            <div class='value italic'><%= audit.tag_version.sha %></div>
+          </div>
+        <% else %>
+          <div class='tagsafe-pill grey small-text'>Live version</div>
+        <% end %>
       </div>
       <div class='tagsafe-table-cell'><%= audit.page_url.friendly_url %></div>
       <div class='tagsafe-table-cell'><%= audit.execution_reason.name %></div>

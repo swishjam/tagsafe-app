@@ -20,7 +20,7 @@ module TagsafeEmail
     end
 
     def mail_safe_url(path)
-      "#{ENV['CURRENT_HOST'] || 'https://www.tagsafe.io'}#{path}"
+      "#{ENV['CURRENT_HOST'] || 'https://app.tagsafe.io'}#{path}"
     end
 
     def on_delivery_failure(sendgrid_response)

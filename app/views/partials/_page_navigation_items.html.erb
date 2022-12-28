@@ -1,7 +1,8 @@
 <div class='page-navigation-items-container'>
   <% navigation_items.each do |nav| %>
-    <%= link_to nav[:url], class: 'no-decoration' do %>
-      <span class='page-navigation-item <%= request.path == URI.parse(nav[:url]).path ? 'active' : nil %>'>
+    <% is_active = request.path == URI.parse(nav[:url]).path %>
+    <%= link_to is_active ? '#' : nav[:url], class: 'no-decoration' do %>
+      <span class='page-navigation-item <%= is_active ? 'active' : nil %>'>
         <%= nav[:text] %>
       </span>
     <% end %>

@@ -1,13 +1,11 @@
 <%= turbo_frame_tag "#{container.uid}_container_tags_container" do %>
   <div class='col-12'>
     <% if tags.any? %>
-      <%= turbo_frame_tag "#{container.uid}_container_tags_chart", src: charts_tags_path(current_container.id, tag_ids: tags.collect(&:id), include_metric_select: true) do %>
-        <div class='tagsafe-container text-center'>
-          <%= display_loading_spinner %>
-        </div>
-      <% end %>
-      <div class='tagsafe-container'>
-        <%= render 'server_loadable_partials/tags/tag_table', tags: tags, container: container %>
+      <div class='row p-5'>
+        <%= render partial: 'server_loadable_partials/tags/tag_card', collection: tags, as: :tag %>
+      </div>
+      <div class="pagination-container text-center">
+        <%= paginate tags %>
       </div>
     <% else %>
       <%= turbo_frame_tag "#{container.uid}_container_tags_chart" do %>

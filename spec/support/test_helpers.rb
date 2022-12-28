@@ -21,7 +21,6 @@ def create_tag_with_associations(tag_url: 'https://www.test.com/script.js')
     tagsafe_js_event_batch: tagsafe_js_event_batch,
     page_urls: [page_url]
   )
-  # url_to_audit = create(:url_to_audit, tag: tag, page_url: @container.page_urls.first)
   tag
 end
 
@@ -89,6 +88,10 @@ end
 
 def stub_tag_version_content
   allow_any_instance_of(TagVersion).to receive(:content).and_return('STUBBED TAGVERSION CONTENT!')
+end
+
+def stub_audit_component_performance
+  allow_any_instance_of(AuditComponent).to receive(:perform_audit!).and_return('Stubbed AuditComponent results.')
 end
 
 def stub_aws_calls

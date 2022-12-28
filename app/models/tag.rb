@@ -14,7 +14,7 @@ class Tag < ApplicationRecord
 
   # RELATIONS
   belongs_to :container
-  # belongs_to :most_current_audit, class_name: Audit.to_s, optional: true
+  belongs_to :primary_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
   belongs_to :tagsafe_js_event_batch
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
@@ -36,6 +36,7 @@ class Tag < ApplicationRecord
   accepts_nested_attributes_for :page_urls_tag_found_on
 
   SUPPORTED_RELEASE_MONITORING_INTERVALS = [0, 1, 15, 30, 60, 180, 360, 720, 1_440]
+  
   # VALIDATIONS
   validate :has_at_least_one_page_url_tag_found_on
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
@@ -75,7 +76,7 @@ class Tag < ApplicationRecord
   end
 
   def set_current_live_tag_version_and_publish_instrumentation(tag_version)
-    update!(current_live_tag_version: tag_version)
+    update!(current_live_tag_version: tag_version, primary_audit: tag_version.primary_audit)
     container.publish_instrumentation!
   end
 
@@ -139,19 +140,33 @@ class Tag < ApplicationRecord
     "#{load_type}ly"
   end
 
-  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url_to_audit:, options: {})
+  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url_to_audit:)
     Audit.run!(
       tag: self,
       tag_version: tag_version,
       page_url_to_audit: page_url_to_audit,
       initiated_by_container_user: initiated_by_container_user,
-      execution_reason: execution_reason,
-      options: options
+      execution_reason: execution_reason
     )
+  end
+
+  def perform_audit_on_all_should_audit_urls!(execution_reason:, tag_version:, initiated_by_container_user:)
+    page_urls_tag_found_on.should_audit.includes(:page_url).each do |page_url_tag_found_on|
+      perform_audit!(
+        execution_reason: execution_reason, 
+        tag_version: tag_version,
+        page_url_to_audit: page_url_tag_found_on.page_url,
+        initiated_by_container_user: initiated_by_container_user
+      )
+    end
   end
 
   def release_monitoring_enabled?
     release_monitoring_interval_in_minutes > 0
+  end
+
+  def most_recent_release_check
+    release_checks.most_recent_first.limit(1).first
   end
 
   def release_monitoring_disabled?

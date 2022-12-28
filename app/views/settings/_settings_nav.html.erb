@@ -1,5 +1,4 @@
-<%= render 'partials/page_navigation_items', navigation_items: [
-    { url: settings_path, text: 'Global Settings' },
-    { url: settings_tag_management_path, text: 'Tag Management' },
-    { url: settings_billing_path, text: 'Plan Settings & Billing' }
-  ] %>
+<div class='vertical-mini-nav'>
+  <%= link_to 'Settings', settings_path, class: request.path == settings_path ? 'active' : nil %>
+  <%= link_to 'Team Management', team_management_path, class: request.path == team_management_path ? 'active' : nil %>
+</div>

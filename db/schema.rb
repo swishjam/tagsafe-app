@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_24_015744) do
+ActiveRecord::Schema.define(version: 2022_12_27_231132) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -402,6 +402,7 @@ ActiveRecord::Schema.define(version: 2022_12_24_015744) do
     t.datetime "updated_at", precision: 6, null: false
     t.timestamp "last_seen_at"
     t.string "uid"
+    t.boolean "should_audit"
     t.index ["page_url_id"], name: "index_page_urls_tag_found_on_on_page_url_id"
     t.index ["tag_id"], name: "index_page_urls_tag_found_on_on_tag_id"
   end
@@ -644,9 +645,11 @@ ActiveRecord::Schema.define(version: 2022_12_24_015744) do
     t.integer "tagsafe_js_optimized_count"
     t.integer "tagsafe_js_not_intercepted_count"
     t.boolean "is_tagsafe_hostable"
+    t.bigint "primary_audit_id"
     t.index ["container_id"], name: "index_tags_on_container_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
+    t.index ["primary_audit_id"], name: "index_tags_on_primary_audit_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["tagsafe_js_event_batch_id"], name: "index_tags_on_tagsafe_js_event_batch_id"
     t.index ["uid"], name: "index_tags_on_uid"
@@ -775,8 +778,10 @@ ActiveRecord::Schema.define(version: 2022_12_24_015744) do
     t.timestamp "created_at"
     t.integer "invited_by_user_id"
     t.timestamp "redeemed_at"
+    t.bigint "redeemed_by_user_id"
     t.index ["container_id"], name: "index_user_invites_on_container_id"
     t.index ["invited_by_user_id"], name: "index_user_invites_on_invited_by_user_id"
+    t.index ["redeemed_by_user_id"], name: "index_user_invites_on_redeemed_by_user_id"
     t.index ["token"], name: "index_user_invites_on_token"
     t.index ["uid"], name: "index_user_invites_on_uid"
   end

@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%
-=begin%>
- <link href='https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>' rel='preconnect dns-prefetch' crossorigin> 
-<%
-=end%>
-    <%
-=begin%>
- <script src='https://<%= ENV['CLOUDFRONT_HOSTNAME'] || 'cdn.tagsafe.io' %>/manager/dom_8e7bcfb3-instrumentation.js'></script> 
-<%
-=end%>
     <title>Tagsafe</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -33,7 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
-  <% has_top_banner = false %>
+  <% has_top_banner = current_container.tagsafe_js_disabled? %>
   <body class="logged-in <%=controller_name%> <%= action_name %> <%= has_top_banner ? 'with-fixed-top-banner' : nil %>">
     <div class='fixed-content-container'>
       <%= render 'partials/top_level_banner' %>
@@ -41,8 +31,9 @@
       <%= render 'partials/server_loadable_modal' %>
     </div>
     <div class="content-and-nav-container d-flex">
-      <%= render 'partials/logged_in_nav' %>
-      <div id="page-content-wrapper" class="<%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>">
+      <!-- <#%= render 'partials/logged_in_nav' %> !-->
+      <!-- <div id="page-content-wrapper" class="<#%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>"> !-->
+      <div id="page-content-wrapper" class='no-navigation'>
         <%= render 'partials/top_level_nav_bar' %>
         <%= yield %>
       </div>

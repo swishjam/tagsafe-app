@@ -6,5 +6,7 @@ class PageUrlTagFoundOn < ApplicationRecord
 
   validates_uniqueness_of :tag_id, scope: :page_url_id
 
+  scope :should_audit, -> { where(should_audit: true) }
+
   before_create { self.last_seen_at = Time.current }
 end

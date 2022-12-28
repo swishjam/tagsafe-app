@@ -30,22 +30,15 @@ class AuditsController < LoggedInController
   end
 
   def show
-    redirect_to performance_audit_tag_audit_path(params[:tag_uid], params[:uid])
+    # redirect_to performance_audit_tag_audit_path(params[:tag_uid], params[:uid])
   end
 
   def new
-    tag_version = if params[:tag_version_uid]
-                    @tag.tag_versions.find_by(uid: params[:tag_version_uid])
-                  else
-                    @tag.release_monitoring_enabled? ? @tag.current_version : nil 
-                  end
-    # urls_to_audit = @tag.urls_to_audit.includes(:page_url)
+    tag_version = @tag.current_live_tag_version
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
       tag_version: tag_version,
-      current_tag_version: @tag.current_version,
-      page_urls_to_audit: @tag.page_urls,
-      # configuration: @tag.tag_or_container_configuration
+      page_urls_tag_found_on: @tag.page_urls_tag_found_on.includes(:page_url),
     })
   end
 
@@ -53,15 +46,23 @@ class AuditsController < LoggedInController
     tag_version = @tag.tag_versions.find_by(uid: params[:tag_version_uid])
     audits_enqueued = []
     audits_with_errors = []
-    Audit.run!(
+    params[:page_url_uids_to_audit].each do |page_url_uid|
+      page_url = @tag.page_urls.find_by!(uid: page_url_uid)
+      audit = Audit.run(
+        tag: @tag,
+        tag_version: tag_version,
+        page_url: page_url,
+        execution_reason: ExecutionReason.MANUAL,
+        initiated_by_container_user: current_container_user,
+      )
+      (audit.errors.any? ? audits_with_errors : audits_enqueued) << audit
+    end
+    stream_modal(partial: 'audits/new', locals: {
       tag: @tag,
       tag_version: tag_version,
-      page_url: @tag.page_urls.first, # TODO: need to make this configurable
-      execution_reason: ExecutionReason.MANUAL,
-      initiated_by_container_user: current_container_user,
-    )
-    current_user.broadcast_notification(message: "Performing audit on #{@tag.try_friendly_name}", image: @tag.try_image_url) unless audits_enqueued.empty? || user_is_anonymous?
-    head :ok
+      audits_enqueued: audits_enqueued,
+      audits_with_errors: audits_with_errors,
+    })
   end
 
   private

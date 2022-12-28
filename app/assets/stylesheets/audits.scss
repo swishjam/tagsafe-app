@@ -1,3 +1,23 @@
+.audit-component-visual-bar {
+  height: 15px;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  border-radius: 100px;
+  .audit-component-visual-outter-bar, .audit-component-visual-inner-bar {
+    height: 100%;
+    display: inline-block;
+  }
+  .audit-component-visual-outter-bar {
+    background-color: lightgrey;
+  }
+  .audit-component-visual-inner-bar {
+    &.good{ background-color: green; }
+    &.warn{ background-color: orange; }
+    &.bad{ background-color: #ff8484; }
+  }
+}
+
 body.audits {
   .performance-metrics-container.minimized .impact-to-tagsafe-score {
     display: none;

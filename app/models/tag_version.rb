@@ -25,8 +25,9 @@ class TagVersion < ApplicationRecord
   # CALLBACKS #
   #############
 
-  after_create { tag.update!(last_released_at: self.created_at) }
-  after_create { perform_audit(execution_reason: ExecutionReason.NEW_RELEASE, page_url_to_audit: tag.page_url_first_found_on) }
+  before_create { self.tag_version_identifier = generate_tag_version_identifier }
+  after_create { tag.update!(last_released_at: self.created_at) unless first_version? }
+  after_create { tag.perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: self, execution_reason: ExecutionReason.NEW_RELEASE) }
   after_create_commit { broadcast_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
   after_create_commit { prepend_tag_version_to_tag_details_view }
   after_destroy :purge_s3_files!
@@ -93,7 +94,7 @@ class TagVersion < ApplicationRecord
   end
 
   def can_promote_to_live?
-    !primary_audit_is_pending? && primary_audit.tagsafe_score >= 80
+    !is_tags_current_live_tag_version? && !primary_audit_is_pending? && primary_audit.tagsafe_score >= 80
   end
   
   def primary_audit_is_pending?
@@ -177,6 +178,13 @@ class TagVersion < ApplicationRecord
   end
 
   private
+
+  def generate_tag_version_identifier
+    return 'v001' if first_version?
+    integer = previous_version.tag_version_identifier.gsub("v", '').to_i + 1
+    leading_zeroes = integer < 10 ? '00' : integer < 100 ? '0' : ''
+    ['v', leading_zeroes, integer].join('')
+  end
 
   def broadcast_notification_to_all_users
     tag.container.container_users.each do |container_user|

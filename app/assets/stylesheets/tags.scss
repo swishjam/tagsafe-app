@@ -25,6 +25,45 @@
   }
 }
 
+.tag-card {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  height: 100%;
+  transition: 250ms box-shadow ease;
+  &:hover {
+    box-shadow: 0px 0px 10px 1px lightgrey;
+  }
+  .tag-card-body {
+    padding: 15px;
+  }
+  .tag-card-header {
+    font-size: 16px;
+    font-weight: 900;
+    color: black;
+    display: flex;
+    align-items: center;
+    .tag-thumbnail {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid #efefef;
+      margin-right: 5px;
+    }
+    i {
+      font-size: 12px;
+      margin-left: 5px;
+    }
+  }
+  .tag-card-sub-header {
+    color: $dark-grey-text;
+    font-size: 14px;
+  }
+  .tag-card-text {
+    color: $dark-grey-text;
+    font-size: 12px;
+  }
+}
+
 .tags-table {
   .search-input-container {
     position: relative;

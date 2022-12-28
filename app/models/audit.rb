@@ -7,12 +7,12 @@ class Audit < ApplicationRecord
     [JsFileSizeAuditComponent, 0.15]
   ]
 
-  belongs_to :container
-  belongs_to :tag
+  belongs_to :container, optional: false
+  belongs_to :tag, optional: false
   belongs_to :tag_version, optional: true
-  belongs_to :page_url
+  belongs_to :page_url, optional: false
   belongs_to :initiated_by_container_user, class_name: ContainerUser.to_s, optional: true
-  belongs_to :execution_reason
+  belongs_to :execution_reason, optional: false
 
   has_many :audit_components, dependent: :destroy
   has_one :main_thread_execution_audit_component
@@ -35,15 +35,20 @@ class Audit < ApplicationRecord
   validate :manual_executions_has_initiated_by_user
   validates :tagsafe_score, presence: true, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }, if: :successful?
 
-  def self.run!(
-    tag:, 
-    tag_version:, 
-    page_url:,
-    execution_reason:,
-    initiated_by_container_user: nil
-  )
+  def self.run!(tag:, tag_version:, page_url:, execution_reason:, initiated_by_container_user: nil)
+    audit = Audit.run(
+      tag: tag,
+      tag_version: tag_version,
+      page_url: page_url,
+      execution_reason: execution_reason,
+      initiated_by_container_user: initiated_by_container_user,
+    )
+    raise ActiveRecord::RecordInvalid, audit.errors.full_messages.join(', ') if audit.errors.any?
+  end
+
+def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_container_user: nil)
     components_to_run = RUNNABLE_AUDIT_COMPONENTS.map{ |klass, weight| { type: klass.to_s, score_weight: weight }}
-    Audit.create!(
+    Audit.create(
       container: page_url.container,
       tag: tag,
       tag_version: tag_version,
@@ -70,11 +75,17 @@ class Audit < ApplicationRecord
     self.tagsafe_score = calculate_tagsafe_score!
     self.completed_at = Time.current
     self.save!
+
     update_tag_details_audit_row
+    update_audit_breakdown_view
     broadcast_audit_completed_notification
-    return unless execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present? && tag.is_tagsafe_hosted
-    tag_version.update!(primary_audit: self)
-    LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met!
+    
+    tag.update!(primary_audit: self) if successful? && (!tag_version.present? || tag_version.is_tags_current_live_tag_version? || tag.primary_audit.nil?)
+    
+    if execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present?
+      tag_version.update!(primary_audit: self)
+      LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met! if tag.is_tagsafe_hosted
+    end
   end
 
   def calculate_tagsafe_score!
@@ -87,7 +98,7 @@ class Audit < ApplicationRecord
   end
 
   def failed!(err_msg)
-    update!(error_message: err_msg)
+    update!(error_message: err_msg, completed_at: Time.current)
     update_tag_details_audit_row
   end
 
@@ -120,7 +131,11 @@ class Audit < ApplicationRecord
   end
 
   def audit_to_compare_with
-    tag.audits.successful.by_page_url(page_url).most_recent_first.older_than(created_at).limit(1).first
+    if tag_version && tag_version.previous_version
+      tag_version.previous_version.primary_audit
+    else
+      tag.audits.successful.by_page_url(page_url).most_recent_first.older_than(created_at).limit(1).first
+    end
   end
 
   def formatted_tagsafe_score
@@ -156,6 +171,15 @@ class Audit < ApplicationRecord
       target: "audit_#{uid}_row",
       partial: 'audits/audit_row',
       locals: { audit: self, include_tag_name: false }
+    )
+  end
+
+  def update_audit_breakdown_view
+    broadcast_replace_to(
+      "audit_#{uid}_breakdown_view_stream",
+      target: "audit_#{uid}_breakdown",
+      partial: 'audits/breakdown',
+      locals: { audit: self }
     )
   end
 

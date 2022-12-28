@@ -50,49 +50,39 @@ Rails.application.routes.draw do
     member do
       get '/install' => 'containers#install_script', as: :install_script
     end
-    resources :page_urls, only: [:update], param: :uid do
-      collection do
-        post '/create_or_update' => 'page_urls#create_or_update'
-      end
-    end
     resources :non_third_party_url_patterns, only: [:create, :destroy], param: :uid
   end
   put '/update_current_container/:uid' => 'containers#update_current_container', as: :update_current_container
 
-  resources :functional_tests, param: :uid do
-    member do
-      get :tags_to_run_on
-      post :validate
-      patch :toggle_disable
-    end
-    get '/functional_tests_to_run' => 'functional_tests_to_run#index'
-    post '/functional_tests_to_run' => 'functional_tests_to_run#create'
-    delete '/functional_test_to_run/:uid' => 'functional_tests_to_run#destroy', as: :destroy_functional_test_to_run
-    resources :test_runs, only: [:index, :show], param: :uid do
-      member do
-        post :retry
-      end
-    end
-  end
+  # resources :functional_tests, param: :uid do
+  #   member do
+  #     get :tags_to_run_on
+  #     post :validate
+  #     patch :toggle_disable
+  #   end
+  #   get '/functional_tests_to_run' => 'functional_tests_to_run#index'
+  #   post '/functional_tests_to_run' => 'functional_tests_to_run#create'
+  #   delete '/functional_test_to_run/:uid' => 'functional_tests_to_run#destroy', as: :destroy_functional_test_to_run
+  #   resources :test_runs, only: [:index, :show], param: :uid do
+  #     member do
+  #       post :retry
+  #     end
+  #   end
+  # end
 
-  resources :tags, param: :uid do
+  resources :tags, except: [:edit, :new, :delete], param: :uid do
     member do
+      get '/settings' => 'tags#edit'
       get :uptime
       get :audits
       get :uptime_metrics
-      post :toggle_disable
       resources :releases, only: :index, as: :tag_releases
     end
     collection do
       get :select_tag_to_audit
     end
-    get '/general' => 'tags#edit' 
-    # get '/preferences' => 'tags#preferences'
-    get '/audit_settings' => 'tags#audit_settings'
-    get '/notification_settings' => 'tags#notification_settings'
-
-    resources :uptime_regions_to_check, only: [:create, :destroy, :new], param: :uid
-    resources :urls_to_audit, only: [:create, :destroy], param: :uid
+    # resources :uptime_regions_to_check, only: [:create, :destroy, :new], param: :uid
+    resources :page_urls_tag_found_on, only: [:update], param: :uid
     resources :tag_versions, only: [:show, :index], param: :uid do
       member do
         get :promote
@@ -107,23 +97,8 @@ Rails.application.routes.draw do
     end
     resources :audits, only: [:show, :index, :new, :create], param: :uid do
       member do
-        get :performance_audit
-        resources :performance_audit_speed_index_result, only: :index
-        get :test_runs
-        # get '/test_runs/:test_run_id' => 'audits#test_run', as: :test_run
-        get :waterfall
         get :git_diff
-        get :cloudwatch_logs
-        post :make_primary
       end
-      resources :individual_performance_audits, only: :index
-      get '/performance_stats' => 'individual_performance_audits#index'
-      # turbo frame src endpoints
-      get '/test_runs_for_audit' => 'test_runs#index_for_audit', as: :test_runs_for_audit
-      get '/test_run_for_audit/:uid' => 'test_runs#show_for_audit', as: :test_run_for_audit
-      resources :performance_audit_logs, only: :index
-      resources :page_load_resources, only: :index
-      get '/waterfall' => 'page_load_resources#for_audit'
     end
   end
 
@@ -132,8 +107,6 @@ Rails.application.routes.draw do
       get :chart
     end
   end
-
-  resources :general_configuration, only: [:create, :update], param: :uid
 
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
@@ -169,9 +142,9 @@ Rails.application.routes.draw do
   post '/api/stripe_webhook_receiver' => 'stripe_webhook_receiver#receive'
   post '/api/lambda_event_receiver/success' => 'lambda_event_receiver#success'
 
-  get '/settings' => 'settings#global_settings'
-  get '/settings/tag_management' => 'settings#tag_management'
-  get '/settings/billing' => 'settings#billing'
+  get '/settings' => 'settings#global_settings', as: :settings
+  get '/settings/team_management' => 'settings#team_management', as: :team_management
+  # get '/settings/billing' => 'settings#billing'
 
   namespace :charts do
     resources :tags, only: [:index, :show], param: :uid

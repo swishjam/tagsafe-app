@@ -1,6 +1,6 @@
 class TagsController < LoggedInController
   def index
-    render_breadcrumbs({ text: 'Monitor Center', active: true })
+    render_breadcrumbs(text: 'Monitor Center')
   end
 
   def show
@@ -8,7 +8,26 @@ class TagsController < LoggedInController
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
       { text: 'Monitor Center', url: root_path }, 
-      { text: "#{@tag.try_friendly_name} Details", active: true }
+      { text: "#{@tag.try_friendly_name} Details" }
+    )
+  end
+
+  def edit
+    @tag = current_container.tags.find_by!(uid: params[:uid])
+    render_breadcrumbs(
+      { text: 'Monitor Center', url: root_path }, 
+      { text: "#{@tag.try_friendly_name}", url: tag_path(@tag) },
+      { text: "Settings" }
+    )
+  end
+
+  def update
+    @tag = current_container.tags.find_by(uid: params[:uid])
+    @tag.update!(tag_params)
+    render turbo_stream: turbo_stream.replace(
+      "#{@tag.uid}_settings",
+      partial: 'tags/form',
+      locals: { tag: @tag, success_message: "#{@tag.try_friendly_name} updated successfully."}
     )
   end
 
@@ -42,59 +61,31 @@ class TagsController < LoggedInController
     )
   end
 
-  def edit
-    @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
-    @selectable_uptime_regions = UptimeRegion.selectable.not_enabled_on_tag(@tag)
-    render_breadcrumbs(
-      { text: 'Monitor Center', url: root_path }, 
-      { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
-      { text: "Edit", active: true }
-    )
-  end
-
   def audits
-    tag = current_container.tags.find_by(uid: params[:uid])
-    audits = tag.audits
-                  .most_recent_first(timestamp_column: :created_at)
-                  .page(params[:page] || 1)
-                  .per(params[:per_page] || 10)
-    render turbo_stream: turbo_stream.replace(
-      "tag_#{tag.uid}_audits_table",
-      partial: "tags/audits",
-      locals: {
-        tag: tag,
-        audits: audits
-      }
-    )
-  end
-
-  def audit_settings
-    @tag = current_container.tags.find_by(uid: params[:tag_uid])
+    @tag = current_container.tags.find_by(uid: params[:uid])
+    @audits = @tag.audits.most_recent_first(timestamp_column: :created_at).page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
-      { text: 'Monitor Center', url: root_path }, 
-      { text: "#{@tag.try_friendly_name} Details", url: tag_path(@tag) },
-      { text: "Edit", active: true }
+      { url: root_path, text: 'Monitor Center' },
+      { text: "#{@tag.try_friendly_name} audits" }
     )
-  end
-
-  def update
-    tag = current_container.tags.find_by(uid: params[:uid])
-    tag.update!(tag_params)
-    render turbo_stream: turbo_stream.replace(
-      "tag_#{tag.uid}_config_fields",
-      partial: "tags/config_fields",
-      locals: {
-        container: current_container,
-        tag: tag,
-        selectable_uptime_regions: UptimeRegion.selectable.not_enabled_on_tag(tag),
-        notification_message: "Updated #{tag.try_friendly_name}."
+    respond_to do |format|
+      format.html { render 'audits' }
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(
+          "tag_#{@tag.uid}_audits_table",
+          partial: "tags/audits",
+          locals: {
+            tag: @tag,
+            audits: @audits
+          }
+        )
       }
-    )
+    end
   end
 
   private
 
   def tag_params
-    params.require(:tag).permit(:full_url, :name)
+    params.require(:tag).permit(:release_monitoring_interval_in_minutes, :is_tagsafe_hosted)
   end
 end
