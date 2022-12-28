@@ -27,7 +27,7 @@ class TagVersion < ApplicationRecord
 
   before_create { self.tag_version_identifier = generate_tag_version_identifier }
   after_create { tag.update!(last_released_at: self.created_at) unless first_version? }
-  after_create { tag.perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: self, execution_reason: ExecutionReason.NEW_RELEASE) }
+  after_create { tag.perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: self, initiated_by_container_user: nil) }
   after_create_commit { broadcast_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
   after_create_commit { prepend_tag_version_to_tag_details_view }
   after_destroy :purge_s3_files!
@@ -55,20 +55,20 @@ class TagVersion < ApplicationRecord
     hashed_content.slice(0, 8)
   end
   
-  def perform_audit(execution_reason:, page_url_to_audit:, initiated_by_container_user: nil, options: {})
+  def perform_audit(execution_reason:, page_url:, initiated_by_container_user: nil, options: {})
     Audit.run!(
       tag: tag, 
       tag_version: self, 
-      page_url: page_url_to_audit, 
+      page_url: page_url, 
       execution_reason: execution_reason,
       initiated_by_container_user: initiated_by_container_user
     )
   end
 
   def perform_audit_on_all_urls(execution_reason:, initiated_by_container_user: nil, options: {})
-    tag.page_urls.map do |page_url_to_audit| 
+    tag.page_urls.map do |page_url| 
       perform_audit(
-        page_url_to_audit: page_url_to_audit, 
+        page_url: page_url, 
         execution_reason: execution_reason, 
         initiated_by_container_user: initiated_by_container_user,
         options: options

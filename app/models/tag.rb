@@ -140,11 +140,11 @@ class Tag < ApplicationRecord
     "#{load_type}ly"
   end
 
-  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url_to_audit:)
+  def perform_audit!(execution_reason:, tag_version:, initiated_by_container_user:, page_url:)
     Audit.run!(
       tag: self,
       tag_version: tag_version,
-      page_url_to_audit: page_url_to_audit,
+      page_url: page_url,
       initiated_by_container_user: initiated_by_container_user,
       execution_reason: execution_reason
     )
@@ -155,7 +155,7 @@ class Tag < ApplicationRecord
       perform_audit!(
         execution_reason: execution_reason, 
         tag_version: tag_version,
-        page_url_to_audit: page_url_tag_found_on.page_url,
+        page_url: page_url_tag_found_on.page_url,
         initiated_by_container_user: initiated_by_container_user
       )
     end
