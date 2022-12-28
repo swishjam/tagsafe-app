@@ -29,8 +29,6 @@ class ContainersController < LoggedInController
 
   def update
     current_container.update(container_params)
-    # render 'settings/global_settings'
-    binding.pry
     render turbo_stream: turbo_stream.replace(
       'container_settings',
       partial: 'containers/edit_form',
