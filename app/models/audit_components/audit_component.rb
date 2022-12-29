@@ -60,7 +60,7 @@ class AuditComponent < ApplicationRecord
 
   def audit_component_to_compare_with
     return unless audit.audit_to_compare_with.present?
-    audit.audit_to_compare_with.audit_components.find_by!(type: type)
+    audit.audit_to_compare_with.audit_components.find_by(type: type)
   end
 
   def formatted_score
