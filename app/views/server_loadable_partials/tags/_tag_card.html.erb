@@ -28,12 +28,14 @@
       <div class='tag-card-body col-12'>
         <div class='row'>
           <div class='col-6 p-2 text-center'>
+            <span class='tag-card-text d-block mb-2'>Current Tagsafe Score:</span>
             <% if tag.primary_audit %>
-              <span class='tag-card-text d-block mb-2'>Current Tagsafe Score:</span>
               <%= render 'partials/progress_ring', 
                           small: true,
                           score: tag.primary_audit.tagsafe_score, 
                           change_in_score: tag.primary_audit.audit_to_compare_with ? tag.primary_audit.tagsafe_score - tag.primary_audit.audit_to_compare_with.tagsafe_score : nil %>
+            <% else %>
+              <span class='fs-6 fw-bolder d-block'>No audits performed.</span>
             <% end %>
           </div>
           <div class='col-6 p-2 text-center'>
