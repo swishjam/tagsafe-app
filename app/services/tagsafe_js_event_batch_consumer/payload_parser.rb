@@ -19,7 +19,16 @@ module TagsafeJsEventBatchConsumer
     alias tagsafe_js_event_batch create_tagsafe_js_event_batch
 
     def page_url
-      @page_url ||= container.page_urls.find_or_create_by!(full_url: raw_page_url)
+      if Util.env_is_true?('CREATE_NEW_PAGE_URLS_WHEN_NEW_QUERY_PARAMS')
+        @page_url ||= container.page_urls.find_or_create_by!(full_url: raw_page_url)
+      else
+        @page_url ||= begin
+          parsed = URI.parse(raw_page_url)
+          existing_url = container.page_urls.find_by(hostname: parsed.hostname, pathname: parsed.path)
+          return existing_url if existing_url.present?
+          container.page_urls.create!(full_url: raw_page_url)
+        end
+      end
     end
     alias find_or_create_page_url page_url
 
