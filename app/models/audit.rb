@@ -2,9 +2,9 @@ class Audit < ApplicationRecord
   uid_prefix 'aud'
 
   RUNNABLE_AUDIT_COMPONENTS = [
-    [MainThreadExecutionAuditComponent, 0.85], 
-    # JsUsageAuditComponent, 
-    [JsFileSizeAuditComponent, 0.15]
+    [MainThreadExecutionAuditComponent, 0.8], 
+    [JsUsageAuditComponent, 0.1], 
+    [JsFileSizeAuditComponent, 0.1]
   ]
 
   belongs_to :container, optional: false

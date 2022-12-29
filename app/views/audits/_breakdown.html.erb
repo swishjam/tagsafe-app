@@ -22,7 +22,7 @@
         <div class='mb-2'>
           <span class='fs-6'>
             <%= audit_component.friendly_name %> score: <span class='fw-bolder'><%= audit_component.formatted_score %> / 100</span>
-            <% if audit.audit_to_compare_with %>
+            <% if audit_component.audit_component_to_compare_with %>
               <% change_in_score = audit_component.score - audit_component.audit_component_to_compare_with.score %>
               <% if change_in_score > 0 %>
                 <i class="fa-solid fa-arrow-trend-up text-success" data-controller='tooltip' title="Up from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
