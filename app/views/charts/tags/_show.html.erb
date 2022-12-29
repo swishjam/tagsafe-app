@@ -1,8 +1,7 @@
 <%= turbo_frame_tag "#{tag.uid}_tag_chart" do %>
-  <% chart_data = chart_data || ChartHelper::TagData.new(tag: tag, metric: :tagsafe_score, time_range: time_range).chart_data %>
-  <div class='container-fluid'>
+  <!-- <div class='container-fluid'> !-->
     <% unless local_assigns[:hide_time_range_selector] %>
-      <div class='row align-items-center'>
+      <div class='row align-items-center mb-3'>
         <div class='col-6'>
           <div class='d-inline-block m-3'>
             <%= render 'charts/time_range_selector', selected_range: time_range, chart_data_endpoint: charts_tag_path(tag) %>
@@ -29,7 +28,7 @@
         </div> !-->
       </div>
     <% end %>
-    <div class='mt-2 <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' data-controller='streamed-script-tag'>
+    <div class='<%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>' data-controller='streamed-script-tag'>
       <%= 
         area_chart chart_data,
           id: tag.uid,
@@ -67,5 +66,5 @@
           messages: { empty: "No audits performed." } 
       %>
     </div>
-  </div>
+  <!-- </div> !-->
 <% end %>
