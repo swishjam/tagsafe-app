@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_27_231132) do
+ActiveRecord::Schema.define(version: 2022_12_28_233216) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -357,6 +357,21 @@ ActiveRecord::Schema.define(version: 2022_12_27_231132) do
     t.index ["uid"], name: "index_non_third_party_url_patterns_on_uid"
   end
 
+  create_table "page_load_performance_metrics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "container_id"
+    t.bigint "page_load_id"
+    t.string "type"
+    t.float "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "page_url_id"
+    t.index ["container_id"], name: "index_page_load_performance_metrics_on_container_id"
+    t.index ["page_load_id"], name: "index_page_load_performance_metrics_on_page_load_id"
+    t.index ["page_url_id"], name: "index_page_load_performance_metrics_on_page_url_id"
+    t.index ["uid"], name: "index_page_load_performance_metrics_on_uid"
+  end
+
   create_table "page_load_resources", charset: "utf8", force: :cascade do |t|
     t.bigint "performance_audit_id"
     t.text "name"
@@ -376,6 +391,25 @@ ActiveRecord::Schema.define(version: 2022_12_27_231132) do
     t.string "uid"
     t.index ["performance_audit_id"], name: "index_page_load_traces_on_performance_audit_id"
     t.index ["uid"], name: "index_page_load_traces_on_uid"
+  end
+
+  create_table "page_loads", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.string "page_load_identifier"
+    t.bigint "container_id"
+    t.bigint "page_url_id"
+    t.string "cloudflare_message_id"
+    t.float "seconds_to_complete"
+    t.timestamp "page_load_ts"
+    t.timestamp "enqueued_at"
+    t.timestamp "tagsafe_consumer_received_at"
+    t.timestamp "tagsafe_consumer_processed_at"
+    t.integer "num_tags_optimized_by_tagsafe_js"
+    t.integer "num_tags_not_optimized_by_tagsafe_js"
+    t.index ["container_id"], name: "index_page_loads_on_container_id"
+    t.index ["page_load_identifier"], name: "index_page_loads_on_page_load_identifier"
+    t.index ["page_url_id"], name: "index_page_loads_on_page_url_id"
+    t.index ["uid"], name: "index_page_loads_on_uid"
   end
 
   create_table "page_urls", charset: "utf8", force: :cascade do |t|
@@ -646,9 +680,11 @@ ActiveRecord::Schema.define(version: 2022_12_27_231132) do
     t.integer "tagsafe_js_not_intercepted_count"
     t.boolean "is_tagsafe_hostable"
     t.bigint "primary_audit_id"
+    t.bigint "page_load_found_on_id"
     t.index ["container_id"], name: "index_tags_on_container_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
+    t.index ["page_load_found_on_id"], name: "index_tags_on_page_load_found_on_id"
     t.index ["primary_audit_id"], name: "index_tags_on_primary_audit_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
     t.index ["tagsafe_js_event_batch_id"], name: "index_tags_on_tagsafe_js_event_batch_id"

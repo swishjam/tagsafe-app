@@ -1,0 +1,2 @@
+class DomCompletePerformanceMetric < PageLoadPerformanceMetric
+end

@@ -1,0 +1,2 @@
+class DomInteractivePerformanceMetric < PageLoadPerformanceMetric
+end

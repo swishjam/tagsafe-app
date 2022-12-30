@@ -16,7 +16,8 @@ class Tag < ApplicationRecord
   belongs_to :container
   belongs_to :primary_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
-  belongs_to :tagsafe_js_event_batch
+  belongs_to :tagsafe_js_event_batch, optional: true
+  belongs_to :page_load_found_on, class_name: PageLoad.to_s, optional: true # optional for legacy Tags
   belongs_to :current_live_tag_version, class_name: TagVersion.to_s, optional: true
   belongs_to :most_recent_tag_version, class_name: TagVersion.to_s, optional: true
 
@@ -41,6 +42,7 @@ class Tag < ApplicationRecord
   validate :has_at_least_one_page_url_tag_found_on
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
+  validates :page_load_found_on, presence: true, on: :create # only on create to support legacy Tags
   validates_uniqueness_of :full_url, 
                           scope: :container_id, 
                           conditions: -> { where(deleted_at: nil) },

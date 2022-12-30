@@ -5,6 +5,7 @@ class Container < ApplicationRecord
 
   has_many :instrumentation_builds, dependent: :destroy
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s, dependent: :destroy
+  has_many :page_loads, dependent: :destroy
   has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s, dependent: :destroy
   has_many :alert_configurations, dependent: :destroy
   has_many :audits, dependent: :destroy

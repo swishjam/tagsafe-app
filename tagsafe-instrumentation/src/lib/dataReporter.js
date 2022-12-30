@@ -1,7 +1,7 @@
 export default class DataReporter {
   constructor({ reportingURL, containerUid, sampleRate = 1, debugMode = false }) {
-    this.dataToReport = { third_party_tags: [], errors: [], warnings: [] };
-    this.dataReported = { third_party_tags: [], errors: [], warnings: [] };
+    this.dataToReport = { third_party_tags: [], performance_metrics: {}, errors: [], warnings: [] };
+    this.dataReported = { third_party_tags: [], performance_metrics: {}, errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
     this.reportingURL = reportingURL;
     this.containerUid = containerUid;
@@ -30,6 +30,15 @@ export default class DataReporter {
       intercepted_by_tagsafe_js: interceptedByTagsafeJs,
       optimized_by_tagsafe_js: optimizedByTagsafeJs
     });
+  }
+
+  recordPerformanceMetric(metricName, data) {
+    this.dataToReport.performance_metrics[metricName] = data;
+    this.lastReceivedDataAt = Date.now();
+    if(this.debugMode && this.reportingEnabled) {
+      console.log(`New reporting data to report: ${metricName}`);
+      console.log(data);
+    }
   }
 
   recordWarning(warning) {
@@ -62,8 +71,9 @@ export default class DataReporter {
     try {
       const body = { 
         container_uid: this.containerUid, 
+        page_load_identifier: window.Tagsafe.pageLoadId(),
         full_page_url: window.location.href,
-        tagsafe_js_ts: new Date(), 
+        page_load_ts: window.Tagsafe.pageLoadTs(), 
         ...this.dataToReport 
       };
       if(this.debugMode) {
@@ -81,7 +91,7 @@ export default class DataReporter {
   }
 
   _flushPendingData() {
-    this.dataToReport = { third_party_tags: [], intercepted_tags: [], errors: [], warnings: [] };
+    this.dataToReport = { third_party_tags: [], performance_metrics: {}, intercepted_tags: [], errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
   }
 }

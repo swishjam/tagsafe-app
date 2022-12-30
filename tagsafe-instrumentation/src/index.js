@@ -12,11 +12,11 @@ if(configuration.disabled || params.has('tagsafe-disabled') || params.has('disab
   const { uid, tagConfigurations, urlPatternsToNotCapture, settings } = configuration;
   
   const mergedSettings = {
-    reportingURL: 'https://tagsafe-api.tagsafe.workers.dev',
-    firstPartyDomains: [urlToDomain(window.location.href)],
+    reportingURL: 'https://tagsafe-api.tagsafe.workers.dev', // gets overridden if provided in Instrumentation settings
+    firstPartyDomains: [urlToDomain(window.location.href)], // gets overridden if provided in Instrumentation settings
     debugMode: params.has('tagsafe-debugger'),
     ...settings,
-    sampleRate: params.has('tagsafe-force-reporting') ? 1.0 : settings.sampleRate,
+    sampleRate: params.has('tagsafe-force-reporting') ? 1.0 : settings.sampleRate, // overrides whatever was set in Instrumentation settings
   }
 
   window.Tagsafe.init({ 

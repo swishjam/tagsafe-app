@@ -65,6 +65,7 @@ export default class ScriptInterceptor {
         const reRouteTagConfig = this.tagConfigurations[ogSrc];
         newNode.setAttribute('data-tagsafe-intercepted', 'true');
         if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
+          // TODO: should we report all third party tags and let the backend determine what to capture?
           if (ogSrc && this.urlPatternsToNotCapture.find(pattern => ogSrc.includes(pattern))) {
             window.Tagsafe.bypassedTags = window.Tagsafe.bypassedTags || [];
             window.Tagsafe.bypassedTags.push(ogSrc);

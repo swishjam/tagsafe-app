@@ -1,0 +1,7 @@
+<%= render 'tags/root_paths_page_navigation', page_title: 'Page performance' %>
+
+<%= turbo_frame_tag "#{current_container.uid}_page_loads_chart", src: charts_page_loads_path(page_url_uid: current_container.page_urls.first.uid) do %>
+  <div class='text-center p-3'>
+    <%= display_loading_spinner %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+class TotalBlockingTimePerformanceMetric < PageLoadPerformanceMetric
+end

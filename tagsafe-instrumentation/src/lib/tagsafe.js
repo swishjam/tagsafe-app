@@ -7,15 +7,20 @@ export default class Tagsafe {
   static init({ containerUid, tagConfigurations, urlPatternsToNotCapture, settings }) {
     if(this._initialized) throw new Error(`Tagsafe already initialized.`);
     this._initialized = true;
-    
-    window.Tagsafe.metricsHandler = new MetricsHandler;
-    
+
+    const pageLoadId = `ts-${crypto.randomUUID()}`;
+    const pageLoadTs = new Date();
+    window.Tagsafe.pageLoadId = () => pageLoadId;
+    window.Tagsafe.pageLoadTs = () => pageLoadTs;
+        
     const dataReporter = new DataReporter({ 
       containerUid,
       reportingURL: settings.reportingURL,
       sampleRate: settings.sampleRate,
       debugMode: settings.debugMode
     });
+
+    new MetricsHandler(dataReporter);
 
     new ScriptInterceptor({ 
       tagConfigurations, 
