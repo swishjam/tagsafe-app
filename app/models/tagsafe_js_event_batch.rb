@@ -7,9 +7,9 @@ class TagsafeJsEventBatch < ApplicationRecord
   before_create { self.tagsafe_consumer_received_at = Time.current }
 
   def processing_completed!
-    raise "Cannot mark TagsafeJsEventBatch processing complete, `tagsafe_js_ts` is nil." if tagsafe_js_ts.nil?
+    raise "Cannot mark TagsafeJsEventBatch processing complete, `page_load_ts` is nil." if page_load_ts.nil?
     raise "Cannot mark TagsafeJsEventBatch processing complete, `enqueued_at` is nil." if enqueued_at.nil?
     raise "Cannot mark TagsafeJsEventBatch processing complete, `tagsafe_consumer_received_at` is nil." if tagsafe_consumer_received_at.nil?
-    update!(tagsafe_consumer_processed_at: Time.current, seconds_to_complete: Time.current - tagsafe_js_ts)
+    update!(tagsafe_consumer_processed_at: Time.current, seconds_to_complete: Time.current - page_load_ts)
   end
 end

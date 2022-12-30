@@ -1,4 +1,4 @@
-<span class='notification-message d-block mb-2'>A new tag from <%= tag.try_friendly_name %> was detected on <%= tag.tagsafe_js_event_batch.page_url.friendly_url %>.</span>
+<span class='notification-message d-block mb-2'>A new tag from <%= tag.try_friendly_name %> was detected on <%= tag.page_url_first_found_on.friendly_url %>.</span>
 
 <div class='row'>
   <%= link_to "View tag", tag_path(tag), target: '_top' %>

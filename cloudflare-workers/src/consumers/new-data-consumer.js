@@ -20,7 +20,7 @@ export default async function newDataConsumer(messages, env) {
 async function sendDataToResqueConnector(message, lambdaEndpoint) {
   const reqBody = {
     tagsafe_consumer_resque_queue: 'tagsafe_js_events',
-    tagsafe_consumer_resque_klass: 'TagsafeJsEventBatchConsumerJob',
+    tagsafe_consumer_resque_klass: 'TagsafeJsDataConsumerJob',
     data: {
       enqueued_at_ts: new Date(),
       event_type: message.eventType || 'NewTags',
@@ -28,7 +28,6 @@ async function sendDataToResqueConnector(message, lambdaEndpoint) {
       ...message.body
     }
   };
-  // return fetch('https://agtt4yi2qms6vl7zdnqlgiatzu0udzmp.lambda-url.us-east-1.on.aws/', {
   return fetch(lambdaEndpoint, {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },

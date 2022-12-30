@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TagsafeJsEventBatchConsumer::ThirdPartyTags do
+RSpec.describe TagsafeJsDataConsumer::ThirdPartyTags do
   before(:each) do
     prepare_test!
     # TODO: this is creating a second Container, why isn't accepting be passed in?
@@ -12,8 +12,8 @@ RSpec.describe TagsafeJsEventBatchConsumer::ThirdPartyTags do
         'intercepted_by_tagsafe_js' => true,
         'optimized_by_tagsafe_js' => false
       }
-    ].map{ |data| TagsafeJsEventBatchConsumer::TagData.new(data) }
-    @consumer = TagsafeJsEventBatchConsumer::ThirdPartyTags.new(
+    ].map{ |data| TagsafeJsDataConsumer::TagData.new(data) }
+    @consumer = TagsafeJsDataConsumer::ThirdPartyTags.new(
       container: @container,
       third_party_tags_data: @tag_data_arr,
       tagsafe_js_event_batch: @tagsafe_js_event_batch
@@ -43,7 +43,7 @@ RSpec.describe TagsafeJsEventBatchConsumer::ThirdPartyTags do
       expect(@container.tags.count).to eq(1)
 
       tagsafe_js_event_batch_2 = create(:tagsafe_js_event_batch, container: @container)
-      consumer_2 = TagsafeJsEventBatchConsumer::ThirdPartyTags.new(
+      consumer_2 = TagsafeJsDataConsumer::ThirdPartyTags.new(
         container: @container,
         third_party_tags_data: @tag_data_arr,
         tagsafe_js_event_batch: tagsafe_js_event_batch_2

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-RSpec.describe TagsafeJsEventBatchConsumerJob do
+RSpec.describe TagsafeJsDataConsumerJob do
   before(:each) do
     prepare_test!
     @data = {
@@ -29,7 +29,7 @@ RSpec.describe TagsafeJsEventBatchConsumerJob do
   describe '#perform' do
     it 'creates a new TagsafeJsEventBatch' do
       expect(@container.tagsafe_js_event_batches.count).to be(0)
-      TagsafeJsEventBatchConsumerJob.perform_now(@data)
+      TagsafeJsDataConsumerJob.perform_now(@data)
       expect(@container.tagsafe_js_event_batches.count).to be(1)
       expect(@container.tagsafe_js_event_batches.first.tagsafe_js_ts).to eq(Time.at(@data['tagsafe_js_ts']))
       expect(@container.tagsafe_js_event_batches.first.enqueued_at).to eq(Time.at(@data['enqueued_at_ts']))
@@ -39,12 +39,12 @@ RSpec.describe TagsafeJsEventBatchConsumerJob do
 
     it 'Passes the correct data to the respective consumer classes' do
       allow(TagsafeJsEventBatch).to receive(:create!).and_call_original
-      allow(TagsafeJsEventBatchConsumer::ThirdPartyTags).to receive(:new).and_call_original
-      allow(TagsafeJsEventBatchConsumer::InterceptedTags).to receive(:new).and_call_original
-      # allow(TagsafeJsEventBatchConsumer::ThirdPartyTags).to receive(:new).with(@data['third_party_tags'], 'stubbed_event_batch').and_call_original
-      # allow(TagsafeJsEventBatchConsumer::InterceptedTags).to receive(:new).with(@data['intercepted_tags'], 'stubbed_event_batch').and_call_original
+      allow(TagsafeJsDataConsumer::ThirdPartyTags).to receive(:new).and_call_original
+      allow(TagsafeJsDataConsumer::InterceptedTags).to receive(:new).and_call_original
+      # allow(TagsafeJsDataConsumer::ThirdPartyTags).to receive(:new).with(@data['third_party_tags'], 'stubbed_event_batch').and_call_original
+      # allow(TagsafeJsDataConsumer::InterceptedTags).to receive(:new).with(@data['intercepted_tags'], 'stubbed_event_batch').and_call_original
       allow_any_instance_of(TagsafeJsEventBatch).to receive(:processing_completed!)
-      TagsafeJsEventBatchConsumerJob.perform_now(@data)
+      TagsafeJsDataConsumerJob.perform_now(@data)
     end
   end
 end

@@ -16,7 +16,7 @@ module ServerLoadablePartials
         partial: !params[:q].nil? ? 'server_loadable_partials/tags/tag_table' : 'server_loadable_partials/tags/index',
         locals: { 
           tags: tags,
-          has_received_tagsafe_js_events: tags.any? || current_container.tagsafe_js_event_batches.any?,
+          has_received_tagsafe_js_events: tags.any? || current_container.page_loads.any?,
           container: current_container, 
           search_query: params[:q],
           allow_empty_table: !params[:q].nil?

@@ -1,0 +1,2 @@
+class TimeToFirstBytePerformanceMetric < PageLoadPerformanceMetric
+end

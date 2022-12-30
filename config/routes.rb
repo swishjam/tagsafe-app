@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get '/uptime/:tag_uid/list' => 'uptime_checks#tag_list', as: :tag_uptime_list
   get '/uptime/list' => 'uptime_checks#container_list', as: :container_uptime_list
   get '/performance' => 'performance#index'
+  get '/page_performance' => 'page_loads#index'
   get '/releases' => 'releases#all', as: :all_releases
   resources :releases, only: [] do
     collection do
@@ -149,6 +150,7 @@ Rails.application.routes.draw do
   namespace :charts do
     resources :tags, only: [:index, :show], param: :uid
     resources :uptime_checks, only: [:index, :show], param: :uid
+    resources :page_loads, only: [:index], param: :uid
   end
 
   # get '/charts/container/:container_uid' => 'charts#tags', as: :container_tags_chart

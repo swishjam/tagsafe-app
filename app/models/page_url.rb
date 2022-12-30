@@ -5,6 +5,8 @@ class PageUrl < ApplicationRecord
   belongs_to :container
   has_many :audits
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s
+  has_many :page_loads, dependent: :destroy
+  has_many :page_load_performance_metrics
   has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
   has_many :tags, through: :page_urls_tag_found_on
 

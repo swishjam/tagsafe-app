@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TagsafeJsEventBatchConsumer::PayloadParser do
+RSpec.describe TagsafeJsDataConsumer::PayloadParser do
   before(:each) do
     prepare_test!
     @data = {
@@ -28,21 +28,21 @@ RSpec.describe TagsafeJsEventBatchConsumer::PayloadParser do
   describe '#page_url' do
     it 'creates a new page_url for the Container if one does not yet exist for the provided URL' do
       expect(@container.page_urls.count).to be(0)
-      parser = TagsafeJsEventBatchConsumer::PayloadParser.new(@data)
+      parser = TagsafeJsDataConsumer::PayloadParser.new(@data)
       expect(@container.page_urls.count).to be(1)
     end
 
     it 'finds the existing page_url for the Container if one already exists for the provided URL' do
       create(:page_url, container: @container, full_url: @data['full_page_url'])
       expect(@container.page_urls.count).to be(1)
-      parser = TagsafeJsEventBatchConsumer::PayloadParser.new(@data)
+      parser = TagsafeJsDataConsumer::PayloadParser.new(@data)
       expect(@container.page_urls.count).to be(1)
     end
   end
 
   describe '#tagsafe_js_event_batch' do
     it 'creates a new TagsafeJsEventBatch' do
-      parser = TagsafeJsEventBatchConsumer::PayloadParser.new(@data)
+      parser = TagsafeJsDataConsumer::PayloadParser.new(@data)
       expect(parser.tagsafe_js_event_batch.tagsafe_js_ts).to eq(DateTime.parse(@data['tagsafe_js_ts']))
       expect(parser.tagsafe_js_event_batch.enqueued_at).to eq(DateTime.parse(@data['enqueued_at_ts']))
     end
@@ -50,14 +50,14 @@ RSpec.describe TagsafeJsEventBatchConsumer::PayloadParser do
 
   describe '#intercepted_tags' do
     it 'initializes an array of TagData objects from the provided data' do
-      parser = TagsafeJsEventBatchConsumer::PayloadParser.new(@data)
+      parser = TagsafeJsDataConsumer::PayloadParser.new(@data)
       expect(parser.intercepted_tags.count).to eq(1)
       expect(parser.intercepted_tags[0].url).to eq('https://cdn.example.com/script.js')
     end
 
     it 'filters out duplicate URLs' do
       @data['intercepted_tags'] << @data['intercepted_tags'][0]
-      parser = TagsafeJsEventBatchConsumer::PayloadParser.new(@data)
+      parser = TagsafeJsDataConsumer::PayloadParser.new(@data)
       expect(parser.intercepted_tags.count).to eq(1)
       expect(parser.intercepted_tags[0].url).to eq('https://cdn.example.com/script.js')
     end
