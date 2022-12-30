@@ -1,41 +1,51 @@
 <%= turbo_frame_tag "#{container.uid}_page_loads_chart" do %>
-  <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
-    <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
-      <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_url.friendly_url %>
-      <span class='dropdown-indicator d-inline'>
-        <i class="fa-solid fa-chevron-up"></i>
-      </span>
-    </div>
-    <div class="dropdown-menu dropdown-menu-center p-3">
-      <div class='dropdown-title text-center'>
-        Page URL
+  <div class='col-12'>
+    <div class='row'>
+      <div class='col-6'>
+        <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
+          <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+            <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_url.friendly_url %>
+            <span class='dropdown-indicator d-inline'>
+              <i class="fa-solid fa-chevron-up"></i>
+            </span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-center p-3">
+            <div class='dropdown-title text-center'>
+              Page URL
+            </div>
+            <div class='dropdown-divider'></div>
+            <% container.page_urls.each do |page_url_option| %>
+              <%= link_to page_url_option.friendly_url, charts_page_loads_path(page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item text-center #{page_url_option == page_url ? 'active' : nil}" %>
+            <% end %>
+          </div>
+        </div>
       </div>
-      <div class='dropdown-divider'></div>
-      <% container.page_urls.each do |page_url_option| %>
-        <%= link_to page_url_option.friendly_url, charts_page_loads_path(page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item text-center #{page_url_option == page_url ? 'active' : nil}" %>
-      <% end %>
+      <div class='col-6 text-end'>
+        <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
+          <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+            <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_load_performance_metric_names.join(', ') %>
+            <span class='dropdown-indicator d-inline'>
+              <i class="fa-solid fa-chevron-up"></i>
+            </span>
+          </div>
+          <div class="dropdown-menu dropdown-menu-center p-3">
+            <div class='dropdown-title text-center'>
+              Performance metrics
+            </div>
+            <div class='dropdown-divider'></div>
+            <% PageLoadPerformanceMetric::TYPES.each do |performance_metric_klass| %>
+              <% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup << performance_metric_klass %>
+              <%= link_to performance_metric_klass.constantize.friendly_name, charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), class: "dropdown-item text-center #{page_load_performance_metric_types.include?(performance_metric_klass) ? 'active' : nil}" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div data-controller='streamed-script-tag'>
-    <h4><%= page_url.friendly_url %> Page Performance</h4>
     <%= line_chart chart_data,
-                    # library: {
-                      # yAxis: [
-                      #   { 
-                      #     title: { text: 'Page performance (ms)' },
-                      #     labels: { format: '{value} ms' },
-                      #     id: 0,
-                      #   },
-                      #   { 
-                      #     title: { text: 'TagsafeJS optimizations' }, 
-                      #     labels: { format: '{value} tags' },
-                      #     opposite: true,
-                      #     id: 1,
-                      #   }
-                      # ],
-                      # tooltip: { shared: true },
-                    # },
-                    messages: { empty: "No page performance data for #{page_url.friendly_url}." } 
-    %>
+                    title: 'Page Performance',
+                    ytitle: 'ms',
+                    messages: { empty: "No page performance data for #{page_url.friendly_url}." } %>
   </div>
 <% end %>

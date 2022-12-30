@@ -10,7 +10,7 @@ module ChartHelper
     def chart_data
       @chart_data ||= begin
         get_performance_metrics
-        get_tagsafe_optimization_metrics
+        # get_tagsafe_optimization_metrics
         @formatted_chart_data
       end
     end
@@ -23,7 +23,7 @@ module ChartHelper
                 .more_recent_than_or_equal_to(@start_datetime)
                 .group_by(&:type).map do |type, metrics|
         @formatted_chart_data << { 
-          name: type, 
+          name: type.constantize.friendly_name, 
           data: metrics.collect{ |metric| [metric.created_at, metric.value] },
           # yAxis: 0,
           # valueSuffix: 'ms',
