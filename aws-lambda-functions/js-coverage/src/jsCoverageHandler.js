@@ -18,7 +18,6 @@ module.exports = class JsCoverageHandler {
       percentJsUsed: 0,
       coveredJs: ""
     }
-    console.log(coverageResultsForTag.rawScriptCoverage.functions)
     for (const range of coverageResultsForTag.ranges) {
       results.jsUsedBytes += range.end - range.start - 1;
       if(process.env.INCLUDE_RAW_JS_COVERAGE === 'true') results.coveredJs += coverageResultsForTag.text.slice(range.start, range.end) + "\n";

@@ -16,21 +16,24 @@ module ChartHelper
       Rails.cache.fetch(cache_key, expires_in: 1.minute) { formatted_chart_data! }
     end
 
-    def graph_zone_data
+    def graph_zone_data(depth: 300)
       graph_zone_data = chart_data[0][:data].map do |timestamp, tagsafe_score| 
         { 
           value: (timestamp.to_f * 1_000).floor, 
           color: tagsafe_score >= 90 ? 'green' : tagsafe_score >= 80 ? 'orange' : 'red',
           fillColor: {
-            linearGradient: [0, 0, 0, 300],
+            linearGradient: [0, 0, 0, depth],
             stops: tagsafe_score >= 90 ? [
               [0, 'lightgreen'],
+              [0.5, 'rgb(200, 255, 200)'],
               [1, 'white']
             ] : tagsafe_score >= 80 ? [
               [0, '#fb9c5e26'],
+              [0.5, 'rgb(255, 240, 213)'],
               [1, 'white']
             ] : [
               [0, '#fb5e5e29'],
+              [0.5, 'rgb(255, 212, 212)'],
               [1, 'white']
             ]
           }

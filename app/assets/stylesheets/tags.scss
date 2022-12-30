@@ -32,6 +32,9 @@
   transition: 250ms box-shadow ease;
   &:hover {
     box-shadow: 0px 0px 10px 1px lightgrey;
+    .tag-card-title {
+      text-decoration: underline;
+    }
   }
   .tag-card-body {
     padding: 15px;

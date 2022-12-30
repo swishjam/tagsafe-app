@@ -55,6 +55,7 @@ class Tag < ApplicationRecord
   # TODO: should we capture the first TagVersion for _all_ tags?
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
   after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! if is_tagsafe_hostable }
+  after_create { perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: nil, initiated_by_container_user: nil) if !is_tagsafe_hostable }
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
   after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary

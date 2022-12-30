@@ -2,9 +2,9 @@ class Audit < ApplicationRecord
   uid_prefix 'aud'
 
   RUNNABLE_AUDIT_COMPONENTS = [
-    [MainThreadExecutionAuditComponent, 0.85], 
-    # JsUsageAuditComponent, 
-    [JsFileSizeAuditComponent, 0.15]
+    [MainThreadExecutionAuditComponent, 0.8], 
+    [JsUsageAuditComponent, 0.1], 
+    [JsFileSizeAuditComponent, 0.1]
   ]
 
   belongs_to :container, optional: false
@@ -197,22 +197,20 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
     if audit_components.none?
       errors.add(:base, "Cannot create an Audit without any Audit Components.")
     end
-    unless audit_components.sum(&:score_weight) == 1.0
+    if audit_components.sum(&:score_weight) != 1.0
       errors.add(:base, "Audit Components score_weight adds up to #{audit_components.sum(:score_weight)}. They must add up to 1.0")
     end
   end
 
   def only_one_new_release_audit_per_tag_version
-    return if tag_version.nil?
-    return unless execution_reason.new_release?
+    return if tag_version.nil? || !execution_reason.new_release?
     if tag_version.audits.successful.where(execution_reason: execution_reason).where.not(id: id).any?
-      errors.add(:base, "Tag Version #{tag_version.uid} already has an Audit with an Execution Reason of `New Release``.")
+      errors.add(:base, "Tag Version #{tag_version.uid} already has an Audit with an Execution Reason of `New Release`.")
     end
   end
 
   def manual_executions_has_initiated_by_user
-    return unless execution_reason.manual?
-    unless initiated_by_container_user.present?
+    if execution_reason.manual? && !initiated_by_container_user.present?
       errors.add(:base, "Must specify the `initiated_by_container_user` for manually executed Audits.")
     end
   end

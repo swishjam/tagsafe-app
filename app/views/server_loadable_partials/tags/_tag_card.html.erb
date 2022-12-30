@@ -1,46 +1,55 @@
 <div class='col-xs-12 col-sm-4 col-md-3 p-2'>
-  <%= link_to tag_path(tag), class: 'no-decoration' do %>
+  <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
     <div class='tag-card'>
+      <div class='tag-card-header d-flex p-2'>
+        <% if tag.has_image? %>
+          <%= image_tag tag.try_image_url, class: 'tag-thumbnail' %>
+        <% end %>
+        <div class='d-block overflow-ellipsis'>
+          <span class='d-block'>
+            <span class='tag-card-title'><%= tag.try_friendly_name %></span>
+            <% if tag.is_tagsafe_hosted %>
+              <i class="fa-solid fa-bolt" data-controller='tooltip' title="Tag is optimized and hosted by Tagsafe"></i>
+            <% end %>
+          </span>
+          <% if tag.has_friendly_name? %>
+            <span class='tag-card-text d-block'><%= tag.url_based_on_preferences %></span>
+          <% end %>
+        </div>
+      </div>
       <div class='chart-container'>
-        <!-- <#%= turbo_frame_tag "#{tag.uid}_tag_chart", src: charts_tag_path(tag, hide_time_range_selector: true, hide_chart_titles: true) do %> !-->
+        <span class='tag-card-text ms-2'>Tagsafe Score last 24 hours</span>
         <%= turbo_frame_tag "#{tag.uid}_tag_chart", src: charts_tag_path(tag, hide_time_range_selector: true, hide_chart_titles: true) do %>
           <div class='text-center p-3'>
             <%= display_loading_spinner size: :small %>
           </div>
         <% end %>
       </div>
-      <div class='tag-card-body'>
-        <div class='tag-card-header'>
-          <div class='col-12'>
-            <div class='row'>
-              <div class='col-8 d-flex align-items-center overflow-ellipsis'>
-                <% if tag.has_image? %>
-                  <%= image_tag tag.try_image_url, class: 'tag-thumbnail' %>
-                <% end %>
-                <div class='d-block'>
-                  <span class='d-block'>
-                    <%= tag.try_friendly_name %>
-                    <% if tag.is_tagsafe_hosted %>
-                      <i class="fa-solid fa-bolt" data-controller='tooltip' title="Tag is optimized and hosted by Tagsafe"></i>
-                    <% end %>
-                  </span>
-                  <% if tag.has_friendly_name? %>
-                    <span class='tag-card-text d-block'><%= tag.url_based_on_preferences %></span>
-                  <% end %>
-                </div>
-              </div>
-              <% if tag.primary_audit %>
-                <div class='col-4 p-1 text-end'>
-                  <%= render 'audits/tagsafe_score_pill_for_audit', audit: tag.primary_audit %>
-                </div>
-              <% end %>
-            </div>
+      <div class='tag-card-body col-12'>
+        <div class='row'>
+          <div class='col-6 p-2 text-center'>
+            <span class='tag-card-text d-block mb-2'>Current Tagsafe Score:</span>
+            <% if tag.primary_audit %>
+              <%= render 'partials/progress_ring', 
+                          small: true,
+                          score: tag.primary_audit.tagsafe_score, 
+                          change_in_score: tag.primary_audit.audit_to_compare_with ? tag.primary_audit.tagsafe_score - tag.primary_audit.audit_to_compare_with.tagsafe_score : nil %>
+            <% else %>
+              <span class='fs-6 fw-bolder d-block'>No audits performed.</span>
+            <% end %>
           </div>
-        </div>
-        <div class='tag-card-meta-info p-2'>
-          <% if tag.last_released_at %>
-            <span class='tag-card-text'>Last release: <%= tag.last_released_at.nil? ? 'Never' : "#{time_ago_in_words(tag.last_released_at)} ago" %></span>
-          <% end %>
+          <div class='col-6 p-2 text-center'>
+            <% if tag.last_released_at %>
+              <span class='tag-card-text d-block'>Last release:</span>
+              <span class='fs-6 fw-bolder'>
+                <% if tag.is_tagsafe_hosted %>
+                  <%= tag.last_released_at.nil? ? 'No releases' : "#{time_ago_in_words(tag.last_released_at)} ago" %>
+                <% else %>
+                  Release monitoring disabled
+                <% end %>
+              </span>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
