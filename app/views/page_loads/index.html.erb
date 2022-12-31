@@ -1,6 +1,6 @@
 <%= render 'tags/root_paths_page_navigation', page_title: 'Page performance' %>
 
-<div class='col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3'>
+<div class='col-sm-10 offset-sm-1 col-md-8 offset-md-2'>
   <%= turbo_frame_tag "#{current_container.uid}_page_loads_chart", src: charts_page_loads_path(page_url_uid: current_container.page_urls.first.uid) do %>
     <div class='text-center p-3'>
       <%= display_loading_spinner %>

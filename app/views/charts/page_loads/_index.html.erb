@@ -10,12 +10,12 @@
             </span>
           </div>
           <div class="dropdown-menu dropdown-menu-center p-3">
-            <div class='dropdown-title text-center'>
+            <div class='dropdown-title'>
               Page URL
             </div>
             <div class='dropdown-divider'></div>
             <% container.page_urls.each do |page_url_option| %>
-              <%= link_to page_url_option.friendly_url, charts_page_loads_path(page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item text-center #{page_url_option == page_url ? 'active' : nil}" %>
+              <%= link_to page_url_option.friendly_url, charts_page_loads_path(page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item #{page_url_option == page_url ? 'active' : nil}" %>
             <% end %>
           </div>
         </div>
@@ -29,13 +29,13 @@
             </span>
           </div>
           <div class="dropdown-menu dropdown-menu-center p-3">
-            <div class='dropdown-title text-center'>
+            <div class='dropdown-title'>
               Performance metrics
             </div>
             <div class='dropdown-divider'></div>
             <% PageLoadPerformanceMetric::TYPES.each do |performance_metric_klass| %>
               <% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup << performance_metric_klass %>
-              <%= link_to performance_metric_klass.constantize.friendly_name, charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), class: "dropdown-item text-center #{page_load_performance_metric_types.include?(performance_metric_klass) ? 'active' : nil}" %>
+              <%= link_to performance_metric_klass.constantize.friendly_name, charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), class: "dropdown-item #{page_load_performance_metric_types.include?(performance_metric_klass) ? 'active' : nil}" %>
             <% end %>
           </div>
         </div>
