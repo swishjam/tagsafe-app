@@ -19,7 +19,7 @@
       </div>
       <div class='chart-container'>
         <span class='tag-card-text ms-2'>Tagsafe Score last 24 hours</span>
-        <%= turbo_frame_tag "#{tag.uid}_tag_chart", src: charts_tag_path(tag, hide_time_range_selector: true, hide_chart_titles: true) do %>
+        <%= turbo_frame_tag "#{tag.uid}_tag_chart", src: charts_tag_path(tag, hide_time_range_selector: true, hide_chart_titles: true, small_chart: true) do %>
           <div class='text-center p-3'>
             <%= display_loading_spinner size: :small %>
           </div>
@@ -39,16 +39,14 @@
             <% end %>
           </div>
           <div class='col-6 p-2 text-center'>
-            <% if tag.last_released_at %>
-              <span class='tag-card-text d-block'>Last release:</span>
-              <span class='fs-6 fw-bolder'>
-                <% if tag.is_tagsafe_hosted %>
-                  <%= tag.last_released_at.nil? ? 'No releases' : "#{time_ago_in_words(tag.last_released_at)} ago" %>
-                <% else %>
-                  Release monitoring disabled
-                <% end %>
-              </span>
-            <% end %>
+            <span class='tag-card-text d-block'>Last release:</span>
+            <span class='fs-6 fw-bolder'>
+              <% if tag.is_tagsafe_hosted %>
+                <%= tag.last_released_at.nil? ? 'No releases' : "#{time_ago_in_words(tag.last_released_at)} ago" %>
+              <% else %>
+                Release monitoring disabled
+              <% end %>
+            </span>
           </div>
         </div>
       </div>

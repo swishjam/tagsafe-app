@@ -14,7 +14,8 @@ module Charts
           partial: 'charts/page_loads/index',
           locals: { 
             container: current_container,
-            chart_data: chart_helper.chart_data,
+            chart_data: chart_helper.chart_data(include_performance_metrics: true, include_tagsafe_optimizations: false),
+            tagsafe_optimizations_chart_data: chart_helper.chart_data(include_performance_metrics: false, include_tagsafe_optimizations: true),
             page_url: page_url,
             time_range: time_range,
             page_load_performance_metric_types: page_load_performance_metric_types,

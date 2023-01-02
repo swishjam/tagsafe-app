@@ -10,8 +10,9 @@
       Chart timerange
     </div>
     <div class='dropdown-divider'></div>
+    <% url_query_separater = URI.parse(chart_data_endpoint).query.nil? ? '?' : '&' %>
     <% %i[7_days 24_hours Today 12_hours 6_hours 1_hour 30_minutes].each do |time_range_option| %>
-      <%= link_to time_range_option.to_s.gsub('_', ' '), "#{chart_data_endpoint}?time_range=#{time_range_option.downcase}", class: "dropdown-item text-center #{time_range_option.downcase == selected_range.downcase ? 'active' : nil}" %>
+      <%= link_to time_range_option.to_s.gsub('_', ' '), "#{chart_data_endpoint}#{url_query_separater}time_range=#{time_range_option.downcase}", class: "dropdown-item text-center #{time_range_option.to_s.downcase == selected_range.to_s.downcase ? 'active' : nil}" %>
     <% end %>
   </div>
 </div>

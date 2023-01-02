@@ -2,7 +2,12 @@
   <div class='col-12'>
     <div class='row'>
       <div class='col-6'>
-        <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
+        <%= render 'charts/time_range_selector', 
+                    chart_data_endpoint: charts_page_loads_path(page_url_uid: page_url.uid, page_load_performance_metric_types: page_load_performance_metric_types),
+                    selected_range: time_range %>
+      </div>
+      <div class='col-6 d-flex flex-column align-items-end'>
+        <div class="dropdown-container ps-3 pe-3 m-2">
           <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
             <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_url.friendly_url %>
             <span class='dropdown-indicator d-inline'>
@@ -19,9 +24,7 @@
             <% end %>
           </div>
         </div>
-      </div>
-      <div class='col-6 text-end'>
-        <div class="dropdown-container d-inline-block m-3 w-fit ps-3 pe-3">
+        <div class="dropdown-container ps-3 pe-3 m-2">
           <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
             <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_load_performance_metric_names.join(', ') %>
             <span class='dropdown-indicator d-inline'>
@@ -34,8 +37,16 @@
             </div>
             <div class='dropdown-divider'></div>
             <% PageLoadPerformanceMetric::TYPES.each do |performance_metric_klass| %>
-              <% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup << performance_metric_klass %>
-              <%= link_to performance_metric_klass.constantize.friendly_name, charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), class: "dropdown-item #{page_load_performance_metric_types.include?(performance_metric_klass) ? 'active' : nil}" %>
+              <% is_applied = page_load_performance_metric_types.include?(performance_metric_klass) %>
+              <% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup %>
+              <% is_applied ? duped_page_load_performance_metric_types.delete(performance_metric_klass) : duped_page_load_performance_metric_types << performance_metric_klass %>
+              <%= link_to charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), 
+                          class: "dropdown-item #{is_applied ? 'active' : nil}" do %>
+                <% if is_applied %>
+                  <%= HtmlHelper.PASSED_ICON %>
+                <% end %>
+                <%= performance_metric_klass.constantize.friendly_name %>
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -44,8 +55,16 @@
   </div>
   <div data-controller='streamed-script-tag'>
     <%= line_chart chart_data,
+                    id: 'page-performance',
                     title: 'Page Performance',
                     ytitle: 'ms',
-                    messages: { empty: "No page performance data for #{page_url.friendly_url}." } %>
+                    messages: { empty: "No page performance data for #{page_url.friendly_url} within last #{time_range.to_s.gsub('_', ' ')}." } %>
+  </div>
+  <div data-controller='streamed-script-tag'>
+    <%= line_chart tagsafe_optimizations_chart_data,
+                    id: 'tagsafe-optimizations',
+                    title: 'Tagsafe Optimizations',
+                    ytitle: 'Number of tags',
+                    messages: { empty: "No page performance data for #{page_url.friendly_url} within last #{time_range.to_s.gsub('_', ' ')}." } %>
   </div>
 <% end %>

@@ -45,7 +45,7 @@ module.exports.handle = async (event, _context) => {
   tracer.purgeLocalFile();
 
   await puppeteerModerator.shutdown();
-  if (!requestInterceptor.didOverwriteRequest()) throw new Error(`Cannot calculate Main Thread Execution, ${request_url_to_overwrite} not present on ${page_url}.`)
+  if (!requestInterceptor.didOverwriteRequest()) throw new Error(`Cannot calculate Main Thread Execution, provided tag URL is not present on ${page_url}.`)
 
   let score = 100 - 
                 mainThreadResults.totalExecutionMsForUrlPatterns * parseFloat(total_main_thread_execution_multiplier) -

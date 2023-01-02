@@ -40,6 +40,7 @@ class Tag < ApplicationRecord
   
   # VALIDATIONS
   validate :has_at_least_one_page_url_tag_found_on
+  validate :only_tagsafe_hostable_tags_can_be_tagsafe_hosted
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates :page_load_found_on, presence: true, on: :create # only on create to support legacy Tags
@@ -269,6 +270,12 @@ class Tag < ApplicationRecord
   def has_at_least_one_page_url_tag_found_on
     if page_urls_tag_found_on.none?
       errors.add(:base, "Tag must be associated with at least one PageUrl.")
+    end
+  end
+
+  def only_tagsafe_hostable_tags_can_be_tagsafe_hosted
+    if is_tagsafe_hosted && !is_tagsafe_hostable
+      errors.add(:base, "Cannot set a Tag to `is_tagsafe_hosted` if it is not `is_tagsafe_hostable`.")
     end
   end
 end

@@ -56,7 +56,8 @@ module Charts
           start_datetime: (chart_helper.start_datetime.to_f * 1_000).floor,
           hide_time_range_selector: params[:hide_time_range_selector],
           hide_chart_titles: params[:hide_chart_titles],
-          graph_zone_options: chart_helper.graph_zone_data
+          small_chart: params[:small_chart],
+          graph_zone_options: chart_helper.graph_zone_data(depth: params[:small_chart] ? 100 : 300)
         }
       )
     end
