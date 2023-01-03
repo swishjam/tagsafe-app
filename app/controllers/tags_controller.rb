@@ -86,6 +86,6 @@ class TagsController < LoggedInController
   private
 
   def tag_params
-    params.require(:tag).permit(:release_monitoring_interval_in_minutes, :is_tagsafe_hosted)
+    params.require(:tag).permit(:release_monitoring_interval_in_minutes, :is_tagsafe_hosted, :configured_load_type)
   end
 end

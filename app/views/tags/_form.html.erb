@@ -2,12 +2,12 @@
   <div class='col-10 offset-1'>
     <% if local_assigns[:success_message] %>
       <div class='alert alert-success mt-2 mb-0'>
-        <h5 class='d-flex align-items-center'><span class='me-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
+        <h5 class='d-flex align-items-center mb-0'><span class='me-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
       </div>
     <% end %>
     <% if local_assigns[:error_message] %>
       <div class='alert alert-danger mt-2 mb-0'>
-        <h5 class='d-flex align-items-center'><span class='me-2'><%= HtmlHelper.WARNING_ICON(color: 'red') %></span><%= error_message %></h5>
+        <h5 class='d-flex align-items-center mb-0'><span class='me-2'><%= HtmlHelper.WARNING_ICON(color: 'red') %></span><%= error_message %></h5>
       </div>
     <% end %>
     <%= form_with model: tag, data: { controller: 'loading_form' } do |f| %>
@@ -26,6 +26,20 @@
               <%= Util.integer_to_interval_in_words(interval).capitalize %>
             </option>
           <% end %>
+        </select>
+      </div>
+
+      <div class='form-floating mt-5'>
+        <span class='form-label fs-5 fw-bolder d-block'>Tag's script load rule</label>
+        <span class='form-label fs-6 d-block'>Override the default load rule on the tag's `script` element.</span>
+        <select name='tag[configured_load_type]' 
+                id='release-monitoring-interval' 
+                class='form-select w-fit' 
+                style='width: fit-content'>
+          <option value='default' <%= tag.configured_load_type == 'default' ? 'selected' : nil %>>Tag's default rule</option>
+          <option value='defer' <%= tag.configured_load_type == 'defer' ? 'selected' : nil %>>Defer</option>
+          <option value='async' <%= tag.configured_load_type == 'async' ? 'selected' : nil %>>Async</option>
+          <option value='synchronous' <%= tag.configured_load_type == 'synchronous' ? 'selected' : nil %>>Synchronous</option>
         </select>
       </div>
 
@@ -56,6 +70,8 @@
           </div>
         <#% end %>
       </div> !-->
+
+      
 
       <div class="form-check form-switch mt-5 ps-0 pb-5">
         <span class='form-label fs-5 fw-bolder d-block'>Tagsafe-hosted and optimized</span>

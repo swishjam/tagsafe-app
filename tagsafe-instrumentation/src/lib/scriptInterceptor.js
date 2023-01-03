@@ -75,7 +75,7 @@ export default class ScriptInterceptor {
               tagUrl: newNode.getAttribute('src'),
               loadType: getScriptTagLoadType(newNode),
               interceptedByTagsafeJs: true,
-              optimizedByTagsafeJs: !!reRouteTagConfig
+              optimizedByTagsafeJs: !!(reRouteTagConfig && reRouteTagConfig['configuredTagUrl'])
             })
             if (reRouteTagConfig) {
               return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
@@ -103,6 +103,12 @@ export default class ScriptInterceptor {
       if(tagConfig['sha256']) {
         newNode.setAttribute('integrity', `sha256-${tagConfig['sha256']}`);
         newNode.setAttribute('crossorigin', 'anonymous');
+      }
+
+      if(tagConfig['configuredLoadType']) {
+        newNode.removeAttribute('async');
+        newNode.removeAttribute('defer');
+        newNode.setAttribute(tagConfig['configuredLoadType'], '')
       }
 
       if(this.debugMode) {

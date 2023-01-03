@@ -10,7 +10,7 @@ class PageUrl < ApplicationRecord
   has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
   has_many :tags, through: :page_urls_tag_found_on
 
-  validates_uniqueness_of :full_url, scope: :container_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists for Container #{container.name}."}
+  validates_uniqueness_of :full_url, scope: :container_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists for Container #{page_url.container.name}."}
 
   before_create :set_parsed_url
 

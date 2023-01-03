@@ -39,7 +39,7 @@
           </div>
         </div>
       <% end %>
-      <% if audit.tag.load_type != 'defer' %>
+      <% if audit.tag.load_type != 'defer' && audit.tag.configured_load_type != 'defer' %>
         <div class='default-cursor mt-4 d-flex align-items-center alert alert-warning'>
           <%= HtmlHelper.WARNING_ICON %> 
           <span class='fs-6 ms-3'>

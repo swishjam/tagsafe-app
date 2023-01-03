@@ -90,7 +90,10 @@ module TagsafeJsDataConsumer
     private
 
     def raw_page_url
-      @payload['full_page_url'] || missing_attr!('full_page_url')
+      provided_url = @payload['full_page_url'] || missing_attr!('full_page_url')
+      parsed_url = URI.parse(provided_url)
+      return provided_url unless Rails.env.development? && parsed_url.hostname == 'localhost'
+      ['https://www.tagsafe.io', parsed_url.path].join('')
     end
 
     def unique_tag_data(tag_data_arr)

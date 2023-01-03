@@ -2,7 +2,7 @@ module TagsafeInstrumentationManager
   class InstrumentationConfigGenerator
     def initialize(container)
       @container = container
-      @tagsafe_hosted_tags = container.tags.includes(:current_live_tag_version).tagsafe_hosted
+      @tags = container.tags.includes(:current_live_tag_version)
       @tag_url_patterns_to_not_capture = container.tag_url_patterns_to_not_capture
     end
 
@@ -35,31 +35,18 @@ module TagsafeInstrumentationManager
 
     def buld_tag_configurations_hash
       js = '{'
-      @tagsafe_hosted_tags.each do |tag|
+      @tags.each do |tag|
         js += "
           '#{tag.full_url}': {
             tag: '#{tag.uid}',
-            tagVersion: '#{tag.current_live_tag_version.uid}',
-            configuredTagUrl: '#{configured_tag_url(tag)}',
-            sha256: '#{configured_sha_256_for_tag(tag)}',
+            tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
+            configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
+            configuredLoadType: #{tag.configured_load_type == 'default' ? 'null' : "\"#{tag.configured_load_type}\""},
+            sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
           },
         "
       end
       js += '}'
-    end
-
-    def should_optimize_tag?(tag)
-      tag.is_tagsafe_hosted && tag.current_live_tag_version.present?
-    end
-
-    def configured_tag_url(tag)
-      return nil unless tag.is_tagsafe_hosted && tag.current_live_tag_version
-      tag.current_live_tag_version.js_file_url
-    end
-
-    def configured_sha_256_for_tag(tag)
-      return nil unless tag.is_tagsafe_hosted && tag.current_live_tag_version
-      tag.current_live_tag_version.sha_256
     end
   end
 end
