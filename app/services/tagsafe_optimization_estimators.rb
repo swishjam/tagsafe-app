@@ -12,4 +12,16 @@ class TagsafeOptimizationsEstimator
     end
     json
   end
+
+  def get_average_metric(metric_klass, page_url)
+    all_without_tagsafe = metric_klass.includes(:page_url, :page_load).where(page_load: { num_tags_optimized_by_tagsafe_js: 0..1 }, page_url: { id: page_url.id }).where.not(value: 0).where.not(value: nil)
+    all_with_tagsafe = metric_klass.includes(:page_url, :page_load).where(page_load: { num_tags_optimized_by_tagsafe_js: 1.. }, page_url: { id: page_url.id }).where.not(value: 0).where.not(value: nil)
+    total_page_loads = metric_klass.includes(:page_url).where(page_url: page_url).where.not(value: 0).where.not(value: nil).count
+    {
+      total_count_without_tagsafe: all_without_tagsafe.count,
+      total_count_with_tagsafe: all_with_tagsafe.count,
+      avg_without_tagsafe: all_without_tagsafe.sum(:value) / total_page_loads,
+      avg_with_tagsafe: all_with_tagsafe.sum(:value) / total_page_loads
+    }
+  end
 end

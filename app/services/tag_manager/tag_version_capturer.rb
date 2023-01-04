@@ -14,6 +14,7 @@ module TagManager
       upload_files_to_s3!(tag_version)
       Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
       @tag.update!(marked_as_pending_tag_version_capture_at: nil, most_recent_tag_version: tag_version)
+      @tag.update!(current_live_tag_version: tag_version) if @tag.current_live_tag_version.nil?
       remove_temp_files
       tag_version
     end

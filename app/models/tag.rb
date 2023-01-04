@@ -61,7 +61,7 @@ class Tag < ApplicationRecord
   # SCOPES
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
-  scope :tagsafe_hosted, -> { where(is_tagsafe_hosted: true).where.not(current_live_tag_version: nil) }
+  scope :tagsafe_hosted, -> { where(is_tagsafe_hosted: true) }
   scope :not_tagsafe_hosted, -> { where(is_tagsafe_hosted: false) }
   scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
   scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
