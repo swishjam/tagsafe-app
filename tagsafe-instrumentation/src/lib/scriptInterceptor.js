@@ -4,13 +4,11 @@ export default class ScriptInterceptor {
   constructor({ 
     tagConfigurations, 
     firstPartyDomains, 
-    urlPatternsToNotCapture, 
     dataReporter, 
     debugMode = false 
   }) {
     this.firstPartyDomains = firstPartyDomains;
     this.tagConfigurations = tagConfigurations;
-    this.urlPatternsToNotCapture = urlPatternsToNotCapture;
     this.dataReporter = dataReporter;
     this.debugMode = debugMode;
   }
@@ -65,21 +63,14 @@ export default class ScriptInterceptor {
         const reRouteTagConfig = this.tagConfigurations[ogSrc];
         newNode.setAttribute('data-tagsafe-intercepted', 'true');
         if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
-          // TODO: should we report all third party tags and let the backend determine what to capture?
-          if (ogSrc && this.urlPatternsToNotCapture.find(pattern => ogSrc.includes(pattern))) {
-            window.Tagsafe.bypassedTags = window.Tagsafe.bypassedTags || [];
-            window.Tagsafe.bypassedTags.push(ogSrc);
-            return newNode;
-          } else {
-            this.dataReporter.recordThirdPartyTag({
-              tagUrl: newNode.getAttribute('src'),
-              loadType: getScriptTagLoadType(newNode),
-              interceptedByTagsafeJs: true,
-              optimizedByTagsafeJs: !!(reRouteTagConfig && reRouteTagConfig['configuredTagUrl'])
-            })
-            if (reRouteTagConfig) {
-              return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
-            }
+          this.dataReporter.recordThirdPartyTag({
+            tagUrl: newNode.getAttribute('src'),
+            loadType: getScriptTagLoadType(newNode),
+            interceptedByTagsafeJs: true,
+            optimizedByTagsafeJs: !!(reRouteTagConfig && reRouteTagConfig['configuredTagUrl'])
+          })
+          if (reRouteTagConfig) {
+            return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
           }
         }
       }
