@@ -10,7 +10,7 @@
     <% else %>
       <%= turbo_frame_tag "#{container.uid}_container_tags_chart" do %>
         <div class='text-center p-5 tagsafe-container'>
-          <h3 class='tagsafe-font'>We haven't yet received any data from your TagsafeJS tag yet.</h3> 
+          <h1 class='mb-3'>We haven't yet received any data from your TagsafeJS tag yet.</h1> 
           <h4>Have you <%= modal_link install_script_container_path(current_container), text: 'installed your TagsafeJS tag' %>? If you have, give it a couple of minutes to collect some data and we'll be on our way!</h4>
         </div>
       <% end %>

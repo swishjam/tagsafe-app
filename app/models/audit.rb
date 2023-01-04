@@ -83,7 +83,7 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
     
     tag.update!(primary_audit: self) if successful? && (!tag_version.present? || tag_version.is_tags_current_live_tag_version? || tag.primary_audit.nil?)
     
-    if execution_reason == ExecutionReason.NEW_RELEASE && tag_version.present?
+    if successful? && tag_version.present? && tag_version.primary_audit.nil?
       tag_version.update!(primary_audit: self)
       LiveTagVersionPromoter.new(tag_version).set_as_tags_live_version_if_criteria_is_met! if tag.is_tagsafe_hosted
     end

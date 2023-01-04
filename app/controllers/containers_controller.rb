@@ -45,6 +45,6 @@ class ContainersController < LoggedInController
   private
 
   def container_params
-    params.require(:container).permit(:name, :tagsafe_js_enabled)
+    params.require(:container).permit(:name, :tagsafe_js_enabled, :defer_script_tags_by_default)
   end
 end

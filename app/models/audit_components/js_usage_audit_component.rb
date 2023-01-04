@@ -12,4 +12,5 @@ class JsUsageAuditComponent < AuditComponent
       (#{number_to_human_size(raw_results['js_bytes_used'])} of #{number_to_human_size(raw_results['total_js_bytes'])}).
     MSG
   end
+  alias audit_breakdown_description explanation
 end

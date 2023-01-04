@@ -7,18 +7,25 @@ module TagsafeInstrumentationManager
     end
 
     def compile_instrumentation
-      copy_instrumentation_directory_to_unique_directory
-      generate_config_file
-      run_webpack_system_command
+      unless @container.tagsafe_js_disabled?
+        copy_instrumentation_directory_to_unique_directory
+        generate_config_file
+        run_webpack_system_command
+      end
     end
     alias compile_instrumentation_if_necessary compile_instrumentation
     
     def compiled_instrumentation
-      raise 'Must call `compile_instrumentation` before reference `compiled_instrumentation`.' unless File.exists?(compiled_instrumentation_file_path)
-      File.read(compiled_instrumentation_file_path)
+      raise 'Must call `compile_instrumentation` before reference `compiled_instrumentation`.' if @container.tagsafe_js_enabled? && !File.exists?(compiled_instrumentation_file_path)
+      if @container.tagsafe_js_enabled?
+        File.read(compiled_instrumentation_file_path)
+      else
+        "console.warn('TagsafeJS disabled');"
+      end
     end
 
     def delete_compiled_instrumentation_file
+      return if @container.defer_script_tags_by_default
       FileUtils.rm_rf(unique_directory_for_containers_instrumentation)
     end
 

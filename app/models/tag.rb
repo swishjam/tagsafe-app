@@ -11,6 +11,7 @@ class Tag < ApplicationRecord
   attribute :tagsafe_js_intercepted_count, default: 0
   attribute :tagsafe_js_not_intercepted_count, default: 0
   attribute :tagsafe_js_optimized_count, default: 0
+  attribute :configured_load_type, default: 'default'
 
   # RELATIONS
   belongs_to :container
@@ -24,15 +25,8 @@ class Tag < ApplicationRecord
   has_many :audits, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
-  has_many :uptime_checks, dependent: :destroy
-  has_many :uptime_regions_to_check, class_name: UptimeRegionToCheck.to_s, dependent: :destroy
-  has_many :uptime_regions, through: :uptime_regions_to_check
   has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
   has_many :page_urls, through: :page_urls_tag_found_on
-  has_many :functional_tests_to_run, class_name: FunctionalTestToRun.to_s, dependent: :destroy
-  has_many :functional_tests, through: :functional_tests_to_run
-  has_many :alert_configuration_tags, dependent: :destroy
-  has_many :alert_configurations, through: :alert_configuration_tags
 
   accepts_nested_attributes_for :page_urls_tag_found_on
 
@@ -43,6 +37,7 @@ class Tag < ApplicationRecord
   validate :only_tagsafe_hostable_tags_can_be_tagsafe_hosted
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
+  validates :configured_load_type, inclusion: { in: ['default', 'async', 'defer', 'synchronous'] }
   validates :page_load_found_on, presence: true, on: :create # only on create to support legacy Tags
   validates_uniqueness_of :full_url, 
                           scope: :container_id, 
@@ -50,10 +45,12 @@ class Tag < ApplicationRecord
                           message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on this Container (#{tag.container.name} - #{tag.container.uid})" }
 
   # CALLBACKS
+  ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[configured_load_type is_tagsafe_hosted current_live_tag_version_id]
+  after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
+
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
   before_create { self.last_seen_at = Time.current }
-  # TODO: should we capture the first TagVersion for _all_ tags?
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
   after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! if is_tagsafe_hostable }
   after_create { perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: nil, initiated_by_container_user: nil) if !is_tagsafe_hostable }
@@ -81,7 +78,7 @@ class Tag < ApplicationRecord
 
   def set_current_live_tag_version_and_publish_instrumentation(tag_version)
     update!(current_live_tag_version: tag_version, primary_audit: tag_version.primary_audit)
-    container.publish_instrumentation!
+    # container.publish_instrumentation!
   end
 
   def find_and_apply_tag_identifying_data(force_update = false)
@@ -104,14 +101,6 @@ class Tag < ApplicationRecord
 
   def release_monitoring_interval_in_words
     Util.integer_to_interval_in_words(release_monitoring_interval_in_minutes)
-  end
-
-  def enabled?
-    true
-  end
-
-  def disabled?
-    !enabled?
   end
 
   def url_scheme
@@ -169,25 +158,12 @@ class Tag < ApplicationRecord
     release_monitoring_interval_in_minutes > 0
   end
 
-  def most_recent_release_check
-    release_checks.most_recent_first.limit(1).first
-  end
-
   def release_monitoring_disabled?
     !release_monitoring_enabled?
   end
 
-  def scheduled_audits_enabled?
-    false
-  end
-
-  def scheduled_audits_disabled?
-    !scheduled_audits_enabled?
-  end
-
-  def tag_or_container_configuration
-    # configuration || container.general_configuration
-    container.general_configuration
+  def most_recent_release_check
+    release_checks.most_recent_first.limit(1).first
   end
 
   def audit_to_display(include_pending: true)
@@ -202,16 +178,12 @@ class Tag < ApplicationRecord
     audits.pending.most_recent_first.limit(1).first
   end
 
-  def name
-    # TODO: need to add to tags table
-  end
-
   def has_friendly_name?
-    name.present? || tag_identifying_data.present?
+    tag_identifying_data.present?
   end
 
   def friendly_name
-    name || tag_identifying_data&.name
+    tag_identifying_data&.name
   end
 
   def try_friendly_name
