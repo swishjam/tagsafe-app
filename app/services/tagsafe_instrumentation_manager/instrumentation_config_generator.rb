@@ -22,9 +22,7 @@ module TagsafeInstrumentationManager
         export default {
           uid: '#{@container.uid}',
           buildTime: '#{Time.current.formatted_short}',
-          disabled: #{!@container.tagsafe_js_enabled},
           tagConfigurations: #{buld_tag_configurations_hash},
-          urlPatternsToNotCapture: #{@tag_url_patterns_to_not_capture.collect(&:url_pattern)},
           settings: {
             reportingURL: '#{ENV['TAGSAFE_JS_REPORTING_URL']}',
             sampleRate: #{@container.tagsafe_js_reporting_sample_rate},
@@ -41,12 +39,17 @@ module TagsafeInstrumentationManager
             tag: '#{tag.uid}',
             tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
             configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
-            configuredLoadType: #{tag.configured_load_type == 'default' ? 'null' : "\"#{tag.configured_load_type}\""},
+            configuredLoadType: #{configured_load_type_for_tag(tag)},
             sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
           },
         "
       end
       js += '}'
+    end
+
+    def configured_load_type_for_tag(tag)
+      return "\"defer\"" if @container.defer_script_tags_by_default && tag.configured_load_type == 'default'
+      "\"#{tag.configured_load_type}\""
     end
   end
 end

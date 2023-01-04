@@ -96,25 +96,26 @@ export default class ScriptInterceptor {
       if (tagConfig['configuredTagUrl']) {
         newNode.setAttribute('src', tagConfig['configuredTagUrl']);
         newNode.setAttribute('data-tagsafe-og-src', ogSrc);
-        if(ogSrc !== tagConfig['configuredTagUrl']) {
+        if (ogSrc !== tagConfig['configuredTagUrl']) {
           newNode.setAttribute('data-tagsafe-optimized', 'true');
         }
       }
-      if(tagConfig['sha256']) {
+      if (tagConfig['sha256']) {
         newNode.setAttribute('integrity', `sha256-${tagConfig['sha256']}`);
         newNode.setAttribute('crossorigin', 'anonymous');
       }
 
-      if(tagConfig['configuredLoadType']) {
+      if (['synchronous', 'async', 'defer'].includes(tagConfig['configuredLoadType'])) {
         newNode.removeAttribute('async');
         newNode.removeAttribute('defer');
         newNode.setAttribute(tagConfig['configuredLoadType'], '')
       }
 
-      if(this.debugMode) {
-        console.log(`Intercepted ${ogSrc} ->`);
+      if (this.debugMode) {
+        console.log(`Intercepted ${ogSrc} with config:`);
         console.log({ 
-          newUrl: tagConfig['configuredTagUrl'],
+          configuredUrl: tagConfig['configuredTagUrl'],
+          configuredLoadType: tagConfig['configuredLoadType'],
           sha256: tagConfig['sha256']
         })
       }

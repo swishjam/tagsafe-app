@@ -46,6 +46,7 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[configured_load_type is_tagsafe_hosted current_live_tag_version_id]
+  after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
@@ -56,7 +57,6 @@ class Tag < ApplicationRecord
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
   after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
-  after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   # SCOPES
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }

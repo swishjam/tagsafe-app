@@ -4,7 +4,7 @@ import { urlToDomain } from './lib/utils';
 
 const params = new URLSearchParams(window.location.search);
 
-if(configuration.disabled || params.has('tagsafe-disabled') || params.has('disable-tagsafe')) {
+if(params.has('tagsafe-disabled') || params.has('disable-tagsafe')) {
   console.warn('Tagsafe is disabled.');
 } else {
   window.Tagsafe = Tagsafe;

@@ -7,22 +7,18 @@ class Container < ApplicationRecord
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s, dependent: :destroy
   has_many :page_loads, dependent: :destroy
   has_many :tag_url_patterns_to_not_capture, class_name: TagUrlPatternToNotCapture.to_s, dependent: :destroy
-  has_many :alert_configurations, dependent: :destroy
   has_many :audits, dependent: :destroy
   has_many :container_users, dependent: :destroy
   has_many :users, through: :container_users
-  has_many :functional_tests, dependent: :destroy
   has_many :test_runs, through: :functional_tests
   has_many :page_urls, dependent: :destroy
-  has_many :performance_audit_calculators, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :release_checks, through: :tags
   has_many :tag_versions, through: :tags
-  has_many :uptime_checks, through: :tags
-  has_many :uptime_regions_to_check, through: :tags
   has_many :user_invites, dependent: :destroy
 
-  validates :name, presence: true
+  ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[defer_script_tags_by_default tagsafe_js_enabled]
+  after_update { publish_instrumentation! if saved_changes.keys.intersection(Container::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create { self.instrumentation_key = "TAG-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
   after_create :publish_instrumentation!
@@ -30,7 +26,9 @@ class Container < ApplicationRecord
 
   attribute :tagsafe_js_reporting_sample_rate, default: 0.05
   attribute :tagsafe_js_enabled, default: true
+  attribute :defer_script_tags_by_default, default: false
 
+  validates :name, presence: true
   validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   # validates :tagsafe_js_enabled, presence: true
 
