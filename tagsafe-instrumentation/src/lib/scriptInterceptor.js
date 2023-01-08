@@ -5,12 +5,14 @@ export default class ScriptInterceptor {
     tagConfigurations, 
     firstPartyDomains, 
     dataReporter, 
+    disableScriptInterception,
     debugMode = false 
   }) {
     this.firstPartyDomains = firstPartyDomains;
     this.tagConfigurations = tagConfigurations;
     this.dataReporter = dataReporter;
     this.debugMode = debugMode;
+    this.disableScriptInterception = disableScriptInterception;
   }
 
   interceptInjectedScriptTags = () => {
@@ -60,7 +62,7 @@ export default class ScriptInterceptor {
     try {
       if(newNode.nodeName === 'SCRIPT') {
         const ogSrc = newNode.getAttribute('src');
-        const reRouteTagConfig = this.tagConfigurations[ogSrc];
+        const reRouteTagConfig = this.disableScriptInterception && this.tagConfigurations[ogSrc];
         newNode.setAttribute('data-tagsafe-intercepted', 'true');
         if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
           this.dataReporter.recordThirdPartyTag({

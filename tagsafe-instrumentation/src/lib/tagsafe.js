@@ -16,7 +16,7 @@ export default class Tagsafe {
     const dataReporter = new DataReporter({ 
       containerUid,
       reportingURL: settings.reportingURL,
-      sampleRate: settings.sampleRate,
+      reportingSampleRate: settings.reportingSampleRate,
       debugMode: settings.debugMode
     });
 
@@ -26,6 +26,7 @@ export default class Tagsafe {
       tagConfigurations, 
       dataReporter, 
       firstPartyDomains: settings.firstPartyDomains,
+      disableScriptInterception: Math.random() > settings.reRouteEligibleTagsSampleRate,
       debugMode: settings.debugMode
     }).interceptInjectedScriptTags();
     
@@ -40,7 +41,7 @@ export default class Tagsafe {
       console.log('Tag intercept configurations:');
       console.log(tagConfigurations);
       console.log(`First party domain(s): ${settings.firstPartyDomains.join(', ')}`);
-      console.log(`Reporting sample rate: ${settings.sampleRate * 100}%`)
+      console.log(`Reporting sample rate: ${settings.reportingSampleRate * 100}%`)
     }
   }
 }

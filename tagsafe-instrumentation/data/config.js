@@ -7,7 +7,7 @@
           urlPatternsToNotCapture: [],
           settings: {
             reportingURL: 'https://dev-tagsafe-api.tagsafe.workers.dev/',
-            sampleRate: 1,
+            reportingSampleRate: 1,
           }
         }
       

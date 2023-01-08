@@ -25,7 +25,8 @@ module TagsafeInstrumentationManager
           tagConfigurations: #{buld_tag_configurations_hash},
           settings: {
             reportingURL: '#{ENV['TAGSAFE_JS_REPORTING_URL']}',
-            sampleRate: #{@container.tagsafe_js_reporting_sample_rate},
+            reRouteEligibleTagsSampleRate: #{@container.tagsafe_js_re_route_eligible_tags_sample_rate},
+            reportingSampleRate: #{@container.tagsafe_js_reporting_sample_rate},
           }
         }
       CONFIG

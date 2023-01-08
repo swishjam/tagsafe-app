@@ -25,12 +25,13 @@ class Container < ApplicationRecord
   after_destroy { TagsafeAws::S3.delete_object_by_s3_url(tagsafe_instrumentation_url(use_cdn: false)) }
 
   attribute :tagsafe_js_reporting_sample_rate, default: 0.05
+  attribute :tagsafe_js_re_route_eligible_tags_sample_rate, default: 1.0
   attribute :tagsafe_js_enabled, default: true
   attribute :defer_script_tags_by_default, default: false
 
   validates :name, presence: true
   validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
-  # validates :tagsafe_js_enabled, presence: true
+  validates :tagsafe_js_re_route_eligible_tags_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 
   def publish_instrumentation!
     TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn
