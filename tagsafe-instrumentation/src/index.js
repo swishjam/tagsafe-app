@@ -14,9 +14,10 @@ if(params.has('tagsafe-disabled') || params.has('disable-tagsafe')) {
   const mergedSettings = {
     reportingURL: 'https://tagsafe-api.tagsafe.workers.dev', // gets overridden if provided in Instrumentation settings
     firstPartyDomains: [urlToDomain(window.location.href)], // gets overridden if provided in Instrumentation settings
+    reRouteEligibleTagsSampleRate: 1.0, // get overriden if provided in Instrumentation settings
     debugMode: params.has('tagsafe-debugger'),
     ...settings,
-    sampleRate: params.has('tagsafe-force-reporting') ? 1.0 : settings.sampleRate, // overrides whatever was set in Instrumentation settings
+    reportingSampleRate: params.has('tagsafe-force-reporting') ? 1.0 : settings.reportingSampleRate, // overrides whatever was set in Instrumentation settings
   }
 
   window.Tagsafe.init({ 

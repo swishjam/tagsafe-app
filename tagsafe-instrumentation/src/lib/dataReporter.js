@@ -1,5 +1,5 @@
 export default class DataReporter {
-  constructor({ reportingURL, containerUid, sampleRate = 1, debugMode = false }) {
+  constructor({ reportingURL, containerUid, reportingSampleRate = 1, debugMode = false }) {
     this.dataToReport = { third_party_tags: [], performance_metrics: {}, errors: [], warnings: [] };
     this.dataReported = { third_party_tags: [], performance_metrics: {}, errors: [], warnings: [] };
     this.lastReceivedDataAt = null;
@@ -11,13 +11,13 @@ export default class DataReporter {
     window.Tagsafe.optimizedTags = [];
 
     // sample rate of 1 means capture everything, 0 means capture nothing
-    this.reportingEnabled = Math.random() < sampleRate;
+    this.reportingEnabled = Math.random() < reportingSampleRate;
     if (this.reportingEnabled) { 
-      if(this.debugMode) console.log(`Reporting is enabled (sample rate is set to ${sampleRate * 100}%).`);
+      if(this.debugMode) console.log(`Reporting is enabled (sample rate is set to ${reportingSampleRate * 100}%).`);
       this._startReportingInterval();
       window.Tagsafe.config.reportingEnabled = true;
     } else {
-      if (this.debugMode) console.log(`Reporting is disabled (sample rate is set to ${sampleRate * 100}%).`);
+      if (this.debugMode) console.log(`Reporting is disabled (sample rate is set to ${reportingSampleRate * 100}%).`);
       window.Tagsafe.config.reportingEnabled = false;
     }
   }

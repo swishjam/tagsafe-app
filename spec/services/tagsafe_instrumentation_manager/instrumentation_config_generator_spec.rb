@@ -29,7 +29,7 @@ RSpec.describe TagsafeInstrumentationManager::InstrumentationConfigGenerator do
           urlPatternsToNotCapture: [],
           settings: {
             reportingURL: 'https://api.tagsafe.io/reporting',
-            sampleRate: 1,
+            reportingSampleRate: 1,
           }
         }
       CONFIG
