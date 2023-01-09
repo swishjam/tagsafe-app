@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   #   end
   # end
 
+  resources :tag_snippets, param: :uid
   resources :tags, except: [:edit, :new, :delete], param: :uid do
     member do
       get '/settings' => 'tags#edit'

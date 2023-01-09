@@ -12,6 +12,7 @@ class Container < ApplicationRecord
   has_many :users, through: :container_users
   has_many :test_runs, through: :functional_tests
   has_many :page_urls, dependent: :destroy
+  has_many :tag_snippets, dependent: :destroy
   has_many :tags, dependent: :destroy
   has_many :release_checks, through: :tags
   has_many :tag_versions, through: :tags

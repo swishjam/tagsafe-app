@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js" integrity="sha512-hG/Qw6E14LsVUaQRSgw0RrFA1wl5QPG1a4bCOUgwzkGPIVFsOPUPpbr90DFavEEqFMwFXPVI0NS4MzKsInlKxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row ps-3 pe-3'>
+      <div class='col-8'>
+        <h1 class='page-title'><%= @tag_snippet.try_friendly_name %> details</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mt-3'>
+  <div class='code-block p-2'>
+    <div class='code-mirror-container readonly' data-controller='code-mirror'>
+      <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
+      <textarea data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<%= @tag_snippet.content.download %>"></textarea>
+    </div>
+  </div>
+
+  <h3>Tags:</h3>
+  <% @tag_snippet.tags.each do |tag| %>
+    <div class='border col-12'>
+      <div class='row'>
+        <div class='col-6'>
+          <h4 class='tag-card-title'><%= tag.full_url %></h4>
+        </div>
+        <div class='col-6'>
+          Is Tagsafe-hosted? <%= tag.is_tagsafe_hosted %> <br/>
+          Load type: <%= tag.configured_load_type == 'default' ? "#{tag.load_type} (tag's default)" : tag.configured_load_type %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

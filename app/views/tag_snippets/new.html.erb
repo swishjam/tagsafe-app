@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js" integrity="sha512-hG/Qw6E14LsVUaQRSgw0RrFA1wl5QPG1a4bCOUgwzkGPIVFsOPUPpbr90DFavEEqFMwFXPVI0NS4MzKsInlKxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row ps-3 pe-3'>
+      <div class='col-8'>
+        <h1 class='page-title'>New Tag</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2'>
+  <% if @tag_snippet.errors.any? %>
+    <div class='alert alert-danger mb-3'>
+      <%= @tag_snippet.errors.full_messages.join(' ') %>
+    </div>
+  <% end %>
+  <%= form_with model: @tag_snippet, data: { controller: 'loading_form'} do |f| %>
+    <div class='form-floating'>
+      <%= f.input_field :name, class: 'form-control' %>
+      <label>Tag Name</label>
+    </div>
+    <div class='code-block p-2 mt-2'>
+      <div class='code-mirror-container' data-controller='code-mirror'>
+        <textarea name='tag_snippet[content]'
+                  data-code-mirror-target='codeMirrorTextarea' 
+                  data-value="/*\r\n paste HTML snippet for tag here \r\n*/"></textarea>
+      </div>
+    </div>
+    <div class='text-end mt-3'>
+      <%= loading_submit_button 'Save tag', type: 'floating' %>
+    </div>
+  <% end %>
+</div>
