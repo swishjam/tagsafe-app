@@ -3,15 +3,23 @@ export default class ScriptInector {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
     this.debugMode = debugMode;
-    this._setupInjections();
+    this.afterAllTagsAddedCallbacks = [];
+    this._numTagsInjected = 0;
   }
 
-  _setupInjections() {
+  beginInjecting() {
     this.immediateScripts.forEach(scriptConfig => this._injectScript(scriptConfig));
     window.addEventListener('DOMContentLoaded', () => {
       this.onLoadScripts.forEach(scriptConfig => this._injectScript(scriptConfig));
+      this.afterAllTagsAddedCallbacks.forEach(callback => callback());
     })
   }
+
+  afterAllTagsAdded(callback) {
+    this.afterAllTagsAddedCallbacks.push(callback);
+  }
+
+  numTagsInjected = () => this._numTagsInjected;
 
   _injectScript(scriptConfig) {
     const script = document.createElement('script');
@@ -20,6 +28,7 @@ export default class ScriptInector {
     script.innerText = scriptConfig.js;
     scriptConfig.attrs.forEach(attr => script.setAttribute(attr[0], attr[1]));
     document.head.appendChild(script);
+    this._numTagsInjected += 1;
     if(this.debugMode) {
       console.log(`Tagsafe added ${scriptConfig.uid} to DOM.`)
     }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_11_021042) do
+ActiveRecord::Schema.define(version: 2023_01_11_175757) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -408,6 +408,10 @@ ActiveRecord::Schema.define(version: 2023_01_11_021042) do
     t.timestamp "tagsafe_consumer_processed_at"
     t.integer "num_tags_optimized_by_tagsafe_js"
     t.integer "num_tags_not_optimized_by_tagsafe_js"
+    t.integer "num_tagsafe_injected_tags"
+    t.integer "num_tagsafe_hosted_tags"
+    t.integer "num_tags_not_hosted_by_tagsafe"
+    t.integer "num_tags_with_tagsafe_overridden_load_strategies"
     t.index ["container_id"], name: "index_page_loads_on_container_id"
     t.index ["page_load_identifier"], name: "index_page_loads_on_page_load_identifier"
     t.index ["page_url_id"], name: "index_page_loads_on_page_url_id"

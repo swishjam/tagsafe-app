@@ -13,29 +13,26 @@ module TagsafeJsDataConsumer
           page_load.container = container
           page_load.page_url = find_or_create_page_url
           page_load.cloudflare_message_id = cloudflare_message_id
-          page_load.num_tags_optimized_by_tagsafe_js = 0
-          page_load.num_tags_not_optimized_by_tagsafe_js = 0
+          page_load.num_tagsafe_injected_tags = @payload['num_tagsafe_injected_tags']
+          page_load.num_tagsafe_hosted_tags = @payload['num_tagsafe_hosted_tags']
+          page_load.num_tags_not_hosted_by_tagsafe = @payload['num_tags_not_hosted_by_tagsafe']
+          page_load.num_tags_with_tagsafe_overridden_load_strategies = @payload['num_tags_with_tagsafe_overridden_load_strategies']
           # TODO: these timestamps don't make as much sense if we receive multiple events per page load
           page_load.page_load_ts = page_load_ts
           page_load.enqueued_at = enqueued_at_ts
         end
-        page_load.num_tags_optimized_by_tagsafe_js += third_party_tags.count(&:optimized_by_tagsafe_js?)
-        page_load.num_tags_not_optimized_by_tagsafe_js += (third_party_tags.count - page_load.num_tags_optimized_by_tagsafe_js)
-        page_load.save!
         page_load
       end
     end
     alias page_load create_page_load
-
+    
     def page_url
       if Util.env_is_true?('CREATE_NEW_PAGE_URLS_WHEN_NEW_QUERY_PARAMS')
         @page_url ||= container.page_urls.find_or_create_by!(full_url: raw_page_url)
       else
         @page_url ||= begin
           parsed = URI.parse(raw_page_url)
-          existing_url = container.page_urls.find_by(hostname: parsed.hostname, pathname: parsed.path)
-          return existing_url if existing_url.present?
-          container.page_urls.create!(full_url: raw_page_url)
+          container.page_urls.find_by(hostname: parsed.hostname, pathname: parsed.path) || container.page_urls.create!(full_url: raw_page_url)
         end
       end
     end
@@ -67,18 +64,30 @@ module TagsafeJsDataConsumer
       @payload['enqueued_at_ts'] ? DateTime.parse(@payload['enqueued_at_ts']) : missing_attr!('enqueued_at_ts')
     end
 
-    def intercepted_tags
-      @payload['intercepted_tags'] ? unique_tag_data(@payload['intercepted_tags']) : missing_attr!('intercepted_tags')
-    end
-
-    def third_party_tags
-      @payload['third_party_tags'] ? unique_tag_data(@payload['third_party_tags']) : missing_attr!('third_party_tags')
-    end
-
     def performance_metrics
       @payload['performance_metrics'] || missing_attr!('performance_metrics')
     end
-
+    
+    def num_tagsafe_injected_tags
+      @payload['num_tagsafe_injected_tags'].is_a?(Integer) ? @payload['num_tagsafe_injected_tags'] : missing_attr!('num_tagsafe_injected_tags')
+    end
+    
+    def num_tagsafe_hosted_tags
+      @payload['num_tagsafe_hosted_tags'].is_a?(Integer) ? @payload['num_tagsafe_hosted_tags'] : missing_attr!('num_tagsafe_hosted_tags')
+    end
+    
+    def num_tags_not_hosted_by_tagsafe
+      @payload['num_tags_not_hosted_by_tagsafe'].is_a?(Integer) ? @payload['num_tags_not_hosted_by_tagsafe'] : missing_attr!('num_tags_not_hosted_by_tagsafe')
+    end
+    
+    def num_tags_with_tagsafe_overridden_load_strategies
+      @payload['num_tags_with_tagsafe_overridden_load_strategies'].is_a?(Integer) ? @payload['num_tags_with_tagsafe_overridden_load_strategies'] : missing_attr!('num_tags_not_hosted_by_tagsafe')
+    end
+    
+    def third_party_tags
+      @payload['third_party_tags'] ? unique_tag_data(@payload['third_party_tags']) : missing_attr!('third_party_tags')
+    end
+    
     def errors
       @payload['errors']
     end

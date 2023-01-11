@@ -9,20 +9,18 @@ module TagsafeJsDataConsumer
       'third_party_js_network_time' => ThirdPartyJsNetworkTimePerformanceMetric
     }
 
-    def initialize(container:, page_load:, performance_metrics:)
-      @container = container
-      @page_load = page_load
-      @performance_metrics_hash = performance_metrics
+    def initialize(payload_parser)
+      @payload_parser = payload_parser
     end
 
     def consume!
-      @performance_metrics_hash.each do |metric_name, value|
+      @payload_parser.performance_metrics.each do |metric_name, value|
         performance_metric_klass = PERFORMANCE_METRIC_KLASS_DICT[metric_name]
         if performance_metric_klass
           performance_metric_klass.create!(
-            container: @container, 
-            page_load: @page_load, 
-            page_url: @page_load.page_url,
+            container: @payload_parser.container, 
+            page_load: @payload_parser.page_load, 
+            page_url: @payload_parser.page_load.page_url,
             value: value
           )
         else
