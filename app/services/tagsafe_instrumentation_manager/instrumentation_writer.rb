@@ -6,11 +6,12 @@ module TagsafeInstrumentationManager
 
     def write_current_instrumentation_to_cdn
       InstrumentationBuild.create!(container: @container, description: '')
+      instrumentation_compiler.delete_compiled_instrumentation_file
       instrumentation_compiler.compile_instrumentation
       instrumentation_aws_handler.write_containers_compiled_instrumentation_to_s3(instrumentation_compiler.compiled_instrumentation)
       instrumentation_aws_handler.purge_containers_instrumentation_cloudfront_cache
       instrumentation_compiler.delete_compiled_instrumentation_file
-      true
+      @container.tagsafe_instrumentation_url
     end
 
     private

@@ -14,7 +14,7 @@ tag_snippet_contents_s3:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-east-1
   bucket: tagsafe-<%= Rails.env %>-tag-js-scripts
-  public: true # important - sets S3 objects to be publicly available, needed for Cloudfront
+  # public: true # important - sets S3 objects to be publicly available, needed for Cloudfront
 
 # why does rspec throw an error when this isnt present....
 test:

@@ -1,3 +1,4 @@
 {
-  "tag_snippet_script": "(function() {var s = document.createElement('script'); s.setAttribute('src', 'https: //www.thirdpartytag.com/script.js'); document.head.appendChild(s);})();"
+  "script_tags_attributes": [],
+  "tag_snippet_script": "(function(){ var s = document.createElement('script'); s.setAttribute('src', 'https://www.thirdpartytag.com/script.js'); document.head.appendChild(s); })()"
 }

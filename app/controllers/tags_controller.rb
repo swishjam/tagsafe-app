@@ -14,10 +14,9 @@ class TagsController < LoggedInController
 
   def edit
     @tag = current_container.tags.find_by!(uid: params[:uid])
-    render_breadcrumbs(
-      { text: 'Monitor Center', url: root_path }, 
-      { text: "#{@tag.try_friendly_name}", url: tag_path(@tag) },
-      { text: "Settings" }
+    stream_modal(
+      partial: 'tags/edit',
+      locals: { tag: @tag }
     )
   end
 

@@ -1,20 +1,14 @@
 <%= turbo_frame_tag "#{container.uid}_container_tags_container" do %>
   <div class='col-12'>
-    <% if tags.any? %>
-      <div class='row p-5'>
-        <%= render partial: 'server_loadable_partials/tags/tag_card', collection: tags, as: :tag %>
-      </div>
-      <div class="pagination-container text-center">
-        <%= paginate tags %>
-      </div>
+    <% if tag_snippets.any? %>
+      <%= render 'server_loadable_partials/tags/tag_table', tag_snippets: tag_snippets, container: container %>
     <% else %>
       <%= turbo_frame_tag "#{container.uid}_container_tags_chart" do %>
         <div class='text-center p-5 tagsafe-container'>
-          <h1 class='mb-3'>We haven't yet received any data from your TagsafeJS tag yet.</h1> 
-          <h4>Have you <%= modal_link install_script_container_path(current_container), text: 'installed your TagsafeJS tag' %>? If you have, give it a couple of minutes to collect some data and we'll be on our way!</h4>
+          <h1 class='mb-3'>You haven't added any tags yet.</h1> 
+          <%= link_to 'Add one now', new_tag_snippet_path, class: 'floating-btn', target: '_top' %>
         </div>
       <% end %>
-      <%= render 'server_loadable_partials/tags/tag_table', tags: tags, container: container %>
     <% end %>
   </div>
 <% end %>

@@ -210,17 +210,6 @@ class Tag < ApplicationRecord
 
   private
 
-  def broadcast_new_tag_notification_to_all_users
-    container.container_users.each do |container_user|
-      container_user.user.broadcast_notification(
-        partial: "/notifications/tags/new_tag",
-        title: "🚨 New tag detected",
-        image: try_image_url,
-        partial_locals: { tag: self }
-      )
-    end
-  end
-
   def check_to_sync_aws_event_bridge_rules_if_necessary
     if saved_changes['release_monitoring_interval_in_minutes']
       previous_release_monitoring_interval_in_minutes = saved_changes['release_monitoring_interval_in_minutes'][0]
@@ -238,12 +227,6 @@ class Tag < ApplicationRecord
   def enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
     return false if release_monitoring_disabled?
     ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_monitoring_interval_in_minutes).enable!
-  end
-
-  def has_at_least_one_page_url_tag_found_on
-    if page_urls_tag_found_on.none?
-      errors.add(:base, "Tag must be associated with at least one PageUrl.")
-    end
   end
 
   def only_tagsafe_hostable_tags_can_be_tagsafe_hosted

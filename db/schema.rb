@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_08_230329) do
+ActiveRecord::Schema.define(version: 2023_01_11_021042) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -625,6 +625,10 @@ ActiveRecord::Schema.define(version: 2023_01_08_230329) do
     t.string "event_to_inject_snippet_on"
     t.string "name"
     t.string "state"
+    t.timestamp "find_tags_injected_by_snippet_job_enqueued_at"
+    t.timestamp "find_tags_injected_by_snippet_job_completed_at"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
     t.index ["container_id"], name: "index_tag_snippets_on_container_id"
     t.index ["uid"], name: "index_tag_snippets_on_uid"
   end

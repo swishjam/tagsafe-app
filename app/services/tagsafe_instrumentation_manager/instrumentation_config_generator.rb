@@ -22,7 +22,11 @@ module TagsafeInstrumentationManager
         export default {
           uid: '#{@container.uid}',
           buildTime: '#{Time.current.formatted_short}',
-          tagConfigurations: #{buld_tag_configurations_hash},
+          tagInterceptionRules: #{build_tag_interceptions_hash},
+          tagConfigurations: {
+            immediate: #{build_tag_configurations_hash},
+            onLoad: [],
+          },
           settings: {
             reportingURL: '#{ENV['TAGSAFE_JS_REPORTING_URL']}',
             reRouteEligibleTagsSampleRate: #{@container.tagsafe_js_re_route_eligible_tags_sample_rate},
@@ -32,18 +36,35 @@ module TagsafeInstrumentationManager
       CONFIG
     end
 
-    def buld_tag_configurations_hash
-      js = '{'
-      @tags.each do |tag|
+    def build_tag_configurations_hash
+      js = "["
+      @container.tag_snippets.in_live_state.each do |tag_snippet|
+        html_content = tag_snippet.content.download
         js += "
-          '#{tag.full_url}': {
-            tag: '#{tag.uid}',
-            tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
-            configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
-            configuredLoadType: #{configured_load_type_for_tag(tag)},
-            sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
+          {
+            uid: '#{tag_snippet.uid}',
+            attrs: #{tag_snippet.script_tags_attributes},
+            js: '#{tag_snippet.executable_javascript}',
           },
         "
+      end
+      js += "]"
+    end
+    
+    def build_tag_interceptions_hash
+      js = '{'
+      @container.tag_snippets.in_live_state.each do |tag_snippet|
+        tag_snippet.tags.each do |tag|
+          js += "
+            '#{tag.full_url}': {
+              tag: '#{tag.uid}',
+              tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
+              configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
+              configuredLoadType: #{configured_load_type_for_tag(tag)},
+              sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
+            },
+          "
+        end
       end
       js += '}'
     end

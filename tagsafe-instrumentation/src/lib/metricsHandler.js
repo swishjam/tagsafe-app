@@ -1,4 +1,5 @@
 import Perfume from 'perfume.js';
+import { isThirdPartyUrl } from './utils';
 
 const PERFUME_EVENT_TAGSAFE_REPORTING_NAME_DICT = {
   'navigationTiming': 'navigation_timing',
@@ -33,62 +34,26 @@ export default class MetricsHandler {
     })
   }
 
-  // _initializePerfume() {
-  //   new Perfume({
-  //     analyticsTracker: (options) => {
-  //       const { metricName, data, navigatorInformation } = options;
-  //       switch (metricName) {
-  //         case 'navigationTiming':
-  //           if (data && data.timeToFirstByte) {
-  //             this.dataReporter.recordPerformanceMetric('navigation_timing', data);
-  //           }
-  //           break;
-  //         case 'networkInformation':
-  //         //   if (data && data.effectiveType) {
-  //         //     this.dataReporter.recordPerformanceMetric('network_information', data);
-  //         //   }
-  //           break;
-  //         case 'FCP':
-  //           this.dataReporter.recordPerformanceMetric('first_contentful_paint', { duration: data });
-  //           break;
-  //         case 'TTFB':
-  //           this.dataReporter.recordPerformanceMetric('time_to_first_byte', { duration: data });
-  //         case 'fp':
-  //           this.dataReporter.recordPerformanceMetric('first_paint', { duration: data });
-  //           break;
-  //         case 'fcp':
-  //           this.dataReporter.recordPerformanceMetric('first_contentfulPaint', { duration: data });
-  //           break;
-  //         case 'fid':
-  //           this.dataReporter.recordPerformanceMetric('first_input_delay', { duration: data });
-  //           break;
-  //         case 'lcp':
-  //           this.dataReporter.recordPerformanceMetric('largest_contentful_paint', { duration: data });
-  //           break;
-  //         case 'cls':
-  //           this.dataReporter.recordPerformanceMetric('cumulative_layout_shift', { duration: data });
-  //           break;
-  //         case 'clsFinal':
-  //           this.dataReporter.recordPerformanceMetric('cumulative_layout_shift_final', { duration: data });
-  //           break;
-  //         case 'tbt':
-  //           this.dataReporter.recordPerformanceMetric('total_blocking_time', { duration: data });
-  //           break;
-  //         default:
-  //           this.dataReporter.recordPerformanceMetric(metricName, { duration: data });
-  //           break;
-  //       }
-  //     },
-  //   });
-  // }
-
   _onPageLoad = _event => {
     this.dataReporter.recordPerformanceMetric('dom_complete', this._measurePerformanceAttribute('domComplete'));
     this.dataReporter.recordPerformanceMetric('dom_interactive', this._measurePerformanceAttribute('domInteractive'));
     this.dataReporter.recordPerformanceMetric('dom_loading', this._measurePerformanceAttribute('domLoading'));
+    this._reportThirdPartyJsNetworkTime();
   }
 
   _measurePerformanceAttribute(attr) {
     return window.performance.timing[attr] - window.performance.timing.navigationStart;
+  }
+
+  _reportThirdPartyJsNetworkTime() {
+    let thirdPartyJsNetworkTime = 0;
+    window.performance.getEntriesByType('resource').forEach(resource => {
+      if (resource.initiatorType === 'script') {
+        try {
+          if (isThirdPartyUrl(resource.name)) thirdPartyJsNetworkTime += resource.duration
+        } catch (err) { }
+      }
+    })
+    this.dataReporter.recordPerformanceMetric('third_party_js_network_time', thirdPartyJsNetworkTime);
   }
 }

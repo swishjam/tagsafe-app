@@ -72,7 +72,7 @@ Rails.application.routes.draw do
   # end
 
   resources :tag_snippets, param: :uid
-  resources :tags, except: [:edit, :new, :delete], param: :uid do
+  resources :tags, except: [:new, :delete], param: :uid do
     member do
       get '/settings' => 'tags#edit'
       get :uptime

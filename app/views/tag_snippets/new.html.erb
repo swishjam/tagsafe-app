@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2'>
+<div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mt-2'>
   <% if @tag_snippet.errors.any? %>
     <div class='alert alert-danger mb-3'>
       <%= @tag_snippet.errors.full_messages.join(' ') %>
@@ -22,7 +22,7 @@
   <% end %>
   <%= form_with model: @tag_snippet, data: { controller: 'loading_form'} do |f| %>
     <div class='form-floating'>
-      <%= f.input_field :name, class: 'form-control' %>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Name' %>
       <label>Tag Name</label>
     </div>
     <div class='code-block p-2 mt-2'>

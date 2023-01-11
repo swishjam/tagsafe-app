@@ -2,17 +2,20 @@ import { isThirdPartyUrl, getScriptTagLoadType } from "./utils";
 
 export default class ScriptInterceptor {
   constructor({ 
-    tagConfigurations, 
+    tagInterceptionRules, 
     firstPartyDomains, 
     dataReporter, 
     disableScriptInterception,
     debugMode = false 
   }) {
     this.firstPartyDomains = firstPartyDomains;
-    this.tagConfigurations = tagConfigurations;
+    this.tagInterceptionRules = tagInterceptionRules;
     this.dataReporter = dataReporter;
     this.debugMode = debugMode;
     this.disableScriptInterception = disableScriptInterception;
+    if(this.debugMode && this.disableScriptInterception) {
+      console.warn('Tagsafe CDN is disabled based on configuration sample rate.');
+    }
   }
 
   interceptInjectedScriptTags = () => {
@@ -62,7 +65,7 @@ export default class ScriptInterceptor {
     try {
       if(newNode.nodeName === 'SCRIPT') {
         const ogSrc = newNode.getAttribute('src');
-        const reRouteTagConfig = this.disableScriptInterception && this.tagConfigurations[ogSrc];
+        const reRouteTagConfig = this.tagInterceptionRules[ogSrc];
         newNode.setAttribute('data-tagsafe-intercepted', 'true');
         if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
           this.dataReporter.recordThirdPartyTag({
@@ -71,7 +74,7 @@ export default class ScriptInterceptor {
             interceptedByTagsafeJs: true,
             optimizedByTagsafeJs: !!(reRouteTagConfig && reRouteTagConfig['configuredTagUrl'])
           })
-          if (reRouteTagConfig) {
+          if (!this.disableScriptInterception && reRouteTagConfig) {
             return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
           }
         }

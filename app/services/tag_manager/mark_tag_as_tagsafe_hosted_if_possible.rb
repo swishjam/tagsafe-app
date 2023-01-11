@@ -10,7 +10,7 @@ module TagManager
 
     def determine!
       if is_in_unhostable_tag_list? || !tag_has_static_content?
-        @tag.update!(is_tagsafe_hostable: false, is_tagsafe_hosted: false)
+        @tag.update!(is_tagsafe_hostable: false, is_tagsafe_hosted: false, release_monitoring_interval_in_minutes: 0)
       else
         @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: true)
       end
@@ -26,13 +26,14 @@ module TagManager
     end
 
     def tag_has_static_content?
-      [
+      unique_hashes = [
         fetch_tags_hashed_content(CHROME_USER_AGENT),
         fetch_tags_hashed_content(SAFARI_USER_AGENT),
         fetch_tags_hashed_content(SAMSUNG_GALAXY_S22),
         fetch_tags_hashed_content(CHROME_USER_AGENT),
         fetch_tags_hashed_content(SAFARI_USER_AGENT),
-      ].uniq!.count == 1
+      ].uniq!
+      unique_hashes.count == 1
     end
 
     def fetch_tags_hashed_content(user_agent)
