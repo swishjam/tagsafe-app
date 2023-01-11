@@ -1,0 +1,2 @@
+class ThirdPartyJsNetworkTimePerformanceMetric < PageLoadPerformanceMetric
+end

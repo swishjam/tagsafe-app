@@ -25,7 +25,7 @@ module TagsafeInstrumentationManager
     end
 
     def delete_compiled_instrumentation_file
-      return if @container.defer_script_tags_by_default
+      return unless Dir.exist?(unique_directory_for_containers_instrumentation)
       FileUtils.rm_rf(unique_directory_for_containers_instrumentation)
     end
 

@@ -1,0 +1,18 @@
+<%= turbo_stream_from "#{@tag_snippet.uid}_details_stream" %>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js" integrity="sha512-hG/Qw6E14LsVUaQRSgw0RrFA1wl5QPG1a4bCOUgwzkGPIVFsOPUPpbr90DFavEEqFMwFXPVI0NS4MzKsInlKxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row ps-3 pe-3'>
+      <div class='col-8'>
+        <h1 class='page-title'>Tag Details</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'tag_snippets/show', tag_snippet: @tag_snippet %>

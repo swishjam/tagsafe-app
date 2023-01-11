@@ -16,16 +16,19 @@
           <% if local_assigns[:cta_button_html] %>
             <%= cta_button_html %>
           <% else %>
-            <%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
+            <%= link_to 'New Tag', new_tag_snippet_path, class: 'floating-btn' %>
+            <!--
+            <#%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
               <div class='d-flex align-items-center'>
                 Run Audit 
                 <span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
-                  <form class='hidden' action="<%=select_tag_to_audit_tags_path%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
+                  <form class='hidden' action="<#%=select_tag_to_audit_tags_path%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
                   </form>
                   ⌘a
                 </span>
               </div>
-            <% end %>
+            <#% end %>
+            !-->
           <% end %>
         </div>
       <% end %>

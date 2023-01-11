@@ -38,6 +38,10 @@ a.no-decoration {
   border: none !important;
 }
 
+.fs-tiny {
+  font-size: 0.65rem;
+}
+
 .dotted-underline {
   text-decoration: underline;
   text-decoration-style: dotted;
@@ -111,9 +115,12 @@ a.no-decoration {
   }
   .dropdown-menu.show {
     box-shadow: 0 10px 20px 3px rgba(87, 87, 87, 0.35);
-    .dropdown-item.active {
-      background-color: lightgrey;
+    .dropdown-item {
+      // background-color: lightgrey;
+      color: grey;
+      &.active {
       color: black;
+      }
     }
     .dropdown-title {
       font-weight: 900;

@@ -66,7 +66,7 @@ module HtmlHelper
     "/tags/#{tag.uid}/audits"
   end
 
-  def modal_link(modal_html_path, klass: nil, text: nil, &block)
+  def modal_link(modal_html_path, klass: nil, text: nil, class: nil, &block)
     link = if text
             link_to text, modal_html_path, class: klass, data: { controller: 'modal_trigger', turbo_frame: 'server_loadable_modal' }
            else

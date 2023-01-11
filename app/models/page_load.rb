@@ -9,6 +9,7 @@ class PageLoad < ApplicationRecord
   has_one :time_to_first_byte_performance_metric
   has_one :total_blocking_time_performance_metric
   has_one :first_contentful_paint_performance_metric
+  has_one :third_party_js_network_time_performance_metric
 
   validates :page_load_identifier, presence: true, uniqueness: true
 

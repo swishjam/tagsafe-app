@@ -6,6 +6,7 @@ module TagsafeJsDataConsumer
       'first_contentful_paint' => FirstContentfulPaintPerformanceMetric,
       'time_to_first_byte' => TimeToFirstBytePerformanceMetric,
       'total_blocking_time' => TotalBlockingTimePerformanceMetric,
+      'third_party_js_network_time' => ThirdPartyJsNetworkTimePerformanceMetric
     }
 
     def initialize(container:, page_load:, performance_metrics:)

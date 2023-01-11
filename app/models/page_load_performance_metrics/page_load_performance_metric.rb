@@ -11,6 +11,7 @@ class PageLoadPerformanceMetric < ApplicationRecord
     FirstContentfulPaintPerformanceMetric
     TimeToFirstBytePerformanceMetric
     TotalBlockingTimePerformanceMetric
+    ThirdPartyJsNetworkTimePerformanceMetric
   ]
 
   def self.friendly_name

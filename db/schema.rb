@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_08_020736) do
+ActiveRecord::Schema.define(version: 2023_01_11_021042) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -619,6 +619,20 @@ ActiveRecord::Schema.define(version: 2023_01_08_020736) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
+  create_table "tag_snippets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "container_id"
+    t.string "event_to_inject_snippet_on"
+    t.string "name"
+    t.string "state"
+    t.timestamp "find_tags_injected_by_snippet_job_enqueued_at"
+    t.timestamp "find_tags_injected_by_snippet_job_completed_at"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.index ["container_id"], name: "index_tag_snippets_on_container_id"
+    t.index ["uid"], name: "index_tag_snippets_on_uid"
+  end
+
   create_table "tag_url_patterns_to_not_capture", charset: "utf8", force: :cascade do |t|
     t.string "uid"
     t.bigint "container_id"
@@ -684,12 +698,14 @@ ActiveRecord::Schema.define(version: 2023_01_08_020736) do
     t.bigint "primary_audit_id"
     t.bigint "page_load_found_on_id"
     t.string "configured_load_type"
+    t.bigint "tag_snippet_id"
     t.index ["container_id"], name: "index_tags_on_container_id"
     t.index ["current_live_tag_version_id"], name: "index_tags_on_current_live_tag_version_id"
     t.index ["most_recent_tag_version_id"], name: "index_tags_on_most_recent_tag_version_id"
     t.index ["page_load_found_on_id"], name: "index_tags_on_page_load_found_on_id"
     t.index ["primary_audit_id"], name: "index_tags_on_primary_audit_id"
     t.index ["tag_identifying_data_id"], name: "index_tags_on_tag_identifying_data_id"
+    t.index ["tag_snippet_id"], name: "index_tags_on_tag_snippet_id"
     t.index ["tagsafe_js_event_batch_id"], name: "index_tags_on_tagsafe_js_event_batch_id"
     t.index ["uid"], name: "index_tags_on_uid"
   end

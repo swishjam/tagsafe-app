@@ -4,18 +4,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<%= render_as_modal title: 'Install Script' do %>
-  <div class='tagsafe-modal-body text-start'>
-    <h4>Paste this script at the very top of the `head` on each page of your web application.</h4>
-    <div class='code-block p-2'>
-      <div class='code-mirror-container readonly' data-controller='code-mirror'>
-        <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
-        <textarea data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<script>\r\n  (function(i) {\r\n    var s = document.createElement('script');\r\n    s.setAttribute('src','https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>/'+i+'/instrumentation.js');\r\n    document.head.prepend(s);\r\n  })('<%= instrumentation_key %>');\r\n</script>"></textarea>
+<div class='page-title-container'>
+  <div class='container-fluid'>
+    <div class='row ps-3 pe-3'>
+      <div class='col-8'>
+        <h1 class='page-title'>New Tag</h1>
       </div>
     </div>
   </div>
-  <div class='tagsafe-modal-divider mt-2'></div>
-  <div class='tagsafe-modal-footer text-end'>
-  </div>
-<% end %>
-  
+</div>
+
+<div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mt-2'>
+  <% if @tag_snippet.errors.any? %>
+    <div class='alert alert-danger mb-3'>
+      <%= @tag_snippet.errors.full_messages.join(' ') %>
+    </div>
+  <% end %>
+  <%= form_with model: @tag_snippet, data: { controller: 'loading_form'} do |f| %>
+    <div class='form-floating'>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Name' %>
+      <label>Tag Name</label>
+    </div>
+    <div class='code-block p-2 mt-2'>
+      <div class='code-mirror-container' data-controller='code-mirror'>
+        <textarea name='tag_snippet[content]'
+                  data-code-mirror-target='codeMirrorTextarea' 
+                  data-value="/*\r\n paste HTML snippet for tag here \r\n*/"></textarea>
+      </div>
+    </div>
+    <div class='text-end mt-3'>
+      <%= loading_submit_button 'Save tag', type: 'floating' %>
+    </div>
+  <% end %>
+</div>

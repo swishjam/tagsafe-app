@@ -1,32 +1,35 @@
 <%= turbo_frame_tag "#{container.uid}_container_tags_table_row_#{tag.uid}" do %>
-  <%= link_to tag_path(tag), class: 'no-decoration', target: '_top' do %>
+  <%= link_to tag_snippet_path(tag_snippet), class: 'no-decoration', target: '_top' do %>
     <div class='tagsafe-table-row hoverable <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
       <div class='tagsafe-table-cell flex-3'>
         <div class='tag-img-thumbnail-container'>
-          <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
-        </div>
-        <div class='tag-name-container w-fit ms-3' 
-              data-controller='tooltip'
-              data-bs-toggle='tooltip'
-              title="<%=tag.url_based_on_preferences%>">
-          <% if tag.has_friendly_name? %>
-            <span class='table-row-header underline-hover d-block'><%= tag.friendly_name %></span>
-            <span class='table-row-sub-header d-block'><%= tag.url_based_on_preferences %></span>
-          <% else %>
-            <span class='tag-url d-block'><%= tag.url_based_on_preferences %></span>
+          <% if tag_snippet.try_image_url %>
+            <%= image_tag tag_snippet.try_image_url, class: 'tag-thumbnail border' %>
           <% end %>
         </div>
+        <div class='tag-name-container w-fit ms-3'>
+          <span class='table-row-header underline-hover d-inline-block me-2'><%= tag_snippet.name %></span>
+          <% if tag_snippet.live? %>
+            <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
+          <% elsif tag_snippet.draft? %>
+            <span class='tagsafe-pill orange'>Draft</span>
+          <% elsif tag_snippet.paused? %>
+            <span class='tagsafe-pill red'>Paused</span>
+          <% elsif tag_snippet.deleted? %>
+            <span class='tagsafe-pill red'>Removed</span>
+          <% end %>
+          <!-- <span class='table-row-sub-header d-block'><#%= tag.url_based_on_preferences %></span> !-->
+        </div>
       </div>
       <div class='tagsafe-table-cell'>
-        <% audit_to_display = tag.most_recent_successful_audit %>
-        <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag, audit: audit_to_display %>
+        <!-- <#%= render 'audits/tagsafe_score_pill_for_audit', tag: tag, audit: tag.most_recent_successful_audit %> !-->
       </div>
       <div class='tagsafe-table-cell'>
-        <% if tag.release_monitoring_enabled? %>
-          <%= tag.last_released_at&.formatted_short || 'No releases' %>
-        <% else %>
+        <!-- <#% if tag.release_monitoring_enabled? %>
+          <#%= tag.last_released_at&.formatted_short || 'No releases' %>
+        <#% else %>
           <div class='tagsafe-pill grey small-text'>Release monitoring disabled</div>
-        <% end %>
+        <#% end %> !-->
       </div>
     </div>
   <% end %>

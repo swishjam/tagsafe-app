@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "14.17.6"
+    "node": "19.3.0"
   },
   "name": "tagsafe",
   "description": "This README would normally document whatever steps are necessary to get the application up and running.",
@@ -15,7 +15,9 @@
     "js-beautify": "^1.14.0",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
-    "tracium": "^0.2.1"
+    "tracium": "^0.2.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "scripts": {
     "test": "jest"

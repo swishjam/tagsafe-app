@@ -1,0 +1,104 @@
+<% if tag_snippet.pending_find_tags_job? %>
+  <div class='p-5 text-center'>
+    <h5>Analyzing tag...</h5>
+    <%= display_loading_icon %>
+  </div>
+<% else %>
+  <h3>Tags loaded by <%= tag_snippet.name %>:</h3>
+  <div class='tagsafe-table tags-table'>
+    <div class='tagsafe-table-head square'>
+      <div class='tagsafe-table-row header'>
+        <div class='tagsafe-table-cell flex-3'>
+          Tag URL
+        </div>
+        <div class='tagsafe-table-cell'>
+          Hosting strategy
+        </div>
+        <div class='tagsafe-table-cell'>
+          Loading strategy
+        </div>
+        <div class='tagsafe-table-cell'>
+          Release monitoring cadence
+        </div>
+        <!--<div class='tagsafe-table-cell flex-0'>
+        </div>!-->
+      </div>
+      <% tag_snippet.tags.each do |tag| %>
+        <div class='tagsafe-table-row'>
+          <div class='tagsafe-table-cell flex-3'>
+            <span class='table-row-header'><%= tag.full_url %></span>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <% if tag.is_tagsafe_hosted %>
+              <div class='tagsafe-pill green small-text' 
+                    data-controller='tooltip' 
+                    title="The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host.">
+                Tagsafe CDN
+              </div>
+              <% if tag.current_live_tag_version && tag.current_live_tag_version.tagsafe_saved_bytes? %>
+                <span class='ms-1 fs-tiny default-cursor' 
+                      data-controller='tooltip' 
+                      title="You are saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> by hosting with Tagsafe.">
+                  <i class="fa-solid fa-piggy-bank"></i> 
+                  <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %>
+                </span>
+              <% end %>
+            <% elsif tag.is_tagsafe_hostable %>
+              <div class="tagsafe-pill orange small-text" 
+                    data-controller='tooltip' 
+                    title="You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN.">
+                Default host
+              </div>
+              <span class='ms-1 fs-tiny default-cursor' 
+                    data-controller='tooltip' 
+                    title="You would be saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> if you were to switch your hosting strategy to host with Tagsafe.">
+                <i class="fa-solid fa-piggy-bank"></i> 
+                <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %>
+              </span>
+            <% else %>
+              <div class="tagsafe-pill grey small-text" 
+                    data-controller='tooltip' 
+                    title="This tag must be hosted by the tag provider (<%= tag.url_hostname %>).">
+                Default host
+              </div>
+            <% end %>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <% if tag.configured_load_type == 'default' %>
+              <% if tag.load_type == 'synchronous' %>
+                <span class='tagsafe-pill red small-text'
+                        data-controller='tooltip' 
+                        title="Synchronous tags can severely negatively impact your page load, it is recommended to use Tagsafe to override the load stategy to `defer`">
+                  <span class='me-1'><%= HtmlHelper.WARNING_ICON %></span> <%= tag.load_type.capitalize %> (default)
+                </span>
+              <% elsif tag.load_type == 'async' %>
+                <span class='tagsafe-pill orange small-text'>
+                  <%= tag.load_type.capitalize %> (default)
+                </span>
+              <% else %>
+                <span class='tagsafe-pill green small-text'>
+                  <%= tag.load_type.capitalize %> (default)
+                </span>
+              <% end %>
+            <% else %>
+              <span class='tagsafe-pill green small-text'>
+                <%= tag.configured_load_type.capitalize %>
+              </span>
+            <% end %>
+          </div>
+          <div class='tagsafe-table-cell justify-content-between'>
+            <%= tag.release_monitoring_interval_in_words.capitalize %>
+            <div class="dropdown show ellipsis-dropdown float-end">
+              <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v" style="font-size: 12px;"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <%= modal_link_to edit_tag_path(tag), text: 'Edit tag configuration', klass: 'dropdown-item' %> 
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

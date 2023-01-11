@@ -15,6 +15,7 @@ class Tag < ApplicationRecord
 
   # RELATIONS
   belongs_to :container
+  belongs_to :tag_snippet
   belongs_to :primary_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
   belongs_to :tagsafe_js_event_batch, optional: true
@@ -33,29 +34,29 @@ class Tag < ApplicationRecord
   SUPPORTED_RELEASE_MONITORING_INTERVALS = [0, 1, 15, 30, 60, 180, 360, 720, 1_440]
   
   # VALIDATIONS
-  validate :has_at_least_one_page_url_tag_found_on
+  # validate :has_at_least_one_page_url_tag_found_on
   validate :only_tagsafe_hostable_tags_can_be_tagsafe_hosted
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates :configured_load_type, inclusion: { in: ['default', 'async', 'defer', 'synchronous'] }
-  validates :page_load_found_on, presence: true, on: :create # only on create to support legacy Tags
-  validates_uniqueness_of :full_url, 
-                          scope: :container_id, 
-                          conditions: -> { where(deleted_at: nil) },
-                          message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on this Container (#{tag.container.name} - #{tag.container.uid})" }
+  # validates :page_load_found_on, presence: true, on: :create # only on create to support legacy Tags
+  # validates_uniqueness_of :full_url, 
+  #                         scope: :container_id, 
+  #                         conditions: -> { where(deleted_at: nil) },
+  #                         message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on this Container (#{tag.container.name} - #{tag.container.uid})" }
 
   # CALLBACKS
   ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[configured_load_type is_tagsafe_hosted current_live_tag_version_id]
-  after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
+  # after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
-  before_create { self.last_seen_at = Time.current }
+  # before_create { self.last_seen_at = Time.current }
   after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
   after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! if is_tagsafe_hostable }
   after_create { perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: nil, initiated_by_container_user: nil) if !is_tagsafe_hostable }
   after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
-  after_create_commit :broadcast_new_tag_notification_to_all_users
+  # after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
@@ -209,17 +210,6 @@ class Tag < ApplicationRecord
 
   private
 
-  def broadcast_new_tag_notification_to_all_users
-    container.container_users.each do |container_user|
-      container_user.user.broadcast_notification(
-        partial: "/notifications/tags/new_tag",
-        title: "🚨 New tag detected",
-        image: try_image_url,
-        partial_locals: { tag: self }
-      )
-    end
-  end
-
   def check_to_sync_aws_event_bridge_rules_if_necessary
     if saved_changes['release_monitoring_interval_in_minutes']
       previous_release_monitoring_interval_in_minutes = saved_changes['release_monitoring_interval_in_minutes'][0]
@@ -237,12 +227,6 @@ class Tag < ApplicationRecord
   def enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
     return false if release_monitoring_disabled?
     ReleaseCheckScheduleAwsEventBridgeRule.for_interval!(release_monitoring_interval_in_minutes).enable!
-  end
-
-  def has_at_least_one_page_url_tag_found_on
-    if page_urls_tag_found_on.none?
-      errors.add(:base, "Tag must be associated with at least one PageUrl.")
-    end
   end
 
   def only_tagsafe_hostable_tags_can_be_tagsafe_hosted
