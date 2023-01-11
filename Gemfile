@@ -8,6 +8,9 @@ gem 'rails', '~> 6.1.4'
 gem "hotwire-rails", '~> 0.1.3'
 gem 'stimulus-rails', '~> 0.2.4'
 
+# https://github.com/ruby/net-imap/issues/16
+gem "net-http"
+
 gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'

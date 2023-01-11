@@ -32,6 +32,34 @@ export default class DataReporter {
     });
   }
 
+  recordNumTagsafeInjectedTags(numTags) {
+    this.dataToReport['num_tagsafe_injected_tags'] = numTags;
+    if(this.debugMode) {
+      console.log(`recording num_tagsafe_injected_tags: ${numTags}`);
+    }
+  }
+
+  recordNumTagsafeHostedTags(numTags) {
+    this.dataToReport['num_tagsafe_hosted_tags'] = numTags;
+    if(this.debugMode) {
+      console.log(`recording num_tagsafe_hosted_tags: ${numTags}`);
+    }
+  }
+
+  recordNumTagsWithTagsafeOverriddenLoadStrategies(numTags) {
+    this.dataToReport['num_tags_with_tagsafe_overridden_load_strategies'] = numTags;
+    if (this.debugMode) {
+      console.log(`recording num_tags_with_tagsafe_overridden_load_strategies: ${numTags}`);
+    }
+  }
+
+  recordNumTagsNotHostedByTagsafe(numTags) {
+    this.dataToReport['num_tags_not_hosted_by_tagsafe'] = numTags;
+    if(this.debugMode) {
+      console.log(`recording num_tags_not_hosted_by_tagsafe: ${numTags}`);
+    }
+  }
+ 
   recordPerformanceMetric(metricName, data) {
     this.dataToReport.performance_metrics[metricName] = data;
     this.lastReceivedDataAt = Date.now();

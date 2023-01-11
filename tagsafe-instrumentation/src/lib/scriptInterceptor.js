@@ -4,15 +4,17 @@ export default class ScriptInterceptor {
   constructor({ 
     tagInterceptionRules, 
     firstPartyDomains, 
-    dataReporter, 
     disableScriptInterception,
     debugMode = false 
   }) {
     this.firstPartyDomains = firstPartyDomains;
     this.tagInterceptionRules = tagInterceptionRules;
-    this.dataReporter = dataReporter;
     this.debugMode = debugMode;
     this.disableScriptInterception = disableScriptInterception;
+    
+    this._numTagsHostedByTagsafe = 0;
+    this._numTagsWithTagsafeOverriddenLoadStrategies = 0;
+
     if(this.debugMode && this.disableScriptInterception) {
       console.warn('Tagsafe CDN is disabled based on configuration sample rate.');
     }
@@ -23,6 +25,9 @@ export default class ScriptInterceptor {
     this._interceptInsertBefore();
     this._interceptPrepend();
   }
+
+  numTagsHostedByTagsafe = () => this._numTagsHostedByTagsafe;
+  numTagsWithTagsafeOverriddenLoadStrategies = () => this._numTagsWithTagsafeOverriddenLoadStrategies;
 
   _interceptAppendChild = () => {
     const ogAppendChild = Node.prototype.appendChild;
@@ -67,16 +72,8 @@ export default class ScriptInterceptor {
         const ogSrc = newNode.getAttribute('src');
         const reRouteTagConfig = this.tagInterceptionRules[ogSrc];
         newNode.setAttribute('data-tagsafe-intercepted', 'true');
-        if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
-          this.dataReporter.recordThirdPartyTag({
-            tagUrl: newNode.getAttribute('src'),
-            loadType: getScriptTagLoadType(newNode),
-            interceptedByTagsafeJs: true,
-            optimizedByTagsafeJs: !!(reRouteTagConfig && reRouteTagConfig['configuredTagUrl'])
-          })
-          if (!this.disableScriptInterception && reRouteTagConfig) {
-            return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
-          }
+        if (isThirdPartyUrl(ogSrc, this.firstPartyDomains) && !this.disableScriptInterception && reRouteTagConfig) {
+          return this._interceptInjectedScriptTag(newNode, reRouteTagConfig);
         }
       }
       return newNode;
@@ -93,7 +90,8 @@ export default class ScriptInterceptor {
         newNode.setAttribute('src', tagConfig['configuredTagUrl']);
         newNode.setAttribute('data-tagsafe-og-src', ogSrc);
         if (ogSrc !== tagConfig['configuredTagUrl']) {
-          newNode.setAttribute('data-tagsafe-optimized', 'true');
+          newNode.setAttribute('data-tagsafe-hosted', 'true');
+          this._numTagsHostedByTagsafe += 1;
         }
       }
       if (tagConfig['sha256']) {
@@ -104,7 +102,8 @@ export default class ScriptInterceptor {
       if (['synchronous', 'async', 'defer'].includes(tagConfig['configuredLoadType'])) {
         newNode.removeAttribute('async');
         newNode.removeAttribute('defer');
-        newNode.setAttribute(tagConfig['configuredLoadType'], '')
+        newNode.setAttribute(tagConfig['configuredLoadType'], '');
+        this._numTagsWithTagsafeOverriddenLoadStrategies += 1;
       }
 
       if (this.debugMode) {

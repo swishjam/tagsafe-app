@@ -11,13 +11,16 @@ if(params.has('tagsafe-disabled') || params.has('disable-tagsafe')) {
   window.Tagsafe.config = configuration;
   const { uid, tagConfigurations, tagInterceptionRules, settings } = configuration;
   
+  const reRouteEligibleTagsSampleRateConfig = params.has('tagsafe-disable-tag-re-route') ? 0 : settings.reRouteEligibleTagsSampleRate;
+  const reportingSampleRateConfig = params.has('tagsafe-force-reporting') ? 1.0 : settings.reportingSampleRate;
+
   const mergedSettings = {
     reportingURL: 'https://tagsafe-api.tagsafe.workers.dev', // gets overridden if provided in Instrumentation settings
     firstPartyDomains: [urlToDomain(window.location.href)], // gets overridden if provided in Instrumentation settings
-    reRouteEligibleTagsSampleRate: 1.0, // get overriden if provided in Instrumentation settings
     debugMode: params.has('tagsafe-debugger'),
     ...settings,
-    reportingSampleRate: params.has('tagsafe-force-reporting') ? 1.0 : settings.reportingSampleRate, // overrides whatever was set in Instrumentation settings
+    reRouteEligibleTagsSampleRate: typeof reRouteEligibleTagsSampleRateConfig === 'undefined' ? 1.0 : reRouteEligibleTagsSampleRateConfig, // overrides whatever was set in Instrumentation settings
+    reportingSampleRate: typeof reportingSampleRateConfig === 'undefined' ? 0.05 : reportingSampleRateConfig, // overrides whatever was set in Instrumentation settings
   }
 
   window.Tagsafe.init({ 

@@ -40,18 +40,30 @@ module ChartHelper
 
     def get_tagsafe_optimization_metrics
       page_loads = @page_url.page_loads.more_recent_than_or_equal_to(@start_datetime, timestamp_column: :tagsafe_consumer_received_at)
-      [{ 
-        name: '# tags optimized by TagsafeJS', 
-        data: page_loads.collect{ |pl| [pl.tagsafe_consumer_received_at, pl.num_tags_optimized_by_tagsafe_js] },
-        yAxis: 0,
-        # valueSuffix: 'tags',
-      },
-      { 
-        name: '# tags not optimized by TagsafeJS', 
-        data: page_loads.collect{ |pl| [pl.tagsafe_consumer_received_at, pl.num_tags_not_optimized_by_tagsafe_js] },
-        yAxis: 0,
-        # valueSuffix: 'tags',
-      }]
+      [
+        { 
+          name: '# tags hosted by Tagsafe', 
+          data: page_loads.collect{ |pl| [pl.page_load_ts, pl.num_tagsafe_hosted_tags] },
+          yAxis: 0,
+          # valueSuffix: 'tags',
+        },
+        { 
+          name: '# tags not hosted by Tagsafe', 
+          data: page_loads.collect{ |pl| [pl.page_load_ts, pl.num_tags_not_hosted_by_tagsafe] },
+          yAxis: 0,
+          # valueSuffix: 'tags',
+        },
+        {
+          name: '# tags added to page by Tagsafe',
+          data: page_loads.collect{ |pl| [pl.page_load_ts, pl.num_tagsafe_injected_tags] },
+          yAxis: 0,
+        },
+        {
+          name: '# tags with overridden load strategies',
+          data: page_loads.collect{ |pl| [pl.page_load_ts, pl.num_tags_with_tagsafe_overridden_load_strategies] },
+          yAxis: 0,
+        }
+      ]
     end
   end
 end

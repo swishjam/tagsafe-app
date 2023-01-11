@@ -23,25 +23,34 @@ export default class Tagsafe {
 
     new MetricsHandler(dataReporter);
 
-    new ScriptInterceptor({ 
+    const scriptInterceptor = new ScriptInterceptor({ 
       tagInterceptionRules, 
       dataReporter, 
       firstPartyDomains: settings.firstPartyDomains,
       disableScriptInterception: Math.random() > settings.reRouteEligibleTagsSampleRate,
       debugMode: settings.debugMode
-    }).interceptInjectedScriptTags();
+    })
+    scriptInterceptor.interceptInjectedScriptTags();
 
-    new ScriptInjector({
+    const scriptInjector = new ScriptInjector({
       immediateScripts: tagConfigurations.immediate,
       onLoadScripts: tagConfigurations.onLoad,
       debugMode: settings.debugMode
-    });
+    })
+    scriptInjector.beginInjecting();
     
-    new ThirdPartyTagIdentifier({
+    const thirdPartyTagIdentifier = new ThirdPartyTagIdentifier({
       dataReporter, 
       debugMode: settings.debugMode,
       firstPartyDomains: settings.firstPartyDomains
-    }).reportAllThirdPartyTags();
+    })
+
+    scriptInjector.afterAllTagsAdded(async () => {
+      dataReporter.recordNumTagsafeInjectedTags(scriptInjector.numTagsInjected());
+      dataReporter.recordNumTagsafeHostedTags(scriptInterceptor.numTagsHostedByTagsafe());
+      dataReporter.recordNumTagsWithTagsafeOverriddenLoadStrategies(scriptInterceptor.numTagsWithTagsafeOverriddenLoadStrategies());
+      dataReporter.recordNumTagsNotHostedByTagsafe(await thirdPartyTagIdentifier.numTagsNotHostedByTagsafe());
+    })
 
     if(settings.debugMode) {
       console.log('TagsafeJS initialized with');
