@@ -402,8 +402,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stimulus-rails (1.2.1)
-      railties (>= 6.0.0)
+    stimulus-rails (0.2.4)
+      rails (>= 6.0.0)
     stripe (8.0.0)
     terser (1.1.13)
       execjs (>= 0.3.0, < 3)
@@ -489,6 +489,7 @@ DEPENDENCIES
   slack-ruby-client
   spring
   spring-watcher-listen (~> 2.0.0)
+  stimulus-rails (~> 0.2.4)
   stripe
   terser
   uglifier (~> 4.2.0)
