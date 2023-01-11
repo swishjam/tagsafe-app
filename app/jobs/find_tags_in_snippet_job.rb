@@ -18,7 +18,7 @@ class FindTagsInSnippetJob < ApplicationJob
   rescue ActiveStorage::FileNotFoundError => e
     if attempts < 5
       # I know, this is gross
-      sleep 1
+      sleep(attempts.seconds)
       try_to_find_tags(tag_snippet, attempts: attempts + 1)
     else
       raise ActiveStorage::FileNotFoundError, e.message
