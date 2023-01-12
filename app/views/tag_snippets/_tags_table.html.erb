@@ -12,21 +12,25 @@
           Tag URL
         </div>
         <div class='tagsafe-table-cell'>
+          Tagsafe Score
+        </div>
+        <div class='tagsafe-table-cell'>
           Hosting strategy
         </div>
         <div class='tagsafe-table-cell'>
           Loading strategy
         </div>
-        <div class='tagsafe-table-cell'>
+        <!--<div class='tagsafe-table-cell'>
           Release monitoring cadence
-        </div>
-        <!--<div class='tagsafe-table-cell flex-0'>
         </div>!-->
       </div>
       <% tag_snippet.tags.each do |tag| %>
         <div class='tagsafe-table-row'>
           <div class='tagsafe-table-cell flex-3'>
             <span class='table-row-header'><%= tag.full_url %></span>
+          </div>
+          <div class='tagsafe-table-cell'>
+            <%= render 'audits/tagsafe_score_pill_for_audit', audit: tag.primary_audit %>
           </div>
           <div class='tagsafe-table-cell'>
             <% if tag.is_tagsafe_hosted %>
@@ -49,12 +53,14 @@
                     title="You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN.">
                 Default host
               </div>
-              <span class='ms-1 fs-tiny default-cursor' 
-                    data-controller='tooltip' 
-                    title="You would be saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> if you were to switch your hosting strategy to host with Tagsafe.">
-                <i class="fa-solid fa-piggy-bank"></i> 
-                <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %>
-              </span>
+              <% if tag.current_live_tag_version && tag.current_live_tag_version.tagsafe_saved_bytes? %>
+                <span class='ms-1 fs-tiny default-cursor' 
+                      data-controller='tooltip' 
+                      title="You would be saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> if you were to switch your hosting strategy to host with Tagsafe.">
+                  <i class="fa-solid fa-piggy-bank"></i> 
+                  <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %>
+                </span>
+              <% end %>
             <% else %>
               <div class="tagsafe-pill grey small-text" 
                     data-controller='tooltip' 
@@ -63,37 +69,37 @@
               </div>
             <% end %>
           </div>
-          <div class='tagsafe-table-cell'>
+          <div class='tagsafe-table-cell justify-content-between'>
             <% if tag.configured_load_type == 'default' %>
               <% if tag.load_type == 'synchronous' %>
                 <span class='tagsafe-pill red small-text'
                         data-controller='tooltip' 
                         title="Synchronous tags can severely negatively impact your page load, it is recommended to use Tagsafe to override the load stategy to `defer`">
-                  <span class='me-1'><%= HtmlHelper.WARNING_ICON %></span> <%= tag.load_type.capitalize %> (default)
+                  <span class='me-1'><%= HtmlHelper.WARNING_ICON %></span> <%= tag.load_type.capitalize %>
                 </span>
               <% elsif tag.load_type == 'async' %>
                 <span class='tagsafe-pill orange small-text'>
-                  <%= tag.load_type.capitalize %> (default)
+                  <%= tag.load_type.capitalize %>
                 </span>
               <% else %>
                 <span class='tagsafe-pill green small-text'>
-                  <%= tag.load_type.capitalize %> (default)
+                  <%= tag.load_type.capitalize %>
                 </span>
               <% end %>
             <% else %>
               <span class='tagsafe-pill green small-text'>
-                <%= tag.configured_load_type.capitalize %>
+                <i class="fa-solid fa-pen me-1" data-controller='tooltip' title='Overwritten from the default load strategy (<%= tag.load_type %>).'></i> <%= tag.configured_load_type.capitalize %>
               </span>
             <% end %>
-          </div>
-          <div class='tagsafe-table-cell justify-content-between'>
-            <%= tag.release_monitoring_interval_in_words.capitalize %>
+            <!--<#%= tag.release_monitoring_interval_in_words.capitalize %>!-->
             <div class="dropdown show ellipsis-dropdown float-end">
               <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v" style="font-size: 12px;"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <%= modal_link_to edit_tag_path(tag), text: 'Edit tag configuration', klass: 'dropdown-item' %> 
+                <%= link_to "View tag details", tag_path(tag), class: 'dropdown-item', target: '_top' %>
+                <%= modal_link_to new_tag_audit_path(tag), text: 'Audit tag', klass: 'dropdown-item' %>
+                <%= modal_link_to edit_tag_path(tag), text: 'Edit tag config', klass: 'dropdown-item' %> 
               </div>
             </div>
           </div>

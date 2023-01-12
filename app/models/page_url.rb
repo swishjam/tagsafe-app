@@ -14,8 +14,12 @@ class PageUrl < ApplicationRecord
 
   before_create :set_parsed_url
 
+  def is_root?
+    ['/', ''].include?(pathname)
+  end
+
   def friendly_url
-    hostname + (pathname == '/' ? '' : pathname)
+    hostname + (is_root? ? '' : pathname)
   end
 
   def url_without_query_params

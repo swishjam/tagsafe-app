@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "#{tag_snippet.uid}_details" do %>
-  <div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mt-3'>
+  <div class='col-sm-12 col-md-10 offset-md-1 mt-3'>
     <div class='row mb-3'>
       <div class='col-9 d-flex align-items-center'>
         <h2 class='mb-0'>
@@ -12,37 +12,53 @@
           <% elsif tag_snippet.draft? %>
             <span class='tagsafe-pill orange' data-controller='tooltip' title='Tag is in draft mode, set live using the `set live` button below.'>Draft</span>
           <% elsif tag_snippet.paused? %>
-            <span class='tagsafe-pill red' data-controller='tooltip' title='Tag is paused, unpause using the button below.'>Paused</span>
+            <span class='tagsafe-pill grey' data-controller='tooltip' title='Tag is paused, unpause using the button below.'>Paused</span>
           <% elsif tag_snippet.deleted? %>
             <span class='tagsafe-pill red' data-controller='tooltip' title='Tag has been removed and is not live.'>Removed</span>
           <% end %>
         </h2>
       </div>
       <div class='col-3 d-flex align-items-center justify-content-end'>
-        <% if !tag_snippet.pending_find_tags_job? %>
+        <% if !tag_snippet.pending_find_tags_job? && !tag_snippet.deleted? %>
           <div class="dropdown show ellipsis-dropdown">
             <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <% if tag_snippet.draft? %>
-                <%= link_to 'Set live', '#', class: 'dropdown-item' %>
-              <% end %>
               <%= link_to 'Edit tag', '#', class: 'dropdown-item' %>
-              <% if tag_snippet.paused? %>
-                <%= link_to 'Unpause tag' , '#', class: 'dropdown-item' %>
-              <% elsif !tag_snippet.deleted? && !tag_snippet.draft? %>
-                <%= link_to 'Pause tag', '#', class: 'dropdown-item' %>
+              <% if tag_snippet.draft? %>
+                <%= form_with model: tag_snippet do |f| %>
+                  <%= f.hidden_field :name, value: tag_snippet.name %>
+                  <%= f.hidden_field :state, value: 'live' %>
+                  <%= f.submit 'Set live', class: 'dropdown-item' %>
+                <% end %>
+              <% elsif tag_snippet.paused? %>
+                <%= form_with model: tag_snippet do |f| %>
+                  <%= f.hidden_field :name, value: tag_snippet.name %>
+                  <%= f.hidden_field :state, value: 'live' %>
+                  <%= f.submit 'Unpause tag', class: 'dropdown-item' %>
+                <% end %>
+              <% elsif tag_snippet.live? %>
+                <%= form_with model: tag_snippet do |f| %>
+                  <%= f.hidden_field :name, value: tag_snippet.name %>
+                  <%= f.hidden_field :state, value: 'paused' %>
+                  <%= f.submit 'Pause tag', class: 'dropdown-item' %>
+                <% end %>
               <% end %>
+            <% if !tag_snippet.deleted? %>
               <div class='dropdown-divider'></div>
-              <%= link_to 'Delete tag', '#', class: 'dropdown-item' %>
-            </div>
+              <%= form_with model: tag_snippet do |f| %>
+                <%= f.hidden_field :name, value: tag_snippet.name %>
+                <%= f.hidden_field :state, value: 'deleted' %>
+                <%= f.submit 'Delete tag', class: 'dropdown-item text-danger' %>
+              <% end %>
+            <% end %>
           </div>
         <% end %>
       </div>
     </div>
     <div class='code-block p-2'>
-      <div class='code-mirror-container tiny-font readonly' data-controller='code-mirror'>
+      <div class='code-mirror-container readonly' data-controller='code-mirror'>
         <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
         <textarea class='hidden' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<%= tag_snippet.content.download %>"></textarea>
       </div>
@@ -53,7 +69,7 @@
     </div>
 
     <div class='mt-2 text-end'>
-      <% if !tag_snippet.live? && !tag_snippet.pending_find_tags_job? %>
+      <% if !tag_snippet.live? && !tag_snippet.deleted? && !tag_snippet.pending_find_tags_job? %>
         <%= form_with model: tag_snippet, data: { controller: 'loading_form' } do |f| %>
           <%= f.hidden_field :name, value: tag_snippet.name %>
           <%= f.hidden_field :event_to_inject_snippet_on, value: tag_snippet.event_to_inject_snippet_on %>

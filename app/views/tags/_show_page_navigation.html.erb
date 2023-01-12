@@ -1,8 +1,7 @@
 <%= render 'partials/page_navigation_items', navigation_items: [
             { url: tag_path(@tag), text: "Tag details" },
             { url: tag_releases_path(@tag), text: "Tag releases" },
-            { url: tag_audits_path(@tag), text: "Tag audits" },
-            { url: settings_tag_path(@tag), text: "Tag settings" },
+            { url: tag_audits_path(@tag), text: "Tag audits" }
   ] %>
 
 <div class='page-title-container'>
@@ -34,6 +33,9 @@
                 ⌘a
               </span>
             </div>
+          <% end %>
+          <%= modal_link_to settings_tag_path(@tag), klass: "floating-btn white-bg ms-2" do %>
+            <i class="fa-solid fa-gear"></i>
           <% end %>
         </div>
       <% end %>

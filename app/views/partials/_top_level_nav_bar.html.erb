@@ -40,9 +40,27 @@
           </nav>
         </div>
 
+
+        <!--
+        <%# if !user_is_anonymous? && current_user.belongs_to_multiple_containers? %>
+          <div class='dropdown-divider'></div>
+          <%# current_user.containers.each do |container| %>
+            <div class='dropdown-item text-center <%#= container == current_container ? 'active' : nil %>'>
+              <%# if container == current_container %>
+                <%#= container.name %>
+              <%# else %>
+                <%#= form_with model: container, url: update_current_container_path(container.uid), method: :put do |f| %>
+                  <span data-controller='feaux_form_submit_button'><%#= container.name %></span>
+                <%# end %>
+              <%# end %>
+            </div>
+          <%# end %>
+        <%# end %>
+        -->
+
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
           <!-- Profile dropdown -->
-          <div class="relative ml-3">
+          <div class="relative ml-3 hidden">
             <div>
               <button type="button" class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                 <span class="sr-only">Open user menu</span>
@@ -59,7 +77,7 @@
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95"
             -->
-            <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+            <div class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
               <!-- Active: "bg-gray-100", Not Active: "" -->
               <%= link_to 'Settings', settings_path, class: 'block px-4 py-2 text-sm text-gray-700', target: '_top' %>
               <%= link_to 'Help', '#', class: 'block px-4 py-2 text-sm text-gray-700', target: '_top' %>
@@ -103,6 +121,9 @@
               <%= nav[:text] %>
             </span>
           <% end %>
+        <% end %>
+        <% if !navigation_items %>
+          <span class='inline-flex items-center px-1 pt-1 text-sm pb-2' >&#12644;</span>
         <% end %>
 
         <!--

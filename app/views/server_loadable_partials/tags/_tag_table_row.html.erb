@@ -1,36 +1,29 @@
-<%= turbo_frame_tag "#{container.uid}_container_tags_table_row_#{tag.uid}" do %>
-  <%= link_to tag_snippet_path(tag_snippet), class: 'no-decoration', target: '_top' do %>
-    <div class='tagsafe-table-row hoverable <%= local_assigns[:streamed] ? 'tagsafe-illuminate' : nil %>'>
-      <div class='tagsafe-table-cell flex-3'>
-        <div class='tag-img-thumbnail-container'>
-          <% if tag_snippet.try_image_url %>
-            <%= image_tag tag_snippet.try_image_url, class: 'tag-thumbnail border' %>
-          <% end %>
-        </div>
-        <div class='tag-name-container w-fit ms-3'>
-          <span class='table-row-header underline-hover d-inline-block me-2'><%= tag_snippet.name %></span>
-          <% if tag_snippet.live? %>
-            <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
-          <% elsif tag_snippet.draft? %>
-            <span class='tagsafe-pill orange'>Draft</span>
-          <% elsif tag_snippet.paused? %>
-            <span class='tagsafe-pill red'>Paused</span>
-          <% elsif tag_snippet.deleted? %>
-            <span class='tagsafe-pill red'>Removed</span>
-          <% end %>
-          <!-- <span class='table-row-sub-header d-block'><#%= tag.url_based_on_preferences %></span> !-->
-        </div>
+<li is="turbo-frame" id="<%= "#{container.uid}_container_tags_table_row_#{tag.uid}" %>" role="list" class="py-4">
+  <div class="flex items-center space-x-4">
+    <% if tag_snippet.try_image_url %>
+      <div class="flex-shrink-0">
+        <%= image_tag tag_snippet.try_image_url, class: 'h-8 w-8 rounded-full' %>
       </div>
-      <div class='tagsafe-table-cell'>
-        <!-- <#%= render 'audits/tagsafe_score_pill_for_audit', tag: tag, audit: tag.most_recent_successful_audit %> !-->
-      </div>
-      <div class='tagsafe-table-cell'>
-        <!-- <#% if tag.release_monitoring_enabled? %>
-          <#%= tag.last_released_at&.formatted_short || 'No releases' %>
-        <#% else %>
-          <div class='tagsafe-pill grey small-text'>Release monitoring disabled</div>
-        <#% end %> !-->
-      </div>
+    <% end %>
+
+    <div class="min-w-0 flex-1">
+      <p class="truncate text-sm font-medium text-gray-900"><%= tag_snippet.name %></p>
+      <p class="truncate text-sm text-gray-500">
+        <% if tag_snippet.live? %>
+          <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
+        <% elsif tag_snippet.draft? %>
+          <span class='tagsafe-pill orange small-text mb-1'>Draft</span>
+        <% elsif tag_snippet.paused? %>
+          <span class='tagsafe-pill red small-text mb-1'>Paused</span>
+        <% elsif tag_snippet.deleted? %>
+          <span class='tagsafe-pill red small-text mb-1'>Removed</span>
+        <% end %>
+      </p>
     </div>
-  <% end %>
-<% end %>
+    <div>
+      <%= link_to tag_snippet_path(tag_snippet), class: 'inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50', target: '_top' do %>
+        View
+      <% end %>
+    </div>
+  </div>
+</li>

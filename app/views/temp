@@ -38,11 +38,11 @@
     </div>
   <% end %>
 <% end %>
+
 <div class='dropdown-divider'></div>
+
 <%= link_to 'Add New Container', new_container_path(additional: true), class: 'dropdown-item text-center no-decoration' %>
 <%= link_to 'Settings', settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
 <%= link_to 'Help', '#', class: 'dropdown-item text-center no decoration', target: '_top' %>
 <div class='dropdown-divider'></div>
 <%= link_to 'Sign out', logout_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
-
-
