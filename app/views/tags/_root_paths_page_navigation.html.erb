@@ -7,7 +7,7 @@
 
 <div class='page-title-container'>
   <div class='container-fluid'>
-    <div class='row ps-3 pe-3'>
+    <div class='row'>
       <div class='col-8'>
         <h1 class="page-title"><%= page_title %></h1>
       </div>
@@ -16,7 +16,9 @@
           <% if local_assigns[:cta_button_html] %>
             <%= cta_button_html %>
           <% else %>
-            <%= link_to 'New Tag', new_tag_snippet_path, class: 'floating-btn' %>
+            <%= link_to new_tag_snippet_path, class: 'floating-btn' do %>
+              <i class="fa-solid fa-tag me-1"></i> New Tag
+            <% end %>
             <!--
             <#%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
               <div class='d-flex align-items-center'>

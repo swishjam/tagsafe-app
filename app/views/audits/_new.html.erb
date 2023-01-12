@@ -42,7 +42,7 @@
           <% if tag.has_image? %>
             <%= image_tag tag.try_image_url, class: 'tag-thumbnail border' %>
           <% end %>
-          <h3>Perform audit on <%= tag.try_friendly_name %>?</h3>
+          <h3>Perform audit on <%= tag.tag_snippet.name %> <%= tag.full_url %>?</h3>
           <% if tag.is_tagsafe_hosted %>
             <h5 class='mt-3'>Tag version to audit</h5>
             <select name='tag_version_uid' class='form-select w-fit m-auto' style='width: fit-content' required>
@@ -55,18 +55,18 @@
           <% end %>
           <h5 class='mt-3'>URLs to audit:</h5>
           <div class='d-flex align-items-stretch justify-content-evenly m-auto' style='max-width: 720px'>
-            <% page_urls_tag_found_on.each do |page_url_tag_found_on| %>
+            <% page_urls.each do |page_url| %>
               <div class='custom-checkbox-div-container'>
                 <input name='page_url_uids_to_audit[]' 
-                        id="<%= page_url_tag_found_on.page_url.uid %>" 
-                        value="<%= page_url_tag_found_on.page_url.uid %>" 
+                        id="<%= page_url.uid %>" 
+                        value="<%= page_url.uid %>" 
                         type='checkbox' 
-                        class='custom-checkbox-div-input' 
-                        <%= page_url_tag_found_on.should_audit ? "checked='checked'" : nil %>>
-                <label class='custom-checkbox-div-label fill skinny' for='<%= page_url_tag_found_on.page_url.uid %>'>
+                        class='custom-checkbox-div-input'
+                        <%= page_url.is_root? ? 'checked=checked' : nil %>>
+                <label class='custom-checkbox-div-label fill skinny' for='<%= page_url.uid %>'>
                   <i class="far fa-check-circle checked top-right-icon green"></i>
                   <i class="far fa-times-circle unchecked top-right-icon red"></i>
-                  <div class='text'><%= page_url_tag_found_on.page_url.friendly_url %></div>
+                  <div class='text'><%= page_url.friendly_url %></div>
                 </label>
               </div>
             <% end %>

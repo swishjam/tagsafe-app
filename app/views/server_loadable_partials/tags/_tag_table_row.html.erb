@@ -8,17 +8,24 @@
           <% end %>
         </div>
         <div class='tag-name-container w-fit ms-3'>
-          <span class='table-row-header underline-hover d-inline-block me-2'><%= tag_snippet.name %></span>
-          <% if tag_snippet.live? %>
-            <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
-          <% elsif tag_snippet.draft? %>
-            <span class='tagsafe-pill orange'>Draft</span>
-          <% elsif tag_snippet.paused? %>
-            <span class='tagsafe-pill red'>Paused</span>
-          <% elsif tag_snippet.deleted? %>
-            <span class='tagsafe-pill red'>Removed</span>
-          <% end %>
-          <!-- <span class='table-row-sub-header d-block'><#%= tag.url_based_on_preferences %></span> !-->
+          <span class='table-row-header d-flex align-items-center'>
+            <span class="underline-hover me-2"><%= tag_snippet.name %></span> 
+            <% if tag_snippet.live? %>
+              <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
+            <% elsif tag_snippet.draft? %>
+              <span class='tagsafe-pill orange small-text mb-1'>Draft</span>
+            <% elsif tag_snippet.paused? %>
+              <span class='tagsafe-pill red small-text mb-1'>Paused</span>
+            <% elsif tag_snippet.deleted? %>
+              <span class='tagsafe-pill red small-text mb-1'>Removed</span>
+            <% end %>
+          </span>
+          <span class='table-row-sub-header d-block'>
+            <%= tag_snippet.tags.first&.full_url %>
+            <% if tag_snippet.tags.count > 1 %>
+              + <%= tag_snippet.tags.count - 1 %> more
+            <% end %>
+          </span>
         </div>
       </div>
       <div class='tagsafe-table-cell'>

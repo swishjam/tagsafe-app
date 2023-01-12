@@ -38,7 +38,7 @@ class AuditsController < LoggedInController
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
       tag_version: tag_version,
-      page_urls_tag_found_on: @tag.page_urls_tag_found_on.includes(:page_url),
+      page_urls: current_container.page_urls,
     })
   end
 
@@ -47,7 +47,7 @@ class AuditsController < LoggedInController
     audits_enqueued = []
     audits_with_errors = []
     params[:page_url_uids_to_audit].each do |page_url_uid|
-      page_url = @tag.page_urls.find_by!(uid: page_url_uid)
+      page_url = current_container.page_urls.find_by!(uid: page_url_uid)
       audit = Audit.run(
         tag: @tag,
         tag_version: tag_version,

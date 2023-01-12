@@ -8,13 +8,6 @@ class TagSnippetsController < LoggedInController
   end
 
   def create
-    # <script>
-    #   (function() {
-    #       var s = document.createElement('script');
-    #       s.setAttribute('src', 'https://www.thirdpartytag.com/script.js');
-    #       document.head.appendChild(s);
-    #   })()
-    # </script>
     params[:tag_snippet][:state] = 'draft'
     @tag_snippet = current_container.tag_snippets.new(tag_snippet_params)
     if @tag_snippet.save
@@ -53,6 +46,6 @@ class TagSnippetsController < LoggedInController
   private
 
   def tag_snippet_params
-    params.require(:tag_snippet).permit(:name, :state, :event_to_inject_snippet_on)
+    params.require(:tag_snippet).permit(:name, :state)
   end
 end
