@@ -1,10 +1,3 @@
-<%= render 'partials/page_navigation_items', navigation_items: [
-  { url: root_path, text: 'Tags Overview' }, 
-  { url: all_releases_path, text: 'Tag Releases' },
-  { url: page_performance_path, text: 'Page Performance' },
-  { url: settings_path, text: 'Settings' },
-  ] %>
-
 <div class='page-title-container'>
   <div class='container-fluid'>
     <div class='row ps-3 pe-3'>
@@ -20,7 +13,7 @@
             <!--
             <#%= modal_link select_tag_to_audit_tags_path, klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
               <div class='d-flex align-items-center'>
-                Run Audit 
+                Run Audit
                 <span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
                   <form class='hidden' action="<#%=select_tag_to_audit_tags_path%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
                   </form>
