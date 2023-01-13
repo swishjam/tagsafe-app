@@ -55,23 +55,12 @@ Rails.application.routes.draw do
   end
   put '/update_current_container/:uid' => 'containers#update_current_container', as: :update_current_container
 
-  # resources :functional_tests, param: :uid do
-  #   member do
-  #     get :tags_to_run_on
-  #     post :validate
-  #     patch :toggle_disable
-  #   end
-  #   get '/functional_tests_to_run' => 'functional_tests_to_run#index'
-  #   post '/functional_tests_to_run' => 'functional_tests_to_run#create'
-  #   delete '/functional_test_to_run/:uid' => 'functional_tests_to_run#destroy', as: :destroy_functional_test_to_run
-  #   resources :test_runs, only: [:index, :show], param: :uid do
-  #     member do
-  #       post :retry
-  #     end
-  #   end
-  # end
+  resources :tag_snippets, param: :uid do
+    collection do
+      get :list
+    end
+  end
 
-  resources :tag_snippets, param: :uid
   resources :tags, except: [:new, :delete], param: :uid do
     member do
       get '/settings' => 'tags#edit'

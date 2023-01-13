@@ -3,12 +3,10 @@
 <%= render 'root_paths_page_navigation', page_title: 'Tags' %>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
-
   <%= turbo_frame_tag "#{current_container.uid}_container_tags_container", src: server_loadable_partials_tags_path(page: params[:page]) do %>
     <div class='text-center p-5'>
       <%= display_loading_spinner size: :large %>
     </div>
   <% end %>
-
 </div>
 

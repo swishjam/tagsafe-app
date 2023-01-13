@@ -1,4 +1,15 @@
 class TagSnippetsController < LoggedInController
+  def list
+    render turbo_stream: turbo_stream.replace(
+      "#{current_container.uid}_tag_snippets_list",
+      partial: 'tag_snippets/list',
+      locals: { 
+        container: current_container,
+        tag_snippets: current_container.tag_snippets,
+      }
+    )
+  end
+
   def new
     @tag_snippet = TagSnippet.new
     render_breadcrumbs(
