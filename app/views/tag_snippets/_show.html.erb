@@ -1,71 +1,260 @@
 <%= turbo_frame_tag "#{tag_snippet.uid}_details" do %>
-  <div class='col-sm-12 col-md-10 offset-md-1 mt-3'>
-    <div class='row mb-3'>
-      <div class='col-9 d-flex align-items-center'>
-        <h2 class='mb-0'>
+
+<article>
+  <!-- Profile header -->
+  <div>
+    <div class="h-16 w-full object-cover lg:h-24">
+    </div>
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+        <div class="flex">
           <% if tag_snippet.try_image_url %>
-            <%= image_tag tag_snippet.try_image_url, class: 'tag-thumbnail border me-2' %>
+            <%= image_tag tag_snippet.try_image_url, class: 'h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32' %>
           <% end %>
-          <span class='me-2'><%= tag_snippet.name %></span>
-          <% if tag_snippet.live? %>
-            <span class='tagsafe-pill green' data-controller='tooltip' title='Tag is live'>Live</span>
-          <% elsif tag_snippet.draft? %>
-            <span class='tagsafe-pill orange' data-controller='tooltip' title='Tag is in draft mode, set live using the `set live` button below.'>Draft</span>
-          <% elsif tag_snippet.paused? %>
-            <span class='tagsafe-pill grey' data-controller='tooltip' title='Tag is paused, unpause using the button below.'>Paused</span>
-          <% elsif tag_snippet.deleted? %>
-            <span class='tagsafe-pill red' data-controller='tooltip' title='Tag has been removed and is not live.'>Removed</span>
-          <% end %>
-        </h2>
-      </div>
-      <div class='col-3 d-flex align-items-center justify-content-end'>
-        <% if !tag_snippet.pending_find_tags_job? && !tag_snippet.deleted? %>
-          <div class="dropdown show ellipsis-dropdown">
-            <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <%= link_to 'Edit tag', '#', class: 'dropdown-item' %>
-              <% if tag_snippet.draft? %>
-                <%= form_with model: tag_snippet do |f| %>
-                  <%= f.hidden_field :name, value: tag_snippet.name %>
-                  <%= f.hidden_field :state, value: 'live' %>
-                  <%= f.submit 'Set live', class: 'dropdown-item' %>
-                <% end %>
-              <% elsif tag_snippet.paused? %>
-                <%= form_with model: tag_snippet do |f| %>
-                  <%= f.hidden_field :name, value: tag_snippet.name %>
-                  <%= f.hidden_field :state, value: 'live' %>
-                  <%= f.submit 'Unpause tag', class: 'dropdown-item' %>
-                <% end %>
-              <% elsif tag_snippet.live? %>
-                <%= form_with model: tag_snippet do |f| %>
-                  <%= f.hidden_field :name, value: tag_snippet.name %>
-                  <%= f.hidden_field :state, value: 'paused' %>
-                  <%= f.submit 'Pause tag', class: 'dropdown-item' %>
-                <% end %>
-              <% end %>
-            <% if !tag_snippet.deleted? %>
-              <div class='dropdown-divider'></div>
-              <%= form_with model: tag_snippet do |f| %>
-                <%= f.hidden_field :name, value: tag_snippet.name %>
-                <%= f.hidden_field :state, value: 'deleted' %>
-                <%= f.submit 'Delete tag', class: 'dropdown-item text-danger' %>
-              <% end %>
-            <% end %>
+        </div>
+        <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+          <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
+            <h1 class="truncate text-2xl font-bold text-gray-900"><%= tag_snippet.name %></h1>
           </div>
+          <!--
+            <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+            <button type="button" class="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+              <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+              </svg>
+              <span>Message</span>
+            </button>
+            <button type="button" class="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2">
+              <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 012.43 8.326 13.019 13.019 0 012 5V3.5z" clip-rule="evenodd" />
+              </svg>
+              <span>Call</span>
+            </button>
+          </div> -->
+        </div>
+      </div>
+      <div class="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
+        <h1 class="truncate text-2xl font-bold text-gray-900">
+          <%= tag_snippet.name %>
+
+          <% if tag_snippet.live? %>
+            <span class="ml-4 inline-flex items-center rounded-full bg-green-100 px-3 py-0.5 text-sm font-medium text-green-800" data-controller='tooltip' title='Tag is live'>Live</span>
+          <% elsif tag_snippet.draft? %>
+            <span class="ml-4 inline-flex items-center rounded-full bg-gray-100 px-3 py-0.5 text-sm font-medium text-gray-800" data-controller='tooltip' title='Tag is in draft mode, set live using the `set live` button below'>Draft</span>
+          <% elsif tag_snippet.paused? %>
+            <span class="ml-4 inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800" data-controller='tooltip' title='Tag is paused, unpause using the button below'>Paused</span>
+          <% elsif tag_snippet.deleted? %>
+            <span class="ml-4 inline-flex items-center rounded-full bg-red-100 px-3 py-0.5 text-sm font-medium text-red-800" data-controller='tooltip' title='Tag has been removed and is not live'>Removed</span>
+          <% end %>
+
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code Snippet Code Editor -->
+  <div class='code-block border-y my-6'>
+    <div class='code-mirror-container readonly relative' data-controller='code-mirror'>
+      <div class='code-mirror-copy-btn absolute top-2 right-2 z-40 rounded-full bg-gray-100 py-2 h-8 w-8 text-center hover:bg-gray-200 cursor-pointer' data-action='click->code-mirror#copyContent'><i class="far fa-copy absolute top-2 right-2"></i></div>
+      <textarea class='hidden' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<%= tag_snippet.content.download %>"></textarea>
+    </div>
+  </div>
+
+
+  <!-- Controls for the tag -->
+  <% if !tag_snippet.pending_find_tags_job? && !tag_snippet.deleted? %>
+    <div class="dropdown show ellipsis-dropdown">
+      <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v" style="font-size: 18px;"></i>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <%= link_to 'Edit tag', '#', class: 'dropdown-item' %>
+        <% if tag_snippet.draft? %>
+          <%= form_with model: tag_snippet do |f| %>
+            <%= f.hidden_field :name, value: tag_snippet.name %>
+            <%= f.hidden_field :state, value: 'live' %>
+            <%= f.submit 'Set live', class: 'dropdown-item' %>
+          <% end %>
+        <% elsif tag_snippet.paused? %>
+          <%= form_with model: tag_snippet do |f| %>
+            <%= f.hidden_field :name, value: tag_snippet.name %>
+            <%= f.hidden_field :state, value: 'live' %>
+            <%= f.submit 'Unpause tag', class: 'dropdown-item' %>
+          <% end %>
+        <% elsif tag_snippet.live? %>
+          <%= form_with model: tag_snippet do |f| %>
+            <%= f.hidden_field :name, value: tag_snippet.name %>
+            <%= f.hidden_field :state, value: 'paused' %>
+            <%= f.submit 'Pause tag', class: 'dropdown-item' %>
+          <% end %>
+        <% end %>
+        <% if !tag_snippet.deleted? %>
+          <div class='dropdown-divider'></div>
+          <%= form_with model: tag_snippet do |f| %>
+            <%= f.hidden_field :name, value: tag_snippet.name %>
+            <%= f.hidden_field :state, value: 'deleted' %>
+            <%= f.submit 'Delete tag', class: 'dropdown-item text-danger' %>
+          <% end %>
         <% end %>
       </div>
     </div>
-    <div class='code-block p-2'>
-      <div class='code-mirror-container readonly' data-controller='code-mirror'>
-        <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
-        <textarea class='hidden' data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<%= tag_snippet.content.download %>"></textarea>
+  <% end %>
+
+  <!-- Resources Loaded By The Tag -->
+  <%= render 'tag_snippets/tags_table', tag_snippet: tag_snippet %>
+
+  <!-- Tabs -->
+  <!-- Current: "border-pink-500 text-gray-900", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+  <!--
+  <div class="mt-6 sm:mt-2 2xl:mt-5">
+    <div class="border-b border-gray-200">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+          <a href="#" class="border-tagsafe text-gray-900 whitespace-nowrap py-4 px-1 border-b font-medium text-sm" aria-current="page">Profile</a>
+
+          <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">Calendar</a>
+
+          <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">Recognition</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <!-- Description list -->
+  <!--
+  <div class="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Phone</dt>
+        <dd class="mt-1 text-sm text-gray-900">(555) 123-4567</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Email</dt>
+        <dd class="mt-1 text-sm text-gray-900">ricardocooper@example.com</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Title</dt>
+        <dd class="mt-1 text-sm text-gray-900">Senior Front-End Developer</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Team</dt>
+        <dd class="mt-1 text-sm text-gray-900">Product Development</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Location</dt>
+        <dd class="mt-1 text-sm text-gray-900">San Francisco</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Sits</dt>
+        <dd class="mt-1 text-sm text-gray-900">Oasis, 4th floor</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Salary</dt>
+        <dd class="mt-1 text-sm text-gray-900">$145,000</dd>
+      </div>
+
+      <div class="sm:col-span-1">
+        <dt class="text-sm font-medium text-gray-500">Birthday</dt>
+        <dd class="mt-1 text-sm text-gray-900">June 8, 1990</dd>
+      </div>
+
+      <div class="sm:col-span-2">
+        <dt class="text-sm font-medium text-gray-500">About</dt>
+        <dd class="mt-1 max-w-prose space-y-5 text-sm text-gray-900">
+          <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
+          <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
+        </dd>
+      </div>
+    </dl>
+  </div>
+  -->
+
+  <!-- Team member list -->
+  <!--
+    <div class="mx-auto mt-8 max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
+    <h2 class="text-sm font-medium text-gray-500">Team members</h2>
+    <div class="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400">
+        <div class="flex-shrink-0">
+          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+        </div>
+        <div class="min-w-0 flex-1">
+          <a href="#" class="focus:outline-none">
+            <span class="absolute inset-0" aria-hidden="true"></span>
+            <p class="text-sm font-medium text-gray-900">Leslie Alexander</p>
+            <p class="truncate text-sm text-gray-500">Co-Founder / CEO</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400">
+        <div class="flex-shrink-0">
+          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+        </div>
+        <div class="min-w-0 flex-1">
+          <a href="#" class="focus:outline-none">
+            <span class="absolute inset-0" aria-hidden="true"></span>
+            <p class="text-sm font-medium text-gray-900">Michael Foster</p>
+            <p class="truncate text-sm text-gray-500">Co-Founder / CTO</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400">
+        <div class="flex-shrink-0">
+          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+        </div>
+        <div class="min-w-0 flex-1">
+          <a href="#" class="focus:outline-none">
+            <span class="absolute inset-0" aria-hidden="true"></span>
+            <p class="text-sm font-medium text-gray-900">Dries Vincent</p>
+            <p class="truncate text-sm text-gray-500">Manager, Business Relations</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400">
+        <div class="flex-shrink-0">
+          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+        </div>
+        <div class="min-w-0 flex-1">
+          <a href="#" class="focus:outline-none">
+            <span class="absolute inset-0" aria-hidden="true"></span>
+            <p class="text-sm font-medium text-gray-900">Lindsay Walton</p>
+            <p class="truncate text-sm text-gray-500">Front-end Developer</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+
+</article>
+
+
+
+
+
+
+  <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+    <div class='row mb-3'>
+      <div class='col-9 d-flex align-items-center'>
+        <h2 class='mb-0'>
+        </h2>
+      </div>
+      <div class='col-3 d-flex align-items-center justify-content-end'>
       </div>
     </div>
 
     <div class='mt-3'>
-      <%= render 'tag_snippets/tags_table', tag_snippet: tag_snippet %>
     </div>
 
     <div class='mt-2 text-end'>
@@ -78,5 +267,6 @@
         <% end %>
       <% end %>
     </div>
-  </div>
+    </div>
+
 <% end %>
