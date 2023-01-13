@@ -1,0 +1,23 @@
+{
+  "name": "functional-test-run",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-prod": "serverless deploy --stage production",
+    "locally": "serverless invoke local --function audit-domains-third-party-tags --data '{ \"page_url\": \"https://www.quantummetric.com\", \"first_party_url\": \"https://www.quantummetric.com\" }' --stage local"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
+    "dotenv": "^16.0.1",
+    "puppeteer-core": "^10.4.0",
+    "puppeteer-har": "^1.1.2"
+  },
+  "devDependencies": {
+    "puppeteer": "^15.5.0"
+  }
+}
