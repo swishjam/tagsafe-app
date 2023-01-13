@@ -24,7 +24,7 @@
     <% end %>
     <% if @tag.is_tagsafe_hosted %>
       <h5 class='fs-5 mt-5'>
-        <i class="fa-solid fa-clock-rotate-left fs-6 me-1"></i> 
+        <i class="fa-solid fa-clock-rotate-left fs-6 me-1"></i>
         Last release:
         <% if @tag.last_released_at %>
           <span class='fw-bolder'><%= time_ago_in_words(@tag.last_released_at) %> ago.</span>
