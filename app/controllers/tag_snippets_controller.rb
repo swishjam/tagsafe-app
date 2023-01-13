@@ -5,6 +5,12 @@ class TagSnippetsController < LoggedInController
       { url: root_path, text: 'All Tags' },
       { text: 'New Tag' }
     )
+    @navigation_items = [
+      { url: root_path, text: 'Tags' },
+      { url: all_releases_path, text: 'Releases' },
+      { url: page_performance_path, text: 'Page Performance' },
+      { url: settings_path, text: 'Settings' },
+    ]
   end
 
   def create
@@ -38,9 +44,15 @@ class TagSnippetsController < LoggedInController
   def show
     @tag_snippet = current_container.tag_snippets.find_by!(uid: params[:uid])
     render_breadcrumbs(
-      { url: root_path, text: 'All Tags' },
-      { text: "#{@tag_snippet.try_friendly_name} details" }
+      { url: root_path, text: 'Tags' },
+      { text: "#{@tag_snippet.try_friendly_name} Details" }
     )
+    @navigation_items = [
+      { url: root_path, text: 'Tags' },
+      { url: all_releases_path, text: 'Releases' },
+      { url: page_performance_path, text: 'Page Performance' },
+      { url: settings_path, text: 'Settings' },
+    ]
   end
 
   private

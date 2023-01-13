@@ -1,9 +1,9 @@
 class TagsController < LoggedInController
   def index
-    render_breadcrumbs(text: 'Monitor Center')
+    render_breadcrumbs(text: 'Tags')
     @navigation_items = [
-      { url: root_path, text: 'Tags Overview' },
-      { url: all_releases_path, text: 'Tag Releases' },
+      { url: root_path, text: 'Tags' },
+      { url: all_releases_path, text: 'Releases' },
       { url: page_performance_path, text: 'Page Performance' },
       { url: settings_path, text: 'Settings' },
     ]
@@ -13,7 +13,7 @@ class TagsController < LoggedInController
     @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     # @tag_versions = @tag.tag_versions.page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
-      { text: 'Monitor Center', url: root_path },
+      { text: 'Tags', url: root_path },
       { text: "#{@tag.try_friendly_name} Details" }
     )
   end
