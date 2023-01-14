@@ -40,7 +40,7 @@
         </div>
       <% end %>
       <% if audit.tag.load_type != 'defer' && audit.tag.configured_load_type != 'defer' %>
-        <div class='default-cursor mt-4 d-flex align-items-center alert alert-warning'>
+        <div class='cursor-default mt-4 d-flex align-items-center alert alert-warning'>
           <%= HtmlHelper.WARNING_ICON %> 
           <span class='fs-6 ms-3'>
             The <%= audit.tag.try_friendly_name %> tag is a<%= audit.tag.load_type == 'async' ? 'n' : nil %> `<%= audit.tag.load_type %>` script tag.

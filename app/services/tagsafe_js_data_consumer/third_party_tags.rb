@@ -29,13 +29,6 @@ module TagsafeJsDataConsumer
       tag.last_seen_at = Time.current
       tag.load_type = tag_data.load_type
       tag.save!
-
-      existing_page_url_tag_found_on = tag.page_urls_tag_found_on.find_by(page_url: @page_load.page_url)
-      if existing_page_url_tag_found_on
-        existing_page_url_tag_found_on.touch(:last_seen_at)
-      else
-        tag.page_urls << @page_load.page_url
-      end
     end
 
     def create_new_tag_if_necessary(tag_data)
@@ -53,7 +46,6 @@ module TagsafeJsDataConsumer
           load_type: tag_data.load_type,
           tagsafe_js_intercepted_count: tag_data.intercepted_by_tagsafe_js? ? 1 : 0,
           tagsafe_js_not_intercepted_count: tag_data.intercepted_by_tagsafe_js? ? 0 : 1,
-          page_urls_tag_found_on_attributes: [{ page_url: @page_load.page_url, should_audit: true }]
         )
         raise "Unable to add #{tag_data.url} to #{@container.uid}'s tags: #{tag.errors.full_messages.join('. ')}" if tag.errors.any?
         @num_updates += 1

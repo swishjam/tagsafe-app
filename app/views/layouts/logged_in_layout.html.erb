@@ -9,10 +9,59 @@
     <%= stimulus_include_tags %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= favicon_link_tag asset_cdn_url('/tagsafe-logo.svg') %>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontSize: {
+            xs: ['0.75rem', { lineHeight: '1rem' }],
+            sm: ['0.875rem', { lineHeight: '1.5rem' }],
+            base: ['1rem', { lineHeight: '1.75rem' }],
+            lg: ['1.125rem', { lineHeight: '2rem' }],
+            xl: ['1.25rem', { lineHeight: '2rem' }],
+            '2xl': ['1.5rem', { lineHeight: '2rem' }],
+            '3xl': ['2rem', { lineHeight: '2.5rem' }],
+            '4xl': ['2.5rem', { lineHeight: '3.5rem' }],
+            '5xl': ['3rem', { lineHeight: '3.5rem' }],
+            '6xl': ['3.75rem', { lineHeight: '1' }],
+            '7xl': ['4.5rem', { lineHeight: '1.1' }],
+            '8xl': ['6rem', { lineHeight: '1' }],
+            '9xl': ['8rem', { lineHeight: '1' }],
+          },
+          extend: {
+            borderRadius: {
+              '4xl': '2rem',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Lexend', 'sans-serif'],
+            },
+            maxWidth: {
+              '2xl': '40rem',
+            },
+            colors: {
+              tagsafe: {
+                DEFAULT: '#7487F7',
+                dark: '#46518f',
+                yellow: '#FAD831',
+                orange: '#EF7136',
+                purple: '#A343BA',
+                'off-white': '#FFFDF2',
+                'dark-blue': '#1F2D37',
+                'blue-gray': '#394150',
+              },
+            },
+          },
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+    <style type="text/tailwindcss">
+    </style>
     <script src='/chartkick.js'></script>
     <script src='/highcharts.js'></script>
-    
-    <%= render 'partials/assets' %>
+
+    <%= render partial: 'partials/assets' %>
     <%= yield :head %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="slack-app-id" content="A01HGPB713N">
@@ -24,19 +73,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <% has_top_banner = current_container.tagsafe_js_disabled? %>
-  <body class="logged-in <%=controller_name%> <%= action_name %> <%= has_top_banner ? 'with-fixed-top-banner' : nil %>">
-    <div class='fixed-content-container'>
+  <body class="<%=controller_name%> <%= action_name %> <%= has_top_banner ? 'with-fixed-top-banner' : nil %>">
+    <div class='hidden'>
       <%= render 'partials/top_level_banner' %>
       <%= render 'partials/notification_containers' %>
-      <%= render 'partials/server_loadable_modal' %>
     </div>
-    <div class="content-and-nav-container d-flex">
-      <!-- <#%= render 'partials/logged_in_nav' %> !-->
-      <!-- <div id="page-content-wrapper" class="<#%= @collapsed_navigation ? 'collapsed-navigation' : @hide_navigation ? 'no-navigation' : nil %>"> !-->
-      <div id="page-content-wrapper" class='no-navigation'>
-        <%= render 'partials/top_level_nav_bar' %>
-        <%= yield %>
-      </div>
+    <%= render 'partials/server_loadable_modal' %>
+    <div class="">
+      <%= render 'partials/top_level_nav_bar', navigation_items: @navigation_items %>
+      <%= yield %>
     </div>
   </body>
 </html>

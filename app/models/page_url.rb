@@ -7,8 +7,6 @@ class PageUrl < ApplicationRecord
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s
   has_many :page_loads, dependent: :destroy
   has_many :page_load_performance_metrics
-  has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
-  has_many :tags, through: :page_urls_tag_found_on
 
   validates_uniqueness_of :full_url, scope: :container_id, message: Proc.new{ |page_url| "#{page_url.full_url} already exists for Container #{page_url.container.name}."}
 

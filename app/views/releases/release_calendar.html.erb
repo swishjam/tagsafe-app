@@ -1,34 +1,49 @@
 <%= turbo_frame_tag "#{@container_or_tag.uid}_release_calendar" do %>
+
+  <div class="flex flex-col w-full h-44 flex-wrap content-start">
+
+    <% 52.times do %>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+      <div class="h-4 w-4 bg-gray-100 m-1"></div>
+    <% end %>
+  </div>
+
+  <!--
   <div class='release-graph-with-headers m-auto'>
-    <h4 class='text-center'><%= Time.current.strftime('%B') %></h4>
+    <h4 class='text-center'><#= Time.current.strftime('%B') %></h4>
     <div class='release-graph'>
-      <% @release_count_by_day.each_slice(7) do |arrays_of_days_and_release_count| %>
+      <# @release_count_by_day.each_slice(7) do |arrays_of_days_and_release_count| %>
         <div class='release-graph-row'>
-          <% arrays_of_days_and_release_count.each do |day_and_release_count| %>
-            <% day = day_and_release_count[0] %>
-            <% if day > Time.current %>
+          <# arrays_of_days_and_release_count.each do |day_and_release_count| %>
+            <# day = day_and_release_count[0] %>
+            <# if day > Time.current %>
               <div class='release-graph-day disabled'>
-                <span class='d-block'><%= day.strftime('%b') %></span>
-                <span class='d-block'><%= day.strftime('%d') %></span>
+                <span class='d-block'><#= day.strftime('%b') %></span>
+                <span class='d-block'><#= day.strftime('%d') %></span>
               </div>
-            <% else %>
-              <% num_releases = day_and_release_count[1] %>
-              <% rate_of_release_heat = num_releases.to_f / @most_releases_in_a_day %>
-              <div class='release-graph-day release-heat-<%= rate_of_release_heat >= 0.75 ? 5 :
+            <# else %>
+              <# num_releases = day_and_release_count[1] %>
+              <# rate_of_release_heat = num_releases.to_f / @most_releases_in_a_day %>
+              <div class='release-graph-day release-heat-<#= rate_of_release_heat >= 0.75 ? 5 :
                                                               rate_of_release_heat >= 0.5 ? 4 :
                                                               rate_of_release_heat >= 0.25 ? 3 :
                                                               rate_of_release_heat > 0.0 ? 2 : 
                                                               1 %>' 
                     data-controller='tooltip' 
                     data-bs-toggle='tooltip' 
-                    title="<%= num_releases.zero? ? 'No' : num_releases %> releases on <%= day.strftime("%b %d, %Y") %>.">
-                <span class='d-block'><%= day.strftime('%b') %></span>
-                <span class='d-block'><%= day.strftime('%d') %></span>
+                    title="<#= num_releases.zero? ? 'No' : num_releases %> releases on <#= day.strftime("%b %d, %Y") %>.">
+                <span class='d-block'><#= day.strftime('%b') %></span>
+                <span class='d-block'><#= day.strftime('%d') %></span>
               </div>
-            <% end %>
-          <% end %>
+            <# end %>
+          <# end %>
         </div>
-      <% end %>
+      <# end %>
     </div>
     <div class='release-graph-legend mt-3 text-end'>
       <span>Less Releases</span>
@@ -40,4 +55,5 @@
       <span>More Releases</span>
     </div>
   </div>
+-->
 <% end %>

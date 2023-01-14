@@ -54,36 +54,6 @@
         </div>
       </div>
 
-      <!--
-      <div class='form-floating mt-5'>
-        <span class='form-label fs-5 fw-bolder d-block'>Perform automated audits on these URLs</span>
-        <span class='form-label fs-6 d-block'>When a tag provider makes a release, each of these URLs will be audited automatically.</span>
-        <#% tag.page_urls_tag_found_on.includes(:page_url).order(:should_audit).each do |page_url_tag_found_on| %>
-          <div class='tagsafe-pill removable m-1 <#%= page_url_tag_found_on.should_audit ? 'green' : 'grey' %>'>
-            <span data-controller='tooltip'
-                  title='<#%= page_url_tag_found_on.should_audit ? 
-                              'URL will be automatically audited on any future tag releases.' : 
-                              'URL is not currently automatically audited on future tag releases. '%>'>
-                <#%= page_url_tag_found_on.page_url.friendly_url %>
-            </span>
-            <#%= form_with url: tag_page_urls_tag_found_on_path(tag, page_url_tag_found_on), method: :patch, class: 'd-inline' do |f| %>
-              <#%= f.hidden_field :should_audit, value: !page_url_tag_found_on.should_audit %>
-              <span class='remove-btn pointer p-1 ms-2' 
-                      data-controller='feaux_form_submit_button tooltip' 
-                      title='<#%= page_url_tag_found_on.should_audit ? 'No longer run automated audits on this tag?' : 'Add this URL to automated audits.' %>'>
-                <#% if page_url_tag_found_on.should_audit %>
-                  <i class='fa fa-times'></i>
-                <#% else %>
-                  Add
-                <#% end %>
-              </span>
-            <#% end %>
-          </div>
-        <#% end %>
-      </div> !-->
-
-      
-
       <div class="form-check form-switch mt-5 ps-0 pb-5 col-12">
         <div class='row'>
           <div class='col-8'>

@@ -13,15 +13,17 @@ class ContainerUsersController < LoggedInController
   end
 
   def destroy
-    du = ContainerUser.find_by(uid: params[:uid])
-    if current_user.can_remove_user_from_container?(du.container)
-      du.destroy!
-      redirect_to request.referrer
+    cu = ContainerUser.find_by(uid: params[:uid])
+    if current_user.can_remove_user_from_container?(cu.container) && cu.destroy
+      stream_modal(
+        partial: 'container_users/destroy_modal',
+        locals: { container_user: cu, success: true }
+      )
     else
       stream_modal(
         partial: 'container_users/destroy_modal',
         locals: { 
-          container_user: du,
+          container_user: cu,
           errors: ['Insufficient access to remove user']
         }
       )

@@ -1,13 +1,14 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
+  static targets = ['loadingIndicator', 'dynamicContent', 'title']
   connect() {
     this._listenForEscape();
   }
 
   hide() {
     document.body.classList.remove('locked');
-    this.element.classList.remove('show');
+    this.element.classList.add('hidden');
     this._clearModalContent();
   }
 
@@ -24,8 +25,8 @@ export default class extends Controller {
   }
 
   _clearModalContent() {
-    this.element.querySelector('.tagsafe-modal-title').innerText = null;
-    this.element.querySelector('.tagsafe-modal-dynamic-content').innerHTML = null;
-    this.element.querySelector('.tagsafe-modal-loading-container').classList.remove('hidden');
+    this.loadingIndicatorTarget.classList.remove('hidden');
+    this.dynamicContentTarget.remove();
+    this.titleTarget.remove();
   }
 }

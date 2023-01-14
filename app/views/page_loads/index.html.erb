@@ -1,9 +1,28 @@
-<%= render 'tags/root_paths_page_navigation', page_title: 'Page performance' %>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12">
+  <div class="mx-auto max-w-3xl md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl ">
+    <div class="flex items-center space-x-5">
+      <div>
+        <h1 class="text-2xl font-medium text-gray-900">Page performance</h1>
+      </div>
+    </div>
+    <div class="justify-stretch mt-6 flex flex-col-reverse space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-y-0 sm:space-x-3 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
+    </div>
+  </div>
+</div>
 
-<div class='col-sm-10 offset-sm-1 col-md-8 offset-md-2 mt-2'>
-  <%= turbo_frame_tag "#{current_container.uid}_page_loads_chart", src: charts_page_loads_path(page_url_uid: current_container.page_urls.first.uid) do %>
-    <div class='text-center p-3'>
-      <%= display_loading_spinner %>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+  <% if current_container.page_urls.any? %>
+    <%= turbo_frame_tag "#{current_container.uid}_page_loads_chart", src: charts_page_loads_path(page_url_uid: current_container.page_urls.first.uid) do %>
+      <div class='text-center p-3'>
+        <%= display_loading_spinner %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class='my-5 text-center border px-10 py-10'>
+      <h3 class="mt-5 text-md font-medium text-gray-900">No performance data recorded yet.</h3>
+      <svg class="mx-auto h-12 w-12 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+      </svg>
     </div>
   <% end %>
 </div>

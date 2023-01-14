@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_11_175757) do
+ActiveRecord::Schema.define(version: 2023_01_14_034412) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -309,6 +309,8 @@ ActiveRecord::Schema.define(version: 2023_01_11_175757) do
     t.bigint "container_id"
     t.text "description", size: :medium
     t.datetime "created_at", null: false
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
     t.index ["container_id"], name: "index_instrumentation_builds_on_container_id"
     t.index ["uid"], name: "index_instrumentation_builds_on_uid"
   end

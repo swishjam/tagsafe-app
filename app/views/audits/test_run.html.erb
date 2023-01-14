@@ -1,8 +1,0 @@
-<%= turbo_stream_from "test_run_#{@test_run.uid}_details_view" %>
-
-<%= render 'show_page_header' %>
-
-<div class='tagsafe-container text-center col-10 offset-1'>
-  <h4><%= @test_run.functional_test.name %></h4>
-  <%= render 'test_runs/show', test_run: @test_run, functional_test: @functional_test %>
-</div>

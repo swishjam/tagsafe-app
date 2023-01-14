@@ -35,7 +35,7 @@ class UserInvitesController < LoggedInController
   end
 
   def index
-    @user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
+    @pending_user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def accept

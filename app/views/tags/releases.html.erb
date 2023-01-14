@@ -20,7 +20,7 @@
         Releases 
       </h2>
       <% if most_recent_check = @tag.release_checks.most_recent_first.limit(1).first %>
-        <span class='d-block w-fit default-cursor'
+        <span class='d-block w-fit cursor-default'
                 data-controller='tooltip' 
                 title='Release monitoring interval is set for <%= @tag.release_monitoring_interval_in_words %>.'>
           As of <%= time_ago_in_words(most_recent_check.created_at) %> ago.

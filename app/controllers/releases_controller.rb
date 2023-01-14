@@ -2,6 +2,12 @@ class ReleasesController < LoggedInController
   def all
     @tag_versions = current_container.tag_versions.not_first_version.most_recent_first.page(params[:page]).per(15)
     render_breadcrumbs(text: 'Releases')
+    @navigation_items = [
+      { url: root_path, text: 'Tags' },
+      { url: all_releases_path, text: 'Releases' },
+      { url: page_performance_path, text: 'Page Performance' },
+      { url: settings_path, text: 'Settings' },
+    ]
   end
 
   def index
