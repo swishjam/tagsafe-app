@@ -11,7 +11,7 @@
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
   <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
     <div  class="lg:col-span-1 lg:col-start-1">
-      <%= turbo_frame_tag "#{current_container.uid}_tag_snippets_list", src: list_tag_snippets_path do %>
+      <%= turbo_frame_tag "#{current_container.uid}_tag_snippets_list" do %>
         <div class='text-center p-5'>
           <%= display_loading_icon %>
         </div>
