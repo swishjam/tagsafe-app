@@ -126,7 +126,8 @@ class Tag < ApplicationRecord
   end
 
   def perform_audit_on_all_should_audit_urls!(execution_reason:, tag_version:, initiated_by_container_user:)
-    page_urls.each do |page_url|
+    # TODO: we shouldn't audit _all_ URLs here
+    container.page_urls.each do |page_url|
       perform_audit!(
         execution_reason: execution_reason, 
         tag_version: tag_version,
