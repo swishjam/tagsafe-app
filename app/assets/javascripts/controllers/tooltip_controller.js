@@ -11,7 +11,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    // this.tooltip.dispose();
+    if (this.tooltipEl) this.tooltipEl.remove();
   }
 
   _initializePopperTooltip() {

@@ -12,7 +12,8 @@ class FindTagsInSnippetJob < ApplicationJob
     tag_snippet.reload
     tag_datas = TagManager::FindTagsInTagSnippet.find!(tag_snippet.executable_javascript, tag_snippet.script_tags_attributes)
     tag_datas.each do |tag_data|
-      tag_snippet.tags.create!(container: tag_snippet.container, full_url: tag_data['url'], load_type: tag_data['load_type'])
+      tag = tag_snippet.tags.create!(container: tag_snippet.container, full_url: tag_data['url'], load_type: tag_data['load_type'])
+      NewTagJob.perform_now(tag)
     end
     tag_snippet.found_all_tags_injected_by_snippet!
   rescue ActiveStorage::FileNotFoundError => e

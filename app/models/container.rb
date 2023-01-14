@@ -35,7 +35,7 @@ class Container < ApplicationRecord
   validates :tagsafe_js_re_route_eligible_tags_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 
   def publish_instrumentation!(description: '')
-    InstrumentationBuild.create!(container: @container, description: description)
+    InstrumentationBuild.create!(container: self, description: description)
   end
 
   def tagsafe_instrumentation_url(use_cdn: true)
