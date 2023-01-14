@@ -5,7 +5,7 @@ class TagSnippetsController < LoggedInController
       partial: 'tag_snippets/list',
       locals: { 
         container: current_container,
-        tag_snippets: current_container.tag_snippets,
+        tag_snippets: current_container.tag_snippets.includes(tags: [tag_identifying_data: :image_attachment]),
       }
     )
   end
