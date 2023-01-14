@@ -1,6 +1,16 @@
-<%= render 'tags/root_paths_page_navigation', page_title: 'Page performance' %>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12">
+  <div class="mx-auto max-w-3xl md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl ">
+    <div class="flex items-center space-x-5">
+      <div>
+        <h1 class="text-2xl font-medium text-gray-900">Page performance</h1>
+      </div>
+    </div>
+    <div class="justify-stretch mt-6 flex flex-col-reverse space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-y-0 sm:space-x-3 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
+    </div>
+  </div>
+</div>
 
-<div class='col-sm-10 offset-sm-1 col-md-8 offset-md-2 mt-2'>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
   <%= turbo_frame_tag "#{current_container.uid}_page_loads_chart", src: charts_page_loads_path(page_url_uid: current_container.page_urls.first.uid) do %>
     <div class='text-center p-3'>
       <%= display_loading_spinner %>
