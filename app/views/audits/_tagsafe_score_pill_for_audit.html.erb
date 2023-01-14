@@ -7,7 +7,7 @@
                         'bg-green-100 text-green-800' : audit.tagsafe_score >= 75 ? 
                           'bg-orange-100 text-orange-800' : 'bg-red-100 text-red-800' %>
   <div class='position-relative'>
-    <div class='inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium cursor-default <%= color_klasses %>'>
+    <div class='inline-flex items-center rounded-full px-3 py-1 text-sm font-medium cursor-default <%= color_klasses %>'>
       <%= audit.formatted_tagsafe_score %>
       <% unless local_assigns[:compare_to_previous_score] == false %>
         <% audit_to_compare_against = audit.audit_to_compare_with %>
