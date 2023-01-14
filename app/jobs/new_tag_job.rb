@@ -1,4 +1,6 @@
 class NewTagJob < ApplicationJob
+  queue_as TagsafeQueue.CRITICAL
+  
   def perform(tag)
     TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine!
     TagManager::TagVersionFetcher.new(tag).fetch_and_capture_first_tag_version! if is_tagsafe_hostable
