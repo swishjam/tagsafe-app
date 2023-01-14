@@ -3,6 +3,7 @@ class SettingsController < LoggedInController
   def global_settings
     render_navigation_items(
       { url: root_path, text: 'Tags' },
+      { url: pull_requests_path, text: 'Pull Requests' },
       { url: all_releases_path, text: 'Releases' },
       { url: page_performance_path, text: 'Page Performance' },
       { url: settings_path, text: 'Settings' },
@@ -17,6 +18,7 @@ class SettingsController < LoggedInController
     )
     render_navigation_items(
       { url: root_path, text: 'Tags' },
+      { url: pull_requests_path, text: 'Pull Requests' },
       { url: all_releases_path, text: 'Releases' },
       { url: page_performance_path, text: 'Page Performance' },
       { url: settings_path, text: 'Settings', active: true },

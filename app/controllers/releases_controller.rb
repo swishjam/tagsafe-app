@@ -4,6 +4,7 @@ class ReleasesController < LoggedInController
     render_breadcrumbs(text: 'Releases')
     @navigation_items = [
       { url: root_path, text: 'Tags' },
+      { url: pull_requests_path, text: 'Pull Requests' },
       { url: all_releases_path, text: 'Releases' },
       { url: page_performance_path, text: 'Page Performance' },
       { url: settings_path, text: 'Settings' },
