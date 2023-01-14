@@ -41,7 +41,8 @@ class Tag < ApplicationRecord
 
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
-  after_create_commit { NewTagJob.perform_later(self) }
+  # moving this to synchronous in `FindTagsInSnippetJob`
+  # after_create_commit { NewTagJob.perform_later(self) } 
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
