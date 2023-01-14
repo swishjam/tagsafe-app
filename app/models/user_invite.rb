@@ -67,7 +67,7 @@ class UserInvite < ApplicationRecord
       locals: { 
         container: container,
         status: :pending,
-        user_invites: container.user_invites.pending 
+        pending_user_invites: container.user_invites.pending 
       }
     )
   end
