@@ -57,6 +57,10 @@ class TagSnippet < ApplicationRecord
 
   def found_all_tags_injected_by_snippet!
     touch(:find_tags_injected_by_snippet_job_completed_at)
+    update_tag_snippet_details_view
+  end
+
+  def update_tag_snippet_details_view
     broadcast_replace_to(
       "#{uid}_details_stream",
       target: "#{uid}_details",

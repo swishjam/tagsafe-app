@@ -70,6 +70,10 @@ module ApplicationHelper
     )
   end
 
+  def render_navigation_items(*items)
+    @navigation_items = items
+  end
+
   def render_breadcrumbs(*crumbs)
     @breadcrumbs = crumbs
   end

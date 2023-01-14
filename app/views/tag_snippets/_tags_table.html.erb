@@ -1,165 +1,163 @@
-<div class="px-4 sm:px-6 lg:px-8 sm:mt-6 lg:mt-8">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
-      <h1 class="text-xl font-semibold text-gray-900">Resources loaded by <%= tag_snippet.name %></h1>
-      <p class="mt-2 text-sm text-gray-700">Other code that this tag loads into your page</p>
-    </div>
+<% if tag_snippet.pending_find_tags_job? %>
+  <div class='p-5 text-center'>
+    <h1 class="truncate text-2xl text-gray-900 mb-1">Analyzing tag...</h1>
+    <h2 class="truncate text-md text-gray-900 mb-2">View will update momentarily.</h2>
+    <%= display_loading_icon %>
   </div>
-  <div class="mt-8 flex flex-col">
-    <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle">
-        <div class="overflow-hidden ring-1 ring-black ring-opacity-5">
-          <table class="w-full divide-y divide-gray-300 table-fixed">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8 w-4/12">URL</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-2/12">Tagsafe Score</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-2/12">Hosting Strategy</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-3/12">Loading Strategy</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 bg-white">
-              <% tag_snippet.tags.each do |tag| %>
+<% else %>
+  <div class="px-4 sm:px-6 lg:px-8 sm:mt-6 lg:mt-8">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-xl font-semibold text-gray-900">Resources loaded by <%= tag_snippet.name %></h1>
+        <p class="mt-2 text-sm text-gray-700">Other code that this tag loads into your page</p>
+      </div>
+    </div>
+    <div class="mt-8 flex flex-col">
+      <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle">
+          <div class="overflow-hidden ring-1 ring-black ring-opacity-5">
+            <table class="w-full divide-y divide-gray-300 table-fixed">
+              <thead class="bg-gray-50">
                 <tr>
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8 truncate ">
-                    <span class='table-row-header'><%= tag.full_url %></span>
-                  </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    <%= render 'audits/tagsafe_score_pill_for_audit', audit: tag.primary_audit %>
-                  </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8 w-4/12">URL</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-2/12">Tagsafe Score</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-2/12">Hosting Strategy</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-3/12">Loading Strategy</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <% tag_snippet.tags.each do |tag| %>
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8 truncate ">
+                      <span class='table-row-header'><%= tag.full_url %></span>
+                    </td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <%= render 'audits/tagsafe_score_pill_for_audit', audit: tag.primary_audit %>
+                    </td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 
-                    <% if tag.is_tagsafe_hosted %>
+                      <% if tag.is_tagsafe_hosted %>
+
+                        <% if tag.current_live_tag_version && tag.current_live_tag_version.tagsafe_saved_bytes? %>
+                          <span
+                            data-controller='tooltip'
+                            title="You are saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> by hosting with Tagsafe. The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host."
+                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                            Tagsafe CDN
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                            </svg>
+                          </span>
+                        <% elsif tag.current_live_tag_version && !tag.current_live_tag_version.tagsafe_saved_bytes? %>
+                          <span
+                            data-controller='tooltip'
+                            title="The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host."
+                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                            Tagsafe CDN
+                          </span>
+                        <% end %>
+
+                      <% elsif tag.is_tagsafe_hostable %>
 
 
-                      <% if tag.current_live_tag_version && tag.current_live_tag_version.tagsafe_saved_bytes? %>
-                        <span
-                          data-controller='tooltip'
-                          title="You are saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> by hosting with Tagsafe. The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host."
-                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                          Tagsafe CDN
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                          </svg>
-                        </span>
-                      <% elsif tag.current_live_tag_version && !tag.current_live_tag_version.tagsafe_saved_bytes? %>
-                        <span
-                          data-controller='tooltip'
-                          title="The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host."
-                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                          Tagsafe CDN
-                        </span>
-                      <% end %>
+                        <% if tag.current_live_tag_version && tag.current_live_tag_version.tagsafe_saved_bytes? %>
+                          <span
+                            data-controller='tooltip'
+                            title="You would be saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> if you were to switch your hosting strategy to host with Tagsafe. You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN."
+                            class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
+                            Default host
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M11.412 15.655L9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457L3 3m5.457 5.457l7.086 7.086m0 0L21 21" />
+                            </svg>
+                          </span>
+                        <% elsif tag.current_live_tag_version && !tag.current_live_tag_version.tagsafe_saved_bytes? %>
+                          <span
+                            data-controller='tooltip'
+                            title="You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN."
+                            class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
+                            Default host
+                          </span>
+                        <% end %>
 
-                    <% elsif tag.is_tagsafe_hostable %>
-
-
-                      <% if tag.current_live_tag_version && tag.current_live_tag_version.tagsafe_saved_bytes? %>
-                        <span
-                          data-controller='tooltip'
-                          title="You would be saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> if you were to switch your hosting strategy to host with Tagsafe. You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN."
-                          class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
-                          Default host
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.412 15.655L9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457L3 3m5.457 5.457l7.086 7.086m0 0L21 21" />
-                          </svg>
-                        </span>
-                      <% elsif tag.current_live_tag_version && !tag.current_live_tag_version.tagsafe_saved_bytes? %>
-                        <span
-                          data-controller='tooltip'
-                          title="You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN."
-                          class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800">
-                          Default host
-                        </span>
-                      <% end %>
-
-                    <% else %>
-                      <span
-                        data-controller='tooltip'
-                        title="This tag must be hosted by the tag provider (<%= tag.url_hostname %>)."
-                        class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                        Default host
-                      </span>
-                    <% end %>
-                  </td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    <% if tag.configured_load_type == 'default' %>
-                      <% if tag.load_type == 'synchronous' %>
-                        <span
-                          data-controller='tooltip'
-                          title="Synchronous tags can severely negatively impact your page load, it is recommended to use Tagsafe to override the load stategy to `defer`"
-                          class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                          </svg>
-                          <%= tag.load_type.capitalize %>
-                        </span>
-
-                      <% elsif tag.load_type == 'async' %>
-                        <span
-                          data-controller='tooltip'
-                          title="Async can cause slower page load. Update the loading strategy to defer for best performance"
-                          class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.412 15.655L9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457L3 3m5.457 5.457l7.086 7.086m0 0L21 21" />
-                          </svg>
-                          <%= tag.load_type.capitalize %>
-                        </span>
                       <% else %>
                         <span
                           data-controller='tooltip'
-                          title="Defer is the most optimal loading strategy"
-                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                          </svg>
-                          <%= tag.load_type.capitalize %>
+                          title="This tag must be hosted by the tag provider (<%= tag.url_hostname %>)."
+                          class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
+                          Default host
                         </span>
                       <% end %>
-                    <% else %>
-                      <span
-                        data-controller='tooltip'
-                        title="Overwritten from the default load strategy (<%= tag.load_type %>)."
-                        class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
-                        </svg>
-                        <%= tag.configured_load_type.capitalize %>
-                      </span>
-                    <% end %>
+                    </td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <% if tag.configured_load_type == 'default' %>
+                        <% if tag.load_type == 'synchronous' %>
+                          <span
+                            data-controller='tooltip'
+                            title="Synchronous tags can severely negatively impact your page load, it is recommended to use Tagsafe to override the load stategy to `defer`"
+                            class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
+                            <%= tag.load_type.capitalize %>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                          </span>
 
-                    <div class="dropdown show ellipsis-dropdown float-end">
-                      <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                        </svg>
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <%= link_to "View tag details", tag_path(tag), class: 'dropdown-item', target: '_top' %>
-                        <%= modal_link_to new_tag_audit_path(tag), text: 'Audit tag', klass: 'dropdown-item' %>
-                        <%= modal_link_to edit_tag_path(tag), text: 'Edit tag config', klass: 'dropdown-item' %> 
+                        <% elsif tag.load_type == 'async' %>
+                          <span
+                            data-controller='tooltip'
+                            title="Async can cause slower page load. Update the loading strategy to defer for best performance"
+                            class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800"
+                          >
+                            <%= tag.load_type.capitalize %>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M11.412 15.655L9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457L3 3m5.457 5.457l7.086 7.086m0 0L21 21" />
+                            </svg>
+                          </span>
+                        <% else %>
+                          <span
+                            data-controller='tooltip'
+                            title="Defer is the most optimal loading strategy"
+                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
+                          >
+                            <%= tag.load_type.capitalize %>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                            </svg>
+                          </span>
+                        <% end %>
+                      <% else %>
+                        <span
+                          data-controller='tooltip'
+                          title="Overwritten from the default load strategy (<%= tag.load_type %>)."
+                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
+                        >
+                          <%= tag.configured_load_type.capitalize %>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+                          </svg>
+                        </span>
+                      <% end %>
+
+                      <div class="dropdown show ellipsis-dropdown float-end">
+                        <a class="dropdown-link tagsafe-square-btn" data-controller='dropdown' href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                          </svg>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                          <%= link_to "View tag details", tag_path(tag), class: 'dropdown-item', target: '_top' %>
+                          <%= modal_link_to new_tag_audit_path(tag), text: 'Audit tag', klass: 'dropdown-item' %>
+                          <%= modal_link_to edit_tag_path(tag), text: 'Edit tag config', klass: 'dropdown-item' %> 
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-              <% end %>
+                    </td>
+                  </tr>
+                <% end %>
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-
-<% if tag_snippet.pending_find_tags_job? %>
-  <div class='p-5 text-center'>
-    <h5>Analyzing tag...</h5>
-    <%= display_loading_icon %>
-  </div>
-<% else %>
 <% end %>
