@@ -72,8 +72,6 @@ Rails.application.routes.draw do
     collection do
       get :select_tag_to_audit
     end
-    # resources :uptime_regions_to_check, only: [:create, :destroy, :new], param: :uid
-    resources :page_urls_tag_found_on, only: [:update], param: :uid
     resources :tag_versions, only: [:show, :index], param: :uid do
       member do
         get :promote

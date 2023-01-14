@@ -26,10 +26,6 @@ class Tag < ApplicationRecord
   has_many :audits, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
-  has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
-  has_many :page_urls, through: :page_urls_tag_found_on
-
-  accepts_nested_attributes_for :page_urls_tag_found_on
 
   SUPPORTED_RELEASE_MONITORING_INTERVALS = [0, 1, 15, 30, 60, 180, 360, 720, 1_440]
   
@@ -114,10 +110,6 @@ class Tag < ApplicationRecord
     most_recent_successful_audit
   end
 
-  def page_url_first_found_on
-    page_urls_tag_found_on.includes(:page_url).most_recent_first.limit(1).first.page_url
-  end
-
   def load_type_as_verb
     return load_type if %w[async defer].include?(load_type)
     "#{load_type}ly"
@@ -134,11 +126,11 @@ class Tag < ApplicationRecord
   end
 
   def perform_audit_on_all_should_audit_urls!(execution_reason:, tag_version:, initiated_by_container_user:)
-    page_urls_tag_found_on.should_audit.includes(:page_url).each do |page_url_tag_found_on|
+    page_urls.each do |page_url|
       perform_audit!(
         execution_reason: execution_reason, 
         tag_version: tag_version,
-        page_url: page_url_tag_found_on.page_url,
+        page_url: page_url,
         initiated_by_container_user: initiated_by_container_user
       )
     end
