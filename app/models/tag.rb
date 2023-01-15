@@ -50,7 +50,7 @@ class Tag < ApplicationRecord
   scope :not_tagsafe_hosted, -> { where(is_tagsafe_hosted: false) }
   scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
   scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
-  scope :open_pull_requests, -> { tagsafe_hosted.where('most_recent_tag_version_id <> current_live_tag_version_id') }
+  scope :open_change_requests, -> { tagsafe_hosted.where('most_recent_tag_version_id <> current_live_tag_version_id') }
 
   def set_parsed_url_attributes
     parsed_url = URI.parse(self.full_url)
@@ -73,7 +73,7 @@ class Tag < ApplicationRecord
     end
   end
 
-  def has_open_pull_request?
+  def has_open_change_request?
     is_tagsafe_hosted && most_recent_tag_version_id != current_live_tag_version_id
   end
 

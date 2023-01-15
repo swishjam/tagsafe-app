@@ -1,4 +1,4 @@
-<%= render 'tags/root_paths_page_navigation', page_title: 'Pull Requests', hide_new_tag_button: true %>
+<%= render 'tags/root_paths_page_navigation', page_title: 'Change Requests', hide_new_tag_button: true %>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
   <div class='mb-4'>
@@ -9,7 +9,7 @@
   <div class="mt-4 flow-root">
     <ul role="list" class="-my-5 divide-y divide-gray-200">
     
-      <%= turbo_frame_tag "#{current_container.uid}_pull_requests", src: list_pull_requests_path do %>
+      <%= turbo_frame_tag "#{current_container.uid}_change_requests", src: list_change_requests_path do %>
         <% 5.times do %>
           <li class="py-4">
             <div class="flex items-center space-x-4 animate-pulse">

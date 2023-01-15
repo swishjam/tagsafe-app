@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       # get :unrolled_release_list
     end
   end
-  resources :pull_requests, only: :index do
+  resources :change_requests, only: :index do
     collection do
       get :list
     end

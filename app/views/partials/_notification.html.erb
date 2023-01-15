@@ -1,7 +1,16 @@
-<div aria-live="assertive" class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6" data-controller='notification' data-persist-notification="<%= local_assigns[:auto_dismiss] == false %>">
+<div aria-live="assertive" 
+      class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 transition-all ease-in-out duration-1000"
+      data-controller='notification' 
+      data-persist-notification="<%= local_assigns[:auto_dismiss] == false %>" 
+      style='margin-right: -100vw'>
   <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
     <div class="pointer-events-auto flex w-full max-w-md divide-x divide-gray-200 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
       <div class="flex w-0 flex-1 items-center p-4">
+        <% if local_assigns[:image] %>
+          <div class="flex-shrink-0 mr-3">
+            <%= image_tag image, class: 'h-10 w-10 rounded-full border' %>
+          </div>
+        <% end %>
         <div class="w-full">
           <% if local_assigns[:title] %>
             <p class="text-sm font-medium text-gray-900"><%= local_assigns[:title] %></p>
@@ -13,7 +22,9 @@
         <div class="flex flex-col divide-y divide-gray-200">
           <% if local_assigns[:cta_url] %>
             <div class="flex h-0 flex-1">
-              <a href="<%= cta_url %>" type="button" class="flex w-full items-center justify-center rounded-none rounded-tr-lg border border-transparent px-4 py-3 text-sm font-medium text-blue-600 hover:text-blue-500 focus:text-blue-400">
+              <a href="<%= cta_url %>" 
+                  type="button" 
+                  class="flex w-full items-center justify-center rounded-none rounded-tr-lg border border-transparent px-4 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700">
                 <%= cta_text %>
               </a>
             </div>
@@ -21,7 +32,7 @@
           <div class="flex h-0 flex-1">
             <button data-action='notification#dismiss' 
                     type="button" 
-                    class="flex w-full items-center justify-center rounded-none rounded-br-lg border border-transparent px-4 py-3 text-sm font-medium text-gray-700 hover:text-gray-500 focus:text-gray-400">
+                    class="flex w-full items-center justify-center rounded-none rounded-br-lg border border-transparent px-4 py-3 text-sm font-medium text-gray-700 hover:text-gray-800 focus:text-gray-800">
               Close
             </button>
           </div>
