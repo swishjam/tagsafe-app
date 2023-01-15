@@ -9,4 +9,15 @@ class PullRequestsController < LoggedInController
       { url: settings_path, text: 'Settings' },
     )
   end
+
+  def list
+    render turbo_stream: turbo_stream.replace(
+      "#{current_container.uid}_pull_requests",
+      partial: 'pull_requests/list',
+      locals: { 
+        container: current_container,
+        tags_with_open_pull_requests: current_container.tags.open_pull_requests,
+      }
+    )
+  end
 end

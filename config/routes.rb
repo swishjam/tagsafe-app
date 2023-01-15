@@ -35,7 +35,11 @@ Rails.application.routes.draw do
       # get :unrolled_release_list
     end
   end
-  resources :pull_requests, only: :index
+  resources :pull_requests, only: :index do
+    collection do
+      get :list
+    end
+  end
 
   # get '/alerts' => 'alert_configurations#index', as: :alerts
   # get '/alerts/:uid' => 'triggered_alerts#show', as: :alert
