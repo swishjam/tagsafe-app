@@ -150,18 +150,20 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
     if execution_reason.new_release?
       container.container_users.each do |container_user|
         container_user.user.broadcast_notification(
-          partial: "/notifications/audits/completed",
-          title: "🚨 Audit completed",
+          title: "Audit completed",
+          message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{tagsafe_score}.",
+          cta_url: "/tags/#{tag.uid}/audits/#{uid}",
+          cta_text: "View audit",
           image: tag.try_image_url,
-          partial_locals: { audit: self }
         )
       end
     elsif execution_reason.manual?
       initiated_by_container_user.user.broadcast_notification(
-        partial: "/notifications/audits/completed",
-        title: "🚨 Audit completed",
-        image: tag.try_image_url,
-        partial_locals: { audit: self }
+          title: "Audit completed",
+          message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{tagsafe_score}.",
+          cta_url: "/tags/#{tag.uid}/audits/#{uid}",
+          cta_text: "View audit",
+          image: tag.try_image_url,
       )
     end
   end

@@ -189,10 +189,11 @@ class TagVersion < ApplicationRecord
   def broadcast_notification_to_all_users
     tag.container.container_users.each do |container_user|
       container_user.user.broadcast_notification(
-        partial: "/notifications/tag_versions/new_tag_version",
-        title: "🚨 New release",
+        title: "New pull request",
+        message: "#{tag.tag_snippet.name} opened a new pull request.",
+        cta_url: "/tags/#{tag.uid}/tag_versions/#{uid}",
+        cta_text: "View",
         image: tag.try_image_url,
-        partial_locals: { tag_version: self }
       )
     end
   end
