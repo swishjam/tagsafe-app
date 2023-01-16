@@ -26,20 +26,17 @@ class TagSnippetsController < LoggedInController
 
   def create
     params[:tag_snippet][:state] = 'draft'
+    params[:tag_snippet][:find_tags_injected_by_snippet_job_enqueued_at] = Time.current
     @tag_snippet = current_container.tag_snippets.new(tag_snippet_params)
     if @tag_snippet.save
       filename = "#{@tag_snippet.uid}-#{Time.now.to_i}-#{rand()}.html"
-      file = File.open(Rails.root.join('tmp', filename), 'w')
-      file.puts params[:tag_snippet][:content].force_encoding('UTF-8')
+      Util.create_dir_if_neccessary(Rails.root, 'tmp', 'tag_snippets')
+      file = File.open(Rails.root.join('tmp', 'tag_snippets', filename), 'w')
+      file.puts(params[:tag_snippet][:content].force_encoding('UTF-8'))
       file.close
 
-      @tag_snippet.content.attach({
-        io: File.open(file),
-        filename: filename,
-        content_type: 'text/html'
-      })
+      FindAndCreateTagsForTagSnippetJob.perform_later(@tag_snippet, filename)
 
-      File.delete(Rails.root.join('tmp', filename))
       redirect_to tag_snippet_path(@tag_snippet)
     else
       render :new, status: :unprocessable_entity
@@ -69,6 +66,6 @@ class TagSnippetsController < LoggedInController
   private
 
   def tag_snippet_params
-    params.require(:tag_snippet).permit(:name, :state)
+    params.require(:tag_snippet).permit(:name, :state, :find_tags_injected_by_snippet_job_enqueued_at)
   end
 end
