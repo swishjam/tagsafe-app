@@ -77,6 +77,10 @@ class Tag < ApplicationRecord
     is_tagsafe_hosted && most_recent_tag_version_id != current_live_tag_version_id
   end
 
+  def live_tag_version_is_up_to_date?
+    is_tagsafe_hosted && most_recent_tag_version_id == current_live_tag_version_id
+  end
+
   def has_tag_identifying_data?
     tag_identifying_data_id.present?
   end
