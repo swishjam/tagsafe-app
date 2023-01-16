@@ -6,28 +6,44 @@
 
 <%= render 'tags/root_paths_page_navigation', page_title: 'New Tag', hide_new_tag_button: true %>
 
-<div class='col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 mt-2'>
-  <% if @tag_snippet.errors.any? %>
-    <div class='alert alert-danger mb-3'>
-      <%= @tag_snippet.errors.full_messages.join(' ') %>
-    </div>
-  <% end %>
+<div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12'>
   <%= form_with model: @tag_snippet, data: { controller: 'loading_form'} do |f| %>
-    <div class='form-floating'>
-      <%= f.text_field :name, class: 'form-control', placeholder: 'Name' %>
-      <label>Tag Name</label>
-    </div>
-    <div class='code-block p-2 mt-2'>
-      <div class='code-mirror-container' data-controller='code-mirror'>
-        <textarea name='tag_snippet[content]'
-                  data-code-mirror-target='codeMirrorTextarea' 
-                  data-value="/*\r\n paste HTML snippet for tag here \r\n*/"></textarea>
+    <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4">
+      <div class="space-y-6 lg:col-start-1 lg:col-span-4 border rounded-md overflow-hidden p-6">
+
+        <% if @tag_snippet.errors.any? %>
+          <div class='alert alert-danger mb-3'>
+            <%= @tag_snippet.errors.full_messages.join(' ') %>
+          </div>
+        <% end %>
+
+        <div class='form-floating'>
+          <label for="" class="block text-sm font-medium text-gray-700">Tag Name</label>
+          <%= f.text_field :name, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm', placeholder:'e.g. thirdpartytag.com', type:'text' %>
+        </div>
+
+        <div>
+          <label for="" class="block text-sm font-medium text-gray-700">Tag Snippet</label>
+          <div class='code-block border rounded-md overflow-hidden'>
+            <div class='code-mirror-container' data-controller='code-mirror'>
+              <textarea
+                name='tag_snippet[content]'
+                data-code-mirror-target='codeMirrorTextarea'
+                data-value="/*\r\n paste HTML snippet for tag here \r\n*/">
+              </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid justify-items-end">
+          <button type='submit' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
+            Stage Tag For Deployment
+          </button>
+
+          <p class="truncate text-sm text-gray-500 text-right mt-2">Staging the tag will not deploy it live on your site immediately. <br />Tagsafe will run audits and optimize the tag deployment before allowing it to go live.</p>
+        </div>
+
       </div>
-    </div>
-    <div class='text-end mt-3'>
-      <button type='submit' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
-        Stage tag
-      </button>
     </div>
   <% end %>
 </div>
