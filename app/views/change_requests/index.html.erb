@@ -6,27 +6,27 @@
       <%= render 'side_nav' %>
     </div>
 
-    <div class="flow-root space-y-6 lg:col-span-3 lg:col-start-2 border rounded-md p-6">
+    <div class="flow-root space-y-6 lg:col-span-3 lg:col-start-2">
       <ul role="list" class="-my-5 divide-y divide-gray-200">
-      
+
         <%= turbo_frame_tag "#{current_container.uid}_change_requests", src: list_change_requests_path(status: params[:status]) do %>
           <% 5.times do %>
-            <li class="py-4">
+            <li class="p-4 border rounded-md mb-4">
               <div class="flex items-center space-x-4 animate-pulse">
                 <div class="rounded-full bg-slate-200 h-10 w-10"></div>
                 <div class="min-w-0 flex-1">
                   <div class="h-2 bg-slate-200 rounded"></div>
-                  <div class="h-2 bg-slate-200 rounded"></div>
+                  <div class="h-2 bg-slate-200 rounded mt-2"></div>
                 </div>
                 <div>
-                  <div class="h-2 bg-slate-200 rounded col-span-1"></div>
-                  <div class="h-2 bg-slate-200 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-200 rounded col-span-1 mt-2"></div>
+                  <div class="h-2 bg-slate-200 rounded col-span-1 mt-2"></div>
                 </div>
               </div>
             </li>
           <% end %>
         <% end %>
-        
+
       </ul>
     </div>
   </div>
