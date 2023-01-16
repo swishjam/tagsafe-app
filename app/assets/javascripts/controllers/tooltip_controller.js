@@ -33,7 +33,7 @@ export default class extends Controller {
     const el = document.createElement('div');
     el.classList.add(
       'tagsafe-tooltip', 'hidden', 'cursor-default', 'max-w-xs', 'border', 'text-sm', 'bg-white', 'text-gray-700', 'px-2', 
-      'py-2', 'rounded-lg', 'shadow-lg'
+      'py-2', 'rounded-lg', 'shadow-lg', 'text-center'
     );
     el.innerText = this.element.getAttribute('title');
     document.body.appendChild(el);

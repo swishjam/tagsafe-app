@@ -51,7 +51,7 @@ class TagVersion < ApplicationRecord
   after_create { tag.update!(last_released_at: self.created_at) unless first_version? }
   after_create { tag.perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: self, initiated_by_container_user: nil) }
   after_create_commit { broadcast_change_request_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
-  after_create_commit { prepend_tag_version_to_tag_details_view }
+  # after_create_commit { prepend_tag_version_to_tag_details_view }
   after_destroy :purge_s3_files!
   after_destroy { tag.update!(most_recent_tag_version: previous_version) if is_tags_most_recent_tag_version? }
   after_update_commit { update_tag_details_view if saved_changes['primary_audit_id'] }
