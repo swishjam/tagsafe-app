@@ -1,4 +1,4 @@
-class FindTagsInSnippetJob < ApplicationJob
+class NewTagSnippetJob < ApplicationJob
   queue_as TagsafeQueue.CRITICAL
 
   def perform(tag_snippet)
@@ -9,11 +9,13 @@ class FindTagsInSnippetJob < ApplicationJob
   private
 
   def try_to_find_tags(tag_snippet, attempts: 0)
-    tag_snippet.reload
     tag_datas = TagManager::FindTagsInTagSnippet.find!(tag_snippet.executable_javascript, tag_snippet.script_tags_attributes)
     tag_datas.each do |tag_data|
       tag = tag_snippet.tags.create!(container: tag_snippet.container, full_url: tag_data['url'], load_type: tag_data['load_type'])
-      NewTagJob.perform_now(tag)
+      # NewTagJob.perform_now(tag)
+      TagManager::MarkTagAsTagsafeHostedIfPossible.new(tag).determine!
+      TagManager::TagVersionFetcher.new(tag).fetch_and_capture_first_tag_version! if tag.is_tagsafe_hostable
+      tag.send(:enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!)
     end
     tag_snippet.found_all_tags_injected_by_snippet!
   rescue ActiveStorage::FileNotFoundError => e

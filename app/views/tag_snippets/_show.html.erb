@@ -15,7 +15,7 @@
             <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
               <h1 class="truncate text-2xl font-bold text-gray-900"><%= tag_snippet.name %></h1>
             </div>
-            <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+            <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0">
               <% if !tag_snippet.pending_find_tags_job? && !tag_snippet.deleted? %>
                 <!--<#%= link_to '#', class: 'inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2' do %>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-0.5 mr-2 h-4 w-4">
@@ -24,13 +24,13 @@
                   <span>Edit</span>
                 <#% end %>!-->
                 <% if tag_snippet.draft? %>
-                  <%= form_with model: tag_snippet do |f| %>
+                  <%= form_with model: tag_snippet, data: { controller: 'loading_form' } do |f| %>
                     <%= f.hidden_field :name, value: tag_snippet.name %>
                     <%= f.hidden_field :state, value: 'live' %>
                     <button type='submit'
                             data-controller='tooltip'
                             title='Set the tag live on your site and begin to capture'
-                            class='inline-flex justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2'>
+                            class='inline-flex justify-center items-center rounded-l-md border border-gray-300 bg-white hover:bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2'>
                       Set live
                       <svg class="ml-1 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
@@ -38,13 +38,13 @@
                     </button>
                   <% end %>
                 <% elsif tag_snippet.paused? %>
-                  <%= form_with model: tag_snippet, class:'' do |f| %>
+                  <%= form_with model: tag_snippet, class:'', data: { controller: 'loading_form' } do |f| %>
                     <%= f.hidden_field :name, value: tag_snippet.name %>
                     <%= f.hidden_field :state, value: 'live' %>
                     <button type='submit' 
                               data-controller='tooltip'
                               title='Set the tag live on your site and begin to capture again.'
-                              class='inline-flex justify-center rounded-md border border-gray-300 bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'>
+                              class='inline-flex justify-center items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2'>
                       Unpause tag
                       <svg class="w-6 h-6 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -53,13 +53,13 @@
                     </button>
                   <% end %>
                 <% elsif tag_snippet.live? %>
-                  <%= form_with model: tag_snippet do |f| %>
+                  <%= form_with model: tag_snippet, data: { controller: 'loading_form' } do |f| %>
                     <%= f.hidden_field :name, value: tag_snippet.name %>
                     <%= f.hidden_field :state, value: 'paused' %>
                     <button type='submit' 
                             data-controller='tooltip'
                             title='Pausing the tag will remove it from your page and stop it from firing. You can resume capture at any point afterwards.'
-                            class='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2'>
+                            class='inline-flex justify-center items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2'>
                       Pause tag
                       <svg class="ml-2 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -72,7 +72,7 @@
                 <%= form_with model: tag_snippet do |f| %>
                   <%= f.hidden_field :name, value: tag_snippet.name %>
                   <%= f.hidden_field :state, value: 'deleted' %>
-                  <button type='submit' class='inline-flex justify-center rounded-md border border-gray-300 bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'>
+                  <button type='submit' class='<%= tag_snippet.pending_find_tags_job? ? 'rounded-md' : 'rounded-r-md' %> -ml-px inline-flex justify-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-200 focus:ring-offset-2'>
                     Delete
                     <svg class="ml-2 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
