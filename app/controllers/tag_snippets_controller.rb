@@ -29,17 +29,14 @@ class TagSnippetsController < LoggedInController
     @tag_snippet = current_container.tag_snippets.new(tag_snippet_params)
     if @tag_snippet.save
       filename = "#{@tag_snippet.uid}-#{Time.now.to_i}-#{rand()}.html"
-      file = File.open(Rails.root.join('tmp', filename), 'w')
-      file.puts params[:tag_snippet][:content].force_encoding('UTF-8')
+      Util.create_dir_if_neccessary(Rails.root, 'tmp', 'tag_snippets')
+      file = File.open(Rails.root.join('tmp', 'tag_snippets', filename), 'w')
+      file.puts(params[:tag_snippet][:content].force_encoding('UTF-8'))
       file.close
 
-      @tag_snippet.content.attach({
-        io: File.open(file),
-        filename: filename,
-        content_type: 'text/html'
-      })
+      @tag_snippet.update!(find_tags_injected_by_snippet_job_enqueued_at: Time.current, find_tags_injected_by_snippet_job_completed_at: nil)
+      FindAndCreateTagsForTagSnippetJob.perform_later(@tag_snippet, filename)
 
-      File.delete(Rails.root.join('tmp', filename))
       redirect_to tag_snippet_path(@tag_snippet)
     else
       render :new, status: :unprocessable_entity
