@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :registrations, only: [:new, :create]
   get '/register' => 'registrations#new'
-  
+
   resources :container_users, only: [:destroy, :index], param: :uid
   get "/container_users/:uid/destroy_modal" => 'container_users#destroy_modal', as: :destroy_container_user_modal
   resources :user_invites, only: [:new, :create, :index]
@@ -143,6 +143,7 @@ Rails.application.routes.draw do
 
   get '/settings' => 'settings#global_settings', as: :settings
   get '/settings/team_management' => 'settings#team_management', as: :team_management
+  get '/settings/install_script' => 'settings#install_script', as: :install_script
   # get '/settings/billing' => 'settings#billing'
 
   namespace :charts do

@@ -22,4 +22,19 @@ class SettingsController < LoggedInController
       { url: settings_path, text: 'Settings', active: true },
     )
   end
+
+
+  def install_script
+    render_breadcrumbs(
+      { text: 'Settings', url: settings_path },
+      { text: 'Install Script' },
+    )
+    render_navigation_items(
+      { url: root_path, text: 'Tags' },
+      { url: change_requests_path, text: 'Change Requests' },
+      { url: page_performance_path, text: 'Page Performance' },
+      { url: settings_path, text: 'Settings', active: true },
+    )
+  end
+
 end
