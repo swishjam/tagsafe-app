@@ -2,8 +2,10 @@ class NewTagSnippetJob < ApplicationJob
   queue_as TagsafeQueue.CRITICAL
 
   def perform(tag_snippet)
+    transaction = Sentry.start_transaction(op: 'NewTagSnippetJob.perform')
     raise "TagSnippet already has associated Tags, delete Tags first before calling `find_and_create_associated_tags_added_to_page_by_snippet`" if tag_snippet.tags.any?
     try_to_find_tags(tag_snippet)
+    transaction.finish
   end
 
   private
