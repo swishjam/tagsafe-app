@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   require 'resque/server'
   mount Resque::Server.new, at: '/queue'
 
-  get '/login' => 'sessions#new'
+  get '/login' => 'sessions#new', as: :new_session
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy', as: :logout
 
