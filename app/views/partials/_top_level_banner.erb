@@ -1,4 +1,4 @@
-<% if current_container.tagsafe_js_disabled? %>
+<% if current_container&.tagsafe_js_disabled? %>
   <div class='fixed-top-banner warning'>
     <div>
       <span class='me-2'><%= HtmlHelper.WARNING_ICON %></span> 
