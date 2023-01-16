@@ -8,11 +8,11 @@ class TagSnippet < ApplicationRecord
   has_many :tags, dependent: :destroy
   has_one_attached :content, service: :tag_snippet_contents_s3, dependent: :destroy
 
-  validate :content_has_valid_script_tag_syntax
+  # validate :content_has_valid_script_tag_syntax
   validates :state, presence: true, inclusion: { in: VALID_STATES }
 
   after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{state})") if saved_changes['state'].present? }
-  after_create_commit :find_and_create_associated_tags_added_to_page_by_snippet
+  # after_create_commit :find_and_create_associated_tags_added_to_page_by_snippet
 
   TagSnippet::VALID_STATES.each do |state|
     define_method(:"#{state}?") { self.state == state }
@@ -71,11 +71,11 @@ class TagSnippet < ApplicationRecord
 
   private
 
-  def find_and_create_associated_tags_added_to_page_by_snippet
-    raise "TagSnippet already has associated Tags, delete Tags first before calling `find_and_create_associated_tags_added_to_page_by_snippet`" if tags.any?
-    update!(find_tags_injected_by_snippet_job_enqueued_at: Time.current, find_tags_injected_by_snippet_job_completed_at: nil)
-    NewTagSnippetJob.perform_later(self)
-  end
+  # def find_and_create_associated_tags_added_to_page_by_snippet
+  #   raise "TagSnippet already has associated Tags, delete Tags first before calling `find_and_create_associated_tags_added_to_page_by_snippet`" if tags.any?
+  #   update!(find_tags_injected_by_snippet_job_enqueued_at: Time.current, find_tags_injected_by_snippet_job_completed_at: nil)
+  #   FindAndCreateTagsForTagSnippetJob.perform_later(self)
+  # end
 
   def content_has_valid_script_tag_syntax
     return unless attachment_changes["content"]
