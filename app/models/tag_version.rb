@@ -259,9 +259,9 @@ class TagVersion < ApplicationRecord
     tag.container.container_users.each do |container_user|
       container_user.user.broadcast_notification(
         title: "New pull request",
-        message: "#{tag.tag_snippet.name} opened a new pull request.",
-        cta_url: "/tags/#{tag.uid}/tag_versions/#{uid}",
-        cta_text: "View",
+        message: "#{tag.tag_snippet.name} made a new change request.",
+        cta_url: "/change_requests/#{uid}",
+        cta_text: "Review",
         image: tag.try_image_url,
       )
     end
