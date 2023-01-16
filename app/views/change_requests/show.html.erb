@@ -1,5 +1,5 @@
-<%= render 'tags/root_paths_page_navigation', 
-              page_title: "Change Request: #{@tag_version.tag.tag_snippet.name} ", 
+<%= render 'tags/root_paths_page_navigation',
+              page_title: "Change Request: #{@tag_version.tag.tag_snippet.name} ",
               hide_new_tag_button: true %>
 
 <%= turbo_frame_tag "#{@tag_version.uid}_change_request" do %>
