@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "#{current_container.uid}_change_requests" do %>
+  <% if status == 'closed' %>
+    <% closed_change_requests.each do |tag_version| %>
+      <%= render 'change_requests/closed_change_request_row', tag_version: tag_version %>
+    <% end %>
+  <% else %>
+    <% if tags_with_open_change_requests.any? %>
+      <% tags_with_open_change_requests.each do |tag| %>
+        <%= render 'change_requests/open_change_request_row', tag: tag %>
+      <% end %>
+    <% else %>
+      <div class='text-center px-5 py-10'>
+        <p class='text-md text-gray-900'>No open change requests.</p>
+        <p class='text-sm text-gray-600'>When one of your tag providers makes a change, they will appear here for you to approve or reject.</p>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

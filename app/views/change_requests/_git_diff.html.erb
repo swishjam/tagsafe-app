@@ -1,0 +1,64 @@
+<%= turbo_frame_tag "#{tag_version.uid}_git_diff_change_request" do %>
+  <style id='diffy-css'><%= Diffy::CSS %></style>
+  <style>
+    .diff-content .diff {
+      overflow: inherit;
+    }
+    .diff-content ul {
+      background: #f7f7f7;
+    }
+    .diff-content li {
+      list-style-type: decimal;
+      list-style-position: outside;
+      margin-left: 35px;
+      height: auto;
+    }
+    .diff-content li:not(.diff-block-info) {
+      display: list-item;
+    }
+    .diff-content li.diff-block-info {
+      padding: 5px;
+    }
+    .diff-content li.diff-block-info span {
+      margin-left: 35px;
+    }
+    .diff-content li::marker {
+      color: #24292f;
+    }
+    .diff-content li.symbol {
+      color: #24292f;
+    }
+    .diff-content li.diff-block-info {
+      background: #eff6ff;
+    }
+    .diff-content li.unchanged {
+      background: white;
+    }
+    .diff-content li.unchanged:hover {
+      background: white;
+    }
+    .diff-content li.ins {
+      background: #dfd;
+    }
+    .diff-content li.ins:hover {
+      background: #dfd;
+    }
+    .diff-content li.del {
+      background: #fee;
+    }
+    .diff-content li.del:hover {
+      background: #fee;
+    }
+    .diff-content li.diff-comment {
+      display: none;
+    }
+  </style>
+  <div class='grid grid-cols-2 diff-content'>
+    <div class='inline-block'>
+      <%= deletions_html %>
+    </div>
+    <div class='inline-block'>
+      <%= additions_html %>
+    </div>
+  </div>
+<% end %>

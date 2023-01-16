@@ -5,7 +5,6 @@ export default class extends Controller {
     this.element.addEventListener("submit", _event => {
       this.element.classList.add('loading');
       const submitBtn = this.element.querySelector('input[type="submit"]') || this.element.querySelector('button[type="submit"]');
-      debugger;
       if(submitBtn) {
         submitBtn.classList.add('disabled:bg-slate-50', 'disabled:text-gray-400', 'disabled:border-slate-200', 'disabled:shadow-none');
         submitBtn.setAttribute('disabled', '');

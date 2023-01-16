@@ -5,10 +5,27 @@ class TagVersion < ApplicationRecord
   acts_as_paranoid
 
   belongs_to :tag
-  belongs_to :release_check_captured_with, class_name: ReleaseCheck.to_s, optional: true
-  belongs_to :primary_audit, class_name: Audit.to_s, optional: true
-  has_one :tag_with_current_live_tag_version, class_name: Tag.to_s, foreign_key: :current_live_tag_version_id, dependent: :restrict_with_error
-  has_one :tag_with_most_recent_tag_version, class_name: Tag.to_s, foreign_key: :most_recent_tag_version_id, dependent: :restrict_with_error
+  belongs_to :release_check_captured_with, 
+              class_name: ReleaseCheck.to_s, 
+              optional: true
+  belongs_to :primary_audit, 
+              class_name: Audit.to_s, 
+              optional: true
+  belongs_to :container_user_change_request_decisioned_by, 
+              class_name: ContainerUser.to_s, 
+              foreign_key: :container_user_id_change_request_decisioned_by, 
+              optional: true
+  belongs_to :live_tag_version_at_time_of_decision,
+              class_name: TagVersion.to_s,
+              optional: true
+  has_one :tag_with_current_live_tag_version, 
+            class_name: Tag.to_s, 
+            foreign_key: :current_live_tag_version_id, 
+            dependent: :restrict_with_error
+  has_one :tag_with_most_recent_tag_version, 
+            class_name: Tag.to_s, 
+            foreign_key: :most_recent_tag_version_id, 
+            dependent: :restrict_with_error
   has_many :audits, dependent: :destroy
     
   # should we have a first class attribute for this?
@@ -21,6 +38,11 @@ class TagVersion < ApplicationRecord
   scope :unable_to_minify, -> { where(tagsafe_minified_byte_size: -1) }
   scope :successfully_minified, -> { where.not(tagsafe_minified_byte_size: -1) }
 
+  scope :change_request_decided, -> { not_first_version.where.not(change_request_decision: nil) }
+  scope :change_request_decision_pending, -> { not_first_version.where(change_request_decision: nil) }
+
+  validates :change_request_decision, inclusion: { in: [nil, 'approved', 'denied'] }
+
   #############
   # CALLBACKS #
   #############
@@ -28,8 +50,8 @@ class TagVersion < ApplicationRecord
   before_create { self.tag_version_identifier = generate_tag_version_identifier }
   after_create { tag.update!(last_released_at: self.created_at) unless first_version? }
   after_create { tag.perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: self, initiated_by_container_user: nil) }
-  after_create_commit { broadcast_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
-  after_create_commit { prepend_tag_version_to_tag_details_view }
+  after_create_commit { broadcast_change_request_notification_to_all_users unless first_version? } # temporary until we re-visit alerts
+  # after_create_commit { prepend_tag_version_to_tag_details_view }
   after_destroy :purge_s3_files!
   after_destroy { tag.update!(most_recent_tag_version: previous_version) if is_tags_most_recent_tag_version? }
   after_update_commit { update_tag_details_view if saved_changes['primary_audit_id'] }
@@ -53,6 +75,30 @@ class TagVersion < ApplicationRecord
 
   def sha
     hashed_content.slice(0, 8)
+  end
+
+  def is_open_change_request?
+    !change_request_decisioned? && is_tags_most_recent_tag_version? && !is_tags_current_live_tag_version?
+  end
+
+  def change_request_decisioned?
+    change_request_decision.present?
+  end
+
+  def change_request_approved?
+    change_request_decision == 'approved'
+  end
+
+  def change_request_denied?
+    change_request_decision == 'denied'
+  end
+
+  def approve_change_request(container_user)
+    decide_change_request('approved', container_user)
+  end
+
+  def deny_change_request(container_user)
+    decide_change_request('denied', container_user)
   end
   
   def perform_audit(execution_reason:, page_url:, initiated_by_container_user: nil, options: {})
@@ -177,7 +223,30 @@ class TagVersion < ApplicationRecord
     js_file.purge if js_file && js_file.persisted?
   end
 
+  def captured_at
+    return created_at if release_check_captured_with_id.nil?
+    release_check_captured_with.created_at
+  end
+
   private
+
+  def decide_change_request(decision, container_user)
+    if is_tags_current_live_tag_version?
+      errors.add(:base, "Cannot approve/deny change request, this version is already live.")
+      false
+    elsif !is_tags_most_recent_tag_version?
+      errors.add(:base, "There is a newer change request that must be approved/denied first.")
+      false
+    else
+      update!(
+        change_request_decision: decision, 
+        change_request_decisioned_at: Time.current, 
+        container_user_id_change_request_decisioned_by: container_user.id,
+        live_tag_version_at_time_of_decision: tag.current_live_tag_version,
+      )
+      tag.set_current_live_tag_version_and_publish_instrumentation(self) if decision == 'approved'
+    end
+  end
 
   def generate_tag_version_identifier
     return 'v001' if first_version?
@@ -186,13 +255,14 @@ class TagVersion < ApplicationRecord
     ['v', leading_zeroes, integer].join('')
   end
 
-  def broadcast_notification_to_all_users
+  def broadcast_change_request_notification_to_all_users
     tag.container.container_users.each do |container_user|
       container_user.user.broadcast_notification(
-        partial: "/notifications/tag_versions/new_tag_version",
-        title: "🚨 New release",
+        title: "New pull request",
+        message: "#{tag.tag_snippet.name} opened a new pull request.",
+        cta_url: "/tags/#{tag.uid}/tag_versions/#{uid}",
+        cta_text: "View",
         image: tag.try_image_url,
-        partial_locals: { tag_version: self }
       )
     end
   end

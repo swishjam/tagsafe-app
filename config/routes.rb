@@ -35,6 +35,16 @@ Rails.application.routes.draw do
       # get :unrolled_release_list
     end
   end
+  resources :change_requests, only: [:index, :show], param: :tag_version_uid do
+    member do
+      get :details
+      get :git_diff
+      post :decide
+    end
+    collection do
+      get :list
+    end
+  end
 
   # get '/alerts' => 'alert_configurations#index', as: :alerts
   # get '/alerts/:uid' => 'triggered_alerts#show', as: :alert

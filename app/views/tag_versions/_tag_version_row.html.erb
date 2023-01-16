@@ -78,29 +78,7 @@
               <% if tag_version.total_changes.nil? %>
                 <!--<i>No changes to compare, this is the first version of <#%= tag_version.tag.try_friendly_name %></i>!-->
               <% else %>
-                <div class='changes-in-release-visualization-container w-fit'>
-                  <div class='git-changes-visual-container d-inline-block'>
-                    <span class='num-additions-text'>+<%= tag_version.num_additions %></span> <span class='num-deletions-text'>-<%= tag_version.num_deletions %></span>
-                    <div class='git-changes-visual-squares-container' data-controller='tooltip' data-bs-toggle='tooltip' title='<%= tag_version.num_additions + tag_version.num_deletions %> lines changed: <%= tag_version.num_additions %> additions & <%= tag_version.num_deletions %> deletions.'>
-                      <% num_addition_squares = tag_version.total_changes.zero? ? 0 : 
-                                                  tag_version.total_changes <= 5 ? tag_version.num_additions :
-                                                    ((tag_version.num_additions.to_f / (tag_version.total_changes.to_f))*5.0).to_i %>
-                      <% num_deletion_squares = tag_version.total_changes.zero? ? 0 : 
-                                                  tag_version.total_changes <= 5 ? tag_version.num_deletions :
-                                                    ((tag_version.num_deletions.to_f / (tag_version.total_changes.to_f))*5.0).to_i %>
-                      <% num_neutral_squares = 5 - num_addition_squares - num_deletion_squares %>
-                      <% num_addition_squares.times do %>
-                        <div class='git-changes-visual-square addition'></div>
-                      <% end %>
-                      <% num_deletion_squares.times do %>
-                        <div class='git-changes-visual-square deletion'></div>
-                      <% end %>
-                      <% num_neutral_squares.times do %>
-                        <div class='git-changes-visual-square neutral'></div>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
+                <%= render 'tag_versions/code_changes_squares', tag_version: tag_version %>
               <% end %>
               <div class='w-fit m-auto mt-3'>
                 <%= render 'audits/tagsafe_score_pill_for_audit', tag: tag_version.tag, audit: tag_version.audit_to_display %>

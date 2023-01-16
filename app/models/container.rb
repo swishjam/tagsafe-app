@@ -22,7 +22,7 @@ class Container < ApplicationRecord
   after_update { publish_instrumentation! if saved_changes.keys.intersection(Container::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create { self.instrumentation_key = "TAG-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
-  after_create :publish_instrumentation!
+  after_create { publish_instrumentation!("Generating container's first instrumentation.") }
   after_destroy { TagsafeAws::S3.delete_object_by_s3_url(tagsafe_instrumentation_url(use_cdn: false)) }
 
   attribute :tagsafe_js_reporting_sample_rate, default: 0.05
@@ -34,7 +34,7 @@ class Container < ApplicationRecord
   validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validates :tagsafe_js_re_route_eligible_tags_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 
-  def publish_instrumentation!(description: '')
+  def publish_instrumentation!(description = '')
     InstrumentationBuild.create!(container: self, description: description)
   end
 

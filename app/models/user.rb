@@ -53,19 +53,7 @@ class User < ApplicationRecord
     UserInvite.invite!(email_to_invite, container, self)
   end
 
-  def subscribed_to_notification?(notification_class, tag)
-    !notification_class.find_by(tag: tag, user: self).nil?
-  end
-
-  def subscribe_to_notification!(notification_class, tag)
-    notification_class.create!(tag: tag, user: self)
-  end
-
-  def unsubscribe_to_notification!(notification_class, tag)
-    notification_class.find_by(tag: tag, user: self).destroy!
-  end
-
-  def broadcast_notification(title: nil, message: nil, partial: nil, partial_locals: {}, auto_dismiss: true, image: nil, timestamp: Time.current.strftime("%m/%d/%y @ %l:%M %P %Z"))
+  def broadcast_notification(message:, title: nil, cta_url: nil, cta_text: nil, auto_dismiss: true, image: nil, timestamp: Time.current.formatted_short)
     broadcast_prepend_to(
       "user_#{uid}_notifications_container", 
       target: "user_#{uid}_notifications_container", 
@@ -73,11 +61,11 @@ class User < ApplicationRecord
       locals: { 
         title: title,
         message: message, 
-        partial: partial,
+        cta_url: cta_url,
+        cta_text: cta_text,
         image: image,
         timestamp: timestamp,
         auto_dismiss: auto_dismiss,
-        partial_locals: partial_locals
       }
     )
   end

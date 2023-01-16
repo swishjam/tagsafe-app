@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_14_034412) do
+ActiveRecord::Schema.define(version: 2023_01_15_173900) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -668,6 +668,12 @@ ActiveRecord::Schema.define(version: 2023_01_14_034412) do
     t.boolean "blocked_from_promoting_to_live"
     t.integer "original_content_byte_size"
     t.integer "tagsafe_minified_byte_size"
+    t.bigint "container_user_id_change_request_decisioned_by"
+    t.string "change_request_decision"
+    t.timestamp "change_request_decisioned_at"
+    t.bigint "live_tag_version_at_time_of_decision_id"
+    t.index ["container_user_id_change_request_decisioned_by"], name: "cu_id_change_request_decisioned_by"
+    t.index ["live_tag_version_at_time_of_decision_id"], name: "index_tag_versions_on_live_tag_version_at_time_of_decision_id"
     t.index ["primary_audit_id"], name: "index_tag_versions_on_primary_audit_id"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"

@@ -11,7 +11,7 @@ class TagSnippet < ApplicationRecord
   validate :content_has_valid_script_tag_syntax
   validates :state, presence: true, inclusion: { in: VALID_STATES }
 
-  after_update { container.publish_instrumentation! if saved_changes['state'].present? }
+  after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{state})") if saved_changes['state'].present? }
   after_create_commit :find_and_create_associated_tags_added_to_page_by_snippet
 
   TagSnippet::VALID_STATES.each do |state|
@@ -74,7 +74,7 @@ class TagSnippet < ApplicationRecord
   def find_and_create_associated_tags_added_to_page_by_snippet
     raise "TagSnippet already has associated Tags, delete Tags first before calling `find_and_create_associated_tags_added_to_page_by_snippet`" if tags.any?
     update!(find_tags_injected_by_snippet_job_enqueued_at: Time.current, find_tags_injected_by_snippet_job_completed_at: nil)
-    FindTagsInSnippetJob.perform_later(self)
+    NewTagSnippetJob.perform_later(self)
   end
 
   def content_has_valid_script_tag_syntax

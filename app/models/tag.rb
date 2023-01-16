@@ -37,12 +37,10 @@ class Tag < ApplicationRecord
 
   # CALLBACKS
   ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[configured_load_type is_tagsafe_hosted current_live_tag_version_id]
-  # after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
+  after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
-  # moving this to synchronous in `FindTagsInSnippetJob`
-  # after_create_commit { NewTagJob.perform_later(self) } 
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
@@ -52,6 +50,7 @@ class Tag < ApplicationRecord
   scope :not_tagsafe_hosted, -> { where(is_tagsafe_hosted: false) }
   scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
   scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
+  scope :open_change_requests, -> { tagsafe_hosted.where('most_recent_tag_version_id <> current_live_tag_version_id') }
 
   def set_parsed_url_attributes
     parsed_url = URI.parse(self.full_url)
@@ -72,6 +71,10 @@ class Tag < ApplicationRecord
     if full_url.present? && (!has_tag_identifying_data? || force_update)
       update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
     end
+  end
+
+  def has_open_change_request?
+    is_tagsafe_hosted && most_recent_tag_version_id != current_live_tag_version_id
   end
 
   def has_tag_identifying_data?

@@ -7,7 +7,7 @@ Sentry.init do |config|
   # Set tracesSampleRate to 1.0 to capture 100%
   # of transactions for performance monitoring.
   # We recommend adjusting this value in production
-  config.traces_sample_rate = (ENV['SENTRY_SAMPLE_RATE'] || 0.5).to_i
+  config.traces_sample_rate = (ENV['SENTRY_SAMPLE_RATE'] || Rails.env.development? ? 1.0 : 0.5).to_i
   # or
   # config.traces_sampler = lambda do |context|
   #   true

@@ -27,11 +27,11 @@
 
         <div class="relative flex items-start py-4">
           <div class="min-w-0 flex-1 text-sm">
-            <label for="candidates" class="font-medium text-gray-700">TagsafeJS Enabled</label>
+            <label for="candidates" class="font-medium text-red-700">TagsafeJS Enabled</label>
             <% if container.tagsafe_js_enabled %>
-              <p id="candidates-description" class="text-gray-500">Toggling this setting off will prevent TagsafeJS from initializing on your page and optimizing/monitoring your tags. You can re-enable whenever you'd like.</p>
+              <p id="candidates-description" class="text-red-700">Toggling this setting off will prevent TagsafeJS from running on your page completely, disabling all of your tags with it.</p>
             <% else %>
-              <p id="candidates-description" class="text-gray-500">TagsafeJS is currently disabled from running on your pages, toggle this option on to re-enable it.</p>
+              <p id="candidates-description" class="text-red-700">TagsafeJS is currently disabled from running on your pages, toggle this option on to re-enable it.</p>
             <% end %>
           </div>
           <div class="ml-3 flex h-5 items-center">
