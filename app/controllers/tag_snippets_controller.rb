@@ -26,6 +26,7 @@ class TagSnippetsController < LoggedInController
 
   def create
     params[:tag_snippet][:state] = 'draft'
+    params[:tag_snippet][:find_tags_injected_by_snippet_job_enqueued_at] = Time.current
     @tag_snippet = current_container.tag_snippets.new(tag_snippet_params)
     if @tag_snippet.save
       filename = "#{@tag_snippet.uid}-#{Time.now.to_i}-#{rand()}.html"
@@ -34,7 +35,6 @@ class TagSnippetsController < LoggedInController
       file.puts(params[:tag_snippet][:content].force_encoding('UTF-8'))
       file.close
 
-      @tag_snippet.update!(find_tags_injected_by_snippet_job_enqueued_at: Time.current, find_tags_injected_by_snippet_job_completed_at: nil)
       FindAndCreateTagsForTagSnippetJob.perform_later(@tag_snippet, filename)
 
       redirect_to tag_snippet_path(@tag_snippet)
@@ -66,6 +66,6 @@ class TagSnippetsController < LoggedInController
   private
 
   def tag_snippet_params
-    params.require(:tag_snippet).permit(:name, :state)
+    params.require(:tag_snippet).permit(:name, :state, :find_tags_injected_by_snippet_job_enqueued_at)
   end
 end
