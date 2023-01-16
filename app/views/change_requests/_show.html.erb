@@ -1,0 +1,118 @@
+<div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12 text-right'>
+  <% if tag_version.change_request_approved? %>
+    <span class='text-sm'>Approved by <span class='font-bold'><%= tag_version.container_user_change_request_decisioned_by.user.email %> <%= time_ago_in_words(tag_version.change_request_decisioned_at ) %> ago </span>.</span>
+    <% if tag_version.is_tags_current_live_tag_version? %>
+      <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 cursor-default">
+        Currently live
+      </span>
+    <% end %>
+  <% elsif tag_version.change_request_denied? %>
+    <span class='text-sm'>Rejected by <span class='font-bold'><%= tag_version.container_user_change_request_decisioned_by.user.email %> <%= time_ago_in_words(tag_version.change_request_decisioned_at ) %> ago</span>.</span>
+  <% elsif tag_version.is_open_change_request? %>
+    <%= form_with url: decide_change_request_path(tag_version), html: { class: 'inline-block' }, data: { controller: 'loading_form' } do |f| %>
+      <%= f.hidden_field :decision, value: 'approved' %>
+      <button type='submit' class='inline-flex justify-center items-center rounded-md border border-gray-300 bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'>
+        Approve
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+    <% end %>
+    <%= form_with url: decide_change_request_path(tag_version), html: { class: 'inline-block' }, data: { controller: 'loading_form' } do |f| %>
+      <%= f.hidden_field :decision, value: 'denied' %>
+      <button type='submit' class='inline-flex justify-center items-center rounded-md border border-gray-300 bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'>
+        Reject
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ml-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+        </svg>
+      </button>
+    <% end %>
+  <% else %>
+    Change request was not acted upon.
+  <% end %>
+</div>
+
+<%= turbo_frame_tag "#{tag_version.uid}_change_request_details", src: details_change_request_path(tag_version) do %>
+  <div class='px-10'>
+    <div class="mt-5 grid grid-cols-1 divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
+
+      <div class="px-4 py-5 sm:p-6 text-center">
+        <div class="text-lg font-bold text-gray-900">Tagsafe Score</div>
+        <div class="mt-1 flex items-baseline justify-center">
+          <div class="animate-pulse flex space-x-4">
+            <div class="rounded-lg bg-slate-200 h-8 w-20"></div>
+            <div class="ml-4 rounded-lg bg-slate-200 h-8 w-10"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 py-5 sm:p-6 text-center">
+        <div class="text-lg font-bold text-gray-900">File size</div>
+        <div class="mt-1 flex items-baseline justify-center">
+          <div class="animate-pulse flex space-x-4">
+            <div class="rounded-lg bg-slate-200 h-8 w-20"></div>
+            <div class="ml-4 rounded-lg bg-slate-200 h-8 w-10"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4 py-5 sm:p-6 text-center">
+        <div class="text-lg font-bold text-gray-900">Requested at</div>
+        <div class="mt-1 flex items-baseline justify-center">
+          <div class="animate-pulse flex space-x-4">
+            <div class="rounded-lg bg-slate-200 h-8 w-20"></div>
+            <div class="ml-4 rounded-lg bg-slate-200 h-8 w-10"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12 cursor-default mb-10">
+  <div class='shadow border bg-blue-50 rounded-lg px-5 py-3 flex items-center'>
+    <div class='inline-block'>
+      <%= render 'tag_versions/code_changes_squares', tag_version: tag_version %>
+    </div>
+    <div class='inline-block ml-4'>
+      <span class="truncate text-md font-medium text-gray-900 w-fit"
+            data-controller='tooltip'
+            title='Commit message provided by <%= tag_version.tag.tag_snippet.name %>.'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1 inline">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+        </svg>
+        <%= tag_version.commit_message.blank? ? 
+              "Upgrade #{tag_version.tag.full_url} from #{tag_version_to_compare_with.tag_version_identifier} to #{tag_version.tag_version_identifier}." : 
+              tag_version.commit_message %>
+      </span>
+    </div>
+  </div>
+  <%= turbo_frame_tag "#{tag_version.uid}_git_diff_change_request", src: git_diff_change_request_path(tag_version) do %>
+    <div class='grid grid-cols-2 animate-pulse'>
+      <div class='inline-block px-2 py-2'>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/2"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/5"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/6"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-full"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/5"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/3"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/4"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/6"></div>
+      </div>
+      <div class='inline-block px-2 py-2'>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-full"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/4"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/5"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/6"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/2"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/3"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/5"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-2/3"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/6"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-5/6"></div>
+        <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/2"></div>
+      </div>
+    </div>
+  <% end %>
+</div>

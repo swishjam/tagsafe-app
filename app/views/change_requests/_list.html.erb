@@ -1,36 +1,18 @@
 <%= turbo_frame_tag "#{current_container.uid}_change_requests" do %>
-  <% tags_with_open_change_requests.each do |tag| %>
-    <li class="py-4">
-      <div class="flex items-center space-x-4">
-        <% if tag.has_image? %>
-          <div class="flex-shrink-0">
-            <%= image_tag tag.try_image_url, class: 'h-8 w-8 rounded-full' %>
-          </div>
-        <% end %>
-        <div class="min-w-0 flex-1 cursor-default">
-          <span class="truncate text-sm font-medium text-gray-900 block"><%= tag.try_friendly_name %></span>
-          <span class="truncate text-sm font-medium text-gray-500 block"><%= tag.full_url %></span>
-          <% if tag.most_recent_tag_version.commit_message %>
-            <span class="truncate text-sm font-medium text-gray-500 block"
-                    data-controller='tooltip'
-                    title='Commit message left by <%= tag.try_friendly_name %>.'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1 inline">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-              </svg>
-              <%= tag.most_recent_tag_version.commit_message %>
-            </span>
-          <% end %>
-        </div>
-        <div>
-          <a href="#" class="inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50">
-            Review
-          </a>
-          <div class='mt-1'>
-            <%= render 'tag_versions/code_changes_squares', tag_version: tag.most_recent_tag_version %>
-          </div>
-          <p class="mt-1 text-sm text-gray-500">Opened 2 days ago</p>
-        </div>
+  <% if status == 'closed' %>
+    <% closed_change_requests.each do |tag_version| %>
+      <%= render 'change_requests/closed_change_request_row', tag_version: tag_version %>
+    <% end %>
+  <% else %>
+    <% if tags_with_open_change_requests.any? %>
+      <% tags_with_open_change_requests.each do |tag| %>
+        <%= render 'change_requests/open_change_request_row', tag: tag %>
+      <% end %>
+    <% else %>
+      <div class='text-center px-5 py-10'>
+        <p class='text-md text-gray-900'>No open change requests.</p>
+        <p class='text-sm text-gray-600'>When one of your tag providers makes a change, they will appear here for you to approve or reject.</p>
       </div>
-    </li>
+    <% end %>
   <% end %>
 <% end %>

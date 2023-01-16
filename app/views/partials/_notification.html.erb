@@ -15,18 +15,15 @@
           <% if local_assigns[:title] %>
             <p class="text-sm font-medium text-gray-900"><%= local_assigns[:title] %></p>
           <% end %>
-          <p class="mt-1 text-sm text-gray-500"><%= message %>.</p>
+          <p class="mt-1 text-sm text-gray-500"><%= message %></p>
         </div>
       </div>
       <div class="flex">
         <div class="flex flex-col divide-y divide-gray-200">
           <% if local_assigns[:cta_url] %>
             <div class="flex h-0 flex-1">
-              <a href="<%= cta_url %>" 
-                  type="button" 
-                  class="flex w-full items-center justify-center rounded-none rounded-tr-lg border border-transparent px-4 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700">
-                <%= cta_text %>
-              </a>
+              <%= link_to cta_text, cta_url, type: "button", target: '_top',
+                  class: "flex w-full items-center justify-center rounded-none rounded-tr-lg border border-transparent px-4 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700" %>
             </div>
           <% end %>
           <div class="flex h-0 flex-1">
