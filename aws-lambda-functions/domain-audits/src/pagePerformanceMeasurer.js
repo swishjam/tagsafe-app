@@ -49,7 +49,7 @@ module.exports = class PagePerformanceMeasurer {
       await page.setRequestInterception(true);
       page.on('request', async req => {
         const isFirstParty = first_party_urls.find(url => new URL(url).hostname === new URL(req.url()).hostname)
-        if (req.resourceType() === 'script' && isFirstParty) {
+        if (req.resourceType() === 'script' && !isFirstParty) {
           console.log(`Blocking request to ${req.url()}`)
           await req.abort();
         } else {
