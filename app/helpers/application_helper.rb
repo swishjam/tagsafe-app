@@ -4,17 +4,12 @@ module ApplicationHelper
     @current_user ||= User.find_by(uid: session[:current_user_uid]) unless session[:current_user_uid].nil?
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
+    redirect_to new_session_path
   end
 
   def user_is_anonymous?
     current_user.nil?
   end
-
-  # def @container
-  #   @container = session[:@container_uid] ? current_user.containers.find_by(uid: session[:@container_uid]) : current_user.containers.first
-  # rescue ActiveRecord::RecordNotFound => e
-  #   log_user_out
-  # end
 
   def current_container_user
     return if current_user.nil?
@@ -25,21 +20,12 @@ module ApplicationHelper
     session[:anonymous_user_identifier]
   end
 
-  def set_current_container(container)
-    session[:@container_uid] = container.uid
-  end
-
   def set_current_user(user)
     session[:current_user_uid] = user.uid
   end
 
-  def set_anonymous_user_identifier
-    session[:anonymous_user_identifier] = SecureRandom.hex(16)
-  end
-
   def log_user_out
     session.delete(:current_user_uid)
-    session.delete(:@container_uid)
   end
 
   def stream_modal(partial: "modals/#{action_name}", turbo_frame_name: 'server_loadable_modal', locals: {})

@@ -4,14 +4,9 @@ class ContainersController < LoggedInController
   def create
     @container = Container.new(container_params)
     if @container.save
-      set_current_container(@container)
-      if current_user.nil?
-        redirect_to new_registration_path
-      else
-        current_user.containers << @container
-        Role.USER_ADMIN.apply_to_container_user(current_user.container_user_for(@container))
-        redirect_to container_tag_snippets_path(@container)
-      end
+      current_user.containers << @container
+      Role.USER_ADMIN.apply_to_container_user(current_user.container_user_for(@container))
+      redirect_to container_tag_snippets_path(@container)
     else
       display_inline_errors(@container.errors.full_messages)
       @hide_navigation = true
@@ -32,7 +27,7 @@ class ContainersController < LoggedInController
     @container = current_user.containers.find_by!(uid: params[:uid])
     redirect_to container_tag_snippets_path(@container)
   rescue ActiveRecord::RecordNotFound => e
-    redirect_to container_tag_snippets_path(@container)
+    redirect_to containers_path
   end
   
   private

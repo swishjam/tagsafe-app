@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   # get '/releases' => 'releases#all', as: :all_releases
 
-  resources :containers, only: [:create, :update, :new, :show], param: :uid do
+  resources :containers, only: [:index, :create, :update, :new, :show], param: :uid do
     resources :non_third_party_url_patterns, only: [:create, :destroy], param: :uid
 
     resources :tag_snippets, param: :uid do

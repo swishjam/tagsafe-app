@@ -1,7 +1,7 @@
 class TagSnippetsController < LoggedInController
   def index
     render_breadcrumbs(
-      { url: container_tag_snippets_path(@container), text: @container.name },
+      { url: containers_path, text: @container.name },
       { text: 'Tags' }
     )
     render_navigation_items(
@@ -26,14 +26,14 @@ class TagSnippetsController < LoggedInController
   def new
     @tag_snippet = TagSnippet.new
     render_breadcrumbs(
-      { url: container_tag_snippets_path(@container), text: 'All Tags' },
+      { url: containers_path, text: @container.name },
       { text: 'New Tag' }
     )
     render_navigation_items(
       { url: container_tag_snippets_path(@container), text: 'Tags' },
       { url: container_change_requests_path(@container), text: 'Change Requests' },
-      { url: container_page_performance_path, text: 'Page Performance' },
-      { url: container_settings_path, text: 'Settings' },
+      { url: container_page_performance_path(@container), text: 'Page Performance' },
+      { url: container_settings_path(@container), text: 'Settings' },
     )
   end
 
@@ -75,7 +75,7 @@ class TagSnippetsController < LoggedInController
             container: @container,
             error_messages: tag_snippet.errors.full_messages
           }
-        )
+      )
       end
     end
   end
@@ -89,14 +89,15 @@ class TagSnippetsController < LoggedInController
   def show
     @tag_snippet = @container.tag_snippets.find_by!(uid: params[:uid])
     render_breadcrumbs(
+      { url: containers_path, text: @container.name },
       { url: container_tag_snippets_path(@container), text: 'Tags' },
       { text: "#{@tag_snippet.name} Details" }
     )
     render_navigation_items(
       { url: container_tag_snippets_path(@container), text: 'Tags', active: true },
       { url: container_change_requests_path(@container), text: 'Change Requests' },
-      { url: container_page_performance_path, text: 'Page Performance' },
-      { url: container_settings_path, text: 'Settings' },
+      { url: container_page_performance_path(@container), text: 'Page Performance' },
+      { url: container_settings_path(@container), text: 'Settings' },
     )
   end
 
