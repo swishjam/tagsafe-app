@@ -1,0 +1,5 @@
+CONTAINERS!
+
+<% current_user.containers.each do |container| %>
+  <%= link_to container.name, container_tag_snippets_path(container), class: 'underline text-blue-600' %> <br/><br/>
+<% end %>

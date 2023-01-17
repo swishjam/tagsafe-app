@@ -3,7 +3,7 @@
     <div class='row'>
       <div class='col-6'>
         <%= render 'charts/time_range_selector', 
-                    chart_data_endpoint: charts_page_loads_path(page_url_uid: page_url.uid, page_load_performance_metric_types: page_load_performance_metric_types),
+                    chart_data_endpoint: container_charts_page_loads_path(container, page_url_uid: page_url.uid, page_load_performance_metric_types: page_load_performance_metric_types),
                     selected_range: time_range %>
       </div>
       <div class='col-6 d-flex flex-column align-items-end'>
@@ -20,7 +20,7 @@
             </div>
             <div class='dropdown-divider'></div>
             <% container.page_urls.each do |page_url_option| %>
-              <%= link_to page_url_option.friendly_url, charts_page_loads_path(page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item #{page_url_option == page_url ? 'active' : nil}" %>
+              <%= link_to page_url_option.friendly_url, container_charts_page_loads_path(container, page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item #{page_url_option == page_url ? 'active' : nil}" %>
             <% end %>
           </div>
         </div>
@@ -40,7 +40,7 @@
               <% is_applied = page_load_performance_metric_types.include?(performance_metric_klass) %>
               <% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup %>
               <% is_applied ? duped_page_load_performance_metric_types.delete(performance_metric_klass) : duped_page_load_performance_metric_types << performance_metric_klass %>
-              <%= link_to charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), 
+              <%= link_to container_charts_page_loads_path(container, page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), 
                           class: "dropdown-item #{is_applied ? 'active' : nil}" do %>
                 <% if is_applied %>
                   <%= HtmlHelper.PASSED_ICON %>

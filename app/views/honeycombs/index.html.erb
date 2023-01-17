@@ -1,4 +1,4 @@
-<%= turbo_stream_from "container_#{current_container.uid}_honeycomb_stream" %>
+<%= turbo_stream_from "container_#{@container.uid}_honeycomb_stream" %>
 
 <div class='page-title-container'>
   <div class='container-fluid'>
@@ -22,8 +22,8 @@
   </div>
 </div>
 
-<% if current_container.tags.any? %>
-  <%= turbo_frame_tag "container_#{current_container.uid}_honeycomb_chart", src: chart_honeycombs_path do %>
+<% if @container.tags.any? %>
+  <%= turbo_frame_tag "container_#{@container.uid}_honeycomb_chart", src: chart_honeycombs_path do %>
     <div class='text-center p-5'>
       <%= display_loading_spinner size: :large %>
     </div>
