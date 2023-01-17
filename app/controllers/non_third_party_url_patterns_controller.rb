@@ -8,9 +8,9 @@ class NonThirdPartyUrlPatternsController < LoggedInController
       current_user.broadcast_notification(message: pattern.errors.full_messages)
     end
     render turbo_stream: turbo_stream.replace(
-      "#{current_container.id}_non_third_party_url_patterns",
+      "#{@container.id}_non_third_party_url_patterns",
       partial: 'non_third_party_url_patterns/index',
-      locals: { container: current_container }
+      locals: { container: @container }
     )
   end
 

@@ -1,8 +1,8 @@
-<%= render 'tags/root_paths_page_navigation',
+<%= render 'partials/top_navigation',
               page_title: "Change Request: #{@tag_version.tag.tag_snippet.name} ",
               sub_title: "#{@tag_version.tag.tag_snippet.name} is requesting to update their #{@tag_version.tag.full_url} tag from #{@tag_version_to_compare_with.tag_version_identifier} to #{@tag_version.tag_version_identifier}.",
               hide_new_tag_button: true %>
 
 <%= turbo_frame_tag "#{@tag_version.uid}_change_request" do %>
-  <%= render 'show', tag_version: @tag_version, tag_version_to_compare_with: @tag_version_to_compare_with %>
+  <%= render 'show', container: @container, tag_version: @tag_version, tag_version_to_compare_with: @tag_version_to_compare_with %>
 <% end %>

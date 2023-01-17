@@ -1,7 +1,7 @@
-<% if current_container&.tagsafe_js_disabled? %>
+<% if @container&.tagsafe_js_disabled? %>
   <div class='w-100 flex items-center justify-center bg-red-200 px-10 py-5'>
     <span class='text-md'>
-      Your TagsafeJS is currently disabled, your tags are not being optimized or monitored. You can enable TagsafeJS in <%= link_to 'your settings', settings_path %>.
+      Your TagsafeJS is currently disabled, your tags are not being optimized or monitored. You can enable TagsafeJS in <%= link_to 'your settings', container_settings_path(@container) %>.
     </div>
   </div>
 <% elsif @display_install_banner %>
@@ -10,7 +10,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 inline">
         <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
       </svg>
-      Make sure to <span><%= link_to 'install', install_script_path, class: 'text-blue-500', target: '_top' %></span> your TagsafeJS snippet on your web pages.
+      Make sure to <span><%= link_to 'install', container_install_script_path(@container), class: 'text-blue-500', target: '_top' %></span> your TagsafeJS snippet on your web pages.
     </span>
   </div>
 <% end %>

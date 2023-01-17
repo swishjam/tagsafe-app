@@ -1,9 +1,11 @@
-<%= turbo_stream_from "container_#{current_container.uid}_monitor_center_view_stream" %>
+<%
+=begin%>
+ <%= turbo_stream_from "container_#{@container.uid}_monitor_center_view_stream" %>
 
-<%= render 'root_paths_page_navigation', page_title: 'Tags' %>
+<%= render 'container_tag_snippets_path(@container)s_page_navigation', page_title: 'Tags' %>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
-  <%= turbo_frame_tag "#{current_container.uid}_container_tags_container", src: server_loadable_partials_tags_path(params[:page]) do %>
+  <%= turbo_frame_tag "#{@container.uid}_container_tags_container", src: server_loadable_partials_tags_path(params[:page]) do %>
     <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
       <div class="lg:col-span-1 lg:col-start-1">
         <%= render 'tag_snippets/loading_list_view' %>
@@ -24,4 +26,6 @@
     </div>
   <% end %>
 </div>
-
+ 
+<%
+=end%>

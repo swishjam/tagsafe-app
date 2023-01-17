@@ -1,26 +1,4 @@
-<% if ENV['USE_CDN_ASSETS'] == 'false' %>
-  <%
-=begin%>
- <link href='/bootstrap.min.css' rel='styleshseet'>
-  <script src='/bootstrap.bundle.min.js' type='text/javascript'></script>
-<%
-=end%>
-
-  <script src='/jquery.min.js' type='text/javascript'></script>
-  <script src='/moment.min.js' type='text/javascript'></script>
-  <script src='/daterangepicker.min.js' type='text/javascript'></script>
-  <link href='/daterangepicker.css' rel='stylesheet' type='text/css'>
-
-  <script src='/codemirror.min.js' type='text/javascript'></script>
-  <script src='/codemirror.js' type='text/javascript'></script>
-  <script src='/codemirror-active-line.js' type='text/javascript'></script>
-  <script src='codemirror-matchbrackets.js' type='text/javascript'></script>
-  <link href='/codemirror.min.css' rel='stylesheet' type='text/css'>
-<% else %>
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
-  <!-- <script src="https://kit.fontawesome.com/d38fe451ee.js" crossorigin="anonymous"></script> -->
-<% end %>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

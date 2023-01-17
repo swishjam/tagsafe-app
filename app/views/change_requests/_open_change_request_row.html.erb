@@ -6,7 +6,7 @@
       </div>
     <% end %>
     <div class="min-w-0 flex-1 cursor-default">
-      <span class="truncate text-sm font-medium text-gray-900 block"><%= tag.try_friendly_name %></span>
+      <span class="truncate text-sm font-medium text-gray-900 block"><%= tag.tag_snippet.name %></span>
       <span class="truncate text-sm font-medium text-gray-500 block mt-2"><%= tag.full_url %></span>
       <% if tag.most_recent_tag_version.commit_message %>
         <span
@@ -24,7 +24,7 @@
     <div class="flex flex-col">
       <div class="flex justify-end">
       <%= link_to "Review",
-                    change_request_path(tag.most_recent_tag_version.uid),
+                    container_change_request_path(container, tag.most_recent_tag_version.uid),
                     class:"inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50" %>
       </div>
       <div class='mt-2 flex justify-end'>

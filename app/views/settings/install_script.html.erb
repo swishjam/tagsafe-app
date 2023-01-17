@@ -2,11 +2,11 @@
   <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4">
 
     <div class="lg:col-span-1 lg:col-start-1">
-      <%= render 'settings/settings_nav' %>
+      <%= render 'settings/settings_nav', container: @container %>
     </div>
     <div class="space-y-6 lg:col-span-3 lg:col-start-2 border rounded-md p-6">
       <h1 class="text-2xl font-medium text-gray-900">Installation Instructions for Tagsafe</h1>
-      <%= render 'settings/install_script', container: current_container %>
+      <%= render 'settings/install_script', container: @container %>
     </div>
 
   </div>
