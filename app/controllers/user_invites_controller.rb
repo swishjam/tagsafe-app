@@ -35,7 +35,15 @@ class UserInvitesController < LoggedInController
   end
 
   def index
-    @pending_user_invites = @container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
+    render turbo_stream: turbo_stream.replace(
+      "container_#{@container.uid}_user_invites",
+      partial: 'user_invites/index',
+      locals: {
+        container: @container,
+        pending_user_invites: @container.user_invites.pending,
+        status: :pending
+      }
+    )
   end
 
   def accept
@@ -55,7 +63,7 @@ class UserInvitesController < LoggedInController
       if user.valid?
         invite.redeem!(user)
         set_current_user(user)
-        redirect_to root_path
+        redirect_to container_tag_snippets_path(@container)
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer

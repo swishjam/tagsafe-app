@@ -24,7 +24,7 @@ class AuditsController < LoggedInController
                             .page(params[:page] || 1)
                             .per(params[:per_page] || 20)
     render_breadcrumbs(
-      { url: root_path, text: "Monitor Center" },
+      { url: container_tag_snippets_path(@container), text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
     )
   end
@@ -77,7 +77,7 @@ class AuditsController < LoggedInController
 
   def render_breadcrumbs_for_show_views
     render_breadcrumbs(
-      { url: root_path, text: "Monitor Center" },
+      { url: container_tag_snippets_path(@container), text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       # { url: tag_audits_path(@tag), text: "Version #{@tag_version.sha} audits" },
       { text: "#{@audit.created_at.formatted_short} audit", active: true }

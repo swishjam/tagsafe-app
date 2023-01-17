@@ -16,7 +16,7 @@ class LoggedInController < ApplicationController
   def find_and_validate_container
     @container = current_user.containers.find_by!(uid: params[:container_uid])
   # rescue ActiveRecord::RecordNotFound => e
-    # redirect_to root_path
+    # redirect_to container_tag_snippets_path(@container)
   end
 
   def check_for_install_banner

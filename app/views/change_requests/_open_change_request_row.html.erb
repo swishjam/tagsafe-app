@@ -6,7 +6,7 @@
       </div>
     <% end %>
     <div class="min-w-0 flex-1 cursor-default">
-      <span class="truncate text-sm font-medium text-gray-900 block"><%= tag.try_friendly_name %></span>
+      <span class="truncate text-sm font-medium text-gray-900 block"><%= tag.tag_snippet.name %></span>
       <span class="truncate text-sm font-medium text-gray-500 block mt-2"><%= tag.full_url %></span>
       <% if tag.most_recent_tag_version.commit_message %>
         <span

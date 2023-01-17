@@ -3,7 +3,7 @@ class ReleasesController < LoggedInController
     @tag_versions = @container.tag_versions.not_first_version.most_recent_first.page(params[:page]).per(15)
     render_breadcrumbs(text: 'Releases')
     @navigation_items = [
-      { url: root_path, text: 'Tags' },
+      { url: container_tag_snippets_path(@container), text: 'Tags' },
       { url: container_change_requests_path(@container), text: 'Change Requests' },
       { url: container_page_performance_path, text: 'Page Performance' },
       { url: container_settings_path, text: 'Settings' },
@@ -14,7 +14,7 @@ class ReleasesController < LoggedInController
     @tag = @container.tags.find_by!(uid: params[:uid])
     @tag_versions = @tag.tag_versions.most_recent_first.page(params[:page]).per(15)
     render_breadcrumbs(
-      { text: 'Monitor Center', url: root_path },
+      { text: 'Monitor Center', url: container_tag_snippets_path(@container) },
       { text: "#{@tag.try_friendly_name} releases" }
     )
   end

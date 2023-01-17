@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   layout 'logged_out_layout'
 
   def new
-    redirect_to root_path if current_user
+    redirect_to container_tag_snippets_path(@container) if current_user
   end
 
   def create
@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       # @container.add_user(user) if @container && !@user.belongs_to_container?(@container)
       set_current_user(user)
-      url_to_go_to = session[:redirect_url] || root_path
+      url_to_go_to = session[:redirect_url] || container_tag_snippets_path(@container)
       session.delete(:redirect_url)
       redirect_to url_to_go_to
     else

@@ -11,14 +11,12 @@ Rails.application.routes.draw do
   resources :registrations, only: [:new, :create]
   get '/register' => 'registrations#new'
 
-  resources :container_users, only: [:destroy, :index], param: :uid
-  get "/container_users/:uid/destroy_modal" => 'container_users#destroy_modal', as: :destroy_container_user_modal
   get '/user_invites/:token/accept' => 'user_invites#accept', as: :accept_invite
   post '/user_invites/:token/redeem' => 'user_invites#redeem', as: :redeem_invite
 
-  get '/releases' => 'releases#all', as: :all_releases
+  # get '/releases' => 'releases#all', as: :all_releases
 
-  resources :containers, only: [:create, :update, :new], param: :uid do
+  resources :containers, only: [:create, :update, :new, :show], param: :uid do
     resources :non_third_party_url_patterns, only: [:create, :destroy], param: :uid
 
     resources :tag_snippets, param: :uid do
@@ -69,10 +67,29 @@ Rails.application.routes.draw do
     
     resources :user_invites, only: [:new, :create, :index]
 
+    namespace :server_loadable_partials do
+      resources :tags, only: :index, param: :uid do
+        resources :tag_versions, only: :index, param: :uid do
+          member do
+            get :diff
+          end
+        end
+      end
+    end
+
+    namespace :charts do
+      resources :tags, only: [:index, :show], param: :uid
+      resources :uptime_checks, only: [:index, :show], param: :uid
+      resources :page_loads, only: [:index], param: :uid
+    end
+
     get '/page_performance' => 'page_loads#index'
     get '/settings' => 'settings#global_settings', as: :settings
     get '/settings/team_management' => 'settings#team_management', as: :team_management
     get '/settings/install_script' => 'settings#install_script', as: :install_script
+
+    resources :container_users, only: [:destroy, :index, :show], param: :uid
+    # get "/container_users/:uid/destroy_modal" => 'container_users#destroy_modal', as: :destroy_container_user_modal
   end
 
   get '/admin' => redirect('/admin/performance')
@@ -85,22 +102,5 @@ Rails.application.routes.draw do
     resources :tag_identifying_data, param: :uid do
       resources :tag_identifying_data_containers, only: :create, param: :uid
     end
-  end
-
-  namespace :server_loadable_partials do
-    resources :tags, only: :index, param: :uid do
-      resources :tag_versions, only: :index, param: :uid do
-        member do
-          get :diff
-          get :live_comparison
-        end
-      end
-    end
-  end
-
-  namespace :charts do
-    resources :tags, only: [:index, :show], param: :uid
-    resources :uptime_checks, only: [:index, :show], param: :uid
-    resources :page_loads, only: [:index], param: :uid
   end
 end

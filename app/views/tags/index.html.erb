@@ -1,6 +1,8 @@
-<%= turbo_stream_from "container_#{@container.uid}_monitor_center_view_stream" %>
+<%
+=begin%>
+ <%= turbo_stream_from "container_#{@container.uid}_monitor_center_view_stream" %>
 
-<%= render 'root_paths_page_navigation', page_title: 'Tags' %>
+<%= render 'container_tag_snippets_path(@container)s_page_navigation', page_title: 'Tags' %>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
   <%= turbo_frame_tag "#{@container.uid}_container_tags_container", src: server_loadable_partials_tags_path(params[:page]) do %>
@@ -24,4 +26,6 @@
     </div>
   <% end %>
 </div>
-
+ 
+<%
+=end%>

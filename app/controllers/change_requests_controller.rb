@@ -1,8 +1,11 @@
 class ChangeRequestsController < LoggedInController
   def index
-    render_breadcrumbs(text: 'Change Requests')
+    render_breadcrumbs(
+      { url: containers_path, text: @container.name },
+      { text: 'Change Requests' }
+    )
     render_navigation_items(
-      { url: root_path, text: 'Tags' },
+      { url: container_tag_snippets_path(@container), text: 'Tags' },
       { url: container_change_requests_path(@container), text: 'Change Requests' },
       { url: container_page_performance_path, text: 'Page Performance' },
       { url: container_settings_path, text: 'Settings' },
@@ -13,11 +16,12 @@ class ChangeRequestsController < LoggedInController
     @tag_version = @container.tag_versions.includes(tag: :current_live_tag_version).find_by(uid: params[:tag_version_uid])
     @tag_version_to_compare_with = @tag_version.change_request_decisioned? ? @tag_version.live_tag_version_at_time_of_decision : @tag_version.tag.current_live_tag_version
     render_breadcrumbs(
+      { url: containers_path, text: @container.name },
       { url: container_change_requests_path(@container), text: 'Change Requests' },
       { text: "#{@tag_version.tag_version_identifier} Change Request"}
     )
     render_navigation_items(
-      { url: root_path, text: 'Tags' },
+      { url: container_tag_snippets_path(@container), text: 'Tags' },
       { url: container_change_requests_path(@container), text: 'Change Requests', active: true },
       { url: container_page_performance_path, text: 'Page Performance' },
       { url: container_settings_path, text: 'Settings' },
@@ -27,23 +31,25 @@ class ChangeRequestsController < LoggedInController
   def decide
     tag_version = @container.tag_versions.includes(tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
     if params[:decision] == 'approved'
-      tag_version.approve_change_request(@container_user)
+      tag_version.approve_change_request(current_container_user)
       render turbo_stream: turbo_stream.replace(
         "#{tag_version.uid}_change_request",
         partial: 'change_requests/show',
         locals: { 
           tag_version: tag_version,
           tag_version_to_compare_with: tag_version.tag.current_live_tag_version,
+          container: @container,
         }
       )
     elsif params[:decision] == 'denied'
-      tag_version.deny_change_request(@container_user)
+      tag_version.deny_change_request(current_container_user)
       render turbo_stream: turbo_stream.replace(
         "#{tag_version.uid}_change_request",
         partial: 'change_requests/show',
         locals: { 
           tag_version: tag_version,
           tag_version_to_compare_with: tag_version.tag.current_live_tag_version,
+          container: @container,
         }
       )
     else

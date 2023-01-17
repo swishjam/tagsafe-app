@@ -2,7 +2,7 @@ class TagsController < LoggedInController
   def index
     render_breadcrumbs(text: 'Tags')
     render_navigation_items(
-      { url: root_path, text: 'Containers' },
+      { url: container_tag_snippets_path(@container), text: 'Containers' },
       { url: container_change_requests_path(@container), text: 'Change Requests' },
       { url: container_page_performance_path, text: 'Page Performance' },
       { url: container_settings_path, text: 'Settings' },
@@ -12,7 +12,7 @@ class TagsController < LoggedInController
   def show
     @tag = @container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     render_breadcrumbs(
-      { text: 'Tags', url: root_path },
+      { text: 'Tags', url: container_tag_snippets_path(@container) },
       { text: "#{@tag.try_friendly_name} Details" }
     )
   end
@@ -43,7 +43,7 @@ class TagsController < LoggedInController
   def uptime
     @tag = @container.tags.find_by(uid: params[:uid])
     render_breadcrumbs(
-      { text: 'Monitor Center', url: root_path }, 
+      { text: 'Monitor Center', url: container_tag_snippets_path(@container) }, 
       { text: "#{@tag.try_friendly_name} Uptime", active: true }
     )
   end
@@ -69,7 +69,7 @@ class TagsController < LoggedInController
     @tag = @container.tags.find_by(uid: params[:uid])
     @audits = @tag.audits.most_recent_first(timestamp_column: :created_at).page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
-      { url: root_path, text: 'Monitor Center' },
+      { url: container_tag_snippets_path(@container), text: 'Monitor Center' },
       { text: "#{@tag.try_friendly_name} audits" }
     )
     respond_to do |format|

@@ -6,7 +6,7 @@ class TagVersionsController < LoggedInController
     @tag_version = @tag.tag_versions.find_by!(uid: params[:uid])
 
     render_breadcrumbs(
-      { url: root_path, text: "Monitor Center" },
+      { url: container_tag_snippets_path(@container), text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       { text: @tag_version.sha, active: true}
     )

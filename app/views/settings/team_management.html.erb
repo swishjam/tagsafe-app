@@ -22,7 +22,7 @@
 
       <div class=''>
         <h2 class='text-lg font-medium text-gray-900'>Pending invites</h2>
-        <%= turbo_frame_tag "container_#{@container.uid}_invites", src: container_user_invites_path(@container) do %>
+        <%= turbo_frame_tag "container_#{@container.uid}_user_invites", src: container_user_invites_path(@container) do %>
           <div class='text-center'>
             <%= display_loading_icon %>
           </div>
@@ -31,7 +31,7 @@
 
       <div class=''>
         <h2 class='text-lg font-medium text-gray-900'>Team members</h2>
-        <%= turbo_frame_tag "container_#{@container.uid}_container_users", src: container_users_path(@container) do %>
+        <%= turbo_frame_tag "container_#{@container.uid}_container_users", src: container_container_users_path(@container) do %>
           <div class='text-center'>
             <%= display_loading_icon %>
           </div>

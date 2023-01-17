@@ -75,7 +75,7 @@ module ApplicationHelper
   def no_access!(raise_error)
     raise NoAccessError if raise_error
     flash[:banner_error] = "No access."
-    redirect_to root_path
+    redirect_to container_tag_snippets_path(@container)
   end
 
   def display_toast_message(message)
