@@ -16,6 +16,15 @@ module.exports.handle = async (event, _context) => {
     navigation_wait_until = 'domcontentloaded' 
   } = event;
 
+  if(!tag_url_to_inject || !tag_to_inject_load_strategy || !tag_url_patterns_to_block || !page_url) {
+    console.error('Event payload received:')
+    console.log(JSON.stringify(event));
+    throw new Error(`
+      Invalid JSCoverage invocation, missing required params. 
+      Must include: \`tag_url_to_inject\`, \`tag_to_inject_load_strategy\`, \`tag_url_patterns_to_block\`, and \`page_url\`.
+    `)
+  }
+
   const puppeteerModerator = new PuppeteerModerator;
   const page = await puppeteerModerator.launch();
 

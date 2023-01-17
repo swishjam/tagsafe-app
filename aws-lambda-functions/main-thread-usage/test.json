@@ -1,6 +1,6 @@
 {
   "page_url": "https://www.tagsafe.io/demo?tagsafe-disable-tag-re-route=true",
-  "tag_url": "https://www.thirdpartytag.com/script.js",
+  "tag_url": "https://cdn-collin-dev.tagsafe.io/tags/TAG-e2b52f3a/www_thirdpartytag_com_script_js-tv_8a5bf002.js",
   "tag_url_loading_strategy": "synchronous",
-  "tag_url_patterns_to_block": []
+  "tag_url_patterns_to_block": ["https://www.thirdpartytag.com/script.js"]
 }
