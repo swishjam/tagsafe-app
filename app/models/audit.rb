@@ -169,30 +169,30 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
   end
 
   def update_tag_details_audit_row
-    broadcast_replace_to(
-      "tag_#{tag.uid}_details_view_stream", 
-      target: "audit_#{uid}_row",
-      partial: 'audits/audit_row',
-      locals: { audit: self, include_tag_name: false }
-    )
+    # broadcast_replace_to(
+    #   "tag_#{tag.uid}_details_view_stream", 
+    #   target: "audit_#{uid}_row",
+    #   partial: 'audits/audit_row',
+    #   locals: { audit: self, include_tag_name: false }
+    # )
   end
 
   def update_audit_breakdown_view
-    broadcast_replace_to(
-      "audit_#{uid}_breakdown_view_stream",
-      target: "audit_#{uid}_breakdown",
-      partial: 'audits/breakdown',
-      locals: { audit: self }
-    )
+    # broadcast_replace_to(
+    #   "audit_#{uid}_breakdown_view_stream",
+    #   target: "audit_#{uid}_breakdown",
+    #   partial: 'audits/breakdown',
+    #   locals: { audit: self }
+    # )
   end
 
   def prepend_audit_row_to_tag_details_page
-    broadcast_prepend_to(
-      "tag_#{tag.uid}_details_view_stream", 
-      target: "tag_#{tag.uid}_audits_table_rows",
-      partial: 'audits/audit_row',
-      locals: { audit: self, include_tag_name: false }
-    )
+    # broadcast_prepend_to(
+    #   "tag_#{tag.uid}_details_view_stream", 
+    #   target: "tag_#{tag.uid}_audits_table_rows",
+    #   partial: 'audits/audit_row',
+    #   locals: { audit: self, include_tag_name: false }
+    # )
   end
 
   def has_valid_audit_components

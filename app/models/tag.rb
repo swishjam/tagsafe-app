@@ -189,6 +189,12 @@ class Tag < ApplicationRecord
     tag_identifying_data&.image.present?
   end
 
+  def configured_load_strategy_based_on_preferences
+    return load_type if !is_tagsafe_hosted
+    return "defer" if container.defer_script_tags_by_default && configured_load_type == 'default'
+    configured_load_type
+  end
+
   def try_image_url
     tag_identifying_data&.image&.url || 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png'
   end
