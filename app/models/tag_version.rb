@@ -260,7 +260,7 @@ class TagVersion < ApplicationRecord
       container_user.user.broadcast_notification(
         title: "New pull request",
         message: "#{tag.tag_snippet.name} made a new change request.",
-        cta_url: "/change_requests/#{uid}",
+        cta_url: "/containers/#{tag.container.uid}/change_requests/#{uid}",
         cta_text: "Review",
         image: tag.try_image_url,
       )
