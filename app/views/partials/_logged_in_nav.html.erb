@@ -18,10 +18,10 @@
             # { path: uptime_path, text: "Uptime", icon_class: "fas fa-tachometer-alt" },
             # { path: alert_configurations_path, text: "Alerts", icon_class: "fas fa-bell", active_nav_path_pattern: ['/alert_configurations'] },
             { path: container_users_path, text: "Team Management", icon_class: "fas fa-users" },
-            # { path: settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
+            # { path: container_settings_path, text: 'Settings', icon_class: 'fas fa-cogs', active_nav_path_pattern: ['/settings', '/url_crawls'] }
           ]
         %>
-        <% if user_is_anonymous? && current_container_audit %>
+        <% if user_is_anonymous? && @container_audit %>
           <li class='nav-item <%= request.path == third_party_impact_path ? 'current' : nil %> m-1'>
             <%= link_to third_party_impact_path, class: "nav-link #{request.path == third_party_impact_path ? 'current' : nil}" do %>
               <span class='nav-item-icon'><i class="fa-solid fa-window-maximize"></i></span> 
@@ -38,9 +38,9 @@
             <% end %>
           </li>
         <% end %>
-        <% unless current_container.nil? %>
+        <% unless @container.nil? %>
           <li class='nav-item m-1'>
-            <%= modal_link install_script_container_path(current_container), klass: 'nav-link' do %>
+            <%= modal_link install_script_container_path(@container), klass: 'nav-link' do %>
               <span class='nav-item-icon'><i class="fa-solid fa-code"></i></span> 
               <span class='nav-item-text d-sm-none d-md-inline ms-1'>Install</span>
             <% end %>

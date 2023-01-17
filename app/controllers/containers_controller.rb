@@ -1,13 +1,5 @@
 class ContainersController < LoggedInController
-  skip_before_action :ensure_container, only: [:new, :create]
-
-  def install_script
-    stream_modal(locals: { instrumentation_key: current_container.instrumentation_key })
-  end
-
-  def new
-    @container = Container.new
-  end
+  skip_before_action :find_and_validate_container, only: [:new, :create, :index]
   
   def create
     @container = Container.new(container_params)
@@ -28,18 +20,12 @@ class ContainersController < LoggedInController
   end
 
   def update
-    current_container.update(container_params)
+    @container.update(container_params)
     render turbo_stream: turbo_stream.replace(
       'container_settings',
       partial: 'containers/edit_form',
-      locals: { container: current_container, success_message: 'Container settings updated.' }
+      locals: { container: @container, success_message: 'Container settings updated.' }
     )
-  end
-
-  def update_current_container
-    container = current_user.containers.find_by!(uid: params[:uid])
-    set_current_container(container)
-    redirect_to request.referrer
   end
   
   private

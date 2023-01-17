@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email].downcase)
     if user && user.authenticate(params[:password])
-      # current_container.add_user(user) if current_container && !@user.belongs_to_container?(current_container)
+      # @container.add_user(user) if @container && !@user.belongs_to_container?(@container)
       set_current_user(user)
       url_to_go_to = session[:redirect_url] || root_path
       session.delete(:redirect_url)

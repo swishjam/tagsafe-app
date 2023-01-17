@@ -72,6 +72,6 @@ class TagVersionsController < LoggedInController
   private
 
   def find_tag
-    @tag = current_container.tags.find_by!(uid: params[:tag_uid])
+    @tag = @container.tags.find_by!(uid: params[:tag_uid])
   end
 end

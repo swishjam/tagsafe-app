@@ -2,15 +2,15 @@ class TagsController < LoggedInController
   def index
     render_breadcrumbs(text: 'Tags')
     render_navigation_items(
-      { url: root_path, text: 'Tags' },
-      { url: change_requests_path, text: 'Change Requests' },
-      { url: page_performance_path, text: 'Page Performance' },
-      { url: settings_path, text: 'Settings' },
+      { url: root_path, text: 'Containers' },
+      { url: container_change_requests_path(@container), text: 'Change Requests' },
+      { url: container_page_performance_path, text: 'Page Performance' },
+      { url: container_settings_path, text: 'Settings' },
     )
   end
 
   def show
-    @tag = current_container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
+    @tag = @container.tags.includes(:tag_identifying_data).find_by(uid: params[:uid])
     render_breadcrumbs(
       { text: 'Tags', url: root_path },
       { text: "#{@tag.try_friendly_name} Details" }
@@ -18,7 +18,7 @@ class TagsController < LoggedInController
   end
 
   def edit
-    @tag = current_container.tags.find_by!(uid: params[:uid])
+    @tag = @container.tags.find_by!(uid: params[:uid])
     stream_modal(
       partial: 'tags/edit',
       locals: { tag: @tag }
@@ -26,7 +26,7 @@ class TagsController < LoggedInController
   end
 
   def update
-    @tag = current_container.tags.find_by(uid: params[:uid])
+    @tag = @container.tags.find_by(uid: params[:uid])
     @tag.update!(tag_params)
     render turbo_stream: turbo_stream.replace(
       "#{@tag.uid}_settings",
@@ -36,12 +36,12 @@ class TagsController < LoggedInController
   end
 
   def select_tag_to_audit
-    tags = current_container.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_hostname')
+    tags = @container.tags.includes(:tag_identifying_data).order('tag_identifying_data.name, tags.url_hostname')
     stream_modal(partial: "tags/select_tag_to_audit", locals: { tags: tags })
   end
 
   def uptime
-    @tag = current_container.tags.find_by(uid: params[:uid])
+    @tag = @container.tags.find_by(uid: params[:uid])
     render_breadcrumbs(
       { text: 'Monitor Center', url: root_path }, 
       { text: "#{@tag.try_friendly_name} Uptime", active: true }
@@ -49,7 +49,7 @@ class TagsController < LoggedInController
   end
 
   def uptime_metrics
-    tag = current_container.tags.find_by(uid: params[:uid])
+    tag = @container.tags.find_by(uid: params[:uid])
     average_response_ms = tag.average_response_time
     max_response_ms = tag.max_response_time
     failed_requests = tag.num_failed_requests
@@ -66,7 +66,7 @@ class TagsController < LoggedInController
   end
 
   def audits
-    @tag = current_container.tags.find_by(uid: params[:uid])
+    @tag = @container.tags.find_by(uid: params[:uid])
     @audits = @tag.audits.most_recent_first(timestamp_column: :created_at).page(params[:page] || 1).per(params[:per_page] || 10)
     render_breadcrumbs(
       { url: root_path, text: 'Monitor Center' },

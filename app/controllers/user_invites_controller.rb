@@ -1,5 +1,5 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :ensure_container, only: [:accept, :redeem]
+  skip_before_action :find_and_validate_container, only: [:accept, :redeem]
 
   def new
     @user_invite = UserInvite.new
@@ -7,13 +7,13 @@ class UserInvitesController < LoggedInController
       partial: 'user_invites/form',
       locals: { 
         user_invite: UserInvite.new, 
-        container: current_container 
+        container: @container 
       }
     )
   end
 
   def create
-    invite = current_user.invite_user_to_container!(params[:user_invite][:email], current_container)
+    invite = current_user.invite_user_to_container!(params[:user_invite][:email], @container)
     if invite.valid?
       stream_modal(
         partial: 'user_invites/form',
@@ -26,7 +26,7 @@ class UserInvitesController < LoggedInController
       stream_modal(
         partial: 'user_invites/form',
         locals: { 
-          container: current_container,
+          container: @container,
           user_invite: invite,
           completed: false
         }
@@ -35,7 +35,7 @@ class UserInvitesController < LoggedInController
   end
 
   def index
-    @pending_user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
+    @pending_user_invites = @container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
   end
 
   def accept

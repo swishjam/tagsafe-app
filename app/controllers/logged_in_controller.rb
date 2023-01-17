@@ -1,7 +1,8 @@
 class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
-  before_action :ensure_container
+  before_action :authorize!
+  before_action :find_and_validate_container
   before_action :check_for_install_banner
 
   def authorize!
@@ -12,13 +13,13 @@ class LoggedInController < ApplicationController
     end
   end
 
-  def ensure_container
-    return true if current_container.present?
-    redirect_to current_user.nil? ? new_registration_path : new_container_path
+  def find_and_validate_container
+    @container = current_user.containers.find_by!(uid: params[:container_uid])
+  # rescue ActiveRecord::RecordNotFound => e
+    # redirect_to root_path
   end
 
   def check_for_install_banner
-    return if current_container.nil?
-    @display_install_banner = current_container.page_loads.none?
+    @display_install_banner = @container && @container.page_loads.none?
   end
 end

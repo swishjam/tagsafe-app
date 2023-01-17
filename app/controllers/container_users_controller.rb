@@ -1,6 +1,6 @@
 class ContainerUsersController < LoggedInController
   def destroy_modal
-    container_user = current_container.container_users.includes(:user).find_by(uid: params[:uid])
+    container_user = @container.container_users.includes(:user).find_by(uid: params[:uid])
     stream_modal(
       partial: 'container_users/destroy_modal',
       locals: { container_user: container_user }
@@ -8,7 +8,7 @@ class ContainerUsersController < LoggedInController
   end
 
   def index
-    @container_users = current_container.container_users.includes(:user)
+    @container_users = @container.container_users.includes(:user)
     render_breadcrumbs(text: 'Team Management')
   end
 

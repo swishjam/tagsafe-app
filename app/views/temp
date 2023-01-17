@@ -1,5 +1,5 @@
-<% unless current_container.nil? %>
-  <span class='container-url'><%= current_container.name %></span>
+<% unless @container.nil? %>
+  <span class='container-url'><%= @container.name %></span>
 <% end %>
 <% if user_is_anonymous? %>
   <span class='dropdown-indicator'>
@@ -20,15 +20,15 @@
   <span class='d-block'><%= current_user.full_name %></span>
   <span class='d-block'><%= current_user.email %></span>
 <% end %>
-<% unless current_container.nil? %>
-  <span class='d-block'><%= current_container.name %></span>
+<% unless @container.nil? %>
+  <span class='d-block'><%= @container.name %></span>
 <% end %>
 
 <% if !user_is_anonymous? && current_user.belongs_to_multiple_containers? %>
   <div class='dropdown-divider'></div>
   <% current_user.containers.each do |container| %>
-    <div class='dropdown-item text-center <%= container == current_container ? 'active' : nil %>'>
-      <% if container == current_container %>
+    <div class='dropdown-item text-center <%= container == @container ? 'active' : nil %>'>
+      <% if container == @container %>
         <%= container.name %>
       <% else %>
         <%= form_with model: container, url: update_current_container_path(container.uid), method: :put do |f| %>
@@ -42,7 +42,7 @@
 <div class='dropdown-divider'></div>
 
 <%= link_to 'Add New Container', new_container_path(additional: true), class: 'dropdown-item text-center no-decoration' %>
-<%= link_to 'Settings', settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
+<%= link_to 'Settings', container_settings_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>
 <%= link_to 'Help', '#', class: 'dropdown-item text-center no decoration', target: '_top' %>
 <div class='dropdown-divider'></div>
 <%= link_to 'Sign out', logout_path, class: 'dropdown-item text-center no-decoration', target: '_top' %>

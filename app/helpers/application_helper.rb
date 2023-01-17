@@ -10,21 +10,15 @@ module ApplicationHelper
     current_user.nil?
   end
 
-  def current_container
-    return @current_container if defined?(@current_container)
-    if user_is_anonymous?
-      return unless session[:current_container_uid].present?
-      @current_container = Container.find_by(uid: session[:current_container_uid])
-    else
-      @current_container = session[:current_container_uid] ? current_user.containers.find_by(uid: session[:current_container_uid]) : current_user.containers.first
-    end
-  rescue ActiveRecord::RecordNotFound => e
-    log_user_out
-  end
+  # def @container
+  #   @container = session[:@container_uid] ? current_user.containers.find_by(uid: session[:@container_uid]) : current_user.containers.first
+  # rescue ActiveRecord::RecordNotFound => e
+  #   log_user_out
+  # end
 
   def current_container_user
     return if current_user.nil?
-    @current_container_user ||= current_user.container_user_for(current_container)
+    @container_user ||= current_user.container_user_for(@container)
   end
 
   def current_anonymous_user_identifier
@@ -32,7 +26,7 @@ module ApplicationHelper
   end
 
   def set_current_container(container)
-    session[:current_container_uid] = container.uid
+    session[:@container_uid] = container.uid
   end
 
   def set_current_user(user)
@@ -45,7 +39,7 @@ module ApplicationHelper
 
   def log_user_out
     session.delete(:current_user_uid)
-    session.delete(:current_container_uid)
+    session.delete(:@container_uid)
   end
 
   def stream_modal(partial: "modals/#{action_name}", turbo_frame_name: 'server_loadable_modal', locals: {})

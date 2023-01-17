@@ -10,7 +10,7 @@ class WelcomeController < LoggedOutController
       Provided Name: #{params[:name]}\n\n\n
       Reason: #{params[:reason]}\n\n\n
       Logged in User UID: #{current_user&.uid}\n\n\n
-      Logged in Container UID: #{current_container&.uid}\n\n\n
+      Logged in Container UID: #{@container&.uid}\n\n\n
       Message:\n#{params[:message]}
     BODY
     TagsafeEmail::Generic.new(

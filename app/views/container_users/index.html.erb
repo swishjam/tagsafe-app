@@ -18,7 +18,7 @@
   ] %>
 </div>
 
-<%= turbo_frame_tag "container_#{current_container.uid}_container_users" do %>
+<%= turbo_frame_tag "container_#{@container.uid}_container_users" do %>
 
   <% if @container_users.any? %>
 
@@ -53,7 +53,7 @@
 
   <% else %>
     <div class='mt-10 text-center'>
-      <h4 class='empty-message mb-3'>You are the only Tagsafe user in <%= current_container.name %>!</h4>
+      <h4 class='empty-message mb-3'>You are the only Tagsafe user in <%= @container.name %>!</h4>
       <%= modal_link new_user_invite_path, text: 'Add Teammate', klass: 'inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100' %>
     </div>
   <% end %>
