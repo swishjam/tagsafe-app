@@ -1,11 +1,11 @@
 class FindAndCreateTagsForTagSnippetJob < ApplicationJob
   queue_as TagsafeQueue.CRITICAL
 
-  def perform(tag_snippet, tag_snippet_content_file_name)
+  def perform(tag_snippet, tag_snippet_content)
     transaction = Sentry.start_transaction(op: 'FindAndCreateTagsForTagSnippetJob.perform')
     
     raise "TagSnippet already has associated Tags, delete Tags first before calling `find_and_create_associated_tags_added_to_page_by_snippet`" if tag_snippet.tags.any?
-    attach_tag_snippet_content(tag_snippet, tag_snippet_content_file_name)
+    attach_tag_snippet_content(tag_snippet, tag_snippet_content)
     tag_datas = TagManager::FindTagsInTagSnippet.find!(tag_snippet.executable_javascript, tag_snippet.script_tags_attributes)
     tag_datas.each{ |data| create_tag_from_found_tag_data(tag_snippet, data) }
     tag_snippet.found_all_tags_injected_by_snippet!
@@ -15,13 +15,19 @@ class FindAndCreateTagsForTagSnippetJob < ApplicationJob
 
   private
 
-  def attach_tag_snippet_content(tag_snippet, tag_snippet_content_file_name)
-    filepath = Rails.root.join('tmp', 'tag_snippets', tag_snippet_content_file_name)
+  def attach_tag_snippet_content(tag_snippet, tag_snippet_content)
+    Util.create_dir_if_neccessary(Rails.root, 'tmp', 'tag_snippets')
+    filepath = Rails.root.join('tmp', 'tag_snippets', "#{tag_snippet.uid}-content.html")
+    file = File.open(filepath, 'w')
+    file.puts(tag_snippet_content.force_encoding('UTF-8'))
+    file.close
+
     tag_snippet.content.attach(
       io: File.open(filepath), 
       filename: "#{tag_snippet.uid}-content.html", 
       content_type: 'text/html'
     )
+
     File.delete(filepath)
   end
 

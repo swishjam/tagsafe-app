@@ -11,7 +11,7 @@ class TagSnippet < ApplicationRecord
   # validate :content_has_valid_script_tag_syntax
   validates :state, presence: true, inclusion: { in: VALID_STATES }
 
-  after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{state})") if saved_changes['state'].present? }
+  after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{saved_changes['state'][0]} -> #{saved_changes['state'][1]})") if saved_changes['state'].present? }
   # after_create_commit :find_and_create_associated_tags_added_to_page_by_snippet
 
   TagSnippet::VALID_STATES.each do |state|
@@ -65,7 +65,10 @@ class TagSnippet < ApplicationRecord
       "#{uid}_details_stream",
       target: "#{uid}_details",
       partial: 'tag_snippets/show',
-      locals: { tag_snippet: self }
+      locals: { 
+        tag_snippet: self,
+        container: container,
+      }
     )
   end
 
