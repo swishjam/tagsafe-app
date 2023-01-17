@@ -4,18 +4,69 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<%= render_as_modal title: 'Install Script' do %>
-  <div class='tagsafe-modal-body text-start'>
-    <h4>Paste this script at the very top of the `head` on each page of your web application.</h4>
-    <div class='code-block p-2'>
-      <div class='code-mirror-container readonly' data-controller='code-mirror'>
-        <div class='code-mirror-copy-btn' data-action='click->code-mirror#copyContent'><i class="far fa-copy"></i></div>
-        <textarea data-code-mirror-target='codeMirrorTextarea' data-readonly='true' data-value="<script>\r\n  (function(i) {\r\n    var s = document.createElement('script');\r\n    s.setAttribute('src','https://<%= ENV['CLOUDFRONT_HOSTNAME'] %>/'+i+'/instrumentation.js');\r\n    document.head.prepend(s);\r\n  })('<%= instrumentation_key %>');\r\n</script>"></textarea>
-      </div>
-    </div>
-  </div>
-  <div class='tagsafe-modal-divider mt-2'></div>
-  <div class='tagsafe-modal-footer text-end'>
-  </div>
-<% end %>
 
+<div class="flow-root">
+  <ul role="list" class="-mb-8">
+    <li>
+      <div class="relative pb-8">
+        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+        <div class="relative flex space-x-3">
+          <div>
+            <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white font-bold text-white">
+              <!-- Heroicon name: mini/user -->
+              1
+            </span>
+          </div>
+          <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+            <div>
+              <p class="text-sm text-gray-500">Move all 3rd party scripts to be managed by Tagsafe <%= link_to "(Add Tags)", "/tag_snippets/new", class:"text-blue-500" %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="relative pb-8">
+        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+        <div class="relative flex space-x-3">
+          <div>
+            <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white font-bold text-white">
+              2
+            </span>
+          </div>
+          <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+            <div>
+              <p class="text-sm text-gray-500">Paste the below code at the <span class="font-medium text-gray-900">very top of the `head`</span> on each page of your web application.</p>
+              <div class="border mt-4 rounded-md bg-gray-50">
+                <pre class="whitespace-pre px-4 -mt-8">
+                  <code class="font-medium text-gray-900 whitespace-pre text-sm">
+                    <%=h "\r\n<link rel='preconnect' href='https://#{ENV['CLOUDFRONT_HOSTNAME']}' crossorigin />\r\n<link rel='dns-prefetch' href='https://#{ENV['CLOUDFRONT_HOSTNAME']}' />\r\n<script>\r\n  (function(i) {\r\n    var s = document.createElement('script');\r\n    s.setAttribute('src','https://#{ENV['CLOUDFRONT_HOSTNAME']}/'+i+'/instrumentation.js');\r\n    document.head.prepend(s);\r\n  })('#{container.instrumentation_key}');\r\n</script>" %>
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="relative pb-8">
+        <div class="relative flex space-x-3">
+          <div>
+            <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 text-white ring-white">
+              3
+            </span>
+          </div>
+          <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+            <div>
+              <p class="text-sm text-gray-500">That's it! Make sure the above code is deployed and you're done</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+
+  </ul>
+</div>
