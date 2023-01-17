@@ -19,7 +19,6 @@ class LoggedInController < ApplicationController
 
   def check_for_install_banner
     return if current_container.nil?
-    # @display_install_banner = current_container.page_loads.none?
-    @display_install_banner = true
+    @display_install_banner = current_container.page_loads.none?
   end
 end
