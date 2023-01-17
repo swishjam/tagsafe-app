@@ -7,7 +7,7 @@ export default class extends Controller {
   connect() {
     this._animateIn();
     this._setAutoDismissTimer();
-    this._hoverListener();    
+    this._hoverListener();
   }
 
   dismiss() {
