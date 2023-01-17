@@ -38,28 +38,6 @@
           </nav>
         </div>
 
-        <!--
-        <%# if !user_is_anonymous? && current_user.belongs_to_multiple_containers? %>
-          <div class='dropdown-divider'></div>
-          <%# current_user.containers.each do |container| %>
-            <div class='dropdown-item text-center <%#= container == current_container ? 'active' : nil %>'>
-              <%# if container == current_container %>
-                <%#= container.name %>
-              <%# else %>
-                <%#= form_with model: container, url: update_current_container_path(container.uid), method: :put do |f| %>
-                  <span data-controller='feaux_form_submit_button'><%#= container.name %></span>
-                <%# end %>
-              <%# end %>
-            </div>
-          <%# end %>
-        <%# end %>
-        -->
-
-
-
-
-
-
         <div class="sm:ml-6 sm:flex sm:items-center">
           <!--  -->
         <div
@@ -69,31 +47,24 @@
             <button
                 data-action="click->dropdown#toggle"
                 type="button"
-                class="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100 p-1"
+                class="flex items-center rounded-full bg-gray-100 text-gray-400 px-2 py-2 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100 p-1"
                 id="menu-button"
                 aria-expanded="true"
                 aria-haspopup="true"
               >
               <span class="sr-only">Open options</span>
-              <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
-              </svg>
+              <%= current_user.initials %>
             </button>
           </div>
 
-          <!--
-            Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-            From: "transform opacity-0 scale-95"
-            To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-            From: "transform opacity-100 scale-100"
-            To: "transform opacity-0 scale-95"
-          -->
-          <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out opacity-0 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+          <div data-dropdown-target='menu' class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out opacity-0 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="py-1" role="none">
-              <%= link_to 'Sign out', logout_path, class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500', target: '_top' %>
+              <%= link_to logout_path, class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500', target: '_top' do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline rotate-90 mr-1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                </svg>
+                Sign out
+              <% end %>
             </div>
           </div>
         </div>
