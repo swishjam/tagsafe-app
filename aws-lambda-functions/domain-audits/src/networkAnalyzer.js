@@ -1,10 +1,9 @@
 const PuppeteerModerator = require('./puppeteerModerator');
 const PuppeteerHar = require('puppeteer-har');
 const fs = require('fs');
-const { request } = require('http');
 
 module.exports = class NetworkAnalyzer { 
-  static async analyzeNetworkRequests(page_url, first_party_url) {
+  static async analyzeNetworkRequests(page_url, first_party_urls) {
     const puppeteerModerator = new PuppeteerModerator();
     const page = await puppeteerModerator.launch();
 
@@ -15,10 +14,10 @@ module.exports = class NetworkAnalyzer {
     await puppeteerModerator.shutdown();
 
     const harData = fs.readFileSync('results.har');
-    return NetworkAnalyzer._calculateThirdPartyJavascriptDnsTime(JSON.parse(harData).log.entries, first_party_url);
+    return NetworkAnalyzer._calculateThirdPartyJavascriptDnsTime(JSON.parse(harData).log.entries, first_party_urls);
   }
 
-  static _calculateThirdPartyJavascriptDnsTime(harEntries, firstPartyUrl) {
+  static _calculateThirdPartyJavascriptDnsTime(harEntries, firstPartyUrls) {
     const jsHarEntries = harEntries.filter(entry => entry.request.method === 'GET' && entry.response.content.mimeType === 'application/javascript');
 
     let totalDnsTime = 0;
@@ -54,7 +53,8 @@ module.exports = class NetworkAnalyzer {
       totalJsBytes += bytes;
       allJsRequests.push(data);
 
-      if(new URL(url).hostname === new URL(firstPartyUrl).hostname) {
+      const isFirstParty = firstPartyUrls.find(firstPartyUrl => new URL(firstPartyUrl).hostname === new URL(url).hostname)
+      if(isFirstParty) {
         totalFirstPartyDnsTime += dnsTime;
         totalFirstPartySslTime += sslTime;
         totalFirstPartyTime += requestTime;
@@ -89,8 +89,8 @@ module.exports = class NetworkAnalyzer {
       totalThirdPartyTime,
       totalThirdPartyJsBytes,
       percentOfThirdPartyJsRequestTimeIsDnsOrSsl: ((totalThirdPartyDnsTime + totalThirdPartySslTime) / totalThirdPartyTime) * 100,
-      percentOfJsRequestTimeIs3p: totalThirdPartyTime / totalTime,
-      percentOfJsIs3p: totalThirdPartyJsBytes / totalJsBytes
+      percentOfJsRequestTimeIs3p: (totalThirdPartyTime / totalTime) * 100,
+      percentOfJsIs3p: (totalThirdPartyJsBytes / totalJsBytes) * 100
      }
   }
 } 

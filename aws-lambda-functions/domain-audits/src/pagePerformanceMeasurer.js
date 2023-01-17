@@ -1,10 +1,10 @@
 const PuppeteerModerator = require('./puppeteerModerator');
 
 module.exports = class PagePerformanceMeasurer {
-  static async measureThirdPartyImpact(page_url, first_party_url) {
+  static async measureThirdPartyImpact(page_url, first_party_urls) {
     const [pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags] = await Promise.all([
-      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_url, true),
-      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_url, false)
+      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, true),
+      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, false)
     ])
 
     return {
@@ -41,15 +41,15 @@ module.exports = class PagePerformanceMeasurer {
     }
   }
 
-  static async _measurePagePerformance(page_url, first_party_url, blockThirdPartyTags) {
+  static async _measurePagePerformance(page_url, first_party_urls, blockThirdPartyTags) {
     const puppeteerModerator = new PuppeteerModerator();
     const page = await puppeteerModerator.launch();
 
     if(blockThirdPartyTags) {
       await page.setRequestInterception(true);
       page.on('request', async req => {
-        const isThirdParty = new URL(req.url()).hostname !== new URL(first_party_url).hostname;
-        if(req.resourceType() === 'script' && isThirdParty) {
+        const isFirstParty = first_party_urls.find(url => new URL(url).hostname === new URL(req.url()).hostname)
+        if (req.resourceType() === 'script' && isFirstParty) {
           console.log(`Blocking request to ${req.url()}`)
           await req.abort();
         } else {
