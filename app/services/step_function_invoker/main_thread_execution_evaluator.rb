@@ -35,7 +35,7 @@ module StepFunctionInvoker
     end
 
     def stringified_page_url
-      "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?tagsafe-disabled=true' : ''}"
+      "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?tagsafe-disable-tag-re-route=true' : ''}"
     end
   end
 end

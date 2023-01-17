@@ -7,7 +7,7 @@
     "deploy-dev": "serverless deploy --stage collin-dev",
     "deploy-staging": "serverless deploy --stage staging",
     "deploy-prod": "serverless deploy --stage production",
-    "locally": "serverless invoke local --function calculate-tags-js-coverage --data '{ \"tag_url_pattern\": \"https://cdn.segment.com/analytics\", \"page_url\": \"https://www.tagsafe.io/demo\" }' --stage local"
+    "locally": "serverless invoke local --function calculate-tags-js-coverage --path ./test.json --stage local"
   },
   "author": "",
   "license": "ISC",

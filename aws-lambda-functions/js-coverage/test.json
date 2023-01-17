@@ -1,0 +1,6 @@
+{
+  "tag_url_to_inject": "https://www.thirdpartytag.com/script.js", 
+  "tag_url_patterns_to_block": [],
+  "page_url": "https://www.tagsafe.io",
+  "tag_to_inject_load_strategy": "synchronous"
+}
