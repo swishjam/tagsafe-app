@@ -2,7 +2,7 @@ class LoggedInController < ApplicationController
   layout 'logged_in_layout'
 
   before_action :ensure_container
-  before_action :set_current_container_and_redirect_if_param_present
+  before_action :check_for_install_banner
 
   def authorize!
     if current_user.nil?
@@ -17,11 +17,9 @@ class LoggedInController < ApplicationController
     redirect_to current_user.nil? ? new_registration_path : new_container_path
   end
 
-  def set_current_container_and_redirect_if_param_present
-    unless params[:_container_uid].nil? || current_user.nil?
-      container = current_user.containers.find_by!(uid: params[:_container_uid])
-      set_current_container(container)
-      redirect_to request.path
-    end
+  def check_for_install_banner
+    return if current_container.nil?
+    # @display_install_banner = current_container.page_loads.none?
+    @display_install_banner = true
   end
 end
