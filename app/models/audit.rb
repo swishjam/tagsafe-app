@@ -45,6 +45,7 @@ class Audit < ApplicationRecord
       initiated_by_container_user: initiated_by_container_user,
     )
     raise ActiveRecord::RecordInvalid, audit.errors.full_messages.join(', ') if audit.errors.any?
+    audit
   end
 
 def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_container_user: nil)

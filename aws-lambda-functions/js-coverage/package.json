@@ -1,5 +1,5 @@
 {
-  "name": "functional-test-run",
+  "name": "js-coverage",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",
@@ -17,6 +17,7 @@
     "puppeteer-core": "^10.4.0"
   },
   "devDependencies": {
-    "puppeteer": "^15.5.0"
+    "puppeteer": "^15.5.0",
+    "serverless": "^3.26.0"
   }
 }

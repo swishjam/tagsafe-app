@@ -32,7 +32,7 @@ module.exports.handle = async (event, _context) => {
     page, 
     urlPatternsToBlock: tag_url_patterns_to_block, 
     urlToInject: tag_url_to_inject, 
-    urlToInjectLoadStrategy : tag_to_inject_load_strategy,
+    urlToInjectLoadStrategy: tag_to_inject_load_strategy,
   });
 
   await Promise.all([
