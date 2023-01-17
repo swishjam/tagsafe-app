@@ -1,4 +1,5 @@
 class UserInvitesController < LoggedInController
+  skip_before_action :authorize!, only: [:accept, :redeem]
   skip_before_action :find_and_validate_container, only: [:accept, :redeem]
 
   def new
@@ -47,11 +48,8 @@ class UserInvitesController < LoggedInController
   end
 
   def accept
-    @user = User.new
     @user_invite = UserInvite.includes(:container).find_by(token: params[:token])
-    @hide_footer = true
-    @hide_logged_out_nav = true
-    render :accept, layout: 'logged_out_layout'
+    render :'registrations/new', layout: 'layouts/logged_out_layout'
   end
 
   def redeem
