@@ -1,60 +1,88 @@
-<div class='page-title-container'>
-  <div class='container-fluid'>
-    <div class='row'>
-      <div class='col-8'>
-        <div class='d-flex align-items-center'>
-          <% if @tag.has_image? %>
-            <div class='me-2'>
-              <%= image_tag @tag.try_image_url, class: 'tag-thumbnail border' %>
+<%= render 'tags/root_paths_page_navigation', page_title: 'Tag Audit', hide_new_tag_button: true %>
+
+<div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12'>
+  <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4">
+
+    <div class="space-y-6 lg:col-span-4 lg:col-start-1 border rounded-md p-6 overflow-hidden">
+
+      <section>
+        <!--  Header -->
+        <div>
+          <div class="h-16 w-full object-cover lg:h-24">
+          </div>
+          <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+              <div class="flex">
+                <%# if tag_snippet.try_image_url %>
+                <%#= image_tag tag_snippet.try_image_url, class: 'h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32' %>
+                <%# end %>
+                <% if @tag.has_image? %>
+                  <%= image_tag @tag.try_image_url, class: 'h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32' %>
+                <% end %>
+              </div>
+              <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
+                <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
+                  <h1 class="truncate text-2xl font-bold text-gray-900"><%= @tag.try_friendly_name %></h1>
+                </div>
+                <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0">
+                  <%= modal_link new_tag_audit_path(@tag), klass: 'inline-flex justify-center items-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2' do %>
+                    <div class='d-flex align-items-center'>
+                      Run Audit
+                    </div>
+                  <% end %>
+                </div>
+              </div>
             </div>
-          <% end %>
-          <div>
-            <h1 class="page-title with-sub-title d-flex align-items-center fs-1">
-              <%= @tag.try_friendly_name %> audit
-            </h1>
-            <h2 class='page-sub-title fs-6'><%= @tag.url_based_on_preferences %></h2>
+            <div class="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
+              <h1 class="truncate text-2xl font-bold text-gray-900 cursor-default">
+                <%= @tag.try_friendly_name %>
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
-      <div class='col-4 page-title-cta-container'>
-        <%= modal_link new_tag_audit_path(@tag), klass: 'page-title-cta-btn floating-btn tagsafe-purple-bg' do %>
-          <div class='d-flex align-items-center'>
-            Run Audit 
-            <span data-controller='hot-keys' data-action="modal" data-key-code='65' class='hot-key-indicator ms-1'>
-              <form class='hidden' action="<%=select_tag_to_audit_tags_path%>" data-hot-keys-target='formAction' data-turbo-frame='server_loadable_modal'>
-              </form>
-              ⌘a
-            </span>
+      </section>
+
+      <!-- Description list -->
+      <div class="mx-auto mt-6 max-w-6xl px-4 sm:px-6 lg:px-8">
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+          <div class="sm:col-span-1">
+            <dt class="text-sm font-medium text-gray-500">Audited page URL</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @audit.page_url.friendly_url %></dd>
           </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class='col-8 offset-2 mt-4 mb-4'>
-  <div class='d-flex justify-content-evenly'>
-    <div class='meta-info-pill' data-controller='tooltip' title='When this audit was performed.'>
-      <div class='title'>Performed at</div>
-      <div class='value'><%= @audit.created_at.formatted_short %></div>
-    </div>
-    <div class='meta-info-pill' data-controller='tooltip' title='Which page this audit was perfomed on.'>
-      <div class='title'>Audited page URL</div>
-      <div class='value'><%= @audit.page_url.friendly_url %></div>
-    </div>
-    <div class='meta-info-pill' data-controller='tooltip' title='Reason the audit was ran.'>
-      <div class='title'>Execution reason</div>
-      <div class='value'><%= @audit.execution_reason.name %></div>
-    </div>
-    <% if @audit.execution_reason.manual? %>
-      <div class='meta-info-pill' data-controller='tooltip' title='The individual who initiated the audit.'>
-        <div class='title'>Executed by</div>
-        <div class='value'><%= @audit.initiated_by_container_user.user.email %></div>
-      </div>
-    <% end %>
-  </div>
-</div>
+          <div class="sm:col-span-1">
+            <dt class="text-sm font-medium text-gray-500">Performed at</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @audit.created_at.formatted_short %></dd>
+          </div>
 
-<div class='col-sm-8 offset-sm-2 col-md-6 offset-md-3'>
-  <%= render 'breakdown', audit: @audit %>
+          <div class="sm:col-span-1">
+            <dt class="text-sm font-medium text-gray-500">Execution reason</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @audit.execution_reason.name %></dd>
+          </div>
+
+          <div class="sm:col-span-1">
+            <dt class="text-sm font-medium text-gray-500">Triggered by</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <% if @audit.execution_reason.manual? %>
+                <%= @audit.initiated_by_container_user.user.email %>
+              <% else %>
+                Automated
+              <% end %>
+            </dd>
+          </div>
+
+        </dl>
+      </div>
+
+      <hr class="py-4"/>
+
+      <%= render 'breakdown', audit: @audit %>
+
+    </div>
+    <!--
+      <div class="lg:col-span-1 lg:col-start-3">
+      </div>
+    -->
+  </div>
+
 </div>
