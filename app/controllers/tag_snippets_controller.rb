@@ -57,11 +57,6 @@ class TagSnippetsController < LoggedInController
       )
     else
       if tag_snippet.save
-        # filename = "#{tag_snippet.uid}-#{Time.now.to_i}-#{rand()}.html"
-        # Util.create_dir_if_neccessary(Rails.root, 'tmp', 'tag_snippets')
-        # file = File.open(Rails.root.join('tmp', 'tag_snippets', filename), 'w')
-        # file.puts(params[:tag_snippet][:content].force_encoding('UTF-8'))
-        # file.close
         FindAndCreateTagsForTagSnippetJob.perform_later(tag_snippet, params[:tag_snippet][:content])
         redirect_to container_tag_snippet_path(@container, tag_snippet)
       else

@@ -1,4 +1,4 @@
-<%= form_with model: [container, tag_snippet], data: { controller: 'loading_form'} do |f| %>
+<%= form_with model: [container, tag_snippet], data: { controller: 'loading_form code-mirror', action: 'submit->code-mirror#santizeCodeAndSubmitForm'} do |f| %>
   <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4">
     <div class="space-y-6 lg:col-start-1 lg:col-span-4 border rounded-md overflow-hidden p-6">
       <% if local_assigns[:error_messages] && error_messages.any? %>
@@ -34,7 +34,8 @@
       <div>
         <label for="" class="block text-sm font-medium text-gray-700">Tag Snippet</label>
         <div class='code-block border rounded-md overflow-hidden'>
-          <div class='code-mirror-container' data-controller='code-mirror'>
+          <!--<div class='code-mirror-container' data-controller='code-mirror'>!-->
+          <div>
             <div class='text-center py-5' data-code-mirror-target='codeMirrorLoadingIndicator'>
               <%= display_loading_icon %>
             </div>

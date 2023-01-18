@@ -44,7 +44,7 @@ module TagsafeInstrumentationManager
           {
             uid: '#{tag_snippet.uid}',
             attrs: #{tag_snippet.script_tags_attributes},
-            js: '#{tag_snippet.executable_javascript}',
+            js: '#{tag_snippet.encoded_executable_javascript}',
           },
         "
       end

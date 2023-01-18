@@ -22,7 +22,7 @@ module.exports.handle = async (event, _context) => {
 
 
 
-  await page.evaluate((scriptTagJsContent, scriptTagAttrs) => {
+  await page.evaluate((encodedScriptTagJsContent, scriptTagAttrs) => {
     var s = document.createElement('script');
     scriptTagAttrs.forEach(attr => s.setAttribute(attr[0], attr[1]));
 
@@ -34,7 +34,7 @@ module.exports.handle = async (event, _context) => {
         s.setAttribute('src', `https://${scriptSrc}`);
       }
     }
-    s.innerText = scriptTagJsContent;
+    s.innerText = window.atob(encodedScriptTagJsContent);
     document.head.appendChild(s);
   }, tag_snippet_script, script_tags_attributes);
 

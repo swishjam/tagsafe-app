@@ -17,6 +17,8 @@ class FindAndCreateTagsForTagSnippetJob < ApplicationJob
 
   def attach_tag_snippet_content(tag_snippet, tag_snippet_content)
     Util.create_dir_if_neccessary(Rails.root, 'tmp', 'tag_snippets')
+    # base_64_encoded_snippet_content = Base64.encode64(tag_snippet_content.force_encoding('UTF-8'))
+
     filepath = Rails.root.join('tmp', 'tag_snippets', "#{tag_snippet.uid}-content.html")
     file = File.open(filepath, 'w')
     file.puts(tag_snippet_content.force_encoding('UTF-8'))
