@@ -13,12 +13,15 @@ class TagSnippetsController < LoggedInController
   end
 
   def list
+    tag_snippets = @container.tag_snippets
+                                .includes(tags: [tag_identifying_data: :image_attachment])
+                                .order(state: :DESC)
     render turbo_stream: turbo_stream.replace(
       "#{@container.uid}_tag_snippets_list",
       partial: 'tag_snippets/list',
       locals: { 
         container: @container,
-        tag_snippets: @container.tag_snippets.includes(tags: [tag_identifying_data: :image_attachment]),
+        tag_snippets: tag_snippets,
       }
     )
   end

@@ -21,7 +21,7 @@ class Container < ApplicationRecord
   ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[defer_script_tags_by_default tagsafe_js_enabled]
   after_update { publish_instrumentation! if saved_changes.keys.intersection(Container::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
-  before_create { self.instrumentation_key = "TAG-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
+  before_create { self.instrumentation_key = "TAGSAFE-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
   after_create { publish_instrumentation!("Generating container's first instrumentation.") }
   after_destroy { TagsafeAws::S3.delete_object_by_s3_url(tagsafe_instrumentation_url(use_cdn: false)) }
 
