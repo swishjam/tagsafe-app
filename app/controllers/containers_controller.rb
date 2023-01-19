@@ -1,5 +1,23 @@
 class ContainersController < LoggedInController
   skip_before_action :find_and_validate_container, only: [:new, :create, :index, :show]
+
+  def index
+    render_breadcrumbs(text: 'All Containers')
+    @hide_top_level_nav_items = true
+    redirect_to new_container_path if current_user.containers.none?
+  end
+
+  def new
+    @hide_top_level_nav_items = true
+    if current_user.containers.any?
+      render_breadcrumbs(
+        { text: "All Containers", url: containers_path },
+        { text: "New Container" }
+      )
+    else
+      render_breadcrumbs(text: "New Container")
+    end
+  end
   
   def create
     @container = Container.new(container_params)

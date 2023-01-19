@@ -25,7 +25,7 @@ export default class ScriptInector {
     const script = document.createElement('script');
     script.setAttribute('data-tagsafe-injected', 'true');
     script.setAttribute('data-tagsafe-tag-snippet', scriptConfig.uid);
-    script.innerText = scriptConfig.js;
+    script.innerText = atob(scriptConfig.js);
     scriptConfig.attrs.forEach(attr => script.setAttribute(attr[0], attr[1]));
     document.head.appendChild(script);
     this._numTagsInjected += 1;

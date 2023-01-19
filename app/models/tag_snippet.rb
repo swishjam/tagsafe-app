@@ -42,9 +42,19 @@ class TagSnippet < ApplicationRecord
 
   def executable_javascript
     scripts = Nokogiri::HTML.fragment(content.download).css('script')
-    js = scripts[0].text.strip.gsub("'", '"')
-    compiled_js = Uglifier.compile(js)
-    compiled_js.blank? ? js.gsub("\n", "") : compiled_js
+    # js = scripts[0].text.strip.gsub("'", '"')
+    js = scripts[0].text
+    begin
+      compiled_js = Uglifier.compile(js)
+      compiled_js.blank? ? js.strip.gsub("\n", "").gsub("\t", "") : compiled_js.gsub("\n", "")
+    rescue => e
+      Rails.logger.error "Unable to compile #{uid}: #{e.inspect}. Using raw JS instead."
+      js.strip.gsub("\n", "").gsub("\t", "")
+    end
+  end
+
+  def encoded_executable_javascript
+    Base64.encode64(executable_javascript).gsub("\n", "")
   end
 
   def downloaded_content
