@@ -1,5 +1,7 @@
 <%= turbo_frame_tag "#{container_uid}_change_requests_count_indicator" do %>
-  <span class="inline-flex items-center rounded-md bg-red-100 px-1 py-0.5 text-xs font-medium text-red-800 ml-1">
-    <%= open_change_requests_count %>
-  </span>
+  <% if open_change_requests_count > 0 %>
+    <span class="inline-flex items-center rounded-md bg-red-100 px-1 py-0.5 text-xs font-medium text-red-800 ml-1">
+      <%= open_change_requests_count %>
+    </span>
+  <% end %>
 <% end %>
