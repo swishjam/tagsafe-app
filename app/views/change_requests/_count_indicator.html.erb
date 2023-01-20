@@ -1,4 +1,5 @@
-<!--<span class='bg-red-600 text-white text-sm rounded-full absolute px-1 py-1 text-xs' style='top: -0.5rem; right: -0.5rem;'>!-->
-<span class="inline-flex items-center rounded-md bg-red-100 px-1 py-0.5 text-xs font-medium text-red-800 ml-1">
-  <%= open_change_requests_count %>
-</span>
+<%= turbo_frame_tag "#{container_uid}_change_requests_count_indicator" do %>
+  <span class="inline-flex items-center rounded-md bg-red-100 px-1 py-0.5 text-xs font-medium text-red-800 ml-1">
+    <%= open_change_requests_count %>
+  </span>
+<% end %>

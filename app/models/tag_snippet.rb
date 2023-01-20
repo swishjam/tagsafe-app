@@ -21,7 +21,10 @@ class TagSnippet < ApplicationRecord
 
   class << self
     TagSnippet::VALID_STATES.each do |state|
+      define_method(:"#{state}") { where(state: state) }
       define_method(:"in_#{state}_state") { where(state: state) }
+      define_method(:"not_#{state}") { where.not(state: state) }
+      define_method(:"not_in_#{state}_state") { where.not(state: state) }
     end
   end
 

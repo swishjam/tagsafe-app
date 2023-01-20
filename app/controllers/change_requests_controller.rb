@@ -110,7 +110,10 @@ class ChangeRequestsController < LoggedInController
     render turbo_stream: turbo_stream.replace(
       "#{@container.uid}_change_requests_count_indicator",
       partial: 'change_requests/count_indicator',
-      locals: { open_change_requests_count: @container.tags.open_change_requests.count }
+      locals: { 
+        container_uid: @container.uid,
+        open_change_requests_count: @container.tags.open_change_requests.count,
+      }
     )
   end
 end

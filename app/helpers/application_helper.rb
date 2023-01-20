@@ -51,7 +51,7 @@ module ApplicationHelper
   end
 
   def render_default_navigation_items(active_item)
-    @navigation_items = [
+    render_navigation_items(
       { 
         url: container_tag_snippets_path(@container), 
         text: 'Tags', 
@@ -63,6 +63,7 @@ module ApplicationHelper
         active: active_item == :change_requests,
         turbo_frame: {
           name: "#{@container.uid}_change_requests_count_indicator",
+          stream: "#{@container.uid}_change_requests_count_indicator_stream",
           src: count_container_change_requests_path(@container)
         }
       },
@@ -76,7 +77,7 @@ module ApplicationHelper
         text: 'Settings',
         active: active_item == :settings,
       },
-    ]
+    )
   end
 
   def render_navigation_items(*items)

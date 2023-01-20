@@ -10,6 +10,7 @@ class TagSnippetsController < LoggedInController
   def list
     tag_snippets = @container.tag_snippets
                                 .includes(tags: [tag_identifying_data: :image_attachment])
+                                .not_deleted
                                 .order(state: :DESC)
     render turbo_stream: turbo_stream.replace(
       "#{@container.uid}_tag_snippets_list",

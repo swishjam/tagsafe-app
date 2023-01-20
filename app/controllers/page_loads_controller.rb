@@ -4,6 +4,6 @@ class PageLoadsController < LoggedInController
       { url: containers_path, text: @container.name },
       { text: 'Performance' }
     )
-    render_default_navigation_items(:settings)
+    render_default_navigation_items(:page_performance)
   end
 end
