@@ -4,12 +4,7 @@ class TagSnippetsController < LoggedInController
       { url: containers_path, text: @container.name },
       { text: 'Tags' }
     )
-    render_navigation_items(
-      { url: container_tag_snippets_path(@container), text: 'Tags' },
-      { url: container_change_requests_path(@container), text: 'Change Requests' },
-      { url: container_page_performance_path(@container), text: 'Page Performance' },
-      { url: container_settings_path(@container), text: 'Settings' },
-    )
+    render_default_navigation_items(:tags)
   end
 
   def list
@@ -32,12 +27,7 @@ class TagSnippetsController < LoggedInController
       { url: containers_path, text: @container.name },
       { text: 'New Tag' }
     )
-    render_navigation_items(
-      { url: container_tag_snippets_path(@container), text: 'Tags' },
-      { url: container_change_requests_path(@container), text: 'Change Requests' },
-      { url: container_page_performance_path(@container), text: 'Page Performance' },
-      { url: container_settings_path(@container), text: 'Settings' },
-    )
+    render_default_navigation_items(:tags)
   end
 
   def create
@@ -89,12 +79,7 @@ class TagSnippetsController < LoggedInController
       { url: container_tag_snippets_path(@container), text: 'Tags' },
       { text: "#{@tag_snippet.name} Details" }
     )
-    render_navigation_items(
-      { url: container_tag_snippets_path(@container), text: 'Tags', active: true },
-      { url: container_change_requests_path(@container), text: 'Change Requests' },
-      { url: container_page_performance_path(@container), text: 'Page Performance' },
-      { url: container_settings_path(@container), text: 'Settings' },
-    )
+    render_default_navigation_items(:tags)
   end
 
   private

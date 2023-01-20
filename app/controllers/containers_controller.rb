@@ -1,10 +1,19 @@
 class ContainersController < LoggedInController
-  skip_before_action :find_and_validate_container, only: [:new, :create, :index, :show]
+  skip_before_action :find_and_validate_container
 
   def index
     render_breadcrumbs(text: 'All Containers')
     @hide_top_level_nav_items = true
     redirect_to new_container_path if current_user.containers.none?
+  end
+
+  def list
+    containers = current_user.containers.includes(tags: :tag_identifying_data)
+    render turbo_stream: turbo_stream.replace(
+      "container_list",
+      partial: 'containers/list',
+      locals: { containers: containers }
+    )
   end
 
   def new

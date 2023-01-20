@@ -1,0 +1,28 @@
+<ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+  <% containers.each do |container| %>
+    <li class="col-span-1 flex border rounded-md shadow-sm hover:shadow-xl cursor-pointer transition-all">
+      <%= link_to container_tag_snippets_path(container), class: 'w-full' do %>
+        <div class="py-7 px-7 items-center justify-between truncate bg-white">
+          <div class="flex-1 truncate">
+            <p class="text-md font-medium text-gray-900 hover:text-gray-600 hover:underline"><%= container.name %></p>
+            <p class="text-gray-500 text-sm"><%= container.users.count %> members</p>
+          </div>
+          <div class="flex-shrink-0 pr-2 mt-2">
+            <% num_tag_snippet_images = 0 %>
+            <% container.tag_snippets.each do |tag_snippet| %>
+              <% if tag_snippet.try_image_url %>
+                <% num_tag_snippet_images += 1 %>
+                <%= image_tag tag_snippet.try_image_url, class: 'w-6 h-6 inline rounded-full border' %>
+              <% end %>
+            <% end %>
+            <% unless (container.tag_snippets.count - num_tag_snippet_images).zero? %>
+              <div class='h-6 w-6 inline text-xs truncate'>
+                + <%= container.tag_snippets.count - num_tag_snippet_images %> more
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

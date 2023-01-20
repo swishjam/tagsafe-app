@@ -4,12 +4,7 @@ class ChangeRequestsController < LoggedInController
       { url: containers_path, text: @container.name },
       { text: 'Change Requests' }
     )
-    render_navigation_items(
-      { url: container_tag_snippets_path(@container), text: 'Tags' },
-      { url: container_change_requests_path(@container), text: 'Change Requests' },
-      { url: container_page_performance_path, text: 'Page Performance' },
-      { url: container_settings_path, text: 'Settings' },
-    )
+    render_default_navigation_items(:change_requests)
   end
 
   def show
@@ -20,12 +15,7 @@ class ChangeRequestsController < LoggedInController
       { url: container_change_requests_path(@container), text: 'Change Requests' },
       { text: "#{@tag_version.tag_version_identifier} Change Request"}
     )
-    render_navigation_items(
-      { url: container_tag_snippets_path(@container), text: 'Tags' },
-      { url: container_change_requests_path(@container), text: 'Change Requests', active: true },
-      { url: container_page_performance_path, text: 'Page Performance' },
-      { url: container_settings_path, text: 'Settings' },
-    )
+    render_default_navigation_items(:change_requests)
   end
 
   def decide
@@ -113,6 +103,14 @@ class ChangeRequestsController < LoggedInController
         deletions_html: diff_analyzer.html_split_diff_deletions.html_safe,
         additions_html: diff_analyzer.html_split_diff_additions.html_safe,
       }
+    )
+  end
+
+  def count
+    render turbo_stream: turbo_stream.replace(
+      "#{@container.uid}_change_requests_count_indicator",
+      partial: 'change_requests/count_indicator',
+      locals: { open_change_requests_count: @container.tags.open_change_requests.count }
     )
   end
 end

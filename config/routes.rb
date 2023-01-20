@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   # get '/releases' => 'releases#all', as: :all_releases
 
   resources :containers, only: [:index, :create, :update, :new, :show], param: :uid do
+    collection do
+      get :list
+    end
+
     resources :non_third_party_url_patterns, only: [:create, :destroy], param: :uid
 
     resources :tag_snippets, param: :uid do
@@ -62,6 +66,7 @@ Rails.application.routes.draw do
       end
       collection do
         get :list
+        get :count
       end
     end
     

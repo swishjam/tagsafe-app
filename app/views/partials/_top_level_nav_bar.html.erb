@@ -39,35 +39,32 @@
         </div>
 
         <div class="sm:ml-6 sm:flex sm:items-center">
-          <!--  -->
-        <div
-          data-controller="dropdown"
-          class="relative inline-block text-left">
-          <div>
-            <button
-                data-action="click->dropdown#toggle"
-                type="button"
-                class="flex items-center rounded-full bg-gray-100 text-gray-400 px-2 py-2 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100 p-1"
-                id="menu-button"
-                aria-expanded="true"
-                aria-haspopup="true"
-              >
-              <span class="sr-only">Open options</span>
-              <%= current_user.initials %>
-            </button>
-          </div>
+          <div data-controller="dropdown" class="relative inline-block text-left">
+            <div>
+              <button
+                  data-action="click->dropdown#toggle"
+                  type="button"
+                  class="flex items-center rounded-full bg-gray-100 text-gray-400 px-2 py-2 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100 p-1"
+                  id="menu-button"
+                  aria-expanded="true"
+                  aria-haspopup="true"
+                >
+                <span class="sr-only">Open options</span>
+                <%= current_user.initials %>
+              </button>
+            </div>
 
-          <div data-dropdown-target='menu' class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out opacity-0 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-            <div class="py-1" role="none">
-              <%= link_to logout_path, class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500', target: '_top' do %>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline rotate-90 mr-1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                </svg>
-                Sign out
-              <% end %>
+            <div data-dropdown-target='menu' class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out opacity-0 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div class="py-1" role="none">
+                <%= link_to logout_path, class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500', target: '_top' do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline rotate-90 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                  </svg>
+                  Sign out
+                <% end %>
+              </div>
             </div>
           </div>
-        </div>
 
         </div>
       </div>
@@ -78,8 +75,12 @@
           <% navigation_items && navigation_items.each do |nav| %>
             <% is_active = nav[:active] || request.path == URI.parse(nav[:url]).path %>
             <%= link_to is_active ? '#' : nav[:url], class: 'no-decoration' do %>
-              <span class='inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 pb-2 <%= is_active ? 'border-b border-blue-500 cursor-default text-blue-500' : 'hover:text-blue-500' %>'>
+              <span class='relative inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 pb-2 <%= is_active ? 'border-b border-blue-500 cursor-default text-blue-500' : 'hover:text-blue-500' %>'>
                 <%= nav[:text] %>
+                <% if nav[:turbo_frame] %>
+                  <%= turbo_frame_tag nav[:turbo_frame][:name], src: nav[:turbo_frame][:src] do %>
+                  <% end %>
+                <% end %>
               </span>
             <% end %>
           <% end %>

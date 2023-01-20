@@ -11,7 +11,7 @@
 </div>
 
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
-  <% if @container.page_urls.any? %>
+  <% if @container.page_loads.any? %>
     <%= turbo_frame_tag "#{@container.uid}_page_loads_chart", src: container_charts_page_loads_path(@container, page_url_uid: @container.page_urls.first.uid) do %>
       <div class='text-center p-3'>
         <%= display_loading_spinner %>

@@ -50,6 +50,35 @@ module ApplicationHelper
     )
   end
 
+  def render_default_navigation_items(active_item)
+    @navigation_items = [
+      { 
+        url: container_tag_snippets_path(@container), 
+        text: 'Tags', 
+        active: active_item == :tags 
+      },
+      { 
+        url: container_change_requests_path(@container), 
+        text: 'Change Requests',
+        active: active_item == :change_requests,
+        turbo_frame: {
+          name: "#{@container.uid}_change_requests_count_indicator",
+          src: count_container_change_requests_path(@container)
+        }
+      },
+      { 
+        url: container_page_performance_path(@container), 
+        text: 'Page Performance',
+        active: active_item == :page_performance,
+      },
+      { 
+        url: container_settings_path(@container), 
+        text: 'Settings',
+        active: active_item == :settings,
+      },
+    ]
+  end
+
   def render_navigation_items(*items)
     @navigation_items = items
   end
