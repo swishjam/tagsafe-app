@@ -11,7 +11,16 @@
       <hr/>
       <% url_query_separater = URI.parse(chart_data_endpoint).query.nil? ? '?' : '&' %>
       <% %i[7_days 24_hours Today 12_hours 6_hours 1_hour 30_minutes].each do |time_range_option| %>
-        <%= link_to time_range_option.to_s.gsub('_', ' '), "#{chart_data_endpoint}#{url_query_separater}time_range=#{time_range_option.downcase}", class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500' %>
+        <% if selected_range.to_s == time_range_option.to_s %>
+          <span class='text-sm text-gray-700 px-4 py-2'>
+            <%= selected_range.to_s.gsub('_', ' ') %>
+            <svg class="h-5 w-5 rounded-full inline text-green-600 bg-green-200 px-1 py-1 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </span>
+        <% else %>
+          <%= link_to time_range_option.to_s.gsub('_', ' '), "#{chart_data_endpoint}#{url_query_separater}time_range=#{time_range_option.downcase}", class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500' %>
+        <% end %>
       <% end %>
     </div>
   </div>

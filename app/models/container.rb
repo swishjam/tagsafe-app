@@ -3,6 +3,7 @@ class Container < ApplicationRecord
   uid_prefix 'cont'
   acts_as_paranoid
 
+  belongs_to :created_by_user, class_name: User.to_s
   has_many :instrumentation_builds, dependent: :destroy
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s, dependent: :destroy
   has_many :page_loads, dependent: :destroy

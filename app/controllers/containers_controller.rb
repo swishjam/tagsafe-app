@@ -29,7 +29,7 @@ class ContainersController < LoggedInController
   end
   
   def create
-    @container = Container.new(container_params)
+    @container = current_user.containers_created.new(container_params)
     if @container.save
       current_user.containers << @container
       Role.USER_ADMIN.apply_to_container_user(current_user.container_user_for(@container))
@@ -42,11 +42,13 @@ class ContainersController < LoggedInController
   end
 
   def update
-    @container.update(container_params)
+    container = current_user.containers.find_by!(uid: params[:uid])
+    container.update(container_params)
+    turbo_frame = params[:turbo_frame] || 'container_settings'
     render turbo_stream: turbo_stream.replace(
-      'container_settings',
-      partial: 'containers/edit_form',
-      locals: { container: @container, success_message: 'Container settings updated.' }
+      turbo_frame,
+      partial: turbo_frame == 'container_settings' ? 'containers/edit_form' : 'containers/disable_tagsafe_js_form',
+      locals: { container: container, success_message: 'Container settings updated.' }
     )
   end
 

@@ -1,0 +1,21 @@
+<%= turbo_frame_tag "disable_tagsafe_js_form" do %>
+  <%= form_with model: container, data: { controller: 'loading_form' } do |f| %>
+    <input type='hidden' name='turbo_frame' value='disable_tagsafe_js_form'>
+    <%= f.hidden_field :name, value: container.name %>
+    <%= f.hidden_field :defer_script_tags_by_default, value: container.defer_script_tags_by_default %>
+
+    <% if container.tagsafe_js_enabled %>
+      <%= f.hidden_field :tagsafe_js_enabled, value: false %>
+      <p class="text-red-700">Disabling TagsafeJS will prevent Tagsafe from running on your page completely, disabling all of your tags with it.</p>
+      <div class='flex justify-center'>
+        <button type='submit' class='border mt-5 px-10 py-2 text-sm border-red-700 text-red-700 rounded-md hover:bg-red-100'>Disable TagsafeJS</button>
+      </div>
+    <% else %>
+      <%= f.hidden_field :tagsafe_js_enabled, value: true %>
+      <p class="text-sm text-center">TagsafeJS is currently disabled from running on your pages, toggle this option on to re-enable it.</p>
+      <div class='flex justify-center'>
+        <button type='submit' class='border mt-5 px-10 py-2 text-sm border-gray-700 text-gray-700 rounded-md hover:bg-green-100'>Enable TagsafeJS</button>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

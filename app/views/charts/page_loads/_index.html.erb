@@ -23,9 +23,18 @@
             <div class="py-1" role="none">
               <span class='text-gray-700 font-bold block px-4 py-2 text-sm'>Page URL</span>
               <hr/>
-              <% container.page_urls.each do |page_url| %>
-                <%= link_to container_charts_page_loads_path(container, page_url_uid: page_url.uid, page_load_performance_metric_types: page_load_performance_metric_types), class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500', target: '_top' do %>
-                  <%= page_url.friendly_url %>
+              <% container.page_urls.each do |page_url_option| %>
+                <% if page_url != page_url_option %>
+                  <%= link_to container_charts_page_loads_path(container, page_url_uid: page_url_option.uid, page_load_performance_metric_types: page_load_performance_metric_types), class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500' do %>
+                    <%= page_url_option.friendly_url %>
+                  <% end %>
+                <% else %>
+                  <span class='text-gray-700 block px-4 py-2 text-sm'>
+                    <%= page_url_option.friendly_url %>
+                    <svg class="h-5 w-5 rounded-full inline text-green-600 bg-green-200 px-1 py-1 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </span>
                 <% end %>
               <% end %>
             </div>

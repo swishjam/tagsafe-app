@@ -1,7 +1,23 @@
 <%= turbo_frame_tag "container_settings" do %>
   <%= form_with model: container, data: { controller: 'loading_form' } do |f| %>
 
-    <div class='form-floating mt-4'>
+    <% if local_assigns[:success_message] %>
+      <div class="rounded-md bg-green-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <!-- Heroicon name: mini/x-circle -->
+            <svg class="h-6 w-6 text-green-800 bg-green-200 rounded-full px-1 py-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-green-800"><%= local_assigns[:success_message] %></h3>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class='mt-4'>
       <label for="" class="block text-sm font-medium text-gray-700">Container Name (Your Website)</label>
       <%= f.text_field :name, value: container.name, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm', placeholder:'My Website Name', type:'text' %>
     </div>
@@ -24,21 +40,6 @@
             <%= f.check_box :defer_script_tags_by_default, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500', checked: container.defer_script_tags_by_default, style: '', type:'checkbox' %>
           </div>
         </div>
-
-        <div class="relative flex items-start py-4">
-          <div class="min-w-0 flex-1 text-sm">
-            <label for="candidates" class="font-medium text-red-700">TagsafeJS Enabled</label>
-            <% if container.tagsafe_js_enabled %>
-              <p id="candidates-description" class="text-red-700">Toggling this setting off will prevent TagsafeJS from running on your page completely, disabling all of your tags with it.</p>
-            <% else %>
-              <p id="candidates-description" class="text-red-700">TagsafeJS is currently disabled from running on your pages, toggle this option on to re-enable it.</p>
-            <% end %>
-          </div>
-          <div class="ml-3 flex h-5 items-center">
-            <%= f.check_box :tagsafe_js_enabled, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500', checked: container.tagsafe_js_enabled, style: '', type:'checkbox' %>
-          </div>
-        </div>
-
       </div>
     </fieldset>
 
@@ -49,9 +50,4 @@
     </div>
 
   <% end %>
-<% end %>
-<% if local_assigns[:success_message] %>
-  <div class='alert alert-success mb-3'>
-    <h5 class='d-flex align-items-center mb-0'><span class='mr-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
-  </div>
 <% end %>
