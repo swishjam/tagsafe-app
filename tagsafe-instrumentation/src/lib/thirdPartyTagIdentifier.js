@@ -22,12 +22,12 @@ export default class thirdPartyTagIdentifier {
   }
 
   _countNumThirdPartyTagsNotHostedByTagsafe() {
-    if(this.debugMode) console.log('Finding all third party script tags not Tagsafe-hosted...');
+    if(this.debugMode) console.log('%c[Tagasafe Log] Finding all third party script tags not Tagsafe-hosted...', 'background-color: purple; color: white; padding: 5px;');
     const scriptElsNotTagsafeHosted = Array.from(document.querySelectorAll('script[src]:not([data-tagsafe-hosted])'));
     const thirdPartyScriptElsNotTagsafeHosted = scriptElsNotTagsafeHosted.filter(script => {
       const isThirdPartyTag = isThirdPartyUrl(script.getAttribute('src'), this.firstPartyDomains);
       if(this.debugMode) {
-        console.log(`Is ${script.getAttribute('src')} a third party tag? ${isThirdPartyTag}`);
+        console.log(`%c[Tagasafe Log] Is ${script.getAttribute('src')} a third party tag? ${isThirdPartyTag}`, 'background-color: purple; color: white; padding: 5px;');
       }
       return isThirdPartyTag;
     })
