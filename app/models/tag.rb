@@ -139,7 +139,7 @@ class Tag < ApplicationRecord
 
   def perform_audit_on_all_should_audit_urls!(execution_reason:, tag_version:, initiated_by_container_user:)
     # TODO: we shouldn't audit _all_ URLs here
-    container.page_urls.each do |page_url|
+    container.page_urls.map do |page_url|
       perform_audit!(
         execution_reason: execution_reason, 
         tag_version: tag_version,
@@ -191,6 +191,12 @@ class Tag < ApplicationRecord
 
   def has_image?
     tag_identifying_data&.image.present?
+  end
+
+  def configured_load_strategy_based_on_preferences
+    return load_type if !is_tagsafe_hosted
+    return "defer" if container.defer_script_tags_by_default && configured_load_type == 'default'
+    configured_load_type
   end
 
   def try_image_url

@@ -279,26 +279,26 @@ class TagVersion < ApplicationRecord
   end
 
   def prepend_tag_version_to_tag_details_view
-    broadcast_prepend_to(
-      "tag_#{tag.uid}_details_view_stream",
-      target: "tag_#{tag.uid}_tag_versions",
-      partial: 'tag_versions/tag_version_row',
-      locals: { 
-        tag_version: self,
-        streamed: true
-      }
-    )
+    # broadcast_prepend_to(
+    #   "tag_#{tag.uid}_details_view_stream",
+    #   target: "tag_#{tag.uid}_tag_versions",
+    #   partial: 'tag_versions/tag_version_row',
+    #   locals: { 
+    #     tag_version: self,
+    #     streamed: true
+    #   }
+    # )
   end
 
   def update_tag_details_view
-    broadcast_replace_to(
-      "tag_#{tag.uid}_details_view_stream",
-      target: "tag_version_#{uid}_row",
-      partial: "tag_versions/tag_version_row",
-      locals: {
-        tag_version: self,
-        streamed: true
-      }
-    )
+    # broadcast_replace_to(
+    #   "tag_#{tag.uid}_details_view_stream",
+    #   target: "tag_version_#{uid}_row",
+    #   partial: "tag_versions/tag_version_row",
+    #   locals: {
+    #     tag_version: self,
+    #     streamed: true
+    #   }
+    # )
   end
 end

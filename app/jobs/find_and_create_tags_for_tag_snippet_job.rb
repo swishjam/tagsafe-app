@@ -6,7 +6,7 @@ class FindAndCreateTagsForTagSnippetJob < ApplicationJob
     
     raise "TagSnippet already has associated Tags, delete Tags first before calling `find_and_create_associated_tags_added_to_page_by_snippet`" if tag_snippet.tags.any?
     attach_tag_snippet_content(tag_snippet, tag_snippet_content)
-    tag_datas = TagManager::FindTagsInTagSnippet.find!(tag_snippet.encoded_executable_javascript, tag_snippet.script_tags_attributes)
+    tag_datas = TagManager::FindTagsInTagSnippet.find!(tag_snippet.encoded_content)
     tag_datas.each{ |data| create_tag_from_found_tag_data(tag_snippet, data) }
     tag_snippet.found_all_tags_injected_by_snippet!
 

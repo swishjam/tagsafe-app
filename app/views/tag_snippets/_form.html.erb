@@ -48,6 +48,48 @@
         </div>
       </div>
 
+      <div data-controller='tag_snippet_rules_form'>
+        <label class="block text-sm font-medium text-gray-700">Where should this tag be enabled?</label>
+
+        <div>
+          <div class='inline-block mr-4'>
+            <label for="all_pages" class="text-sm font-medium text-gray-700 mr-1">Enable on all pages</label>
+            <input data-action='change->tag_snippet_rules_form#onAllPagesRadioBtnChanged' 
+                    data-tag_snippet_rules_form-target='allPagesRadioButton'
+                    type='radio' 
+                    id='all_pages' 
+                    name='trigger_rules' 
+                    value='all_pages'
+                    class='h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' 
+                    checked='checked'>
+          </div>
+          <div class='inline-block'>
+            <label for="trigger_certain_pages" class="text-sm font-medium text-gray-700 mr-1">Enable on certain pages</label>
+            <input data-action='change->tag_snippet_rules_form#onAllPagesRadioBtnChanged'
+                    data-tag_snippet_rules_form-target='certainPagesRadioButton'
+                    type='radio' 
+                    id='trigger_certain_pages' 
+                    name='trigger_rules' 
+                    class='h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500'>
+          </div>
+        </div>
+
+        <div class='hidden mt-5' data-tag_snippet_rules_form-target='rulesOptions'>
+          <div>
+            <a data-action='click->tag_snippet_rules_form#addRuleInput' 
+                data-rule-type='enabled' 
+                class='cursor-pointer inline-flex items-center justify-center rounded-md border border-blue-700 bg-white text-blue-700 px-4 py-2 text-sm font-medium shadow-sm hover:bg-blue-50 mr-2'>
+              Add Enable Rule
+            </a>
+            <a data-action='click->tag_snippet_rules_form#addRuleInput' 
+                data-rule-type='disabled' 
+                class='cursor-pointer inline-flex items-center justify-center rounded-md border border-blue-700 bg-white text-blue-700 px-4 py-2 text-sm font-medium shadow-sm hover:bg-blue-50'>
+              Add Disabled Rule
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="grid justify-items-end">
         <button type='submit' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
           Stage Tag For Deployment

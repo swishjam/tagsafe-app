@@ -6,9 +6,15 @@ class TagSnippet < ApplicationRecord
   
   belongs_to :container
   has_many :tags, dependent: :destroy
+  has_many :injection_url_rules, class_name: TagSnippetInjectionUrlRule.to_s, dependent: :destroy
+  has_many :trigger_if_url_contains_injection_rules, class_name: TriggerIfUrlContainsTagSnippetInjectionRule.to_s
+  has_many :dont_trigger_if_url_contains_injection_rules, class_name: DontTriggerIfUrlContainsTagSnippetInjectionRule.to_s
   has_one_attached :content, service: :tag_snippet_contents_s3, dependent: :destroy
+  accepts_nested_attributes_for :injection_url_rules
+  accepts_nested_attributes_for :trigger_if_url_contains_injection_rules
+  accepts_nested_attributes_for :dont_trigger_if_url_contains_injection_rules
 
-  # validate :content_has_valid_script_tag_syntax
+  validates :name, presence: true
   validates :state, presence: true, inclusion: { in: VALID_STATES }
 
   after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{saved_changes['state'][0]} -> #{saved_changes['state'][1]})") if saved_changes['state'].present? }
@@ -38,26 +44,8 @@ class TagSnippet < ApplicationRecord
     tags.first.try_image_url
   end
 
-  def script_tags_attributes
-    scripts = Nokogiri::HTML.fragment(content.download).css('script')
-    scripts[0].attributes.map{ |name, attr| [name, attr.value] }
-  end
-
-  def executable_javascript
-    scripts = Nokogiri::HTML.fragment(content.download).css('script')
-    # js = scripts[0].text.strip.gsub("'", '"')
-    js = scripts[0].text
-    begin
-      compiled_js = Uglifier.compile(js)
-      compiled_js.blank? ? js.strip.gsub("\n", "").gsub("\t", "") : compiled_js.gsub("\n", "")
-    rescue => e
-      Rails.logger.error "Unable to compile #{uid}: #{e.inspect}. Using raw JS instead."
-      js.strip.gsub("\n", "").gsub("\t", "")
-    end
-  end
-
-  def encoded_executable_javascript
-    Base64.encode64(executable_javascript).gsub("\n", "")
+  def encoded_content
+    Base64.encode64(downloaded_content).gsub("\n", "")
   end
 
   def downloaded_content
@@ -92,12 +80,4 @@ class TagSnippet < ApplicationRecord
   #   update!(find_tags_injected_by_snippet_job_enqueued_at: Time.current, find_tags_injected_by_snippet_job_completed_at: nil)
   #   FindAndCreateTagsForTagSnippetJob.perform_later(self)
   # end
-
-  def content_has_valid_script_tag_syntax
-    return unless attachment_changes["content"]
-    temp_content = attachment_changes["content"].attachable[:io].read
-    html = Nokogiri::HTML.fragment(temp_content)
-    num_script_tags = html.css('script').count
-    errors.add(:base, "Tag snippet must contain 1 (and only 1) script element.") unless num_script_tags == 1
-  end
 end

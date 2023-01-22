@@ -34,36 +34,36 @@ class TagSnippetsController < LoggedInController
   def create
     params[:tag_snippet][:state] = 'draft'
     params[:tag_snippet][:find_tags_injected_by_snippet_job_enqueued_at] = Time.current
+    
+    if params[:trigger_rules] == 'all_pages'
+      params[:tag_snippet][:trigger_if_url_contains_injection_rules_attributes] = []
+      params[:tag_snippet][:dont_trigger_if_url_contains_injection_rules_attributes] = []
+    end
 
     tag_snippet = @container.tag_snippets.new(tag_snippet_params)
-    
-    html = Nokogiri::HTML.fragment(params[:tag_snippet][:content])
-    num_script_tags = html.css('script').count
-    if num_script_tags != 1
+    if params[:tag_snippet][:content].blank?
       render turbo_stream: turbo_stream.replace(
         "new_tag_snippet_form",
         partial: 'tag_snippets/form',
         locals: {
           tag_snippet: tag_snippet,
           container: @container,
-          error_messages: [num_script_tags.zero? ? 'Tag snippet must contain a script tag.' : 'Tag snippet must only contain a single script tag.'],
+          error_messages: ['Must provide tag content.']
         }
       )
+    elsif tag_snippet.save
+      FindAndCreateTagsForTagSnippetJob.perform_later(tag_snippet, params[:tag_snippet][:content])
+      redirect_to container_tag_snippet_path(@container, tag_snippet)
     else
-      if tag_snippet.save
-        FindAndCreateTagsForTagSnippetJob.perform_later(tag_snippet, params[:tag_snippet][:content])
-        redirect_to container_tag_snippet_path(@container, tag_snippet)
-      else
-        render turbo_stream: turbo_stream.replace(
-          "new_tag_snippet_form",
-          partial: 'tag_snippets/form',
-          locals: {
-            tag_snippet: tag_snippet,
-            container: @container,
-            error_messages: tag_snippet.errors.full_messages
-          }
+      render turbo_stream: turbo_stream.replace(
+        "new_tag_snippet_form",
+        partial: 'tag_snippets/form',
+        locals: {
+          tag_snippet: tag_snippet,
+          container: @container,
+          error_messages: tag_snippet.errors.full_messages
+        }
       )
-      end
     end
   end
 
@@ -86,6 +86,12 @@ class TagSnippetsController < LoggedInController
   private
 
   def tag_snippet_params
-    params.require(:tag_snippet).permit(:name, :state, :find_tags_injected_by_snippet_job_enqueued_at)
+    params.require(:tag_snippet).permit(
+      :name, 
+      :state, 
+      :find_tags_injected_by_snippet_job_enqueued_at, 
+      trigger_if_url_contains_injection_rules_attributes: [:url],
+      dont_trigger_if_url_contains_injection_rules_attributes: [:url],
+    )
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_21_003023) do
+ActiveRecord::Schema.define(version: 2023_01_22_003437) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -627,6 +627,17 @@ ActiveRecord::Schema.define(version: 2023_01_21_003023) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
+  create_table "tag_snippet_injection_url_rules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "tag_snippet_id"
+    t.string "type"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_snippet_id"], name: "index_tag_snippet_injection_url_rules_on_tag_snippet_id"
+    t.index ["uid"], name: "index_tag_snippet_injection_url_rules_on_uid"
+  end
+
   create_table "tag_snippets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
     t.bigint "container_id"
@@ -637,6 +648,7 @@ ActiveRecord::Schema.define(version: 2023_01_21_003023) do
     t.timestamp "find_tags_injected_by_snippet_job_completed_at"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.string "content_fingerprint"
     t.index ["container_id"], name: "index_tag_snippets_on_container_id"
     t.index ["uid"], name: "index_tag_snippets_on_uid"
   end

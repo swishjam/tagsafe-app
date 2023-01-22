@@ -1,47 +1,90 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Can't find this page! (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  .error-404 {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+<html class="h-full">
 
-  .error-404 div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 25px;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+  <head>
+    <title>Tagsafe | Page Not Found</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  .error-404 h1 {
-    font-size: 24px;
-    color: black;
-    font-weight: 500;
-    line-height: 1.5em;
-  }
-  </style>
-</head>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          fontSize: {
+            xs: ['0.75rem', { lineHeight: '1rem' }],
+            sm: ['0.875rem', { lineHeight: '1.5rem' }],
+            base: ['1rem', { lineHeight: '1.75rem' }],
+            lg: ['1.125rem', { lineHeight: '2rem' }],
+            xl: ['1.25rem', { lineHeight: '2rem' }],
+            '2xl': ['1.5rem', { lineHeight: '2rem' }],
+            '3xl': ['2rem', { lineHeight: '2.5rem' }],
+            '4xl': ['2.5rem', { lineHeight: '3.5rem' }],
+            '5xl': ['3rem', { lineHeight: '3.5rem' }],
+            '6xl': ['3.75rem', { lineHeight: '1' }],
+            '7xl': ['4.5rem', { lineHeight: '1.1' }],
+            '8xl': ['6rem', { lineHeight: '1' }],
+            '9xl': ['8rem', { lineHeight: '1' }],
+          },
+          extend: {
+            borderRadius: {
+              '4xl': '2rem',
+            },
+            fontFamily: {
+              sans: ['Inter var', 'ui-sans-serif', 'sans-serif', 'system-ui', '-apple-system', 'Roboto', 'Helvetica Neue', 'Arial'],
+              display: ['Lexend', 'sans-serif'],
+            },
+            maxWidth: {
+              '2xl': '40rem',
+            },
+            colors: {
+              tagsafe: {
+                DEFAULT: '#7487F7',
+                dark: '#46518f',
+                yellow: '#FAD831',
+                orange: '#EF7136',
+                purple: '#A343BA',
+                'off-white': '#FFFDF2',
+                'dark-blue': '#1F2D37',
+                'blue-gray': '#394150',
+              },
+            },
+          },
+        }
+      }
+    </script>
+    <style type="text/tailwindcss">
+    </style>
 
-<body class="error-404" style='background-color: rgb(221, 218, 255)'>
-  <div class="dialog">
-    <img src="https://d1d6tvxa5r22b2.cloudfront.net/tagsafe-logo.svg" style="width: 150px;"/>
-    <h1>This page doesn't exist.</h1>
-    <p>Perhaps you mistyped it?</p>
-    <a href='/'>Go home</a>
-  </div>
-</body>
+  </head>
+
+  <body class="h-full">
+    <!-- <div class="dialog">
+      <img src="https://d1d6tvxa5r22b2.cloudfront.net/tagsafe-logo.svg" style="width: 150px;"/>
+      <h1>This page doesn't exist.</h1>
+      <p>Perhaps you mistyped it?</p>
+      <a href='/'>Go home</a>
+    </div> -->
+    <div class="min-h-full bg-white py-16 px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
+      <div class="mx-auto max-w-max">
+        <main class="sm:flex">
+          <p class="text-4xl font-medium tracking-tight text-tagsafe sm:text-5xl">404</p>
+          <div class="sm:ml-6">
+            <div class="sm:border-l sm:border-gray-200 sm:pl-6">
+              <h1 class="text-4xl font-medium tracking-tight text-gray-900">Page not found</h1>
+              <p class="mt-1 text-base text-gray-500">Please check the URL in the address bar and try again.</p>
+            </div>
+            <div class="mt-10 flex space-x-3 sm:border-l sm:border-transparent sm:pl-6">
+              <a href="https://app.tagsafe.io"
+                class="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Go back home
+              </a>
+              <!-- <a href="#"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 ">Contact support
+              </a> -->
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+
 </html>
