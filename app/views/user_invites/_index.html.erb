@@ -17,7 +17,7 @@
               <% if invite.expired? %>
                 <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 cursor-default">Expired</span>
               <% else %>
-                <p class='truncate text-sm font-medium text-gray-900'>Expires <%= invite.expires_at.date_only %></p>
+                <p class='truncate text-sm font-medium text-gray-900'>Expires in <%= time_ago_in_words(invite.expires_at) %></p>
               <% end %>
             </div>
           </li>

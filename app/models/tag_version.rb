@@ -260,9 +260,20 @@ class TagVersion < ApplicationRecord
       container_user.user.broadcast_notification(
         title: "New pull request",
         message: "#{tag.tag_snippet.name} made a new change request.",
-        cta_url: "/change_requests/#{uid}",
+        cta_url: "/containers/#{tag.container.uid}/change_requests/#{uid}",
         cta_text: "Review",
         image: tag.try_image_url,
+      )
+    end
+    if tag.is_tagsafe_hosted && is_open_change_request?
+      broadcast_replace_to(
+        "#{tag.container.uid}_change_requests_count_indicator_stream",
+        target: "#{tag.container.uid}_change_requests_count_indicator",
+        partial: 'change_requests/count_indicator',
+        locals: {
+          container_uid: tag.container.uid,
+          open_change_requests_count: tag.container.tags.open_change_requests.count,
+        }
       )
     end
   end

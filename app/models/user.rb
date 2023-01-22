@@ -5,6 +5,7 @@ class User < ApplicationRecord
 
   has_many :container_users, dependent: :destroy
   has_many :containers, through: :container_users
+  has_many :containers_created, class_name: Container.to_s, foreign_key: :created_by_user_id
   has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
   # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_container_user_id
 

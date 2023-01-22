@@ -1,5 +1,6 @@
 class UserInvitesController < LoggedInController
-  skip_before_action :ensure_container, only: [:accept, :redeem]
+  skip_before_action :authorize!, only: [:accept, :redeem]
+  skip_before_action :find_and_validate_container, only: [:accept, :redeem]
 
   def new
     @user_invite = UserInvite.new
@@ -7,13 +8,13 @@ class UserInvitesController < LoggedInController
       partial: 'user_invites/form',
       locals: { 
         user_invite: UserInvite.new, 
-        container: current_container 
+        container: @container 
       }
     )
   end
 
   def create
-    invite = current_user.invite_user_to_container!(params[:user_invite][:email], current_container)
+    invite = current_user.invite_user_to_container!(params[:user_invite][:email], @container)
     if invite.valid?
       stream_modal(
         partial: 'user_invites/form',
@@ -26,7 +27,7 @@ class UserInvitesController < LoggedInController
       stream_modal(
         partial: 'user_invites/form',
         locals: { 
-          container: current_container,
+          container: @container,
           user_invite: invite,
           completed: false
         }
@@ -35,15 +36,20 @@ class UserInvitesController < LoggedInController
   end
 
   def index
-    @pending_user_invites = current_container.user_invites.pending.page(params[:page] || 1).per(params[:per_page] || 20)
+    render turbo_stream: turbo_stream.replace(
+      "container_#{@container.uid}_user_invites",
+      partial: 'user_invites/index',
+      locals: {
+        container: @container,
+        pending_user_invites: @container.user_invites.pending,
+        status: :pending
+      }
+    )
   end
 
   def accept
-    @user = User.new
     @user_invite = UserInvite.includes(:container).find_by(token: params[:token])
-    @hide_footer = true
-    @hide_logged_out_nav = true
-    render :accept, layout: 'logged_out_layout'
+    render :'registrations/new', layout: 'layouts/logged_out_layout'
   end
 
   def redeem
@@ -55,7 +61,7 @@ class UserInvitesController < LoggedInController
       if user.valid?
         invite.redeem!(user)
         set_current_user(user)
-        redirect_to root_path
+        redirect_to container_tag_snippets_path(@container)
       else
         display_inline_errors(user.errors.full_messages)
         redirect_to request.referrer

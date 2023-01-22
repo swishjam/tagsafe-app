@@ -16,7 +16,7 @@
       </button>
     </div>
   <% else %>
-    <%= form_for user_invite, data: { controller: 'loading_form' } do |f| %>
+    <%= form_for [container, user_invite], data: { controller: 'loading_form' } do |f| %>
       <div class='form-floating mt-4'>
         <label for="" class="block text-sm font-medium text-gray-700">Email</label>
         <%= f.text_field :email, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm', placeholder:'johnny@example.com' %>

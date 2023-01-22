@@ -1,4 +1,4 @@
 {
   "script_tags_attributes": [],
-  "tag_snippet_script": "(function(){ var s = document.createElement('script'); s.setAttribute('src', 'https://www.thirdpartytag.com/script.js'); document.head.appendChild(s); })()"
+  "tag_snippet_script": "IWZ1bmN0aW9uKCl7dmFyIHQ9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2Ny\naXB0Iik7dC5zZXRBdHRyaWJ1dGUoInNyYyIsImh0dHBzOi8vd3d3LnRoaXJk\ncGFydHl0YWcuY29tL3NjcmlwdC5qcyIpLGRvY3VtZW50LmhlYWQuYXBwZW5k\nQ2hpbGQodCl9KCk7\n"
 }

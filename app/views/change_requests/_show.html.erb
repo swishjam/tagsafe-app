@@ -23,7 +23,7 @@
       </div>
 
       <!-- Code Editor -->
-      <%= turbo_frame_tag "#{tag_version.uid}_git_diff_change_request", src: git_diff_change_request_path(tag_version) do %>
+      <%= turbo_frame_tag "#{tag_version.uid}_git_diff_change_request", src: git_diff_container_change_request_path(container, tag_version) do %>
         <div class='grid grid-cols-2 animate-pulse'>
           <div class='inline-block px-2 py-2'>
             <div class="rounded-lg bg-slate-200 mt-1 h-5 w-1/2"></div>
@@ -64,7 +64,7 @@
       <% elsif tag_version.change_request_denied? %>
         <span class='text-sm'>Rejected by <span class='font-bold'><%= tag_version.container_user_change_request_decisioned_by.user.email %> <%= time_ago_in_words(tag_version.change_request_decisioned_at ) %> ago</span>.</span>
       <% elsif tag_version.is_open_change_request? %>
-        <%= form_with url: decide_change_request_path(tag_version), html: { class: 'inline-block' }, data: { controller: 'loading_form' } do |f| %>
+        <%= form_with url: decide_container_change_request_path(container, tag_version), html: { class: 'inline-block' }, data: { controller: 'loading_form' } do |f| %>
           <%= f.hidden_field :decision, value: 'approved' %>
           <button type='submit' class='inline-flex justify-center items-center rounded-md border border-gray-300 bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'>
             Approve
@@ -73,7 +73,7 @@
             </svg>
           </button>
         <% end %>
-        <%= form_with url: decide_change_request_path(tag_version), html: { class: 'inline-block' }, data: { controller: 'loading_form' } do |f| %>
+        <%= form_with url: decide_container_change_request_path(container, tag_version), html: { class: 'inline-block' }, data: { controller: 'loading_form' } do |f| %>
           <%= f.hidden_field :decision, value: 'denied' %>
           <button type='submit' class='inline-flex justify-center items-center rounded-md border border-gray-300 bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'>
             Reject
@@ -88,7 +88,7 @@
 
       <h2 class="text-sm font-medium text-gray-500 mt-6 mb-6">New version metrics</h2>
 
-      <%= turbo_frame_tag "#{tag_version.uid}_change_request_details", src: details_change_request_path(tag_version) do %>
+      <%= turbo_frame_tag "#{tag_version.uid}_change_request_details", src: details_container_change_request_path(container, tag_version) do %>
         <div class="mb-4">
           <div class="mt-1 flex items-baseline">
             <div class="animate-pulse flex space-x-4">

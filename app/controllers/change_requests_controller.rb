@@ -1,31 +1,25 @@
 class ChangeRequestsController < LoggedInController
   def index
-    render_breadcrumbs(text: 'Change Requests')
-    render_navigation_items(
-      { url: root_path, text: 'Tags' },
-      { url: change_requests_path, text: 'Change Requests' },
-      { url: page_performance_path, text: 'Page Performance' },
-      { url: settings_path, text: 'Settings' },
+    render_breadcrumbs(
+      { url: containers_path, text: @container.name },
+      { text: 'Change Requests' }
     )
+    render_default_navigation_items(:change_requests)
   end
 
   def show
-    @tag_version = current_container.tag_versions.includes(tag: :current_live_tag_version).find_by(uid: params[:tag_version_uid])
+    @tag_version = @container.tag_versions.includes(tag: :current_live_tag_version).find_by(uid: params[:tag_version_uid])
     @tag_version_to_compare_with = @tag_version.change_request_decisioned? ? @tag_version.live_tag_version_at_time_of_decision : @tag_version.tag.current_live_tag_version
     render_breadcrumbs(
-      { url: change_requests_path, text: 'Change Requests' },
+      { url: containers_path, text: @container.name },
+      { url: container_change_requests_path(@container), text: 'Change Requests' },
       { text: "#{@tag_version.tag_version_identifier} Change Request"}
     )
-    render_navigation_items(
-      { url: root_path, text: 'Tags' },
-      { url: change_requests_path, text: 'Change Requests', active: true },
-      { url: page_performance_path, text: 'Page Performance' },
-      { url: settings_path, text: 'Settings' },
-    )
+    render_default_navigation_items(:change_requests)
   end
 
   def decide
-    tag_version = current_container.tag_versions.includes(tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
+    tag_version = @container.tag_versions.includes(tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
     if params[:decision] == 'approved'
       tag_version.approve_change_request(current_container_user)
       render turbo_stream: turbo_stream.replace(
@@ -34,6 +28,7 @@ class ChangeRequestsController < LoggedInController
         locals: { 
           tag_version: tag_version,
           tag_version_to_compare_with: tag_version.tag.current_live_tag_version,
+          container: @container,
         }
       )
     elsif params[:decision] == 'denied'
@@ -44,6 +39,7 @@ class ChangeRequestsController < LoggedInController
         locals: { 
           tag_version: tag_version,
           tag_version_to_compare_with: tag_version.tag.current_live_tag_version,
+          container: @container,
         }
       )
     else
@@ -54,29 +50,29 @@ class ChangeRequestsController < LoggedInController
   def list
     if params[:status] == 'closed'
       render turbo_stream: turbo_stream.replace(
-        "#{current_container.uid}_change_requests",
+        "#{@container.uid}_change_requests",
         partial: 'change_requests/list',
         locals: { 
-          container: current_container,
+          container: @container,
           status: 'closed',
-          closed_change_requests: current_container.tag_versions.change_request_decided.includes(:tag),
+          closed_change_requests: @container.tag_versions.change_request_decided.includes(:tag),
         }
       )
     else
       render turbo_stream: turbo_stream.replace(
-        "#{current_container.uid}_change_requests",
+        "#{@container.uid}_change_requests",
         partial: 'change_requests/list',
         locals: { 
-          container: current_container,
+          container: @container,
           status: 'open',
-          tags_with_open_change_requests: current_container.tags.open_change_requests,
+          tags_with_open_change_requests: @container.tags.open_change_requests,
         }
       )
     end
   end
 
   def details
-    tag_version = current_container.tag_versions.includes(:primary_audit, tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
+    tag_version = @container.tag_versions.includes(:primary_audit, tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
     tag_version_to_compare_with = tag_version.change_request_decisioned? ? tag_version.live_tag_version_at_time_of_decision : tag_version.tag.current_live_tag_version
     render turbo_stream: turbo_stream.replace(
       "#{tag_version.uid}_change_request_details",
@@ -84,13 +80,13 @@ class ChangeRequestsController < LoggedInController
       locals: {
         tag_version: tag_version,
         tag_version_to_compare_with: tag_version_to_compare_with,
-        container: current_container,
+        container: @container,
       }
     )
   end
 
   def git_diff
-    tag_version = current_container.tag_versions.includes(tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
+    tag_version = @container.tag_versions.includes(tag: :current_live_tag_version).find_by!(uid: params[:tag_version_uid])
     tag_version_to_compare_with = tag_version.change_request_decisioned? ? tag_version.live_tag_version_at_time_of_decision : tag_version.tag.current_live_tag_version
     diff_analyzer = DiffAnalyzer.new(
       new_content: tag_version.content(formatted: true),
@@ -106,6 +102,17 @@ class ChangeRequestsController < LoggedInController
         tag_version_to_compare_with: tag_version_to_compare_with,
         deletions_html: diff_analyzer.html_split_diff_deletions.html_safe,
         additions_html: diff_analyzer.html_split_diff_additions.html_safe,
+      }
+    )
+  end
+
+  def count
+    render turbo_stream: turbo_stream.replace(
+      "#{@container.uid}_change_requests_count_indicator",
+      partial: 'change_requests/count_indicator',
+      locals: { 
+        container_uid: @container.uid,
+        open_change_requests_count: @container.tags.open_change_requests.count,
       }
     )
   end

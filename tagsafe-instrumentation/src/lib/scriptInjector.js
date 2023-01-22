@@ -8,9 +8,9 @@ export default class ScriptInector {
   }
 
   beginInjecting() {
-    this.immediateScripts.forEach(scriptConfig => this._injectScript(scriptConfig));
+    this.immediateScripts.forEach(tagConfig => this._injectScript(tagConfig));
     window.addEventListener('DOMContentLoaded', () => {
-      this.onLoadScripts.forEach(scriptConfig => this._injectScript(scriptConfig));
+      this.onLoadScripts.forEach(tagConfig => this._injectScript(tagConfig));
       this.afterAllTagsAddedCallbacks.forEach(callback => callback());
     })
   }
@@ -21,16 +21,17 @@ export default class ScriptInector {
 
   numTagsInjected = () => this._numTagsInjected;
 
-  _injectScript(scriptConfig) {
-    const script = document.createElement('script');
-    script.setAttribute('data-tagsafe-injected', 'true');
-    script.setAttribute('data-tagsafe-tag-snippet', scriptConfig.uid);
-    script.innerText = scriptConfig.js;
-    scriptConfig.attrs.forEach(attr => script.setAttribute(attr[0], attr[1]));
-    document.head.appendChild(script);
-    this._numTagsInjected += 1;
-    if(this.debugMode) {
-      console.log(`Tagsafe added ${scriptConfig.uid} to DOM.`)
+  _injectScript(tagConfig) {
+    try {
+      const htmlString = window.atob(tagConfig.content);
+      const htmlFragment = document.createRange().createContextualFragment(htmlString);
+      document.head.appendChild(htmlFragment);
+      this._numTagsInjected += 1;
+      if(this.debugMode) {
+        console.log(`%c[Tagsafe Log] Added ${tagConfig.uid} to DOM.`, 'background-color: purple; color: white; padding: 5px;')
+      }
+    } catch(err) {
+      console.warn(`[Tagsafe Error] Unable to add tag ${tagConfig.uid}`);
     }
   }
 }

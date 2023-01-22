@@ -4,7 +4,7 @@
     <h2 class="truncate text-md text-gray-900 mb-2">View will update momentarily.</h2>
     <%= display_loading_icon %>
   </div>
-<% else %>
+<% elsif tag_snippet.tags.any? %>
   <div class="px-4 sm:px-6 lg:px-8 sm:mt-6 lg:mt-8">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
