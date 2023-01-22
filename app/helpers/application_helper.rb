@@ -50,7 +50,7 @@ module ApplicationHelper
     )
   end
 
-  def render_default_navigation_items(active_item)
+  def render_default_navigation_items(active_item = nil)
     render_navigation_items(
       { 
         url: container_tag_snippets_path(@container), 

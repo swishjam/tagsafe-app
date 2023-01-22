@@ -10,10 +10,9 @@
         </svg>
         <span class="text-sm font-medium <%= color %>">
           <%= score.round(2) %>/100 Tagsafe Score 
-          <!--
-          TODO: need to style audit details page
-          <#%= link_to 'View details', tag_audit_path(tag_version.tag, tag_version.primary_audit), class: 'text-xs text-blue-500', target: '_blank' %>
-          !-->
+          <%= link_to 'View details', 
+                        container_tag_snippet_tag_audit_path(container, tag_version.tag.tag_snippet, tag_version.tag, tag_version.primary_audit), 
+                        class: 'block text-xs text-gray-700 underline', target: '_blank' %>
         </span>
       <% else %>
         <span class='text-sm font-medium text-gray-700'>
