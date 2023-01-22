@@ -30,9 +30,7 @@ class AuditsController < LoggedInController
   end
 
   def show
-    # redirect_to performance_audit_tag_audit_path(params[:tag_uid], params[:uid])
-
-
+    render_default_navigation_items
   end
 
   def new
