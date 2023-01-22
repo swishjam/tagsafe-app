@@ -1,6 +1,6 @@
 <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
   <% containers.each do |container| %>
-    <li class="col-span-1 flex border rounded-md shadow-sm hover:shadow-xl cursor-pointer transition-all">
+    <li class="col-span-1 flex border rounded-md hover:border-tagsafe hover:shadow-sm cursor-pointer transition-all overflow-hidden">
       <%= link_to container_tag_snippets_path(container), class: 'w-full' do %>
         <div class="py-7 px-7 items-center justify-between truncate bg-white">
           <div class="flex-1 truncate">
