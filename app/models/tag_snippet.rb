@@ -6,8 +6,15 @@ class TagSnippet < ApplicationRecord
   
   belongs_to :container
   has_many :tags, dependent: :destroy
+  has_many :injection_url_rules, class_name: TagSnippetInjectionUrlRule.to_s, dependent: :destroy
+  has_many :trigger_if_url_contains_injection_rules, class_name: TriggerIfUrlContainsTagSnippetInjectionRule.to_s
+  has_many :dont_trigger_if_url_contains_injection_rules, class_name: DontTriggerIfUrlContainsTagSnippetInjectionRule.to_s
   has_one_attached :content, service: :tag_snippet_contents_s3, dependent: :destroy
+  accepts_nested_attributes_for :injection_url_rules
+  accepts_nested_attributes_for :trigger_if_url_contains_injection_rules
+  accepts_nested_attributes_for :dont_trigger_if_url_contains_injection_rules
 
+  validates :name, presence: true
   validates :state, presence: true, inclusion: { in: VALID_STATES }
 
   after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{saved_changes['state'][0]} -> #{saved_changes['state'][1]})") if saved_changes['state'].present? }

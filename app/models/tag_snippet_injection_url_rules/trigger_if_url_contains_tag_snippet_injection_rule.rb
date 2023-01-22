@@ -1,0 +1,2 @@
+class TriggerIfUrlContainsTagSnippetInjectionRule < TagSnippetInjectionUrlRule
+end

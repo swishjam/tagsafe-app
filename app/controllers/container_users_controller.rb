@@ -3,7 +3,10 @@ class ContainerUsersController < LoggedInController
     container_user = @container.container_users.includes(:user).find_by(uid: params[:uid])
     stream_modal(
       partial: 'container_users/show',
-      locals: { container_user: container_user }
+      locals: { 
+        container: @container,
+        container_user: container_user 
+      }
     )
   end
 
@@ -20,15 +23,15 @@ class ContainerUsersController < LoggedInController
   end
 
   def destroy
-    cu = ContainerUser.find_by(uid: params[:uid])
+    cu = @container.container_users.find_by!(uid: params[:uid])
     if current_user.can_remove_user_from_container?(cu.container) && cu.destroy
       stream_modal(
-        partial: 'container_users/destroy_modal',
+        partial: 'container_users/show',
         locals: { container_user: cu, success: true }
       )
     else
       stream_modal(
-        partial: 'container_users/destroy_modal',
+        partial: 'container_users/show',
         locals: { 
           container_user: cu,
           errors: ['Insufficient access to remove user']

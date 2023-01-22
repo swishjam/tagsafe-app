@@ -16,7 +16,7 @@ export default class ScriptInterceptor {
     this._numTagsWithTagsafeOverriddenLoadStrategies = 0;
 
     if(this.debugMode && this.disableScriptInterception) {
-      console.warn('Tagsafe CDN is disabled based on configuration sample rate.');
+      console.warn('[Tagsafe Log] Tagsafe CDN re-router is disabled based on configuration sample rate.');
     }
   }
 
@@ -107,7 +107,7 @@ export default class ScriptInterceptor {
       }
 
       if (this.debugMode) {
-        console.log(`%cIntercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
+        console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
         console.log({ 
           configuredUrl: tagConfig['configuredTagUrl'],
           configuredLoadType: tagConfig['configuredLoadType'],

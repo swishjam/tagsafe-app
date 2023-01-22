@@ -44,6 +44,8 @@ module TagsafeInstrumentationManager
           {
             uid: '#{tag_snippet.uid}',
             content: '#{tag_snippet.encoded_content}',
+            injectUrls: #{build_tag_snippet_inject_array(tag_snippet, :inject_rules) == '[]' ? "\"*\"" : build_tag_snippet_inject_array(tag_snippet, :inject_rules)},
+            ignoreUrls: #{build_tag_snippet_inject_array(tag_snippet, :dont_inject_rules)},
           },
         "
       end
@@ -71,6 +73,14 @@ module TagsafeInstrumentationManager
     def configured_load_type_for_tag(tag)
       return "\"defer\"" if @container.defer_script_tags_by_default && tag.configured_load_type == 'default'
       "\"#{tag.configured_load_type}\""
+    end
+
+    def build_tag_snippet_inject_array(tag_snippet, tag_inject_scope)
+      js = '['
+      tag_snippet.injection_url_rules.send(tag_inject_scope).each do |inject_rule| 
+        js += "{ urlPattern: '#{inject_rule.url}' }"
+      end
+      js += ']'
     end
   end
 end
