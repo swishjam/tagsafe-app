@@ -1,0 +1,12 @@
+{
+  "tag_url_to_inject":"https://cdn-collin-dev.tagsafe.io/tags/TAG-e2b52f3a/www_thirdpartytag_com_script_js-tv_8a5bf002.js",
+  "tag_to_inject_load_strategy":"defer",
+  "tag_url_patterns_to_block":["www.thirdpartytag.com/script.js"],
+  "page_url":"https://www.tagsafe.io/demo?tagsafe-disable-tag-re-route=true",
+  "coverage_multiplier":1.5,
+  "js_usage_audit_component_uid":"juac_72cbbbca",
+  "lambda_invoker_klass":"StepFunctionInvoker::JsCoverageCalculator",
+  "tagsafe_consumer_klass":"StepFunctionResponses::JsCoverageResult",
+  "tagsafe_consumer_redis_url":"redis://:7eNOflYjiQ5HSjW86vooxobjfv36AXYs@redis-11872.c84.us-east-1-2.ec2.cloud.redislabs.com:11872",
+  "ProcessReceivedLambdaEventJobQueue":"critical"
+}
