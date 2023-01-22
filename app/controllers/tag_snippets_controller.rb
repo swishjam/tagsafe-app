@@ -34,6 +34,12 @@ class TagSnippetsController < LoggedInController
   def create
     params[:tag_snippet][:state] = 'draft'
     params[:tag_snippet][:find_tags_injected_by_snippet_job_enqueued_at] = Time.current
+    
+    if params[:trigger_rules] == 'all_pages'
+      params[:tag_snippet][:trigger_if_url_contains_injection_rules_attributes] = []
+      params[:tag_snippet][:dont_trigger_if_url_contains_injection_rules_attributes] = []
+    end
+
     tag_snippet = @container.tag_snippets.new(tag_snippet_params)
     if params[:tag_snippet][:content].blank?
       render turbo_stream: turbo_stream.replace(
