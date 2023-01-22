@@ -9,7 +9,7 @@
           </div>
           <div class="flex-shrink-0 pr-2 mt-2">
             <% num_tag_snippet_images = 0 %>
-            <% container.tag_snippets.each do |tag_snippet| %>
+            <% container.tag_snippets.live.each do |tag_snippet| %>
               <% if tag_snippet.try_image_url %>
                 <% num_tag_snippet_images += 1 %>
                 <%= image_tag tag_snippet.try_image_url, class: 'w-6 h-6 inline rounded-full border' %>
