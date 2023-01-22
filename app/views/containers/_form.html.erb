@@ -1,13 +1,15 @@
-<%= form_for container, data: { controller: 'loading_form' } do |f| %>
-  <div class="form-floating col-9 p-0 m-auto mb-3">
-    <%= f.text_field :name, class: 'form-control', placeholder: 'My first container' %>
-    <label for='name'>Container name</label>
-  </div>
-  <%= render 'partials/inline_errors', errors: container.errors.full_messages %>
-  <%= loading_submit_button type: 'floating', button_class: 'large' do %>
-    <%= local_assigns[:button_text] || 'Create' %> 
-    <% if local_assigns[:button_icon_klass] %>
-      <i class="<%= local_assigns[:button_icon_klass] %>"></i>
-    <% end %>
+<div class="w-100 space-y-6 border rounded-md overflow-hidden p-6">
+  <%= form_with model: container, data: { controller: 'loading_form' } do |f| %>
+    <label for="" class="block text-sm font-medium text-gray-700">Container Name</label>
+    <%= f.text_field :name, 
+                      value: container.name, 
+                      placeholder:'e.g. "My website\'s tag manager"', 
+                      type:'text',
+                      class: 'block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm' %>
+    <div class='mt-3 flex justify-end'>
+      <button type='submit' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
+        Create container
+      </button>
+    </div>
   <% end %>
-<% end %>
+</div>

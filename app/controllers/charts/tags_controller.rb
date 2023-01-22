@@ -5,7 +5,7 @@ module Charts
       time_range = (params[:time_range] || "24_hours").to_sym
       if params[:tag_ids]
         tag_ids = params[:tag_ids].is_a?(Array) ? params[:tag_ids] : JSON.parse(params[:tag_ids])
-        tags = current_container.tags.where(id: tag_ids)
+        tags = @container.tags.where(id: tag_ids)
         include_metric_select = params[:include_metric_select] == 'true'
         chart_data_getter = ChartHelper::TagsData.new(
           tags: tags, 
@@ -13,27 +13,27 @@ module Charts
           metric_key: metric_key
         )
         render turbo_stream: turbo_stream.replace(
-          "#{current_container.uid}_container_tags_chart",
+          "#{@container.uid}_container_tags_chart",
           partial: 'charts/tags/index',
           locals: { 
             chart_data: chart_data_getter.chart_data,
             tag_ids: tag_ids, 
             include_metric_select: include_metric_select,
-            container: current_container, 
+            container: @container, 
             metric_key: metric_key,
             time_range: time_range
           }
         )
       else
         render turbo_stream: turbo_stream.replace(
-          "#{current_container.uid}_container_tags_chart",
+          "#{@container.uid}_container_tags_chart",
           partial: 'charts/tags/index',
           locals: { 
             chart_data: [], 
             tag_ids: [],
             metric_key: metric_key,
             include_metric_select: include_metric_select,
-            container: current_container,
+            container: @container,
             time_range: time_range
           }
         )
@@ -41,7 +41,7 @@ module Charts
     end
   
     def show
-      tag = current_container.tags.find_by(uid: params[:uid])
+      tag = @container.tags.find_by(uid: params[:uid])
       time_range = (params[:time_range] || "24_hours").to_sym
       chart_helper = ChartHelper::TagData.new(tag: tag, time_range: time_range)
       chart_data = chart_helper.chart_data
@@ -51,7 +51,7 @@ module Charts
         locals: { 
           chart_data: chart_data, 
           tag: tag, 
-          container: current_container,
+          container: @container,
           time_range: time_range,
           start_datetime: (chart_helper.start_datetime.to_f * 1_000).floor,
           hide_time_range_selector: params[:hide_time_range_selector],

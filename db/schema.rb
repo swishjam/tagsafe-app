@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_15_173900) do
+ActiveRecord::Schema.define(version: 2023_01_21_022420) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -159,6 +159,8 @@ ActiveRecord::Schema.define(version: 2023_01_15_173900) do
     t.boolean "tagsafe_js_enabled"
     t.boolean "defer_script_tags_by_default"
     t.float "tagsafe_js_re_route_eligible_tags_sample_rate"
+    t.bigint "created_by_user_id"
+    t.index ["created_by_user_id"], name: "index_containers_on_created_by_user_id"
     t.index ["name"], name: "index_containers_on_name"
     t.index ["uid"], name: "index_containers_on_uid"
   end
@@ -635,6 +637,7 @@ ActiveRecord::Schema.define(version: 2023_01_15_173900) do
     t.timestamp "find_tags_injected_by_snippet_job_completed_at"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.string "content_fingerprint"
     t.index ["container_id"], name: "index_tag_snippets_on_container_id"
     t.index ["uid"], name: "index_tag_snippets_on_uid"
   end
@@ -672,6 +675,8 @@ ActiveRecord::Schema.define(version: 2023_01_15_173900) do
     t.string "change_request_decision"
     t.timestamp "change_request_decisioned_at"
     t.bigint "live_tag_version_at_time_of_decision_id"
+    t.text "tagsafe_cdn_url"
+    t.text "formatted_tagsafe_cdn_url"
     t.index ["container_user_id_change_request_decisioned_by"], name: "cu_id_change_request_decisioned_by"
     t.index ["live_tag_version_at_time_of_decision_id"], name: "index_tag_versions_on_live_tag_version_at_time_of_decision_id"
     t.index ["primary_audit_id"], name: "index_tag_versions_on_primary_audit_id"

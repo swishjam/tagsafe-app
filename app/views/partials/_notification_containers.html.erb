@@ -3,9 +3,9 @@
     <%= render 'partials/notification', message: flash[:flash_notification] %>
   <% end %>
 
-  <% if current_container %>
-    <%= turbo_stream_from "container_#{current_container.uid}_notifications_container" %>
-    <%= turbo_frame_tag "container_#{current_container.uid}_notifications_container" do %>
+  <% if @container %>
+    <%= turbo_stream_from "container_#{@container.uid}_notifications_container" %>
+    <%= turbo_frame_tag "container_#{@container.uid}_notifications_container" do %>
     <% end %>
   <% end %>
 

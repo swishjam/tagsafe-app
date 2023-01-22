@@ -25,7 +25,7 @@ module TagManager
       ].include?(@tag.url_hostname)
     end
 
-    def tag_has_static_content?
+    def tag_has_static_content?(attempts: 0)
       unique_hashes = [
         fetch_tags_hashed_content(CHROME_USER_AGENT),
         fetch_tags_hashed_content(SAFARI_USER_AGENT),
@@ -34,6 +34,18 @@ module TagManager
         fetch_tags_hashed_content(SAFARI_USER_AGENT),
       ].uniq!
       unique_hashes.count == 1
+    rescue NoMethodError => e
+      Sentry.capture_exception(e)
+      if attemps < 3
+        tag_has_static_content?(attempts: attempts + 1)
+      else
+        begin
+          raise NoMethodError, "Cannot detect if #{@tag.uid} has static content after trying 3 times. Assuming it is not static."
+        rescue NoMethodError => e
+          Sentry.capture_exception(e)
+          return false
+        end
+      end
     end
 
     def fetch_tags_hashed_content(user_agent)

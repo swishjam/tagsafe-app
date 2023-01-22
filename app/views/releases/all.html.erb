@@ -4,7 +4,7 @@
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
 
     <div class='w-full'>
-      <%= turbo_frame_tag "#{current_container.uid}_release_calendar", src: release_calendar_releases_path(all_tags: true) do %>
+      <%= turbo_frame_tag "#{@container.uid}_release_calendar", src: release_calendar_releases_path(all_tags: true) do %>
         <div class='text-center'>
           <%= display_loading_icon %>
         </div>

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "container_#{current_container.uid}_honeycomb_chart" do %>
+<%= turbo_frame_tag "container_#{@container.uid}_honeycomb_chart" do %>
   <div class='honeycomb-chart p-5'>
     <% honeycomb_rows.each_with_index do |row, row_index| %>
       <% is_mismatched_last_row = row_index + 1 == honeycomb_rows.count && honeycomb_rows[row_index - 1].count.even? == honeycomb_rows[row_index].count.even? %>

@@ -5,7 +5,7 @@ class AuditsController < LoggedInController
   before_action :render_breadcrumbs_for_show_views, only: SHOW_VIEWS
 
   def all
-    @audits = current_container.audits
+    @audits = @container.audits
                               .most_recent_first(timestamp_column: :created_at)
                               .includes(
                                 :performance_audits, 
@@ -24,7 +24,7 @@ class AuditsController < LoggedInController
                             .page(params[:page] || 1)
                             .per(params[:per_page] || 20)
     render_breadcrumbs(
-      { url: root_path, text: "Monitor Center" },
+      { url: container_tag_snippets_path(@container), text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
     )
   end
@@ -38,7 +38,7 @@ class AuditsController < LoggedInController
     stream_modal(partial: 'audits/new', locals: { 
       tag: @tag, 
       tag_version: tag_version,
-      page_urls: current_container.page_urls,
+      page_urls: @container.page_urls,
     })
   end
 
@@ -47,13 +47,13 @@ class AuditsController < LoggedInController
     audits_enqueued = []
     audits_with_errors = []
     params[:page_url_uids_to_audit].each do |page_url_uid|
-      page_url = current_container.page_urls.find_by!(uid: page_url_uid)
+      page_url = @container.page_urls.find_by!(uid: page_url_uid)
       audit = Audit.run(
         tag: @tag,
         tag_version: tag_version,
         page_url: page_url,
         execution_reason: ExecutionReason.MANUAL,
-        initiated_by_container_user: current_container_user,
+        initiated_by_container_user: @container_user,
       )
       (audit.errors.any? ? audits_with_errors : audits_enqueued) << audit
     end
@@ -68,7 +68,7 @@ class AuditsController < LoggedInController
   private
 
   def find_tag
-    @tag = current_container.tags.find_by(uid: params[:tag_uid])
+    @tag = @container.tags.find_by(uid: params[:tag_uid])
   end
 
   def find_audit
@@ -77,7 +77,7 @@ class AuditsController < LoggedInController
 
   def render_breadcrumbs_for_show_views
     render_breadcrumbs(
-      { url: root_path, text: "Monitor Center" },
+      { url: container_tag_snippets_path(@container), text: "Monitor Center" },
       { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
       # { url: tag_audits_path(@tag), text: "Version #{@tag_version.sha} audits" },
       { text: "#{@audit.created_at.formatted_short} audit", active: true }

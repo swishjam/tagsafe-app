@@ -20,14 +20,20 @@
             </svg>
           </a>
           <div class="mt-20">
-            <h2 class="text-lg font-semibold text-gray-900">Get started for free</h2>
+            <h2 class="text-lg font-semibold text-gray-900">
+              <% if @user_invite.present? %>
+                Accept your invite and join the <i><%= @user_invite.container.name %></i> container.
+              <% else %>
+                Get started for free
+              <% end %>
+            </h2>
             <p class='mt-2 text-sm text-gray-700'>
-              Already regsitered? <%= link_to "Sign in", new_session_path, class: "font-medium text-blue-600 hover:underline" %> to your account.
+              Already regsitered? <%= link_to "Sign in", @user_invite.present? ? new_session_path(invite_token: @user_invite.token) : new_session_path, class: "font-medium text-blue-600 hover:underline" %> to your account.
             </p>
           </div>
         </div>
         <%= turbo_frame_tag "registration_form" do %>
-          <%= render 'form', user: User.new %>
+          <%= render 'registrations/form', user: User.new, user_invite: @user_invite %>
         <% end %>
       </div>
     </div>

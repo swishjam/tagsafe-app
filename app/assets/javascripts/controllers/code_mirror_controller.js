@@ -1,7 +1,8 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ['codeMirrorTextarea'];
+  static targets = ['codeMirrorTextarea', 'codeMirrorLoadingIndicator'];
+
   disableLineNumbers = this.codeMirrorTextareaTarget.getAttribute('data-disable-line-numbers') === 'true';
   readOnly = this.codeMirrorTextareaTarget.getAttribute('data-readonly') === 'true' ? 'nocursor' : false;
   wrapLines = this.codeMirrorTextareaTarget.getAttribute('data-dont-wrap-lines') !== 'true';
@@ -17,6 +18,7 @@ export default class extends Controller {
     if(this.codeMirrorTextareaTarget.getAttribute('data-value')) {
       this.codeMirrorInstance.setValue(this.codeMirrorTextareaTarget.getAttribute('data-value').replace(/\\r\\n/g, '\r\n'));
     }
+    if (this.hasCodeMirrorLoadingIndicatorTarget) this.codeMirrorLoadingIndicatorTarget.classList.add('hidden');
     this.codeMirrorTextareaTarget.classList.remove('hidden');
   }
 

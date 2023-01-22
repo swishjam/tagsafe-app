@@ -4,48 +4,28 @@ module ApplicationHelper
     @current_user ||= User.find_by(uid: session[:current_user_uid]) unless session[:current_user_uid].nil?
   rescue ActiveRecord::RecordNotFound => e
     log_user_out
+    redirect_to new_session_path
   end
 
   def user_is_anonymous?
     current_user.nil?
   end
 
-  def current_container
-    return @current_container if defined?(@current_container)
-    if user_is_anonymous?
-      return unless session[:current_container_uid].present?
-      @current_container = Container.find_by(uid: session[:current_container_uid])
-    else
-      @current_container = session[:current_container_uid] ? current_user.containers.find_by(uid: session[:current_container_uid]) : current_user.containers.first
-    end
-  rescue ActiveRecord::RecordNotFound => e
-    log_user_out
-  end
-
   def current_container_user
     return if current_user.nil?
-    @current_container_user ||= current_user.container_user_for(current_container)
+    @container_user ||= current_user.container_user_for(@container)
   end
 
   def current_anonymous_user_identifier
     session[:anonymous_user_identifier]
   end
 
-  def set_current_container(container)
-    session[:current_container_uid] = container.uid
-  end
-
   def set_current_user(user)
     session[:current_user_uid] = user.uid
   end
 
-  def set_anonymous_user_identifier
-    session[:anonymous_user_identifier] = SecureRandom.hex(16)
-  end
-
   def log_user_out
     session.delete(:current_user_uid)
-    session.delete(:current_container_uid)
   end
 
   def stream_modal(partial: "modals/#{action_name}", turbo_frame_name: 'server_loadable_modal', locals: {})
@@ -70,6 +50,36 @@ module ApplicationHelper
     )
   end
 
+  def render_default_navigation_items(active_item)
+    render_navigation_items(
+      { 
+        url: container_tag_snippets_path(@container), 
+        text: 'Tags', 
+        active: active_item == :tags 
+      },
+      { 
+        url: container_change_requests_path(@container), 
+        text: 'Change Requests',
+        active: active_item == :change_requests,
+        turbo_frame: {
+          name: "#{@container.uid}_change_requests_count_indicator",
+          stream: "#{@container.uid}_change_requests_count_indicator_stream",
+          src: count_container_change_requests_path(@container)
+        }
+      },
+      { 
+        url: container_page_performance_path(@container), 
+        text: 'Page Performance',
+        active: active_item == :page_performance,
+      },
+      { 
+        url: container_settings_path(@container), 
+        text: 'Settings',
+        active: active_item == :settings,
+      },
+    )
+  end
+
   def render_navigation_items(*items)
     @navigation_items = items
   end
@@ -81,7 +91,7 @@ module ApplicationHelper
   def no_access!(raise_error)
     raise NoAccessError if raise_error
     flash[:banner_error] = "No access."
-    redirect_to root_path
+    redirect_to container_tag_snippets_path(@container)
   end
 
   def display_toast_message(message)

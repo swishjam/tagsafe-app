@@ -1,25 +1,31 @@
 class SettingsController < LoggedInController
-  before_action { render_breadcrumbs({ text: 'Settings' }) }
+
   def global_settings
-    render_navigation_items(
-      { url: root_path, text: 'Tags' },
-      { url: change_requests_path, text: 'Change Requests' },
-      { url: page_performance_path, text: 'Page Performance' },
-      { url: settings_path, text: 'Settings' },
+    render_breadcrumbs(
+      { url: containers_path, text: @container.name }, 
+      { text: 'Settings' }
     )
+    render_default_navigation_items(:settings)
   end
 
 
   def team_management
     render_breadcrumbs(
-      { text: 'Settings', url: settings_path },
+      { url: containers_path, text: @container.name },
+      { text: 'Settings', url: container_settings_path(@container) },
       { text: 'Team Management' },
     )
-    render_navigation_items(
-      { url: root_path, text: 'Tags' },
-      { url: change_requests_path, text: 'Change Requests' },
-      { url: page_performance_path, text: 'Page Performance' },
-      { url: settings_path, text: 'Settings', active: true },
-    )
+    render_default_navigation_items(:settings)
   end
+
+
+  def install_script
+    render_breadcrumbs(
+      { url: containers_path, text: @container.name },
+      { text: 'Settings', url: container_settings_path(@container) },
+      { text: 'Install Script' },
+    )
+    render_default_navigation_items(:settings)
+  end
+
 end
