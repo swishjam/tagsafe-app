@@ -69,6 +69,7 @@ class AuditsController < LoggedInController
 
   def find_tag
     @tag = @container.tags.find_by(uid: params[:tag_uid])
+    @tag_snippet = @container.tag_snippets.find_by(uid: params[:tag_snippet_uid])
   end
 
   def find_audit
@@ -78,7 +79,7 @@ class AuditsController < LoggedInController
   def render_breadcrumbs_for_show_views
     render_breadcrumbs(
       { url: container_tag_snippets_path(@container), text: "Monitor Center" },
-      { url: tag_path(@tag), text: "#{@tag.try_friendly_name} Details" },
+      { url: container_tag_snippet_tag_path(@container, @tag_snippet, @tag), text: "#{@tag.try_friendly_name} Details" },
       # { url: tag_audits_path(@tag), text: "Version #{@tag_version.sha} audits" },
       { text: "#{@audit.created_at.formatted_short} audit", active: true }
     )

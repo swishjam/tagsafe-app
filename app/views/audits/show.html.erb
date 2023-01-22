@@ -1,4 +1,4 @@
-<%= render 'tags/root_paths_page_navigation', page_title: 'Tag Audit', hide_new_tag_button: true %>
+<%#= render 'tags/root_paths_page_navigation', page_title: 'Tag Audit', hide_new_tag_button: true %>
 
 <div class='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12'>
   <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-4">
@@ -25,11 +25,11 @@
                   <h1 class="truncate text-2xl font-bold text-gray-900"><%= @tag.try_friendly_name %></h1>
                 </div>
                 <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0">
-                  <%= modal_link new_tag_audit_path(@tag), klass: 'inline-flex justify-center items-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2' do %>
+                  <%#= modal_link new_tag_audit_path(@tag), klass: 'inline-flex justify-center items-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2' do %>
                     <div class='d-flex align-items-center'>
                       Run Audit
                     </div>
-                  <% end %>
+                  <%# end %>
                 </div>
               </div>
             </div>
