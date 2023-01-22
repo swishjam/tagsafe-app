@@ -14,6 +14,7 @@ class TagSnippet < ApplicationRecord
   accepts_nested_attributes_for :trigger_if_url_contains_injection_rules
   accepts_nested_attributes_for :dont_trigger_if_url_contains_injection_rules
 
+  validates :name, presence: true
   validates :state, presence: true, inclusion: { in: VALID_STATES }
 
   after_update { container.publish_instrumentation!("Updating for #{name} updated state (#{saved_changes['state'][0]} -> #{saved_changes['state'][1]})") if saved_changes['state'].present? }
