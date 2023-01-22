@@ -1,4 +1,4 @@
-app: js-coverage-evaluator
+app: js-coverage-measurer
 service: tag-js-coverage
 org: collin
 
@@ -15,7 +15,7 @@ provider:
     # S3_AWS_SECRET_ACCESS_KEY: ${file(./config/${opt:stage}.yml):S3_AWS_SECRET_ACCESS_KEY}
 
 functions:
-  calculate-tags-js-coverage:
+  measure-tags-js-coverage:
     handler: handler.handle
     timeout: 90
 

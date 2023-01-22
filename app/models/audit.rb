@@ -1,4 +1,5 @@
 class Audit < ApplicationRecord
+  class FailedExecution < StandardError; end;
   uid_prefix 'aud'
 
   RUNNABLE_AUDIT_COMPONENTS = [
@@ -44,7 +45,7 @@ class Audit < ApplicationRecord
       execution_reason: execution_reason,
       initiated_by_container_user: initiated_by_container_user,
     )
-    raise ActiveRecord::RecordInvalid, audit.errors.full_messages.join(', ') if audit.errors.any?
+    raise FailedExecution.new(audit.errors.full_messages.join(', ')) if audit.errors.any?
     audit
   end
 

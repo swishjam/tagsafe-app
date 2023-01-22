@@ -25,6 +25,12 @@ module.exports.handle = async (event, _context) => {
     `)
   }
 
+  console.log('Beginning JS coverage measurement......');
+  console.log(`tag_url_to_inject: ${tag_url_to_inject}`);
+  console.log(`tag_to_inject_load_strategy: ${tag_to_inject_load_strategy}`);
+  console.log(`tag_url_patterns_to_block: ${tag_url_patterns_to_block}`);
+  console.log(`page_url: ${page_url}`);
+
   const puppeteerModerator = new PuppeteerModerator;
   const page = await puppeteerModerator.launch();
 
