@@ -35,6 +35,7 @@ class Audit < ApplicationRecord
   validate :has_valid_audit_components
   validate :only_one_new_release_audit_per_tag_version
   validate :manual_executions_has_initiated_by_user
+  validate :tag_version_belongs_to_tag
   validates :tagsafe_score, presence: true, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }, if: :successful?
 
   def self.run!(tag:, tag_version:, page_url:, execution_reason:, initiated_by_container_user: nil)
@@ -195,6 +196,12 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
     #   partial: 'audits/audit_row',
     #   locals: { audit: self, include_tag_name: false }
     # )
+  end
+
+  def tag_version_belongs_to_tag
+    if tag_version.present? && tag_version.tag != tag
+      errors.add(:tag_version, "Tag Version #{tag_version.uid} does not belong to Tag #{tag.uid}")
+    end
   end
 
   def has_valid_audit_components

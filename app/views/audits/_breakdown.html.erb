@@ -2,9 +2,8 @@
 
 <%= turbo_frame_tag "audit_#{audit.uid}_breakdown" do %>
   <% if audit.pending? %>
-    <div class='text-center'>
-      <h4>Audit is in progress</h4>
-      <%= display_loading_icon %>
+    <div class='text-center text-sm font-medium text-gray-500'>
+      <h4><%= display_loading_icon %>Audit is in progress</h4>
     </div>
   <% elsif audit.failed? %>
     <div class='text-center'>
@@ -12,45 +11,126 @@
       <h5 class='text-center'><%= audit.error_message %></h5>
     </div>
   <% else %>
-    <h3 class='text-center'>Tagsafe Score</h3>
-    <%= render 'partials/progress_ring', 
-                score: audit.tagsafe_score, 
-                change_in_score: audit.audit_to_compare_with.present? ? audit.tagsafe_score - audit.audit_to_compare_with&.tagsafe_score : nil %>
 
-    <div class='mt-3'>
-      <% audit.audit_components.each do |audit_component| %>
-        <div class='mb-2'>
-          <span class='fs-6'>
-            <%= audit_component.friendly_name %> score: <span class='fw-bolder'><%= audit_component.formatted_score %> / 100</span>
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
+
+        <div class="overflow-hidden rounded-md bg-white border px-4 py-5 sm:p-6">
+          <dt class="truncate text-sm font-medium text-gray-500">Tagsafe Score</dt>
+          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div class="flex items-baseline text-2xl font-semibold text-blue-600">
+              <%= audit.tagsafe_score.round(2) %>
+              <span class="ml-2 text-sm font-medium text-gray-500">/100</span>
+            </div>
+            <% if audit.audit_to_compare_with.present? %>
+              <%= score_delta = audit.tagsafe_score - audit.audit_to_compare_with.tagsafe_score %>
+
+              <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 <%= score_delta > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                <% if score_delta > 0 %>
+                  <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sr-only"> Increased by </span>
+                <% else %>
+                  <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sr-only"> Decreased by </span>
+                <% end %>
+
+                <%= score_delta.round(2) %>
+              </div>
+            <% end %>
+          </dd>
+        </div>
+
+        <% audit.audit_components.each do |audit_component| %>
+        
+          <!--  <span class='fs-6'>
+              <%= audit_component.friendly_name %> score: <span class='fw-bolder'><%= audit_component.formatted_score %> / 100</span>
+              <% if audit_component.audit_component_to_compare_with %>
+                <% change_in_score = audit_component.score - audit_component.audit_component_to_compare_with.score %>
+                <% if change_in_score > 0 %>
+                  <i class="fa-solid fa-arrow-trend-up text-success" data-controller='tooltip' title="Up from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
+                <% elsif change_in_score < 0 %>
+                  <i class="fa-solid fa-arrow-trend-down text-danger" data-controller='tooltip' title="Down from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
+                <% end %>
+              <% end %>
+            </span>
+            <div class='audit-component-visual-bar' data-controller='tooltip' title='The "<%= audit_component.friendly_name %>" audit scored a <%= audit_component.formatted_score %> / 100. <%= audit_component.explanation %>'>
+              <div class='audit-component-visual-inner-bar <%= audit_component.score >= 90 ? 'good' : audit_component.score >= 80 ? 'warn' : 'bad' %>' style='width: <%= audit_component.score %>%'>
+              </div>
+              <div class='audit-component-visual-outter-bar' style='width: <%= 100 - audit_component.score %>%'>
+              </div>
+            </div> -->
+        <div class="overflow-hidden bg-white px-4 py-5 sm:p-6 <%= %>border-r">
+          <dt class="truncate text-sm font-medium text-gray-500">
+            <%= audit_component.friendly_name %>
+          </dt>
+          
+          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+              <%= audit_component.formatted_score.round(2) %>
+              <span class="ml-2 text-sm font-medium text-gray-500">/100</span>
+            </div>
+
             <% if audit_component.audit_component_to_compare_with %>
               <% change_in_score = audit_component.score - audit_component.audit_component_to_compare_with.score %>
-              <% if change_in_score > 0 %>
-                <i class="fa-solid fa-arrow-trend-up text-success" data-controller='tooltip' title="Up from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
-              <% elsif change_in_score < 0 %>
-                <i class="fa-solid fa-arrow-trend-down text-danger" data-controller='tooltip' title="Down from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
-              <% end %>
+
+              <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 <%= change_in_score > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                <% if change_in_score > 0 %>
+                  <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sr-only"> Increased by </span>
+                <% elsif change_in_score < 0 %>
+                  <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="sr-only"> Decreased by </span>
+                <% end %>
+
+                <%= change_in_score.round(2) %>
+              </div>
             <% end %>
-          </span>
-          <div class='audit-component-visual-bar' data-controller='tooltip' title='The "<%= audit_component.friendly_name %>" audit scored a <%= audit_component.formatted_score %> / 100. <%= audit_component.explanation %>'>
-            <div class='audit-component-visual-inner-bar <%= audit_component.score >= 90 ? 'good' : audit_component.score >= 80 ? 'warn' : 'bad' %>' style='width: <%= audit_component.score %>%'>
+
+
+
+          </dd>
+        </div>
+        <% end %>
+
+      </dl>
+
+    </div>
+
+    <% if audit.tag.load_type != 'defer' && audit.tag.configured_load_type != 'defer' %>
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">       
+        <div class="rounded-md bg-yellow-50 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <!-- Heroicon name: mini/exclamation-triangle -->
+              <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+              </svg>
             </div>
-            <div class='audit-component-visual-outter-bar' style='width: <%= 100 - audit_component.score %>%'>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-yellow-800">Warning! Review how this tag is embedded</h3>
+              <div class="mt-2 text-sm text-yellow-700">
+                <p>
+                  The <%= audit.tag.try_friendly_name %> tag is a<%= audit.tag.load_type == 'async' ? 'n' : nil %> `<%= audit.tag.load_type %>` script tag.
+                  <% if audit.tag.load_type == 'async' %>
+                    While `async`` tags are a good practice, `defer` tags are recommended.
+                  <% else %>
+                    Synchronous tags negatively impact your page load. It is recommended to use `defer` tags unless your requirements specifically need otherwise.
+                  <% end %>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      <% end %>
-      <% if audit.tag.load_type != 'defer' && audit.tag.configured_load_type != 'defer' %>
-        <div class='cursor-default mt-4 d-flex align-items-center alert alert-warning'>
-          <%= HtmlHelper.WARNING_ICON %> 
-          <span class='fs-6 ms-3'>
-            The <%= audit.tag.try_friendly_name %> tag is a<%= audit.tag.load_type == 'async' ? 'n' : nil %> `<%= audit.tag.load_type %>` script tag.
-            <% if audit.tag.load_type == 'async' %>
-              While `async`` tags are a good practice, `defer` tags are recommended.
-            <% else %>
-              Synchronous tags negatively impact your page load. It is recommended to use `defer` tags unless there's a good reason not to.
-            <% end %>
-        </div>
-      <% end %>
-    </div>
+
+      </div>
+    <% end %>
   <% end %>
 <% end %>
