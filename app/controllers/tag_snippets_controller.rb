@@ -35,7 +35,6 @@ class TagSnippetsController < LoggedInController
     params[:tag_snippet][:state] = 'draft'
     params[:tag_snippet][:find_tags_injected_by_snippet_job_enqueued_at] = Time.current
     tag_snippet = @container.tag_snippets.new(tag_snippet_params)
-
     if params[:tag_snippet][:content].blank?
       render turbo_stream: turbo_stream.replace(
         "new_tag_snippet_form",
@@ -81,6 +80,12 @@ class TagSnippetsController < LoggedInController
   private
 
   def tag_snippet_params
-    params.require(:tag_snippet).permit(:name, :state, :find_tags_injected_by_snippet_job_enqueued_at)
+    params.require(:tag_snippet).permit(
+      :name, 
+      :state, 
+      :find_tags_injected_by_snippet_job_enqueued_at, 
+      trigger_if_url_contains_injection_rules_attributes: [:url],
+      dont_trigger_if_url_contains_injection_rules_attributes: [:url],
+    )
   end
 end
