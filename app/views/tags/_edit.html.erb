@@ -1,5 +1,5 @@
 <%= render_as_modal title: "Edit #{tag.try_friendly_name} (#{tag.full_url})" do %>
   <div class='tagsafe-modal-body'>
-    <%= render 'form', tag: tag %>
+    <%= render 'form', container: container, tag_snippet: tag_snippet, tag: tag %>
   </div>
 <% end %>

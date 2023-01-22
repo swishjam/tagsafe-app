@@ -21,18 +21,39 @@ class TagsController < LoggedInController
     @tag = @container.tags.find_by!(uid: params[:uid])
     stream_modal(
       partial: 'tags/edit',
-      locals: { tag: @tag }
+      locals: { 
+        tag: @tag,
+        tag_snippet: @tag.tag_snippet,
+        container: @container,
+      }
     )
   end
 
   def update
     @tag = @container.tags.find_by(uid: params[:uid])
-    @tag.update!(tag_params)
-    render turbo_stream: turbo_stream.replace(
-      "#{@tag.uid}_settings",
-      partial: 'tags/form',
-      locals: { tag: @tag, success_message: "#{@tag.try_friendly_name} updated successfully."}
-    )
+    if @tag.update(tag_params)
+      render turbo_stream: turbo_stream.replace(
+        "#{@tag.uid}_settings",
+        partial: 'tags/form',
+        locals: { 
+          tag: @tag, 
+          tag_snippet: @tag.tag_snippet,
+          container: @container,
+          success_message: "#{@tag.try_friendly_name} updated successfully.",
+        }
+      )
+    else
+      render turbo_stream: turbo_stream.replace(
+        "#{@tag.uid}_settings",
+        partial: 'tags/form',
+        locals: {
+          tag: @tag,
+          tag_snippet: @tag.tag_snippet,
+          container: @container,
+          error_message: @tag.errors.full_messages.join(', '),
+        }
+      )
+    end
   end
 
   def select_tag_to_audit

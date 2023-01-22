@@ -138,6 +138,9 @@
                       <% end %>
 
                       <div>
+                        <%= modal_link_to edit_container_tag_snippet_tag_path(container, tag_snippet, tag), text: 'Edit' %>
+                        <!--
+                        TODO: dropdown gets cutoff
                         <div class='relative' data-controller='dropdown'>
                           <a class='cursor-pointer' data-action='dropdown#toggle'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -148,6 +151,7 @@
                             EDIT
                           </div>
                         </div>
+                        !-->
                       </div>
                     </td>
                   </tr>

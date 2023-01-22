@@ -1,81 +1,98 @@
 <%= turbo_frame_tag "#{tag.uid}_settings" do %>
-  <div class='col-10 offset-1 text-start'>
-    <% if local_assigns[:success_message] %>
-      <div class='alert alert-success mt-2 mb-0'>
-        <h5 class='d-flex align-items-center mb-0'><span class='me-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
+  <% if local_assigns[:success_message] %>
+    <div class="rounded-md bg-green-50 p-4 mt-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <!-- Heroicon name: mini/x-circle -->
+          <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-green-800"><%= success_message %></h3>
+        </div>
       </div>
-    <% end %>
-    <% if local_assigns[:error_message] %>
-      <div class='alert alert-danger mt-2 mb-0'>
-        <h5 class='d-flex align-items-center mb-0'><span class='me-2'><%= HtmlHelper.WARNING_ICON(color: 'red') %></span><%= error_message %></h5>
-      </div>
-    <% end %>
-    <%= form_with model: tag, data: { controller: 'loading_form' } do |f| %>
-      <div class='form-floating mt-5 col-12'>
-        <div class='row'>
-          <div class='col-8'>
-            <span class='form-label fs-5 mb-0 fw-bolder d-block'>Release monitoring interval</span>
-            <span class='form-label fs-6 d-block'>How often should Tagsafe check <%= tag.url_based_on_preferences %> for a new release?</span>
-          </div>
-          <div class='col-4 text-end'>
-            <select name='tag[release_monitoring_interval_in_minutes]' 
-                    id='release-monitoring-interval' 
-                    class='form-select w-fit' 
-                    <%= !tag.is_tagsafe_hostable ? 'disabled' : nil %>
-                    style='width: fit-content'
-                    required>
-              <% Tag::SUPPORTED_RELEASE_MONITORING_INTERVALS.each do |interval| %>
-                <option value='<%= interval %>' <%= interval == tag.release_monitoring_interval_in_minutes ? 'selected' : nil %>>
-                  <%= Util.integer_to_interval_in_words(interval).capitalize %>
-                </option>
-              <% end %>
-            </select>
+    </div>
+  <% end %>
+  <% if local_assigns[:error_message] %>
+    <div class="rounded-md bg-red-50 p-4 mt-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <!-- Heroicon name: mini/x-circle -->
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+          <div class="mt-2 text-sm text-red-700">
+            <span><%= error_message %></span>
           </div>
         </div>
       </div>
+    </div>
+  <% end %>
+  <%= form_with model: [container, tag_snippet, tag], data: { controller: 'loading_form' } do |f| %>
+    <div class='mt-5 grid grid-cols-3'>
+      <div class='col-span-2'>
+        <span class='text-sm text-gray-700 font-bold block'>Release monitoring interval</span>
+        <span class='text-sm text-gray-600 block'>How often should Tagsafe check <%= tag.url_based_on_preferences %> for a new release?</span>
+      </div>
+      <div class='col-span-1 text-end'>
+        <select name='tag[release_monitoring_interval_in_minutes]' 
+                id='release-monitoring-interval' 
+                class='form-select w-fit' 
+                <%= !tag.is_tagsafe_hostable ? 'disabled' : nil %>
+                style='width: fit-content'
+                required>
+          <% Tag::SUPPORTED_RELEASE_MONITORING_INTERVALS.each do |interval| %>
+            <option value='<%= interval %>' <%= interval == tag.release_monitoring_interval_in_minutes ? 'selected' : nil %>>
+              <%= Util.integer_to_interval_in_words(interval).capitalize %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
 
-      <div class='form-floating mt-5 col-12'>
-        <div class='row'>
-          <div class='col-8'>
-            <span class='form-label fs-5 mb-0 fw-bolder d-block'>Tag load strategy</span>
-            <span class='form-label fs-6 d-block'>Override the default load strategy on the tag's `script` element.</span>
-          </div>
-          <div class='col-4 text-end'>
-            <select name='tag[configured_load_type]' 
-                    id='release-monitoring-interval' 
-                    class='form-select w-fit' 
-                    style='width: fit-content'>
-              <option value='default' <%= tag.configured_load_type == 'default' ? 'selected' : nil %>>Tag's default rule</option>
-              <option value='defer' <%= tag.configured_load_type == 'defer' ? 'selected' : nil %>>Defer</option>
-              <option value='async' <%= tag.configured_load_type == 'async' ? 'selected' : nil %>>Async</option>
-              <option value='synchronous' <%= tag.configured_load_type == 'synchronous' ? 'selected' : nil %>>Synchronous</option>
-            </select>
-          </div>
-        </div>
+    <div class='mt-5 grid grid-cols-3'>
+      <div class='col-span-2'>
+        <span class='text-sm text-gray-700 font-bold block'>Tag load strategy</span>
+        <span class='text-sm text-gray-600 block'>Override the default load strategy on the tag's `script` element.</span>
       </div>
+      <div class='col-span-1'>
+        <select name='tag[configured_load_type]' 
+                id='release-monitoring-interval' 
+                class='form-select w-fit' 
+                style='width: fit-content'>
+          <option value='default' <%= tag.configured_load_type == 'default' ? 'selected' : nil %>>Tag's default rule</option>
+          <option value='defer' <%= tag.configured_load_type == 'defer' ? 'selected' : nil %>>Defer</option>
+          <option value='async' <%= tag.configured_load_type == 'async' ? 'selected' : nil %>>Async</option>
+          <option value='synchronous' <%= tag.configured_load_type == 'synchronous' ? 'selected' : nil %>>Synchronous</option>
+        </select>
+      </div>
+    </div>
 
-      <div class="form-check form-switch mt-5 ps-0 pb-5 col-12">
-        <div class='row'>
-          <div class='col-8'>
-            <span class='form-label fs-5 mb-0 fw-bolder d-block'>Tagsafe-hosted and optimized</span>
-            <span class='form-label fs-6 d-block'>Disable to use the tag's default CDN instead of Tagsafe's optimized CDN.</span>
-          </div>
-          <div class='col-4 text-end'>
-            <input type='hidden' name='tag[is_tagsafe_hosted]' value='0'>
-            <input type='checkbox' 
-                    name='tag[is_tagsafe_hosted]'
-                    class='form-check-input ms-3 pointer' 
-                    role='switch' 
-                    style='scale: 2' 
-                    value='1'
-                    <%= tag.is_tagsafe_hosted ? 'checked=checked' : nil%>
-                    <%= !tag.is_tagsafe_hostable ? 'disabled' : nil %>>
-          </div>
-        </div>
+    <div class='mt-5 grid grid-cols-3'>
+      <div class='col-span-2'>
+        <span class='text-sm text-gray-700 font-bold block'>Host on Tagsafe CDN</span>
+        <span class='text-sm text-gray-600 block'>Disable to use the tag's default CDN instead of Tagsafe's optimized CDN.</span>
       </div>
-      <div class='text-end'>
-        <%= loading_submit_button 'Update tag settings', type: 'floating' %>
+      <div class='col-span-1'>
+        <input type='hidden' name='tag[is_tagsafe_hosted]' value='0'>
+        <input type='checkbox' 
+                name='tag[is_tagsafe_hosted]'
+                class='h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' 
+                role='switch' 
+                value='1'
+                <%= tag.is_tagsafe_hosted ? 'checked=checked' : nil%>
+                <%= !tag.is_tagsafe_hostable ? 'disabled' : nil %>>
       </div>
-    <% end %>
-  </div>
+    </div>
+
+    <div class='text-end'>
+      <button type='submit' class='inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
+        Update tag config
+      </button>
+    </div>
+  <% end %>
 <% end %>
