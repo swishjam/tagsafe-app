@@ -48,18 +48,28 @@
         </div>
       </div>
 
-      <div>
-        <label for="" class="block text-sm font-medium text-gray-700">Trigger rules</label>
-        <!-- <p class='block text-sm text-gray-700'>All pages</p> !-->
-        <label for="" class="block text-sm font-medium text-gray-700">Add to page when URL contains:</label>
-        <input type='text' 
-                name='tag_snippet[trigger_if_url_contains_injection_rules_attributes][][url]' 
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+      <div data-controller='toggleVisibility'>
+        <label class="block text-sm font-medium text-gray-700">Where should this tag be enabled?</label>
 
-        <label for="" class="block text-sm font-medium text-gray-700">Do not add to page when URL contains:</label>
-        <input type='text' 
-                name='tag_snippet[dont_trigger_if_url_contains_injection_rules_attributes][][url]' 
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+        <div>
+          <div class='inline-block mr-4'>
+            <label for="all_pages" class="text-sm font-medium text-gray-700 mr-1">Enable on all pages</label>
+            <input type='radio' id='all_pages' name='trigger_rules' class='h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500' checked='checked'>
+          </div>
+          <div class='inline-block'>
+            <label for="trigger_certain_pages" class="text-sm font-medium text-gray-700 mr-1">Enable on certain pages</label>
+            <input type='radio' id='trigger_certain_pages' name='trigger_rules' class='h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500'>
+          </div>
+        </div>
+
+        <div class='' data-controller='tagSnippetRulesForm'>
+          <a data-action='tagSnippetRulesForm#addRuleInput' class='cursor-pointer inline-flex items-center justify-center rounded-md border border-blue-700 bg-white text-blue-700 px-4 py-2 text-sm font-medium shadow-sm hover:bg-blue-50 mr-2'>
+            Add Enable Rule
+          </a>
+          <a data-action='tagSnippetRulesForm#addRuleInput' class='cursor-pointer inline-flex items-center justify-center rounded-md border border-blue-700 bg-white text-blue-700 px-4 py-2 text-sm font-medium shadow-sm hover:bg-blue-50'>
+            Add Disabled Rule
+          </a>
+        </div>
       </div>
 
       <div class="grid justify-items-end">
