@@ -1,10 +1,10 @@
 const PuppeteerModerator = require("./src/puppeteerModerator");
 
 module.exports.handle = async (event, _context) => {
-  const { tag_snippet_script, script_tags_attributes = [] } = event;
+  const { encoded_tag_snippet_content } = event;
 
-  console.log(`Running script: ${tag_snippet_script}`);
-  console.log(`Script tag attributes: ${script_tags_attributes.join(', ')}`)
+  console.log(`Running script: ${encoded_tag_snippet_content}`);
+
   const puppeteerModerator = new PuppeteerModerator()
   const page = await puppeteerModerator.launch();
 
@@ -20,23 +20,11 @@ module.exports.handle = async (event, _context) => {
   await page.goto('about:blank', { waituntil: 'load' });
   await page.addScriptTag({ content: 'console.log("hello world");' }); // some tags append above first script tag.
 
-
-
-  await page.evaluate((encodedScriptTagJsContent, scriptTagAttrs) => {
-    var s = document.createElement('script');
-    scriptTagAttrs.forEach(attr => s.setAttribute(attr[0], attr[1]));
-
-    const scriptSrc = s.getAttribute('src');
-    if(scriptSrc && !scriptSrc.startsWith('http')) {
-      if(scriptSrc.startsWith('//')) {
-        s.setAttribute('src', `https:${scriptSrc}`)
-      } else {
-        s.setAttribute('src', `https://${scriptSrc}`);
-      }
-    }
-    s.innerText = window.atob(encodedScriptTagJsContent);
-    document.head.appendChild(s);
-  }, tag_snippet_script, script_tags_attributes);
+  await page.evaluate(encodedScriptTagContent => {
+    const htmlString = window.atob(encodedScriptTagContent);
+    const htmlFragment = document.createRange().createContextualFragment(htmlString);
+    document.head.appendChild(htmlFragment);    
+  }, encoded_tag_snippet_content);
 
   await new Promise(r => setTimeout(r, 5_000));
 

@@ -1,4 +1,4 @@
-import { isThirdPartyUrl, getScriptTagLoadType } from "./utils";
+import { isThirdPartyUrl } from "./utils";
 
 export default class ScriptInterceptor {
   constructor({ 
@@ -78,7 +78,7 @@ export default class ScriptInterceptor {
       }
       return newNode;
     } catch(err) {
-      console.error(`Tagsafe intercept error: ${err}`);
+      console.error(`[Tagsafe Error] Tagsafe intercept error: ${err}`);
       return newNode;
     }
   }
@@ -107,7 +107,7 @@ export default class ScriptInterceptor {
       }
 
       if (this.debugMode) {
-        console.log(`Intercepted ${ogSrc} with config:`);
+        console.log(`%cIntercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
         console.log({ 
           configuredUrl: tagConfig['configuredTagUrl'],
           configuredLoadType: tagConfig['configuredLoadType'],
@@ -117,7 +117,7 @@ export default class ScriptInterceptor {
 
       return newNode; 
     } catch(err) {
-      console.error(`Tagsafe intercept error: ${err}`)
+      console.error(`[Tagsafe Error] Tagsafe intercept error: ${err}`)
       return newNode;
     }
   }
