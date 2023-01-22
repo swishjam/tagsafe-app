@@ -7,7 +7,7 @@
     </div>
   <% elsif audit.failed? %>
     <div class='text-center'>
-      <h4 class='text-center'>Audit failed:</h4>
+      <h4 class='text-center text-red-800'>Audit failed:</h4>
       <h5 class='text-center'><%= audit.error_message %></h5>
     </div>
   <% else %>
@@ -18,7 +18,7 @@
         <div class="overflow-hidden rounded-md bg-white border px-4 py-5 sm:p-6">
           <dt class="truncate text-sm font-medium text-gray-500">Tagsafe Score</dt>
           <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div class="flex items-baseline text-2xl font-semibold text-blue-600">
+            <div class="flex items-baseline text-3xl font-semibold <%= audit.tagsafe_score >= 90 ? 'text-green-600' : audit.tagsafe_score >= 75 ? 'text-orange-600' : 'text-red-600' %>">
               <%= audit.tagsafe_score.round(2) %>
               <span class="ml-2 text-sm font-medium text-gray-500">/100</span>
             </div>
@@ -45,67 +45,49 @@
         </div>
 
         <% audit.audit_components.each do |audit_component| %>
-        
-          <!--  <span class='fs-6'>
-              <%= audit_component.friendly_name %> score: <span class='fw-bolder'><%= audit_component.formatted_score %> / 100</span>
-              <% if audit_component.audit_component_to_compare_with %>
-                <% change_in_score = audit_component.score - audit_component.audit_component_to_compare_with.score %>
-                <% if change_in_score > 0 %>
-                  <i class="fa-solid fa-arrow-trend-up text-success" data-controller='tooltip' title="Up from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
-                <% elsif change_in_score < 0 %>
-                  <i class="fa-solid fa-arrow-trend-down text-danger" data-controller='tooltip' title="Down from <%= audit_component.audit_component_to_compare_with.score %> on <%= audit.audit_to_compare_with.created_at.formatted_short %>"></i>
+          <div class="overflow-hidden bg-white px-4 py-5 sm:p-6 <%= %>border-r">
+            <dt class="truncate text-sm font-medium text-gray-500">
+              <%= audit_component.friendly_name %>
+            </dt>
+            
+            <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+              <div>
+                <div class="mt-1 text-3xl font-semibold tracking-tight <%= audit_component.formatted_score >= 90 ? 'text-green-600' : audit_component.formatted_score >= 75 ? 'text-orange-600' : 'text-red-600' %>">
+                  <%= audit_component.formatted_score %>
+                  <span class="ml-2 text-sm font-medium text-gray-500">/100</span>
+                </div>
+
+                <% if audit_component.audit_component_to_compare_with %>
+                  <% change_in_score = audit_component.score - audit_component.audit_component_to_compare_with.score %>
+
+                  <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 <%= change_in_score > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                    <% if change_in_score > 0 %>
+                      <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="sr-only"> Increased by </span>
+                    <% elsif change_in_score < 0 %>
+                      <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="sr-only"> Decreased by </span>
+                    <% end %>
+
+                    <%= change_in_score.round(2) %>
+                  </div>
                 <% end %>
-              <% end %>
-            </span>
-            <div class='audit-component-visual-bar' data-controller='tooltip' title='The "<%= audit_component.friendly_name %>" audit scored a <%= audit_component.formatted_score %> / 100. <%= audit_component.explanation %>'>
-              <div class='audit-component-visual-inner-bar <%= audit_component.score >= 90 ? 'good' : audit_component.score >= 80 ? 'warn' : 'bad' %>' style='width: <%= audit_component.score %>%'>
+                <p class='text-sm text-gray-600 mt-2'><%= audit_component.raw_results_explanation %></p>
               </div>
-              <div class='audit-component-visual-outter-bar' style='width: <%= 100 - audit_component.score %>%'>
-              </div>
-            </div> -->
-        <div class="overflow-hidden bg-white px-4 py-5 sm:p-6 <%= %>border-r">
-          <dt class="truncate text-sm font-medium text-gray-500">
-            <%= audit_component.friendly_name %>
-          </dt>
-          
-          <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              <%= audit_component.formatted_score.round(2) %>
-              <span class="ml-2 text-sm font-medium text-gray-500">/100</span>
-            </div>
-
-            <% if audit_component.audit_component_to_compare_with %>
-              <% change_in_score = audit_component.score - audit_component.audit_component_to_compare_with.score %>
-
-              <div class="inline-flex items-baseline px-2.5 py-0.5 rounded-full text-sm font-medium md:mt-2 lg:mt-0 <%= change_in_score > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-                <% if change_in_score > 0 %>
-                  <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="sr-only"> Increased by </span>
-                <% elsif change_in_score < 0 %>
-                  <svg class="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="sr-only"> Decreased by </span>
-                <% end %>
-
-                <%= change_in_score.round(2) %>
-              </div>
-            <% end %>
-
-
-
-          </dd>
-        </div>
+            </dd>
+          </div>
         <% end %>
 
       </dl>
 
     </div>
 
-    <% if audit.tag.load_type != 'defer' && audit.tag.configured_load_type != 'defer' %>
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">       
+    <% if audit.tag.configured_load_strategy_based_on_preferences != 'defer' %>
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
         <div class="rounded-md bg-yellow-50 p-4">
           <div class="flex">
             <div class="flex-shrink-0">
