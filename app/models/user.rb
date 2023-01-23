@@ -13,6 +13,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
 
   after_create { TagsafeEmail::Welcome.new(self).send! }
+  after_create { TagsafeEmail::Generic.new(to_email: 'founders@tagsafe.io', subject: 'New user', body: email).send! }
 
   def full_name
     "#{first_name} #{last_name}"
