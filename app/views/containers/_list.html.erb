@@ -15,9 +15,9 @@
                 <%= image_tag tag_snippet.try_image_url, class: 'inline-block h-6 w-6 rounded-full ring-2 ring-gray-100' %>
               <% end %>
             <% end %>
-            <% unless (container.tag_snippets.count - num_tag_snippet_images).zero? %>
+            <% unless (container.tag_snippets.live.count - num_tag_snippet_images).zero? %>
               <div class='h-8 w-32 inline-block text-xs truncate pl-4 align-middle'>
-                + <%= container.tag_snippets.count - num_tag_snippet_images %> more
+                + <%= container.tag_snippets.live.count - num_tag_snippet_images %> more
               </div>
             <% end %>
           </div>
