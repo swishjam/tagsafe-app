@@ -77,7 +77,7 @@ module HtmlHelper
   end
   alias modal_link_to modal_link
 
-  def render_as_modal(title:, sub_title:, turbo_frame_name: 'server_loadable_modal', hide_close_btn: false, &block)
+  def render_as_modal(title:, sub_title: nil, turbo_frame_name: 'server_loadable_modal', hide_close_btn: false, &block)
     provided_html = capture(&block)    
     combined_html = <<~HTML
       <div id='server-loadable-modal-container' data-controller='server-loadable-modal'>
