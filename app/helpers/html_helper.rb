@@ -77,7 +77,7 @@ module HtmlHelper
   end
   alias modal_link_to modal_link
 
-  def render_as_modal(title:, turbo_frame_name: 'server_loadable_modal', hide_close_btn: false, &block)
+  def render_as_modal(title:, sub_title:, turbo_frame_name: 'server_loadable_modal', hide_close_btn: false, &block)
     provided_html = capture(&block)    
     combined_html = <<~HTML
       <div id='server-loadable-modal-container' data-controller='server-loadable-modal'>
@@ -87,8 +87,11 @@ module HtmlHelper
           <div class="fixed inset-0 z-10 overflow-y-auto">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                <h4 class='text-lg font-medium mb-2' data-server-loadable-modal-target='title'>#{title}</h4>
-                <hr/>
+                <h4 class='text-lg font-medium' data-server-loadable-modal-target='title'>#{title}</h4>
+                #{if sub_title.present?
+                    "<p data-server-loadable-modal-target='subTitle' class='text-sm text-gray-500' data-server-loadable-modal-target='subTitle'>#{sub_title}</p>"
+                  end}
+                <hr class='mt-2'/>
                 <div class="absolute top-3 right-0 hidden pt-4 pr-4 sm:block">
                   <button type="button" 
                           data-action='server-loadable-modal#close'
