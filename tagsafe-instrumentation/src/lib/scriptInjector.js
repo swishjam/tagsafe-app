@@ -1,7 +1,9 @@
 export default class ScriptInector {
-  constructor({ immediateScripts, onLoadScripts, debugMode }) {
+  constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode }) {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
+    this.tagInterceptionRules = tagInterceptionRules;
+    this.disableScriptInterception = disableScriptInterception;
     this.debugMode = debugMode;
     this.afterAllTagsAddedCallbacks = [];
     this._numTagsInjected = 0;
@@ -26,6 +28,14 @@ export default class ScriptInector {
       if(this._shouldInjectScript(tagConfig)) {
         const htmlString = window.atob(tagConfig.content);
         const htmlFragment = document.createRange().createContextualFragment(htmlString);
+        if (!this.disableScriptInterception) {
+          htmlFragment.querySelectorAll('script[src]').forEach(scriptTag => {
+            const tagConfig = this.tagInterceptionRules[scriptTag.getAttribute('src')];
+            if(tagConfig) {
+              this._reRouteScriptSrc(scriptTag, tagConfig)
+            }
+          })
+        }
         document.head.appendChild(htmlFragment);
         this._numTagsInjected += 1;
         if (this.debugMode) {
@@ -36,6 +46,37 @@ export default class ScriptInector {
       }
     } catch(err) {
       console.warn(`[Tagsafe Error] Unable to add tag ${tagConfig.uid}`);
+    }
+  }
+
+  _reRouteScriptSrc(scriptTag, tagConfig) {
+    const ogSrc = scriptTag.getAttribute('src');
+    if(this.debugMode) console.log(`[Tagsafe Log] Remapping embedded script tag ${ogSrc} to ${tagConfig['configuredTagUrl']}`, 'background-color: purple; color: white; padding: 5px;');
+    if (tagConfig['configuredTagUrl']) {
+      scriptTag.setAttribute('src', tagConfig['configuredTagUrl']);
+      scriptTag.setAttribute('data-tagsafe-og-src', ogSrc);
+      if (ogSrc !== tagConfig['configuredTagUrl']) {
+        scriptTag.setAttribute('data-tagsafe-hosted', 'true');
+      }
+    }
+    if (tagConfig['sha256']) {
+      scriptTag.setAttribute('integrity', `sha256-${tagConfig['sha256']}`);
+      scriptTag.setAttribute('crossorigin', 'anonymous');
+    }
+
+    if (['synchronous', 'async', 'defer'].includes(tagConfig['configuredLoadType'])) {
+      scriptTag.removeAttribute('async');
+      scriptTag.removeAttribute('defer');
+      scriptTag.setAttribute(tagConfig['configuredLoadType'], '');
+    }
+
+    if (this.debugMode) {
+      console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
+      console.log({
+        configuredUrl: tagConfig['configuredTagUrl'],
+        configuredLoadType: tagConfig['configuredLoadType'],
+        sha256: tagConfig['sha256']
+      })
     }
   }
 

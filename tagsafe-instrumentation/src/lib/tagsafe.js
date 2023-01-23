@@ -23,11 +23,12 @@ export default class Tagsafe {
 
     new MetricsHandler(dataReporter);
 
+    const disableScriptInterception = Math.random() > settings.reRouteEligibleTagsSampleRate;
     const scriptInterceptor = new ScriptInterceptor({ 
       tagInterceptionRules, 
       dataReporter, 
       firstPartyDomains: settings.firstPartyDomains,
-      disableScriptInterception: Math.random() > settings.reRouteEligibleTagsSampleRate,
+      disableScriptInterception,
       debugMode: settings.debugMode
     })
     scriptInterceptor.interceptInjectedScriptTags();
@@ -35,6 +36,8 @@ export default class Tagsafe {
     const scriptInjector = new ScriptInjector({
       immediateScripts: tagConfigurations.immediate,
       onLoadScripts: tagConfigurations.onLoad,
+      tagInterceptionRules,
+      disableScriptInterception,
       debugMode: settings.debugMode
     })
     scriptInjector.beginInjecting();
