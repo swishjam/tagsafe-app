@@ -154,7 +154,7 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
       container.container_users.each do |container_user|
         container_user.user.broadcast_notification(
           title: "Audit completed",
-          message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{tagsafe_score}.",
+          message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{formatted_tagsafe_score}.",
           cta_url: "/containers/#{container.uid}/tag_snippets/#{tag.tag_snippet.uid}/tags/#{tag.uid}/audits/#{uid}",
           cta_text: "View audit",
           image: tag.try_image_url,
@@ -163,7 +163,7 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
     elsif execution_reason.manual?
       initiated_by_container_user.user.broadcast_notification(
           title: "Audit completed",
-          message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{tagsafe_score}.",
+          message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{formatted_tagsafe_score}.",
           cta_url: "/containers/#{container.uid}/tag_snippets/#{tag.tag_snippet.uid}/tags/#{tag.uid}/audits/#{uid}",
           cta_text: "View audit",
           image: tag.try_image_url,

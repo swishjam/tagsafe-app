@@ -53,7 +53,11 @@ class Tag < ApplicationRecord
   scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
   scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
   
-  scope :open_change_requests, -> { tagsafe_hosted.where('most_recent_tag_version_id <> current_live_tag_version_id') }
+  scope :open_change_requests, -> { tagsafe_hosted
+                                          .joins(:most_recent_tag_version)
+                                          .where('most_recent_tag_version_id <> current_live_tag_version_id')
+                                          .where(most_recent_tag_version: { change_request_decision: nil })
+                                          .where.not(most_recent_tag_version_id: nil) }
 
 
   def set_parsed_url_attributes

@@ -20,12 +20,12 @@ class TagVersion < ApplicationRecord
               optional: true
   has_one :tag_with_current_live_tag_version, 
             class_name: Tag.to_s, 
-            foreign_key: :current_live_tag_version_id, 
-            dependent: :restrict_with_error
+            foreign_key: :current_live_tag_version_id
+            # dependent: :restrict_with_error
   has_one :tag_with_most_recent_tag_version, 
             class_name: Tag.to_s, 
-            foreign_key: :most_recent_tag_version_id, 
-            dependent: :restrict_with_error
+            foreign_key: :most_recent_tag_version_id
+            # dependent: :restrict_with_error
   has_many :audits, dependent: :destroy
     
   # should we have a first class attribute for this?
@@ -41,7 +41,7 @@ class TagVersion < ApplicationRecord
   scope :change_request_decided, -> { not_first_version.where.not(change_request_decision: nil) }
   scope :change_request_decision_pending, -> { not_first_version.where(change_request_decision: nil) }
 
-  validates :change_request_decision, inclusion: { in: [nil, 'approved', 'denied'] }
+  validates :change_request_decision, inclusion: { in: [nil, 'approved', 'denied', 'skipped'] }
 
   #############
   # CALLBACKS #

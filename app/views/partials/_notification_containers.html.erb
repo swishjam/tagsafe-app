@@ -1,4 +1,4 @@
-<div class='notifications-container d-flex flex-column'>
+<div class='fixed w-screen z-20'>
   <% if flash[:flash_notification] %>
     <%= render 'partials/notification', message: flash[:flash_notification] %>
   <% end %>
