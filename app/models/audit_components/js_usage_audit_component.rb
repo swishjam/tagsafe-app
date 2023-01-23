@@ -8,9 +8,9 @@ class JsUsageAuditComponent < AuditComponent
 
   def explanation
     <<~MSG
-      #{raw_results['percent_js_used'].round(2)}% of the #{audit.tag.try_friendly_name} javascript is used when loading the page 
+      #{raw_results['percent_js_used'].round(2)}% of the #{audit.tag.tag_snippet.name} javascript is used when loading the page 
       (#{number_to_human_size(raw_results['js_bytes_used'])} of #{number_to_human_size(raw_results['total_js_bytes'])}).
     MSG
   end
-  alias audit_breakdown_description explanation
+  alias raw_results_explanation explanation
 end

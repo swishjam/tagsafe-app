@@ -59,8 +59,10 @@ module MandatoryDataEnforcer
       puts "Creating new Tagsafe AwsEventBridgeRule for #{region_name} region: #{aws_rule.name}..."
       klass = if aws_rule.name.include?('uptime-check') then UptimeCheckScheduleAwsEventBridgeRule
               elsif aws_rule.name.include?('release-check') then ReleaseCheckScheduleAwsEventBridgeRule
-              else raise "Unidentifiable AWS Event Bridge rule name, must include either `uptime-check` or `release-check` in its name: #{aws_rule.name}"
+              else 
+                puts "Unidentifiable AWS Event Bridge rule name: #{aws_rule.name}, skipping..."
               end
+      return if klass.nil?
       klass.create!(
         name: aws_rule.name,
         enabled: aws_rule.state == 'ENABLED',

@@ -1,4 +1,5 @@
 class Audit < ApplicationRecord
+  class FailedExecution < StandardError; end;
   uid_prefix 'aud'
 
   RUNNABLE_AUDIT_COMPONENTS = [
@@ -34,6 +35,7 @@ class Audit < ApplicationRecord
   validate :has_valid_audit_components
   validate :only_one_new_release_audit_per_tag_version
   validate :manual_executions_has_initiated_by_user
+  validate :tag_version_belongs_to_tag
   validates :tagsafe_score, presence: true, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }, if: :successful?
 
   def self.run!(tag:, tag_version:, page_url:, execution_reason:, initiated_by_container_user: nil)
@@ -44,7 +46,8 @@ class Audit < ApplicationRecord
       execution_reason: execution_reason,
       initiated_by_container_user: initiated_by_container_user,
     )
-    raise ActiveRecord::RecordInvalid, audit.errors.full_messages.join(', ') if audit.errors.any?
+    raise FailedExecution.new(audit.errors.full_messages.join(', ')) if audit.errors.any?
+    audit
   end
 
 def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_container_user: nil)
@@ -152,7 +155,7 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
         container_user.user.broadcast_notification(
           title: "Audit completed",
           message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{tagsafe_score}.",
-          cta_url: "/containers/#{container.uid}/tags/#{tag.uid}/audits/#{uid}",
+          cta_url: "/containers/#{container.uid}/tag_snippets/#{tag.tag_snippet.uid}/tags/#{tag.uid}/audits/#{uid}",
           cta_text: "View audit",
           image: tag.try_image_url,
         )
@@ -161,7 +164,7 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
       initiated_by_container_user.user.broadcast_notification(
           title: "Audit completed",
           message: "Audit completed for #{tag.tag_snippet.name} with a Tagsafe Score of #{tagsafe_score}.",
-          cta_url: "/containers/#{container.uid}/tags/#{tag.uid}/audits/#{uid}",
+          cta_url: "/containers/#{container.uid}/tag_snippets/#{tag.tag_snippet.uid}/tags/#{tag.uid}/audits/#{uid}",
           cta_text: "View audit",
           image: tag.try_image_url,
       )
@@ -193,6 +196,12 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
     #   partial: 'audits/audit_row',
     #   locals: { audit: self, include_tag_name: false }
     # )
+  end
+
+  def tag_version_belongs_to_tag
+    if tag_version.present? && tag_version.tag != tag
+      errors.add(:tag_version, "Tag Version #{tag_version.uid} does not belong to Tag #{tag.uid}")
+    end
   end
 
   def has_valid_audit_components
