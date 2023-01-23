@@ -55,7 +55,7 @@ class ChangeRequestsController < LoggedInController
         locals: { 
           container: @container,
           status: 'closed',
-          closed_change_requests: @container.tag_versions.change_request_decided.includes(:tag),
+          closed_change_requests: @container.tag_versions.change_request_decided.order(change_request_decisioned_at: :DESC).includes(:tag),
         }
       )
     else
