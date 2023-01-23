@@ -1,7 +1,8 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ['loadingIndicator', 'dynamicContent', 'title']
+  static targets = ['loadingIndicator', 'dynamicContent', 'title', 'subTitle'];
+
   connect() {
     this._listenForEscape();
   }
@@ -28,5 +29,6 @@ export default class extends Controller {
     this.loadingIndicatorTarget.classList.remove('hidden');
     this.dynamicContentTarget.remove();
     this.titleTarget.remove();
+    if(this.subTitleTarget) this.subTitleTarget.remove();
   }
 }
