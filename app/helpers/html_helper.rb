@@ -87,9 +87,9 @@ module HtmlHelper
           <div class="fixed inset-0 z-10 overflow-y-auto">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                <h4 class='text-lg font-bold' data-server-loadable-modal-target='title'>#{title}</h4>
+                <h4 class='text-lg font-medium mb-2' data-server-loadable-modal-target='title'>#{title}</h4>
                 <hr/>
-                <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+                <div class="absolute top-3 right-0 hidden pt-4 pr-4 sm:block">
                   <button type="button" 
                           data-action='server-loadable-modal#close'
                           class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">

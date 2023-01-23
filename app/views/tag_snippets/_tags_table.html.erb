@@ -42,7 +42,7 @@
                           <span
                             data-controller='tooltip'
                             title="You are saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> by hosting with Tagsafe. The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host."
-                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 cursor-default">
+                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 cursor-default">
                             Tagsafe CDN
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
@@ -52,7 +52,7 @@
                           <span
                             data-controller='tooltip'
                             title="The tag will be hosted from the Tagsafe CDN instead of the tag provider's default host."
-                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 cursor-default">
+                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 cursor-default">
                             Tagsafe CDN
                           </span>
                         <% end %>
@@ -64,7 +64,7 @@
                           <span
                             data-controller='tooltip'
                             title="You would be saving <%= number_to_human_size(tag.current_live_tag_version.bytes_saved_with_tagsafe_minification) %> if you were to switch your hosting strategy to host with Tagsafe. You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN."
-                            class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800 cursor-default">
+                            class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-sm font-medium text-pink-800 cursor-default">
                             Default host
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M11.412 15.655L9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457L3 3m5.457 5.457l7.086 7.086m0 0L21 21" />
@@ -74,7 +74,7 @@
                           <span
                             data-controller='tooltip'
                             title="You have elected to continue to host this tag from the tag provider's default host (<%= tag.url_hostname %>) instead of from the Tagsafe CDN."
-                            class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-xs font-medium text-pink-800 cursor-default">
+                            class="inline-flex items-center rounded-full bg-pink-100 px-2.5 py-0.5 text-sm font-medium text-pink-800 cursor-default">
                             Default host
                           </span>
                         <% end %>
@@ -83,7 +83,7 @@
                         <span
                           data-controller='tooltip'
                           title="This tag must be hosted by the tag provider (<%= tag.url_hostname %>)."
-                          class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 cursor-default">
+                          class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-sm font-medium text-gray-800 cursor-default">
                           Default host
                         </span>
                       <% end %>
@@ -94,7 +94,7 @@
                           <span
                             data-controller='tooltip'
                             title="Synchronous tags can severely negatively impact your page load, it is recommended to use Tagsafe to override the load stategy to `defer`."
-                            class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 cursor-default">
+                            class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-medium text-red-800 cursor-default">
                             <%= tag.load_type.capitalize %>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
@@ -105,7 +105,7 @@
                           <span
                             data-controller='tooltip'
                             title="Async can cause slower page load. Update the loading strategy to defer for best performance"
-                            class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800 cursor-default"
+                            class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-sm font-medium text-yellow-800 cursor-default"
                           >
                             <%= tag.load_type.capitalize %>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
@@ -116,7 +116,7 @@
                           <span
                             data-controller='tooltip'
                             title="Defer is the most optimal loading strategy"
-                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 cursor-default"
+                            class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 cursor-default"
                           >
                             <%= tag.load_type.capitalize %>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
@@ -128,7 +128,7 @@
                         <span
                           data-controller='tooltip'
                           title="Overwritten from the default load strategy (<%= tag.load_type %>)."
-                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 cursor-default"
+                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-sm font-medium text-green-800 cursor-default"
                         >
                           <%= tag.configured_load_type.capitalize %>
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
@@ -138,7 +138,7 @@
                       <% end %>
 
                       <div>
-                        <%= modal_link_to edit_container_tag_snippet_tag_path(container, tag_snippet, tag), text: 'Edit' %>
+                        <%= modal_link_to edit_container_tag_snippet_tag_path(container, tag_snippet, tag), text: 'Edit', class:'text-sm' %>
                         <!--
                         TODO: dropdown gets cutoff
                         <div class='relative' data-controller='dropdown'>
