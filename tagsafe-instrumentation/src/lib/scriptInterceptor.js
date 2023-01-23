@@ -30,6 +30,7 @@ export default class ScriptInterceptor {
   numTagsWithTagsafeOverriddenLoadStrategies = () => this._numTagsWithTagsafeOverriddenLoadStrategies;
 
   _interceptAppendChild = () => {
+    if (this.disableScriptInterception) return;
     const ogAppendChild = Node.prototype.appendChild;
     const scope = this;
     Node.prototype.appendChild = function() {
@@ -39,6 +40,7 @@ export default class ScriptInterceptor {
   }
 
   _interceptInsertBefore = () => {
+    if (this.disableScriptInterception) return;
     const ogInsertBefore = Node.prototype.insertBefore;
     const scope = this;
     Node.prototype.insertBefore = function() {
@@ -48,6 +50,7 @@ export default class ScriptInterceptor {
   }
 
   _interceptPrepend = function() {
+    if (this.disableScriptInterception) return;
     const ogPrepend = Node.prototype.prepend;
     const scope = this;
     Node.prototype.prepend = function() {
@@ -57,6 +60,7 @@ export default class ScriptInterceptor {
   }
 
   _interceptedInsertAdjacentElement = function() {
+    if (this.disableScriptInterception) return;
     const ogInsertAdjacentElement = Element.prototype.insertAdjacentElement;
     const scope = this;
     Element.prototype.insertAdjacentElement = function() {
