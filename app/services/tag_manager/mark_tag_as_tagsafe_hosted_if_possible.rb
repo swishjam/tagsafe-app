@@ -36,7 +36,7 @@ module TagManager
       unique_hashes.count == 1
     rescue NoMethodError => e
       Sentry.capture_exception(e)
-      if attemps < 3
+      if attempts < 3
         tag_has_static_content?(attempts: attempts + 1)
       else
         begin
