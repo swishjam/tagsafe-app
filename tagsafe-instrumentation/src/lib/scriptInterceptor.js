@@ -103,6 +103,7 @@ export default class ScriptInterceptor {
         newNode.removeAttribute('async');
         newNode.removeAttribute('defer');
         newNode.setAttribute(tagConfig['configuredLoadType'], '');
+        newNode.setAttribute('data-tagsafe-load-strategy-applied', 'true')
         this._numTagsWithTagsafeOverriddenLoadStrategies += 1;
       }
 
