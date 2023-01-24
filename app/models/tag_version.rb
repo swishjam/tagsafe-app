@@ -258,7 +258,7 @@ class TagVersion < ApplicationRecord
   def broadcast_change_request_notification_to_all_users
     tag.container.container_users.each do |container_user|
       container_user.user.broadcast_notification(
-        title: "New pull request",
+        title: "New change request",
         message: "#{tag.tag_snippet.name} made a new change request.",
         cta_url: "/containers/#{tag.container.uid}/change_requests/#{uid}",
         cta_text: "Review",
