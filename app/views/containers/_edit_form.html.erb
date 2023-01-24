@@ -1,38 +1,53 @@
 <%= turbo_frame_tag "container_settings" do %>
-  <% if local_assigns[:success_message] %>
-    <div class='alert alert-success mb-3'>
-      <h5 class='d-flex align-items-center mb-0'><span class='me-2'><%= HtmlHelper.PASSED_ICON(color: 'green') %></span><%= success_message %></h5>
-    </div>
-  <% end %>
   <%= form_with model: container, data: { controller: 'loading_form' } do |f| %>
-    <div class='form-floating mb-3'>
-      <%= f.text_field :name, value: container.name, class: 'form-control' %>
-      <label>Container name</label>
-    </div>
-    <div class='border p-3'>
-      <h5 class='fw-bolder'>Defer all script tags by default</h5>
-      <% if container.defer_script_tags_by_default %>
-        <h6>Toggle this setting to no longer set all of your tags' script elements to be a deffered load type.</h6>
-      <% else %>
-        <h6>Toggle this setting to set all of your tags' script elements to be a deffered load type by default. This can be overridden on a per tag basis in your tag settings.</h6>
-      <% end %>
-      <div class="form-check form-switch mt-4">
-        <%= f.check_box :defer_script_tags_by_default, class: 'form-check-input pointer', checked: container.defer_script_tags_by_default, style: 'scale: 2; margin-left: -1rem;' %>
+
+    <% if local_assigns[:success_message] %>
+      <div class="rounded-md bg-green-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <!-- Heroicon name: mini/x-circle -->
+            <svg class="h-6 w-6 text-green-800 bg-green-200 rounded-full px-1 py-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-green-800"><%= local_assigns[:success_message] %></h3>
+          </div>
+        </div>
       </div>
+    <% end %>
+
+    <div class='mt-4'>
+      <label for="" class="block text-sm font-medium text-gray-700">Container Name (Your Website)</label>
+      <%= f.text_field :name, value: container.name, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm', placeholder:'My Website Name', type:'text' %>
     </div>
-    <div class='border p-3'>
-      <h5 class='fw-bolder'>TagsafeJS Enabled</h5>
-      <% if container.tagsafe_js_enabled %>
-        <h6>Toggling this setting off will prevent TagsafeJS from initializing on your page and optimizing/monitoring your tags. You can re-enable whenever you'd like.</h6>
-      <% else %>
-        <h6>TagsafeJS is currently disabled from running on your pages, toggle this option on to re-enable it.</h6>
-      <% end %>
-      <div class="form-check form-switch mt-4">
-        <%= f.check_box :tagsafe_js_enabled, class: 'form-check-input pointer', checked: container.tagsafe_js_enabled, style: 'scale: 2; margin-left: -1rem;' %>
+
+
+    <fieldset class="mt-6 border-t border-b border-gray-200">
+      <legend class="sr-only">Container Settings</legend>
+      <div class="divide-y divide-gray-200">
+
+        <div class="relative flex items-start py-4">
+          <div class="min-w-0 flex-1 text-sm">
+            <label for="comments" class="font-medium text-gray-700">Defer all script tags by default</label>
+            <% if container.defer_script_tags_by_default %>
+              <p class="text-gray-500">Toggle this setting to no longer set all of your tags' script elements to be a deffered load type.</p>
+            <% else %>
+              <p class="text-gray-500">Toggle this setting to set all of your tags' script elements to be a deffered load type by default. This can be overridden on a per tag basis in your tag settings.</p>
+            <% end %>
+          </div>
+          <div class="ml-3 flex h-5 items-center">
+            <%= f.check_box :defer_script_tags_by_default, class: 'h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500', checked: container.defer_script_tags_by_default, style: '', type:'checkbox' %>
+          </div>
+        </div>
       </div>
+    </fieldset>
+
+    <div class='text-end'>
+      <button type='submit' class='mt-6 inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
+        Update settings
+      </button>
     </div>
-    <div class='mt-4 text-end'>
-      <%= loading_submit_button 'Update settings', type: 'floating' %>
-    </div>
+
   <% end %>
 <% end %>

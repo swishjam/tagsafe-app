@@ -7,17 +7,17 @@ export default class extends Controller {
   connect() {
     this._animateIn();
     this._setAutoDismissTimer();
-    this._hoverListener();    
+    this._hoverListener();
   }
 
   dismiss() {
-    this.element.classList.remove('animate');
-    setTimeout(() => { this.element.remove() }, 500); // wait for animation off screen to stop
+    this.element.style['margin-right'] = '-100vw';
+    setTimeout(() => { this.element.remove() }, 1_000); // wait for animation off screen to stop
   }
 
   _animateIn() {
     this.displayedAtTimestamp = Date.now();
-    setTimeout(() => { this.element.classList.add('animate') }, 100);
+    setTimeout(() => this.element.style['margin-right'] = '0', 100);
   }
 
   _setAutoDismissTimer(timeoutMs = this.autoDismissMs) {

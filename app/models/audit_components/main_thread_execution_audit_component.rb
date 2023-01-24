@@ -14,10 +14,7 @@ class MainThreadExecutionAuditComponent < AuditComponent
   end
 
   def explanation
-    "This version of #{audit.tag.try_friendly_name} is responsible for #{main_thread_execution_for_tag.round(2)} ms of main thread execution, of which #{main_thread_blocking_for_tag.round(2)} ms of it were blocking the main thread."
+    "#{audit.tag.tag_snippet.name.capitalize} is responsible for #{main_thread_execution_for_tag.round(2)} ms of main thread execution, of which #{main_thread_blocking_for_tag.round(2)} ms of it were blocking the main thread."
   end
-
-  def audit_breakdown_description
-    "This version of #{audit.tag.try_friendly_name} is responsible for #{main_thread_execution_for_tag.round(2)} ms of main thread execution, of which #{main_thread_blocking_for_tag.round(2)} ms of it were blocking the main thread."
-  end
+  alias raw_results_explanation explanation
 end

@@ -1,0 +1,37 @@
+<%= turbo_frame_tag "#{container.uid}_tag_snippets_list" do %>
+  <div class='mt-6 flow-root'>
+    <ul role="list" class="-my-5 divide-y divide-gray-200">
+      <% tag_snippets.each do |tag_snippet| %>
+        <li role="list" class="py-4">
+          <div class="flex items-center space-x-4">
+            <% if tag_snippet.try_image_url %>
+              <div class="flex-shrink-0">
+                <%= image_tag tag_snippet.try_image_url, class: 'h-8 w-8 rounded-full border' %>
+              </div>
+            <% end %>
+
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-medium text-gray-900"><%= tag_snippet.name %></p>
+              <p class="truncate text-sm text-gray-500">
+                <% if tag_snippet.live? %>
+                  <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
+                <% elsif tag_snippet.draft? %>
+                  <span class='tagsafe-pill orange small-text mb-1'>Draft</span>
+                <% elsif tag_snippet.paused? %>
+                  <span class='tagsafe-pill red small-text mb-1'>Paused</span>
+                <% elsif tag_snippet.deleted? %>
+                  <span class='tagsafe-pill red small-text mb-1'>Removed</span>
+                <% end %>
+              </p>
+            </div>
+            <div>
+              <%= link_to container_tag_snippet_path(container, tag_snippet), class: 'inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50', target: '_top' do %>
+                View
+              <% end %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

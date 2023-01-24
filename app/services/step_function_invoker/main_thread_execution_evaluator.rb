@@ -21,12 +21,12 @@ module StepFunctionInvoker
     def request_payload
       { 
         page_url: stringified_page_url, 
-        tag_url: @tag.url_based_on_preferences,
-        request_url_to_overwrite: @tag.full_url,
-        request_url_to_overwrite_to: should_use_tagsafe_hosted_tag_version? ? @audit.tag_version.js_file_url : @tag.full_url,
+        tag_url: @audit.tag_version.present? ? @audit.tag_version.s3_url : @tag.full_url,
+        tag_url_patterns_to_block: [@tag.hostname_and_path],
+        tag_url_loading_strategy: @tag.configured_load_strategy_based_on_preferences,
         main_thread_blocking_multiplier: 0.2,
         total_main_thread_execution_multiplier: 0.1,
-        main_thread_execution_audit_component_uid: @main_thread_execution_audit_component.uid
+        main_thread_execution_audit_component_uid: @main_thread_execution_audit_component.uid,
       }
     end
 
@@ -35,7 +35,7 @@ module StepFunctionInvoker
     end
 
     def stringified_page_url
-      "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?tagsafe-disabled=true' : ''}"
+      "#{@page_url.url_without_query_params}#{@disable_tagsafe_js_on_page_url ? '?tagsafe-disable-tag-re-route=true' : ''}"
     end
   end
 end

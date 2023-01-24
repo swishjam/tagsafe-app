@@ -1,58 +1,77 @@
 <%= turbo_frame_tag "#{container.uid}_page_loads_chart" do %>
-  <div class='col-12'>
-    <div class='row'>
-      <div class='col-6'>
-        <%= render 'charts/time_range_selector', 
-                    chart_data_endpoint: charts_page_loads_path(page_url_uid: page_url.uid, page_load_performance_metric_types: page_load_performance_metric_types),
-                    selected_range: time_range %>
-      </div>
-      <div class='col-6 d-flex flex-column align-items-end'>
-        <div class="dropdown-container ps-3 pe-3 m-2">
-          <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
-            <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_url.friendly_url %>
-            <span class='dropdown-indicator d-inline'>
-              <i class="fa-solid fa-chevron-up"></i>
-            </span>
+  <div class='flex justify-between'>
+    <div>
+      <%= render 'charts/time_range_selector', 
+                  chart_data_endpoint: container_charts_page_loads_path(container, page_url_uid: page_url.uid, page_load_performance_metric_types: page_load_performance_metric_types),
+                  selected_range: time_range %>
+    </div>
+    <div>
+      <div class='flex flex-column align-items-end'>
+        <div data-controller="dropdown" class="relative inline-block text-left">
+          <div>
+            <button data-action="click->dropdown#toggle"
+                    type="button"
+                    class="flex border rounded-md border-gray-700 items-center text-gray-700 px-2 py-2 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100 p-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+              </svg>
+              <%= page_url.friendly_url %>
+            </button>
           </div>
-          <div class="dropdown-menu dropdown-menu-center p-3">
-            <div class='dropdown-title'>
-              Page URL
-            </div>
-            <div class='dropdown-divider'></div>
-            <% container.page_urls.each do |page_url_option| %>
-              <%= link_to page_url_option.friendly_url, charts_page_loads_path(page_url_uid: page_url_option.uid, time_range: time_range, page_load_performance_metric_types: page_load_performance_metric_types), class: "dropdown-item #{page_url_option == page_url ? 'active' : nil}" %>
-            <% end %>
-          </div>
-        </div>
-        <div class="dropdown-container ps-3 pe-3 m-2">
-          <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
-            <i class="metric-icon fa-solid fa-chart-line"></i>  <%= page_load_performance_metric_names.join(', ') %>
-            <span class='dropdown-indicator d-inline'>
-              <i class="fa-solid fa-chevron-up"></i>
-            </span>
-          </div>
-          <div class="dropdown-menu dropdown-menu-center p-3">
-            <div class='dropdown-title'>
-              Performance metrics
-            </div>
-            <div class='dropdown-divider'></div>
-            <% PageLoadPerformanceMetric::TYPES.each do |performance_metric_klass| %>
-              <% is_applied = page_load_performance_metric_types.include?(performance_metric_klass) %>
-              <% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup %>
-              <% is_applied ? duped_page_load_performance_metric_types.delete(performance_metric_klass) : duped_page_load_performance_metric_types << performance_metric_klass %>
-              <%= link_to charts_page_loads_path(page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), 
-                          class: "dropdown-item #{is_applied ? 'active' : nil}" do %>
-                <% if is_applied %>
-                  <%= HtmlHelper.PASSED_ICON %>
+
+          <div data-dropdown-target='menu' class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition ease-in-out opacity-0 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+            <div class="py-1" role="none">
+              <span class='text-gray-700 font-bold block px-4 py-2 text-sm'>Page URL</span>
+              <hr/>
+              <% container.page_urls.each do |page_url_option| %>
+                <% if page_url != page_url_option %>
+                  <%= link_to container_charts_page_loads_path(container, page_url_uid: page_url_option.uid, page_load_performance_metric_types: page_load_performance_metric_types), class: 'text-gray-700 block px-4 py-2 text-sm hover:text-blue-500' do %>
+                    <%= page_url_option.friendly_url %>
+                  <% end %>
+                <% else %>
+                  <span class='text-gray-700 block px-4 py-2 text-sm'>
+                    <%= page_url_option.friendly_url %>
+                    <svg class="h-5 w-5 rounded-full inline text-green-600 bg-green-200 px-1 py-1 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </span>
                 <% end %>
-                <%= performance_metric_klass.constantize.friendly_name %>
               <% end %>
-            <% end %>
+            </div>
           </div>
         </div>
       </div>
+      <!--
+      <div class="dropdown-container ps-3 pe-3 m-2">
+        <div class='dropdown-display-container' data-controller='dropdown' data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+          <i class="metric-icon fa-solid fa-chart-line"></i>  <#%= page_load_performance_metric_names.join(', ') %>
+          <span class='dropdown-indicator d-inline'>
+            <i class="fa-solid fa-chevron-up"></i>
+          </span>
+        </div>
+        <div class="dropdown-menu dropdown-menu-center p-3">
+          <div class='dropdown-title'>
+            Performance metrics
+          </div>
+          <div class='dropdown-divider'></div>
+          <#% PageLoadPerformanceMetric::TYPES.each do |performance_metric_klass| %>
+            <#% is_applied = page_load_performance_metric_types.include?(performance_metric_klass) %>
+            <#% duped_page_load_performance_metric_types = page_load_performance_metric_types.dup %>
+            <#% is_applied ? duped_page_load_performance_metric_types.delete(performance_metric_klass) : duped_page_load_performance_metric_types << performance_metric_klass %>
+            <#%= link_to container_charts_page_loads_path(container, page_url_uid: page_url.uid, time_range: time_range, page_load_performance_metric_types: duped_page_load_performance_metric_types), 
+                        class: "dropdown-item #{is_applied ? 'active' : nil}" do %>
+              <#% if is_applied %>
+                <#%= HtmlHelper.PASSED_ICON %>
+              <#% end %>
+              <#%= performance_metric_klass.constantize.friendly_name %>
+            <#% end %>
+          <#% end %>
+        </div>
+      </div>
+      !-->
     </div>
   </div>
+
   <div data-controller='streamed-script-tag'>
     <%= line_chart chart_data,
                     id: 'page-performance',

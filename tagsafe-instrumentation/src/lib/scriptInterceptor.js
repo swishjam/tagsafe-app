@@ -1,4 +1,4 @@
-import { isThirdPartyUrl, getScriptTagLoadType } from "./utils";
+import { isThirdPartyUrl } from "./utils";
 
 export default class ScriptInterceptor {
   constructor({ 
@@ -12,11 +12,8 @@ export default class ScriptInterceptor {
     this.debugMode = debugMode;
     this.disableScriptInterception = disableScriptInterception;
     
-    this._numTagsHostedByTagsafe = 0;
-    this._numTagsWithTagsafeOverriddenLoadStrategies = 0;
-
     if(this.debugMode && this.disableScriptInterception) {
-      console.warn('Tagsafe CDN is disabled based on configuration sample rate.');
+      console.warn('[Tagsafe Log] Tagsafe CDN re-router is disabled based on configuration sample rate.');
     }
   }
 
@@ -26,10 +23,8 @@ export default class ScriptInterceptor {
     this._interceptPrepend();
   }
 
-  numTagsHostedByTagsafe = () => this._numTagsHostedByTagsafe;
-  numTagsWithTagsafeOverriddenLoadStrategies = () => this._numTagsWithTagsafeOverriddenLoadStrategies;
-
   _interceptAppendChild = () => {
+    if (this.disableScriptInterception) return;
     const ogAppendChild = Node.prototype.appendChild;
     const scope = this;
     Node.prototype.appendChild = function() {
@@ -39,6 +34,7 @@ export default class ScriptInterceptor {
   }
 
   _interceptInsertBefore = () => {
+    if (this.disableScriptInterception) return;
     const ogInsertBefore = Node.prototype.insertBefore;
     const scope = this;
     Node.prototype.insertBefore = function() {
@@ -48,6 +44,7 @@ export default class ScriptInterceptor {
   }
 
   _interceptPrepend = function() {
+    if (this.disableScriptInterception) return;
     const ogPrepend = Node.prototype.prepend;
     const scope = this;
     Node.prototype.prepend = function() {
@@ -57,6 +54,7 @@ export default class ScriptInterceptor {
   }
 
   _interceptedInsertAdjacentElement = function() {
+    if (this.disableScriptInterception) return;
     const ogInsertAdjacentElement = Element.prototype.insertAdjacentElement;
     const scope = this;
     Element.prototype.insertAdjacentElement = function() {
@@ -78,7 +76,7 @@ export default class ScriptInterceptor {
       }
       return newNode;
     } catch(err) {
-      console.error(`Tagsafe intercept error: ${err}`);
+      console.error(`[Tagsafe Error] Tagsafe intercept error: ${err}`);
       return newNode;
     }
   }
@@ -91,7 +89,6 @@ export default class ScriptInterceptor {
         newNode.setAttribute('data-tagsafe-og-src', ogSrc);
         if (ogSrc !== tagConfig['configuredTagUrl']) {
           newNode.setAttribute('data-tagsafe-hosted', 'true');
-          this._numTagsHostedByTagsafe += 1;
         }
       }
       if (tagConfig['sha256']) {
@@ -103,12 +100,11 @@ export default class ScriptInterceptor {
         newNode.removeAttribute('async');
         newNode.removeAttribute('defer');
         newNode.setAttribute(tagConfig['configuredLoadType'], '');
-        newNode.setAttribute('data-tagsafe-load-strategy-applied', 'true')
-        this._numTagsWithTagsafeOverriddenLoadStrategies += 1;
+        newNode.setAttribute('data-tagsafe-load-strategy-applied', 'true');
       }
 
       if (this.debugMode) {
-        console.log(`Intercepted ${ogSrc} with config:`);
+        console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
         console.log({ 
           configuredUrl: tagConfig['configuredTagUrl'],
           configuredLoadType: tagConfig['configuredLoadType'],
@@ -118,7 +114,7 @@ export default class ScriptInterceptor {
 
       return newNode; 
     } catch(err) {
-      console.error(`Tagsafe intercept error: ${err}`)
+      console.error(`[Tagsafe Error] Tagsafe intercept error: ${err}`)
       return newNode;
     }
   }

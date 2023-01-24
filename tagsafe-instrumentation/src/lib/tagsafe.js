@@ -23,11 +23,12 @@ export default class Tagsafe {
 
     new MetricsHandler(dataReporter);
 
+    const disableScriptInterception = Math.random() > settings.reRouteEligibleTagsSampleRate;
     const scriptInterceptor = new ScriptInterceptor({ 
       tagInterceptionRules, 
       dataReporter, 
       firstPartyDomains: settings.firstPartyDomains,
-      disableScriptInterception: Math.random() > settings.reRouteEligibleTagsSampleRate,
+      disableScriptInterception,
       debugMode: settings.debugMode
     })
     scriptInterceptor.interceptInjectedScriptTags();
@@ -35,6 +36,8 @@ export default class Tagsafe {
     const scriptInjector = new ScriptInjector({
       immediateScripts: tagConfigurations.immediate,
       onLoadScripts: tagConfigurations.onLoad,
+      tagInterceptionRules,
+      disableScriptInterception,
       debugMode: settings.debugMode
     })
     scriptInjector.beginInjecting();
@@ -53,13 +56,13 @@ export default class Tagsafe {
     // })
 
     if(settings.debugMode) {
-      console.log('TagsafeJS initialized with');
-      console.log('Tag configurations:');
+      console.log('%c[Tagsafe Log] TagsafeJS initialized', 'background-color: purple; color: white; padding: 5px;');
+      console.log('%c[Tagsafe Log] Tag configurations:', 'background-color: purple; color: white; padding: 5px;');
       console.log(tagConfigurations);
-      console.log('Tag intercept rules:')
+      console.log('%c[Tagsafe Log] Tag intercept rules:', 'background-color: purple; color: white; padding: 5px;');
       console.log(tagInterceptionRules);
-      console.log(`First party domain(s): ${settings.firstPartyDomains.join(', ')}`);
-      console.log(`Reporting sample rate: ${settings.reportingSampleRate * 100}%`)
+      console.log(`%c[Tagsafe Log] First party domain(s): ${settings.firstPartyDomains.join(', ')}`, 'background-color: purple; color: white; padding: 5px;');
+      console.log(`%c[Tagsafe Log] Reporting sample rate: ${settings.reportingSampleRate * 100}%`, 'background-color: purple; color: white; padding: 5px;')
     }
   }
 }

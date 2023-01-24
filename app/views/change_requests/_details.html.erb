@@ -1,0 +1,84 @@
+<%= turbo_frame_tag "#{tag_version.uid}_change_request_details" do %>
+
+  <div class="space-y-5">
+    <div class="flex items-center space-x-2">
+      <% if tag_version.primary_audit %>
+        <% score = tag_version.primary_audit.tagsafe_score %>
+        <% color = (score >= 90 ? 'text-green-700' : score >= 75 ? 'text-orange-700' : 'text-red-700') %>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 <%= color %>">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+        </svg>
+        <span class="text-sm font-medium <%= color %>">
+          <%= score.round(2) %>/100 Tagsafe Score 
+          <%= link_to 'View details', 
+                        container_tag_snippet_tag_audit_path(container, tag_version.tag.tag_snippet, tag_version.tag, tag_version.primary_audit), 
+                        class: 'block text-xs text-gray-700 underline', target: '_blank' %>
+        </span>
+      <% else %>
+        <span class='text-sm font-medium text-gray-700'>
+          No audits performed
+        </span>
+      <% end %>
+    </div>
+
+
+    <% if tag_version.primary_audit && tag_version_to_compare_with&.primary_audit %>
+      <span class='text-sm text-gray-500 flex items-center'>
+        <% if tag_version.primary_audit.tagsafe_score > tag_version_to_compare_with.primary_audit.tagsafe_score %>
+          <span class='text-green-700'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1 inline">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+            </svg>
+            <%= tag_version.primary_audit.tagsafe_score - tag_version_to_compare_with.primary_audit.tagsafe_score %>
+          </span>
+        <% else %>
+          <span class='text-red-700'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1 inline">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
+            </svg>
+            <%= tag_version.primary_audit.tagsafe_score - tag_version_to_compare_with.primary_audit.tagsafe_score %>
+          </span>
+        <% end %>
+      </span>
+    <% end %>
+
+
+    <div class="flex items-center space-x-2">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.875 14.25l1.214 1.942a2.25 2.25 0 001.908 1.058h2.006c.776 0 1.497-.4 1.908-1.058l1.214-1.942M2.41 9h4.636a2.25 2.25 0 011.872 1.002l.164.246a2.25 2.25 0 001.872 1.002h2.092a2.25 2.25 0 001.872-1.002l.164-.246A2.25 2.25 0 0116.954 9h4.636M2.41 9a2.25 2.25 0 00-.16.832V12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 12V9.832c0-.287-.055-.57-.16-.832M2.41 9a2.25 2.25 0 01.382-.632l3.285-3.832a2.25 2.25 0 011.708-.786h8.43c.657 0 1.281.287 1.709.786l3.284 3.832c.163.19.291.404.382.632M4.5 20.25h15A2.25 2.25 0 0021.75 18v-2.625c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125V18a2.25 2.25 0 002.25 2.25z" />
+      </svg>
+      <span class="text-sm font-medium text-gray-900">
+        <%= number_to_human_size(tag_version.bytes) %> 
+        <% if tag_version.bytes > tag_version_to_compare_with.bytes %>
+          <span class='text-xs' data-controller='tooltip' title="New version is an increase in file size of <%= number_to_human_size(tag_version.bytes - tag_version_to_compare_with.bytes).downcase %>.">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-700 inline">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+            </svg>
+            <span class='text-sm text-red-700'>
+              <%= number_to_human_size(tag_version.bytes - tag_version_to_compare_with.bytes) %>
+            </span>
+          </span>
+        <% else %>
+          <span class='text-xs' data-controller='tooltip' title="New version is a decrease in file size of <%= number_to_human_size(tag_version_to_compare_with.bytes - tag_version.bytes).downcase %>.">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-green-700 inline">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
+            </svg>
+            <span class='text-green-700'>
+              <%= number_to_human_size(tag_version_to_compare_with.bytes - tag_version.bytes) %>
+            </span>
+          </span>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" />
+      </svg>
+      <span class="text-sm font-medium text-gray-900">Requested <%= time_ago_in_words(tag_version.captured_at) %> ago</span>
+    </div>
+
+  </div>
+
+
+<% end %>

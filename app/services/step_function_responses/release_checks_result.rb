@@ -8,8 +8,14 @@ module StepFunctionResponses
       create_release_check_batch
       if is_batch_of_uptime_checks_resulting_in_new_tag_versions?
         release_check_results.each do |release_check_result|
-          release_check = ReleaseCheck.create!(release_check_result.formatted_for_create)
-          capture_new_tag_version(release_check, release_check_result)
+          begin
+            release_check = ReleaseCheck.create!(release_check_result.formatted_for_create)
+            capture_new_tag_version(release_check, release_check_result)
+          rescue => e
+            Sentry.capture_exception(e)
+            # Rails.logger.error "Unable to create ReleaseCheck/TagVersion for release check result: #{e.message}"
+            raise e if Rails.env.development?
+          end
         end
       elsif release_check_results.any?
         ReleaseCheck.insert_all!(release_check_results_formatted_for_insert)

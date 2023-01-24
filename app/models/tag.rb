@@ -26,46 +26,39 @@ class Tag < ApplicationRecord
   has_many :audits, dependent: :destroy
   has_many :tag_versions, dependent: :destroy
   has_many :release_checks, dependent: :destroy
-  has_many :page_urls_tag_found_on, class_name: PageUrlTagFoundOn.to_s, dependent: :destroy
-  has_many :page_urls, through: :page_urls_tag_found_on
-
-  accepts_nested_attributes_for :page_urls_tag_found_on
 
   SUPPORTED_RELEASE_MONITORING_INTERVALS = [0, 1, 15, 30, 60, 180, 360, 720, 1_440]
   
   # VALIDATIONS
-  # validate :has_at_least_one_page_url_tag_found_on
   validate :only_tagsafe_hostable_tags_can_be_tagsafe_hosted
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates :configured_load_type, inclusion: { in: ['default', 'async', 'defer', 'synchronous'] }
-  # validates :page_load_found_on, presence: true, on: :create # only on create to support legacy Tags
-  # validates_uniqueness_of :full_url, 
-  #                         scope: :container_id, 
-  #                         conditions: -> { where(deleted_at: nil) },
-  #                         message: Proc.new{ |tag| "A tag from #{tag.full_url} already exists on this Container (#{tag.container.name} - #{tag.container.uid})" }
 
   # CALLBACKS
   ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[configured_load_type is_tagsafe_hosted current_live_tag_version_id]
-  # after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
+  after_update { container.publish_instrumentation! if saved_changes.keys.intersection(Tag::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create :set_parsed_url_attributes
   before_create { self.tag_identifying_data = TagIdentifyingData.for_tag(self) }
-  # before_create { self.last_seen_at = Time.current }
-  after_create { TagManager::MarkTagAsTagsafeHostedIfPossible.new(self).determine! }
-  after_create { TagManager::TagVersionFetcher.new(self).fetch_and_capture_first_tag_version! if is_tagsafe_hostable }
-  after_create { perform_audit_on_all_should_audit_urls!(execution_reason: ExecutionReason.NEW_RELEASE, tag_version: nil, initiated_by_container_user: nil) if !is_tagsafe_hostable }
-  after_create :enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!
-  # after_create_commit :broadcast_new_tag_notification_to_all_users
   after_update :check_to_sync_aws_event_bridge_rules_if_necessary
 
   # SCOPES
   scope :pending_tag_version_capture, -> { where.not(marked_as_pending_tag_version_capture_at: nil) }
   scope :not_pending_tag_version_capture, -> { where(marked_as_pending_tag_version_capture_at: nil) }
+  
   scope :tagsafe_hosted, -> { where(is_tagsafe_hosted: true) }
   scope :not_tagsafe_hosted, -> { where(is_tagsafe_hosted: false) }
+  
   scope :tagsafe_hostable, -> { where(is_tagsafe_hostable: true) }
   scope :not_tagsafe_hostable, -> { where(is_tagsafe_hostable: false) }
+  
+  scope :open_change_requests, -> { tagsafe_hosted
+                                          .joins(:most_recent_tag_version)
+                                          .where('most_recent_tag_version_id <> current_live_tag_version_id')
+                                          .where(most_recent_tag_version: { change_request_decision: nil })
+                                          .where.not(most_recent_tag_version_id: nil) }
+
 
   def set_parsed_url_attributes
     parsed_url = URI.parse(self.full_url)
@@ -86,6 +79,14 @@ class Tag < ApplicationRecord
     if full_url.present? && (!has_tag_identifying_data? || force_update)
       update!(tag_identifying_data: TagIdentifyingData.for_tag(self))
     end
+  end
+
+  def has_open_change_request?
+    is_tagsafe_hosted && most_recent_tag_version_id != current_live_tag_version_id
+  end
+
+  def live_tag_version_is_up_to_date?
+    is_tagsafe_hosted && most_recent_tag_version_id == current_live_tag_version_id
   end
 
   def has_tag_identifying_data?
@@ -125,10 +126,6 @@ class Tag < ApplicationRecord
     most_recent_successful_audit
   end
 
-  def page_url_first_found_on
-    page_urls_tag_found_on.includes(:page_url).most_recent_first.limit(1).first.page_url
-  end
-
   def load_type_as_verb
     return load_type if %w[async defer].include?(load_type)
     "#{load_type}ly"
@@ -145,11 +142,12 @@ class Tag < ApplicationRecord
   end
 
   def perform_audit_on_all_should_audit_urls!(execution_reason:, tag_version:, initiated_by_container_user:)
-    page_urls_tag_found_on.should_audit.includes(:page_url).each do |page_url_tag_found_on|
+    # TODO: we shouldn't audit _all_ URLs here
+    container.page_urls.map do |page_url|
       perform_audit!(
         execution_reason: execution_reason, 
         tag_version: tag_version,
-        page_url: page_url_tag_found_on.page_url,
+        page_url: page_url,
         initiated_by_container_user: initiated_by_container_user
       )
     end
@@ -197,6 +195,12 @@ class Tag < ApplicationRecord
 
   def has_image?
     tag_identifying_data&.image.present?
+  end
+
+  def configured_load_strategy_based_on_preferences
+    return load_type if !is_tagsafe_hosted
+    return "defer" if container.defer_script_tags_by_default && configured_load_type == 'default'
+    configured_load_type
   end
 
   def try_image_url

@@ -1,28 +1,39 @@
-<div class='notification <%= local_assigns[:notification_type] %> <%= local_assigns[:error] ? 'error' : nil %>' data-controller='notification' data-persist-notification="<%= local_assigns[:auto_dismiss] == false %>">
-  <div class='p-2'>
-    <div class='notification-header'>
-      <span class='exit-btn tagsafe-circular-btn tiny' data-action='click->notification#dismiss'><i class='fa fa-times'></i></span>
-      <% if local_assigns[:timestamp] %>
-        <span class='notification-timestamp float-end'><%= timestamp %></span>
-      <% end %>
-    </div>
-  </div>
-  <div class='col-12 container notification-body'>
-    <div class='row'>
-      <% if local_assigns[:image] %>
-        <div class='d-flex align-items-center' style='width: 75px;'>
-          <%= image_tag image, class: 'tag-thumbnail border' %>
+<div aria-live="assertive" 
+      class="pointer-events-none flex items-end px-4 py-4 transition-all ease-in-out duration-1000"
+      data-controller='notification' 
+      data-persist-notification="<%= local_assigns[:auto_dismiss] == false %>" 
+      style='margin-right: -100vw'>
+  <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+    <div class="pointer-events-auto flex w-full max-w-md divide-x divide-gray-200 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+      <div class="flex w-0 flex-1 items-center p-4">
+        <% if local_assigns[:image] %>
+          <div class="flex-shrink-0 mr-3">
+            <%= image_tag image, class: 'h-10 w-10 rounded-full border' %>
+          </div>
+        <% end %>
+        <div class="w-full">
+          <% if local_assigns[:title] %>
+            <p class="text-sm font-medium text-gray-900"><%= local_assigns[:title] %></p>
+          <% end %>
+          <p class="mt-1 text-sm text-gray-500"><%= message %></p>
         </div>
-      <% end %>
-      <div class='notification-content' style='width: <%= local_assigns[:image] ? 'calc(100% - 75px);' : '100%' %>'>
-        <% if local_assigns[:title] %>
-          <h5 class='notification-title'><%= title %></h5>
-        <% end %>
-        <% if local_assigns[:partial] %>
-          <%= render partial, partial_locals %>
-        <% else %>
-          <span class='notification-message'><%= message %></span>
-        <% end %>
+      </div>
+      <div class="flex">
+        <div class="flex flex-col divide-y divide-gray-200">
+          <% if local_assigns[:cta_url] %>
+            <div class="flex h-0 flex-1">
+              <%= link_to cta_text, cta_url, type: "button", target: '_top',
+                  class: "flex w-full items-center justify-center rounded-none rounded-tr-lg border border-transparent px-4 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 focus:text-blue-700" %>
+            </div>
+          <% end %>
+          <div class="flex h-0 flex-1">
+            <button data-action='notification#dismiss' 
+                    type="button" 
+                    class="flex w-full items-center justify-center rounded-none rounded-br-lg border border-transparent px-4 py-3 text-sm font-medium text-gray-700 hover:text-gray-800 focus:text-gray-800">
+              Close
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

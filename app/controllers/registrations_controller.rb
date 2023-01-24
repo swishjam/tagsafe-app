@@ -1,32 +1,31 @@
 class RegistrationsController < LoggedOutController
   skip_before_action :verify_authenticity_token
+  
   def new
-    redirect_to root_path if current_user.present?
-    @hide_logged_out_nav = true
-    @hide_footer = true
-    @user = User.new
-    if params[:container]
-      @container = Container.find_by(uid: params[:container])
+    redirect_to containers_path if current_user.present?
+    if params[:invite_token]
+      @user_invite = UserInvite.find_by(token: params[:invite_token])
     end
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      if current_container
-        current_container.add_user(@user)
-        current_container.mark_as_registered!
-        Role.USER_ADMIN.apply_to_container_user(@user.container_user_for(current_container))
-        set_current_user(@user)
-        redirect_to root_path
-      else
-        set_current_user(@user)
-        redirect_to new_registration_path
-      end
+    user = User.new(user_params)
+    user_invite = params[:invite_token] ? UserInvite.find_by(token: params[:invite_token]) : nil
+    if user.save
+      set_current_user(user)
+      user_invite.redeem!(user) if user_invite && user_invite.redeemable?
+      url_to_go_to = session[:redirect_url] || containers_path
+      session.delete(:redirect_url)
+      redirect_to url_to_go_to
     else
-      display_inline_errors(@user.errors.full_messages)
-      @hide_logged_out_nav = true
-      render :new, status: :unprocessable_entity
+      render turbo_stream: turbo_stream.replace(
+        'registration_form',
+        partial: 'registrations/form',
+        locals: { 
+          user: user,
+          user_invite: user_invite,
+        }
+      )
     end
   end
 

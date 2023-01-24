@@ -1,0 +1,28 @@
+<div class='flex items-center'>
+  <span class='text-sm text-green-700 float-left'>
+    +<%= tag_version.num_additions %>
+  </span> 
+  <span class='text-sm text-red-700 float-left ml-1'>
+    -<%= tag_version.num_deletions %>
+  </span>
+  <div class='ml-2'
+        data-controller='tooltip' 
+        title='<%= tag_version.num_additions + tag_version.num_deletions %> lines changed: <%= tag_version.num_additions %> additions & <%= tag_version.num_deletions %> deletions.'>
+    <% num_addition_squares = tag_version.total_changes.zero? ? 0 : 
+                                tag_version.total_changes <= 5 ? tag_version.num_additions :
+                                  ((tag_version.num_additions.to_f / (tag_version.total_changes.to_f))*5.0).to_i %>
+    <% num_deletion_squares = tag_version.total_changes.zero? ? 0 : 
+                                tag_version.total_changes <= 5 ? tag_version.num_deletions :
+                                  ((tag_version.num_deletions.to_f / (tag_version.total_changes.to_f))*5.0).to_i %>
+    <% num_neutral_squares = 5 - num_addition_squares - num_deletion_squares %>
+    <% num_addition_squares.times do %>
+      <span class='h-2.5 w-2.5 border bg-green-600 float-left'></span>
+    <% end %>
+    <% num_deletion_squares.times do %>
+      <span class='h-2.5 w-2.5 border bg-red-500 float-left'></span>
+    <% end %>
+    <% num_neutral_squares.times do %>
+      <span class='h-2.5 w-2.5 border bg-gray-300 float-left'></span>
+    <% end %>
+  </div>
+</div>

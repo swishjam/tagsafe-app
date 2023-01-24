@@ -1,29 +1,35 @@
 <%= render_as_modal title: 'Invite Teammate' do %>
   <% if local_assigns[:completed] %>
-    <div class='tagsafe-modal-body'>
-      <h4><%= HtmlHelper.PASSED_ICON(color: 'green') %> <span class='ms-2'>Invite sent to <%= invited_user_email %>.</span></h4>
+    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mt-10">
+      <!-- Heroicon name: outline/check -->
+      <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
     </div>
-    <div class='tagsafe-modal-divider'></div>
-    <div class='tagsafe-modal-footer text-end'>
-      <button class='tagsafe-btn' data-action='click->server-loadable-modal#hide'>Close</button>
+    <div class='text-center mt-5'>
+      <span class='text-md'>Invite sent to <span class='font-bold'><%= invited_user_email %></span>.</span>
+    </div>
+    <div class='text-end'>
+      <button class='mt-6 inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'
+                data-action='server-loadable-modal#hide'>
+        Close
+      </button>
     </div>
   <% else %>
-    <%= form_for user_invite, data: { controller: 'loading_form' } do |f| %>
-      <div class='tagsafe-modal-body'>
-        <div class="form-floating">
-          <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>
-          <%= f.label :email %>
-        </div>
-        <% if user_invite.errors.any? %>
-          <% user_invite.errors.full_messages.each do |err| %>
-            <span class='d-block mt-1' style='color: red'><%= err %></span>
-          <% end %>
-        <% end %>
+    <%= form_for [container, user_invite], data: { controller: 'loading_form' } do |f| %>
+      <div class='form-floating mt-4'>
+        <label for="" class="block text-sm font-medium text-gray-700">Email</label>
+        <%= f.text_field :email, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm', placeholder:'johnny@example.com' %>
       </div>
-
-      <div class='tagsafe-modal-divider'></div>
-      <div class='tagsafe-modal-footer text-end'>
-        <%= loading_submit_button 'Send Invite' %>
+      <% if user_invite.errors.any? %>
+        <% user_invite.errors.full_messages.each do |err| %>
+          <span class='d-block mt-1 text-small' style='color: red'><%= err %></span>
+        <% end %>
+      <% end %>
+      <div class='text-end'>
+        <button type='submit' class='mt-6 inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'>
+          Send invite
+        </button>
       </div>
     <% end %>
   <% end %>

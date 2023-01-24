@@ -1,41 +1,29 @@
-<!-- <#%= turbo_frame_tag 'new_registration' do %> !-->
-  <%= form_with model: user, url: registrations_path, data: { controller: 'loading_form' } do |f| %>
-    <% if local_assigns[:container] %>
-      <div class='form-floating m-2'>
-        <input type='hidden' name="container_uid" value="<%=container.uid%>">
-        <input type="text" class="form-control" value="<%=container.name%>" disabled="true">
-        <label>Site URL</label>
-      </div>
-    <% end %>
-    <div class='form-floating m-2'>
-      <%= f.text_field :first_name, class: 'form-control', placeholder: 'John', required: true %>
-      <%= f.label :first_name %>
-    </div>
-    <div class='form-floating m-2'>
-      <%= f.text_field :last_name, class: 'form-control', placeholder: 'Smith', required: true %>
-      <%= f.label :last_name %>
-    </div>
-    <div class='form-floating m-2'>
-      <%= f.email_field :email, class: 'form-control', placeholder: 'john@example.com', required: true %>
-      <%= f.label :email %>
-    </div>
-    <div class='form-floating m-2'>
-      <%= f.password_field :password, class: 'form-control', placeholder: 'password', required: true %>
-      <%= f.label :password %>
-    </div>
-    <%= render 'partials/inline_errors', errors: local_assigns[:errors] %>
-    <%= loading_submit_button type: 'floating', button_class: 'large mb-3' do %>
-      <%= local_assigns[:button_text] || 'Get Started' %>
-      <% if local_assigns[:button_icon_klass] %>
-        <i class="<%= button_icon_klass %>"></i>
-      <% end %>
-    <% end %>
-    <div class='row'>
-      <% if local_assigns[:container] %>
-        <%= link_to 'Login', "#{login_path}?container=#{container.uid}" %>
-      <% else %>
-        <%= link_to 'Login', login_path %>
-      <% end %>
-    </div>
+<%= form_with model: user, url: registrations_path, html: { class: 'mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2' }, data: { controller: 'loading_form' } do %>
+  <div class="">
+    <label for="first_name" class="mb-3 block text-sm font-medium text-gray-700">First name</label>
+    <input value="<%= user.first_name %>" id="first_name" type="text" name="user[first_name]" autocomplete="given-name" required="" class="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm">
+  </div>
+  <div class="">
+    <label for="last_name" class="mb-3 block text-sm font-medium text-gray-700">Last name</label>
+    <input value="<%= user.last_name %>" id="last_name" type="text" name="user[last_name]" autocomplete="family-name" required="" class="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm">
+  </div>
+  <div class="col-span-full">
+    <label for="email" class="mb-3 block text-sm font-medium text-gray-700">Email address</label>
+    <input value="<%= user.email || user_invite.present? ? user_invite.email : nil %>" id="email" type="email" name="user[email]" autocomplete="email" required="" class="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm">
+  </div>
+  <div class="col-span-full">
+    <label for="password" class="mb-3 block text-sm font-medium text-gray-700">Password</label>
+    <input id="password" type="password" name="user[password]" autocomplete="new-password" required="" class="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm">
+  </div>
+  <% if user_invite %>
+    <input type='hidden' name='invite_token' value='<%= user_invite.token %>'>
   <% end %>
-<!-- <#% end %> !-->
+  <div class="col-span-full">
+    <% if user.errors.any? %>
+      <p class='text-sm text-red-600 text-center mb-2'><%= user.errors.full_messages.join(' ') %></p>
+    <% end %>
+    <button class="group inline-flex items-center justify-center rounded-full py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 bg-blue-600 text-white hover:text-slate-100 hover:bg-blue-500 active:bg-blue-800 active:text-blue-100 focus-visible:outline-blue-600 w-full" type="submit">
+      <span>Sign up <span aria-hidden="true">→</span></span>
+    </button>
+  </div>
+<% end %>

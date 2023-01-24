@@ -2,27 +2,60 @@
 
 const PuppeteerModerator = require('./src/puppeteerModerator');
 const JsCoverageHandler = require('./src/jsCoverageHandler');
+const ScriptManipulator = require('./src/scriptManipulator');
 
 require('dotenv').config();
 
 module.exports.handle = async (event, _context) => {
   const { 
-    tag_url_pattern, 
+    tag_url_to_inject, 
+    tag_to_inject_load_strategy,
+    tag_url_patterns_to_block,
     page_url, 
     coverage_multiplier = 1.5,
-    navigation_wait_until = 'networkidle0' 
+    navigation_wait_until = 'domcontentloaded' 
   } = event;
+
+  if(!tag_url_to_inject || !tag_to_inject_load_strategy || !tag_url_patterns_to_block || !page_url) {
+    console.error('Event payload received:')
+    console.log(JSON.stringify(event));
+    throw new Error(`
+      Invalid JSCoverage invocation, missing required params. 
+      Must include: \`tag_url_to_inject\`, \`tag_to_inject_load_strategy\`, \`tag_url_patterns_to_block\`, and \`page_url\`.
+    `)
+  }
+
+  console.log('Beginning JS coverage measurement......');
+  console.log(`tag_url_to_inject: ${tag_url_to_inject}`);
+  console.log(`tag_to_inject_load_strategy: ${tag_to_inject_load_strategy}`);
+  console.log(`tag_url_patterns_to_block: ${tag_url_patterns_to_block}`);
+  console.log(`page_url: ${page_url}`);
 
   const puppeteerModerator = new PuppeteerModerator;
   const page = await puppeteerModerator.launch();
 
-  await page.coverage.startJSCoverage({ includeRawScriptCoverage: true });
+  const scriptManipulator = new ScriptManipulator({ 
+    page, 
+    urlPatternsToBlock: tag_url_patterns_to_block, 
+    urlToInject: tag_url_to_inject, 
+    urlToInjectLoadStrategy: tag_to_inject_load_strategy,
+  });
+
+  await Promise.all([
+    scriptManipulator.blockRequestsToUrlPatterns(),
+    scriptManipulator.injectScriptOnNewDocument(),
+    page.coverage.startJSCoverage({ includeRawScriptCoverage: true })
+  ])
+
   console.log(`Navigating to ${page_url}......`);
   await page.goto(page_url, { waitUntil: navigation_wait_until });
 
-  const jsCoverageHandler = new JsCoverageHandler(page, tag_url_pattern)
-  console.log(`Measuring coverage for ${tag_url_pattern}......`);
+  await new Promise(resolve => setTimeout(resolve, 5_000));
+
+  const jsCoverageHandler = new JsCoverageHandler(page, tag_url_to_inject);
+  console.log(`Measuring coverage for ${tag_url_to_inject}......`);
   const coverageResults = await jsCoverageHandler.measureCoverage();
+
   await puppeteerModerator.shutdown();
 
   const score = coverageResults.percentJsUsed <= 1 ? 

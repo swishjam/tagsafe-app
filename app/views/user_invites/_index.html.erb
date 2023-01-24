@@ -1,20 +1,29 @@
 <%= turbo_frame_tag "container_#{container.uid}_invites" do %>
-  <% if user_invites.any? %>
-    <div class='tagsafe-table'>
-      <div class='tagsafe-table-row header square'>
-        <div class='tagsafe-table-cell'>Invited user email</div>
-        <div class='tagsafe-table-cell'>Expires at</div>
-        <div class='tagsafe-table-cell'>Invited by</div>
-      </div>
-      <div class='tagsafe-table-body'>
-        <% user_invites.each do |invite| %>
-          <div class='tagsafe-table-row'>
-            <div class='tagsafe-table-cell'><%= invite.email %></div>
-            <div class='tagsafe-table-cell'><%= invite.expires_at.formatted_long %></div>
-            <div class='tagsafe-table-cell'><%= invite.invited_by_user.email %></div>
-          </div>
+  <% if pending_user_invites.any? %>
+    <div class="mt-6">
+      <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+
+        <% pending_user_invites.each do |invite| %>
+          <li class="flex items-center justify-between space-x-3 py-4">
+            <div class="flex min-w-0 flex-1 items-center space-x-3">
+              <div class="flex-shrink-0">
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="truncate text-sm font-medium text-gray-900"><%= invite.email %></p>
+                <p class="truncate text-sm font-medium text-gray-500">Invited by <%= invite.invited_by_user.full_name %></p>
+              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <% if invite.expired? %>
+                <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 cursor-default">Expired</span>
+              <% else %>
+                <p class='truncate text-sm font-medium text-gray-900'>Expires in <%= time_ago_in_words(invite.expires_at) %></p>
+              <% end %>
+            </div>
+          </li>
         <% end %>
-      </div>
+
+      </ul>
     </div>
   <% else %>
     <div class='p-5 text-center'>

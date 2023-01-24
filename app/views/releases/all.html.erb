@@ -1,24 +1,49 @@
-<%= render 'tags/root_paths_page_navigation', page_title: 'Releases' %>
+<%= render 'releases/releases_top_level_navigation' %>
 
-<div class='d-flex'>
-  <div class='col-5'>
-    <div class='tagsafe-container'>
-      <%= turbo_frame_tag "#{current_container.uid}_release_calendar", src: release_calendar_releases_path(all_tags: true) do %>
-        <div class='text-center p-5'>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+
+    <div class='w-full'>
+      <%= turbo_frame_tag "#{@container.uid}_release_calendar", src: release_calendar_releases_path(all_tags: true) do %>
+        <div class='text-center'>
           <%= display_loading_icon %>
         </div>
       <% end %>
     </div>
-  </div>
 
-  <div class='col-7'>
-    <div class='tagsafe-container'>
-      <h4 class='mb-3'>Recent releases</h4>
-      <div class='ps-4 pe-4'>
-        <% @tag_versions.each do |tag_version| %>
-          <%= render 'tag_versions/tag_version_row', tag_version: tag_version, display_tag_name: true %>
-        <% end %>
+    <h2 class='text-xl font-medium text-gray-900 mt-6'>Recent releases</h2>
+
+    <div>
+      <div class="mt-4 flow-root">
+        <ul role="list" class="-my-5 divide-y divide-gray-200">
+
+          <li class="py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="truncate text-sm font-medium text-gray-900">Hubspot</p>
+                <p class="truncate text-sm text-gray-500">@leonardkrasner</p>
+              </div>
+              <div>
+                <a href="#" class="inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50">View</a>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+      <div class="mt-6 mb-6">
+        <a href="#" class="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">View all</a>
       </div>
     </div>
-  </div>
+
+    <div class='ps-4 pe-4'>
+      <% @tag_versions.each do |tag_version| %>
+        <%= render 'tag_versions/tag_version_row', tag_version: tag_version, display_tag_name: true %>
+      <% end %>
+    </div>
+
 </div>
+

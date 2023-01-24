@@ -1,0 +1,31 @@
+<%= render_as_modal title: "Remove #{container_user.user.email}?" do %>
+  <% if local_assigns[:success] %>
+    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mt-10">
+      <!-- Heroicon name: outline/check -->
+      <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+    <div class='text-center mt-5'>
+      <span class='text-md'><span class='font-bold'><%= container_user.user.full_name %></span> removed from container.</span>
+    </div>
+    <div class='text-end'>
+      <button class='mt-6 inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100'
+                data-action='server-loadable-modal#hide'>
+        Close
+      </button>
+    </div>
+  <% else %>
+    <p class='text-sm mt-2'>Are you sure you'd like to remove <span class='font-bold'><%= container_user.user.full_name %></span> from accessing the <%= @container.name %> Tagsafe container?</p>
+    <div class='mt-2 text-end'>
+      <button data-action='server-loadable-modal#hide' class='inline-flex text-gray justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2'>
+        Cancel
+      </button>
+      <%= form_for [container, container_user], method: :delete, html: { class: 'inline' }, data: { controller: 'loading_form' } do |f| %>
+        <button type='submit' class='inline-flex justify-center rounded-md border border-gray-300 bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'>
+          Remove
+        </button>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

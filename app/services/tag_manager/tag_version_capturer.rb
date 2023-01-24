@@ -12,14 +12,28 @@ module TagManager
     def capture_new_tag_version!
       tag_version = @tag.tag_versions.create!(tag_version_data)
       upload_files_to_s3!(tag_version)
-      Rails.logger.info "TagVersionCapturer - captured new TagVersion after #{Time.now - @tag.marked_as_pending_tag_version_capture_at} seconds from when it was detected." if @tag.marked_as_pending_tag_version_capture_at.present?
-      @tag.update!(marked_as_pending_tag_version_capture_at: nil, most_recent_tag_version: tag_version)
-      @tag.update!(current_live_tag_version: tag_version) if @tag.current_live_tag_version.nil?
+      set_previous_most_recent_tag_version_as_skipped_if_necessary!
+      update_tag_with_new_tag_version(tag_version)
       remove_temp_files
       tag_version
     end
 
     private
+
+    def update_tag_with_new_tag_version(tag_version)
+      tag_data = {
+        marked_as_pending_tag_version_capture_at: nil,
+        most_recent_tag_version: tag_version,
+      }
+      tag_data[:current_live_tag_version] = tag_version if @tag.current_live_tag_version.nil?
+      @tag.update!(tag_data)
+    end
+
+    def set_previous_most_recent_tag_version_as_skipped_if_necessary!
+      if @tag.most_recent_tag_version.present? && @tag.most_recent_tag_version.is_open_change_request?
+        @tag.most_recent_tag_version.update!(change_request_decision: 'skipped', change_request_decisioned_at: Time.current)
+      end
+    end
 
     def tag_version_data
       {

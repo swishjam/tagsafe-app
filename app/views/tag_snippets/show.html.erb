@@ -5,14 +5,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js" integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<div class='page-title-container'>
-  <div class='container-fluid'>
-    <div class='row ps-3 pe-3'>
-      <div class='col-8'>
-        <h1 class='page-title'>Tag Details</h1>
-      </div>
+
+<%= render 'partials/page_header', page_title: 'Tags' %>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8">
+  <div class="grid max-w-3xl grid-cols-1 gap-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+    <div class="lg:col-span-1 lg:col-start-1">
+      <%= turbo_frame_tag "#{@container.uid}_tag_snippets_list", src: list_container_tag_snippets_path do %>
+        <%= render 'tag_snippets/loading_list_view' %>
+      <% end %>
+    </div>
+    <div class="space-y-6 lg:col-span-2 lg:col-start-2 border rounded-md overflow-hidden mb-5 pb-10">
+      <%= render 'tag_snippets/show', tag_snippet: @tag_snippet, container: @container %>
     </div>
   </div>
 </div>
 
-<%= render 'tag_snippets/show', tag_snippet: @tag_snippet %>

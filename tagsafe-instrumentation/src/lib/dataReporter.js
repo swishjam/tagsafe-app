@@ -13,11 +13,11 @@ export default class DataReporter {
     // sample rate of 1 means capture everything, 0 means capture nothing
     this.reportingEnabled = Math.random() < reportingSampleRate;
     if (this.reportingEnabled) { 
-      if(this.debugMode) console.log(`Reporting is enabled (sample rate is set to ${reportingSampleRate * 100}%).`);
+      if(this.debugMode) console.log(`%c[Tagsafe Log] Reporting is enabled (sample rate is set to ${reportingSampleRate * 100}%).`, 'background-color: purple; color: white; padding: 5px;');
       this._startReportingInterval();
       window.Tagsafe.config.reportingEnabled = true;
     } else {
-      if (this.debugMode) console.log(`Reporting is disabled (sample rate is set to ${reportingSampleRate * 100}%).`);
+      if (this.debugMode) console.log(`%c[Tagsafe Log] Reporting is disabled (sample rate is set to ${reportingSampleRate * 100}%).`, 'background-color: purple; color: white; padding: 5px;');
       window.Tagsafe.config.reportingEnabled = false;
     }
   }
@@ -32,31 +32,31 @@ export default class DataReporter {
     });
   }
 
-  recordNumTagsafeInjectedTags(numTags) {
-    this.dataToReport['num_tagsafe_injected_tags'] = numTags;
-    if(this.debugMode) {
-      console.log(`recording num_tagsafe_injected_tags: ${numTags}`);
-    }
-  }
+  // recordNumTagsafeInjectedTags(numTags) {
+  //   this.dataToReport['num_tagsafe_injected_tags'] = numTags;
+  //   if(this.debugMode) {
+  //     console.log(`%c[Tagsafe Log] recording num_tagsafe_injected_tags: ${numTags}`, 'background-color: purple; color: white; padding: 5px;');
+  //   }
+  // }
 
   recordNumTagsafeHostedTags(numTags) {
     this.dataToReport['num_tagsafe_hosted_tags'] = numTags;
     if(this.debugMode) {
-      console.log(`recording num_tagsafe_hosted_tags: ${numTags}`);
+      console.log(`%c[Tagsafe Log] recording num_tagsafe_hosted_tags: ${numTags}`, 'background-color: purple; color: white; padding: 5px;');
     }
   }
 
   recordNumTagsWithTagsafeOverriddenLoadStrategies(numTags) {
     this.dataToReport['num_tags_with_tagsafe_overridden_load_strategies'] = numTags;
     if (this.debugMode) {
-      console.log(`recording num_tags_with_tagsafe_overridden_load_strategies: ${numTags}`);
+      console.log(`%c[Tagsafe Log] recording num_tags_with_tagsafe_overridden_load_strategies: ${numTags}`, 'background-color: purple; color: white; padding: 5px;');
     }
   }
 
   recordNumTagsNotHostedByTagsafe(numTags) {
     this.dataToReport['num_tags_not_hosted_by_tagsafe'] = numTags;
     if(this.debugMode) {
-      console.log(`recording num_tags_not_hosted_by_tagsafe: ${numTags}`);
+      console.log(`%c[Tagsafe Log] recording num_tags_not_hosted_by_tagsafe: ${numTags}`, 'background-color: purple; color: white; padding: 5px;');
     }
   }
  
@@ -64,7 +64,7 @@ export default class DataReporter {
     this.dataToReport.performance_metrics[metricName] = data;
     this.lastReceivedDataAt = Date.now();
     if(this.debugMode && this.reportingEnabled) {
-      console.log(`New reporting data to report: ${metricName}`);
+      console.log(`%c[Tagsafe Log] New reporting data to report: ${metricName}`, 'background-color: purple; color: white; padding: 5px;');
       console.log(data);
     }
   }

@@ -3,6 +3,7 @@ class Container < ApplicationRecord
   uid_prefix 'cont'
   acts_as_paranoid
 
+  belongs_to :created_by_user, class_name: User.to_s
   has_many :instrumentation_builds, dependent: :destroy
   has_many :tagsafe_js_event_batches, class_name: TagsafeJsEventBatch.to_s, dependent: :destroy
   has_many :page_loads, dependent: :destroy
@@ -21,8 +22,8 @@ class Container < ApplicationRecord
   ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[defer_script_tags_by_default tagsafe_js_enabled]
   after_update { publish_instrumentation! if saved_changes.keys.intersection(Container::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
-  before_create { self.instrumentation_key = "TAG-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
-  after_create :publish_instrumentation!
+  before_create { self.instrumentation_key = "TAGSAFE-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
+  after_create { publish_instrumentation!("Generating container's first instrumentation.") }
   after_destroy { TagsafeAws::S3.delete_object_by_s3_url(tagsafe_instrumentation_url(use_cdn: false)) }
 
   attribute :tagsafe_js_reporting_sample_rate, default: 0.05
@@ -34,8 +35,8 @@ class Container < ApplicationRecord
   validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validates :tagsafe_js_re_route_eligible_tags_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
 
-  def publish_instrumentation!
-    TagsafeInstrumentationManager::InstrumentationWriter.new(self).write_current_instrumentation_to_cdn
+  def publish_instrumentation!(description = '')
+    InstrumentationBuild.create!(container: self, description: description)
   end
 
   def tagsafe_instrumentation_url(use_cdn: true)

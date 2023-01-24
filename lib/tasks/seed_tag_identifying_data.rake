@@ -1815,6 +1815,20 @@ JSON_DATA = [
      ]
   },
   {
+      "name"=>"Plausible Analytics",
+      "homepage"=>"https://plausible.io/",
+      "image_url"=>"https://raw.githubusercontent.com/plausible/docs/master/static/img/plausible-analytics-icon-top.png",
+      "categories"=>[
+         "analytics"
+      ],
+      "domains"=>[
+         "*.plausible.io"
+      ],
+      "examples"=>[
+         "plausible.io"
+      ]
+  },
+  {
      "name"=>"New Relic",
      "homepage"=>"https://newrelic.com/",
      "image_url"=>"https://cdn.freebiesupply.com/logos/large/2x/new-relic-logo-png-transparent.png",

@@ -60,7 +60,6 @@ export default class MetricsHandler {
 
   _reportJsTagMetrics() {
     const jsTags = document.querySelectorAll('script[src]');
-    const numJsTags = jsTags.length;
     let numJsTagsHostedByTagsafe = 0;
     let numJsTagsNotHostedByTagsafe = 0;
     let numJsTagsWithTagsafeOverriddenLoadStrategies = 0;
@@ -71,8 +70,8 @@ export default class MetricsHandler {
         if (script.getAttribute('data-tagsafe-load-strategy-applied')) numJsTagsWithTagsafeOverriddenLoadStrategies++;
       } catch (err) {}
     });
-    this.dataReporter.recordPerformanceMetric('num_tags_hosted_by_tagsafe', numJsTags);
-    this.dataReporter.recordPerformanceMetric('num_tags_not_hosted_by_tagsafe', numJsTagsNotHostedByTagsafe);
-    this.dataReporter.recordPerformanceMetric('num_tags_with_tagsafe_overridden_load_strategies', numJsTagsWithTagsafeOverriddenLoadStrategies);
+    this.dataReporter.recordNumTagsafeHostedTags(numJsTagsHostedByTagsafe);
+    this.dataReporter.recordNumTagsNotHostedByTagsafe(numJsTagsNotHostedByTagsafe);
+    this.dataReporter.recordNumTagsWithTagsafeOverriddenLoadStrategies(numJsTagsWithTagsafeOverriddenLoadStrategies);
   }
 }

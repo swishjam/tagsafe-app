@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_11_175757) do
+ActiveRecord::Schema.define(version: 2023_01_22_003437) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -159,6 +159,8 @@ ActiveRecord::Schema.define(version: 2023_01_11_175757) do
     t.boolean "tagsafe_js_enabled"
     t.boolean "defer_script_tags_by_default"
     t.float "tagsafe_js_re_route_eligible_tags_sample_rate"
+    t.bigint "created_by_user_id"
+    t.index ["created_by_user_id"], name: "index_containers_on_created_by_user_id"
     t.index ["name"], name: "index_containers_on_name"
     t.index ["uid"], name: "index_containers_on_uid"
   end
@@ -309,6 +311,8 @@ ActiveRecord::Schema.define(version: 2023_01_11_175757) do
     t.bigint "container_id"
     t.text "description", size: :medium
     t.datetime "created_at", null: false
+    t.timestamp "enqueued_at"
+    t.timestamp "completed_at"
     t.index ["container_id"], name: "index_instrumentation_builds_on_container_id"
     t.index ["uid"], name: "index_instrumentation_builds_on_uid"
   end
@@ -623,6 +627,17 @@ ActiveRecord::Schema.define(version: 2023_01_11_175757) do
     t.index ["url_pattern"], name: "index_tag_identifying_data_domains_on_url_pattern"
   end
 
+  create_table "tag_snippet_injection_url_rules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "uid"
+    t.bigint "tag_snippet_id"
+    t.string "type"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_snippet_id"], name: "index_tag_snippet_injection_url_rules_on_tag_snippet_id"
+    t.index ["uid"], name: "index_tag_snippet_injection_url_rules_on_uid"
+  end
+
   create_table "tag_snippets", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "uid"
     t.bigint "container_id"
@@ -633,6 +648,7 @@ ActiveRecord::Schema.define(version: 2023_01_11_175757) do
     t.timestamp "find_tags_injected_by_snippet_job_completed_at"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.string "content_fingerprint"
     t.index ["container_id"], name: "index_tag_snippets_on_container_id"
     t.index ["uid"], name: "index_tag_snippets_on_uid"
   end
@@ -666,6 +682,14 @@ ActiveRecord::Schema.define(version: 2023_01_11_175757) do
     t.boolean "blocked_from_promoting_to_live"
     t.integer "original_content_byte_size"
     t.integer "tagsafe_minified_byte_size"
+    t.bigint "container_user_id_change_request_decisioned_by"
+    t.string "change_request_decision"
+    t.timestamp "change_request_decisioned_at"
+    t.bigint "live_tag_version_at_time_of_decision_id"
+    t.text "tagsafe_cdn_url"
+    t.text "formatted_tagsafe_cdn_url"
+    t.index ["container_user_id_change_request_decisioned_by"], name: "cu_id_change_request_decisioned_by"
+    t.index ["live_tag_version_at_time_of_decision_id"], name: "index_tag_versions_on_live_tag_version_at_time_of_decision_id"
     t.index ["primary_audit_id"], name: "index_tag_versions_on_primary_audit_id"
     t.index ["release_check_captured_with_id"], name: "index_tag_versions_on_release_check_captured_with_id"
     t.index ["tag_id"], name: "index_tag_versions_on_tag_id"

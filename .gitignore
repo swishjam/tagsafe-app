@@ -28,3 +28,6 @@ ffmpeg*
 /config/master.key
 .env
 .DS_Store
+
+.server-killer
+._new_relic.html

@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "locally": "serverless invoke local --function get-w23-batch --stage local"
+  },
+  "dependencies": {
+    "chrome-aws-lambda": "^10.1.0",
+    "lighthouse": "^9.6.8",
+    "puppeteer-core": "^10.4.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^10.1.0",
+    "serverless": "^3.25.1"
+  }
+}
