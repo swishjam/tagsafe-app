@@ -1,4 +1,4 @@
-export default class ScriptInector {
+export default class ScriptInjector {
   constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode }) {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
@@ -13,15 +13,8 @@ export default class ScriptInector {
     this.immediateScripts.forEach(tagConfig => this._injectScriptIfNecessary(tagConfig));
     window.addEventListener('DOMContentLoaded', () => {
       this.onLoadScripts.forEach(tagConfig => this._injectScriptIfNecessary(tagConfig));
-      this.afterAllTagsAddedCallbacks.forEach(callback => callback());
     })
   }
-
-  afterAllTagsAdded(callback) {
-    this.afterAllTagsAddedCallbacks.push(callback);
-  }
-
-  numTagsInjected = () => this._numTagsInjected;
 
   _injectScriptIfNecessary(tagConfig) {
     try {
@@ -68,6 +61,7 @@ export default class ScriptInector {
       scriptTag.removeAttribute('async');
       scriptTag.removeAttribute('defer');
       scriptTag.setAttribute(tagConfig['configuredLoadType'], '');
+      scriptTag.setAttribute('data-tagsafe-load-strategy-applied', 'true');
     }
 
     if (this.debugMode) {

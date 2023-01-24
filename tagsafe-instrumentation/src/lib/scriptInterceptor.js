@@ -12,9 +12,6 @@ export default class ScriptInterceptor {
     this.debugMode = debugMode;
     this.disableScriptInterception = disableScriptInterception;
     
-    this._numTagsHostedByTagsafe = 0;
-    this._numTagsWithTagsafeOverriddenLoadStrategies = 0;
-
     if(this.debugMode && this.disableScriptInterception) {
       console.warn('[Tagsafe Log] Tagsafe CDN re-router is disabled based on configuration sample rate.');
     }
@@ -25,9 +22,6 @@ export default class ScriptInterceptor {
     this._interceptInsertBefore();
     this._interceptPrepend();
   }
-
-  numTagsHostedByTagsafe = () => this._numTagsHostedByTagsafe;
-  numTagsWithTagsafeOverriddenLoadStrategies = () => this._numTagsWithTagsafeOverriddenLoadStrategies;
 
   _interceptAppendChild = () => {
     if (this.disableScriptInterception) return;
@@ -95,7 +89,6 @@ export default class ScriptInterceptor {
         newNode.setAttribute('data-tagsafe-og-src', ogSrc);
         if (ogSrc !== tagConfig['configuredTagUrl']) {
           newNode.setAttribute('data-tagsafe-hosted', 'true');
-          this._numTagsHostedByTagsafe += 1;
         }
       }
       if (tagConfig['sha256']) {
@@ -107,7 +100,7 @@ export default class ScriptInterceptor {
         newNode.removeAttribute('async');
         newNode.removeAttribute('defer');
         newNode.setAttribute(tagConfig['configuredLoadType'], '');
-        this._numTagsWithTagsafeOverriddenLoadStrategies += 1;
+        newNode.setAttribute('data-tagsafe-load-strategy-applied', 'true');
       }
 
       if (this.debugMode) {

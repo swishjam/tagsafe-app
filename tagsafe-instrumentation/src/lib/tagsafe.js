@@ -48,12 +48,12 @@ export default class Tagsafe {
       firstPartyDomains: settings.firstPartyDomains
     })
 
-    scriptInjector.afterAllTagsAdded(async () => {
-      dataReporter.recordNumTagsafeInjectedTags(scriptInjector.numTagsInjected());
-      dataReporter.recordNumTagsafeHostedTags(scriptInterceptor.numTagsHostedByTagsafe());
-      dataReporter.recordNumTagsWithTagsafeOverriddenLoadStrategies(scriptInterceptor.numTagsWithTagsafeOverriddenLoadStrategies());
-      dataReporter.recordNumTagsNotHostedByTagsafe(await thirdPartyTagIdentifier.numTagsNotHostedByTagsafe());
-    })
+    // scriptInjector.afterAllTagsAdded(async () => {
+    //   dataReporter.recordNumTagsafeInjectedTags(scriptInjector.numTagsInjected());
+    //   dataReporter.recordNumTagsafeHostedTags(scriptInterceptor.numTagsHostedByTagsafe());
+    //   dataReporter.recordNumTagsWithTagsafeOverriddenLoadStrategies(scriptInterceptor.numTagsWithTagsafeOverriddenLoadStrategies());
+    //   dataReporter.recordNumTagsNotHostedByTagsafe(await thirdPartyTagIdentifier.numTagsNotHostedByTagsafe());
+    // })
 
     if(settings.debugMode) {
       console.log('%c[Tagsafe Log] TagsafeJS initialized', 'background-color: purple; color: white; padding: 5px;');

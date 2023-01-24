@@ -39,6 +39,7 @@ export default class MetricsHandler {
     this.dataReporter.recordPerformanceMetric('dom_interactive', this._measurePerformanceAttribute('domInteractive'));
     this.dataReporter.recordPerformanceMetric('dom_loading', this._measurePerformanceAttribute('domLoading'));
     this._reportThirdPartyJsNetworkTime();
+    this._reportJsTagMetrics();
   }
 
   _measurePerformanceAttribute(attr) {
@@ -55,5 +56,22 @@ export default class MetricsHandler {
       }
     })
     this.dataReporter.recordPerformanceMetric('third_party_js_network_time', thirdPartyJsNetworkTime);
+  }
+
+  _reportJsTagMetrics() {
+    const jsTags = document.querySelectorAll('script[src]');
+    let numJsTagsHostedByTagsafe = 0;
+    let numJsTagsNotHostedByTagsafe = 0;
+    let numJsTagsWithTagsafeOverriddenLoadStrategies = 0;
+    jsTags.forEach(script => {
+      try {
+        if (isThirdPartyUrl(script.src) && !script.getAttribute('data-tagsafe-hosted')) numJsTagsNotHostedByTagsafe++;
+        if (script.getAttribute('data-tagsafe-hosted')) numJsTagsHostedByTagsafe++;
+        if (script.getAttribute('data-tagsafe-load-strategy-applied')) numJsTagsWithTagsafeOverriddenLoadStrategies++;
+      } catch (err) {}
+    });
+    this.dataReporter.recordNumTagsafeHostedTags(numJsTagsHostedByTagsafe);
+    this.dataReporter.recordNumTagsNotHostedByTagsafe(numJsTagsNotHostedByTagsafe);
+    this.dataReporter.recordNumTagsWithTagsafeOverriddenLoadStrategies(numJsTagsWithTagsafeOverriddenLoadStrategies);
   }
 }

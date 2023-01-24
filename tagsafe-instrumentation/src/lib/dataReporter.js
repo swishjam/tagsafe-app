@@ -32,12 +32,12 @@ export default class DataReporter {
     });
   }
 
-  recordNumTagsafeInjectedTags(numTags) {
-    this.dataToReport['num_tagsafe_injected_tags'] = numTags;
-    if(this.debugMode) {
-      console.log(`%c[Tagsafe Log] recording num_tagsafe_injected_tags: ${numTags}`, 'background-color: purple; color: white; padding: 5px;');
-    }
-  }
+  // recordNumTagsafeInjectedTags(numTags) {
+  //   this.dataToReport['num_tagsafe_injected_tags'] = numTags;
+  //   if(this.debugMode) {
+  //     console.log(`%c[Tagsafe Log] recording num_tagsafe_injected_tags: ${numTags}`, 'background-color: purple; color: white; padding: 5px;');
+  //   }
+  // }
 
   recordNumTagsafeHostedTags(numTags) {
     this.dataToReport['num_tagsafe_hosted_tags'] = numTags;
