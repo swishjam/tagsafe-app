@@ -1,4 +1,4 @@
-export default class ScriptInector {
+export default class ScriptInjector {
   constructor({ immediateScripts, onLoadScripts, debugMode }) {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
@@ -11,15 +11,8 @@ export default class ScriptInector {
     this.immediateScripts.forEach(scriptConfig => this._injectScript(scriptConfig));
     window.addEventListener('DOMContentLoaded', () => {
       this.onLoadScripts.forEach(scriptConfig => this._injectScript(scriptConfig));
-      this.afterAllTagsAddedCallbacks.forEach(callback => callback());
     })
   }
-
-  afterAllTagsAdded(callback) {
-    this.afterAllTagsAddedCallbacks.push(callback);
-  }
-
-  numTagsInjected = () => this._numTagsInjected;
 
   _injectScript(scriptConfig) {
     const script = document.createElement('script');

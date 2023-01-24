@@ -61,7 +61,6 @@ export default class MetricsHandler {
   _reportJsTagMetrics() {
     const jsTags = document.querySelectorAll('script[src]');
     const numJsTags = jsTags.length;
-    // let numThirdPartyJsTags = 0;
     let numJsTagsHostedByTagsafe = 0;
     let numJsTagsNotHostedByTagsafe = 0;
     let numJsTagsWithTagsafeOverriddenLoadStrategies = 0;
