@@ -215,8 +215,8 @@ def self.run(tag:, tag_version:, page_url:, execution_reason:, initiated_by_cont
 
   def only_one_new_release_audit_per_tag_version
     return if tag_version.nil? || !execution_reason.new_release?
-    if tag_version.audits.successful.where(execution_reason: execution_reason).where.not(id: id).any?
-      errors.add(:base, "Tag Version #{tag_version.uid} already has an Audit with an Execution Reason of `New Release`.")
+    if tag_version.audits.successful.where(execution_reason: ExecutionReason.NEW_RELEASE, page_url: page_url).where.not(id: id).any?
+      errors.add(:base, "Tag Version #{tag_version.uid} already has an Audit with an Execution Reason of `New Release` for #{page_url.friendly_url}.")
     end
   end
 
