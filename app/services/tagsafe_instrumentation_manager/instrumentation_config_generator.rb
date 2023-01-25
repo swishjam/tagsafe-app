@@ -3,7 +3,6 @@ module TagsafeInstrumentationManager
     def initialize(container)
       @container = container
       @tags = container.tags.includes(:current_live_tag_version)
-      @tag_url_patterns_to_not_capture = container.tag_url_patterns_to_not_capture
     end
 
     def write_instrumentation_config_file
