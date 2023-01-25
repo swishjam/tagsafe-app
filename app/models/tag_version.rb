@@ -93,6 +93,10 @@ class TagVersion < ApplicationRecord
     change_request_decision == 'denied'
   end
 
+  def change_request_skipped?
+    change_request_decision == 'skipped'
+  end
+
   def approve_change_request(container_user)
     decide_change_request('approved', container_user)
   end

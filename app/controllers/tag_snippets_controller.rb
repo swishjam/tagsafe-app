@@ -26,7 +26,7 @@ class TagSnippetsController < LoggedInController
     @tag_snippet = TagSnippet.new
     render_breadcrumbs(
       { url: containers_path, text: @container.name },
-      { url: container_tag_snippets_path(container), text: 'Tags' },
+      { url: container_tag_snippets_path(@container), text: 'Tags' },
       { text: 'New Tag' }
     )
     render_default_navigation_items(:tags)
