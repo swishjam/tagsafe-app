@@ -67,7 +67,7 @@
                   class='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm' 
                   required
                 >
-                  <option value='default' <%= tag.configured_load_type == 'default' ? 'selected' : nil %>>Tag's default rule</option>
+                  <option value='default' <%= tag.configured_load_type == 'default' ? 'selected' : nil %>>Tag's default rule (<%= container.defer_script_tags_by_default ? 'Defer' : tag.load_type.capitalize %>)</option>
                   <option value='defer' <%= tag.configured_load_type == 'defer' ? 'selected' : nil %>>Defer</option>
                   <option value='async' <%= tag.configured_load_type == 'async' ? 'selected' : nil %>>Async</option>
                   <option value='synchronous' <%= tag.configured_load_type == 'synchronous' ? 'selected' : nil %>>Synchronous</option>

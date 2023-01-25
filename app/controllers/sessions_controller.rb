@@ -22,6 +22,7 @@ class SessionsController < ApplicationController
         "login_form",
         partial: 'sessions/form',
         locals: { 
+          user: user,
           user_invite: user_invite,
           error_message: "Invalid email or password.",
         }

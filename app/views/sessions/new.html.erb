@@ -34,7 +34,7 @@
           </div>
         </div>
         <%= turbo_frame_tag "login_form" do %>
-          <%= render 'form', user_invite: @user_invite %>
+          <%= render 'form', user_invite: @user_invite, user: User.new %>
         <% end %>
       </div>
     </div>
