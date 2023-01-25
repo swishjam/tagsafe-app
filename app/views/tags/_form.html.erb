@@ -75,32 +75,54 @@
               </div>
               <p class="mt-2 text-sm text-gray-500">Override the default load strategy on the tag's `script` element</p>
             </div>
-            <fieldset class="sm:col-span-6" <%= tag.is_tagsafe_hostable ? nil : "data-controller='tooltip' title='Due to the way #{tag.tag_snippet.name} is hosted it cannot be hosted on Tagsafe\'s CDN.'"%>>
-              <legend class="contents text-base font-medium <%= tag.is_tagsafe_hostable ? 'text-gray-900' : 'text-gray-400'%>">Optimize CDN</legend>
-              <p class="text-sm text-gray-500">Hosting with the Tagsafe CDN speeds up page load times, and gives you version control capabilities.</p>
-              <div class="mt-4 space-y-4">
-                <div class="flex items-center">
-                  <input id="tagsafe-hosted-true"
-                          name="tag[is_tagsafe_hosted]"
-                          type="radio"
-                          value="1"
-                          <%= tag.is_tagsafe_hostable ? nil : 'disabled=disabled' %>
-                          <%= tag.is_tagsafe_hosted ? 'checked=checked' : nil%>
-                          class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                  <label for="tagsafe-hosted-true" class="ml-3 block text-sm font-medium <%= tag.is_tagsafe_hostable ? 'text-gray-700' : 'text-gray-400'%>">Tagsafe optimized CDN</label>
+            <% if tag.is_tagsafe_hostable %>
+              <fieldset class="sm:col-span-6">
+                <legend class="contents text-base font-medium text-gray-900">Optimize CDN</legend>
+                <p class="text-sm text-gray-500">Hosting with the Tagsafe CDN speeds up page load times, and gives you version control capabilities.</p>
+                <div class="mt-4 space-y-4">
+                  <div class="flex items-center">
+                    <input id="tagsafe-hosted-true"
+                            name="tag[is_tagsafe_hosted]"
+                            type="radio"
+                            value="1"
+                            <%= tag.is_tagsafe_hosted ? 'checked=checked' : nil%>
+                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="tagsafe-hosted-true" class="ml-3 block text-sm font-medium text-gray-700">Tagsafe optimized CDN</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input id="tagsafe-hosted-false" 
+                            name="tag[is_tagsafe_hosted]" 
+                            value="0" 
+                            type="radio" 
+                            <%= tag.is_tagsafe_hosted ? nil : 'checked=checked'%> 
+                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="tagsafe-hosted-false" class="ml-3 block text-sm font-medium text-gray-700>">Tag's default host (<%= "https://#{tag.url_hostname}" %>)</label>
+                  </div>
                 </div>
-                <div class="flex items-center">
-                  <input id="tagsafe-hosted-false" 
-                          name="tag[is_tagsafe_hosted]" 
-                          value="0" 
-                          type="radio" 
-                          <%= tag.is_tagsafe_hostable ? nil : 'disabled=disabled' %>
-                          <%= tag.is_tagsafe_hosted ? nil : 'checked=checked'%> 
-                          class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                  <label for="tagsafe-hosted-false" class="ml-3 block text-sm font-medium <%= tag.is_tagsafe_hostable ? 'text-gray-700' : 'text-gray-400' %>">Tag's default host (<%= "https://#{tag.url_hostname}" %>)</label>
+              </fieldset>
+            <% else %>
+              <fieldset class="sm:col-span-6" data-controller='tooltip' title="Due to the way <%= tag.tag_snippet.name %> is hosted it cannot be hosted on Tagsafe's CDN.">
+                <legend class="contents text-base font-medium text-gray-400">Optimize CDN</legend>
+                <p class="text-sm text-gray-400">Hosting with the Tagsafe CDN speeds up page load times, and gives you version control capabilities.</p>
+                <div class="mt-4 space-y-4">
+                  <div class="flex items-center">
+                    <input id="tagsafe-hosted-true"
+                            type="radio"
+                            disabled=disabled
+                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="tagsafe-hosted-true" class="ml-3 block text-sm font-medium text-gray-400">Tagsafe optimized CDN</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input id="tagsafe-hosted-false" 
+                            type="radio" 
+                            checked='checked'
+                            disabled='disabled'
+                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <label for="tagsafe-hosted-false" class="ml-3 block text-sm font-medium text-gray-400">Tag's default host (<%= "https://#{tag.url_hostname}" %>)</label>
+                  </div>
                 </div>
-              </div>
-            </fieldset>
+              </fieldset>
+            <% end %>
           </div>
         </div>
       </div>
