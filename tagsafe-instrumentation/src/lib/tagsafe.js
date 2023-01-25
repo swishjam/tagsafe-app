@@ -1,7 +1,6 @@
 import MetricsHandler from './metricsHandler';
 import DataReporter from "./dataReporter";
 import ScriptInterceptor from './scriptInterceptor';
-import ThirdPartyTagIdentifier from './thirdPartyTagIdentifier';
 import ScriptInjector from './scriptInjector';
 
 export default class Tagsafe {
@@ -9,7 +8,7 @@ export default class Tagsafe {
     if(this._initialized) throw new Error(`Tagsafe already initialized.`);
     this._initialized = true;
 
-    const pageLoadId = `ts-${crypto.randomUUID()}`;
+    const pageLoadId = `ts-${Date.now()}-${parseInt(Math.random() * 1_000_000_000_000)}`;
     const pageLoadTs = new Date();
     window.Tagsafe.pageLoadId = () => pageLoadId;
     window.Tagsafe.pageLoadTs = () => pageLoadTs;
@@ -41,19 +40,6 @@ export default class Tagsafe {
       debugMode: settings.debugMode
     })
     scriptInjector.beginInjecting();
-    
-    const thirdPartyTagIdentifier = new ThirdPartyTagIdentifier({
-      dataReporter, 
-      debugMode: settings.debugMode,
-      firstPartyDomains: settings.firstPartyDomains
-    })
-
-    // scriptInjector.afterAllTagsAdded(async () => {
-    //   dataReporter.recordNumTagsafeInjectedTags(scriptInjector.numTagsInjected());
-    //   dataReporter.recordNumTagsafeHostedTags(scriptInterceptor.numTagsHostedByTagsafe());
-    //   dataReporter.recordNumTagsWithTagsafeOverriddenLoadStrategies(scriptInterceptor.numTagsWithTagsafeOverriddenLoadStrategies());
-    //   dataReporter.recordNumTagsNotHostedByTagsafe(await thirdPartyTagIdentifier.numTagsNotHostedByTagsafe());
-    // })
 
     if(settings.debugMode) {
       console.log('%c[Tagsafe Log] TagsafeJS initialized', 'background-color: purple; color: white; padding: 5px;');

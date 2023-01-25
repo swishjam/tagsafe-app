@@ -43,13 +43,20 @@ class ContainersController < LoggedInController
 
   def update
     container = current_user.containers.find_by!(uid: params[:uid])
-    container.update(container_params)
     turbo_frame = params[:turbo_frame] || 'container_settings'
-    render turbo_stream: turbo_stream.replace(
-      turbo_frame,
-      partial: turbo_frame == 'container_settings' ? 'containers/edit_form' : 'containers/disable_tagsafe_js_form',
-      locals: { container: container, success_message: 'Container settings updated.' }
-    )
+    if container.update(container_params)
+      render turbo_stream: turbo_stream.replace(
+        turbo_frame,
+        partial: turbo_frame == 'container_settings' ? 'containers/edit_form' : 'containers/disable_tagsafe_js_form',
+        locals: { container: container, success_message: 'Container settings updated.' }
+      )
+    else
+      render turbo_stream: turbo_stream.replace(
+        turbo_frame,
+        partial: turbo_frame == 'container_settings' ? 'containers/edit_form' : 'containers/disable_tagsafe_js_form',
+        locals: { container: container, error_message: container.errors.full_messages.join(' ') }
+      )
+    end
   end
 
   def show

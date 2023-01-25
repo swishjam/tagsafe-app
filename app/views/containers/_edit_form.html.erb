@@ -5,13 +5,20 @@
       <div class="rounded-md bg-green-50 p-4">
         <div class="flex">
           <div class="flex-shrink-0">
-            <!-- Heroicon name: mini/x-circle -->
             <svg class="h-6 w-6 text-green-800 bg-green-200 rounded-full px-1 py-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
           <div class="ml-3">
             <h3 class="text-sm font-medium text-green-800"><%= local_assigns[:success_message] %></h3>
+          </div>
+        </div>
+      </div>
+    <% elsif local_assigns[:error_message] %>
+      <div class="rounded-md bg-red-50 p-4">
+        <div class="flex">
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800"><%= local_assigns[:error_message] %></h3>
           </div>
         </div>
       </div>

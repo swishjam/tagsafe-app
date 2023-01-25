@@ -8,6 +8,14 @@ RSpec.describe Tag, type: :model do
     @tag = create_tag_with_associations
   end
 
+  describe '#configured_load_strategy_based_on_preferences' do
+    it 'returns defer if the container\'s `defer_all_script_tags` is set to true and the tag\'s `configured_load_type` is set to "default"' do
+      @tag.configured_load_type = 'default'
+      @tag.container.defer_all_script_tags = true
+      expect(@tag.configured_load_strategy_based_on_preferences).to eq('defer')
+    end
+  end
+
   describe 'scopes - interval tag checks' do
     it 'returns the correct tags based on the tag preference\'s release_check_minute_interval' do
       TagPreference::RELEASE_CHECK_INTERVALS.each do |obj|

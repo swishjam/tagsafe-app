@@ -61,7 +61,7 @@ module TagsafeInstrumentationManager
               tag: '#{tag.uid}',
               tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
               configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
-              configuredLoadType: #{configured_load_type_for_tag(tag)},
+              configuredLoadType: #{"\"#{tag.configured_load_strategy_based_on_preferences}\""},
               sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
             },
           "
@@ -70,10 +70,10 @@ module TagsafeInstrumentationManager
       js += '}'
     end
 
-    def configured_load_type_for_tag(tag)
-      return "\"defer\"" if @container.defer_script_tags_by_default && tag.configured_load_type == 'default'
-      "\"#{tag.configured_load_type}\""
-    end
+    # def configured_load_type_for_tag(tag)
+    #   return "\"defer\"" if @container.defer_script_tags_by_default && tag.configured_load_type == 'default'
+    #   "\"#{tag.configured_load_type}\""
+    # end
 
     def build_tag_snippet_inject_array(tag_snippet, tag_inject_scope)
       js = '['
