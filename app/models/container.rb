@@ -19,7 +19,12 @@ class Container < ApplicationRecord
   has_many :tag_versions, through: :tags
   has_many :user_invites, dependent: :destroy
 
-  ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[defer_script_tags_by_default tagsafe_js_enabled]
+  ATTRS_TO_PUBLISH_INSTRUMENTATION = %w[
+    defer_script_tags_by_default 
+    tagsafe_js_enabled 
+    tagsafe_js_re_route_eligible_tags_sample_rate 
+    tagsafe_js_reporting_sample_rate
+  ]
   after_update { publish_instrumentation! if saved_changes.keys.intersection(Container::ATTRS_TO_PUBLISH_INSTRUMENTATION).any? }
 
   before_create { self.instrumentation_key = "TAGSAFE-#{uid.split("#{self.class.get_uid_prefix}_")[1]}" }
