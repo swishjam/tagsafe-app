@@ -42,6 +42,6 @@
     "DomCompletePerformanceMetric":2911.3636363636365,
     "DomInteractivePerformanceMetric":596.0,
     "TotalBlockingTimePerformanceMetric":null,
-    "FirstContentfulPaintPerformanceMetric":799.9363636363636
+    "FirstContentfulPaintPerformanceMetric ":799.9363636363636
   }
 }

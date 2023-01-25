@@ -2,41 +2,71 @@ const PuppeteerModerator = require('./puppeteerModerator');
 
 module.exports = class PagePerformanceMeasurer {
   static async measureThirdPartyImpact(page_url, first_party_urls) {
-    const [pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags] = await Promise.all([
+    const [pagePerfWithoutThirdPartyTags1, pagePerfWithThirdPartyTags1] = await Promise.all([
       PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, true),
       PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, false)
     ])
 
+    const [pagePerfWithoutThirdPartyTags2, pagePerfWithThirdPartyTags2] = await Promise.all([
+      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, true),
+      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, false)
+    ])
+
+    const [pagePerfWithoutThirdPartyTags3, pagePerfWithThirdPartyTags3] = await Promise.all([
+      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, true),
+      PagePerformanceMeasurer._measurePagePerformance(page_url, first_party_urls, false)
+    ])
+
+    const averageScriptDurationWithTags = (pagePerfWithThirdPartyTags1.ScriptDuration + pagePerfWithThirdPartyTags2.ScriptDuration + pagePerfWithThirdPartyTags3.ScriptDuration) / 3
+    const averageScriptDurationWithoutTags = (pagePerfWithoutThirdPartyTags1.ScriptDuration + pagePerfWithoutThirdPartyTags2.ScriptDuration + pagePerfWithoutThirdPartyTags3.ScriptDuration) / 3
+    const averageTaskDurationWithTags = (pagePerfWithThirdPartyTags1.TaskDuration + pagePerfWithThirdPartyTags2.TaskDuration + pagePerfWithThirdPartyTags3.TaskDuration) / 3
+    const averageTaskDurationWithoutTags = (pagePerfWithoutThirdPartyTags1.TaskDuration + pagePerfWithoutThirdPartyTags2.TaskDuration + pagePerfWithoutThirdPartyTags3.TaskDuration) / 3
+    const averageDOMCompleteWithTags = (pagePerfWithThirdPartyTags1.DOMComplete + pagePerfWithThirdPartyTags2.DOMComplete + pagePerfWithThirdPartyTags3.DOMComplete) / 3
+    const averageDOMCompleteWithoutTags = (pagePerfWithoutThirdPartyTags1.DOMComplete + pagePerfWithoutThirdPartyTags2.DOMComplete + pagePerfWithoutThirdPartyTags3.DOMComplete) / 3
+    const averageDOMInteractiveWithTags = (pagePerfWithThirdPartyTags1.DOMInteractive + pagePerfWithThirdPartyTags2.DOMInteractive + pagePerfWithThirdPartyTags3.DOMInteractive) / 3
+    const averageDOMInteractiveWithoutTags = (pagePerfWithoutThirdPartyTags1.DOMInteractive + pagePerfWithoutThirdPartyTags2.DOMInteractive + pagePerfWithoutThirdPartyTags3.DOMInteractive) / 3
+    const averageDOMLoadingWithTags = (pagePerfWithThirdPartyTags1.DOMLoading + pagePerfWithThirdPartyTags2.DOMLoading + pagePerfWithThirdPartyTags3.DOMLoading) / 3
+    const averageDOMLoadingWithoutTags = (pagePerfWithoutThirdPartyTags1.DOMLoading + pagePerfWithoutThirdPartyTags2.DOMLoading + pagePerfWithoutThirdPartyTags3.DOMLoading) / 3
+    const averageFirstContentfulPaintWithTags = (pagePerfWithThirdPartyTags1.FirstContentfulPaint + pagePerfWithThirdPartyTags2.FirstContentfulPaint + pagePerfWithThirdPartyTags3.FirstContentfulPaint) / 3
+    const averageFirstContentfulPaintWithoutTags = (pagePerfWithoutThirdPartyTags1.FirstContentfulPaint + pagePerfWithoutThirdPartyTags2.FirstContentfulPaint + pagePerfWithoutThirdPartyTags3.FirstContentfulPaint) / 3
+
     return {
+      numExecutions: 3,
       ScriptDuration: {
-        withTags: pagePerfWithThirdPartyTags['ScriptDuration'],
-        withoutTags: pagePerfWithoutThirdPartyTags['ScriptDuration'],
-        ...PagePerformanceMeasurer._calcImpact('ScriptDuration', pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags)
+        withTags: averageScriptDurationWithTags,
+        withoutTags: averageScriptDurationWithoutTags,
+        difference: averageScriptDurationWithTags - averageScriptDurationWithoutTags,
+        percentFasterWithoutTags: `${(averageScriptDurationWithTags / (averageScriptDurationWithTags - averageScriptDurationWithoutTags)) * 100}%`,
       },
       TaskDuration: {
-        withTags: pagePerfWithThirdPartyTags['TaskDuration'],
-        withoutTags: pagePerfWithoutThirdPartyTags['TaskDuration'],
-        ...PagePerformanceMeasurer._calcImpact('TaskDuration', pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags)
+        withTags: averageTaskDurationWithTags,
+        withoutTags: averageTaskDurationWithoutTags,
+        difference: averageTaskDurationWithTags - averageTaskDurationWithoutTags,
+        percentFasterWithoutTags: `${(averageTaskDurationWithTags / (averageTaskDurationWithTags - averageTaskDurationWithoutTags)) * 100}%`,
       },
       DOMComplete: {
-        withTags: pagePerfWithThirdPartyTags['DOMComplete'],
-        withoutTags: pagePerfWithoutThirdPartyTags['DOMComplete'],
-        ...PagePerformanceMeasurer._calcImpact('DOMComplete', pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags)
+        withTags: averageDOMCompleteWithTags,
+        withoutTags: averageDOMCompleteWithoutTags,
+        difference: averageDOMCompleteWithTags - averageDOMCompleteWithoutTags,
+        percentFasterWithoutTags: `${(averageDOMCompleteWithTags / (averageDOMCompleteWithTags - averageDOMCompleteWithoutTags)) * 100}%`,
       },
       DOMInteractive: {
-        withTags: pagePerfWithThirdPartyTags['DOMInteractive'],
-        withoutTags: pagePerfWithoutThirdPartyTags['DOMInteractive'],
-        ...PagePerformanceMeasurer._calcImpact('DOMInteractive', pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags)
+        withTags: averageDOMInteractiveWithTags,
+        withoutTags: averageDOMInteractiveWithoutTags,
+        difference: averageDOMInteractiveWithTags - averageDOMInteractiveWithoutTags,
+        percentFasterWithoutTags: `${(averageDOMInteractiveWithTags / (averageDOMInteractiveWithTags - averageDOMInteractiveWithoutTags)) * 100}%`,
       },
       DOMLoading: {
-        withTags: pagePerfWithThirdPartyTags['DOMLoading'],
-        withoutTags: pagePerfWithoutThirdPartyTags['DOMLoading'],
-        ...PagePerformanceMeasurer._calcImpact('DOMLoading', pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags)
+        withTags: averageDOMLoadingWithTags,
+        withoutTags: averageDOMLoadingWithoutTags,
+        difference: averageDOMLoadingWithTags - averageDOMLoadingWithoutTags,
+        percentFasterWithoutTags: `${(averageDOMLoadingWithTags / (averageDOMLoadingWithTags - averageDOMLoadingWithoutTags)) * 100}%`,
       },
       FirstContentfulPaint: {
-        withTags: pagePerfWithThirdPartyTags['FirstContentfulPaint'],
-        withoutTags: pagePerfWithoutThirdPartyTags['FirstContentfulPaint'],
-        ...PagePerformanceMeasurer._calcImpact('FirstContentfulPaint', pagePerfWithoutThirdPartyTags, pagePerfWithThirdPartyTags)
+        withTags: averageFirstContentfulPaintWithTags,
+        withoutTags: averageFirstContentfulPaintWithoutTags,
+        difference: averageFirstContentfulPaintWithTags - averageFirstContentfulPaintWithoutTags,
+        percentFasterWithoutTags: `${(averageFirstContentfulPaintWithTags / (averageFirstContentfulPaintWithTags - averageFirstContentfulPaintWithoutTags)) * 100}%`,
       },
     }
   }
@@ -70,7 +100,7 @@ module.exports = class PagePerformanceMeasurer {
         DOMComplete: performance.timing.domComplete - performance.timing.navigationStart,
         DOMInteractive: performance.timing.domInteractive - performance.timing.navigationStart,
         DOMLoading: performance.timing.domLoading - performance.timing.navigationStart,
-        FirstContentfulPaint: performance.getEntriesByName('first-contentful-paint')[0].startTime
+        FirstContentfulPaint: performance.getEntriesByName('first-contentful-paint')?.at(0)?.startTime
       }
     });
 

@@ -7,7 +7,7 @@
     "deploy-dev": "serverless deploy --stage collin-dev",
     "deploy-staging": "serverless deploy --stage staging",
     "deploy-prod": "serverless deploy --stage production",
-    "locally": "serverless invoke local --function audit-domains-third-party-tags --data '{ \"page_url\": \"https://www.manscaped.com\", \"first_party_urls\": [\"https://www.manscaped.com\"] }' --stage local"
+    "locally": "serverless invoke local --function audit-domains-third-party-tags --data '{ \"page_url\": \"https://www.specialized.com\", \"first_party_urls\": [\"https://www.specialized.com\"] }' --stage local"
   },
   "author": "",
   "license": "ISC",
