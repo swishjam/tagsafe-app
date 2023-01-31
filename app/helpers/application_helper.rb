@@ -1,10 +1,20 @@
 module ApplicationHelper
   include HtmlHelper
   def current_user
-    @current_user ||= User.find_by(uid: session[:current_user_uid]) unless session[:current_user_uid].nil?
-  rescue ActiveRecord::RecordNotFound => e
-    log_user_out
-    redirect_to new_session_path
+    if tagsafe_admin_is_impersonating_user?
+      @current_user ||= User.find_by(uid: session[:impersonating_user_uid])
+    else
+      begin
+        @current_user ||= User.find_by(uid: session[:current_user_uid]) unless session[:current_user_uid].nil?
+      rescue ActiveRecord::RecordNotFound => e
+        log_user_out
+        redirect_to new_session_path
+      end
+    end
+  end
+
+  def tagsafe_admin_is_impersonating_user?
+    session[:impersonating_user_uid].present?
   end
 
   def user_is_anonymous?
@@ -14,10 +24,6 @@ module ApplicationHelper
   def current_container_user
     return if current_user.nil?
     @container_user ||= current_user.container_user_for(@container)
-  end
-
-  def current_anonymous_user_identifier
-    session[:anonymous_user_identifier]
   end
 
   def set_current_user(user)

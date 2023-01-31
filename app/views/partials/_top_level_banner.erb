@@ -1,3 +1,10 @@
+<% if tagsafe_admin_is_impersonating_user? %>
+  <div class='w-100 flex items-center justify-center bg-red-200 px-10 py-5'>
+    <span class='text-md'>
+      You are currently impersonating <%= current_user.email %>, please act with caution. <%= link_to 'Un-impersonate', admin_un_impersonate_path, class: 'text-blue-700 underline' %>.
+    </div>
+  </div>
+<% end %>
 <% if @container&.tagsafe_js_disabled? %>
   <div class='w-100 flex items-center justify-center bg-red-200 px-10 py-5'>
     <span class='text-md'>
