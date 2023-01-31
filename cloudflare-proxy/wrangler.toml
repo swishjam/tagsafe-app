@@ -1,0 +1,24 @@
+name = "tagsafe-proxier"
+main = "src/index.js"
+compatibility_date = "2022-12-05"
+# node_compat = true
+
+##################
+###    DEV    ####
+##################
+[env.dev]
+name = "dev-tagsafe-proxier"
+
+[env.dev.vars]
+ORIGIN_HOST='www.tagsafe.io'
+TAGSAFE_PROXY_HOST='dev-tagsafe-proxier.tagsafe.workers.dev'
+
+###################
+### PRODUCTION ####
+###################
+[env.production]
+name = "tagsafe-proxier"
+TAGSAFE_PROXY_HOST='tagsafe-proxier.tagsafe.workers.dev'
+
+[env.production.vars]
+ORIGIN_HOST='www.tagsafe.io'
