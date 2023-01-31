@@ -1,16 +1,24 @@
 export default class ScriptInjector {
-  constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode }) {
+  constructor({ immediateScripts, onLoadScripts, onInteractionScripts, tagInterceptionRules, disableScriptInterception, debugMode }) {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
+    this.onInteractionScripts = onInteractionScripts;
+
     this.tagInterceptionRules = tagInterceptionRules;
     this.disableScriptInterception = disableScriptInterception;
     this.debugMode = debugMode;
+
     this.afterAllTagsAddedCallbacks = [];
     this._numTagsInjected = 0;
   }
 
   beginInjecting() {
     this.immediateScripts.forEach(tagConfig => this._injectScriptIfNecessary(tagConfig));
+    ['scroll', 'click', 'mousemove', 'touchstart'].forEach(eventType => {
+      window.addEventListener(eventType, () => {
+        this.onInteractionScripts.forEach(tagconfig => this._injectScriptIfNecessary(tagconfig));
+      }, { once: true });
+    })
     window.addEventListener('DOMContentLoaded', () => {
       this.onLoadScripts.forEach(tagConfig => this._injectScriptIfNecessary(tagConfig));
     })
