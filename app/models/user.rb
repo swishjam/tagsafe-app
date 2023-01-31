@@ -9,8 +9,9 @@ class User < ApplicationRecord
   has_many :created_functional_tests, class_name: FunctionalTest.to_s, foreign_key: :created_by_user_id
   # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_container_user_id
 
-  validates_presence_of :email, :password, :first_name, :last_name
+  validates_presence_of :email, :password_digest, :first_name, :last_name
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
+  validate :only_tagsafe_emails_can_become_tagsafe_admins
 
   after_create { TagsafeEmail::Welcome.new(self).send! }
   after_create { TagsafeEmail::Generic.new(to_email: 'founders@tagsafe.io', subject: 'New user', body: email).send! }
@@ -27,8 +28,8 @@ class User < ApplicationRecord
     has_role_for_container?(container, Role.USER_ADMIN)
   end
 
-  def is_tagsafe_admin?(container)
-    has_role_for_container?(container, Role.TAGSAFE_ADMIN)
+  def is_tagsafe_admin?
+    is_tagsafe_admin
   end
 
   def has_role_for_container?(container, role)
@@ -70,5 +71,13 @@ class User < ApplicationRecord
         auto_dismiss: auto_dismiss,
       }
     )
+  end
+
+  private
+
+  def only_tagsafe_emails_can_become_tagsafe_admins
+    if is_tagsafe_admin && !email.ends_with?('@tagsafe.io')
+      errors.add(:base, 'Unable to update user.')
+    end
   end
 end

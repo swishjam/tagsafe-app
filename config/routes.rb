@@ -99,6 +99,8 @@ Rails.application.routes.draw do
 
   get '/admin' => redirect('/admin/performance')
   namespace :admin do
+    get '/impersonate/:user_uid' => 'impersonate#impersonate', as: :impersonate
+    get '/un_impersonate' => 'impersonate#un_impersonate', as: :un_impersonate
     get '/performance' => 'performance#index'
     get '/executed_step_function/for_obj/:parent_type/:parent_id' => 'executed_step_functions#for_obj'
     resources :containers, only: [:index, :show], param: :uid

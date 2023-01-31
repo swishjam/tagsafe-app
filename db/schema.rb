@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_22_003437) do
+ActiveRecord::Schema.define(version: 2023_01_31_153859) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -878,6 +878,7 @@ ActiveRecord::Schema.define(version: 2023_01_22_003437) do
     t.string "first_name"
     t.string "last_name"
     t.datetime "deleted_at"
+    t.boolean "is_tagsafe_admin", default: false
     t.index ["uid"], name: "index_users_on_uid"
   end
 
