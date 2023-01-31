@@ -1,0 +1,164 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9933929999999999,
+    "withoutTags": 0.050935666666666664,
+    "difference": 0.9424573333333331,
+    "cutMetricPercentage": 0.9487255631289261,
+    "percentFasterWithoutTags": "105.40455942833134%"
+  },
+  "TaskDuration": {
+    "withTags": 2.7930639999999998,
+    "withoutTags": 1.1369939999999998,
+    "difference": 1.65607,
+    "cutMetricPercentage": 0.5929223247301172,
+    "percentFasterWithoutTags": "168.65615583882322%"
+  },
+  "DOMComplete": {
+    "withTags": 4337.666666666667,
+    "withoutTags": 2451.3333333333335,
+    "difference": 1886.3333333333335,
+    "cutMetricPercentage": 0.4348728194882041,
+    "percentFasterWithoutTags": "229.9522883901749%"
+  },
+  "DOMInteractive": {
+    "withTags": 2209.3333333333335,
+    "withoutTags": 1611.6666666666667,
+    "difference": 597.6666666666667,
+    "cutMetricPercentage": 0.27051901025950514,
+    "percentFasterWithoutTags": "369.65978806469604%"
+  },
+  "DOMLoading": {
+    "withTags": 1220,
+    "withoutTags": 1153.6666666666667,
+    "difference": 66.33333333333326,
+    "cutMetricPercentage": 0.05437158469945349,
+    "percentFasterWithoutTags": "1839.1959798994997%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1603.8666666646798,
+    "withoutTags": 1413.7999999995034,
+    "difference": 190.0666666651764,
+    "cutMetricPercentage": 0.11850527890852015,
+    "percentFasterWithoutTags": "843.8442651756867%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-WJBEVGBF9K",
+      "bytes": 242445,
+      "dnsTime": 12.945,
+      "sslTime": 161.678,
+      "requestTime": 251.171
+    },
+    {
+      "url": "https://embed.scheduleengine.net/schedule-engine-v2.js",
+      "bytes": 50002,
+      "dnsTime": 11.638,
+      "sslTime": 38.389,
+      "requestTime": 376.57800000000003
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-N3ZZBFG",
+      "bytes": 182566,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 402.716
+    },
+    {
+      "url": "https://cdn.livechatinc.com/tracking.js",
+      "bytes": 86779,
+      "dnsTime": 2.067,
+      "sslTime": 17.812,
+      "requestTime": 40.137
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 101.842,
+      "sslTime": 232.338,
+      "requestTime": 486.849
+    },
+    {
+      "url": "https://api.livechatinc.com/v3.3/customer/action/get_dynamic_configuration?license_id=8224421&url=https%3A%2F%2Freliableair.com%2F&channel_type=code&jsonp=__txe99sq4lu",
+      "bytes": 236,
+      "dnsTime": 26.161,
+      "sslTime": 17.925,
+      "requestTime": 259.37699999999995
+    },
+    {
+      "url": "https://assets.ubembed.com/universalscript/releases/v0.179.2/bundle.js",
+      "bytes": 178069,
+      "dnsTime": 17.238,
+      "sslTime": 394.516,
+      "requestTime": 487.55100000000004
+    },
+    {
+      "url": "https://api.livechatinc.com/v3.3/customer/action/get_configuration?license_id=8224421&version=2015.5.5.2080.17.25.26.9.5.3.5.11.60&group_id=2&jsonp=__lc_static_config",
+      "bytes": 3094,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 517.358
+    },
+    {
+      "url": "https://api.livechatinc.com/v3.3/customer/action/get_localization?license_id=8224421&version=ff93808ef52c6dd040640c4853b854bd&language=en&group_id=2&jsonp=__lc_localization",
+      "bytes": 10881,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 667.9560000000001
+    },
+    {
+      "url": "https://reliable.widget.scheduleengine.net/static/js/5.833a1fe4.chunk.js",
+      "bytes": 1156775,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.627
+    },
+    {
+      "url": "https://reliable.widget.scheduleengine.net/static/js/main.5b0f33fd.chunk.js",
+      "bytes": 189235,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.612
+    },
+    {
+      "url": "https://cdn.livechatinc.com/widget/static/js/0.d619df13.chunk.js",
+      "bytes": 47599,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.18
+    },
+    {
+      "url": "https://cdn.livechatinc.com/widget/static/js/1.242d30c5.chunk.js",
+      "bytes": 214454,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.918
+    },
+    {
+      "url": "https://cdn.livechatinc.com/widget/static/js/iframe.73879adc.chunk.js",
+      "bytes": 763625,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.109
+    }
+  ],
+  "numJsRequests": 14,
+  "numThirdPartyJsRequests": 14,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 3165156,
+  "totalDnsTime": 171.891,
+  "totalSslTime": 862.658,
+  "totalTime": 3651.139,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 171.891,
+  "totalThirdPartySslTime": 862.658,
+  "totalThirdPartyTime": 3651.139,
+  "totalThirdPartyJsBytes": 3165156,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 28.334966157136172,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

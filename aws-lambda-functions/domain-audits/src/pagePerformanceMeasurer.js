@@ -36,36 +36,42 @@ module.exports = class PagePerformanceMeasurer {
         withTags: averageScriptDurationWithTags,
         withoutTags: averageScriptDurationWithoutTags,
         difference: averageScriptDurationWithTags - averageScriptDurationWithoutTags,
+        cutMetricPercentage: (averageScriptDurationWithTags - averageScriptDurationWithoutTags) / averageScriptDurationWithTags,
         percentFasterWithoutTags: `${(averageScriptDurationWithTags / (averageScriptDurationWithTags - averageScriptDurationWithoutTags)) * 100}%`,
       },
       TaskDuration: {
         withTags: averageTaskDurationWithTags,
         withoutTags: averageTaskDurationWithoutTags,
         difference: averageTaskDurationWithTags - averageTaskDurationWithoutTags,
+        cutMetricPercentage: (averageTaskDurationWithTags - averageTaskDurationWithoutTags) / averageTaskDurationWithTags,
         percentFasterWithoutTags: `${(averageTaskDurationWithTags / (averageTaskDurationWithTags - averageTaskDurationWithoutTags)) * 100}%`,
       },
       DOMComplete: {
         withTags: averageDOMCompleteWithTags,
         withoutTags: averageDOMCompleteWithoutTags,
         difference: averageDOMCompleteWithTags - averageDOMCompleteWithoutTags,
+        cutMetricPercentage: (averageDOMCompleteWithTags - averageDOMCompleteWithoutTags) / averageDOMCompleteWithTags,
         percentFasterWithoutTags: `${(averageDOMCompleteWithTags / (averageDOMCompleteWithTags - averageDOMCompleteWithoutTags)) * 100}%`,
       },
       DOMInteractive: {
         withTags: averageDOMInteractiveWithTags,
         withoutTags: averageDOMInteractiveWithoutTags,
         difference: averageDOMInteractiveWithTags - averageDOMInteractiveWithoutTags,
+        cutMetricPercentage: (averageDOMInteractiveWithTags - averageDOMInteractiveWithoutTags) / averageDOMInteractiveWithTags,
         percentFasterWithoutTags: `${(averageDOMInteractiveWithTags / (averageDOMInteractiveWithTags - averageDOMInteractiveWithoutTags)) * 100}%`,
       },
       DOMLoading: {
         withTags: averageDOMLoadingWithTags,
         withoutTags: averageDOMLoadingWithoutTags,
         difference: averageDOMLoadingWithTags - averageDOMLoadingWithoutTags,
+        cutMetricPercentage: (averageDOMLoadingWithTags - averageDOMLoadingWithoutTags) / averageDOMLoadingWithTags,
         percentFasterWithoutTags: `${(averageDOMLoadingWithTags / (averageDOMLoadingWithTags - averageDOMLoadingWithoutTags)) * 100}%`,
       },
       FirstContentfulPaint: {
         withTags: averageFirstContentfulPaintWithTags,
         withoutTags: averageFirstContentfulPaintWithoutTags,
         difference: averageFirstContentfulPaintWithTags - averageFirstContentfulPaintWithoutTags,
+        cutMetricPercentage: (averageFirstContentfulPaintWithTags - averageFirstContentfulPaintWithoutTags) / averageFirstContentfulPaintWithTags,
         percentFasterWithoutTags: `${(averageFirstContentfulPaintWithTags / (averageFirstContentfulPaintWithTags - averageFirstContentfulPaintWithoutTags)) * 100}%`,
       },
     }
@@ -83,6 +89,7 @@ module.exports = class PagePerformanceMeasurer {
           console.log(`Blocking request to ${req.url()}`)
           await req.abort();
         } else {
+          if(req.resourceType() === 'script') console.log(`Considering JS request to ${req.url()} first party!`);
           await req.continue();
         }
       })

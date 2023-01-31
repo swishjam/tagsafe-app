@@ -1,0 +1,206 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 4.320251999999999,
+    "withoutTags": 1.7738463333333332,
+    "difference": 2.546405666666666,
+    "cutMetricPercentage": 0.41058862615730135,
+    "percentFasterWithoutTags": "169.66079115176333%"
+  },
+  "TaskDuration": {
+    "withTags": 6.6040116666666675,
+    "withoutTags": 3.437629,
+    "difference": 3.1663826666666677,
+    "cutMetricPercentage": 0.5205364819918801,
+    "percentFasterWithoutTags": "208.56644195879457%"
+  },
+  "DOMComplete": {
+    "withTags": -558230168596,
+    "withoutTags": 3722.3333333333335,
+    "difference": -558230172318.3334,
+    "cutMetricPercentage": -6.668097753826782e-9,
+    "percentFasterWithoutTags": "99.99999933319023%"
+  },
+  "DOMInteractive": {
+    "withTags": 2181.3333333333335,
+    "withoutTags": 2301.3333333333335,
+    "difference": -120,
+    "cutMetricPercentage": 1.0550122249388754,
+    "percentFasterWithoutTags": "-1817.777777777778%"
+  },
+  "DOMLoading": {
+    "withTags": 778.6666666666666,
+    "withoutTags": 1048.3333333333333,
+    "difference": -269.66666666666663,
+    "cutMetricPercentage": 1.3463184931506849,
+    "percentFasterWithoutTags": "-288.751545117429%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1259.8333333333333,
+    "withoutTags": 1732.9666666661699,
+    "difference": -473.1333333328366,
+    "cutMetricPercentage": 1.3755523217352852,
+    "percentFasterWithoutTags": "-266.2744821758467%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://edge1.certona.net/cd/a691d6e4/www.canadiantire.ca/scripts/resonance.js",
+      "bytes": 15203,
+      "dnsTime": 9.208,
+      "sslTime": 28.076,
+      "requestTime": 66.83800000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-T4P4LWF&l=analyticsLayer",
+      "bytes": 442749,
+      "dnsTime": 15.572,
+      "sslTime": 47.889,
+      "requestTime": 131.74800000000002
+    },
+    {
+      "url": "https://cdn3.optimizely.com/js/geo4.js",
+      "bytes": 317,
+      "dnsTime": 2.702,
+      "sslTime": 15.013,
+      "requestTime": 29.823999999999998
+    },
+    {
+      "url": "https://524001859.collect.igodigital.com/collect.js",
+      "bytes": 8440,
+      "dnsTime": 4.487,
+      "sslTime": 101.842,
+      "requestTime": 197.765
+    },
+    {
+      "url": "https://spss.canadiantire.ca/verify.js",
+      "bytes": 6371,
+      "dnsTime": 1.453,
+      "sslTime": 112.109,
+      "requestTime": 196.197
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KXKX8P6&l=analyticsLayer",
+      "bytes": 97049,
+      "dnsTime": 0.01,
+      "sslTime": 33.55,
+      "requestTime": 72.562
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-S6PVRF2FWN&l=analyticsLayer&cx=c",
+      "bytes": 215743,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.57
+    },
+    {
+      "url": "https://cdn.yottaa.com/rapid.min.7.1.2.js?key=hqB45rgqeo8i2A",
+      "bytes": 78565,
+      "dnsTime": 13.838,
+      "sslTime": 50.821,
+      "requestTime": 91.357
+    },
+    {
+      "url": "https://cdn-scripts.signifyd.com/api/script-tag.js",
+      "bytes": 5956,
+      "dnsTime": 17.552,
+      "sslTime": 17.264,
+      "requestTime": 81.573
+    },
+    {
+      "url": "https://js-agent.newrelic.com/nr-spa-1216.min.js",
+      "bytes": 50049,
+      "dnsTime": 8.549,
+      "sslTime": 15.377,
+      "requestTime": 33.465
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.ca/wdccan/2315/onsite/embed.js",
+      "bytes": 1098,
+      "dnsTime": 39.87,
+      "sslTime": 14.285,
+      "requestTime": 63.961000000000006
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 10.648,
+      "sslTime": 34.572,
+      "requestTime": 57.71800000000001
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.ca/wdccan/2315/onsite/generic1674372218593.js",
+      "bytes": 366018,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.237
+    },
+    {
+      "url": "https://cdns.brsrvr.com/v1/br-trk-6376.js",
+      "bytes": 16173,
+      "dnsTime": 12.253,
+      "sslTime": 99.911,
+      "requestTime": 272.287
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 9.418,
+      "sslTime": 11.692,
+      "requestTime": 71.723
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 7.868,
+      "sslTime": 15.113,
+      "requestTime": 58.49
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.ca/resources/dist/assets/js/invite-vendor-9dd20b75f7.js",
+      "bytes": 244369,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.685000000000002
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.ca/resources/dist/assets/js/invite-app-f9ad33b00e.js",
+      "bytes": 78157,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.663
+    },
+    {
+      "url": "https://tr.snapchat.com/config/ca/4cc61932-75d6-4cd0-a8b2-32bb62a09394.js",
+      "bytes": 144,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.53800000000001
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=354660&time=1674690502672&url=https%3A%2F%2Fwww.canadiantire.ca%2Fen.html&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.969
+    }
+  ],
+  "numJsRequests": 35,
+  "numThirdPartyJsRequests": 20,
+  "numFirstPartyJsRequests": 15,
+  "numUnique3pHosts": 15,
+  "totalJsBytes": 5375991,
+  "totalDnsTime": 153.428,
+  "totalSslTime": 597.5140000000001,
+  "totalTime": 3070.432,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1381.262,
+  "totalFirstPartyJsBytes": 3662718,
+  "totalThirdPartyDnsTime": 153.428,
+  "totalThirdPartySslTime": 597.5140000000001,
+  "totalThirdPartyTime": 1689.1700000000003,
+  "totalThirdPartyJsBytes": 1713273,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 44.456271423243365,
+  "percentOfJsRequestTimeIs3p": 55.014082708882675,
+  "percentOfJsIs3p": 31.868970762785874
+}

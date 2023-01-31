@@ -1,0 +1,115 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.77646,
+    "withoutTags": 0.055818,
+    "difference": 0.720642,
+    "cutMetricPercentage": 0.9281122015300208,
+    "percentFasterWithoutTags": "107.7455935124514%"
+  },
+  "TaskDuration": {
+    "withTags": 3.6578910000000007,
+    "withoutTags": 0.4219356666666667,
+    "difference": 3.235955333333334,
+    "cutMetricPercentage": 0.8846505632161629,
+    "percentFasterWithoutTags": "113.03898302675377%"
+  },
+  "DOMComplete": {
+    "withTags": 14608,
+    "withoutTags": 10868.333333333334,
+    "difference": 3739.666666666666,
+    "cutMetricPercentage": 0.2560012778386272,
+    "percentFasterWithoutTags": "390.62305018272576%"
+  },
+  "DOMInteractive": {
+    "withTags": 1803.6666666666667,
+    "withoutTags": 1534,
+    "difference": 269.66666666666674,
+    "cutMetricPercentage": 0.14951025688412498,
+    "percentFasterWithoutTags": "668.8504326328799%"
+  },
+  "DOMLoading": {
+    "withTags": 1233,
+    "withoutTags": 1241.3333333333333,
+    "difference": -8.333333333333258,
+    "cutMetricPercentage": -0.0067585834009191055,
+    "percentFasterWithoutTags": "-14796.000000000135%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1666.4333333348234,
+    "withoutTags": 1596.06666666766,
+    "difference": 70.36666666716337,
+    "cutMetricPercentage": 0.04222591162788818,
+    "percentFasterWithoutTags": "2368.21411651785%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://pbsdistribution.org/wp-includes/js/jquery/jquery.min.js?ver=3.6.1",
+      "bytes": 89684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 176.858
+    },
+    {
+      "url": "https://pbsdistribution.org/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2",
+      "bytes": 11224,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 108.04200000000002
+    },
+    {
+      "url": "https://pbsdistribution.org/wp-content/themes/pbsd/assets/js/theme.min.js?ver=1.1.1",
+      "bytes": 173523,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 368.544
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-P56LK5P",
+      "bytes": 103472,
+      "dnsTime": 0.754,
+      "sslTime": 29.198,
+      "requestTime": 116.619
+    },
+    {
+      "url": "https://pbsdistribution.org/wp-includes/js/wp-emoji-release.min.js?ver=6.1.1",
+      "bytes": 18617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 311.268
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=pbsdistribution.org",
+      "bytes": 107,
+      "dnsTime": 1.651,
+      "sslTime": 48.746,
+      "requestTime": 82.70500000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-4EBZ886N0R&l=dataLayer&cx=c",
+      "bytes": 220122,
+      "dnsTime": 0.017,
+      "sslTime": 249.789,
+      "requestTime": 308.476
+    }
+  ],
+  "numJsRequests": 7,
+  "numThirdPartyJsRequests": 7,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 3,
+  "totalJsBytes": 616749,
+  "totalDnsTime": 2.422,
+  "totalSslTime": 327.733,
+  "totalTime": 1472.5119999999997,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 2.422,
+  "totalThirdPartySslTime": 327.733,
+  "totalThirdPartyTime": 1472.5119999999997,
+  "totalThirdPartyJsBytes": 616749,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 22.421209470618923,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

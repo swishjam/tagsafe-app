@@ -1,0 +1,129 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.7054679999999999,
+    "withoutTags": 0.107697,
+    "difference": 0.5977709999999998,
+    "cutMetricPercentage": 0.8473396383677217,
+    "percentFasterWithoutTags": "118.01643104131851%"
+  },
+  "TaskDuration": {
+    "withTags": 1.513594,
+    "withoutTags": 0.467959,
+    "difference": 1.045635,
+    "cutMetricPercentage": 0.690829244830516,
+    "percentFasterWithoutTags": "144.7535707966929%"
+  },
+  "DOMComplete": {
+    "withTags": 4399.666666666667,
+    "withoutTags": 2869,
+    "difference": 1530.666666666667,
+    "cutMetricPercentage": 0.3479051443291159,
+    "percentFasterWithoutTags": "287.434668989547%"
+  },
+  "DOMInteractive": {
+    "withTags": 2216.6666666666665,
+    "withoutTags": 1854.3333333333333,
+    "difference": 362.33333333333326,
+    "cutMetricPercentage": 0.16345864661654133,
+    "percentFasterWithoutTags": "611.775528978841%"
+  },
+  "DOMLoading": {
+    "withTags": 1040,
+    "withoutTags": 1059.6666666666667,
+    "difference": -19.666666666666742,
+    "cutMetricPercentage": -0.018910256410256482,
+    "percentFasterWithoutTags": "-5288.135593220319%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1547,
+    "withoutTags": 1437.3666666671634,
+    "difference": 109.63333333283663,
+    "cutMetricPercentage": 0.0708683473386145,
+    "percentFasterWithoutTags": "1411.0671936822823%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-323234131",
+      "bytes": 135715,
+      "dnsTime": 7.282,
+      "sslTime": 267.532,
+      "requestTime": 501.693
+    },
+    {
+      "url": "https://u.heatmap.it/log.js",
+      "bytes": 27435,
+      "dnsTime": 20.545,
+      "sslTime": 154.17,
+      "requestTime": 480.806
+    },
+    {
+      "url": "https://embedsocial.com/embedscript/ri.js",
+      "bytes": 11365,
+      "dnsTime": 11.724,
+      "sslTime": 141.953,
+      "requestTime": 166.93299999999996
+    },
+    {
+      "url": "https://unpkg.com/@lottiefiles/lottie-player@1.7.0/dist/lottie-player.js",
+      "bytes": 367086,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 220.241
+    },
+    {
+      "url": "https://embedsocial.com/cdn/iframe.js",
+      "bytes": 12441,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 217.173
+    },
+    {
+      "url": "https://js.hscollectedforms.net/collectedforms.js",
+      "bytes": 70108,
+      "dnsTime": 3.376,
+      "sslTime": 21.01,
+      "requestTime": 153.32500000000002
+    },
+    {
+      "url": "https://embedsocial.com/js/iframeContent.min.js",
+      "bytes": 13466,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 120.499
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PQN6ZBF",
+      "bytes": 273517,
+      "dnsTime": 0.007,
+      "sslTime": 24.933,
+      "requestTime": 122.83699999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-CY3F7BFFLS&l=dataLayer&cx=c",
+      "bytes": 232098,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 54.358000000000004
+    }
+  ],
+  "numJsRequests": 18,
+  "numThirdPartyJsRequests": 9,
+  "numFirstPartyJsRequests": 9,
+  "numUnique3pHosts": 5,
+  "totalJsBytes": 1201290,
+  "totalDnsTime": 42.934,
+  "totalSslTime": 609.598,
+  "totalTime": 2563.8739999999993,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 526.009,
+  "totalFirstPartyJsBytes": 58059,
+  "totalThirdPartyDnsTime": 42.934,
+  "totalThirdPartySslTime": 609.598,
+  "totalThirdPartyTime": 2037.865,
+  "totalThirdPartyJsBytes": 1143231,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 32.02037426424223,
+  "percentOfJsRequestTimeIs3p": 79.48382018773155,
+  "percentOfJsIs3p": 95.16694553355143
+}

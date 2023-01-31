@@ -1,0 +1,682 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.6836886666666664,
+    "withoutTags": 0.651807,
+    "difference": 2.031881666666666,
+    "cutMetricPercentage": 0.7571227213886955,
+    "percentFasterWithoutTags": "132.0789842584337%"
+  },
+  "TaskDuration": {
+    "withTags": 4.263580666666667,
+    "withoutTags": 1.4955443333333331,
+    "difference": 2.7680363333333338,
+    "cutMetricPercentage": 0.6492280901295641,
+    "percentFasterWithoutTags": "154.0290716318873%"
+  },
+  "DOMComplete": {
+    "withTags": 6595,
+    "withoutTags": 3462.6666666666665,
+    "difference": 3132.3333333333335,
+    "cutMetricPercentage": 0.4749557745766995,
+    "percentFasterWithoutTags": "210.5459189102905%"
+  },
+  "DOMInteractive": {
+    "withTags": 2400.3333333333335,
+    "withoutTags": 2850.6666666666665,
+    "difference": -450.33333333333303,
+    "cutMetricPercentage": -0.1876128315511733,
+    "percentFasterWithoutTags": "-533.012583271651%"
+  },
+  "DOMLoading": {
+    "withTags": 1754.6666666666667,
+    "withoutTags": 1986.3333333333333,
+    "difference": -231.66666666666652,
+    "cutMetricPercentage": -0.13202887537993913,
+    "percentFasterWithoutTags": "-757.4100719424465%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2072.2333333343267,
+    "withoutTags": 2373.5666666676602,
+    "difference": -301.3333333333335,
+    "cutMetricPercentage": -0.14541476989392557,
+    "percentFasterWithoutTags": "-687.6880530976745%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://tags.mwg.aaa.com/main/prod/utag.js",
+      "bytes": 86899,
+      "dnsTime": 1.731,
+      "sslTime": 19.146,
+      "requestTime": 32.108000000000004
+    },
+    {
+      "url": "https://cdn.optimizely.com/js/3898770280.js?utv=ut4.49.202301240811",
+      "bytes": 518444,
+      "dnsTime": 8.607,
+      "sslTime": 34.125,
+      "requestTime": 218.652
+    },
+    {
+      "url": "https://cdn3.optimizely.com/js/geo4.js",
+      "bytes": 317,
+      "dnsTime": 29.981,
+      "sslTime": 68.621,
+      "requestTime": 143.62699999999998
+    },
+    {
+      "url": "https://resources.xg4ken.com/js/v2/ktag.js?tid=KT-N3ABF-3EB",
+      "bytes": 9203,
+      "dnsTime": 387.798,
+      "sslTime": 95.366,
+      "requestTime": 688.639
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.89.js?utv=ut4.49.202301240811",
+      "bytes": 7570,
+      "dnsTime": 39.368,
+      "sslTime": 45.053,
+      "requestTime": 238.15900000000002
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.128.js?utv=ut4.49.202301240811",
+      "bytes": 30738,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 165.237
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.1.js?utv=ut4.49.202301240811",
+      "bytes": 16414,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 160.577
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.52.js?utv=ut4.49.202301272144",
+      "bytes": 8229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 127.08
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.30.js?utv=ut4.49.202301240811",
+      "bytes": 2624,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 131.937
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.63.js?utv=ut4.49.202301240811",
+      "bytes": 3705,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 126.685
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.59.js?utv=ut4.49.202301240811",
+      "bytes": 10401,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 121.794
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.60.js?utv=ut4.49.202301240811",
+      "bytes": 10401,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 124.80799999999999
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.106.js?utv=ut4.49.202301240811",
+      "bytes": 10408,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 123.001
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.133.js?utv=ut4.49.202301240811",
+      "bytes": 4283,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.309
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.158.js?utv=ut4.49.202301240811",
+      "bytes": 4804,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 275.36899999999997
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.166.js?utv=ut4.49.202301240811",
+      "bytes": 25476,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 145.74999999999997
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.266.js?utv=ut4.49.202301240811",
+      "bytes": 3650,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 142.17000000000002
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.271.js?utv=ut4.49.202301240811",
+      "bytes": 3924,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 137.19599999999997
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.276.js?utv=ut4.49.202301240811",
+      "bytes": 7460,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 149.898
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.306.js?utv=ut4.49.202301240811",
+      "bytes": 14437,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 249.66100000000003
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.311.js?utv=ut4.49.202301240811",
+      "bytes": 22511,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 138.161
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.322.js?utv=ut4.49.202301240811",
+      "bytes": 1887,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 123.238
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.336.js?utv=ut4.49.202301240811",
+      "bytes": 2323,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 246.588
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.387.js?utv=ut4.49.202301240811",
+      "bytes": 2746,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 125.625
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.388.js?utv=ut4.49.202301240811",
+      "bytes": 5223,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 116.83600000000001
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.390.js?utv=ut4.49.202301240811",
+      "bytes": 1986,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 110.423
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.410.js?utv=ut4.49.202301240811",
+      "bytes": 5117,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 224.77399999999997
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.412.js?utv=ut4.49.202301240811",
+      "bytes": 6471,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 205.33700000000002
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.427.js?utv=ut4.49.202301272144",
+      "bytes": 8393,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 79.27600000000001
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.433.js?utv=ut4.49.202301272144",
+      "bytes": 8389,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 81.13
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.436.js?utv=ut4.49.202301240811",
+      "bytes": 2079,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 94.989
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.450.js?utv=ut4.49.202301240811",
+      "bytes": 3871,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 78.807
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.453.js?utv=ut4.49.202301240811",
+      "bytes": 3876,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 198.48499999999999
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.459.js?utv=ut4.49.202301240811",
+      "bytes": 4006,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 80.236
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.461.js?utv=ut4.49.202301240811",
+      "bytes": 6112,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 91.456
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.478.js?utv=ut4.49.202301240811",
+      "bytes": 3775,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 183.396
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.481.js?utv=ut4.49.202301240811",
+      "bytes": 2595,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.164
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/aaa-ncnu/main/prod/utag.492.js?utv=ut4.49.202301261730",
+      "bytes": 3902,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.46300000000001
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js",
+      "bytes": 9017,
+      "dnsTime": 12.17,
+      "sslTime": 17.903,
+      "requestTime": 115.76100000000001
+    },
+    {
+      "url": "https://d.turn.com/r/dd/id/L21rdC8xNDcyL2NpZC8xNzQ4OTU2NTg1L3QvMA/kv/UTM=,PageType=,PageLevel=1,Product=,URL=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC",
+      "bytes": 377,
+      "dnsTime": 9.97,
+      "sslTime": 31.379,
+      "requestTime": 70.346
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-856081999",
+      "bytes": 132469,
+      "dnsTime": 13.648,
+      "sslTime": 54.936,
+      "requestTime": 106.401
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-820632.js?sv=6",
+      "bytes": 10602,
+      "dnsTime": 29.629,
+      "sslTime": 24.368,
+      "requestTime": 65.17
+    },
+    {
+      "url": "https://cdn.clinch.co/a_js/client_pixels/clq/script.min.js",
+      "bytes": 14800,
+      "dnsTime": 274.588,
+      "sslTime": 100.624,
+      "requestTime": 387.7290000000001
+    },
+    {
+      "url": "https://cdn.pdst.fm/ping.min.js",
+      "bytes": 26948,
+      "dnsTime": 161.657,
+      "sslTime": 31.324,
+      "requestTime": 207.18800000000005
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 0.034,
+      "sslTime": 23.695,
+      "requestTime": 399.628
+    },
+    {
+      "url": "https://www.mczbf.com/tags/176838293508/tag.js",
+      "bytes": 51896,
+      "dnsTime": 159.261,
+      "sslTime": 16.253,
+      "requestTime": 198.072
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 157.776,
+      "sslTime": 30.064,
+      "requestTime": 285.18800000000005
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 6.02,
+      "sslTime": 30.843,
+      "requestTime": 134.662
+    },
+    {
+      "url": "https://t.contentsquare.net/uxa/2484d881a2c10.js",
+      "bytes": 426704,
+      "dnsTime": 3.634,
+      "sslTime": 13.823,
+      "requestTime": 37.297
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 1.748,
+      "sslTime": 14.31,
+      "requestTime": 129.53
+    },
+    {
+      "url": "https://ads.nextdoor.com/public/pixel/ndp.js",
+      "bytes": 6599,
+      "dnsTime": 8.263,
+      "sslTime": 105.997,
+      "requestTime": 148.33300000000003
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 2.457,
+      "sslTime": 16.12,
+      "requestTime": 72.754
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1423245/tfa.js",
+      "bytes": 59679,
+      "dnsTime": 1.37,
+      "sslTime": 16.849,
+      "requestTime": 31.505000000000003
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=aaa-ncnu/main/202301272144&cb=1675122268269",
+      "bytes": 2,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.461
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/aaa-ncnu/main/018605114bec00873218c69e10c800080004a07800bd0?callback=mwg.ut%5B%22writevamain%22%5D&rnd=1675122268280",
+      "bytes": 26,
+      "dnsTime": 8.643,
+      "sslTime": 66.768,
+      "requestTime": 106.677
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/856081999/?random=1675122268348&cv=11&fst=1675122268348&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC&tiba=AAA%20Northern%20CA%2C%20AK%2C%20AZ%2C%20MT%2C%20NV%2C%20UT%20%26%20WY%20%7C%20American%20Automobile%20Assn&auid=1204457073.1675122268&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1591,
+      "dnsTime": 0.006,
+      "sslTime": 37.515,
+      "requestTime": 235.63699999999997
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/856081999/?random=1675122268371&cv=11&fst=1675122268371&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC&tiba=AAA%20Northern%20CA%2C%20AK%2C%20AZ%2C%20MT%2C%20NV%2C%20UT%20%26%20WY%20%7C%20American%20Automobile%20Assn&auid=1204457073.1675122268&uamb=0&uaw=0&data=event%3Dpage_view&rfmt=3&fmt=4",
+      "bytes": 1589,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 536.678
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-8335960&l=dataLayer&cx=c",
+      "bytes": 113708,
+      "dnsTime": 0.01,
+      "sslTime": 39.021,
+      "requestTime": 94.692
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-950815696&l=dataLayer&cx=c",
+      "bytes": 132479,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.843
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-976387310&l=dataLayer&cx=c",
+      "bytes": 177571,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.222
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-1870671-1&l=dataLayer&cx=c",
+      "bytes": 112671,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.67
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-11669636&l=dataLayer&cx=c",
+      "bytes": 113708,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.56899999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-11390720&l=dataLayer&cx=c",
+      "bytes": 113708,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 109.18499999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-DTMSCTC0HT&l=dataLayer&cx=c",
+      "bytes": 238187,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 115.072
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 7.451,
+      "sslTime": 45.4,
+      "requestTime": 71.539
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/976387310/?random=1675122268859&cv=11&fst=1675122268859&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC&tiba=AAA%20Northern%20CA%2C%20AK%2C%20AZ%2C%20MT%2C%20NV%2C%20UT%20%26%20WY%20%7C%20American%20Automobile%20Assn&did=dYmQxMT&gdid=dYmQxMT&auid=1204457073.1675122268&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1591,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 295.04200000000003
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/976387310/?random=1675122268903&cv=11&fst=1675122268903&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC&tiba=AAA%20Northern%20CA%2C%20AK%2C%20AZ%2C%20MT%2C%20NV%2C%20UT%20%26%20WY%20%7C%20American%20Automobile%20Assn&did=dYmQxMT&gdid=dYmQxMT&auid=1204457073.1675122268&uamb=0&uaw=0&data=event%3Dpage_view&rfmt=3&fmt=4",
+      "bytes": 1589,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 295.235
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950815696/?random=1675122268942&cv=11&fst=1675122268942&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC&tiba=AAA%20Northern%20CA%2C%20AK%2C%20AZ%2C%20MT%2C%20NV%2C%20UT%20%26%20WY%20%7C%20American%20Automobile%20Assn&did=dYmQxMT&gdid=dYmQxMT&auid=1204457073.1675122268&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1591,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 294.433
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/950815696/?random=1675122268966&cv=11&fst=1675122268966&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC&tiba=AAA%20Northern%20CA%2C%20AK%2C%20AZ%2C%20MT%2C%20NV%2C%20UT%20%26%20WY%20%7C%20American%20Automobile%20Assn&did=dYmQxMT&gdid=dYmQxMT&auid=1204457073.1675122268&uamb=0&uaw=0&data=event%3Dpage_view&rfmt=3&fmt=4",
+      "bytes": 1589,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.526
+    },
+    {
+      "url": "https://connect.facebook.net/signals/plugins/identity.js?v=2.9.95",
+      "bytes": 65286,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.11
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/136696297006053?v=2.9.95&r=stable",
+      "bytes": 387217,
+      "dnsTime": 0,
+      "sslTime": 8.609,
+      "requestTime": 59.82599999999999
+    },
+    {
+      "url": "https://trc.taboola.com/1423245/trc/3/json?tim=1675122269483&data=%7B%22id%22%3A797%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1675122269457%2C%22cv%22%3A%2220230129-6-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fmwg.aaa.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dhlpartners-aaa-sc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22item-url%22%3A%22https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC%22%2C%22tim%22%3A1675122269482%2C%22ref%22%3Anull%2C%22tos%22%3A11%2C%22ssd%22%3A1%2C%22scd%22%3A0%7D%7D&pubit=i",
+      "bytes": 2398,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.709
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/3bd8632b-dbce-41a9-b75b-5fa886079db5.js",
+      "bytes": 148,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 246.025
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 225.54
+    },
+    {
+      "url": "https://js-agent.newrelic.com/nr-spa-1215.min.js",
+      "bytes": 47680,
+      "dnsTime": 8.888,
+      "sslTime": 10.819,
+      "requestTime": 30.872999999999998
+    },
+    {
+      "url": "https://ws.audioeye.com/ae.js",
+      "bytes": 1020,
+      "dnsTime": 0.033,
+      "sslTime": 18.093,
+      "requestTime": 283.508
+    },
+    {
+      "url": "https://zn3kfu9wzxvlvc1g2-goaaa.siteintercept.qualtrics.com/WRSiteInterceptEngine/?env=prod&application=Landing%20Page&login_status=o&page_name=Homepage&page_type=Landing%20Page&tealium_event=page_view&site_language_code=en&Q_ZID=ZN_3kFu9WzXVlVc1g2&Q_LOC=https%3A%2F%2Fmwg.aaa.com%2F%3Fzip%3D94114%26stateprov%3Dca%26city%3Dsan%2Bfrancisco%26devicecd%3DPC",
+      "bytes": 7302,
+      "dnsTime": 60.604,
+      "sslTime": 15.703,
+      "requestTime": 109.04399999999998
+    },
+    {
+      "url": "https://bam.nr-data.net/1/ea13b45447?a=179032012&sa=1&v=1215.1253ab8&t=Unnamed%20Transaction&rst=7710&ck=1&ref=https://mwg.aaa.com/&be=1962&fe=7618&dc=4595&af=err,xhr,stn,ins,spa&perf=%7B%22timing%22:%7B%22of%22:1675122262817,%22n%22:0,%22f%22:1200,%22dn%22:1202,%22dne%22:1206,%22c%22:1206,%22s%22:1621,%22ce%22:1735,%22rq%22:1735,%22rp%22:1856,%22rpe%22:1983,%22dl%22:1869,%22di%22:4593,%22ds%22:4594,%22de%22:4702,%22dc%22:7617,%22l%22:7617,%22le%22:7635%7D,%22navigation%22:%7B%7D%7D&fp=2221&fcp=2221&jsonp=NREUM.setToken",
+      "bytes": 49,
+      "dnsTime": 1.867,
+      "sslTime": 58.802,
+      "requestTime": 165.393
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=mwg.aaa.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.367
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/CoreModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=goaaa",
+      "bytes": 104596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 371.536
+    },
+    {
+      "url": "https://wsv3cdn.audioeye.com/bootstrap.js?d=mwg.aaa.com",
+      "bytes": 34630,
+      "dnsTime": 10.773,
+      "sslTime": 19.526,
+      "requestTime": 58.942
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/6.9808af8b656686a98b64.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=goaaa",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.075
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/1.ca40fe67c92ba390e992.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=goaaa",
+      "bytes": 28843,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.568999999999996
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/WebResponsiveDialogModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=goaaa",
+      "bytes": 41986,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 76.572
+    },
+    {
+      "url": "https://wsv3cdn.audioeye.com/v2/scripts/loader.js?h=50d71720d55c5edabba7426baba95385&lang=en&cb=634eb56",
+      "bytes": 137416,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.624
+    },
+    {
+      "url": "https://wsv3cdn.audioeye.com/v2/build/jquery.bundle.634eb56.js",
+      "bytes": 97674,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.395000000000003
+    },
+    {
+      "url": "https://wsv3cdn.audioeye.com/v2/build/startup.bundle.634eb56.js",
+      "bytes": 369916,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 147.083
+    },
+    {
+      "url": "https://wsv3cdn.audioeye.com/v2/build/smartrems.bundle.634eb56.js",
+      "bytes": 138567,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 53.708
+    }
+  ],
+  "numJsRequests": 91,
+  "numThirdPartyJsRequests": 88,
+  "numFirstPartyJsRequests": 3,
+  "numUnique3pHosts": 31,
+  "totalJsBytes": 5139627,
+  "totalDnsTime": 1407.985,
+  "totalSslTime": 1111.0549999999998,
+  "totalTime": 13163.582,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 131.597,
+  "totalFirstPartyJsBytes": 680580,
+  "totalThirdPartyDnsTime": 1407.985,
+  "totalThirdPartySslTime": 1111.0549999999998,
+  "totalThirdPartyTime": 13031.984999999999,
+  "totalThirdPartyJsBytes": 4459047,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 19.329672340783084,
+  "percentOfJsRequestTimeIs3p": 99.00029490453281,
+  "percentOfJsIs3p": 86.75818303546153
+}

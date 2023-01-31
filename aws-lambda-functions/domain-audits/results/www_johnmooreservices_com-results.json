@@ -1,0 +1,164 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9949133333333333,
+    "withoutTags": 0.3731946666666666,
+    "difference": 0.6217186666666668,
+    "cutMetricPercentage": 0.6248973109885619,
+    "percentFasterWithoutTags": "160.02629270688345%"
+  },
+  "TaskDuration": {
+    "withTags": 2.2955010000000002,
+    "withoutTags": 0.9766816666666666,
+    "difference": 1.3188193333333338,
+    "cutMetricPercentage": 0.5745235281245069,
+    "percentFasterWithoutTags": "174.05727547215207%"
+  },
+  "DOMComplete": {
+    "withTags": -558367948543,
+    "withoutTags": 2285,
+    "difference": -558367950828,
+    "cutMetricPercentage": 1.0000000040922836,
+    "percentFasterWithoutTags": "99.99999959077164%"
+  },
+  "DOMInteractive": {
+    "withTags": 2850.6666666666665,
+    "withoutTags": 1936,
+    "difference": 914.6666666666665,
+    "cutMetricPercentage": 0.3208606173994387,
+    "percentFasterWithoutTags": "311.661807580175%"
+  },
+  "DOMLoading": {
+    "withTags": 1121.3333333333333,
+    "withoutTags": 1023,
+    "difference": 98.33333333333326,
+    "cutMetricPercentage": 0.08769322235434,
+    "percentFasterWithoutTags": "1140.3389830508481%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2441.7666666681566,
+    "withoutTags": 1666.4666666661699,
+    "difference": 775.3000000019867,
+    "cutMetricPercentage": 0.31751600617101566,
+    "percentFasterWithoutTags": "314.9447525682832%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://embed.scheduleengine.net/schedule-engine-v3.js",
+      "bytes": 12482,
+      "dnsTime": 28.618,
+      "sslTime": 32.911,
+      "requestTime": 418.033
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-K66SQ7",
+      "bytes": 182479,
+      "dnsTime": 1.863,
+      "sslTime": 29.795,
+      "requestTime": 117.58200000000001
+    },
+    {
+      "url": "https://collector-6174.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 20.917,
+      "sslTime": 347.757,
+      "requestTime": 460.26500000000004
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2465007.js?sv=6",
+      "bytes": 8444,
+      "dnsTime": 1.754,
+      "sslTime": 22.577,
+      "requestTime": 174.036
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=GTM-NFBZFJQ",
+      "bytes": 117784,
+      "dnsTime": 0.888,
+      "sslTime": 52.638,
+      "requestTime": 365.829
+    },
+    {
+      "url": "https://static.servicetitan.com/marketing-ads/dni.js",
+      "bytes": 6530,
+      "dnsTime": 13.547,
+      "sslTime": 27.081,
+      "requestTime": 241.61
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-HE68NGJRBN&l=dataLayer&cx=c",
+      "bytes": 220122,
+      "dnsTime": 0.008,
+      "sslTime": 23.424,
+      "requestTime": 111.743
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/5.833a1fe4.chunk.js",
+      "bytes": 1156775,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.001
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/main.5b0f33fd.chunk.js",
+      "bytes": 189235,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.834
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/1.8d5aa44b.chunk.js",
+      "bytes": 107884,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.222
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/2.c09bb9a7.chunk.js",
+      "bytes": 22690,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 91.129
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/6.0db98fa4.chunk.js",
+      "bytes": 317705,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 93.236
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/0.1a3be4eb.chunk.js",
+      "bytes": 167163,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 96.61600000000001
+    },
+    {
+      "url": "https://johnmoore.widget.scheduleengine.net/static/js/10.6f5188a2.chunk.js",
+      "bytes": 483730,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 95.806
+    }
+  ],
+  "numJsRequests": 44,
+  "numThirdPartyJsRequests": 14,
+  "numFirstPartyJsRequests": 30,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 3536506,
+  "totalDnsTime": 67.59499999999998,
+  "totalSslTime": 536.183,
+  "totalTime": 3271.2350000000006,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 829.2930000000001,
+  "totalFirstPartyJsBytes": 522665,
+  "totalThirdPartyDnsTime": 67.59499999999998,
+  "totalThirdPartySslTime": 536.183,
+  "totalThirdPartyTime": 2441.942,
+  "totalThirdPartyJsBytes": 3013841,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 24.725321076421963,
+  "percentOfJsRequestTimeIs3p": 74.64893228398446,
+  "percentOfJsIs3p": 85.2208648875472
+}

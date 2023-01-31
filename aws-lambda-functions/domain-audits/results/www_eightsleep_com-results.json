@@ -1,0 +1,577 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.819981,
+    "withoutTags": 0.552994,
+    "difference": 2.266987,
+    "cutMetricPercentage": 0.8039015156485096,
+    "percentFasterWithoutTags": "124.39334676378823%"
+  },
+  "TaskDuration": {
+    "withTags": 5.283811666666667,
+    "withoutTags": 1.7142923333333335,
+    "difference": 3.569519333333333,
+    "cutMetricPercentage": 0.6755576387879078,
+    "percentFasterWithoutTags": "148.02585931737963%"
+  },
+  "DOMComplete": {
+    "withTags": 2066.6666666666665,
+    "withoutTags": 2038.3333333333333,
+    "difference": 28.333333333333258,
+    "cutMetricPercentage": 0.013709677419354803,
+    "percentFasterWithoutTags": "7294.117647058843%"
+  },
+  "DOMInteractive": {
+    "withTags": 889,
+    "withoutTags": 969,
+    "difference": -80,
+    "cutMetricPercentage": -0.08998875140607424,
+    "percentFasterWithoutTags": "-1111.25%"
+  },
+  "DOMLoading": {
+    "withTags": 652,
+    "withoutTags": 629.3333333333334,
+    "difference": 22.66666666666663,
+    "cutMetricPercentage": 0.03476482617586906,
+    "percentFasterWithoutTags": "2876.4705882352987%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 955,
+    "withoutTags": 1084.0333333363135,
+    "difference": -129.0333333363135,
+    "cutMetricPercentage": -0.1351134380484958,
+    "percentFasterWithoutTags": "-740.1188323259701%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=GTM-KK94WPN",
+      "bytes": 132994,
+      "dnsTime": 6.604,
+      "sslTime": 116.593,
+      "requestTime": 200.915
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 76.699,
+      "sslTime": 129.149,
+      "requestTime": 223.73999999999998
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 75.144,
+      "sslTime": 41.321,
+      "requestTime": 212.654
+    },
+    {
+      "url": "https://cdn.amplitude.com/libs/amplitude-5.2.2-min.gz.js",
+      "bytes": 55079,
+      "dnsTime": 7.003,
+      "sslTime": 42.461,
+      "requestTime": 142.384
+    },
+    {
+      "url": "https://connect.facebook.net/signals/plugins/identity.js?v=2.9.95",
+      "bytes": 65286,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 636.707
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1494562944140395?v=2.9.95&r=stable",
+      "bytes": 391694,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 637.755
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/ec.js",
+      "bytes": 2779,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 607.333
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KR7VQ5S",
+      "bytes": 290069,
+      "dnsTime": 11.099,
+      "sslTime": 39.424,
+      "requestTime": 133.95899999999997
+    },
+    {
+      "url": "https://u.fg8dgt.com/pixel?type=js&id=998&cb=47528204",
+      "bytes": 1178,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 355.06399999999996
+    },
+    {
+      "url": "https://init.blackcrow.ai/js/core/eightsleep.js?version=gtm1",
+      "bytes": 140708,
+      "dnsTime": 90.297,
+      "sslTime": 18.18,
+      "requestTime": 217.29500000000002
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1173328/tfa.js",
+      "bytes": 59675,
+      "dnsTime": 76.431,
+      "sslTime": 27.859,
+      "requestTime": 190.626
+    },
+    {
+      "url": "https://j.northbeam.io/ota-sp/e76eae04-c01f-430c-a6f3-49eacea424d6.js",
+      "bytes": 98919,
+      "dnsTime": 81.103,
+      "sslTime": 27.136,
+      "requestTime": 275.46399999999994
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-959488927",
+      "bytes": 181169,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 387.612
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/959488927/?random=1675119641620&cv=11&fst=1675119641620&bg=ffffff&guid=ON&async=1&gtm=2wg1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.eightsleep.com%2F&tiba=Sleep%20Fitness%20Technology%3A%20Smart%20Bed%20Cooling%20%26%20Heating%20System%20For%20Better%20Sleep%20%7C%20Eight%20Sleep&auid=647117387.1675119642&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1513,
+      "dnsTime": 51.679,
+      "sslTime": 31.662,
+      "requestTime": 128.457
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 12.729,
+      "sslTime": 17.733,
+      "requestTime": 68.672
+    },
+    {
+      "url": "https://secure.quantserve.com/quant.js",
+      "bytes": 26189,
+      "dnsTime": 50.971,
+      "sslTime": 47.433,
+      "requestTime": 401.656
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-614787.js?sv=5",
+      "bytes": 9520,
+      "dnsTime": 15.765,
+      "sslTime": 19.483,
+      "requestTime": 46.95499999999999
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 10.607,
+      "sslTime": 15.897,
+      "requestTime": 36.641000000000005
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/widget.js",
+      "bytes": 782,
+      "dnsTime": 15.597,
+      "sslTime": 16.465,
+      "requestTime": 42.646
+    },
+    {
+      "url": "https://static.fbot.me/friendbuy.js",
+      "bytes": 352312,
+      "dnsTime": 9.861,
+      "sslTime": 17.936,
+      "requestTime": 54.998999999999995
+    },
+    {
+      "url": "https://campaign.fbot.me/c2ef4d8f-87a3-4388-8da9-ff2d9ddfe70b/campaigns.js",
+      "bytes": 326594,
+      "dnsTime": 13.564,
+      "sslTime": 13.881,
+      "requestTime": 632.255
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 0.041,
+      "sslTime": 14.945,
+      "requestTime": 277.93
+    },
+    {
+      "url": "https://d18p8z0ptb8qab.cloudfront.net/lp.js",
+      "bytes": 80209,
+      "dnsTime": 72.663,
+      "sslTime": 13.649,
+      "requestTime": 109.35499999999999
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/linkid.js",
+      "bytes": 1569,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 313.66200000000003
+    },
+    {
+      "url": "https://d.impactradius-event.com/A1425313-9546-4f7d-bbd5-2041d906fdf21.js",
+      "bytes": 42736,
+      "dnsTime": 14.352,
+      "sslTime": 54.509,
+      "requestTime": 91.386
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tracker-latest.min.js",
+      "bytes": 9726,
+      "dnsTime": 43.178,
+      "sslTime": 21.799,
+      "requestTime": 81.74300000000001
+    },
+    {
+      "url": "https://cdn1.affirm.com/js/v2/affirm.js",
+      "bytes": 436786,
+      "dnsTime": 20.752,
+      "sslTime": 13.715,
+      "requestTime": 77.567
+    },
+    {
+      "url": "https://eightsleep.dexecure.net/proxy/https://load.fomo.com/api/v1/2gCcg4TJC4jdstT1FlNmJA/load.js",
+      "bytes": 61383,
+      "dnsTime": 7.041,
+      "sslTime": 18.259,
+      "requestTime": 55.263
+    },
+    {
+      "url": "https://px.airpr.com/airpr.js",
+      "bytes": 7406,
+      "dnsTime": 14.124,
+      "sslTime": 20.87,
+      "requestTime": 43.471000000000004
+    },
+    {
+      "url": "https://cdn.attn.tv/eightsleep/dtag.js",
+      "bytes": 5795,
+      "dnsTime": 8.363,
+      "sslTime": 21.96,
+      "requestTime": 42.82899999999999
+    },
+    {
+      "url": "https://cdn.pdst.fm/ping.min.js",
+      "bytes": 26948,
+      "dnsTime": 8.669,
+      "sslTime": 14.817,
+      "requestTime": 68.38900000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C6L5973U2H2VK28SEAJ0&lib=ttq",
+      "bytes": 2816,
+      "dnsTime": 12.805,
+      "sslTime": 62.936,
+      "requestTime": 367.00800000000004
+    },
+    {
+      "url": "https://tag.simpli.fi/sifitag/25f52d50-ade5-013a-4fbc-0cc47a8ffaac",
+      "bytes": 3101,
+      "dnsTime": 9.079,
+      "sslTime": 58.276,
+      "requestTime": 100.69
+    },
+    {
+      "url": "https://www.clarity.ms/tag/cs6z86y7lf",
+      "bytes": 960,
+      "dnsTime": 9.172,
+      "sslTime": 19.139,
+      "requestTime": 120.277
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-3NHGHSDTKZ&l=dataLayer&cx=c",
+      "bytes": 220121,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 593.59
+    },
+    {
+      "url": "https://cdn.pbbl.co/r/1437.js",
+      "bytes": 18535,
+      "dnsTime": 29.064,
+      "sslTime": 14.803,
+      "requestTime": 56.22400000000001
+    },
+    {
+      "url": "https://u.fg8dgt.com/ul_cb/pixel?type=js&id=997&cb=28955738",
+      "bytes": 2169,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 923.984
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=CCPJUG3C77UDPV427FS0&lib=ttq",
+      "bytes": 2878,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 82.586
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-959488927&l=dataLayer&cx=c",
+      "bytes": 181201,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 408.25700000000006
+    },
+    {
+      "url": "https://script.hotjar.com/modules.4b160a4831adaf5337e6.js",
+      "bytes": 267962,
+      "dnsTime": 11.657,
+      "sslTime": 13.449,
+      "requestTime": 52.925
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/widget-api.3002a0565a8f6b8d93ad.js",
+      "bytes": 27987,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.51
+    },
+    {
+      "url": "https://j.northbeam.io/vendor/nb-sp.js",
+      "bytes": 113320,
+      "dnsTime": 0.014,
+      "sslTime": 206.08,
+      "requestTime": 327.225
+    },
+    {
+      "url": "https://trc.taboola.com/1173328/trc/3/json?tim=1675119642243&data=%7B%22id%22%3A221%2C%22ii%22%3A%22%2Fpod-compare%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1675119642233%2C%22cv%22%3A%2220230129-6-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.eightsleep.com%2Fpod-compare%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Deightsleep-sc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22supv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22tim%22%3A1675119642242%2C%22ref%22%3Anull%2C%22item-url%22%3A%22https%3A%2F%2Fwww.eightsleep.com%2F%22%2C%22tos%22%3A7%2C%22ssd%22%3A1%2C%22scd%22%3A0%2C%22supv%22%3Atrue%7D%7D&pubit=i",
+      "bytes": 2608,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.189
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/959488927/?random=1675119642309&cv=11&fst=1675119642309&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.eightsleep.com%2F&tiba=Sleep%20Fitness%20Technology%3A%20Smart%20Bed%20Cooling%20%26%20Heating%20System%20For%20Better%20Sleep%20%7C%20Eight%20Sleep&auid=647117387.1675119642&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1543,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 558.873
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/959488927/?random=1675119642326&cv=11&fst=1675119642326&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.eightsleep.com%2F&tiba=Sleep%20Fitness%20Technology%3A%20Smart%20Bed%20Cooling%20%26%20Heating%20System%20For%20Better%20Sleep%20%7C%20Eight%20Sleep&auid=647117387.1675119642&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1543,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 553.794
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-589404294&l=dataLayer&cx=c",
+      "bytes": 175764,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 537.2139999999999
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js",
+      "bytes": 882,
+      "dnsTime": 30.107,
+      "sslTime": 19.438,
+      "requestTime": 150.51899999999998
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/core.js",
+      "bytes": 646,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.656
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/widget-main.36a9f4a8dc498cba6134.js",
+      "bytes": 354925,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.727
+    },
+    {
+      "url": "https://cdn.attn.tv/attn.js?v=4-latest_1d9318a478",
+      "bytes": 181109,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.929000000000002
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/tag.js?v=4-latest_1d9318a478",
+      "bytes": 54517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.526
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzNA.js",
+      "bytes": 270133,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.49
+    },
+    {
+      "url": "https://i.simpli.fi/p?cid=371368&cb=sifi_att_42656._hp",
+      "bytes": 750,
+      "dnsTime": 10.761,
+      "sslTime": 37.085,
+      "requestTime": 128.15900000000002
+    },
+    {
+      "url": "https://rules.quantcount.com/rules-p---pNpyc6PKxes.js",
+      "bytes": 160,
+      "dnsTime": 49.499,
+      "sslTime": 44.67,
+      "requestTime": 131.273
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzNQ.js",
+      "bytes": 284882,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.006
+    },
+    {
+      "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
+      "bytes": 56734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.216
+    },
+    {
+      "url": "https://cdn.taboola.com/scripts/cds-pips.js",
+      "bytes": 3545,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.267000000000001
+    },
+    {
+      "url": "https://cdn.taboola.com/scripts/eid-ls.es5.js",
+      "bytes": 16955,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.213
+    },
+    {
+      "url": "https://cdn.taboola.com/scripts/eid.es5.js",
+      "bytes": 17346,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.864
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/core-api.1cddbf3c9275b38a59b9.js",
+      "bytes": 21570,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 153.417
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/589404294/?random=1675119643354&cv=11&fst=1675119643354&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.eightsleep.com%2F&tiba=Sleep%20Fitness%20Technology%3A%20Smart%20Bed%20Cooling%20%26%20Heating%20System%20For%20Better%20Sleep%20%7C%20Eight%20Sleep&auid=647117387.1675119642&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1544,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 436.79100000000005
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/589404294/?random=1675119643577&cv=11&fst=1675119643577&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&label=leXOCOrDg6gDEIaxhpkC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.eightsleep.com%2F&tiba=Sleep%20Fitness%20Technology%3A%20Smart%20Bed%20Cooling%20%26%20Heating%20System%20For%20Better%20Sleep%20%7C%20Eight%20Sleep&capi=1&auid=647117387.1675119642&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dconversion&rfmt=3&fmt=4",
+      "bytes": 2156,
+      "dnsTime": 9.641,
+      "sslTime": 30.088,
+      "requestTime": 162.63400000000001
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=QtJCHb",
+      "bytes": 2029,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.326
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 56.278999999999996
+    },
+    {
+      "url": "https://use-gce-sc.r.bidswitch.net/cb/pixel?response_type=js&client_id=500036&type=js&id=522899&cb=47528204",
+      "bytes": 0,
+      "dnsTime": 87.812,
+      "sslTime": 173.154,
+      "requestTime": 461.694
+    },
+    {
+      "url": "https://use-gce-sc.r.bidswitch.net/cb/pixel?response_type=js&client_id=500036&type=js&id=522898&cb=28955738",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 668.464
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/eightsleep.attn.tv.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 83.14
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/959488927/?random=1675119645365&cv=11&fst=1675119645365&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.eightsleep.com%2F&tiba=Sleep%20Fitness%20Technology%3A%20Smart%20Bed%20Cooling%20%26%20Heating%20System%20For%20Better%20Sleep%20%7C%20Eight%20Sleep&auid=647117387.1675119642&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dblackcrow_target%7Cremarketing%7Call%7Cconversion%7Csite%7Crats%7C10%7Ceightsleep%7Cscore_8%3Bnon_interaction%3Dtrue&rfmt=3&fmt=4",
+      "bytes": 1648,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 352.52099999999996
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 11.118,
+      "sslTime": 59.48,
+      "requestTime": 99.60199999999999
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.757999999999996
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.094
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.689
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/core-main.ab9a627575f108b8631f.js",
+      "bytes": 97533,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.465999999999998
+    }
+  ],
+  "numJsRequests": 111,
+  "numThirdPartyJsRequests": 73,
+  "numFirstPartyJsRequests": 38,
+  "numUnique3pHosts": 38,
+  "totalJsBytes": 7125587,
+  "totalDnsTime": 1065.0649999999996,
+  "totalSslTime": 1555.7340000000004,
+  "totalTime": 19189.07900000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 4227.629,
+  "totalFirstPartyJsBytes": 1439726,
+  "totalThirdPartyDnsTime": 1065.0649999999996,
+  "totalThirdPartySslTime": 1555.7340000000004,
+  "totalThirdPartyTime": 14961.449999999995,
+  "totalThirdPartyJsBytes": 5685861,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 17.51701205431292,
+  "percentOfJsRequestTimeIs3p": 77.96856743359069,
+  "percentOfJsIs3p": 79.79498390799242
+}

@@ -1,8 +1,12 @@
 class TagsafeOptimizationsEstimator
   class << self
-    def estimate_optimizations_for(page_url)
+    def estimate_optimizations_for(page_url, page_load_limit: 250)
       json = {}
-      page_url.page_loads.group_by(&:num_tagsafe_hosted_tags).each do |num_tags_optimized_by_tagsafe_js, page_loads|
+      page_url.page_loads
+                .includes(:page_load_performance_metrics)
+                .most_recent_first.limit(page_load_limit)
+                .group_by(&:num_tagsafe_hosted_tags)
+                .each do |num_tags_optimized_by_tagsafe_js, page_loads|
         json["#{num_tags_optimized_by_tagsafe_js}_tagsafe_hosted_tags"] = {
           "num_page_loads" => page_loads.count,
           ThirdPartyJsNetworkTimePerformanceMetric.to_s => get_average_metric_for_page_loads(page_loads, :third_party_js_network_time_performance_metric),

@@ -1,0 +1,584 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.596341,
+    "withoutTags": 0.43647966666666665,
+    "difference": 1.1598613333333334,
+    "cutMetricPercentage": 0.7265749193520266,
+    "percentFasterWithoutTags": "137.63205601589155%"
+  },
+  "TaskDuration": {
+    "withTags": 3.291278333333333,
+    "withoutTags": 0.8661453333333333,
+    "difference": 2.4251329999999998,
+    "cutMetricPercentage": 0.736836193839577,
+    "percentFasterWithoutTags": "135.7153745107313%"
+  },
+  "DOMComplete": {
+    "withTags": 5992.666666666667,
+    "withoutTags": 1933,
+    "difference": 4059.666666666667,
+    "cutMetricPercentage": 0.6774390922238291,
+    "percentFasterWithoutTags": "147.61474669513095%"
+  },
+  "DOMInteractive": {
+    "withTags": 1741.6666666666667,
+    "withoutTags": 1637.3333333333333,
+    "difference": 104.33333333333348,
+    "cutMetricPercentage": 0.05990430622009578,
+    "percentFasterWithoutTags": "1669.3290734824257%"
+  },
+  "DOMLoading": {
+    "withTags": 581.3333333333334,
+    "withoutTags": 740,
+    "difference": -158.66666666666663,
+    "cutMetricPercentage": -0.2729357798165137,
+    "percentFasterWithoutTags": "-366.38655462184886%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1282.2000000029802,
+    "withoutTags": null,
+    "difference": null,
+    "cutMetricPercentage": null,
+    "percentFasterWithoutTags": "NaN%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-NMB9XBJ",
+      "bytes": 111017,
+      "dnsTime": 1.571,
+      "sslTime": 34.264,
+      "requestTime": 94.21100000000001
+    },
+    {
+      "url": "https://www.dwin1.com/19038.js",
+      "bytes": 37567,
+      "dnsTime": 7.996,
+      "sslTime": 30.004,
+      "requestTime": 55.132000000000005
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/vue@2",
+      "bytes": 107302,
+      "dnsTime": 1.28,
+      "sslTime": 10.164,
+      "requestTime": 53.231
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-827280851",
+      "bytes": 181057,
+      "dnsTime": 11.469,
+      "sslTime": 67.021,
+      "requestTime": 179.904
+    },
+    {
+      "url": "https://tag.simpli.fi/sifitag/bebcb170-476b-013b-5d9b-0cc47a8ffaac",
+      "bytes": 3101,
+      "dnsTime": 18.711,
+      "sslTime": 759.248,
+      "requestTime": 847.1180000000002
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Kmy2Aq",
+      "bytes": 2905,
+      "dnsTime": 35.821,
+      "sslTime": 17.349,
+      "requestTime": 144.19500000000002
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js",
+      "bytes": 3095,
+      "dnsTime": 0.006,
+      "sslTime": 29.744,
+      "requestTime": 39.506
+    },
+    {
+      "url": "https://static.criteo.net/js/ld/ld.js",
+      "bytes": 43748,
+      "dnsTime": 18.359,
+      "sslTime": 131.805,
+      "requestTime": 820.8979999999999
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/rebuy.js?shop=poopourri-3.myshopify.com",
+      "bytes": 3010,
+      "dnsTime": 30.626,
+      "sslTime": 114.796,
+      "requestTime": 157.02300000000002
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=3661",
+      "bytes": 1470,
+      "dnsTime": 39.354,
+      "sslTime": 18.859,
+      "requestTime": 104.10300000000001
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 22.142,
+      "sslTime": 27.686,
+      "requestTime": 180.62800000000001
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2006662.js?sv=6",
+      "bytes": 8481,
+      "dnsTime": 11.705,
+      "sslTime": 15.626,
+      "requestTime": 122.04299999999999
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 2.749,
+      "sslTime": 13.87,
+      "requestTime": 91.765
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-827280851&l=dataLayer&cx=c",
+      "bytes": 181078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 251.03199999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NDL6VM",
+      "bytes": 269523,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 250.334
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C9GTKJ3C77UCRETEJR60&lib=ttq",
+      "bytes": 2818,
+      "dnsTime": 10.048,
+      "sslTime": 45.482,
+      "requestTime": 898.0210000000001
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108596,
+      "dnsTime": 1.116,
+      "sslTime": 18.836,
+      "requestTime": 48.239000000000004
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 3.264,
+      "sslTime": 15.012,
+      "requestTime": 31.221000000000004
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.418000000000006
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.22
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 49.038999999999994
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
+      "bytes": 37045,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.693
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
+      "bytes": 34073,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.861
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 165.573,
+      "sslTime": 34.934,
+      "requestTime": 325.216
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C3EULUQOULQ3E8DMDF2G&lib=ttq",
+      "bytes": 2847,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 577.8199999999999
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Kmy2Aq",
+      "bytes": 2905,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 159.72800000000004
+    },
+    {
+      "url": "https://secure.quantserve.com/quant.js",
+      "bytes": 26189,
+      "dnsTime": 1.414,
+      "sslTime": 15.495,
+      "requestTime": 31.774
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/rebuy.js?shop=poopourri-3.myshopify.com",
+      "bytes": 3010,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.236
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/global.1674854229.js",
+      "bytes": 381293,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 120.484
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle.js?rev=5310a5ba&applicationId=3661",
+      "bytes": 464434,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 71.041
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 233.524
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/827280851/?random=1675106651298&cv=11&fst=1675106651298&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fpourri.com%2F&tiba=~Pourri%2C%20Purveyor%20of%20Natural%20Odor%20Eliminators%20%E2%80%93%20~Pourri&auid=1494911288.1675106651&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1490,
+      "dnsTime": 1.259,
+      "sslTime": 45.427,
+      "requestTime": 85.85799999999999
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/827280851/?random=1675106651335&cv=11&fst=1675106651335&bg=ffffff&guid=ON&async=1&gtm=2wg1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fpourri.com%2F&tiba=~Pourri%2C%20Purveyor%20of%20Natural%20Odor%20Eliminators%20%E2%80%93%20~Pourri&auid=1494911288.1675106651&rfmt=3&fmt=4",
+      "bytes": 1458,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 392.936
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.257,
+      "sslTime": 46.283,
+      "requestTime": 112.631
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1003965356976582?v=2.9.92&r=stable",
+      "bytes": 385331,
+      "dnsTime": 0.251,
+      "sslTime": 13.527,
+      "requestTime": 43.569
+    },
+    {
+      "url": "https://rules.quantcount.com/rules-p-fF8kdH1D0hz39.js",
+      "bytes": 2425,
+      "dnsTime": 9.282,
+      "sslTime": 14.156,
+      "requestTime": 34.604
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~ClientStore.2e3aa6941a04805c58f8.js",
+      "bytes": 64385,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.326999999999998
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/ClientStore.7a90b34cc3ff5ad92feb.js",
+      "bytes": 89732,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.791
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/templates.js?id=1fb281c1fb332b5655e2",
+      "bytes": 129836,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 198.72199999999998
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-jquery.js?id=c82823c9ef1e8ec2caae",
+      "bytes": 91859,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 208.641
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-flickity.js?id=ff9329099d928219d935",
+      "bytes": 49474,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 226.858
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-vue.js?id=22fc9ad97a7b205d8412",
+      "bytes": 109706,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 241.84499999999997
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/671.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7147.324
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/gcmw.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7181.241999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 91.50200000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMg.js",
+      "bytes": 250250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 95.363
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/js?id=GTM-T7LKNFT&cid=841555411.1675106652",
+      "bytes": 118074,
+      "dnsTime": 0.007,
+      "sslTime": 22.789,
+      "requestTime": 62.264
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/528764760636492?v=2.9.92&r=stable",
+      "bytes": 389204,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.508
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/styles.22c2b11c5e8fc57b054a.js",
+      "bytes": 136,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.495
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~Render.70ff401011c5901815b0.js",
+      "bytes": 11559,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.349
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/Render.094c406e512e39274940.js",
+      "bytes": 87327,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.882
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/amplitude.js",
+      "bytes": 55078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6760.549
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.517
+    },
+    {
+      "url": "https://sslwidget.criteo.com/event?a=47413&v=5.13.0&p0=e%3Dce%26m%3D%255B%255D&p1=e%3Dexd%26site_type%3Dd&p2=e%3Dvh%26ecpplugin%3Dshopify&p3=e%3Ddis&adce=1&tld=pourri.com&fu=https%253A%252F%252Fpourri.com%252F&dtycbr=34577",
+      "bytes": 9008,
+      "dnsTime": 5003.73,
+      "sslTime": 96.605,
+      "requestTime": 5359.094999999999
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/2c1d758e-bf34-4c61-85ea-6d0ea2474d55.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 96.141
+    },
+    {
+      "url": "https://static.rechargecdn.com/static/js/recharge.js?shop=poopourri-3.myshopify.com",
+      "bytes": 1156,
+      "dnsTime": 6.866,
+      "sslTime": 32.889,
+      "requestTime": 50.46800000000001
+    },
+    {
+      "url": "https://intg.snapchat.com/shopify/shopify-scevent-init.js?id=2c1d758e-bf34-4c61-85ea-6d0ea2474d55&shop=poopourri-3.myshopify.com",
+      "bytes": 10679,
+      "dnsTime": 15.297,
+      "sslTime": 54.964,
+      "requestTime": 79.64
+    },
+    {
+      "url": "https://cdn-loyalty.yotpo.com/loader/_z0J6Br_B5JvJROWkKhacQ.js?shop=poopourri-3.myshopify.com",
+      "bytes": 229807,
+      "dnsTime": 21.381,
+      "sslTime": 21.351,
+      "requestTime": 72.303
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/deployments/poo-pourri/main_site/production/en_US/bv.js?shop=poopourri-3.myshopify.com",
+      "bytes": 67314,
+      "dnsTime": 11.292,
+      "sslTime": 15.258,
+      "requestTime": 37.022
+    },
+    {
+      "url": "https://forms.smsbump.com/505517/form_105719.js?ver=1673558722&shop=poopourri-3.myshopify.com",
+      "bytes": 278903,
+      "dnsTime": 15.273,
+      "sslTime": 18.002,
+      "requestTime": 56.24999999999999
+    },
+    {
+      "url": "https://cdn.attn.tv/pourri/dtag.js?shop=poopourri-3.myshopify.com",
+      "bytes": 6265,
+      "dnsTime": 15.637,
+      "sslTime": 13.058,
+      "requestTime": 61.406
+    },
+    {
+      "url": "https://d18eg7dreypte5.cloudfront.net/browse-abandonment/browse_abandonment.js?shop=poopourri-3.myshopify.com",
+      "bytes": 46496,
+      "dnsTime": 20.238,
+      "sslTime": 49.052,
+      "requestTime": 82.68499999999999
+    },
+    {
+      "url": "https://cdn.refersion.com/shop.js?key=pub_88f3796feffa3c64f116&check_token=true&shop=poopourri-3.myshopify.com",
+      "bytes": 44920,
+      "dnsTime": 4.392,
+      "sslTime": 13.694,
+      "requestTime": 33.812
+    },
+    {
+      "url": "https://i.simpli.fi/p?cid=281684&cb=sifi_att_1553400846._hp",
+      "bytes": 755,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.27
+    },
+    {
+      "url": "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js",
+      "bytes": 97163,
+      "dnsTime": 107.189,
+      "sslTime": 187.606,
+      "requestTime": 344.157
+    },
+    {
+      "url": "https://cdn.refersion.com/xdlspma.min.js",
+      "bytes": 2152,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.853
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/apps/inline_ratings/inline_ratings-2.3.5.js",
+      "bytes": 111457,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.291999999999998
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/deployments/poo-pourri/main_site/production/en_US/inline_ratings-config.js",
+      "bytes": 2378,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.205999999999996
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/analytics/bv-analytics.js",
+      "bytes": 40709,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.04
+    },
+    {
+      "url": "https://cdn.attn.tv/attn.js?v=4-latest_263507365a",
+      "bytes": 181109,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.6
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/tag.js?v=4-latest_263507365a",
+      "bytes": 54517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.717
+    },
+    {
+      "url": "https://sc-static.net/js-sha256-v1.min.js",
+      "bytes": 22177,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.089
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/pourri.attn.tv.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 275.81499999999994
+    },
+    {
+      "url": "https://pourri.com/cart.js",
+      "bytes": 378,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 154.75600000000003
+    }
+  ],
+  "numJsRequests": 99,
+  "numThirdPartyJsRequests": 74,
+  "numFirstPartyJsRequests": 25,
+  "numUnique3pHosts": 34,
+  "totalJsBytes": 6283807,
+  "totalDnsTime": 5620.6050000000005,
+  "totalSslTime": 2092.4169999999995,
+  "totalTime": 38507.722,
+  "totalFirstPartyDnsTime": 4.05,
+  "totalFirstPartySslTime": 47.561,
+  "totalFirstPartyTime": 2373.67,
+  "totalFirstPartyJsBytes": 587627,
+  "totalThirdPartyDnsTime": 5616.555,
+  "totalThirdPartySslTime": 2044.855999999999,
+  "totalThirdPartyTime": 36134.051999999996,
+  "totalThirdPartyJsBytes": 5696180,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.202745266431787,
+  "percentOfJsRequestTimeIs3p": 93.83585972704383,
+  "percentOfJsIs3p": 90.64855110922407
+}

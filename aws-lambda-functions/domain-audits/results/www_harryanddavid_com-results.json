@@ -1,0 +1,339 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.8191206666666666,
+    "withoutTags": 0.48421966666666666,
+    "difference": 1.334901,
+    "cutMetricPercentage": 0.2661833684479791,
+    "percentFasterWithoutTags": "136.2738260490229%"
+  },
+  "TaskDuration": {
+    "withTags": 3.529931,
+    "withoutTags": 1.6194066666666664,
+    "difference": 1.9105243333333335,
+    "cutMetricPercentage": 0.45876439700001687,
+    "percentFasterWithoutTags": "184.762420368719%"
+  },
+  "DOMComplete": {
+    "withTags": 1787.6666666666667,
+    "withoutTags": 1533.6666666666667,
+    "difference": 254,
+    "cutMetricPercentage": 0.8579153458884953,
+    "percentFasterWithoutTags": "703.8057742782153%"
+  },
+  "DOMInteractive": {
+    "withTags": 758,
+    "withoutTags": 745.3333333333334,
+    "difference": 12.666666666666629,
+    "cutMetricPercentage": 0.9832893579595428,
+    "percentFasterWithoutTags": "5984.210526315807%"
+  },
+  "DOMLoading": {
+    "withTags": 65.66666666666667,
+    "withoutTags": 73.66666666666667,
+    "difference": -8,
+    "cutMetricPercentage": 1.1218274111675126,
+    "percentFasterWithoutTags": "-820.8333333333334%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 193.73333333184323,
+    "withoutTags": 300.5,
+    "difference": -106.76666666815677,
+    "cutMetricPercentage": 1.551101170005048,
+    "percentFasterWithoutTags": "-181.45488604040528%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://na-library.klarnaservices.com/lib.js",
+      "bytes": 43090,
+      "dnsTime": 8.015,
+      "sslTime": 37.389,
+      "requestTime": 61.45500000000001
+    },
+    {
+      "url": "https://z1800flowers3276921z.btttag.com/btt.js?utv=ut4.46.202208111901",
+      "bytes": 80538,
+      "dnsTime": 1.111,
+      "sslTime": 32.602,
+      "requestTime": 82.499
+    },
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=GTM-MSF3VTB",
+      "bytes": 155144,
+      "dnsTime": 0.884,
+      "sslTime": 25.704,
+      "requestTime": 76.408
+    },
+    {
+      "url": "https://rbx.harryanddavid.com/assets/wxyz.rb.js",
+      "bytes": 47141,
+      "dnsTime": 3.031,
+      "sslTime": 99.146,
+      "requestTime": 273.231
+    },
+    {
+      "url": "https://js.appboycdn.com/web-sdk/2.4/appboy.min.js",
+      "bytes": 190739,
+      "dnsTime": 0.801,
+      "sslTime": 18.733,
+      "requestTime": 52.78999999999999
+    },
+    {
+      "url": "https://edge.fullstory.com/s/fs.js",
+      "bytes": 269538,
+      "dnsTime": 0.701,
+      "sslTime": 16.675,
+      "requestTime": 37.173
+    },
+    {
+      "url": "https://t.channeladvisor.com/v2/1833.js",
+      "bytes": 6959,
+      "dnsTime": 2.246,
+      "sslTime": 17.768,
+      "requestTime": 28.972
+    },
+    {
+      "url": "https://secure.quantserve.com/quant.js",
+      "bytes": 26104,
+      "dnsTime": 1.661,
+      "sslTime": 18.651,
+      "requestTime": 30.076999999999998
+    },
+    {
+      "url": "https://6368700.collect.igodigital.com/igdrta.js",
+      "bytes": 4354,
+      "dnsTime": 1.816,
+      "sslTime": 86.145,
+      "requestTime": 171.285
+    },
+    {
+      "url": "https://track.securedvisit.com/js/sv.js",
+      "bytes": 60925,
+      "dnsTime": 9.455,
+      "sslTime": 17.774,
+      "requestTime": 49.098000000000006
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 1.734,
+      "sslTime": 12.46,
+      "requestTime": 110.367
+    },
+    {
+      "url": "https://clientcdn.pushengage.com/core/bc313512d60f21e4b57bc90e24fd3acc.js",
+      "bytes": 116880,
+      "dnsTime": 2.773,
+      "sslTime": 99.639,
+      "requestTime": 237.529
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-8181133",
+      "bytes": 113546,
+      "dnsTime": 0.992,
+      "sslTime": 62.282,
+      "requestTime": 101.67099999999999
+    },
+    {
+      "url": "https://zn_5ij1dnxukjmjaxf-1800flowers.siteintercept.qualtrics.com/WRSiteInterceptEngine/?Q_ZID=ZN_5iJ1DnxukjMjAxf&Q_LOC=https%3A%2F%2Fwww.harryanddavid.com%2F",
+      "bytes": 7302,
+      "dnsTime": 3.431,
+      "sslTime": 17.188,
+      "requestTime": 72.485
+    },
+    {
+      "url": "https://execution-ci360.18f-cloud.com/js/ot-all.min.js",
+      "bytes": 21198,
+      "dnsTime": 1.373,
+      "sslTime": 34.133,
+      "requestTime": 46.476000000000006
+    },
+    {
+      "url": "https://analytics-sm.com/js/v1/beacon.js",
+      "bytes": 2508,
+      "dnsTime": 1.171,
+      "sslTime": 16.945,
+      "requestTime": 28.379000000000005
+    },
+    {
+      "url": "https://resources.xg4ken.com/js/v2/ktag.js?tid=KT-N4330-3EB",
+      "bytes": 9203,
+      "dnsTime": 15.867,
+      "sslTime": 100.53,
+      "requestTime": 207.633
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 1.75,
+      "sslTime": 42.638,
+      "requestTime": 55.879000000000005
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 0.984,
+      "sslTime": 16.387,
+      "requestTime": 62.13
+    },
+    {
+      "url": "https://dynamic.criteo.com/js/ld/ld.js?a=4010",
+      "bytes": 43958,
+      "dnsTime": 0.016,
+      "sslTime": 102.116,
+      "requestTime": 658.92
+    },
+    {
+      "url": "https://d1n00d49gkbray.cloudfront.net/js/1800flowers.js",
+      "bytes": 67265,
+      "dnsTime": 0.868,
+      "sslTime": 20.896,
+      "requestTime": 32.624
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.416,
+      "sslTime": 17.173,
+      "requestTime": 67.635
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/v1/loader/jM5Ztz30MpQJGaZJLoixEA",
+      "bytes": 433720,
+      "dnsTime": 1.655,
+      "sslTime": 46.993,
+      "requestTime": 74.142
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-8181133&l=dataLayer&cx=c",
+      "bytes": 113567,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.613
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1030284073&l=dataLayer&cx=c",
+      "bytes": 187914,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 83.991
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-BMECK137YG&l=dataLayer&cx=c",
+      "bytes": 219107,
+      "dnsTime": 0.01,
+      "sslTime": 28.696,
+      "requestTime": 97.73500000000001
+    },
+    {
+      "url": "https://rules.quantcount.com/rules-p-zwPdMGzqZxAnE.js",
+      "bytes": 2061,
+      "dnsTime": 8.074,
+      "sslTime": 13.989,
+      "requestTime": 32.933
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.harryanddavid.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.895
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/bc8b3373-8329-4717-9034-fe3fd3a74812.js",
+      "bytes": 143,
+      "dnsTime": 0.009,
+      "sslTime": 10.242,
+      "requestTime": 80.922
+    },
+    {
+      "url": "https://edge.fullstory.com/datalayer/v3/latest.js",
+      "bytes": 41036,
+      "dnsTime": 0.039,
+      "sslTime": 15.613,
+      "requestTime": 33.815999999999995
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 101.839
+    },
+    {
+      "url": "https://execution-ci360.18f-cloud.com/js/ot-min.js",
+      "bytes": 176549,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.631
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1497646/tfa.js",
+      "bytes": 69816,
+      "dnsTime": 2.206,
+      "sslTime": 29.619,
+      "requestTime": 44.792
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.698
+    },
+    {
+      "url": "https://cdn-widget-assets.yotpo.com/widgets-initializer/app.v0.2.0-3926.js",
+      "bytes": 29947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.644999999999996
+    },
+    {
+      "url": "https://trc.taboola.com/1497646/trc/3/json?tim=1674691020847&data=%7B%22id%22%3A709%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1674691020832%2C%22cv%22%3A%2220230125-5-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.harryanddavid.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dharryanddavid-cnxsc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22item-url%22%3A%22https%3A%2F%2Fwww.harryanddavid.com%2F%22%2C%22tim%22%3A1674691020846%2C%22ref%22%3Anull%2C%22tos%22%3A4%2C%22ssd%22%3A1%2C%22scd%22%3A0%7D%7D&pubit=i",
+      "bytes": 2571,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.300999999999995
+    },
+    {
+      "url": "https://execution-ci360.18f-cloud.com/js/ot-api.min.js",
+      "bytes": 65727,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.975
+    },
+    {
+      "url": "https://creatives.attn.tv/creatives-dynamic/multiPage/static/js/vendors~main.e7b0ab7c.chunk.js",
+      "bytes": 190690,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.881
+    },
+    {
+      "url": "https://creatives.attn.tv/creatives-dynamic/multiPage/static/js/main.2f537fc4.js",
+      "bytes": 356138,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.551
+    }
+  ],
+  "numJsRequests": 76,
+  "numThirdPartyJsRequests": 39,
+  "numFirstPartyJsRequests": 37,
+  "numUnique3pHosts": 31,
+  "totalJsBytes": 7663276,
+  "totalDnsTime": 74.089,
+  "totalSslTime": 1058.126,
+  "totalTime": 5155.793000000002,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1755.7170000000006,
+  "totalFirstPartyJsBytes": 4209206,
+  "totalThirdPartyDnsTime": 74.089,
+  "totalThirdPartySslTime": 1058.126,
+  "totalThirdPartyTime": 3400.0759999999987,
+  "totalThirdPartyJsBytes": 3454070,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 33.29969683030616,
+  "percentOfJsRequestTimeIs3p": 65.94671275592323,
+  "percentOfJsIs3p": 45.073020989978694
+}

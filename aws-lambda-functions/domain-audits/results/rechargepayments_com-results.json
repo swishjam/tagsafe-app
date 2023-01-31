@@ -1,0 +1,241 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9754403333333332,
+    "withoutTags": 0.04741000000000001,
+    "difference": 0.9280303333333333,
+    "cutMetricPercentage": 0.9513963095641251,
+    "percentFasterWithoutTags": "105.1086692209414%"
+  },
+  "TaskDuration": {
+    "withTags": 2.3508263333333335,
+    "withoutTags": 0.6657756666666667,
+    "difference": 1.6850506666666667,
+    "cutMetricPercentage": 0.7167907908694233,
+    "percentFasterWithoutTags": "139.51072094370258%"
+  },
+  "DOMComplete": {
+    "withTags": 4387.666666666667,
+    "withoutTags": 1112.6666666666667,
+    "difference": 3275,
+    "cutMetricPercentage": 0.7464103927676061,
+    "percentFasterWithoutTags": "133.97455470737913%"
+  },
+  "DOMInteractive": {
+    "withTags": 3358.6666666666665,
+    "withoutTags": 1003,
+    "difference": 2355.6666666666665,
+    "cutMetricPercentage": 0.7013695911075823,
+    "percentFasterWithoutTags": "142.57818027451538%"
+  },
+  "DOMLoading": {
+    "withTags": 596,
+    "withoutTags": 550.6666666666666,
+    "difference": 45.33333333333337,
+    "cutMetricPercentage": 0.07606263982102915,
+    "percentFasterWithoutTags": "1314.70588235294%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2891.199999998013,
+    "withoutTags": 687.3333333308498,
+    "difference": 2203.8666666671634,
+    "cutMetricPercentage": 0.7622671093901072,
+    "percentFasterWithoutTags": "131.18760965563683%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://client-registry.mutinycdn.com/personalize/client/8aa802a8d987dba3.js",
+      "bytes": 79672,
+      "dnsTime": 6198.923,
+      "sslTime": 31.1,
+      "requestTime": 6242.787
+    },
+    {
+      "url": "https://js.hsforms.net/forms/embed/v2.js?ver=9.2.81",
+      "bytes": 518702,
+      "dnsTime": 8.005,
+      "sslTime": 13.311,
+      "requestTime": 75.73
+    },
+    {
+      "url": "https://client.mutinycdn.com/mutiny-client/8.4.1.60.js",
+      "bytes": 7567,
+      "dnsTime": 9.111,
+      "sslTime": 17.926,
+      "requestTime": 38.666999999999994
+    },
+    {
+      "url": "https://client-registry.mutinycdn.com/personalize/client_data/8aa802a8d987dba3.json",
+      "bytes": 88086,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 312.778
+    },
+    {
+      "url": "https://client.mutinycdn.com/mutiny-client/7.4.1.60.js",
+      "bytes": 31369,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 322.09600000000006
+    },
+    {
+      "url": "https://client.mutinycdn.com/mutiny-client/6.4.1.60.js",
+      "bytes": 103339,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 318.888
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-MHC99KX",
+      "bytes": 297596,
+      "dnsTime": 23.39,
+      "sslTime": 39.795,
+      "requestTime": 132.17000000000002
+    },
+    {
+      "url": "https://hubspot.clearbit.com/v1/forms/pk_8fb66db7166e302ede86699e007cf830/forms.js",
+      "bytes": 0,
+      "dnsTime": 18.059,
+      "sslTime": 52.276,
+      "requestTime": 458.78700000000003
+    },
+    {
+      "url": "https://client.mutinycdn.com/mutiny-client/9.4.1.60.js",
+      "bytes": 7586,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 309.145
+    },
+    {
+      "url": "https://client.mutinycdn.com/mutiny-client/13.4.1.60.js",
+      "bytes": 7398,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 309.285
+    },
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=GTM-M7M649W",
+      "bytes": 111019,
+      "dnsTime": 1.435,
+      "sslTime": 30.968,
+      "requestTime": 82.338
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 16.434,
+      "sslTime": 27.564,
+      "requestTime": 79.30799999999999
+    },
+    {
+      "url": "https://js.hs-scripts.com/2538506.js",
+      "bytes": 1462,
+      "dnsTime": 2.891,
+      "sslTime": 24.766,
+      "requestTime": 335.077
+    },
+    {
+      "url": "https://tag.clearbitscripts.com/v1/pk_8fb66db7166e302ede86699e007cf830/tags.js",
+      "bytes": 2506,
+      "dnsTime": 11.021,
+      "sslTime": 29.322,
+      "requestTime": 116.675
+    },
+    {
+      "url": "https://j.6sc.co/6si.min.js",
+      "bytes": 31446,
+      "dnsTime": 18.282,
+      "sslTime": 37.446,
+      "requestTime": 68.991
+    },
+    {
+      "url": "https://tag.demandbase.com/2a8ea44be85a178e.min.js",
+      "bytes": 68375,
+      "dnsTime": 9.705,
+      "sslTime": 46.026,
+      "requestTime": 67.382
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 12.438,
+      "sslTime": 15.236,
+      "requestTime": 57.684999999999995
+    },
+    {
+      "url": "https://x.clearbitjs.com/v2/pk_8fb66db7166e302ede86699e007cf830/destinations.min.js",
+      "bytes": 2984,
+      "dnsTime": 11.225,
+      "sslTime": 33.287,
+      "requestTime": 161.92600000000002
+    },
+    {
+      "url": "https://x.clearbitjs.com/v2/pk_8fb66db7166e302ede86699e007cf830/tracking.min.js",
+      "bytes": 171765,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 175.292
+    },
+    {
+      "url": "https://tribl.io/analytics.js",
+      "bytes": 20527,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.267999999999999
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=rechargepayments.com",
+      "bytes": 107,
+      "dnsTime": 1.105,
+      "sslTime": 30.885,
+      "requestTime": 62.624
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-QP6EGTKP6B&l=dataLayer&cx=c",
+      "bytes": 239465,
+      "dnsTime": 0.007,
+      "sslTime": 25.479,
+      "requestTime": 86.59700000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-969147787",
+      "bytes": 180810,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 47.668
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-969147787&l=dataLayer&cx=c",
+      "bytes": 180831,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 52.413
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=2924306&time=1674701028523&url=https%3A%2F%2Frechargepayments.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.455
+    }
+  ],
+  "numJsRequests": 31,
+  "numThirdPartyJsRequests": 25,
+  "numFirstPartyJsRequests": 6,
+  "numUnique3pHosts": 16,
+  "totalJsBytes": 2206130,
+  "totalDnsTime": 6342.031,
+  "totalSslTime": 455.3869999999999,
+  "totalTime": 10099.818,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 140.786,
+  "totalFirstPartyJsBytes": 8304,
+  "totalThirdPartyDnsTime": 6342.031,
+  "totalThirdPartySslTime": 455.3869999999999,
+  "totalThirdPartyTime": 9959.031999999996,
+  "totalThirdPartyJsBytes": 2197826,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 68.25380217675777,
+  "percentOfJsRequestTimeIs3p": 98.60605408929148,
+  "percentOfJsIs3p": 99.623594257818
+}

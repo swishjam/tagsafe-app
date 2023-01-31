@@ -1,0 +1,402 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 4.455908666666667,
+    "withoutTags": 0.18609299999999998,
+    "difference": 4.269815666666667,
+    "cutMetricPercentage": 0.9582368010834454,
+    "percentFasterWithoutTags": "104.35833802973696%"
+  },
+  "TaskDuration": {
+    "withTags": 12.387890333333333,
+    "withoutTags": 2.5715603333333332,
+    "difference": 9.81633,
+    "cutMetricPercentage": 0.7924133759552441,
+    "percentFasterWithoutTags": "126.19675920973859%"
+  },
+  "DOMComplete": {
+    "withTags": -1675105857147.3333,
+    "withoutTags": 2449,
+    "difference": -1675105859596.3333,
+    "cutMetricPercentage": 1.0000000014619972,
+    "percentFasterWithoutTags": "99.99999985380028%"
+  },
+  "DOMInteractive": {
+    "withTags": 604,
+    "withoutTags": 438.3333333333333,
+    "difference": 165.66666666666669,
+    "cutMetricPercentage": 0.2742825607064018,
+    "percentFasterWithoutTags": "364.5875251509054%"
+  },
+  "DOMLoading": {
+    "withTags": 203.66666666666666,
+    "withoutTags": 187.33333333333334,
+    "difference": 16.333333333333314,
+    "cutMetricPercentage": 0.08019639934533543,
+    "percentFasterWithoutTags": "1246.9387755102055%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1082.2333333318431,
+    "withoutTags": 1067.0333333338301,
+    "difference": 15.199999998013027,
+    "cutMetricPercentage": 0.014045030336680897,
+    "percentFasterWithoutTags": "7119.9561412718085%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TV2CD7D&gtm_auth=&gtm_preview=&gtm_cookies_win=x",
+      "bytes": 181761,
+      "dnsTime": 5.571,
+      "sslTime": 30.197,
+      "requestTime": 73.47500000000001
+    },
+    {
+      "url": "https://yield-manager-deployment.assertive.workers.dev/ve6wyHJreJxbpsKqW",
+      "bytes": 48332,
+      "dnsTime": 107.041,
+      "sslTime": 149.836,
+      "requestTime": 318.06600000000003
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2888399.js?sv=6",
+      "bytes": 8468,
+      "dnsTime": 87.654,
+      "sslTime": 15.91,
+      "requestTime": 142.005
+    },
+    {
+      "url": "https://player.h-cdn.com/loader.js?customer=hc_6b608449",
+      "bytes": 12647,
+      "dnsTime": 96.857,
+      "sslTime": 94.136,
+      "requestTime": 213.523
+    },
+    {
+      "url": "https://static.adsafeprotected.com/skeleton.js",
+      "bytes": 17,
+      "dnsTime": 1.258,
+      "sslTime": 13.624,
+      "requestTime": 23
+    },
+    {
+      "url": "https://yield-manager-script.assertive.workers.dev/ve6wyHJreJxbpsKqW.deploy",
+      "bytes": 259235,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 190.88
+    },
+    {
+      "url": "https://yield-manager-script.assertive.workers.dev/yield-manager-script-v1.0.0-beta",
+      "bytes": 58759,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.722
+    },
+    {
+      "url": "https://cdn.resonate.com/analytics.js/v1/101136566/analytics.min.js",
+      "bytes": 189002,
+      "dnsTime": 1.994,
+      "sslTime": 17.705,
+      "requestTime": 154.966
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-0F5C36MH0L&l=dataLayer&cx=c",
+      "bytes": 222898,
+      "dnsTime": 0.008,
+      "sslTime": 113.591,
+      "requestTime": 253.374
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/aax2/apstag.js",
+      "bytes": 195246,
+      "dnsTime": 1.058,
+      "sslTime": 14.63,
+      "requestTime": 135.272
+    },
+    {
+      "url": "https://ve6wyhjrejxbpskqw.ay.delivery/client-v2-wral.js",
+      "bytes": 52089,
+      "dnsTime": 26.085,
+      "sslTime": 13.262,
+      "requestTime": 58.909000000000006
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 3.628,
+      "sslTime": 116.963,
+      "requestTime": 631.366
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/bao-csm/aps-comm/aps_csm.js",
+      "bytes": 6482,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 412.669
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0.012,
+      "sslTime": 27.385,
+      "requestTime": 122.759
+    },
+    {
+      "url": "https://cdn1.opstag.com/13042/index.js?cb=1091679445&imp=https://securepubads.g.doubleclick.net/pcs/view%3Fxai%3DAKAOjst9r1QGdcP6TpY3Ot06m6dLmQzNyy_FsOFMQxgHDugsHFDu3WJBxRqtHpxe3TwNq72nRm_At8GnPH7CpL5t963rhoWf75hh2wYC2c6eUv_CQgvGlg1eXsX44eJU1TMfcWS8osePGZaE_yLbIfxpFPLWJwBbOhQKlOGwWUsinX3C9x5TStT98Kd7i9QjJqbjMichVM9iXCJc7DI2Xvu1hb3IpqVYObJqfv6imDCk9BMrnTYEuytQEAoqfupBXuj2cqdTLRNyPN6xbW1P_4sEH3W5yRAbEgFHZfZpJRw19fk2V3zvumfheBQ%26sai%3DAMfl-YT9X85j3_M_GriPEol0z5OgY2hyahpHnwliKlA7_hadtbwaKYAJElvD5Q78SRVcUamnH5fPcu6_h-C4aMTcpNW26Ru3h2_jWtyM__8ox_AKDatBw2FSg7rqQ7hPBkOY%26sig%3DCg0ArKJSzPitDMV1DqA3EAE%26uach_m%3D%5BUACH%5D%26urlfix%3D1%26adurl%3D",
+      "bytes": 13189,
+      "dnsTime": 15.653,
+      "sslTime": 25.772,
+      "requestTime": 59.407
+    },
+    {
+      "url": "https://cdn1.opstag.com/13042/index.js?cb=1011776023&imp=https://securepubads.g.doubleclick.net/pcs/view%3Fxai%3DAKAOjsuv6oIOSKUXWgkH61tqy42xgaOAJemUi5mLPdsdmAT9BFMU7kWHWhR7v8wHDzv0E_d-E-x9l1FtRuvHxEV0jsKoA3FUOtvUXqZGZZg6aQgydWnB86kho42HDJLpN4YE0kT-h2hEMyOpUKNsm9QFg31wDGKkYndk6Y-LSSZmIUSF49gOkhMYPTTfsNvNEp8qODn3HZsYLWHq1G_xZ09-KoPEZaMU5pysrjzeogilmE-TKpRf9poGvwkTKoGBTEo1KzGQ4f3HWjPCaZ2dNBi-lhi5u9AN-Vf_1u5nrDQKTK14UEknwJ3NHqw%26sai%3DAMfl-YTErbjIg23iF3SZg9Y7NvmtJn8N4m2x3vZvrfjYbG2YFpHyZCsxN4LELkpK-nxzjyF5pqFItM7o561h7HZZ9YPe77ZODWBN-lZPAvg6nJK7tnB-7V5oWjdJYlAHeU4y%26sig%3DCg0ArKJSzI8tYT_O_8fQEAE%26uach_m%3D%5BUACH%5D%26urlfix%3D1%26adurl%3D",
+      "bytes": 13189,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.992000000000004
+    },
+    {
+      "url": "https://cdn1.opstag.com/13042/index.js?cb=1343223627&imp=https://securepubads.g.doubleclick.net/pcs/view%3Fxai%3DAKAOjssFbm7l2zBidHOQZRkLDWvmHTIMC2RnwdN9PNCmyR0rXJhPcbNXxqNiQ_ttnNcXbki3iQyowdRhkuHiq7lsqErxWe8gNMMqqbIex9-pvxIMVyVhYLpbsIjgkvkKKvMxOB506QRyc-LV-ggxGMrFkssOrMxB6OTsH1pO0hEGFC0xtKouiXea_0KjqSu8UGhnHYrQbSePG7g4O3vnt8ptq16BfrXK1TGtWLYbNf3ymYuOsgUemisnnNY7AMK-c_2pbNJCcuknTp1B-4VgRTPLtHRI1WeiDN622o-USlZjQR3XyV-CscUzqbs%26sai%3DAMfl-YTm1jUwOVBz4WMFeYtRk3vtufNaaoqMaHQeCF-OLc2QVBWKJ4IdZkHtubxO1csjG8_G8fqF_zAb-rVb92s49qXE-_1SAQses6rJLuMa2TN3Crnd_qQzS-4_7FC8rx32SA%26sig%3DCg0ArKJSzKg5ZG0PdYJkEAE%26uach_m%3D%5BUACH%5D%26urlfix%3D1%26adurl%3D",
+      "bytes": 13189,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.458
+    },
+    {
+      "url": "https://cdn1.opstag.com/13042/prebid.js",
+      "bytes": 329512,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.415
+    },
+    {
+      "url": "https://ads.pubmatic.com/AdServer/js/pwt/157898/3581/pwt.js",
+      "bytes": 205998,
+      "dnsTime": 3.303,
+      "sslTime": 20.375,
+      "requestTime": 57.157000000000004
+    },
+    {
+      "url": "https://cdn1.opstag.com/13042/placement.js",
+      "bytes": 29748,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.057000000000002
+    },
+    {
+      "url": "https://ads.pubmatic.com/AdServer/js/pwt/157898/3581/pwt.js",
+      "bytes": 205998,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.91
+    },
+    {
+      "url": "https://cdn1.opstag.com/13670/index.js",
+      "bytes": 13598,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.681
+    },
+    {
+      "url": "https://cdn1.opstag.com/13015/index.js",
+      "bytes": 13786,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 552.044
+    },
+    {
+      "url": "https://cdn1.opstag.com/13670/prebid.js",
+      "bytes": 321585,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 62.054
+    },
+    {
+      "url": "https://cdn1.opstag.com/13670/placement.js",
+      "bytes": 29888,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.286
+    },
+    {
+      "url": "https://cdn1.opstag.com/13015/prebid.js",
+      "bytes": 322616,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 505.582
+    },
+    {
+      "url": "https://cdn1.opstag.com/13015/placement.js",
+      "bytes": 30106,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 506.224
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.992999999999995
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.88
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.035
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 117.553
+    },
+    {
+      "url": "https://resources.infolinks.com/js/infolinks_main.js",
+      "bytes": 3613,
+      "dnsTime": 14.526,
+      "sslTime": 18.526,
+      "requestTime": 53.188
+    },
+    {
+      "url": "https://resources.infolinks.com/js/1837.005-3.025/ice.js",
+      "bytes": 185251,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 425.49399999999997
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.826999999999998
+    },
+    {
+      "url": "https://router.infolinks.com/usync/lcmanage?pid=3326582&wsid=0&pdom=www.wral.com&purl=https%3A%2F%2Fwww.wral.com%2F&usprivacy=1YNY",
+      "bytes": 263,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.91399999999999
+    },
+    {
+      "url": "https://resources.infolinks.com/static/usync/iqusync-1.20.min.js",
+      "bytes": 2776,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.852999999999994
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 260.978
+    },
+    {
+      "url": "https://cdn-ima.33across.com/ima.js",
+      "bytes": 21941,
+      "dnsTime": 106.764,
+      "sslTime": 27.085,
+      "requestTime": 150.394
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wral.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 258.86600000000004
+    },
+    {
+      "url": "https://resources.infolinks.com/js/1837.005-3.025/in_search.js",
+      "bytes": 227168,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.057
+    },
+    {
+      "url": "https://resources.infolinks.com/js/pbice/3.025/pbice.js",
+      "bytes": 285404,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 75.429
+    },
+    {
+      "url": "https://resources.infolinks.com/js/vidice/2.1/vidice.js",
+      "bytes": 288591,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.843
+    },
+    {
+      "url": "https://fid.agkn.com/f?apiKey=2339672991&r=https%3A%2F%2Fwww.wral.com%2F",
+      "bytes": 151,
+      "dnsTime": 63.277,
+      "sslTime": 52.379,
+      "requestTime": 169.877
+    },
+    {
+      "url": "https://fid.agkn.com/f?apiKey=2339672991&r=https%3A%2F%2Fwww.wral.com%2F",
+      "bytes": 151,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 163.285
+    },
+    {
+      "url": "https://fid.agkn.com/f?apiKey=2339672991&r=https%3A%2F%2Fwww.wral.com%2F",
+      "bytes": 151,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.004
+    },
+    {
+      "url": "https://fid.agkn.com/f?apiKey=2339672991&r=https%3A%2F%2Fwww.wral.com%2F",
+      "bytes": 130,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 142.922
+    },
+    {
+      "url": "https://fid.agkn.com/f?apiKey=2339672991&r=https%3A%2F%2Fwww.wral.com%2F",
+      "bytes": 130,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.473
+    },
+    {
+      "url": "https://fid.agkn.com/f?apiKey=2339672991&r=https%3A%2F%2Fwww.wral.com%2F",
+      "bytes": 130,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 95.875
+    }
+  ],
+  "numJsRequests": 67,
+  "numThirdPartyJsRequests": 48,
+  "numFirstPartyJsRequests": 19,
+  "numUnique3pHosts": 16,
+  "totalJsBytes": 5874669,
+  "totalDnsTime": 534.689,
+  "totalSslTime": 751.3760000000001,
+  "totalTime": 9986.261000000002,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 2804.268,
+  "totalFirstPartyJsBytes": 2080518,
+  "totalThirdPartyDnsTime": 534.689,
+  "totalThirdPartySslTime": 751.3760000000001,
+  "totalThirdPartyTime": 7181.993,
+  "totalThirdPartyJsBytes": 3794151,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 17.906798294011146,
+  "percentOfJsRequestTimeIs3p": 71.91873915572604,
+  "percentOfJsIs3p": 64.58493235959337
+}

@@ -1,0 +1,136 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.5554,
+    "withoutTags": 0.13286833333333334,
+    "difference": 0.42253166666666664,
+    "cutMetricPercentage": 0.7607700156043692,
+    "percentFasterWithoutTags": "131.44576935062068%"
+  },
+  "TaskDuration": {
+    "withTags": 1.183155,
+    "withoutTags": 0.39941,
+    "difference": 0.7837449999999999,
+    "cutMetricPercentage": 0.6624195477346586,
+    "percentFasterWithoutTags": "150.9617286234681%"
+  },
+  "DOMComplete": {
+    "withTags": -1675103353896.3333,
+    "withoutTags": -558367778877.6666,
+    "difference": -1116735575018.6665,
+    "cutMetricPercentage": 0.6666666701019438,
+    "percentFasterWithoutTags": "149.99999922706263%"
+  },
+  "DOMInteractive": {
+    "withTags": 3027,
+    "withoutTags": 1464,
+    "difference": 1563,
+    "cutMetricPercentage": 0.5163528245787908,
+    "percentFasterWithoutTags": "193.66602687140116%"
+  },
+  "DOMLoading": {
+    "withTags": 678.3333333333334,
+    "withoutTags": 782.3333333333334,
+    "difference": -104,
+    "cutMetricPercentage": -0.1533169533169533,
+    "percentFasterWithoutTags": "-652.2435897435898%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1596.3666666671634,
+    "withoutTags": 1301.133333330353,
+    "difference": 295.23333333681035,
+    "cutMetricPercentage": 0.18494080307576694,
+    "percentFasterWithoutTags": "540.7135598899275%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://router.scheduleengine.net/common/v2/se_inc.js",
+      "bytes": 13881,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 470.6209999999999
+    },
+    {
+      "url": "https://router.scheduleengine.net/definitions/goettl/se_inc_def.js",
+      "bytes": 24595,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 471.29600000000005
+    },
+    {
+      "url": "https://embed.scheduleengine.net/schedule-engine-v3.js",
+      "bytes": 12482,
+      "dnsTime": 1.613,
+      "sslTime": 34.66,
+      "requestTime": 580.5050000000001
+    },
+    {
+      "url": "https://webchat.scheduleengine.net/webchat-v1.js",
+      "bytes": 2851,
+      "dnsTime": 1.396,
+      "sslTime": 27.869,
+      "requestTime": 574.1659999999999
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js",
+      "bytes": 24103,
+      "dnsTime": 2.569,
+      "sslTime": 22.16,
+      "requestTime": 34.446
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2969576.js?sv=5",
+      "bytes": 8499,
+      "dnsTime": 2.676,
+      "sslTime": 12.643,
+      "requestTime": 29.026
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-P8BHPG6",
+      "bytes": 204388,
+      "dnsTime": 2.762,
+      "sslTime": 32.769,
+      "requestTime": 83.958
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.553,
+      "sslTime": 45.158,
+      "requestTime": 82.34899999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-19RQVRLJ49&l=dataLayer&cx=c",
+      "bytes": 236445,
+      "dnsTime": 0.006,
+      "sslTime": 48.596,
+      "requestTime": 103.94299999999998
+    },
+    {
+      "url": "https://webchat.scheduleengine.net/widget.js?ts=1675103346794&ref=https%3A%2F%2Fwww.goettl.com%2F",
+      "bytes": 30452,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 356.74899999999997
+    }
+  ],
+  "numJsRequests": 17,
+  "numThirdPartyJsRequests": 10,
+  "numFirstPartyJsRequests": 7,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 972945,
+  "totalDnsTime": 12.575,
+  "totalSslTime": 223.85500000000002,
+  "totalTime": 4824.046999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 2036.988,
+  "totalFirstPartyJsBytes": 375853,
+  "totalThirdPartyDnsTime": 12.575,
+  "totalThirdPartySslTime": 223.85500000000002,
+  "totalThirdPartyTime": 2787.0589999999993,
+  "totalThirdPartyJsBytes": 597092,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 8.483135807315168,
+  "percentOfJsRequestTimeIs3p": 57.774292000057216,
+  "percentOfJsIs3p": 61.36955326354522
+}

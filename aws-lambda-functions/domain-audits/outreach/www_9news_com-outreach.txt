@@ -1,0 +1,3 @@
+www.9news.com loads 36 third party JS scripts, totaling in 5.5 MB of javascript, while you are loading 361 KB of 'first party javascript', meaning 93.97% of all the javascript loaded on the page originates from third party resources. 
+It takes www.9news.com 5.52 seconds to download all of the third party javascript on the site. 23.51% of the third party JS download time is due to DNS lookups and SSL connections, which would be eliminated using Tagsafe. 
+If www.9news.com had zero third party javascript tags, it would cut the DOM Complete time by 100.0%, the First Contentful Paint time by 47.73%, and DOM Interactive time by 62.76%.

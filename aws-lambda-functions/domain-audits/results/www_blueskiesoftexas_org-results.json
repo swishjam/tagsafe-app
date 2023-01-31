@@ -1,0 +1,227 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9901053333333333,
+    "withoutTags": 0.6139936666666667,
+    "difference": 0.3761116666666666,
+    "cutMetricPercentage": 0.3798703572279851,
+    "percentFasterWithoutTags": "263.24770569024275%"
+  },
+  "TaskDuration": {
+    "withTags": 2.172420333333333,
+    "withoutTags": 1.5455120000000002,
+    "difference": 0.626908333333333,
+    "cutMetricPercentage": 0.2885759830701884,
+    "percentFasterWithoutTags": "346.52918422416906%"
+  },
+  "DOMComplete": {
+    "withTags": -1116735122488.6667,
+    "withoutTags": 6789.333333333333,
+    "difference": -1116735129278,
+    "cutMetricPercentage": 1.0000000060796272,
+    "percentFasterWithoutTags": "99.99999939203728%"
+  },
+  "DOMInteractive": {
+    "withTags": 2664,
+    "withoutTags": 2560.6666666666665,
+    "difference": 103.33333333333348,
+    "cutMetricPercentage": 0.038788788788788844,
+    "percentFasterWithoutTags": "2578.0645161290286%"
+  },
+  "DOMLoading": {
+    "withTags": 519,
+    "withoutTags": 1231.3333333333333,
+    "difference": -712.3333333333333,
+    "cutMetricPercentage": -1.3725112395632626,
+    "percentFasterWithoutTags": "-72.8591483387927%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2433.1333333278694,
+    "withoutTags": 2102.2333333318434,
+    "difference": 330.89999999602605,
+    "cutMetricPercentage": 0.13599747924354158,
+    "percentFasterWithoutTags": "735.307746556993%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-8627896-1",
+      "bytes": 112650,
+      "dnsTime": 2.417,
+      "sslTime": 46.879,
+      "requestTime": 521.533
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js?ver=1.0.0",
+      "bytes": 40461,
+      "dnsTime": 0.008,
+      "sslTime": 18.694,
+      "requestTime": 36.219
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-M74WRJT",
+      "bytes": 170639,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1121.8400000000001
+    },
+    {
+      "url": "https://js.talkfurther.com/talkfurther_init.min.js",
+      "bytes": 43616,
+      "dnsTime": 2.388,
+      "sslTime": 31.784,
+      "requestTime": 48.411
+    },
+    {
+      "url": "https://vsa.talkfurther.com/famchat.v3.js",
+      "bytes": 302889,
+      "dnsTime": 2.546,
+      "sslTime": 11.421,
+      "requestTime": 34.829
+    },
+    {
+      "url": "https://evsa.talkfurther.com/embedded-vsa.js",
+      "bytes": 583559,
+      "dnsTime": 2.521,
+      "sslTime": 17.543,
+      "requestTime": 50.238
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.162,
+      "sslTime": 28.646,
+      "requestTime": 68.109
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-SWY4ZCZZKJ&l=dataLayer&cx=c",
+      "bytes": 232300,
+      "dnsTime": 0.004,
+      "sslTime": 195.646,
+      "requestTime": 339.2
+    },
+    {
+      "url": "https://vsa.talkfurther.com/0.bebe5b05.chunk.famchat.v3.js",
+      "bytes": 48870,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.397
+    },
+    {
+      "url": "https://vsa.talkfurther.com/1.bbc5752e.chunk.famchat.v3.js",
+      "bytes": 19237,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.212000000000002
+    },
+    {
+      "url": "https://vsa.talkfurther.com/2.e4420c27.chunk.famchat.v3.js",
+      "bytes": 206499,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.787
+    },
+    {
+      "url": "https://vsa.talkfurther.com/4.850a89ff.chunk.famchat.v3.js",
+      "bytes": 250756,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.874000000000002
+    },
+    {
+      "url": "https://vsa.talkfurther.com/5.c21e59e3.chunk.famchat.v3.js",
+      "bytes": 86969,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.822
+    },
+    {
+      "url": "https://vsa.talkfurther.com/6.c22a5ce1.chunk.famchat.v3.js",
+      "bytes": 117432,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.618
+    },
+    {
+      "url": "https://vsa.talkfurther.com/7.ec230265.chunk.famchat.v3.js",
+      "bytes": 160069,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.427
+    },
+    {
+      "url": "https://vsa.talkfurther.com/8.221eb718.chunk.famchat.v3.js",
+      "bytes": 22035,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.855
+    },
+    {
+      "url": "https://vsa.talkfurther.com/9.c2d836d0.chunk.famchat.v3.js",
+      "bytes": 3076,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.351999999999997
+    },
+    {
+      "url": "https://vsa.talkfurther.com/10.dc56bc74.chunk.famchat.v3.js",
+      "bytes": 61861,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.72
+    },
+    {
+      "url": "https://vsa.talkfurther.com/11.a09f2b69.chunk.famchat.v3.js",
+      "bytes": 9337,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.868000000000002
+    },
+    {
+      "url": "https://vsa.talkfurther.com/12.4f756cbf.chunk.famchat.v3.js",
+      "bytes": 7763,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.013
+    },
+    {
+      "url": "https://vsa.talkfurther.com/13.7a429c41.chunk.famchat.v3.js",
+      "bytes": 7888,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.816000000000003
+    },
+    {
+      "url": "https://vsa.talkfurther.com/14.119bdb7e.chunk.famchat.v3.js",
+      "bytes": 8952,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.243000000000002
+    },
+    {
+      "url": "https://vsa.talkfurther.com/15.cabeaa43.chunk.famchat.v3.js",
+      "bytes": 10528,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.051000000000002
+    }
+  ],
+  "numJsRequests": 35,
+  "numThirdPartyJsRequests": 23,
+  "numFirstPartyJsRequests": 12,
+  "numUnique3pHosts": 6,
+  "totalJsBytes": 3517008,
+  "totalDnsTime": 11.045999999999998,
+  "totalSslTime": 350.61299999999994,
+  "totalTime": 12374.873000000003,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 9792.439,
+  "totalFirstPartyJsBytes": 970226,
+  "totalThirdPartyDnsTime": 11.045999999999998,
+  "totalThirdPartySslTime": 350.61299999999994,
+  "totalThirdPartyTime": 2582.433999999999,
+  "totalThirdPartyJsBytes": 2546782,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 14.004578626210781,
+  "percentOfJsRequestTimeIs3p": 20.868367699611934,
+  "percentOfJsIs3p": 72.41331267941386
+}

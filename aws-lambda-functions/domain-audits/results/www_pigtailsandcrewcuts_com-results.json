@@ -1,0 +1,150 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.6359216666666665,
+    "withoutTags": 0.4380903333333333,
+    "difference": 1.1978313333333332,
+    "cutMetricPercentage": 0.7322058003999784,
+    "percentFasterWithoutTags": "136.57362444462132%"
+  },
+  "TaskDuration": {
+    "withTags": 3.252521,
+    "withoutTags": 1.0005816666666667,
+    "difference": 2.2519393333333335,
+    "cutMetricPercentage": 0.6923673462318409,
+    "percentFasterWithoutTags": "144.43199920424144%"
+  },
+  "DOMComplete": {
+    "withTags": 4833,
+    "withoutTags": 2571.3333333333335,
+    "difference": 2261.6666666666665,
+    "cutMetricPercentage": 0.467963307814332,
+    "percentFasterWithoutTags": "213.6919675755343%"
+  },
+  "DOMInteractive": {
+    "withTags": 1845.3333333333333,
+    "withoutTags": 1832.6666666666667,
+    "difference": 12.666666666666515,
+    "cutMetricPercentage": 0.006864161849710901,
+    "percentFasterWithoutTags": "14568.421052631751%"
+  },
+  "DOMLoading": {
+    "withTags": 792.3333333333334,
+    "withoutTags": 905,
+    "difference": -112.66666666666663,
+    "cutMetricPercentage": -0.14219604543542275,
+    "percentFasterWithoutTags": "-703.2544378698227%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1399.1666666641831,
+    "withoutTags": 1552.2000000004966,
+    "difference": -153.0333333363135,
+    "cutMetricPercentage": -0.10937462775693993,
+    "percentFasterWithoutTags": "-914.2888259444147%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-17710444-3",
+      "bytes": 115740,
+      "dnsTime": 0.004,
+      "sslTime": 41.784,
+      "requestTime": 116.77999999999999
+    },
+    {
+      "url": "https://player.vimeo.com/api/player.js?ver=1.0",
+      "bytes": 21211,
+      "dnsTime": 15.805,
+      "sslTime": 40.852,
+      "requestTime": 82.39399999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-5M5QNKP",
+      "bytes": 149051,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 431.97200000000004
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2732284.js?sv=6",
+      "bytes": 8462,
+      "dnsTime": 31.558,
+      "sslTime": 17.99,
+      "requestTime": 500.128
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.1/js/player.module.js",
+      "bytes": 488873,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.477
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.1/js/vendor.module.js",
+      "bytes": 386494,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.906
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-SXSRDDF3FX&l=dataLayer&cx=c",
+      "bytes": 220132,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 73.93299999999999
+    },
+    {
+      "url": "https://f.vimeocdn.com/js_opt/modules/utils/vuid.min.js",
+      "bytes": 1862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.083999999999996
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 0.013,
+      "sslTime": 47.95,
+      "requestTime": 334.655
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-853006364",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 81.482
+    },
+    {
+      "url": "https://tag.simpli.fi/sifitag/3f25cc00-b9ab-0134-0eba-0cc47a63c1a4",
+      "bytes": 3097,
+      "dnsTime": 3.932,
+      "sslTime": 300.291,
+      "requestTime": 728.4290000000001
+    },
+    {
+      "url": "https://i.simpli.fi/p?cid=25&cb=sifi_att_42656._hp",
+      "bytes": 750,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.774
+    }
+  ],
+  "numJsRequests": 54,
+  "numThirdPartyJsRequests": 12,
+  "numFirstPartyJsRequests": 42,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 2286292,
+  "totalDnsTime": 51.312,
+  "totalSslTime": 448.86699999999996,
+  "totalTime": 3949.074,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1382.0599999999997,
+  "totalFirstPartyJsBytes": 719628,
+  "totalThirdPartyDnsTime": 51.312,
+  "totalThirdPartySslTime": 448.86699999999996,
+  "totalThirdPartyTime": 2567.0139999999997,
+  "totalThirdPartyJsBytes": 1566664,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 19.484856724583505,
+  "percentOfJsRequestTimeIs3p": 65.00293486523675,
+  "percentOfJsIs3p": 68.52423050074094
+}

@@ -1,0 +1,276 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 4.968705666666667,
+    "withoutTags": 1.4848096666666668,
+    "difference": 3.4838959999999997,
+    "cutMetricPercentage": 0.29883228475933743,
+    "percentFasterWithoutTags": "142.6192305013315%"
+  },
+  "TaskDuration": {
+    "withTags": 9.441844666666666,
+    "withoutTags": 3.5330779999999997,
+    "difference": 5.908766666666667,
+    "cutMetricPercentage": 0.37419361626156805,
+    "percentFasterWithoutTags": "159.79383176410192%"
+  },
+  "DOMComplete": {
+    "withTags": 8083.666666666667,
+    "withoutTags": 4335.333333333333,
+    "difference": 3748.333333333334,
+    "cutMetricPercentage": 0.5363077811224278,
+    "percentFasterWithoutTags": "215.66029346376166%"
+  },
+  "DOMInteractive": {
+    "withTags": 3738.3333333333335,
+    "withoutTags": 3447.6666666666665,
+    "difference": 290.66666666666697,
+    "cutMetricPercentage": 0.9222469906375389,
+    "percentFasterWithoutTags": "1286.1238532110078%"
+  },
+  "DOMLoading": {
+    "withTags": 1823.6666666666667,
+    "withoutTags": 1153,
+    "difference": 670.6666666666667,
+    "cutMetricPercentage": 0.6322427344178395,
+    "percentFasterWithoutTags": "271.91848906560637%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2802.03333333383,
+    "withoutTags": 1951.6000000014901,
+    "difference": 850.4333333323398,
+    "cutMetricPercentage": 0.6964942125365429,
+    "percentFasterWithoutTags": "329.483008662694%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://s3.nikecdn.com/unite/scripts/unite.min.js",
+      "bytes": 12035,
+      "dnsTime": 4.704,
+      "sslTime": 21.383,
+      "requestTime": 39.215999999999994
+    },
+    {
+      "url": "https://s.go-mpulse.net/boomerang/R6SH7-84RFL-GQQ8S-CW6MF-W5RWR?20200601",
+      "bytes": 209939,
+      "dnsTime": 2.864,
+      "sslTime": 36.087,
+      "requestTime": 98.83000000000001
+    },
+    {
+      "url": "https://s3.nikecdn.com/unite/app/953/scripts/app.min.js",
+      "bytes": 401218,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.28
+    },
+    {
+      "url": "https://api.nike.com/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/ips.js?ak_bmsc_nke-2.2=02T3q1JIsRkiTC5zR4d8xrvIkx4k1oqTfDRliIr7W1NULZw3H1EdvIzFS6TPwSrJwWtD1AYC7xiyhtOPtL4z4jIV5jy36QeImgH8OKzfK97aGGjF2y5hl4Rw1GY36QdwNnCAFoL9JakkDps04HkMc68iOd7",
+      "bytes": 395746,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 391.93
+    },
+    {
+      "url": "https://unite.nike.com/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/ips.js?ak_bmsc_nke-2.2=02FhDRMyzOhXMzXLyCFgcuUPb7qK4RU5xiez7ISMkj771qqfBGSQrNwLb06b9PBoAxuif4dvcyL1TC96ENdgOVFA5smTGCFi4xhNKVMlhHlCebRroMDOMRhNYYAog5365MLASnGNrfBD6dH7XqvlaV86vRM",
+      "bytes": 398988,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 344.21700000000004
+    },
+    {
+      "url": "https://s3.nikecdn.com/unite/experiences/953/com.nike.commerce.nikedotcom.web/en_US.js",
+      "bytes": 101124,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.843999999999998
+    },
+    {
+      "url": "https://js-agent.newrelic.com/859.95d4308d-1222.js",
+      "bytes": 6657,
+      "dnsTime": 8.166,
+      "sslTime": 14.102,
+      "requestTime": 30.458000000000002
+    },
+    {
+      "url": "https://js-agent.newrelic.com/569.95d4308d-1222.js",
+      "bytes": 7513,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.153
+    },
+    {
+      "url": "https://js-agent.newrelic.com/620.95d4308d-1222.js",
+      "bytes": 2989,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.028
+    },
+    {
+      "url": "https://js-agent.newrelic.com/457.95d4308d-1222.js",
+      "bytes": 4809,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.402
+    },
+    {
+      "url": "https://js-agent.newrelic.com/41.95d4308d-1222.js",
+      "bytes": 828,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.151
+    },
+    {
+      "url": "https://js-agent.newrelic.com/244.95d4308d-1222.js",
+      "bytes": 6871,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.986
+    },
+    {
+      "url": "https://js-agent.newrelic.com/736.95d4308d-1222.js",
+      "bytes": 4688,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.485
+    },
+    {
+      "url": "https://js-agent.newrelic.com/142.95d4308d-1222.js",
+      "bytes": 2014,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.137
+    },
+    {
+      "url": "https://js-agent.newrelic.com/466.95d4308d-1222.js",
+      "bytes": 6842,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.130999999999998
+    },
+    {
+      "url": "https://js-agent.newrelic.com/885.95d4308d-1222.js",
+      "bytes": 16348,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.315000000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NTF2X45&l=marketingClientDataLayer",
+      "bytes": 419740,
+      "dnsTime": 0.838,
+      "sslTime": 26.316,
+      "requestTime": 92.84199999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-4171764",
+      "bytes": 113546,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.856
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 1.994,
+      "sslTime": 14.777,
+      "requestTime": 68.24
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=CCUOCJ3C77UDPV42FEH0&lib=ttq",
+      "bytes": 2824,
+      "dnsTime": 6.306,
+      "sslTime": 13.443,
+      "requestTime": 108.759
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 8.5,
+      "sslTime": 49.422,
+      "requestTime": 78.553
+    },
+    {
+      "url": "https://api.bluecore.com/triggermail.js/nike.js",
+      "bytes": 297570,
+      "dnsTime": 6.447,
+      "sslTime": 55.202,
+      "requestTime": 127.45100000000002
+    },
+    {
+      "url": "https://web-sdk-cdn.singular.net/singular-sdk/latest/singular-sdk.js",
+      "bytes": 152044,
+      "dnsTime": 116.995,
+      "sslTime": 32.782,
+      "requestTime": 160.92
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-QTVTHYLBQS&l=marketingClientDataLayer&cx=c",
+      "bytes": 222211,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 77.31800000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-8128335&l=marketingClientDataLayer&cx=c",
+      "bytes": 113582,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.443
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/33a360ef-51f9-46b3-93f1-3859a357fd3f.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 90.95
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.634
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.509
+    },
+    {
+      "url": "https://siteassets.bluecore.com/bcQuery.js",
+      "bytes": 86943,
+      "dnsTime": 7.566,
+      "sslTime": 24.34,
+      "requestTime": 48.273999999999994
+    },
+    {
+      "url": "https://siteassets.bluecore.com/site_recipe.js",
+      "bytes": 8957,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.269
+    }
+  ],
+  "numJsRequests": 40,
+  "numThirdPartyJsRequests": 30,
+  "numFirstPartyJsRequests": 10,
+  "numUnique3pHosts": 13,
+  "totalJsBytes": 4496178,
+  "totalDnsTime": 164.38000000000002,
+  "totalSslTime": 287.854,
+  "totalTime": 2757.6620000000007,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 701.081,
+  "totalFirstPartyJsBytes": 1085011,
+  "totalThirdPartyDnsTime": 164.38000000000002,
+  "totalThirdPartySslTime": 287.854,
+  "totalThirdPartyTime": 2056.581,
+  "totalThirdPartyJsBytes": 3411167,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.98960313257781,
+  "percentOfJsRequestTimeIs3p": 74.57697861449299,
+  "percentOfJsIs3p": 75.86814845853522
+}

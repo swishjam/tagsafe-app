@@ -1,0 +1,444 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.3746033333333334,
+    "withoutTags": 0.9283833333333332,
+    "difference": 1.4462200000000003,
+    "cutMetricPercentage": 0.6090364566152102,
+    "percentFasterWithoutTags": "164.19378333402477%"
+  },
+  "TaskDuration": {
+    "withTags": 5.457563333333334,
+    "withoutTags": 2.3218756666666667,
+    "difference": 3.135687666666667,
+    "cutMetricPercentage": 0.5745581819481099,
+    "percentFasterWithoutTags": "174.04677740544523%"
+  },
+  "DOMComplete": {
+    "withTags": 4721.666666666667,
+    "withoutTags": 2869.6666666666665,
+    "difference": 1852.0000000000005,
+    "cutMetricPercentage": 0.3922343805153548,
+    "percentFasterWithoutTags": "254.94960403167744%"
+  },
+  "DOMInteractive": {
+    "withTags": 1025.3333333333333,
+    "withoutTags": 815.6666666666666,
+    "difference": 209.66666666666663,
+    "cutMetricPercentage": 0.2044863459037711,
+    "percentFasterWithoutTags": "489.0302066772655%"
+  },
+  "DOMLoading": {
+    "withTags": 623.6666666666666,
+    "withoutTags": 650.3333333333334,
+    "difference": -26.666666666666742,
+    "cutMetricPercentage": -0.042757883484767625,
+    "percentFasterWithoutTags": "-2338.749999999993%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1114.6666666666667,
+    "withoutTags": 1659.2333333243926,
+    "difference": -544.5666666577258,
+    "cutMetricPercentage": -0.48854665070968223,
+    "percentFasterWithoutTags": "-204.68874334669175%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KFSVH5H",
+      "bytes": 429854,
+      "dnsTime": 3.277,
+      "sslTime": 86.34,
+      "requestTime": 159.235
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 5.554,
+      "sslTime": 46.371,
+      "requestTime": 83.34100000000001
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/esw.min.js",
+      "bytes": 30555,
+      "dnsTime": 16.296,
+      "sslTime": 76.804,
+      "requestTime": 121.89699999999999
+    },
+    {
+      "url": "https://cdn1.affirm.com/js/v2/affirm.js",
+      "bytes": 436786,
+      "dnsTime": 13.335,
+      "sslTime": 31.473,
+      "requestTime": 87.09299999999999
+    },
+    {
+      "url": "https://js.adsrvr.org/up_loader.1.1.0.js",
+      "bytes": 4593,
+      "dnsTime": 9.525,
+      "sslTime": 26.71,
+      "requestTime": 71.30000000000001
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 21.916,
+      "sslTime": 62.436,
+      "requestTime": 95.156
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/759876867455653?v=2.9.95&r=stable",
+      "bytes": 386152,
+      "dnsTime": 0.007,
+      "sslTime": 14.028,
+      "requestTime": 53.528000000000006
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/921123694/?random=1675121853874&cv=11&fst=1675121853874&bg=ffffff&guid=ON&async=1&gtm=2wg1p0&u_w=1920&u_h=1080&label=L2L0CL3Y9toBEO72nLcD&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.anker.com%2Fproducts%2Fa2668%3Fref%3DnaviMenu%26variant%3D41974350315670%26discount%3DWS7DH0JYKC&tiba=Anker%20735%20Charger%20(GaNPrime%2065W)%20-%20Anker%20US&value=0&bttype=purchase&auid=290186787.1675121854&rfmt=3&fmt=4",
+      "bytes": 2054,
+      "dnsTime": 0.03,
+      "sslTime": 51.872,
+      "requestTime": 131.02100000000002
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.477,
+      "sslTime": 28.283,
+      "requestTime": 64.522
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/590617332/?random=1675121853925&cv=11&fst=1675121853925&bg=ffffff&guid=ON&async=1&gtm=2wg1p0&u_w=1920&u_h=1080&label=CpbBCN3Uv94BEPS10JkC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.anker.com%2Fproducts%2Fa2668%3Fref%3DnaviMenu%26variant%3D41974350315670%26discount%3DWS7DH0JYKC&tiba=Anker%20735%20Charger%20(GaNPrime%2065W)%20-%20Anker%20US&value=0&bttype=purchase&auid=290186787.1675121854&rfmt=3&fmt=4",
+      "bytes": 2053,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 208.242
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 1.974,
+      "sslTime": 39.648,
+      "requestTime": 57.32300000000001
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/358627497/?random=1675121853959&cv=11&fst=1675121853959&bg=ffffff&guid=ON&async=1&gtm=2wg1p0&u_w=1920&u_h=1080&label=cRS9CJiprvUCEKnxgKsB&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.anker.com%2Fproducts%2Fa2668%3Fref%3DnaviMenu%26variant%3D41974350315670%26discount%3DWS7DH0JYKC&tiba=Anker%20735%20Charger%20(GaNPrime%2065W)%20-%20Anker%20US&value=0&bttype=purchase&auid=290186787.1675121854&rfmt=3&fmt=4",
+      "bytes": 2053,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 180.92499999999998
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2695912.js?sv=7",
+      "bytes": 9585,
+      "dnsTime": 1.328,
+      "sslTime": 43.169,
+      "requestTime": 66.821
+    },
+    {
+      "url": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+      "bytes": 13352,
+      "dnsTime": 73.241,
+      "sslTime": 29.316,
+      "requestTime": 201.678
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 71.564,
+      "sslTime": 33.548,
+      "requestTime": 221.86700000000002
+    },
+    {
+      "url": "https://beta-tt.krpax.com/tracker.js",
+      "bytes": 8042,
+      "dnsTime": 275.104,
+      "sslTime": 33.853,
+      "requestTime": 421.31100000000004
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 66.274,
+      "sslTime": 37.903,
+      "requestTime": 150.88899999999998
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 4.582,
+      "sslTime": 31.493,
+      "requestTime": 146.946
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=BUPQ16J4294UNHAT17L0&lib=ttq",
+      "bytes": 2866,
+      "dnsTime": 8.3,
+      "sslTime": 17.156,
+      "requestTime": 196.24699999999999
+    },
+    {
+      "url": "https://a.omappapi.com/app/js/api.min.js",
+      "bytes": 51147,
+      "dnsTime": 4.962,
+      "sslTime": 14.165,
+      "requestTime": 128.826
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/aat/amzn.js",
+      "bytes": 6674,
+      "dnsTime": 13.345,
+      "sslTime": 26.225,
+      "requestTime": 53.493
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-CP1CDW0CVX&l=dataLayer&cx=c",
+      "bytes": 220960,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 155.162
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-TTXQYZJJ07&l=dataLayer&cx=c",
+      "bytes": 220944,
+      "dnsTime": 0,
+      "sslTime": 67.261,
+      "requestTime": 139.44799999999998
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/c72d905b-cb20-4c06-a27c-606aff19eef2.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 210.729
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
+      "bytes": 258696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 45.489
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.75
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/ec.js",
+      "bytes": 2779,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.121
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=4323658&time=1675121854646&url=https%3A%2F%2Fwww.anker.com%2Fproducts%2Fa2668%3Fref%3DnaviMenu%26variant%3D41974350315670%26discount%3DWS7DH0JYKC&tm=gtmv2&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 85.92
+    },
+    {
+      "url": "https://beacon.riskified.com/?shop=www.anker.com&sid=undefined",
+      "bytes": 47073,
+      "dnsTime": 10.752,
+      "sslTime": 130.338,
+      "requestTime": 654.9150000000001
+    },
+    {
+      "url": "https://static.criteo.net/js/ld/ld.js",
+      "bytes": 43748,
+      "dnsTime": 0.994,
+      "sslTime": 129.361,
+      "requestTime": 641.403
+    },
+    {
+      "url": "https://cdn.avmws.com/1023561/?shop=ankerus.myshopify.com",
+      "bytes": 4192,
+      "dnsTime": 9.118,
+      "sslTime": 59.313,
+      "requestTime": 77.753
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/utils/common.min.js",
+      "bytes": 4933,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.803000000000004
+    },
+    {
+      "url": "https://www.clarity.ms/tag/4uf5qul2km",
+      "bytes": 1281,
+      "dnsTime": 8.962,
+      "sslTime": 22.462,
+      "requestTime": 188.466
+    },
+    {
+      "url": "https://staticw2.yotpo.com/zrJExX9I0FNoUytGcDfqDndBOu8OAdlKlrzm1Glz/widget.js",
+      "bytes": 452401,
+      "dnsTime": 8.375,
+      "sslTime": 29.971,
+      "requestTime": 70.18299999999999
+    },
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-MF9NTTT",
+      "bytes": 111015,
+      "dnsTime": 7.479,
+      "sslTime": 34.307,
+      "requestTime": 78.286
+    },
+    {
+      "url": "https://www.recaptcha.net/recaptcha/api.js?onload=onloadCallback&render=6LevvMYUAAAAADjVzG_7UCyvV7H3DKllzyP9pfSN",
+      "bytes": 944,
+      "dnsTime": 6.731,
+      "sslTime": 36.541,
+      "requestTime": 70.665
+    },
+    {
+      "url": "https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js?id=1073748176",
+      "bytes": 76452,
+      "dnsTime": 11.666,
+      "sslTime": 23.165,
+      "requestTime": 50.556
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/client/liveagent.esw.min.js",
+      "bytes": 20422,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 54.938
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/eswFrame.min.js",
+      "bytes": 5152,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.304
+    },
+    {
+      "url": "https://js.adsrvr.org/universal_pixel.1.1.0.js",
+      "bytes": 487,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.393000000000001
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/frame/session.esw.min.js",
+      "bytes": 2371,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 101.705
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/frame/broadcast.esw.min.js",
+      "bytes": 2250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 99.983
+    },
+    {
+      "url": "https://www.gstatic.com/recaptcha/releases/RGRQD9tdxHtnt-Bxkx9pM75S/recaptcha__en.js",
+      "bytes": 411605,
+      "dnsTime": 0.016,
+      "sslTime": 28.655,
+      "requestTime": 318.168
+    },
+    {
+      "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
+      "bytes": 56734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.741999999999999
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/frame/chasitor.esw.min.js",
+      "bytes": 23084,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 195.82000000000002
+    },
+    {
+      "url": "https://d.la2-c1-ukb.salesforceliveagent.com/chat/rest/EmbeddedService/EmbeddedServiceConfig.jsonp?Settings.prefix=EmbeddedService&org_id=00D5g000004DkWQ&EmbeddedServiceConfig.configName=Anker_EN_Embedded_Service_Deployment&callback=embedded_svc.liveAgentAPI.handleChatSettings&version=48&EmbeddedServiceConfig.language=en",
+      "bytes": 163,
+      "dnsTime": 33.842,
+      "sslTime": 309.473,
+      "requestTime": 631.659
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/client/invite.esw.min.js",
+      "bytes": 19104,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.18999999999998
+    },
+    {
+      "url": "https://d.la2-c1-ukb.salesforceliveagent.com/chat/rest/Visitor/Settings.jsonp?Settings.prefix=Visitor&Settings.buttonIds=[5735g000000kcdl]&Settings.updateBreadcrumb=1&callback=embedded_svc.liveAgentAPI.connection.handlePing&deployment_id=5725g000000kKK5&org_id=00D5g000004DkWQ&version=48",
+      "bytes": 166,
+      "dnsTime": 0.05,
+      "sslTime": 309.298,
+      "requestTime": 531.075
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/utils/inert.min.js",
+      "bytes": 8294,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.507
+    },
+    {
+      "url": "https://service.force.com/embeddedservice/5.0/frame/filetransfer.esw.min.js",
+      "bytes": 473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.759999999999998
+    },
+    {
+      "url": "https://www.recaptcha.net/recaptcha/api2/webworker.js?hl=en&v=RGRQD9tdxHtnt-Bxkx9pM75S",
+      "bytes": 102,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.196
+    },
+    {
+      "url": "https://sslwidget.criteo.com/event?a=an%3Dankercriteo%26cn%3DUS%26ln%3DUS&v=5.13.0&p0=e%3Dce%26m%3D%255B%255D&p1=e%3Dexd%26site_type%3Dd&p2=e%3Dvp%26p%3D41974350315670&p3=e%3Ddis&adce=1&tld=anker.com&fu=https%253A%252F%252Fwww.anker.com%252Fproducts%252Fa2668%253Fref%253DnaviMenu%2526variant%253D41974350315670%2526discount%253DWS7DH0JYKC&dtycbr=3161",
+      "bytes": 9008,
+      "dnsTime": 37.036,
+      "sslTime": 87.771,
+      "requestTime": 223.03900000000002
+    },
+    {
+      "url": "https://d.la2-c1-hnd.salesforceliveagent.com/chat/rest/EmbeddedService/EmbeddedServiceConfig.jsonp?Settings.prefix=EmbeddedService&org_id=00D5g000004DkWQ&EmbeddedServiceConfig.configName=Anker_EN_Embedded_Service_Deployment&callback=embedded_svc.liveAgentAPI.handleChatSettings&version=48&EmbeddedServiceConfig.language=en",
+      "bytes": 16117,
+      "dnsTime": 119.251,
+      "sslTime": 337.891,
+      "requestTime": 587.26
+    },
+    {
+      "url": "https://d.la2-c1-hnd.salesforceliveagent.com/chat/rest/Visitor/Settings.jsonp?Settings.prefix=Visitor&Settings.buttonIds=[5735g000000kcdl]&Settings.updateBreadcrumb=1&callback=embedded_svc.liveAgentAPI.connection.handlePing&deployment_id=5725g000000kKK5&org_id=00D5g000004DkWQ&version=48",
+      "bytes": 344,
+      "dnsTime": 119.708,
+      "sslTime": 338.006,
+      "requestTime": 563.9029999999999
+    }
+  ],
+  "numJsRequests": 134,
+  "numThirdPartyJsRequests": 54,
+  "numFirstPartyJsRequests": 80,
+  "numUnique3pHosts": 32,
+  "totalJsBytes": 5353428,
+  "totalDnsTime": 967.071,
+  "totalSslTime": 2674.6059999999998,
+  "totalTime": 89220.22299999995,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 80093.27099999998,
+  "totalFirstPartyJsBytes": 1502699,
+  "totalThirdPartyDnsTime": 967.071,
+  "totalThirdPartySslTime": 2674.6059999999998,
+  "totalThirdPartyTime": 9126.951999999997,
+  "totalThirdPartyJsBytes": 3850729,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 39.90025366628422,
+  "percentOfJsRequestTimeIs3p": 10.229689741976998,
+  "percentOfJsIs3p": 71.93015391259581
+}

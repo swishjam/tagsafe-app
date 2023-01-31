@@ -1,0 +1,612 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.0045373333333334,
+    "withoutTags": 0.386646,
+    "difference": 1.6178913333333333,
+    "cutMetricPercentage": 0.8071145926940414,
+    "percentFasterWithoutTags": "123.89814396269712%"
+  },
+  "TaskDuration": {
+    "withTags": 5.597973333333333,
+    "withoutTags": 1.213396,
+    "difference": 4.384577333333333,
+    "cutMetricPercentage": 0.7832436977191745,
+    "percentFasterWithoutTags": "127.67418402625204%"
+  },
+  "DOMComplete": {
+    "withTags": 5920.666666666667,
+    "withoutTags": 2309.6666666666665,
+    "difference": 3611.0000000000005,
+    "cutMetricPercentage": 0.6098975340614796,
+    "percentFasterWithoutTags": "163.9619680605557%"
+  },
+  "DOMInteractive": {
+    "withTags": 1805,
+    "withoutTags": 1681.6666666666667,
+    "difference": 123.33333333333326,
+    "cutMetricPercentage": 0.06832871652816247,
+    "percentFasterWithoutTags": "1463.5135135135145%"
+  },
+  "DOMLoading": {
+    "withTags": 814.6666666666666,
+    "withoutTags": 811.6666666666666,
+    "difference": 3,
+    "cutMetricPercentage": 0.0036824877250409165,
+    "percentFasterWithoutTags": "27155.555555555555%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1200.0999999990065,
+    "withoutTags": 1139.2333333293598,
+    "difference": 60.86666666964675,
+    "cutMetricPercentage": 0.050717995725103854,
+    "percentFasterWithoutTags": "1971.6867468897842%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://d2wy8f7a9ursnm.cloudfront.net/v7/bugsnag.min.js",
+      "bytes": 43193,
+      "dnsTime": 88.464,
+      "sslTime": 18.029,
+      "requestTime": 241.45699999999997
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-782380669",
+      "bytes": 180941,
+      "dnsTime": 35.109,
+      "sslTime": 217.674,
+      "requestTime": 320.89000000000004
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=S2kdJW",
+      "bytes": 2905,
+      "dnsTime": 46.685,
+      "sslTime": 12.288,
+      "requestTime": 69.02000000000001
+    },
+    {
+      "url": "https://cdn-3.convertexperiments.com/js/10035790-10033806.js",
+      "bytes": 202730,
+      "dnsTime": 114.525,
+      "sslTime": 41.984,
+      "requestTime": 357.48
+    },
+    {
+      "url": "https://cdn.builder.io/js/webcomponents",
+      "bytes": 7373,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1106.593
+    },
+    {
+      "url": "https://cdn-stamped-io.azureedge.net/files/widget.min.js",
+      "bytes": 92530,
+      "dnsTime": 28.988,
+      "sslTime": 226.128,
+      "requestTime": 272.30400000000003
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PF2RL9D",
+      "bytes": 253662,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 688.3679999999999
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 17.639,
+      "sslTime": 13.765,
+      "requestTime": 40.433
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.754000000000005
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.613
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.217
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
+      "bytes": 37045,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.346
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
+      "bytes": 34073,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.091
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 11.291,
+      "sslTime": 168.205,
+      "requestTime": 200.143
+    },
+    {
+      "url": "https://seal-nashville.bbb.org/logo/4patriots-37051107.js",
+      "bytes": 1055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 328.39399999999995
+    },
+    {
+      "url": "https://cdn.fera.ai/js/fera.js?shop=4-patriots.myshopify.com",
+      "bytes": 354329,
+      "dnsTime": 0.01,
+      "sslTime": 12.358,
+      "requestTime": 1596.1879999999999
+    },
+    {
+      "url": "https://d1npnstlfekkfz.cloudfront.net/zipify-oneclickupsell-vendor.js",
+      "bytes": 154647,
+      "dnsTime": 177.569,
+      "sslTime": 24.799,
+      "requestTime": 430.254
+    },
+    {
+      "url": "https://d1npnstlfekkfz.cloudfront.net/zipify-oneclickupsell-single.js",
+      "bytes": 311814,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 786.57
+    },
+    {
+      "url": "https://d1npnstlfekkfz.cloudfront.net/zipify-oneclickupsell-multiple.js",
+      "bytes": 330339,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 791.7629999999999
+    },
+    {
+      "url": "https://d1u9wuqimc88kc.cloudfront.net/vendor/axios.min.js",
+      "bytes": 20729,
+      "dnsTime": 171.827,
+      "sslTime": 32.409,
+      "requestTime": 397.269
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.min.js",
+      "bytes": 15467,
+      "dnsTime": 0.023,
+      "sslTime": 14.094,
+      "requestTime": 286.19500000000005
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/vendors~ClientStore.2e3aa6941a04805c58f8.js",
+      "bytes": 64385,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.923
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/ClientStore.7a90b34cc3ff5ad92feb.js",
+      "bytes": 89732,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.403999999999996
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/782380669/?random=1675117880498&cv=11&fst=1675117880498&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2F4patriots.com%2F&tiba=4Patriots%20%7C%20We%20Champion%20Freedom%20and%20Self-Reliance&auid=9530541.1675117881&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 43,
+      "dnsTime": 13.976,
+      "sslTime": 53.599,
+      "requestTime": 100.907
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 10.022,
+      "sslTime": 25.108,
+      "requestTime": 149.87900000000002
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 9.848,
+      "sslTime": 42.867,
+      "requestTime": 86.963
+    },
+    {
+      "url": "https://up.pixel.ad/assets/up.js?um=1",
+      "bytes": 3276,
+      "dnsTime": 23.963,
+      "sslTime": 13.052,
+      "requestTime": 45.60600000000001
+    },
+    {
+      "url": "https://share.4patriots.com/core.js",
+      "bytes": 48945,
+      "dnsTime": 32.13,
+      "sslTime": 434.043,
+      "requestTime": 623.74
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-TWFRVRW25M&l=dataLayer&cx=c",
+      "bytes": 223060,
+      "dnsTime": 0.007,
+      "sslTime": 26.018,
+      "requestTime": 80.249
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-296088.js?sv=7",
+      "bytes": 8566,
+      "dnsTime": 17.095,
+      "sslTime": 12.575,
+      "requestTime": 66.725
+    },
+    {
+      "url": "https://www.dwin1.com/19038.js",
+      "bytes": 37567,
+      "dnsTime": 14.308,
+      "sslTime": 28.253,
+      "requestTime": 51.887
+    },
+    {
+      "url": "https://cdn.builder.io/js/webcomponents@1.3.48/dist/system/lite/builder-webcomponents-lite.js",
+      "bytes": 252,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 45.363
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/styles.22c2b11c5e8fc57b054a.js",
+      "bytes": 136,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 265.504
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/vendors~Render.70ff401011c5901815b0.js",
+      "bytes": 11559,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 270.82
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/Render.094c406e512e39274940.js",
+      "bytes": 87327,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 270.211
+    },
+    {
+      "url": "https://d1npnstlfekkfz.cloudfront.net/zipify-oneclickupsell-carousel.js",
+      "bytes": 150957,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 185.02100000000002
+    },
+    {
+      "url": "https://d1npnstlfekkfz.cloudfront.net/zipify-oneclickupsell-single-offer.js",
+      "bytes": 47517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 173.01
+    },
+    {
+      "url": "https://d1npnstlfekkfz.cloudfront.net/zipify-oneclickupsell-multiple-offer.js",
+      "bytes": 32856,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.333
+    },
+    {
+      "url": "https://cdn.builder.io/js/webcomponents@1.3.48/dist/system/lite/builder-webcomponents-lite-28d7edcd.js",
+      "bytes": 209115,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 291.645
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/vendors~PhoneNumberInput~Dropdown.ba1ede750a065348c230.js",
+      "bytes": 20788,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 146.12
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/vendors~PhoneNumberInput.488454e072a9e1db42c8.js",
+      "bytes": 36135,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 146.298
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/PhoneNumberInput.a424fc2cea672fa8e4c4.js",
+      "bytes": 35078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 145.05599999999998
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 195.89799999999997
+    },
+    {
+      "url": "https://cdn.builder.io/js/webcomponents@1.3.48/dist/system/lite/builder-widgets.es5-da878291.js",
+      "bytes": 154693,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 236.204
+    },
+    {
+      "url": "https://cdn.builder.io/js/webcomponents@1.3.48/dist/system/lite/index-380cfb16.js",
+      "bytes": 46063,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 153.9
+    },
+    {
+      "url": "https://cdn.builder.io/js/webcomponents@1.3.48/dist/system/lite/js-08fc9d83.js",
+      "bytes": 52374,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 152.741
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/vendors~cleave.9d62a1d1c88ed29489d5.js",
+      "bytes": 24813,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.486
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/vendors~CleaveFormatting229.f8978df2fc6b06872db1.js",
+      "bytes": 37477,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.230999999999995
+    },
+    {
+      "url": "https://www.youtube.com/s/player/4248d311/www-embed-player.vflset/www-embed-player.js",
+      "bytes": 349770,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.62899999999999
+    },
+    {
+      "url": "https://www.youtube.com/s/player/4248d311/player_ias.vflset/en_US/base.js",
+      "bytes": 2198246,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.06700000000001
+    },
+    {
+      "url": "https://www.youtube.com/s/player/4248d311/fetch-polyfill.vflset/fetch-polyfill.js",
+      "bytes": 9615,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.41399999999999
+    },
+    {
+      "url": "https://static.doubleclick.net/instream/ad_status.js",
+      "bytes": 29,
+      "dnsTime": 1.519,
+      "sslTime": 27.486,
+      "requestTime": 38.071
+    },
+    {
+      "url": "https://www.youtube.com/s/player/4248d311/player_ias.vflset/en_US/remote.js",
+      "bytes": 121490,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.599
+    },
+    {
+      "url": "https://www.google.com/js/th/Bdw2VvWHBnLyaZnICW60B-ZF7DgMaGaXgSsIEsc-hUM.js",
+      "bytes": 37142,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.868
+    },
+    {
+      "url": "https://www.youtube.com/s/player/4248d311/player_ias.vflset/en_US/embed.js",
+      "bytes": 26711,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.469000000000001
+    },
+    {
+      "url": "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js",
+      "bytes": 4272,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.274
+    },
+    {
+      "url": "https://cdn.fera.ai/js/fera.placeholder.js?shop=4-patriots.myshopify.com",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.193
+    },
+    {
+      "url": "https://static.edgeme.sh/shopify.js?shop=4-patriots.myshopify.com",
+      "bytes": 48767,
+      "dnsTime": 11.895,
+      "sslTime": 18.521,
+      "requestTime": 65.443
+    },
+    {
+      "url": "https://static.edgeme.sh/client.js?shop=4-patriots.myshopify.com",
+      "bytes": 49053,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 395.71000000000004
+    },
+    {
+      "url": "https://cdn.builder.io/js/shopify/track.js?apiKey=21eb7ebef50e4eb58e614ea5d0253cfd&shop=4-patriots.myshopify.com",
+      "bytes": 42517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.481
+    },
+    {
+      "url": "https://searchserverapi.com/widgets/shopify/init.js?a=9P7Y9U2H3E&shop=4-patriots.myshopify.com",
+      "bytes": 6920,
+      "dnsTime": 10.929,
+      "sslTime": 38.06,
+      "requestTime": 223.068
+    },
+    {
+      "url": "https://static.rechargecdn.com/assets/js/widget.min.js?shop=4-patriots.myshopify.com",
+      "bytes": 391568,
+      "dnsTime": 10.639,
+      "sslTime": 59.198,
+      "requestTime": 314.337
+    },
+    {
+      "url": "https://api.kount.com/shopify/js?m_id=200836&shop=4-patriots.myshopify.com",
+      "bytes": 2282,
+      "dnsTime": 25,
+      "sslTime": 32.488,
+      "requestTime": 255.147
+    },
+    {
+      "url": "https://cdn.pushowl.com/latest/sdks/pushowl-shopify.js?subdomain=4-patriots&environment=production&guid=bcc6a2ce-4704-44f3-a7bd-84aa882f62a5&shop=4-patriots.myshopify.com",
+      "bytes": 157042,
+      "dnsTime": 11.097,
+      "sslTime": 13.827,
+      "requestTime": 41.158
+    },
+    {
+      "url": "https://storage.googleapis.com/code.snapengage.com/js/fa9a89d2-87ae-4bf6-84d8-bb1538e6b12e.js",
+      "bytes": 497120,
+      "dnsTime": 19.18,
+      "sslTime": 34.487,
+      "requestTime": 82.46600000000001
+    },
+    {
+      "url": "https://acsbapp.com/apps/app/dist/js/app.js",
+      "bytes": 441583,
+      "dnsTime": 11.069,
+      "sslTime": 27.083,
+      "requestTime": 871.4870000000001
+    },
+    {
+      "url": "https://cdn.solvvy.com/deflect/customization/4patriots/solvvy.js",
+      "bytes": 62547,
+      "dnsTime": 10.83,
+      "sslTime": 15.909,
+      "requestTime": 37.523
+    },
+    {
+      "url": "https://sdk.postscript.io/sdk.bundle.js?shopId=4324",
+      "bytes": 270571,
+      "dnsTime": 31.165,
+      "sslTime": 12.873,
+      "requestTime": 64.49
+    },
+    {
+      "url": "https://searchanise-ef84.kxcdn.com/templates.9P7Y9U2H3E.js",
+      "bytes": 18980,
+      "dnsTime": 0.007,
+      "sslTime": 13.496,
+      "requestTime": 60.135000000000005
+    },
+    {
+      "url": "https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js",
+      "bytes": 89501,
+      "dnsTime": 16.084,
+      "sslTime": 34.565,
+      "requestTime": 67.97099999999999
+    },
+    {
+      "url": "https://searchanise-ef84.kxcdn.com/preload_data.9P7Y9U2H3E.js",
+      "bytes": 39537,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 364.56600000000003
+    },
+    {
+      "url": "https://cdn.solvvy.com/deflect/customization/4patriots/8/solvvy.customization.js",
+      "bytes": 524858,
+      "dnsTime": 0.004,
+      "sslTime": 10.424,
+      "requestTime": 47.512
+    },
+    {
+      "url": "https://cdn.solvvy.com/ui/v5-stable/solvvy.v5.js",
+      "bytes": 478476,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.387
+    },
+    {
+      "url": "https://searchanise-ef84.kxcdn.com/widgets.39268.min.js",
+      "bytes": 157166,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 225.41500000000002
+    },
+    {
+      "url": "https://www.snapengage.com/chatjs/ServiceGetConfig?w=fa9a89d2-87ae-4bf6-84d8-bb1538e6b12e",
+      "bytes": 159,
+      "dnsTime": 18.853,
+      "sslTime": 39.343,
+      "requestTime": 174.972
+    },
+    {
+      "url": "https://searchanise-ef84.kxcdn.com/snize-recommendations.39268.min.js",
+      "bytes": 13388,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.59
+    },
+    {
+      "url": "https://searchanise-ef84.kxcdn.com/snize-autocomplete.39268.min.js",
+      "bytes": 40003,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.436
+    },
+    {
+      "url": "https://sdk.postscript.io/desktop.bundle.js?shopId=4324&shopShop=4-patriots&sessionId=K8heSiXwCbz4TfRDpsvvo&status=&flags=&origin=https%3A%2F%2F4patriots.com%2F",
+      "bytes": 210179,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.242999999999999
+    }
+  ],
+  "numJsRequests": 97,
+  "numThirdPartyJsRequests": 78,
+  "numFirstPartyJsRequests": 19,
+  "numUnique3pHosts": 36,
+  "totalJsBytes": 10762097,
+  "totalDnsTime": 991.7499999999997,
+  "totalSslTime": 1795.0080000000007,
+  "totalTime": 17244.519,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1275.9320000000002,
+  "totalFirstPartyJsBytes": 763903,
+  "totalThirdPartyDnsTime": 991.7499999999997,
+  "totalThirdPartySslTime": 1795.0080000000007,
+  "totalThirdPartyTime": 15968.587,
+  "totalThirdPartyJsBytes": 9998194,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 17.451500248581798,
+  "percentOfJsRequestTimeIs3p": 92.60094178329938,
+  "percentOfJsIs3p": 92.9019130751191
+}

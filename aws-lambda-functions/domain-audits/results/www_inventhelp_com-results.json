@@ -1,0 +1,65 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.012852333333333334,
+    "withoutTags": 0.014755666666666667,
+    "difference": -0.0019033333333333333,
+    "cutMetricPercentage": -0.14809243457737895,
+    "percentFasterWithoutTags": "-675.2539404553415%"
+  },
+  "TaskDuration": {
+    "withTags": 0.3244233333333333,
+    "withoutTags": 0.40315900000000005,
+    "difference": -0.07873566666666676,
+    "cutMetricPercentage": -0.2426942164044924,
+    "percentFasterWithoutTags": "-412.0411334126418%"
+  },
+  "DOMComplete": {
+    "withTags": 1398.3333333333333,
+    "withoutTags": 1710.3333333333333,
+    "difference": -312,
+    "cutMetricPercentage": -0.22312276519666271,
+    "percentFasterWithoutTags": "-448.1837606837606%"
+  },
+  "DOMInteractive": {
+    "withTags": 1146.3333333333333,
+    "withoutTags": 1408.3333333333333,
+    "difference": -262,
+    "cutMetricPercentage": -0.22855481244547834,
+    "percentFasterWithoutTags": "-437.531806615776%"
+  },
+  "DOMLoading": {
+    "withTags": 652,
+    "withoutTags": 695.3333333333334,
+    "difference": -43.33333333333337,
+    "cutMetricPercentage": -0.06646216768916162,
+    "percentFasterWithoutTags": "-1504.6153846153834%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1033.6333333353202,
+    "withoutTags": 1345,
+    "difference": -311.36666666467977,
+    "cutMetricPercentage": -0.30123512528370594,
+    "percentFasterWithoutTags": "-331.96659886797437%"
+  },
+  "thirdPartyJsRequests": [],
+  "numJsRequests": 0,
+  "numThirdPartyJsRequests": 0,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 0,
+  "totalJsBytes": 0,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 0,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 0,
+  "totalThirdPartyJsBytes": 0,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": null,
+  "percentOfJsRequestTimeIs3p": null,
+  "percentOfJsIs3p": null
+}

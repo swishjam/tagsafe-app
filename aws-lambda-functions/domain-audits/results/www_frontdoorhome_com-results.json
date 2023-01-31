@@ -1,0 +1,101 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.26796,
+    "withoutTags": 0.17070733333333332,
+    "difference": 0.09725266666666665,
+    "cutMetricPercentage": 0.36293725431656465,
+    "percentFasterWithoutTags": "275.5297198363027%"
+  },
+  "TaskDuration": {
+    "withTags": 0.692168,
+    "withoutTags": 0.4177573333333333,
+    "difference": 0.2744106666666667,
+    "cutMetricPercentage": 0.3964509579562573,
+    "percentFasterWithoutTags": "252.2380082406903%"
+  },
+  "DOMComplete": {
+    "withTags": 2006,
+    "withoutTags": 1215.6666666666667,
+    "difference": 790.3333333333333,
+    "cutMetricPercentage": 0.3939847125290794,
+    "percentFasterWithoutTags": "253.81695487136233%"
+  },
+  "DOMInteractive": {
+    "withTags": 1554.3333333333333,
+    "withoutTags": 1173,
+    "difference": 381.33333333333326,
+    "cutMetricPercentage": 0.24533562084494956,
+    "percentFasterWithoutTags": "407.60489510489515%"
+  },
+  "DOMLoading": {
+    "withTags": 80.33333333333333,
+    "withoutTags": 148.66666666666666,
+    "difference": -68.33333333333333,
+    "cutMetricPercentage": -0.8506224066390041,
+    "percentFasterWithoutTags": "-117.56097560975608%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1516.8333333308499,
+    "withoutTags": 1180.4333333348234,
+    "difference": 336.3999999960265,
+    "cutMetricPercentage": 0.22177782661020368,
+    "percentFasterWithoutTags": "450.9017043248414%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.0/js/player.module.js",
+      "bytes": 488684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 335.61
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.0/js/vendor.module.js",
+      "bytes": 386494,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 402.72700000000003
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.1/js/player.module.js",
+      "bytes": 488873,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 430.557
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.1/js/vendor.module.js",
+      "bytes": 386494,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.577
+    },
+    {
+      "url": "https://f.vimeocdn.com/js_opt/modules/utils/vuid.min.js",
+      "bytes": 1862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 81.988
+    }
+  ],
+  "numJsRequests": 5,
+  "numThirdPartyJsRequests": 5,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 1,
+  "totalJsBytes": 1752407,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 1292.459,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 1292.459,
+  "totalThirdPartyJsBytes": 1752407,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 0,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

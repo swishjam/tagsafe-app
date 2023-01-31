@@ -1,0 +1,514 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.6506653333333332,
+    "withoutTags": 0.084104,
+    "difference": 1.5665613333333333,
+    "cutMetricPercentage": 0.9490484241101972,
+    "percentFasterWithoutTags": "105.3687013850293%"
+  },
+  "TaskDuration": {
+    "withTags": 2.7207943333333335,
+    "withoutTags": 0.4999206666666667,
+    "difference": 2.220873666666667,
+    "cutMetricPercentage": 0.8162592958453432,
+    "percentFasterWithoutTags": "122.51009024826716%"
+  },
+  "DOMComplete": {
+    "withTags": 5355.333333333333,
+    "withoutTags": 1879,
+    "difference": 3476.333333333333,
+    "cutMetricPercentage": 0.6491348188721523,
+    "percentFasterWithoutTags": "154.05120337520378%"
+  },
+  "DOMInteractive": {
+    "withTags": 1731.3333333333333,
+    "withoutTags": 1269.6666666666667,
+    "difference": 461.6666666666665,
+    "cutMetricPercentage": 0.2666538313438582,
+    "percentFasterWithoutTags": "375.01805054151635%"
+  },
+  "DOMLoading": {
+    "withTags": 548.6666666666666,
+    "withoutTags": 545.3333333333334,
+    "difference": 3.3333333333332575,
+    "cutMetricPercentage": 0.006075334143377748,
+    "percentFasterWithoutTags": "16460.00000000037%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1286.4000000009935,
+    "withoutTags": 1265.5666666726272,
+    "difference": 20.83333332836628,
+    "cutMetricPercentage": 0.016195066331117995,
+    "percentFasterWithoutTags": "6174.720001476937%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d8e34804a2c9558",
+      "bytes": 361292,
+      "dnsTime": 13.687,
+      "sslTime": 67.3,
+      "requestTime": 114.758
+    },
+    {
+      "url": "https://cdn.rlets.com/capture_configs/7bc/552/a32/f2e43d3bc8a037df8931d64.js",
+      "bytes": 187483,
+      "dnsTime": 1026.52,
+      "sslTime": 22.091,
+      "requestTime": 1097.0479999999998
+    },
+    {
+      "url": "https://d414.broadcastmed.com/script.js",
+      "bytes": 136467,
+      "dnsTime": 18.871,
+      "sslTime": 64.865,
+      "requestTime": 117.80099999999999
+    },
+    {
+      "url": "https://code.jquery.com/jquery-3.6.1.min.js",
+      "bytes": 89664,
+      "dnsTime": 0.429,
+      "sslTime": 61.299,
+      "requestTime": 343.69200000000006
+    },
+    {
+      "url": "https://p3.3playmedia.com/p3.js",
+      "bytes": 113287,
+      "dnsTime": 0.027,
+      "sslTime": 43.685,
+      "requestTime": 307.389
+    },
+    {
+      "url": "https://s3.amazonaws.com/s3.doximity.com/share.js",
+      "bytes": 879,
+      "dnsTime": 42.44,
+      "sslTime": 85.676,
+      "requestTime": 230.554
+    },
+    {
+      "url": "https://static.zdassets.com/ekr/snippet.js?key=90701771-7e57-4721-b61c-7a52d81f8503",
+      "bytes": 23416,
+      "dnsTime": 245.467,
+      "sslTime": 17.053,
+      "requestTime": 290.295
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-W7B5FGN",
+      "bytes": 224066,
+      "dnsTime": 14.939,
+      "sslTime": 42.62,
+      "requestTime": 153.397
+    },
+    {
+      "url": "https://z.moatads.com/addthismoatframe568911941483/moatframe.js",
+      "bytes": 1705,
+      "dnsTime": 0.068,
+      "sslTime": 18.142,
+      "requestTime": 288.05899999999997
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 15.483,
+      "sslTime": 42.551,
+      "requestTime": 69.996
+    },
+    {
+      "url": "https://www.medtargetsystem.com/javascript/beacon.js?v2.2.5",
+      "bytes": 229291,
+      "dnsTime": 15.199,
+      "sslTime": 89.103,
+      "requestTime": 550.019
+    },
+    {
+      "url": "https://abrtp1-cdn.marketo.com/rtp-api/v1/rtp.js?aid=broadcastmed",
+      "bytes": 155625,
+      "dnsTime": 1059.553,
+      "sslTime": 39.931,
+      "requestTime": 1210.3490000000002
+    },
+    {
+      "url": "https://munchkin.marketo.net/munchkin.js",
+      "bytes": 1251,
+      "dnsTime": 158.965,
+      "sslTime": 16.46,
+      "requestTime": 204.889
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 8.049,
+      "sslTime": 22.314,
+      "requestTime": 125.439
+    },
+    {
+      "url": "https://s.adroll.com/j/SY2HHAEXWVCC7GSDGPIBKO/roundtrip.js",
+      "bytes": 67488,
+      "dnsTime": 13.815,
+      "sslTime": 14.711,
+      "requestTime": 299.21000000000004
+    },
+    {
+      "url": "https://harborside.blueconic.net/DG/DEFAULT/cs?&callback=bc_json621",
+      "bytes": 16,
+      "dnsTime": 23.659,
+      "sslTime": 89.56,
+      "requestTime": 342.84
+    },
+    {
+      "url": "https://broadcastmed.innocraft.cloud/piwik.js",
+      "bytes": 203210,
+      "dnsTime": 19.242,
+      "sslTime": 186.807,
+      "requestTime": 736.779
+    },
+    {
+      "url": "https://servedbyadbutler.com/app.js",
+      "bytes": 68558,
+      "dnsTime": 18.286,
+      "sslTime": 85.079,
+      "requestTime": 278.94
+    },
+    {
+      "url": "https://munchkin.marketo.net/162/munchkin.js",
+      "bytes": 10937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.881
+    },
+    {
+      "url": "https://p3.3playmedia.com/javascripts/vendor/ejs_production.js",
+      "bytes": 12881,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.403999999999996
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-58672.js?sv=5",
+      "bytes": 9279,
+      "dnsTime": 5.948,
+      "sslTime": 167.743,
+      "requestTime": 352.49099999999993
+    },
+    {
+      "url": "https://widgets.getsitecontrol.com/113140/script.js",
+      "bytes": 17487,
+      "dnsTime": 19.427,
+      "sslTime": 29.152,
+      "requestTime": 220.612
+    },
+    {
+      "url": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+      "bytes": 13352,
+      "dnsTime": 36.299,
+      "sslTime": 54.223,
+      "requestTime": 194.515
+    },
+    {
+      "url": "https://p3.3playmedia.com/javascripts/vendor/jquery-1.6.2.min.js",
+      "bytes": 91556,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 164.494
+    },
+    {
+      "url": "https://v1.addthisedge.com/live/boost/ra-5d8e34804a2c9558/_ate.track.config_resp",
+      "bytes": 1429,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 318.005
+    },
+    {
+      "url": "https://m.addthis.com/live/red_lojson/300lo.json?si=63d84ef3f5a27e40&bkl=0&bl=1&pdt=845&sid=63d84ef3f5a27e40&pub=ra-5d8e34804a2c9558&rev=v8.28.8-wp&ln=en&pc=men&cb=0&ab=-&dp=www.broadcastmed.com&fp=&fr=&of=0&pd=0&irt=0&vcl=0&md=0&ct=1&tct=0&abt=0&cdn=0&pi=1&rb=0&gen=100&chr=UTF-8&colc=1675120372203&jsl=1&uvs=63d84ef368f65ee2000&skipb=1&callback=addthis.cbs.jsonp__80011349042207970",
+      "bytes": 127,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 167.82399999999998
+    },
+    {
+      "url": "https://ssl.google-analytics.com/ga.js",
+      "bytes": 46274,
+      "dnsTime": 7.023,
+      "sslTime": 40.341,
+      "requestTime": 59.14
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-WYN4W959KD&l=dataLayer&cx=c",
+      "bytes": 220173,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.97099999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-G87F5L9FJ3&l=dataLayer&cx=c",
+      "bytes": 222898,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 100.80799999999999
+    },
+    {
+      "url": "https://p3.3playmedia.com/javascripts/vendor/p3-jquery-ui-1.8.16.custom.min.js",
+      "bytes": 118712,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.832
+    },
+    {
+      "url": "https://servedbyadbutler.com/adserve/;ID=169219;size=970x90;setID=253611;type=async;domid=placement_253611_0;place=0;pid=1075198;sw=1440;sh=900;spr=1;rnd=1075198;kw=no-login;referrer=https%3A%2F%2Fwww.broadcastmed.com%2F;atf=1;click=CLICK_MACRO_PLACEHOLDER",
+      "bytes": 737,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.064
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/web-widget-framework-59b8a859ce8a473d961c.js",
+      "bytes": 161958,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.336
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1007063999340456?v=2.9.95&r=stable",
+      "bytes": 387216,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.8
+    },
+    {
+      "url": "https://script.hotjar.com/modules.4b160a4831adaf5337e6.js",
+      "bytes": 267962,
+      "dnsTime": 86.713,
+      "sslTime": 20.233,
+      "requestTime": 247.08800000000002
+    },
+    {
+      "url": "https://www.medtargetsystem.com/js/build/iframe/signal.js?30&partners=deepIntent.1.1%7Classo.2.2%7C",
+      "bytes": 106569,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1766.0480000000002
+    },
+    {
+      "url": "https://www.medtargetsystem.com/js/build/iframe/fp.js?30",
+      "bytes": 89561,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 924.095
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/SY2HHAEXWVCC7GSDGPIBKO/index.js",
+      "bytes": 38,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.618
+    },
+    {
+      "url": "https://d414.broadcastmed.com/plugin/plugin/a642464f67902ad2df6734f54d19ed28",
+      "bytes": 117994,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 99.94999999999999
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/SY2HHAEXWVCC7GSDGPIBKO?pv=34601482154.40699&arrfrr=https%3A%2F%2Fwww.broadcastmed.com%2F&_s=150696b2c8c89e5289ffcfd1474bda2f&_b=2",
+      "bytes": 468,
+      "dnsTime": 59.697,
+      "sslTime": 169.431,
+      "requestTime": 279.022
+    },
+    {
+      "url": "https://s7.addthis.com/static/layers.fa6cd1947ce26e890d3d.js",
+      "bytes": 269557,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 82.84100000000001
+    },
+    {
+      "url": "https://st.getsitecontrol.com/main/runtime/runtime.2.10.4.js",
+      "bytes": 413088,
+      "dnsTime": 74.839,
+      "sslTime": 172.674,
+      "requestTime": 487.62
+    },
+    {
+      "url": "https://rtp-static.marketo.com/rtp/libs/jquery/1.8.3/jquery.min.js",
+      "bytes": 93636,
+      "dnsTime": 6.55,
+      "sslTime": 10.583,
+      "requestTime": 48.144
+    },
+    {
+      "url": "https://abrtp1.marketo.com/gw1/trw?aid=broadcastmed&trwv.uid=broadcastmed-1675120372947-988eda5d&trwv.vc=1&trwsa.sid=broadcastmed-1675120372952-b2bd9e88&trwsb.cpv=1&ctzo=-08:00&uri=https%3A%2F%2Fwww.broadcastmed.com%2F&ma=id%3A824-XOG-054%26token%3A_mch-broadcastmed.com-1675120372184-92986&pm=&viewedTypes=&rts=1675120372960",
+      "bytes": 0,
+      "dnsTime": 17.839,
+      "sslTime": 322.581,
+      "requestTime": 476.58699999999993
+    },
+    {
+      "url": "https://rtp-static.marketo.com/rtp/libs/ga-integration-2.0.4.js",
+      "bytes": 17889,
+      "dnsTime": 0.011,
+      "sslTime": 8.828,
+      "requestTime": 29.549999999999997
+    },
+    {
+      "url": "https://d414.broadcastmed.com/plugin/library/8387a05a478dd47287f514e8fb20f03b",
+      "bytes": 453241,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.25399999999999
+    },
+    {
+      "url": "https://abrtp1.marketo.com/gw1/msg?a=2&sid=broadcastmed-1675120372952-b2bd9e88&aid=broadcastmed&ma=id%3A824-XOG-054%26token%3A_mch-broadcastmed.com-1675120372184-92986&viewedTypes=&0.724732334423211&rts=1675120373023",
+      "bytes": 0,
+      "dnsTime": 0.012,
+      "sslTime": 128.549,
+      "requestTime": 730.5109999999999
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-classic-3789e01.js",
+      "bytes": 13518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.447000000000003
+    },
+    {
+      "url": "https://broadcastmed.innocraft.cloud/plugins/HeatmapSessionRecording/configs.php?idsite=1&trackerid=A4h8rZ&url=https%3A%2F%2Fwww.broadcastmed.com%2F",
+      "bytes": 116,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 905.678
+    },
+    {
+      "url": "https://rtp-static.marketo.com/rtp/libs/jqueryui/1.9.2f/jquery-custom-ui.min.js",
+      "bytes": 129230,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 197.054
+    },
+    {
+      "url": "https://harborside.blueconic.net/DG/DEFAULT/cs?bcsessionid=726478d1-c45f-4195-9a1f-cf059321ff41&&callback=bc_json622",
+      "bytes": 66,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 210.681
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-8165-3789e01.js",
+      "bytes": 678753,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 192.04299999999998
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-5324-3789e01.js",
+      "bytes": 505325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 178.143
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-locales/classic/en-us-json-3789e01.js",
+      "bytes": 25840,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.305000000000003
+    },
+    {
+      "url": "https://abrtp1.marketo.com/gw1/msg?a=2&sid=broadcastmed-1675120372952-b2bd9e88&aid=broadcastmed&ma=id%3A824-XOG-054%26token%3A_mch-broadcastmed.com-1675120372184-92986&viewedTypes=&0.7435469056621327&rts=1675120373550",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 1022.536,
+      "requestTime": 1100.923
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-sdk-3789e01.js",
+      "bytes": 207015,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.362000000000002
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=3972938%2C3383753&time=1675120372890&url=https%3A%2F%2Fwww.broadcastmed.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.77
+    },
+    {
+      "url": "https://cdn.rlets.com/capture_static/mms/capture.js",
+      "bytes": 178596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 315.673
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-384021944",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 476.39400000000006
+    },
+    {
+      "url": "https://tag.simpli.fi/sifitag/3f25cc00-b9ab-0134-0eba-0cc47a63c1a4",
+      "bytes": 3097,
+      "dnsTime": 13.563,
+      "sslTime": 50.527,
+      "requestTime": 95.811
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/384021944/?random=1675120374423&cv=11&fst=1675120374423&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1440&u_h=900&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.broadcastmed.com%2F&tiba=Medical%20Education%20%26%20Video%20Production%20Experts%20-%20BroadcastMed&auid=1329284138.1675120372&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1495,
+      "dnsTime": 18.466,
+      "sslTime": 26.173,
+      "requestTime": 84.27900000000001
+    },
+    {
+      "url": "https://secure.adnxs.com/getuidp?callback=__jp1",
+      "bytes": 36,
+      "dnsTime": 5.44,
+      "sslTime": 22.968,
+      "requestTime": 135.061
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-incoming-message-notification-3789e01.js",
+      "bytes": 208,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 188.206
+    },
+    {
+      "url": "https://trc.lhmos.com/uid/save/tdid/?ttd_id=0a73f6bf-91d7-4e99-99b2-c0033e4d9f87&ttd_puid=47,UNK,7172518140096423653,null,cd56deaf-a612-483b-b758-aa2adf1ca35e,e788b5e8-1ac8-48d3-a5ed-d9a84b453f7f,#1675120374518",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.93899999999999
+    },
+    {
+      "url": "https://i.simpli.fi/p?cid=25&cb=sifi_att_42656._hp",
+      "bytes": 750,
+      "dnsTime": 41.133,
+      "sslTime": 35.466,
+      "requestTime": 109.32699999999998
+    }
+  ],
+  "numJsRequests": 69,
+  "numThirdPartyJsRequests": 64,
+  "numFirstPartyJsRequests": 5,
+  "numUnique3pHosts": 35,
+  "totalJsBytes": 7507410,
+  "totalDnsTime": 3087.6590000000015,
+  "totalSslTime": 3291.2549999999997,
+  "totalTime": 20385.526000000005,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 2130.471,
+  "totalFirstPartyJsBytes": 464122,
+  "totalThirdPartyDnsTime": 3087.6590000000015,
+  "totalThirdPartySslTime": 3291.2549999999997,
+  "totalThirdPartyTime": 18255.055000000004,
+  "totalThirdPartyJsBytes": 7043288,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 34.94327461626382,
+  "percentOfJsRequestTimeIs3p": 89.54909968965235,
+  "percentOfJsIs3p": 93.81781466577688
+}

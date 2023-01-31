@@ -1,0 +1,367 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 3.9798496666666665,
+    "withoutTags": 3.336831,
+    "difference": 0.6430186666666664,
+    "cutMetricPercentage": 0.8384314181381559,
+    "percentFasterWithoutTags": "618.9322134764363%"
+  },
+  "TaskDuration": {
+    "withTags": 8.618449333333334,
+    "withoutTags": 6.621459333333334,
+    "difference": 1.9969900000000003,
+    "cutMetricPercentage": 0.7682889435485455,
+    "percentFasterWithoutTags": "431.5719825003296%"
+  },
+  "DOMComplete": {
+    "withTags": 8995.666666666666,
+    "withoutTags": 5599.333333333333,
+    "difference": 3396.333333333333,
+    "cutMetricPercentage": 0.6224478452588283,
+    "percentFasterWithoutTags": "264.86406909412113%"
+  },
+  "DOMInteractive": {
+    "withTags": 3440.6666666666665,
+    "withoutTags": 3458,
+    "difference": -17.333333333333485,
+    "cutMetricPercentage": 1.0050377833753148,
+    "percentFasterWithoutTags": "-19849.999999999825%"
+  },
+  "DOMLoading": {
+    "withTags": 141.33333333333334,
+    "withoutTags": 178.66666666666666,
+    "difference": -37.333333333333314,
+    "cutMetricPercentage": 1.2641509433962264,
+    "percentFasterWithoutTags": "-378.5714285714288%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1275.56666666766,
+    "withoutTags": 1276.0333333313465,
+    "difference": -0.4666666636865102,
+    "cutMetricPercentage": 1.0003658504693491,
+    "percentFasterWithoutTags": "-273335.71603146254%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 21748,
+      "dnsTime": 34.688,
+      "sslTime": 46.284,
+      "requestTime": 106.184
+    },
+    {
+      "url": "https://s.go-mpulse.net/boomerang/A9LXT-5LNZ2-Z7AK2-E456Q-UFJ84",
+      "bytes": 208830,
+      "dnsTime": 6325.475,
+      "sslTime": 33.135,
+      "requestTime": 6388.032
+    },
+    {
+      "url": "https://conversation.ultainc.com/ccp/webchat.js",
+      "bytes": 267401,
+      "dnsTime": 3016.129,
+      "sslTime": 54.066,
+      "requestTime": 3161.749
+    },
+    {
+      "url": "https://s.btstatic.com/tag.js#site=kLF6eKP&referrer=https%3A%2F%2Fwww.ulta.com%2F",
+      "bytes": 35314,
+      "dnsTime": 3113.025,
+      "sslTime": 16.85,
+      "requestTime": 3142.9680000000003
+    },
+    {
+      "url": "https://try.abtasty.com/9eac95ca175512c863e113de5fd89fe7.js",
+      "bytes": 273572,
+      "dnsTime": 0.044,
+      "sslTime": 44.176,
+      "requestTime": 3115.812
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-W3P24LV",
+      "bytes": 100594,
+      "dnsTime": 2988.751,
+      "sslTime": 53.229,
+      "requestTime": 3084.836
+    },
+    {
+      "url": "https://assets.queue-it.net/ulta/integrationconfig/javascript/queueclientConfig.js?versionTimestamp=20230125151509",
+      "bytes": 11528,
+      "dnsTime": 1781.635,
+      "sslTime": 29.494,
+      "requestTime": 1825.5429999999997
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/6.16.0/otBannerSdk.js",
+      "bytes": 383445,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.437
+    },
+    {
+      "url": "https://cdn.gladly.com/assets/chat-sdk/bundle~6dbd25b61ad9a544f7d7.js",
+      "bytes": 52653,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.883
+    },
+    {
+      "url": "https://queue.ulta.com/javascriptqueue/ulta/ultaprodbf2022/1674690420513?t=https%3A%2F%2Fwww.ulta.com%2F&ver=js2.0.48",
+      "bytes": 377,
+      "dnsTime": 1.454,
+      "sslTime": 35.567,
+      "requestTime": 64.926
+    },
+    {
+      "url": "https://try.abtasty.com/shared/analytics.ae9ce92f7e1b8159fff0.js",
+      "bytes": 32387,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.476999999999999
+    },
+    {
+      "url": "https://code.jquery.com/jquery-3.4.1.min.js",
+      "bytes": 88145,
+      "dnsTime": 8.022,
+      "sslTime": 54.458,
+      "requestTime": 86.436
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-K6NTQB3&l=dataLayer",
+      "bytes": 267754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 71.781
+    },
+    {
+      "url": "https://cdn.gladly.com/assets/chat-sdk/vendor~apiBootstrap~f10c47179f10228803a6.js",
+      "bytes": 102416,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.476999999999999
+    },
+    {
+      "url": "https://cdn.gladly.com/assets/chat-sdk/apiBootstrap~26cec24c21e4e967c9ad.js",
+      "bytes": 326980,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.448
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js",
+      "bytes": 51679,
+      "dnsTime": 2.447,
+      "sslTime": 28.406,
+      "requestTime": 59.684
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js",
+      "bytes": 9953,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 369.239
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js",
+      "bytes": 62421,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 363.065
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/babel-regenerator-runtime@6.5.0/runtime.js",
+      "bytes": 21453,
+      "dnsTime": 4.073,
+      "sslTime": 36.549,
+      "requestTime": 67.506
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js",
+      "bytes": 4402,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 366.566
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js",
+      "bytes": 12680,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 313.637
+    },
+    {
+      "url": "https://s.btstatic.com/lib/659681b8d3e3f291ee38d083f71c07e6bccb001d.js?v=2",
+      "bytes": 94916,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.655
+    },
+    {
+      "url": "https://nebula-cdn.kampyle.com/wu/471592/onsite/embed.js",
+      "bytes": 1086,
+      "dnsTime": 1.829,
+      "sslTime": 13.726,
+      "requestTime": 23.330000000000002
+    },
+    {
+      "url": "https://s.btstatic.com/lib/6c9f28a82f91a4f19c53894f44b06f91fcea5492.js?v=2",
+      "bytes": 357,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.410000000000004
+    },
+    {
+      "url": "https://s.btstatic.com/lib/15141415d4f6ecbc95524813c44b569e30bdf546.js?v=2",
+      "bytes": 1482,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.702000000000001
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/snowplow/2.16.3/sp.min.js",
+      "bytes": 77346,
+      "dnsTime": 0.008,
+      "sslTime": 15.242,
+      "requestTime": 46.133
+    },
+    {
+      "url": "https://s.btstatic.com/lib/f2192248554b55100925cdcc92f9e9bb6836d16d.js?v=2",
+      "bytes": 14551,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.479
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-143014378-1&l=dataLayer&cx=c",
+      "bytes": 112661,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.077
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-143014378-1",
+      "bytes": 112640,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.290000000000006
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-LKM7RC8LP8&l=dataLayer&cx=c",
+      "bytes": 235401,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 47.079
+    },
+    {
+      "url": "https://s.btstatic.com/lib/b03b3122f2e0e0897d725989fb5b5a33eb940e73.js?v=2",
+      "bytes": 2433,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.592
+    },
+    {
+      "url": "https://s.btstatic.com/lib/385c05b7a7eaf90de840484f7f2d849f073558ae.js?v=2",
+      "bytes": 97,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.35
+    },
+    {
+      "url": "https://s.btstatic.com/lib/92fa3f13dfdf7988f3d5a53668db3ad1a7dd3111.js?v=2",
+      "bytes": 4165,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.977000000000002
+    },
+    {
+      "url": "https://s.btstatic.com/lib/6b5e48ff25d9e39493a53ee81cc6995101a77bc1.js?v=2",
+      "bytes": 4975,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.798
+    },
+    {
+      "url": "https://s.btstatic.com/lib/b3f780f6f87e792602dc4c8a2dfb3ee58eec70be.js?v=2",
+      "bytes": 415,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.46
+    },
+    {
+      "url": "https://s.btstatic.com/lib/d0e8811b52d1c003eadac052ab3479a9866b75d5.js?v=2",
+      "bytes": 318,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.277000000000001
+    },
+    {
+      "url": "https://s.btstatic.com/lib/9c3c2da45ecfe8d9449793ed427de9a4349e91e2.js?v=2",
+      "bytes": 543,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.014
+    },
+    {
+      "url": "https://s.btstatic.com/lib/84d65c6607c0ccb17ae914f0e76c8f5eb26d770e.js?v=2",
+      "bytes": 36979,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.35
+    },
+    {
+      "url": "https://s.btstatic.com/lib/4ff2d3a5de4e26d8d9e4f01253d4f3b56adb05e3.js?v=2",
+      "bytes": 162,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.826999999999998
+    },
+    {
+      "url": "https://s.btstatic.com/lib/fd8241741c834851ecd7aa95fc4f4ee6ab3415b8.js?v=2",
+      "bytes": 94,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.013
+    },
+    {
+      "url": "https://s.btstatic.com/lib/7c473244db6777d880c77ef10cd493038dcfdc6c.js?v=2",
+      "bytes": 506,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.241000000000001
+    },
+    {
+      "url": "https://s.btstatic.com/lib/516ddccf5f9d491a1a3257a5d7958a7ebf39b0a6.js?v=2",
+      "bytes": 179,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.547
+    },
+    {
+      "url": "https://nebula-cdn.kampyle.com/us/wu/471592/onsite/generic1673275002166.js",
+      "bytes": 367735,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.937
+    }
+  ],
+  "numJsRequests": 77,
+  "numThirdPartyJsRequests": 43,
+  "numFirstPartyJsRequests": 34,
+  "numUnique3pHosts": 13,
+  "totalJsBytes": 7660740,
+  "totalDnsTime": 17277.580000000005,
+  "totalSslTime": 461.182,
+  "totalTime": 26424.605,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 3339.381,
+  "totalFirstPartyJsBytes": 4255967,
+  "totalThirdPartyDnsTime": 17277.580000000005,
+  "totalThirdPartySslTime": 461.182,
+  "totalThirdPartyTime": 23085.224000000006,
+  "totalThirdPartyJsBytes": 3404773,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 76.84032868816868,
+  "percentOfJsRequestTimeIs3p": 87.36260769082455,
+  "percentOfJsIs3p": 44.4444400932547
+}

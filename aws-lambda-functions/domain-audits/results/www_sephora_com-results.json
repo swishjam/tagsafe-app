@@ -1,0 +1,65 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.0009363333333333333,
+    "withoutTags": 0.0008226666666666668,
+    "difference": 0.00011366666666666654,
+    "cutMetricPercentage": 0.8786044855820578,
+    "percentFasterWithoutTags": "823.7536656891505%"
+  },
+  "TaskDuration": {
+    "withTags": 0.15118633333333334,
+    "withoutTags": 0.14088466666666666,
+    "difference": 0.010301666666666681,
+    "cutMetricPercentage": 0.9318611250135043,
+    "percentFasterWithoutTags": "1467.5910046917954%"
+  },
+  "DOMComplete": {
+    "withTags": 152.33333333333334,
+    "withoutTags": 197.66666666666666,
+    "difference": -45.333333333333314,
+    "cutMetricPercentage": 1.2975929978118161,
+    "percentFasterWithoutTags": "-336.0294117647061%"
+  },
+  "DOMInteractive": {
+    "withTags": 150.66666666666666,
+    "withoutTags": 197.33333333333334,
+    "difference": -46.666666666666686,
+    "cutMetricPercentage": 1.3097345132743363,
+    "percentFasterWithoutTags": "-322.85714285714266%"
+  },
+  "DOMLoading": {
+    "withTags": 129.33333333333334,
+    "withoutTags": 135.66666666666666,
+    "difference": -6.333333333333314,
+    "cutMetricPercentage": 1.0489690721649483,
+    "percentFasterWithoutTags": "-2042.105263157901%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 270.59999999900657,
+    "withoutTags": 268.5333333313465,
+    "difference": 2.0666666676600585,
+    "cutMetricPercentage": 0.9923626508955371,
+    "percentFasterWithoutTags": "13093.548380754984%"
+  },
+  "thirdPartyJsRequests": [],
+  "numJsRequests": 0,
+  "numThirdPartyJsRequests": 0,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 0,
+  "totalJsBytes": 0,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 0,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 0,
+  "totalThirdPartyJsBytes": 0,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": null,
+  "percentOfJsRequestTimeIs3p": null,
+  "percentOfJsIs3p": null
+}

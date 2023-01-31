@@ -1,0 +1,157 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.139443,
+    "withoutTags": 0.4230623333333334,
+    "difference": 0.7163806666666666,
+    "cutMetricPercentage": 0.3712887203074953,
+    "percentFasterWithoutTags": "159.0555207613085%"
+  },
+  "TaskDuration": {
+    "withTags": 2.1974270000000002,
+    "withoutTags": 1.1766986666666666,
+    "difference": 1.0207283333333337,
+    "cutMetricPercentage": 0.5354893093907859,
+    "percentFasterWithoutTags": "215.28029821842892%"
+  },
+  "DOMComplete": {
+    "withTags": 3140.3333333333335,
+    "withoutTags": 1663.3333333333333,
+    "difference": 1477.0000000000002,
+    "cutMetricPercentage": 0.5296677635070587,
+    "percentFasterWithoutTags": "212.61566237869553%"
+  },
+  "DOMInteractive": {
+    "withTags": 2047.3333333333333,
+    "withoutTags": 1512.3333333333333,
+    "difference": 535,
+    "cutMetricPercentage": 0.7386844676001303,
+    "percentFasterWithoutTags": "382.6791277258567%"
+  },
+  "DOMLoading": {
+    "withTags": 412.6666666666667,
+    "withoutTags": 519,
+    "difference": -106.33333333333331,
+    "cutMetricPercentage": 1.2576736672051696,
+    "percentFasterWithoutTags": "-388.08777429467096%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 992.53333333383,
+    "withoutTags": 1053.866666669647,
+    "difference": -61.333333335816974,
+    "cutMetricPercentage": 1.0617947340164424,
+    "percentFasterWithoutTags": "-1618.260869500497%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://100038804.collect.igodigital.com/collect.js",
+      "bytes": 8440,
+      "dnsTime": 2.57,
+      "sslTime": 102.254,
+      "requestTime": 187.04700000000003
+    },
+    {
+      "url": "https://code.jquery.com/jquery-3.6.1.min.js",
+      "bytes": 89664,
+      "dnsTime": 17.563,
+      "sslTime": 28.666,
+      "requestTime": 94.547
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js",
+      "bytes": 44342,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 424.483
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js",
+      "bytes": 143706,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 455.91700000000003
+    },
+    {
+      "url": "https://cdn.cquotient.com/js/v2/gretel.min.js",
+      "bytes": 66138,
+      "dnsTime": 6.109,
+      "sslTime": 34.107,
+      "requestTime": 58.568
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js",
+      "bytes": 12505,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 402.107
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-5N5PH96",
+      "bytes": 273643,
+      "dnsTime": 9.507,
+      "sslTime": 71.165,
+      "requestTime": 155.276
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-883206.js?sv=7",
+      "bytes": 9384,
+      "dnsTime": 22.134,
+      "sslTime": 18.785,
+      "requestTime": 74.26599999999999
+    },
+    {
+      "url": "https://siteimproveanalytics.com/js/siteanalyze_6105069.js",
+      "bytes": 48,
+      "dnsTime": 20.203,
+      "sslTime": 22.614,
+      "requestTime": 56.257999999999996
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-ZTV7G6DNMH&l=dataLayer&cx=c",
+      "bytes": 222047,
+      "dnsTime": 0.008,
+      "sslTime": 25.642,
+      "requestTime": 106.515
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.776000000000002
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/sportinglifeca.attn.tv.js",
+      "bytes": 43561,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.14
+    },
+    {
+      "url": "https://beacon.riskified.com/?shop=sportinglife.ca&sid=PN_xfAk5bc8OPtRBS33aeeLofmb74O8op5s=",
+      "bytes": 47102,
+      "dnsTime": 8.498,
+      "sslTime": 101.528,
+      "requestTime": 267.14700000000005
+    }
+  ],
+  "numJsRequests": 16,
+  "numThirdPartyJsRequests": 13,
+  "numFirstPartyJsRequests": 3,
+  "numUnique3pHosts": 10,
+  "totalJsBytes": 1811184,
+  "totalDnsTime": 86.592,
+  "totalSslTime": 404.761,
+  "totalTime": 2585.604999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 264.558,
+  "totalFirstPartyJsBytes": 760207,
+  "totalThirdPartyDnsTime": 86.592,
+  "totalThirdPartySslTime": 404.761,
+  "totalThirdPartyTime": 2321.0470000000005,
+  "totalThirdPartyJsBytes": 1050977,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.169454991648163,
+  "percentOfJsRequestTimeIs3p": 89.76804268246703,
+  "percentOfJsIs3p": 58.027069585420364
+}

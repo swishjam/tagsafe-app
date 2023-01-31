@@ -1,0 +1,73 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.02881166666666667,
+    "withoutTags": 0.025149666666666667,
+    "difference": 0.003662000000000002,
+    "cutMetricPercentage": 0.12710128998669526,
+    "percentFasterWithoutTags": "786.7740760968502%"
+  },
+  "TaskDuration": {
+    "withTags": 0.27288433333333334,
+    "withoutTags": 0.2498,
+    "difference": 0.023084333333333346,
+    "cutMetricPercentage": 0.08459383890366252,
+    "percentFasterWithoutTags": "1182.1191861724396%"
+  },
+  "DOMComplete": {
+    "withTags": -1116736318427.3333,
+    "withoutTags": -1116736318404.6667,
+    "difference": -22.66650390625,
+    "cutMetricPercentage": 2.0297095681611365e-11,
+    "percentFasterWithoutTags": "4926813252922.554%"
+  },
+  "DOMInteractive": {
+    "withTags": 2491.6666666666665,
+    "withoutTags": 2043.6666666666667,
+    "difference": 447.9999999999998,
+    "cutMetricPercentage": 0.17979933110367885,
+    "percentFasterWithoutTags": "556.1755952380955%"
+  },
+  "DOMLoading": {
+    "withTags": 1781.6666666666667,
+    "withoutTags": 1664.3333333333333,
+    "difference": 117.33333333333348,
+    "cutMetricPercentage": 0.0658559401309636,
+    "percentFasterWithoutTags": "1518.4659090909072%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2328.4333333323398,
+    "withoutTags": 2035.6666666666667,
+    "difference": 292.76666666567303,
+    "cutMetricPercentage": 0.1257354730644917,
+    "percentFasterWithoutTags": "795.3205055243911%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://nozzlenolen.com/wp-content/plugins/wp-rocket/assets/js/lazyload/17.5/lazyload.min.js",
+      "bytes": 8291,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 172.719
+    }
+  ],
+  "numJsRequests": 1,
+  "numThirdPartyJsRequests": 1,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 1,
+  "totalJsBytes": 8291,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 172.719,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 172.719,
+  "totalThirdPartyJsBytes": 8291,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 0,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

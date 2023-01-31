@@ -1,0 +1,255 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.8598063333333332,
+    "withoutTags": 0.039181,
+    "difference": 0.8206253333333332,
+    "cutMetricPercentage": 0.04556956430886181,
+    "percentFasterWithoutTags": "104.77452966761933%"
+  },
+  "TaskDuration": {
+    "withTags": 1.6859979999999999,
+    "withoutTags": 0.246574,
+    "difference": 1.4394239999999998,
+    "cutMetricPercentage": 0.14624809756595203,
+    "percentFasterWithoutTags": "117.13004646302967%"
+  },
+  "DOMComplete": {
+    "withTags": 5048,
+    "withoutTags": 2609.6666666666665,
+    "difference": 2438.3333333333335,
+    "cutMetricPercentage": 0.5169704173269941,
+    "percentFasterWithoutTags": "207.02665755297335%"
+  },
+  "DOMInteractive": {
+    "withTags": 2239.6666666666665,
+    "withoutTags": 2282,
+    "difference": -42.333333333333485,
+    "cutMetricPercentage": 1.018901622265218,
+    "percentFasterWithoutTags": "-5290.551181102343%"
+  },
+  "DOMLoading": {
+    "withTags": 1343,
+    "withoutTags": 1335.3333333333333,
+    "difference": 7.6666666666667425,
+    "cutMetricPercentage": 0.9942913874410523,
+    "percentFasterWithoutTags": "17517.391304347653%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2165.433333337307,
+    "withoutTags": 2265.0666666676602,
+    "difference": -99.63333333035325,
+    "cutMetricPercentage": 1.046010806149733,
+    "percentFasterWithoutTags": "-2173.402475813392%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-5BGXPWH",
+      "bytes": 328631,
+      "dnsTime": 0.783,
+      "sslTime": 34.808,
+      "requestTime": 106.91799999999999
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.15,
+      "sslTime": 22.44,
+      "requestTime": 63.694
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 24743,
+      "dnsTime": 6.794,
+      "sslTime": 40.971,
+      "requestTime": 65.972
+    },
+    {
+      "url": "https://c.tvpixel.com/js/current/dpm_pixel_min.js?aid=safelite-c77046f9-625f-4866-9c75-be39870f6479",
+      "bytes": 105110,
+      "dnsTime": 14.013,
+      "sslTime": 14.38,
+      "requestTime": 54.757
+    },
+    {
+      "url": "https://u360.d-bi.fr/hmx000000000593.js",
+      "bytes": 10727,
+      "dnsTime": 171.96,
+      "sslTime": 199.732,
+      "requestTime": 531.959
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-1HXHB1LN8S&l=dataLayer&cx=c",
+      "bytes": 222746,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.31699999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-W987R4HVH1&l=dataLayer&cx=c",
+      "bytes": 194125,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 56.840999999999994
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/widget_async.js#5d484d7ed559304db178fbd5",
+      "bytes": 2096,
+      "dnsTime": 1.029,
+      "sslTime": 24.903,
+      "requestTime": 37.873
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/triggerRunner.js?v=c317b78",
+      "bytes": 10665,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.993
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/widget.js?v=46fbb73",
+      "bytes": 189517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.36
+    },
+    {
+      "url": "https://static.ads-twitter.com/oct.js",
+      "bytes": 57596,
+      "dnsTime": 21.476,
+      "sslTime": 13.857,
+      "requestTime": 45.86300000000001
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/6.5.0/otBannerSdk.js",
+      "bytes": 332939,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.692
+    },
+    {
+      "url": "https://secure.adnxs.com/px?id=1032272&seg=14604971&t=1",
+      "bytes": 550,
+      "dnsTime": 2.946,
+      "sslTime": 71.701,
+      "requestTime": 93.16699999999999
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 1.212,
+      "sslTime": 26.473,
+      "requestTime": 47.82
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.097
+    },
+    {
+      "url": "https://s.adroll.com/j/pre/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.937999999999995
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/O53UANQX5BAIBBI2PJDMVV?pv=83419907474.7743&arrfrr=https%3A%2F%2Fwww.safelite.com%2F&_s=28850897f3016b658a0fb97c168964d6&_b=2",
+      "bytes": 468,
+      "dnsTime": 11.341,
+      "sslTime": 36.661,
+      "requestTime": 77.45700000000001
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=27846&time=1674691040607&url=https%3A%2F%2Fwww.safelite.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.366
+    },
+    {
+      "url": "https://zn2bq1wpmj7p436fo-safeliteux.siteintercept.qualtrics.com/SIE/?Q_ZID=ZN_2bq1Wpmj7P436Fo",
+      "bytes": 7302,
+      "dnsTime": 1.411,
+      "sslTime": 15.208,
+      "requestTime": 46.124
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.safelite.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.983
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/CoreModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=safeliteux",
+      "bytes": 104596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.516
+    },
+    {
+      "url": "https://addshoppers.s3.amazonaws.com/5d484d7ed559304db178fbd5/5d518d5fe694aa0abf723018/A.js?_t=1660689297",
+      "bytes": 15028,
+      "dnsTime": 1.536,
+      "sslTime": 84.385,
+      "requestTime": 185.39200000000002
+    },
+    {
+      "url": "https://addshoppers.s3.amazonaws.com/customize/5d484d7ed559304db178fbd5/369bd1f2e9c541dd9e40ec9b97a737d1.js?_t=1663087462",
+      "bytes": 1916,
+      "dnsTime": 0.008,
+      "sslTime": 80.997,
+      "requestTime": 182.07500000000002
+    },
+    {
+      "url": "https://shopper.shop.pe/input.js",
+      "bytes": 26560,
+      "dnsTime": 2.004,
+      "sslTime": 11.141,
+      "requestTime": 23.285
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/6.9808af8b656686a98b64.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=safeliteux",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.121
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/1.ca40fe67c92ba390e992.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=safeliteux",
+      "bytes": 28843,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.756999999999998
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/FeedbackButtonModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=safeliteux",
+      "bytes": 65510,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.389
+    }
+  ],
+  "numJsRequests": 29,
+  "numThirdPartyJsRequests": 27,
+  "numFirstPartyJsRequests": 2,
+  "numUnique3pHosts": 16,
+  "totalJsBytes": 1910047,
+  "totalDnsTime": 238.663,
+  "totalSslTime": 677.657,
+  "totalTime": 2763.609999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 703.884,
+  "totalFirstPartyJsBytes": 51940,
+  "totalThirdPartyDnsTime": 238.663,
+  "totalThirdPartySslTime": 677.657,
+  "totalThirdPartyTime": 2059.7260000000006,
+  "totalThirdPartyJsBytes": 1858107,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 44.48747066357369,
+  "percentOfJsRequestTimeIs3p": 74.5302701900775,
+  "percentOfJsIs3p": 97.28069518708179
+}

@@ -1,0 +1,108 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.49929433333333334,
+    "withoutTags": 0.01897966666666667,
+    "difference": 0.48031466666666667,
+    "cutMetricPercentage": 0.9619870176776156,
+    "percentFasterWithoutTags": "103.95150678999323%"
+  },
+  "TaskDuration": {
+    "withTags": 0.9928263333333334,
+    "withoutTags": 0.06346733333333333,
+    "difference": 0.929359,
+    "cutMetricPercentage": 0.9360740834499757,
+    "percentFasterWithoutTags": "106.82915141870184%"
+  },
+  "DOMComplete": {
+    "withTags": 4464,
+    "withoutTags": 3031.3333333333335,
+    "difference": 1432.6666666666665,
+    "cutMetricPercentage": 0.3209378733572282,
+    "percentFasterWithoutTags": "311.58678455095395%"
+  },
+  "DOMInteractive": {
+    "withTags": 3248,
+    "withoutTags": 3031,
+    "difference": 217,
+    "cutMetricPercentage": 0.0668103448275862,
+    "percentFasterWithoutTags": "1496.774193548387%"
+  },
+  "DOMLoading": {
+    "withTags": 2240.6666666666665,
+    "withoutTags": 2381,
+    "difference": -140.33333333333348,
+    "cutMetricPercentage": -0.0626301695923833,
+    "percentFasterWithoutTags": "-1596.6745843230385%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 3429.299999999503,
+    "withoutTags": null,
+    "difference": null,
+    "cutMetricPercentage": null,
+    "percentFasterWithoutTags": "NaN%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://downloads.mailchimp.com/js/signup-forms/popup/embed.js",
+      "bytes": 220480,
+      "dnsTime": 68.137,
+      "sslTime": 18.172,
+      "requestTime": 106.87799999999997
+    },
+    {
+      "url": "https://hello-sunshine.com/wp-content/themes/hello-sunshine/dist/inline.438947e43726a89486aa.bundle.js",
+      "bytes": 1485,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 362.26899999999995
+    },
+    {
+      "url": "https://hello-sunshine.com/wp-content/themes/hello-sunshine/dist/polyfills.70ca31f337d18bc9be33.bundle.js",
+      "bytes": 220357,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 579.361
+    },
+    {
+      "url": "https://hello-sunshine.com/wp-content/themes/hello-sunshine/dist/main.c1d232610e63f541ce20.bundle.js",
+      "bytes": 1326875,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 630.541
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1270151.js?sv=6",
+      "bytes": 8481,
+      "dnsTime": 9.181,
+      "sslTime": 16.427,
+      "requestTime": 241.77200000000002
+    },
+    {
+      "url": "https://downloads.mailchimp.com/js/signup-forms/popup/73bf20a8fe762dee6abd0173cd576e53d748a0df/popup.js",
+      "bytes": 103732,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.285999999999998
+    }
+  ],
+  "numJsRequests": 6,
+  "numThirdPartyJsRequests": 6,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 3,
+  "totalJsBytes": 1881410,
+  "totalDnsTime": 77.318,
+  "totalSslTime": 34.599000000000004,
+  "totalTime": 1946.107,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 77.318,
+  "totalThirdPartySslTime": 34.599000000000004,
+  "totalThirdPartyTime": 1946.107,
+  "totalThirdPartyJsBytes": 1881410,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 5.750814318020541,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

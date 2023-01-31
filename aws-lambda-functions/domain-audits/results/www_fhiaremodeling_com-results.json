@@ -1,0 +1,164 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.3351986666666669,
+    "withoutTags": 0.5608033333333334,
+    "difference": 0.7743953333333334,
+    "cutMetricPercentage": 0.5799851008439193,
+    "percentFasterWithoutTags": "172.4182222172482%"
+  },
+  "TaskDuration": {
+    "withTags": 2.197077,
+    "withoutTags": 0.982243,
+    "difference": 1.2148340000000002,
+    "cutMetricPercentage": 0.5529319181803825,
+    "percentFasterWithoutTags": "180.85409199940074%"
+  },
+  "DOMComplete": {
+    "withTags": 4130,
+    "withoutTags": -558367713693,
+    "difference": 558367717823,
+    "cutMetricPercentage": 135197994.63026634,
+    "percentFasterWithoutTags": "7.396559414470289e-7%"
+  },
+  "DOMInteractive": {
+    "withTags": 2362.3333333333335,
+    "withoutTags": 2398,
+    "difference": -35.666666666666515,
+    "cutMetricPercentage": -0.015098066883025193,
+    "percentFasterWithoutTags": "-6623.364485981337%"
+  },
+  "DOMLoading": {
+    "withTags": 1130.6666666666667,
+    "withoutTags": 1072.3333333333333,
+    "difference": 58.333333333333485,
+    "cutMetricPercentage": 0.0515919811320756,
+    "percentFasterWithoutTags": "1938.2857142857094%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1650.4666666686535,
+    "withoutTags": 1670.9333333298564,
+    "difference": -20.466666661202908,
+    "cutMetricPercentage": -0.012400533179208872,
+    "percentFasterWithoutTags": "-8064.169383270001%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-26938318-1",
+      "bytes": 112650,
+      "dnsTime": 7.39,
+      "sslTime": 116.713,
+      "requestTime": 199.35999999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-662875815",
+      "bytes": 131654,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 528.7370000000001
+    },
+    {
+      "url": "https://tag.simpli.fi/sifitag/b8317390-ba89-0139-b60d-06a60fe5fe77",
+      "bytes": 3101,
+      "dnsTime": 9.737,
+      "sslTime": 71.693,
+      "requestTime": 118.607
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-311926635",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 495.779
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WS592RC",
+      "bytes": 175296,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 459.32199999999995
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 27.267,
+      "sslTime": 14.247,
+      "requestTime": 100.271
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2548837.js?sv=6",
+      "bytes": 8439,
+      "dnsTime": 2.705,
+      "sslTime": 35.003,
+      "requestTime": 141.417
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-662875815&l=dataLayer&cx=c",
+      "bytes": 131675,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.11
+    },
+    {
+      "url": "https://cdn.trustedform.com/bootstrap.js?provide_referrer=false&field=xxTrustedFormCertUrl&l=16751031442060.6155472022401314&invert_field_sensitivity=false",
+      "bytes": 8099,
+      "dnsTime": 4.936,
+      "sslTime": 12.922,
+      "requestTime": 216.17499999999998
+    },
+    {
+      "url": "https://cdn.trustedform.com/bootstrap.js?provide_referrer=false&field=xxTrustedFormCertUrl&l=16751031442130.2314842863782367&invert_field_sensitivity=false",
+      "bytes": 8099,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 564.078
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/SBKMXZ2N2JF5ZBM4RBJW6G?pv=78817123448.16013&arrfrr=https%3A%2F%2Fwww.fhiaremodeling.com%2F&_s=8bee73788f2f0585db46bc5f70e82ba5&_b=2",
+      "bytes": 468,
+      "dnsTime": 7.205,
+      "sslTime": 33.593,
+      "requestTime": 72.44
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.927999999999999
+    },
+    {
+      "url": "https://i.simpli.fi/p?cid=325149&cb=sifi_att_42656._hp",
+      "bytes": 750,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.181
+    },
+    {
+      "url": "https://cdn.trustedform.com/trustedform-1.8.35.js",
+      "bytes": 104232,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.801
+    }
+  ],
+  "numJsRequests": 14,
+  "numThirdPartyJsRequests": 14,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 8,
+  "totalJsBytes": 855483,
+  "totalDnsTime": 59.239999999999995,
+  "totalSslTime": 284.171,
+  "totalTime": 3028.206,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 59.239999999999995,
+  "totalThirdPartySslTime": 284.171,
+  "totalThirdPartyTime": 3028.206,
+  "totalThirdPartyJsBytes": 855483,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 11.340410791075639,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

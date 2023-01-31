@@ -1,0 +1,171 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.6001346666666666,
+    "withoutTags": 0.02386266666666666,
+    "difference": 0.5762719999999999,
+    "cutMetricPercentage": 0.9602378132907947,
+    "percentFasterWithoutTags": "104.14086866387169%"
+  },
+  "TaskDuration": {
+    "withTags": 1.3800323333333333,
+    "withoutTags": 0.28109866666666666,
+    "difference": 1.0989336666666667,
+    "cutMetricPercentage": 0.7963100864544962,
+    "percentFasterWithoutTags": "125.57922058383262%"
+  },
+  "DOMComplete": {
+    "withTags": -1675102379778.3333,
+    "withoutTags": -1675102379807.6667,
+    "difference": 29.33349609375,
+    "cutMetricPercentage": -1.7511464641123434e-11,
+    "percentFasterWithoutTags": "-5710544608882.274%"
+  },
+  "DOMInteractive": {
+    "withTags": 2438.6666666666665,
+    "withoutTags": 1821.6666666666667,
+    "difference": 616.9999999999998,
+    "cutMetricPercentage": 0.2530071077091306,
+    "percentFasterWithoutTags": "395.24581307401417%"
+  },
+  "DOMLoading": {
+    "withTags": 804.3333333333334,
+    "withoutTags": 760,
+    "difference": 44.33333333333337,
+    "cutMetricPercentage": 0.05511811023622052,
+    "percentFasterWithoutTags": "1814.2857142857129%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1547.9333333298564,
+    "withoutTags": 1342.93333333234,
+    "difference": 204.9999999975164,
+    "cutMetricPercentage": 0.13243464404021074,
+    "percentFasterWithoutTags": "755.0894309017609%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://code.jquery.com/jquery-3.6.0.slim.min.js",
+      "bytes": 72372,
+      "dnsTime": 5.71,
+      "sslTime": 36.153,
+      "requestTime": 61.31099999999999
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js",
+      "bytes": 43881,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 379.424
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NRWQHGP",
+      "bytes": 163332,
+      "dnsTime": 1.075,
+      "sslTime": 61.737,
+      "requestTime": 147.267
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PCDNQM8",
+      "bytes": 98316,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 604.005
+    },
+    {
+      "url": "https://js.alpixtrack.com/alphpixel.js?cust=4085730-511-WUSA",
+      "bytes": 4913,
+      "dnsTime": 0.692,
+      "sslTime": 83.104,
+      "requestTime": 929.404
+    },
+    {
+      "url": "https://collector-15763.us.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 1.565,
+      "sslTime": 324.275,
+      "requestTime": 409.34000000000003
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-5RRZ356",
+      "bytes": 150254,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.133
+    },
+    {
+      "url": "https://www.clickcease.com/monitor/stat.js",
+      "bytes": 175186,
+      "dnsTime": 1.21,
+      "sslTime": 18.626,
+      "requestTime": 73.547
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-0SVP4X1554&l=dataLayer&cx=c",
+      "bytes": 223210,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.646
+    },
+    {
+      "url": "https://analytics.freespee.com/js/external/fs.min.js",
+      "bytes": 42170,
+      "dnsTime": 1.242,
+      "sslTime": 395.439,
+      "requestTime": 593.548
+    },
+    {
+      "url": "https://tag.getdrip.com/5764207.js",
+      "bytes": 1979,
+      "dnsTime": 2.357,
+      "sslTime": 13.803,
+      "requestTime": 23.712
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 3588.298,
+      "sslTime": 32.561,
+      "requestTime": 3686.086
+    },
+    {
+      "url": "https://bat.bing.com/p/action/26072428.js",
+      "bytes": 3727,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.285
+    },
+    {
+      "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
+      "bytes": 56734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.286
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=190202&time=1675102386861&url=https%3A%2F%2Fwww.americanpest.net%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.178
+    }
+  ],
+  "numJsRequests": 17,
+  "numThirdPartyJsRequests": 15,
+  "numFirstPartyJsRequests": 2,
+  "numUnique3pHosts": 11,
+  "totalJsBytes": 1114441,
+  "totalDnsTime": 3602.149,
+  "totalSslTime": 965.6980000000001,
+  "totalTime": 26696.686999999994,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 19541.515,
+  "totalFirstPartyJsBytes": 18153,
+  "totalThirdPartyDnsTime": 3602.149,
+  "totalThirdPartySslTime": 965.6980000000001,
+  "totalThirdPartyTime": 7155.172,
+  "totalThirdPartyJsBytes": 1096288,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 63.839793089530204,
+  "percentOfJsRequestTimeIs3p": 26.801722625732555,
+  "percentOfJsIs3p": 98.37111161559922
+}

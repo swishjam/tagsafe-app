@@ -1,0 +1,451 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.2340846666666665,
+    "withoutTags": 0.53799,
+    "difference": 1.6960946666666665,
+    "cutMetricPercentage": 0.7591899680316503,
+    "percentFasterWithoutTags": "131.7193379929265%"
+  },
+  "TaskDuration": {
+    "withTags": 4.581223666666667,
+    "withoutTags": 1.1770016666666667,
+    "difference": 3.4042220000000007,
+    "cutMetricPercentage": 0.7430813790580407,
+    "percentFasterWithoutTags": "134.5747623588199%"
+  },
+  "DOMComplete": {
+    "withTags": 4530,
+    "withoutTags": 2037.6666666666667,
+    "difference": 2492.333333333333,
+    "cutMetricPercentage": 0.5501839587932302,
+    "percentFasterWithoutTags": "181.75738932727032%"
+  },
+  "DOMInteractive": {
+    "withTags": 1790.6666666666667,
+    "withoutTags": 1527.6666666666667,
+    "difference": 263,
+    "cutMetricPercentage": 0.14687267311988086,
+    "percentFasterWithoutTags": "680.8618504435996%"
+  },
+  "DOMLoading": {
+    "withTags": 355.6666666666667,
+    "withoutTags": 406.3333333333333,
+    "difference": -50.66666666666663,
+    "cutMetricPercentage": -0.1424554826616681,
+    "percentFasterWithoutTags": "-701.9736842105269%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1098.5333333338301,
+    "withoutTags": null,
+    "difference": null,
+    "cutMetricPercentage": null,
+    "percentFasterWithoutTags": "NaN%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-NMB9XBJ",
+      "bytes": 111017,
+      "dnsTime": 42.971,
+      "sslTime": 229.239,
+      "requestTime": 313.73999999999995
+    },
+    {
+      "url": "https://www.dwin1.com/19038.js",
+      "bytes": 37567,
+      "dnsTime": 8.485,
+      "sslTime": 79.793,
+      "requestTime": 110.077
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/vue@2",
+      "bytes": 107302,
+      "dnsTime": 31.133,
+      "sslTime": 16.366,
+      "requestTime": 220.45700000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-827280851",
+      "bytes": 181057,
+      "dnsTime": 8.565,
+      "sslTime": 96.796,
+      "requestTime": 265.222
+    },
+    {
+      "url": "https://tag.simpli.fi/sifitag/bebcb170-476b-013b-5d9b-0cc47a8ffaac",
+      "bytes": 3101,
+      "dnsTime": 9.904,
+      "sslTime": 43.648,
+      "requestTime": 284.028
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Kmy2Aq",
+      "bytes": 2905,
+      "dnsTime": 16.379,
+      "sslTime": 24.272,
+      "requestTime": 66.55900000000001
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js",
+      "bytes": 3095,
+      "dnsTime": 0.008,
+      "sslTime": 21.962,
+      "requestTime": 33.076
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/rebuy.js?shop=poopourri-3.myshopify.com",
+      "bytes": 3010,
+      "dnsTime": 18.218,
+      "sslTime": 26.949,
+      "requestTime": 56.245000000000005
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=3661",
+      "bytes": 1470,
+      "dnsTime": 9.789,
+      "sslTime": 21.67,
+      "requestTime": 62.074000000000005
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 10.171,
+      "sslTime": 85.282,
+      "requestTime": 243.96699999999998
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2006662.js?sv=6",
+      "bytes": 8483,
+      "dnsTime": 111.546,
+      "sslTime": 183.936,
+      "requestTime": 964.8100000000001
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 108.806,
+      "sslTime": 53.436,
+      "requestTime": 330.649
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-827280851&l=dataLayer&cx=c",
+      "bytes": 181078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 310.873
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NDL6VM",
+      "bytes": 269523,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 526.0350000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C9GTKJ3C77UCRETEJR60&lib=ttq",
+      "bytes": 2818,
+      "dnsTime": 56.449,
+      "sslTime": 24.204,
+      "requestTime": 227.17000000000002
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 6.689,
+      "sslTime": 123.479,
+      "requestTime": 452.86400000000003
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 334.90999999999997
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.226999999999999
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.832
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
+      "bytes": 37045,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.009
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
+      "bytes": 34073,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.538
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Kmy2Aq",
+      "bytes": 2905,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 73.529
+    },
+    {
+      "url": "https://secure.quantserve.com/quant.js",
+      "bytes": 26104,
+      "dnsTime": 723.796,
+      "sslTime": 17.711,
+      "requestTime": 752.9670000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C3EULUQOULQ3E8DMDF2G&lib=ttq",
+      "bytes": 2847,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 87.53
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/rebuy.js?shop=poopourri-3.myshopify.com",
+      "bytes": 3010,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.397999999999996
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/global.1674854229.js",
+      "bytes": 381293,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.009
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle.js?rev=8142c7e2&applicationId=3661",
+      "bytes": 464453,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.17399999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.095
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/2c1d758e-bf34-4c61-85ea-6d0ea2474d55.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.792
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.55199999999999
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.941,
+      "sslTime": 35.653,
+      "requestTime": 89.34300000000002
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/js?id=GTM-T7LKNFT&cid=2107032468.1675097588",
+      "bytes": 118074,
+      "dnsTime": 0.053,
+      "sslTime": 58.566,
+      "requestTime": 106.04599999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMg.js",
+      "bytes": 250250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.551000000000002
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/templates.js?id=1fb281c1fb332b5655e2",
+      "bytes": 129836,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.632000000000001
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-jquery.js?id=c82823c9ef1e8ec2caae",
+      "bytes": 91859,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.732
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-flickity.js?id=ff9329099d928219d935",
+      "bytes": 49474,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.837000000000003
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-vue.js?id=22fc9ad97a7b205d8412",
+      "bytes": 109706,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.224
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~ClientStore.2e3aa6941a04805c58f8.js",
+      "bytes": 64385,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 47.763000000000005
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/ClientStore.7a90b34cc3ff5ad92feb.js",
+      "bytes": 89732,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.469
+    },
+    {
+      "url": "https://assets.gorgias.chat/0b910d0e9ffd663455c427ac68a84da247513e40/static/js/671.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.634999999999998
+    },
+    {
+      "url": "https://assets.gorgias.chat/0b910d0e9ffd663455c427ac68a84da247513e40/static/js/gcmw.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.288
+    },
+    {
+      "url": "https://rules.quantcount.com/rules-p-fF8kdH1D0hz39.js",
+      "bytes": 2425,
+      "dnsTime": 2.047,
+      "sslTime": 13.771,
+      "requestTime": 23.636000000000003
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.745
+    },
+    {
+      "url": "https://assets.gorgias.chat/0b910d0e9ffd663455c427ac68a84da247513e40/static/js/amplitude.js",
+      "bytes": 55078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.994
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/styles.22c2b11c5e8fc57b054a.js",
+      "bytes": 136,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.957
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~Render.70ff401011c5901815b0.js",
+      "bytes": 11559,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.052
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/Render.094c406e512e39274940.js",
+      "bytes": 87327,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.590999999999998
+    },
+    {
+      "url": "https://static.rechargecdn.com/static/js/recharge.js?shop=poopourri-3.myshopify.com",
+      "bytes": 1156,
+      "dnsTime": 18.204,
+      "sslTime": 304.799,
+      "requestTime": 333.465
+    },
+    {
+      "url": "https://intg.snapchat.com/shopify/shopify-scevent-init.js?id=2c1d758e-bf34-4c61-85ea-6d0ea2474d55&shop=poopourri-3.myshopify.com",
+      "bytes": 10679,
+      "dnsTime": 13.76,
+      "sslTime": 37.207,
+      "requestTime": 62.653
+    },
+    {
+      "url": "https://d18eg7dreypte5.cloudfront.net/browse-abandonment/browse_abandonment.js?shop=poopourri-3.myshopify.com",
+      "bytes": 46496,
+      "dnsTime": 105.535,
+      "sslTime": 23.665,
+      "requestTime": 140.616
+    },
+    {
+      "url": "https://i.simpli.fi/p?cid=281684&cb=sifi_att_1553400846._hp",
+      "bytes": 755,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 778.654
+    },
+    {
+      "url": "https://sc-static.net/js-sha256-v1.min.js",
+      "bytes": 22177,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.608
+    },
+    {
+      "url": "https://cdn.attn.tv/attn.js?v=4-latest_263507365a",
+      "bytes": 181109,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.938
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/tag.js?v=4-latest_263507365a",
+      "bytes": 54517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 320.082
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/analytics/bv-analytics.js",
+      "bytes": 40709,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 149.29700000000003
+    }
+  ],
+  "numJsRequests": 56,
+  "numThirdPartyJsRequests": 55,
+  "numFirstPartyJsRequests": 1,
+  "numUnique3pHosts": 25,
+  "totalJsBytes": 3874601,
+  "totalDnsTime": 1304.4620000000002,
+  "totalSslTime": 1547.077,
+  "totalTime": 8694.078000000001,
+  "totalFirstPartyDnsTime": 0.013,
+  "totalFirstPartySslTime": 24.673,
+  "totalFirstPartyTime": 85.86200000000001,
+  "totalFirstPartyJsBytes": 8291,
+  "totalThirdPartyDnsTime": 1304.4490000000003,
+  "totalThirdPartySslTime": 1522.404,
+  "totalThirdPartyTime": 8608.216000000002,
+  "totalThirdPartyJsBytes": 3866310,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 32.839011009946766,
+  "percentOfJsRequestTimeIs3p": 99.0124082162594,
+  "percentOfJsIs3p": 99.78601667629776
+}

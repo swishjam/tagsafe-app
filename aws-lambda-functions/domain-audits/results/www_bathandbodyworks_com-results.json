@@ -1,0 +1,430 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 5.205307333333334,
+    "withoutTags": 0.5635063333333333,
+    "difference": 4.641801,
+    "cutMetricPercentage": 0.10825611193498533,
+    "percentFasterWithoutTags": "112.13982101631099%"
+  },
+  "TaskDuration": {
+    "withTags": 7.9337203333333335,
+    "withoutTags": 1.1168223333333334,
+    "difference": 6.816898,
+    "cutMetricPercentage": 0.1407690574421979,
+    "percentFasterWithoutTags": "116.38314572600812%"
+  },
+  "DOMComplete": {
+    "withTags": -558230143450.6666,
+    "withoutTags": 2995.3333333333335,
+    "difference": -558230146446,
+    "cutMetricPercentage": -5.365767808269646e-9,
+    "percentFasterWithoutTags": "99.99999946342322%"
+  },
+  "DOMInteractive": {
+    "withTags": 2805,
+    "withoutTags": 2784,
+    "difference": 21,
+    "cutMetricPercentage": 0.9925133689839573,
+    "percentFasterWithoutTags": "13357.142857142859%"
+  },
+  "DOMLoading": {
+    "withTags": 837.6666666666666,
+    "withoutTags": 842,
+    "difference": -4.333333333333371,
+    "cutMetricPercentage": 1.0051730998806208,
+    "percentFasterWithoutTags": "-19330.769230769063%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1849.0333333338301,
+    "withoutTags": 1929.5999999990065,
+    "difference": -80.5666666651764,
+    "cutMetricPercentage": 1.0435723170657576,
+    "percentFasterWithoutTags": "-2295.035167606163%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://edge1.certona.net/cd/28f31f50/www.bathandbodyworks.com/scripts/resonance.js",
+      "bytes": 15481,
+      "dnsTime": 14.903,
+      "sslTime": 19.575,
+      "requestTime": 63.487
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/barcode.min.js?yocs=s_",
+      "bytes": 48734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.772999999999996
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery/jquery-2.1.1.min.js?yocs=s_",
+      "bytes": 84245,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.243
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery/ui/jquery-ui.min.js?yocs=s_",
+      "bytes": 239564,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.679000000000002
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery/jquery.jcarousel.min.js?yocs=s_",
+      "bytes": 17461,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.776
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery/jquery.validate.min.js?yocs=s_",
+      "bytes": 21584,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.926
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/owl.carousel.min.js?yocs=s_",
+      "bytes": 44583,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.941
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/svg.min.js?yocs=s_",
+      "bytes": 3436,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.527
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery/jquery.zoom.min.js?yocs=s_",
+      "bytes": 2448,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.174999999999997
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/picturefill.min.js?yocs=s_",
+      "bytes": 11397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.556
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery.creditCardValidator.js?yocs=s_",
+      "bytes": 8625,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.891000000000002
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/jquery.deserialize.js?yocs=s_",
+      "bytes": 1876,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.266
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/mask.js?yocs=s_",
+      "bytes": 23730,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.371
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/progressbar.js?yocs=s_",
+      "bytes": 22541,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.364
+    },
+    {
+      "url": "https://static.ordergroove.com/986dccf46be411ebaadb26088a73eb74/main.js",
+      "bytes": 164274,
+      "dnsTime": 256.077,
+      "sslTime": 41.697,
+      "requestTime": 336.05600000000004
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/js/app.min.js?yocs=s_",
+      "bytes": 521147,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.878
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/lib/amaze-bbw-20221031.js?yocs=s_",
+      "bytes": 223240,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.044
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/js/mobile-detect.min.js?yocs=s_",
+      "bytes": 37420,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.189
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/internal/jscript/dwanalytics-22.2.js?yocs=s_",
+      "bytes": 6582,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.549
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/internal/jscript/dwac-21.7.js?yocs=s_",
+      "bytes": 5013,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.588
+    },
+    {
+      "url": "https://cdn.cquotient.com/js/v2/gretel.min.js",
+      "bytes": 66138,
+      "dnsTime": 31.748,
+      "sslTime": 33.575,
+      "requestTime": 78.11800000000001
+    },
+    {
+      "url": "https://cdn-fsly.yottaa.net/5d669b394f1bbf7cb77826ae/www.bathandbodyworks.com/v~4b.21a/on/demandware.static/Sites-BathAndBodyWorks-Site/-/en_US/v1674655349924/internal/jscript/applepay.js?yocs=s_",
+      "bytes": 14299,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.475
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.53
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-971232507",
+      "bytes": 176707,
+      "dnsTime": 9.73,
+      "sslTime": 32.756,
+      "requestTime": 86.873
+    },
+    {
+      "url": "https://dtm.bathandbodyworks.com/profile/visit/js/1_0?dtm_fid=101&dtm_cid=60847&dtm_cmagic=48be96&cachebuster=5899883626918498&cli_promo_id=0&dtmc_ref=undefined&dtmc_loc=https%3A//www.bathandbodyworks.com/blocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&dtm_user_token=",
+      "bytes": 24722,
+      "dnsTime": 75.738,
+      "sslTime": 27.189,
+      "requestTime": 115.618
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 7.744,
+      "sslTime": 16.143,
+      "requestTime": 60.677
+    },
+    {
+      "url": "https://cdn.agentbot.net/core/ec0633155e0d2eb58138ea776921e7f0.js",
+      "bytes": 802,
+      "dnsTime": 57.832,
+      "sslTime": 12.646,
+      "requestTime": 102.598
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-10367923",
+      "bytes": 113546,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 125.07900000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4FR9RVM9G8R5RJ0NA0G&lib=ttq",
+      "bytes": 2816,
+      "dnsTime": 19.743,
+      "sslTime": 13.852,
+      "requestTime": 285.657
+    },
+    {
+      "url": "https://live.rezync.com/sync?c=16b6410431b6374e780104abb0443ca8&p=5f14a22174e6fa912b6595a8c0c9eaa4&k=bbw-demo-pixel-4607&zmpID=bbw-demo&cache_buster=",
+      "bytes": 1279,
+      "dnsTime": 23.598,
+      "sslTime": 11.278,
+      "requestTime": 124.063
+    },
+    {
+      "url": "https://cdn.boomtrain.com/p13n/bbw-demo/p13n.min.js",
+      "bytes": 81488,
+      "dnsTime": 45.956,
+      "sslTime": 23.081,
+      "requestTime": 81.667
+    },
+    {
+      "url": "https://login-ds.dotomi.com/profile/visit/final/js?dtm_form_uid=635106887506008421&cachebuster=5899883626918498&tcflag=true&dtmc_loc=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&dtm_token_assignment_type=0&cli_promo_id=0&dtm_fid=101&dtm_cid=60847&dtmc_ref=&dtm_use_flash_cookies=false&dtm_zip_code=94107&fp_assignment_type=0&dtm_user_dc=sjc&dtm_id_assgn_type=0&dtm_state=CA&dtm_user_agent=Mozilla%2F5.0%20(Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20HeadlessChrome%2F105.0.5173.0%20Safari%2F537.36&dtm_country_code=US&init_wl_code=11&dtm_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA&dtm_dma_code=807&dtm_cmagic=48be96&dtm_user_ip=157.131.221.95&tp_user_assignment_type=0&wl_domains_key=dtm.bathandbodyworks.com&dtm_cookies_enabled=true&dtm_current_dc=&dtm_consent=true&data_object_type_code=1&canonical_url=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html&dtm_items=%2522%2522&dtmc_coupons=%2522%2522&dtmc_bypass_channel=%2522%2522",
+      "bytes": 25179,
+      "dnsTime": 23.235,
+      "sslTime": 26.055,
+      "requestTime": 64.483
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.884
+    },
+    {
+      "url": "https://cdn.agentbot.net/core/latest/core.js?djMuNi42",
+      "bytes": 859624,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 43.635
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/E3EAZLPRAFHYVAAEE2YXAD?pv=87018533903.30168&arrfrr=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&_s=bd20216a281d5b9bc3eacd86ca72c5aa&_b=2",
+      "bytes": 468,
+      "dnsTime": 7.895,
+      "sslTime": 37.897,
+      "requestTime": 73.70500000000001
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.786999999999999
+    },
+    {
+      "url": "https://www.lightboxcdn.com/vendor/274a07d9-6189-485e-a140-ed2571ec9c87/lightbox_speed.js?mb=1674690453394",
+      "bytes": 2670,
+      "dnsTime": 7.271,
+      "sslTime": 14.852,
+      "requestTime": 40.254
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.643
+    },
+    {
+      "url": "https://cdn.agentbot.net/core/8.5.0/core.16.efe93c1483abcb0f97da.js",
+      "bytes": 16176,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.264
+    },
+    {
+      "url": "https://cdn.agentbot.net/core/8.5.0/core.18.efe93c1483abcb0f97da.js",
+      "bytes": 6463,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.157999999999998
+    },
+    {
+      "url": "https://dtm.bathandbodyworks.com/profile/visit/js/1_0?dtm_fid=101&dtm_cid=60847&dtm_cmagic=48be96&cachebuster=1523207654419889&cli_promo_id=0&dtmc_ref=https%3A//www.bathandbodyworks.com/blocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&dtmc_loc=https%3A//www.bathandbodyworks.com/blocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&dtm_user_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA",
+      "bytes": 24907,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.792000000000002
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4FR9RVM9G8R5RJ0NA0G&lib=ttq",
+      "bytes": 2816,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 101.48
+    },
+    {
+      "url": "https://live.rezync.com/sync?c=16b6410431b6374e780104abb0443ca8&p=5f14a22174e6fa912b6595a8c0c9eaa4&k=bbw-demo-pixel-4607&zmpID=bbw-demo&cache_buster=",
+      "bytes": 1981,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 74.948
+    },
+    {
+      "url": "https://login-ds.dotomi.com/profile/visit/final/js?dtm_user_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA&dtm_form_uid=782006887487155458&cachebuster=1523207654419889&tcflag=true&dtmc_loc=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&dtm_token_assignment_type=1&cli_promo_id=0&dtm_fid=101&dtm_cid=60847&dtmc_ref=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&dtm_use_flash_cookies=false&dtm_zip_code=94107&fp_assignment_type=1&dtm_user_dc=sjc&dtm_id_assgn_type=1&dtm_state=CA&dtm_user_agent=Mozilla%2F5.0%20(Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20HeadlessChrome%2F105.0.5173.0%20Safari%2F537.36&dtm_country_code=US&init_wl_code=11&dtm_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA&dtm_dma_code=807&dtm_cmagic=48be96&dtm_user_ip=157.131.221.95&wl_domains_key=dtm.bathandbodyworks.com&dtm_cookies_enabled=true&dtm_current_dc=&dtm_consent=true&data_object_type_code=1&canonical_url=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&dtm_items=%2522%2522&dtmc_coupons=%2522%2522&dtmc_bypass_channel=%2522%2522",
+      "bytes": 25039,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.367
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/E3EAZLPRAFHYVAAEE2YXAD?adroll_fpc=3733f3c0c53b5ef62b7f20017629ac96-1674690454091&pv=53841952757.751495&arrfrr=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&_s=c1b503218fea684e6d26ee57d85df182&_b=2",
+      "bytes": 468,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.779000000000003
+    },
+    {
+      "url": "https://www.lightboxcdn.com/vendor/274a07d9-6189-485e-a140-ed2571ec9c87/lightbox_speed.js?mb=1674690456557",
+      "bytes": 2670,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.435999999999996
+    },
+    {
+      "url": "https://dtm.bathandbodyworks.com/profile/visit/js/1_0?dtm_fid=101&dtm_cid=60847&dtm_cmagic=48be96&cachebuster=2757075178580592&cli_promo_id=0&dtmc_ref=https%3A//www.bathandbodyworks.com/blocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&dtmc_loc=https%3A//www.bathandbodyworks.com/blocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&dtm_user_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA",
+      "bytes": 24983,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.914000000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4FR9RVM9G8R5RJ0NA0G&lib=ttq",
+      "bytes": 2816,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.12299999999999
+    },
+    {
+      "url": "https://live.rezync.com/sync?c=16b6410431b6374e780104abb0443ca8&p=5f14a22174e6fa912b6595a8c0c9eaa4&k=bbw-demo-pixel-4607&zmpID=bbw-demo&cache_buster=",
+      "bytes": 1279,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.797
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/E3EAZLPRAFHYVAAEE2YXAD?adroll_fpc=3733f3c0c53b5ef62b7f20017629ac96-1674690454091&pv=31399582589.19593&arrfrr=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&_s=162c2b7b81c2e8617a2196001334e273&_b=2",
+      "bytes": 468,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.855
+    },
+    {
+      "url": "https://login-ds.dotomi.com/profile/visit/final/js?dtm_user_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA&dtm_form_uid=535206887383983544&cachebuster=2757075178580592&tcflag=true&dtmc_loc=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&dtm_token_assignment_type=1&cli_promo_id=0&dtm_fid=101&dtm_cid=60847&dtmc_ref=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DL3MvQmF0aEFuZEJvZHlXb3Jrcy9hdXRoaWZyYW1lPw%3D%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3Da0e6d3a6-9d0a-11ed-80a1-6e744c695a77&dtm_use_flash_cookies=false&dtm_zip_code=94107&fp_assignment_type=1&dtm_user_dc=sjc&dtm_id_assgn_type=1&dtm_state=CA&dtm_user_agent=Mozilla%2F5.0%20(Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20HeadlessChrome%2F105.0.5173.0%20Safari%2F537.36&dtm_country_code=US&init_wl_code=11&dtm_token=AQEJ0VtYaQTF0AFCeTl8AQEBAQA&dtm_dma_code=807&dtm_cmagic=48be96&dtm_user_ip=157.131.221.95&wl_domains_key=dtm.bathandbodyworks.com&dtm_cookies_enabled=true&dtm_current_dc=&dtm_consent=true&data_object_type_code=1&canonical_url=https%3A%2F%2Fwww.bathandbodyworks.com%2Fblocked.html%3Furl%3DLz8%3D%26uuid%3Da0e6d2a3-9d0a-11ed-80a1-6e744c695a77%26vid%3D&dtm_items=%2522%2522&dtmc_coupons=%2522%2522&dtmc_bypass_channel=%2522%2522",
+      "bytes": 25220,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.775
+    },
+    {
+      "url": "https://www.lightboxcdn.com/vendor/274a07d9-6189-485e-a140-ed2571ec9c87/lightbox_speed.js?mb=1674690458374",
+      "bytes": 2670,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.907
+    }
+  ],
+  "numJsRequests": 54,
+  "numThirdPartyJsRequests": 52,
+  "numFirstPartyJsRequests": 2,
+  "numUnique3pHosts": 16,
+  "totalJsBytes": 4063387,
+  "totalDnsTime": 581.47,
+  "totalSslTime": 310.59599999999995,
+  "totalTime": 3814.5120000000006,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1013.8919999999999,
+  "totalFirstPartyJsBytes": 561764,
+  "totalThirdPartyDnsTime": 581.47,
+  "totalThirdPartySslTime": 310.59599999999995,
+  "totalThirdPartyTime": 2800.6200000000003,
+  "totalThirdPartyJsBytes": 3501623,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 31.852446958173548,
+  "percentOfJsRequestTimeIs3p": 73.42013867042493,
+  "percentOfJsIs3p": 86.17498161016906
+}

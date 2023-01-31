@@ -1,0 +1,94 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.2264546666666667,
+    "withoutTags": 0.02030433333333333,
+    "difference": 0.20615033333333335,
+    "cutMetricPercentage": 0.9103381986681661,
+    "percentFasterWithoutTags": "109.84928474527489%"
+  },
+  "TaskDuration": {
+    "withTags": 0.48871200000000004,
+    "withoutTags": 0.2821116666666667,
+    "difference": 0.20660033333333333,
+    "cutMetricPercentage": 0.42274454757266716,
+    "percentFasterWithoutTags": "236.54947313734573%"
+  },
+  "DOMComplete": {
+    "withTags": -1675102925610,
+    "withoutTags": 2542.6666666666665,
+    "difference": -1675102928152.6667,
+    "cutMetricPercentage": 1.0000000015179167,
+    "percentFasterWithoutTags": "99.99999984820833%"
+  },
+  "DOMInteractive": {
+    "withTags": 2197.6666666666665,
+    "withoutTags": 2076,
+    "difference": 121.66666666666652,
+    "cutMetricPercentage": 0.05536174730775058,
+    "percentFasterWithoutTags": "1806.3013698630157%"
+  },
+  "DOMLoading": {
+    "withTags": 937.6666666666666,
+    "withoutTags": 938.6666666666666,
+    "difference": -1,
+    "cutMetricPercentage": -0.001066477070742979,
+    "percentFasterWithoutTags": "-93766.66666666666%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2140.4333333323398,
+    "withoutTags": 2020.6000000014901,
+    "difference": 119.83333333084965,
+    "cutMetricPercentage": 0.05598554809660285,
+    "percentFasterWithoutTags": "1786.1752434297937%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://disa.com/js/main.min.js?v=1.0.1",
+      "bytes": 137486,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 275.039
+    },
+    {
+      "url": "https://disa.com/js/disa-utm.js?v=1.0.0",
+      "bytes": 6589,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 274.229
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-P3PQ03PVBH",
+      "bytes": 192292,
+      "dnsTime": 1.815,
+      "sslTime": 44.393,
+      "requestTime": 100.596
+    },
+    {
+      "url": "https://assets.ubembed.com/universalscript/releases/v0.179.2/bundle.js",
+      "bytes": 178069,
+      "dnsTime": 0.018,
+      "sslTime": 17.079,
+      "requestTime": 288.209
+    }
+  ],
+  "numJsRequests": 4,
+  "numThirdPartyJsRequests": 4,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 3,
+  "totalJsBytes": 514436,
+  "totalDnsTime": 1.833,
+  "totalSslTime": 61.472,
+  "totalTime": 938.0730000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 1.833,
+  "totalThirdPartySslTime": 61.472,
+  "totalThirdPartyTime": 938.0730000000001,
+  "totalThirdPartyJsBytes": 514436,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 6.748408705932267,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

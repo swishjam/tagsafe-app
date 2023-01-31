@@ -1,0 +1,318 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.332046,
+    "withoutTags": 0.5572663333333333,
+    "difference": 1.7747796666666669,
+    "cutMetricPercentage": 0.7610397336359004,
+    "percentFasterWithoutTags": "131.39918401138618%"
+  },
+  "TaskDuration": {
+    "withTags": 3.9552290000000005,
+    "withoutTags": 1.149675,
+    "difference": 2.8055540000000008,
+    "cutMetricPercentage": 0.7093278290586968,
+    "percentFasterWithoutTags": "140.97853757225843%"
+  },
+  "DOMComplete": {
+    "withTags": 6443,
+    "withoutTags": 3410.6666666666665,
+    "difference": 3032.3333333333335,
+    "cutMetricPercentage": 0.47063997102798905,
+    "percentFasterWithoutTags": "212.47664065076398%"
+  },
+  "DOMInteractive": {
+    "withTags": 3323,
+    "withoutTags": 2835.6666666666665,
+    "difference": 487.3333333333335,
+    "cutMetricPercentage": 0.1466546293509881,
+    "percentFasterWithoutTags": "681.8741450068397%"
+  },
+  "DOMLoading": {
+    "withTags": 494.6666666666667,
+    "withoutTags": 511,
+    "difference": -16.333333333333314,
+    "cutMetricPercentage": -0.03301886792452826,
+    "percentFasterWithoutTags": "-3028.5714285714325%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2833.1333333328366,
+    "withoutTags": 2639.10000000149,
+    "difference": 194.0333333313465,
+    "cutMetricPercentage": 0.06848718733018114,
+    "percentFasterWithoutTags": "1460.127125938076%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://code.jquery.com/jquery-3.3.1.min.js",
+      "bytes": 86927,
+      "dnsTime": 0.011,
+      "sslTime": 32.626,
+      "requestTime": 338.745
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PHL88DF",
+      "bytes": 331415,
+      "dnsTime": 24.251,
+      "sslTime": 39.254,
+      "requestTime": 152.752
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/v1/loader/1Gh6LwOk-uwBu2eLe6CjKg",
+      "bytes": 92560,
+      "dnsTime": 21.699,
+      "sslTime": 24.957,
+      "requestTime": 68.361
+    },
+    {
+      "url": "https://appdevelopergroup.co/apps/smartbadge/js/smartbadge.js?shop=yogibo-usa.myshopify.com",
+      "bytes": 15269,
+      "dnsTime": 1.004,
+      "sslTime": 27.788,
+      "requestTime": 58.077
+    },
+    {
+      "url": "https://t.cometlytrack.com/",
+      "bytes": 137595,
+      "dnsTime": 0.005,
+      "sslTime": 178.817,
+      "requestTime": 893.711
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/rebuy.js?shop=yogibo-usa.myshopify.com",
+      "bytes": 3010,
+      "dnsTime": 34.65,
+      "sslTime": 17.527,
+      "requestTime": 87.67999999999999
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle-loader.js?applicationId=3594",
+      "bytes": 1470,
+      "dnsTime": 18.935,
+      "sslTime": 34.28,
+      "requestTime": 159.333
+    },
+    {
+      "url": "https://cdn1.affirm.com/js/v2/affirm.js",
+      "bytes": 436786,
+      "dnsTime": 4.918,
+      "sslTime": 62.81,
+      "requestTime": 94.71800000000002
+    },
+    {
+      "url": "https://cdn-widget-assets.yotpo.com/widgets-initializer/app.v0.2.0-3926.js",
+      "bytes": 29947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 56.05500000000001
+    },
+    {
+      "url": "https://d1u9wuqimc88kc.cloudfront.net/vendor/axios.min.js",
+      "bytes": 20729,
+      "dnsTime": 1.858,
+      "sslTime": 16.324,
+      "requestTime": 28.234000000000005
+    },
+    {
+      "url": "https://dx.mountain.com/spx?dxver=4.0.0&shaid=32488&tdr=&plh=https%3A%2F%2Fyogibo.com%2F&cb=31913536169961620term=value",
+      "bytes": 0,
+      "dnsTime": 3.306,
+      "sslTime": 74.204,
+      "requestTime": 196.444
+    },
+    {
+      "url": "https://secure.quantserve.com/quant.js",
+      "bytes": 26189,
+      "dnsTime": 2.632,
+      "sslTime": 16.894,
+      "requestTime": 31.275
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/global.1674854229.js",
+      "bytes": 381293,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 162.07299999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-9YEJHMP6SH&l=dataLayer&cx=c",
+      "bytes": 222898,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 95.12499999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-996444651&l=dataLayer&cx=c",
+      "bytes": 188855,
+      "dnsTime": 0,
+      "sslTime": 33.038,
+      "requestTime": 92.04599999999999
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 8.285,
+      "sslTime": 24.229,
+      "requestTime": 43.144
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C1559QGKDSFHSDQC0P5G&lib=ttq",
+      "bytes": 2845,
+      "dnsTime": 23.401,
+      "sslTime": 20.882,
+      "requestTime": 135.375
+    },
+    {
+      "url": "https://client-builds.production.gorgias.chat/new_bundle/gorgias-chat-bundle-loader.js?applicationId=3594&ignore=/static/js/main.js",
+      "bytes": 1470,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.659
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.44
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle.js?rev=a2149fd5&applicationId=3594",
+      "bytes": 467483,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 252.423
+    },
+    {
+      "url": "https://rules.quantcount.com/rules-p-Z6Ug8x--DYP5T.js",
+      "bytes": 3749,
+      "dnsTime": 153.921,
+      "sslTime": 28.338,
+      "requestTime": 282.501
+    },
+    {
+      "url": "https://a.optmnstr.com/app/js/api.min.js",
+      "bytes": 51147,
+      "dnsTime": 126.042,
+      "sslTime": 43.085,
+      "requestTime": 247.185
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/templates.js?id=1fb281c1fb332b5655e2",
+      "bytes": 129836,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 59.86900000000001
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-jquery.js?id=c82823c9ef1e8ec2caae",
+      "bytes": 91859,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 74.51400000000001
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-flickity.js?id=ff9329099d928219d935",
+      "bytes": 49474,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.969
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-vue.js?id=22fc9ad97a7b205d8412",
+      "bytes": 109706,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 76.55
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMg.js",
+      "bytes": 250250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.626000000000005
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0.023,
+      "sslTime": 42.544,
+      "requestTime": 55.32599999999999
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/671.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.223000000000003
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/gcmw.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.689
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/campaigns.js",
+      "bytes": 19577,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 74.92699999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.504
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/amplitude.js",
+      "bytes": 55078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.874
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/vendor-rebuy.js?id=0d59b4ed80242497209d",
+      "bytes": 11075,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.460999999999999
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/shopify-discount.js?id=34a861bdd738c0a0a7a1",
+      "bytes": 20001,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.506
+    },
+    {
+      "url": "https://cdn.rebuyengine.com/onsite/js/template-smartcart.js?id=0575d457aec1d80a6621",
+      "bytes": 34191,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.913000000000002
+    }
+  ],
+  "numJsRequests": 36,
+  "numThirdPartyJsRequests": 36,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 19,
+  "totalJsBytes": 3537371,
+  "totalDnsTime": 424.94100000000003,
+  "totalSslTime": 717.597,
+  "totalTime": 4132.307000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 424.94100000000003,
+  "totalThirdPartySslTime": 717.597,
+  "totalThirdPartyTime": 4132.307000000001,
+  "totalThirdPartyJsBytes": 3537371,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 27.648913790771108,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

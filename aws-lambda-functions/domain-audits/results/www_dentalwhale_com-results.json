@@ -1,0 +1,129 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.5252923333333334,
+    "withoutTags": 0.299004,
+    "difference": 0.22628833333333337,
+    "cutMetricPercentage": 0.43078552450476787,
+    "percentFasterWithoutTags": "232.13407673101423%"
+  },
+  "TaskDuration": {
+    "withTags": 0.9852736666666666,
+    "withoutTags": 0.6871623333333333,
+    "difference": 0.2981113333333333,
+    "cutMetricPercentage": 0.30256703636654586,
+    "percentFasterWithoutTags": "330.5052698432577%"
+  },
+  "DOMComplete": {
+    "withTags": 2170,
+    "withoutTags": 1710,
+    "difference": 460,
+    "cutMetricPercentage": 0.2119815668202765,
+    "percentFasterWithoutTags": "471.7391304347826%"
+  },
+  "DOMInteractive": {
+    "withTags": 960.6666666666666,
+    "withoutTags": 933,
+    "difference": 27.66666666666663,
+    "cutMetricPercentage": 0.02879944482997914,
+    "percentFasterWithoutTags": "3472.2891566265107%"
+  },
+  "DOMLoading": {
+    "withTags": 920.6666666666666,
+    "withoutTags": 906,
+    "difference": 14.666666666666629,
+    "cutMetricPercentage": 0.015930485155684248,
+    "percentFasterWithoutTags": "6277.272727272743%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1182.3666666646798,
+    "withoutTags": 1198.2666666681569,
+    "difference": -15.90000000347709,
+    "cutMetricPercentage": -0.01344760508880816,
+    "percentFasterWithoutTags": "-7436.268342176818%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://app.termly.io/embed.min.js",
+      "bytes": 277425,
+      "dnsTime": 16.474,
+      "sslTime": 21.455,
+      "requestTime": 77.634
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-S38J9RN2RX",
+      "bytes": 271325,
+      "dnsTime": 15.393,
+      "sslTime": 27.511,
+      "requestTime": 140.08599999999998
+    },
+    {
+      "url": "https://app.termly.io/739.min.js",
+      "bytes": 154862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.14999999999999
+    },
+    {
+      "url": "https://app.termly.io/222.min.js",
+      "bytes": 115357,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.151
+    },
+    {
+      "url": "https://app.termly.io/673.min.js",
+      "bytes": 3811,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.508
+    },
+    {
+      "url": "https://app.termly.io/945.min.js",
+      "bytes": 8592,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 199.423
+    },
+    {
+      "url": "https://app.termly.io/944.min.js",
+      "bytes": 57440,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 208.125
+    },
+    {
+      "url": "https://app.termly.io/874.min.js",
+      "bytes": 12170,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 200.825
+    },
+    {
+      "url": "https://app.termly.io/837.min.js",
+      "bytes": 4206,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 153.00199999999998
+    }
+  ],
+  "numJsRequests": 26,
+  "numThirdPartyJsRequests": 9,
+  "numFirstPartyJsRequests": 17,
+  "numUnique3pHosts": 2,
+  "totalJsBytes": 1881624,
+  "totalDnsTime": 31.867,
+  "totalSslTime": 48.965999999999994,
+  "totalTime": 5084.202999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 3973.299,
+  "totalFirstPartyJsBytes": 976436,
+  "totalThirdPartyDnsTime": 31.867,
+  "totalThirdPartySslTime": 48.965999999999994,
+  "totalThirdPartyTime": 1110.904,
+  "totalThirdPartyJsBytes": 905188,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 7.276326307223667,
+  "percentOfJsRequestTimeIs3p": 21.85011102035069,
+  "percentOfJsIs3p": 48.10674183577591
+}

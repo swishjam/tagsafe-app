@@ -32,6 +32,7 @@ class PuppeteerModerator {
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: executablePath,
+      // headless: false,
       // slowMo: this.slowMoMs
     });
   }

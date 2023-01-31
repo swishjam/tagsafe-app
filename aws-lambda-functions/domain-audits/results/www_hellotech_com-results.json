@@ -1,0 +1,493 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.4359376666666668,
+    "withoutTags": 0.564525,
+    "difference": 0.8714126666666667,
+    "cutMetricPercentage": 0.60685967566373,
+    "percentFasterWithoutTags": "164.78273975055063%"
+  },
+  "TaskDuration": {
+    "withTags": 2.5265419999999996,
+    "withoutTags": 0.9063596666666668,
+    "difference": 1.6201823333333327,
+    "cutMetricPercentage": 0.6412647536962904,
+    "percentFasterWithoutTags": "155.94183123833596%"
+  },
+  "DOMComplete": {
+    "withTags": 4245.333333333333,
+    "withoutTags": 1790.6666666666667,
+    "difference": 2454.666666666666,
+    "cutMetricPercentage": 0.5782035175879396,
+    "percentFasterWithoutTags": "172.94948397609997%"
+  },
+  "DOMInteractive": {
+    "withTags": 879.3333333333334,
+    "withoutTags": 978.3333333333334,
+    "difference": -99,
+    "cutMetricPercentage": -0.11258529188779377,
+    "percentFasterWithoutTags": "-888.2154882154882%"
+  },
+  "DOMLoading": {
+    "withTags": 778,
+    "withoutTags": 873.3333333333334,
+    "difference": -95.33333333333337,
+    "cutMetricPercentage": -0.12253641816623827,
+    "percentFasterWithoutTags": "-816.0839160839158%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2192.7000000079474,
+    "withoutTags": 2015.4000000009935,
+    "difference": 177.30000000695395,
+    "cutMetricPercentage": 0.08085921466972742,
+    "percentFasterWithoutTags": "1236.717428043963%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.cookielaw.org/consent/f02dfd36-0216-4d2d-b98d-13020b8e3a4a/OtAutoBlock.js",
+      "bytes": 3610,
+      "dnsTime": 2.377,
+      "sslTime": 87.832,
+      "requestTime": 117.63
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 21748,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 479.342
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-949056333",
+      "bytes": 181051,
+      "dnsTime": 6.165,
+      "sslTime": 77.402,
+      "requestTime": 218.55100000000002
+    },
+    {
+      "url": "https://maps.googleapis.com/maps/api/js?key=AIzaSyAvrOOaCjkwxVuHw0-soXFxRpIWbwrPlEY&libraries=places",
+      "bytes": 169904,
+      "dnsTime": 161.205,
+      "sslTime": 32.358,
+      "requestTime": 469.41400000000004
+    },
+    {
+      "url": "https://js.stripe.com/v3/",
+      "bytes": 439342,
+      "dnsTime": 161.35,
+      "sslTime": 34.502,
+      "requestTime": 251.144
+    },
+    {
+      "url": "https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993",
+      "bytes": 17031,
+      "dnsTime": 6.375,
+      "sslTime": 75.18,
+      "requestTime": 129.103
+    },
+    {
+      "url": "https://cdn1.affirm.com/js/v2/affirm.js",
+      "bytes": 436786,
+      "dnsTime": 6.532,
+      "sslTime": 33.333,
+      "requestTime": 105.66900000000001
+    },
+    {
+      "url": "https://cdn.segment.com/analytics.js/v1/BxAyxNW14bSqARCakaysLkcNpBd6eCkY/analytics.min.js",
+      "bytes": 105497,
+      "dnsTime": 6.219,
+      "sslTime": 54.889,
+      "requestTime": 247.31900000000002
+    },
+    {
+      "url": "https://ads.nextdoor.com/public/pixel/ndp.js",
+      "bytes": 6599,
+      "dnsTime": 6.489,
+      "sslTime": 75.427,
+      "requestTime": 147.22500000000002
+    },
+    {
+      "url": "https://d.impactradius-event.com/A2022847-eb02-4ee3-84e8-696f642eabf91.js",
+      "bytes": 46062,
+      "dnsTime": 2.476,
+      "sslTime": 113.938,
+      "requestTime": 136.771
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/widget.js",
+      "bytes": 782,
+      "dnsTime": 171.282,
+      "sslTime": 18.357,
+      "requestTime": 200.818
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/widget_async.js#62d84c73760d2104cea98e11",
+      "bytes": 2096,
+      "dnsTime": 2.38,
+      "sslTime": 12.488,
+      "requestTime": 24.324
+    },
+    {
+      "url": "https://cdn.cookielaw.org/consent/f02dfd36-0216-4d2d-b98d-13020b8e3a4a/f02dfd36-0216-4d2d-b98d-13020b8e3a4a.json",
+      "bytes": 2705,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.798
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/949056333/?random=1675123813771&cv=11&fst=1675123813771&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.hellotech.com%2F&tiba=HelloTech%3A%20Home%20%26%20Business%20Tech%20Support%2C%20Smart%20Home%20Set%20Up%2C%20Installations%2C%20and%20IT%20Services%20Near%20You&auid=545374964.1675123814&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1556,
+      "dnsTime": 1.247,
+      "sslTime": 136.607,
+      "requestTime": 174.66
+    },
+    {
+      "url": "https://www.gstatic.com/wcm/loader.js",
+      "bytes": 3038,
+      "dnsTime": 16.514,
+      "sslTime": 140.495,
+      "requestTime": 180.077
+    },
+    {
+      "url": "https://js.stripe.com/v3/fingerprinted/js/m-outer-8cb24ab2d649fd36a488d04d8c457933.js",
+      "bytes": 631,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.007
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/ajs-destination.bundle.2cd9e450202b69d545a3.js",
+      "bytes": 9229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.895000000000001
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/triggerRunner.js?v=c317b78",
+      "bytes": 10665,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.942
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/widget-api.3002a0565a8f6b8d93ad.js",
+      "bytes": 27987,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.785
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/schemaFilter.bundle.d0fc84c62e956d168cce.js",
+      "bytes": 1595,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.125
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/widget.js?v=2085405",
+      "bytes": 189354,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.424
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/core.js",
+      "bytes": 646,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.165000000000003
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/widget-main.36a9f4a8dc498cba6134.js",
+      "bytes": 354925,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.091
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/actions/fullstory/3c8a0b7f8a55c5822f32.js",
+      "bytes": 178664,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.694000000000003
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/core-api.1cddbf3c9275b38a59b9.js",
+      "bytes": 21570,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.713
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/actions/688.js",
+      "bytes": 23313,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 109.83500000000001
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/core-main.ab9a627575f108b8631f.js",
+      "bytes": 97533,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.292
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/google-analytics/2.18.5/google-analytics.dynamic.js.gz",
+      "bytes": 15942,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.759
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/bing-ads/2.0.1/bing-ads.dynamic.js.gz",
+      "bytes": 2397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.265
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/facebook-pixel/2.11.5/facebook-pixel.dynamic.js.gz",
+      "bytes": 10441,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.35600000000001
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/twitter-ads/2.5.2/twitter-ads.dynamic.js.gz",
+      "bytes": 5530,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.439
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/linkedin-insight-tag/1.0.1/linkedin-insight-tag.dynamic.js.gz",
+      "bytes": 2207,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.332
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/visual-tagger/0.3.5/visual-tagger.dynamic.js.gz",
+      "bytes": 46438,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 87.38499999999999
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/google-adwords-new/1.2.1/google-adwords-new.dynamic.js.gz",
+      "bytes": 4040,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 84.96199999999999
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/amplitude/3.3.3/amplitude.dynamic.js.gz",
+      "bytes": 9305,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 83.661
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/adroll/2.2.1/adroll.dynamic.js.gz",
+      "bytes": 3716,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 82.935
+    },
+    {
+      "url": "https://edge.fullstory.com/s/fs.js",
+      "bytes": 271304,
+      "dnsTime": 1.284,
+      "sslTime": 46.446,
+      "requestTime": 72.529
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/vendor/commons.c42222c4cb2f8913500f.js.gz",
+      "bytes": 74937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.851999999999999
+    },
+    {
+      "url": "https://www.gstatic.com/call-tracking/call-tracking_7.js",
+      "bytes": 55675,
+      "dnsTime": 0.008,
+      "sslTime": 25.18,
+      "requestTime": 41.594
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/6.6.0/otBannerSdk.js",
+      "bytes": 345623,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.168
+    },
+    {
+      "url": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+      "bytes": 13352,
+      "dnsTime": 7.915,
+      "sslTime": 55.749,
+      "requestTime": 79.16099999999999
+    },
+    {
+      "url": "https://cdn.amplitude.com/libs/amplitude-5.2.2-min.gz.js",
+      "bytes": 55079,
+      "dnsTime": 2.142,
+      "sslTime": 27.056,
+      "requestTime": 52.551
+    },
+    {
+      "url": "https://s.adroll.com/j/roundtrip.js",
+      "bytes": 57886,
+      "dnsTime": 11.683,
+      "sslTime": 13.625,
+      "requestTime": 64.339
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 1.695,
+      "sslTime": 48.103,
+      "requestTime": 60.655
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 13.01,
+      "sslTime": 14.78,
+      "requestTime": 41.766000000000005
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/949056333/?random=1675123814490&cv=11&fst=1675123814490&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.hellotech.com%2F&tiba=HelloTech%3A%20Home%20%26%20Business%20Tech%20Support%2C%20Smart%20Home%20Set%20Up%2C%20Installations%2C%20and%20IT%20Services%20Near%20You&auid=545374964.1675123814&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1557,
+      "dnsTime": 0.007,
+      "sslTime": 27.964,
+      "requestTime": 78.37599999999999
+    },
+    {
+      "url": "https://m.stripe.network/out-4.5.42.js",
+      "bytes": 88253,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.681999999999999
+    },
+    {
+      "url": "https://cdn.cookielaw.org/consent/f02dfd36-0216-4d2d-b98d-13020b8e3a4a/b5753930-6b5d-4dd3-af81-d2ea1b976a34/en.json",
+      "bytes": 50510,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.237
+    },
+    {
+      "url": "https://s.adroll.com/j/pre/O5YGWWLE6RGJJB7P5WWXG7/XOIU7MKIKFGP7CIQ25POFC/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 91.145
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/linkid.js",
+      "bytes": 1569,
+      "dnsTime": 0.007,
+      "sslTime": 92.196,
+      "requestTime": 99.542
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.226
+    },
+    {
+      "url": "https://s.adroll.com/j/pre/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 82.923
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/O5YGWWLE6RGJJB7P5WWXG7?pv=71831515246.0996&arrfrr=https%3A%2F%2Fwww.hellotech.com%2F&_s=7c1da11b13316dc19ba5eac0ee67131e&_b=2",
+      "bytes": 468,
+      "dnsTime": 82.276,
+      "sslTime": 33.053,
+      "requestTime": 141.188
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/sentry.3711fb1815817a67a24a.js",
+      "bytes": 64994,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.878
+    },
+    {
+      "url": "https://cdn.kustomerapp.com/chat-web/release-v0.1.342/sentry.3711fb1815817a67a24a.js",
+      "bytes": 64994,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.65
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=1243946&time=1675123815133&url=https%3A%2F%2Fwww.hellotech.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 434.296
+    },
+    {
+      "url": "https://s.adroll.com/pixel/O5YGWWLE6RGJJB7P5WWXG7/XOIU7MKIKFGP7CIQ25POFC/OI2YN4KLC5EELNF5KVRWVY.js",
+      "bytes": 3020,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 427.087
+    },
+    {
+      "url": "https://shop.pe/widget/main/init/params?siteid=62d84c73760d2104cea98e11&product=HelloTech&product_url=https%3A%2F%2Fwww.hellotech.com&image=https%3A%2F%2Fcdn.hellotech.com%2FHT-sharing-logo.png&price=&currency=undefined&rating=0&rating_count=0&review_count=0&stock_status=&description=&update_product=true&subcategory=&url=https%3A%2F%2Fwww.hellotech.com%2F&callback=AddShoppersWidget.load_widget&no_cookie_callback=AddShoppersWidget.load_no_cookie&rand=98537&cookie=&referer=",
+      "bytes": 260,
+      "dnsTime": 0.037,
+      "sslTime": 10.951,
+      "requestTime": 62.668
+    },
+    {
+      "url": "https://shop.pe/widget/main/init/params?siteid=62d84c73760d2104cea98e11&product=HelloTech&product_url=https%3A%2F%2Fwww.hellotech.com&image=https%3A%2F%2Fcdn.hellotech.com%2FHT-sharing-logo.png&price=&currency=undefined&rating=0&rating_count=0&review_count=0&stock_status=&description=&update_product=true&subcategory=&url=https%3A%2F%2Fwww.hellotech.com%2F&callback=AddShoppersWidget.load_widget&rand=42183&cookie=2%7C1%3A0%7C10%3A1675123816%7C15%3Aaddshoppers.com%7C44%3AZTVhZWVkMDIzMWI4NDcyMjhkMWI1OGVmMzliYzBiMjY%3D%7C3119e3f4a2e28ee542d7763eec68a55944bcd0ba69ca815db8475ed1fc572215&referer=",
+      "bytes": 1006,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 248.96999999999997
+    },
+    {
+      "url": "https://addshoppers.s3.amazonaws.com/customize/62d84c73760d2104cea98e11/457d17e733874ad7808bc709e1d7e96b.js?_t=1666799368",
+      "bytes": 8145,
+      "dnsTime": 11.22,
+      "sslTime": 84.894,
+      "requestTime": 424.616
+    },
+    {
+      "url": "https://shopper.shop.pe/input.js",
+      "bytes": 26560,
+      "dnsTime": 2.244,
+      "sslTime": 17.061,
+      "requestTime": 30.871
+    }
+  ],
+  "numJsRequests": 65,
+  "numThirdPartyJsRequests": 61,
+  "numFirstPartyJsRequests": 4,
+  "numUnique3pHosts": 25,
+  "totalJsBytes": 7845597,
+  "totalDnsTime": 684.1389999999999,
+  "totalSslTime": 1389.8659999999995,
+  "totalTime": 7992.119000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1010.242,
+  "totalFirstPartyJsBytes": 4098612,
+  "totalThirdPartyDnsTime": 684.1389999999999,
+  "totalThirdPartySslTime": 1389.8659999999995,
+  "totalThirdPartyTime": 6981.877,
+  "totalThirdPartyJsBytes": 3746985,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 29.705550527458435,
+  "percentOfJsRequestTimeIs3p": 87.35952254965173,
+  "percentOfJsIs3p": 47.75908066651907
+}

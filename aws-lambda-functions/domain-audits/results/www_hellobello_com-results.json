@@ -1,0 +1,290 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.0618503333333336,
+    "withoutTags": 0.5081763333333333,
+    "difference": 1.5536740000000002,
+    "cutMetricPercentage": 0.753533840396757,
+    "percentFasterWithoutTags": "132.7080412836498%"
+  },
+  "TaskDuration": {
+    "withTags": 4.445526,
+    "withoutTags": 2.0997953333333332,
+    "difference": 2.345730666666667,
+    "cutMetricPercentage": 0.5276609936971838,
+    "percentFasterWithoutTags": "189.51561929815185%"
+  },
+  "DOMComplete": {
+    "withTags": 6808.333333333333,
+    "withoutTags": 1880,
+    "difference": 4928.333333333333,
+    "cutMetricPercentage": 0.7238678090575276,
+    "percentFasterWithoutTags": "138.14677037538047%"
+  },
+  "DOMInteractive": {
+    "withTags": 1829,
+    "withoutTags": 1083.6666666666667,
+    "difference": 745.3333333333333,
+    "cutMetricPercentage": 0.4075086568252232,
+    "percentFasterWithoutTags": "245.39355992844366%"
+  },
+  "DOMLoading": {
+    "withTags": 410.6666666666667,
+    "withoutTags": 531.6666666666666,
+    "difference": -120.99999999999994,
+    "cutMetricPercentage": -0.294642857142857,
+    "percentFasterWithoutTags": "-339.3939393939396%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 910.9000000009934,
+    "withoutTags": 1033.9333333348234,
+    "difference": -123.03333333383,
+    "cutMetricPercentage": -0.1350678815827158,
+    "percentFasterWithoutTags": "-740.3684638287588%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=GTM-5Z4J9R9",
+      "bytes": 167277,
+      "dnsTime": 43.548,
+      "sslTime": 26.627,
+      "requestTime": 115.01500000000001
+    },
+    {
+      "url": "https://cookie-cdn.cookiepro.com/scripttemplates/otSDKStub.js",
+      "bytes": 24743,
+      "dnsTime": 42.78,
+      "sslTime": 20.074,
+      "requestTime": 88.74600000000001
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+      "bytes": 86927,
+      "dnsTime": 38.167,
+      "sslTime": 17.73,
+      "requestTime": 75.583
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.5.0/dist/lazyload.min.js",
+      "bytes": 8292,
+      "dnsTime": 0.97,
+      "sslTime": 17.14,
+      "requestTime": 37.793000000000006
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
+      "bytes": 42863,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 328.365
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-N3KJ5ZZ",
+      "bytes": 308574,
+      "dnsTime": 2.543,
+      "sslTime": 36.99,
+      "requestTime": 136.97500000000002
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.8.1/lottie.min.js",
+      "bytes": 270857,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.492
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1218851.js?sv=6",
+      "bytes": 8693,
+      "dnsTime": 4.584,
+      "sslTime": 107.761,
+      "requestTime": 238.584
+    },
+    {
+      "url": "https://unpkg.com/aos@3.0.0-beta.6/dist/aos.js",
+      "bytes": 13800,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 186.43
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-0",
+      "bytes": 178092,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 116.28399999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-0&l=dataLayer&cx=c",
+      "bytes": 178113,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 110.953
+    },
+    {
+      "url": "https://cookie-cdn.cookiepro.com/scripttemplates/6.3.0/otBannerSdk.js",
+      "bytes": 328061,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.775
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/destination?id=AW-766165765&l=dataLayer&cx=c",
+      "bytes": 181847,
+      "dnsTime": 0.007,
+      "sslTime": 112.517,
+      "requestTime": 271.867
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.265,
+      "sslTime": 19.36,
+      "requestTime": 58.487
+    },
+    {
+      "url": "https://cactusmedia.com/js/p-07302020.js",
+      "bytes": 918,
+      "dnsTime": 0.419,
+      "sslTime": 17.063,
+      "requestTime": 129.184
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/ab847dee-31cc-4ece-80a0-49c952a9185b-latest.js",
+      "bytes": 6952,
+      "dnsTime": 2.939,
+      "sslTime": 184.714,
+      "requestTime": 228.64499999999998
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 5.23,
+      "sslTime": 21.195,
+      "requestTime": 166.79999999999998
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C7BL3U2GCKHAS5EFKNCG&lib=ttq",
+      "bytes": 2873,
+      "dnsTime": 16.847,
+      "sslTime": 11.039,
+      "requestTime": 124.083
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-HL1TFV8SYW&l=dataLayer&cx=c",
+      "bytes": 220777,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 180.442
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-F40T65DT9M&l=dataLayer&cx=c",
+      "bytes": 240633,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 179.414
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/gh/snowplow/sp-js-assets@2.5.1/sp.js",
+      "bytes": 68319,
+      "dnsTime": 0.006,
+      "sslTime": 17.867,
+      "requestTime": 34.442
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/widget_async.js#5fe0f685bbddbd600dda161a",
+      "bytes": 2096,
+      "dnsTime": 6.338,
+      "sslTime": 44.286,
+      "requestTime": 63.701
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/triggerRunner.js?v=c317b78",
+      "bytes": 10665,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.07000000000001
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 195.149
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/9ab7b9a5-b004-44e3-9658-152c485906e3.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 189.064
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
+      "bytes": 258696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 127.27700000000002
+    },
+    {
+      "url": "https://d3rr3d0n31t48m.cloudfront.net/widget/widget.js?v=2085405",
+      "bytes": 189354,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.795
+    },
+    {
+      "url": "https://acdn.adnxs.com/dmp/up/pixie.js",
+      "bytes": 9139,
+      "dnsTime": 10.694,
+      "sslTime": 23.34,
+      "requestTime": 53.161
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/ab847dee-31cc-4ece-80a0-49c952a9185b-additional-latest.js",
+      "bytes": 9824,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.576
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tracker-latest.min.js",
+      "bytes": 9726,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.137
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 80.101
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/hellobello.attn.tv.js",
+      "bytes": 45085,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.42
+    }
+  ],
+  "numJsRequests": 32,
+  "numThirdPartyJsRequests": 32,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 16,
+  "totalJsBytes": 3150835,
+  "totalDnsTime": 176.337,
+  "totalSslTime": 677.7030000000001,
+  "totalTime": 3761.810000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 176.337,
+  "totalThirdPartySslTime": 677.7030000000001,
+  "totalThirdPartyTime": 3761.810000000001,
+  "totalThirdPartyJsBytes": 3150835,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 22.70290099712638,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

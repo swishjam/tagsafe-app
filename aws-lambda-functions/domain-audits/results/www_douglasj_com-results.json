@@ -1,0 +1,129 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.31465933333333335,
+    "withoutTags": 0.08086133333333334,
+    "difference": 0.233798,
+    "cutMetricPercentage": 0.743019434774963,
+    "percentFasterWithoutTags": "134.5859816308665%"
+  },
+  "TaskDuration": {
+    "withTags": 0.5000450000000001,
+    "withoutTags": 0.236568,
+    "difference": 0.2634770000000001,
+    "cutMetricPercentage": 0.5269065784079433,
+    "percentFasterWithoutTags": "189.786964327057%"
+  },
+  "DOMComplete": {
+    "withTags": -1116735292487,
+    "withoutTags": -1116735291159.6667,
+    "difference": -1327.333251953125,
+    "cutMetricPercentage": 1.1885835979958309e-9,
+    "percentFasterWithoutTags": "84133753964.48198%"
+  },
+  "DOMInteractive": {
+    "withTags": 1944.3333333333333,
+    "withoutTags": 1598.3333333333333,
+    "difference": 346,
+    "cutMetricPercentage": 0.17795302588719356,
+    "percentFasterWithoutTags": "561.946050096339%"
+  },
+  "DOMLoading": {
+    "withTags": 1135,
+    "withoutTags": 1184.3333333333333,
+    "difference": -49.33333333333326,
+    "cutMetricPercentage": -0.04346549192364164,
+    "percentFasterWithoutTags": "-2300.6756756756795%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1566.7333333343267,
+    "withoutTags": 1634.7666666631897,
+    "difference": -68.03333332886291,
+    "cutMetricPercentage": -0.04342368409566812,
+    "percentFasterWithoutTags": "-2302.8907399861964%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://douglasj.com/wp-includes/js/jquery/jquery.min.js?ver=3.6.1",
+      "bytes": 89684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 390.187
+    },
+    {
+      "url": "https://douglasj.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2",
+      "bytes": 11224,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 390.121
+    },
+    {
+      "url": "https://douglasj.com/wp-content/plugins/real-time-validation-for-gravity-forms/public/assets/js/livevalidation_standalone.js?ver=1.7.0",
+      "bytes": 65927,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 457.847
+    },
+    {
+      "url": "https://douglasj.com/wp-content/plugins/real-time-validation-for-gravity-forms/public/assets/js/public.js?ver=1.7.0",
+      "bytes": 4338,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 457.452
+    },
+    {
+      "url": "https://douglasj.com/wp-content/plugins/real-time-validation-for-gravity-forms/public/assets/js/default_validation.js?ver=1.7.0",
+      "bytes": 3127,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 457.549
+    },
+    {
+      "url": "https://douglasj.com/wp-content/themes/douglas-j-salon-2019/assets/js/all.scripts.js?ver=6.1.1",
+      "bytes": 135213,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 459.12200000000007
+    },
+    {
+      "url": "https://douglasj.com/wp-content/themes/douglas-j-salon-2019/assets/js/local.js?ver=6.1.1",
+      "bytes": 2930,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 308.16200000000003
+    },
+    {
+      "url": "https://douglasj.com/wp-content/plugins/page-links-to/dist/new-tab.js?ver=3.3.6",
+      "bytes": 24734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 305.06500000000005
+    },
+    {
+      "url": "https://douglasj.com/wp-includes/js/wp-emoji-release.min.js?ver=6.1.1",
+      "bytes": 18617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 299.03999999999996
+    }
+  ],
+  "numJsRequests": 9,
+  "numThirdPartyJsRequests": 9,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 1,
+  "totalJsBytes": 355794,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 3524.5450000000005,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 3524.5450000000005,
+  "totalThirdPartyJsBytes": 355794,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 0,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

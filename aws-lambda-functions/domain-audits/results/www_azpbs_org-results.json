@@ -1,0 +1,227 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.6730110000000001,
+    "withoutTags": 0.09742933333333333,
+    "difference": 0.5755816666666668,
+    "cutMetricPercentage": 0.8552336687909509,
+    "percentFasterWithoutTags": "116.9271085192081%"
+  },
+  "TaskDuration": {
+    "withTags": 1.64105,
+    "withoutTags": 0.5708026666666667,
+    "difference": 1.070247333333333,
+    "cutMetricPercentage": 0.6521722880675989,
+    "percentFasterWithoutTags": "153.33371538416978%"
+  },
+  "DOMComplete": {
+    "withTags": -558367535885.6666,
+    "withoutTags": -558367540218,
+    "difference": 4332.3333740234375,
+    "cutMetricPercentage": -7.75892775920723e-9,
+    "percentFasterWithoutTags": "-12888378794.522703%"
+  },
+  "DOMInteractive": {
+    "withTags": 3563.3333333333335,
+    "withoutTags": 3154,
+    "difference": 409.3333333333335,
+    "cutMetricPercentage": 0.11487371375116935,
+    "percentFasterWithoutTags": "870.5211726384363%"
+  },
+  "DOMLoading": {
+    "withTags": 2059.6666666666665,
+    "withoutTags": 1999,
+    "difference": 60.666666666666515,
+    "cutMetricPercentage": 0.029454604304903636,
+    "percentFasterWithoutTags": "3395.054945054953%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2720.03333333383,
+    "withoutTags": 2746.3333333333335,
+    "difference": -26.299999999503598,
+    "cutMetricPercentage": -0.009668999154237863,
+    "percentFasterWithoutTags": "-10342.332066103307%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://code.jquery.com/jquery-3.6.0.slim.min.js",
+      "bytes": 72372,
+      "dnsTime": 29.691,
+      "sslTime": 69.424,
+      "requestTime": 114.96900000000001
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js",
+      "bytes": 21257,
+      "dnsTime": 45.183,
+      "sslTime": 44.792,
+      "requestTime": 112.337
+    },
+    {
+      "url": "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js",
+      "bytes": 60010,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 529.1840000000001
+    },
+    {
+      "url": "https://cdn.broadstreetads.com/init-2.min.js",
+      "bytes": 13331,
+      "dnsTime": 20.811,
+      "sslTime": 72.679,
+      "requestTime": 119.90800000000002
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js",
+      "bytes": 63533,
+      "dnsTime": 18.15,
+      "sslTime": 63.442,
+      "requestTime": 112.64600000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KTSLR6S",
+      "bytes": 127670,
+      "dnsTime": 4.247,
+      "sslTime": 30.279,
+      "requestTime": 151.111
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1912317.js?sv=6",
+      "bytes": 8482,
+      "dnsTime": 13.132,
+      "sslTime": 106.651,
+      "requestTime": 155.547
+    },
+    {
+      "url": "https://ad.broadstreetads.com/ndisplay/5051.js",
+      "bytes": 0,
+      "dnsTime": 0.008,
+      "sslTime": 601.801,
+      "requestTime": 931.3640000000001
+    },
+    {
+      "url": "https://azpbs.org/wp-includes/js/twemoji.js",
+      "bytes": 32400,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 273.329
+    },
+    {
+      "url": "https://azpbs.org/wp-includes/js/wp-emoji.js",
+      "bytes": 8989,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 273.322
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=GTM-WXVMSZV",
+      "bytes": 117389,
+      "dnsTime": 0.993,
+      "sslTime": 44.827,
+      "requestTime": 125.328
+    },
+    {
+      "url": "https://ad.broadstreetads.com/zdisplay/59338.js?b=&kw=home&skw=true&ts=1675102625232&uid=random-lSh23gl0Ar6S36dw&domain=azpbs.org&path=%2F&url=https%3A%2F%2Fazpbs.org%2F&os=Mac+OS&browser=chrome&is_mobile=&target=street-ajxnFyVBoYFGmUNl",
+      "bytes": 23544,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 222.389
+    },
+    {
+      "url": "https://azpbs.org/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+      "bytes": 1239,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.087
+    },
+    {
+      "url": "https://azpbs.org/wp-content/themes/pbs-site-2021/js/navigation.js",
+      "bytes": 2964,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.407
+    },
+    {
+      "url": "https://azpbs.org/wp-content/themes/pbs-site-2021/js/skip-link-focus-fix.js",
+      "bytes": 706,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.781
+    },
+    {
+      "url": "https://stats.wp.com/e-202305.js",
+      "bytes": 8970,
+      "dnsTime": 3.141,
+      "sslTime": 18.978,
+      "requestTime": 33.938
+    },
+    {
+      "url": "https://ad.broadstreetads.com/zdisplay/59339.js?b=c492491,c101505,c345447,c306972,c292349,c492296,c364891,c315951,c502109,c101505,c473334&kw=home&skw=true&ts=1675102625232&uid=random-lSh23gl0Ar6S36dw&domain=azpbs.org&path=%2F&url=https%3A%2F%2Fazpbs.org%2F&os=Mac+OS&browser=chrome&is_mobile=&target=street-qXOu0E5CVTQxmHax",
+      "bytes": 20005,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 372.622
+    },
+    {
+      "url": "https://vjs.zencdn.net/7.20.2/video.min.js",
+      "bytes": 582518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1333.3419999999999
+    },
+    {
+      "url": "https://src.litix.io/videojs/4/videojs-mux.js",
+      "bytes": 97519,
+      "dnsTime": 1943.254,
+      "sslTime": 14.233,
+      "requestTime": 1974.6009999999997
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-QCNNW9XL0J",
+      "bytes": 227938,
+      "dnsTime": 0.01,
+      "sslTime": 112.358,
+      "requestTime": 244.555
+    },
+    {
+      "url": "https://urs.pbs.org/redirect/451ae9b030194d0b80d0af5b79c6023d/?format=jsonp&callback=__jp0",
+      "bytes": 232,
+      "dnsTime": 56.348,
+      "sslTime": 239.165,
+      "requestTime": 386.57
+    },
+    {
+      "url": "https://urs.pbs.org/redirect/638b5e9b710e4404a8065a0e7a0a516d/?format=jsonp&callback=__jp1",
+      "bytes": 231,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 468.566
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=video.azpbs.org",
+      "bytes": 107,
+      "dnsTime": 0.774,
+      "sslTime": 31.597,
+      "requestTime": 61.275
+    }
+  ],
+  "numJsRequests": 23,
+  "numThirdPartyJsRequests": 23,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 15,
+  "totalJsBytes": 1491406,
+  "totalDnsTime": 2135.7419999999997,
+  "totalSslTime": 1450.2259999999999,
+  "totalTime": 8068.178,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 2135.7419999999997,
+  "totalThirdPartySslTime": 1450.2259999999999,
+  "totalThirdPartyTime": 8068.178,
+  "totalThirdPartyJsBytes": 1491406,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 44.445821596895854,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

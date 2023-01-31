@@ -1,0 +1,73 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.01997233333333333,
+    "withoutTags": 0.015094000000000002,
+    "difference": 0.00487833333333333,
+    "cutMetricPercentage": 0.24425455213044697,
+    "percentFasterWithoutTags": "409.40895114451683%"
+  },
+  "TaskDuration": {
+    "withTags": 0.10062533333333334,
+    "withoutTags": 0.09512366666666668,
+    "difference": 0.005501666666666669,
+    "cutMetricPercentage": 0.054674767122924656,
+    "percentFasterWithoutTags": "1828.9972735534682%"
+  },
+  "DOMComplete": {
+    "withTags": 684,
+    "withoutTags": 655,
+    "difference": 29,
+    "cutMetricPercentage": 0.04239766081871345,
+    "percentFasterWithoutTags": "2358.620689655172%"
+  },
+  "DOMInteractive": {
+    "withTags": 661.6666666666666,
+    "withoutTags": 614,
+    "difference": 47.66666666666663,
+    "cutMetricPercentage": 0.07204030226700246,
+    "percentFasterWithoutTags": "1388.1118881118891%"
+  },
+  "DOMLoading": {
+    "withTags": 390,
+    "withoutTags": 356.3333333333333,
+    "difference": 33.666666666666686,
+    "cutMetricPercentage": 0.08632478632478638,
+    "percentFasterWithoutTags": "1158.4158415841578%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 681.46666666617,
+    "withoutTags": 636.2999999995033,
+    "difference": 45.16666666666674,
+    "cutMetricPercentage": 0.06627861475254304,
+    "percentFasterWithoutTags": "1508.782287821776%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "http://i3.cdn-image.com/__media__/js/min.js?v2.3",
+      "bytes": 8435,
+      "dnsTime": 2.331,
+      "sslTime": 0,
+      "requestTime": 12.546
+    }
+  ],
+  "numJsRequests": 3,
+  "numThirdPartyJsRequests": 1,
+  "numFirstPartyJsRequests": 2,
+  "numUnique3pHosts": 1,
+  "totalJsBytes": 9127,
+  "totalDnsTime": 2.343,
+  "totalSslTime": 0,
+  "totalTime": 272.794,
+  "totalFirstPartyDnsTime": 0.012,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 260.248,
+  "totalFirstPartyJsBytes": 692,
+  "totalThirdPartyDnsTime": 2.331,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 12.546,
+  "totalThirdPartyJsBytes": 8435,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 18.579626972740314,
+  "percentOfJsRequestTimeIs3p": 4.599074759708791,
+  "percentOfJsIs3p": 92.41810014243454
+}

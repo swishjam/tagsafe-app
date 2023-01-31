@@ -1,0 +1,65 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.004117666666666666,
+    "withoutTags": 0.004749,
+    "difference": -0.0006313333333333336,
+    "cutMetricPercentage": 1.1533230794139075,
+    "percentFasterWithoutTags": "-652.2175290390704%"
+  },
+  "TaskDuration": {
+    "withTags": 0.020897666666666665,
+    "withoutTags": 0.024311,
+    "difference": -0.003413333333333334,
+    "cutMetricPercentage": 1.1633356196066547,
+    "percentFasterWithoutTags": "-612.2363281249999%"
+  },
+  "DOMComplete": {
+    "withTags": -1674690953928.3333,
+    "withoutTags": -1674690953901,
+    "difference": -27.333251953125,
+    "cutMetricPercentage": 0.9999999999836786,
+    "percentFasterWithoutTags": "6126936366006.996%"
+  },
+  "DOMInteractive": {
+    "withTags": 290.3333333333333,
+    "withoutTags": 311,
+    "difference": -20.666666666666686,
+    "cutMetricPercentage": 1.0711825487944893,
+    "percentFasterWithoutTags": "-1404.838709677418%"
+  },
+  "DOMLoading": {
+    "withTags": 278.3333333333333,
+    "withoutTags": 298.3333333333333,
+    "difference": -20,
+    "cutMetricPercentage": 1.0718562874251496,
+    "percentFasterWithoutTags": "-1391.6666666666665%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": null,
+    "withoutTags": null,
+    "difference": null,
+    "cutMetricPercentage": null,
+    "percentFasterWithoutTags": "NaN%"
+  },
+  "thirdPartyJsRequests": [],
+  "numJsRequests": 1,
+  "numThirdPartyJsRequests": 0,
+  "numFirstPartyJsRequests": 1,
+  "numUnique3pHosts": 0,
+  "totalJsBytes": 114178,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 220.269,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 220.269,
+  "totalFirstPartyJsBytes": 114178,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 0,
+  "totalThirdPartyJsBytes": 0,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": null,
+  "percentOfJsRequestTimeIs3p": 0,
+  "percentOfJsIs3p": 0
+}

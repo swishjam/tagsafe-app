@@ -1,0 +1,290 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 3.553704666666667,
+    "withoutTags": 2.0321053333333334,
+    "difference": 1.5215993333333335,
+    "cutMetricPercentage": 0.571827296847215,
+    "percentFasterWithoutTags": "233.55061932641928%"
+  },
+  "TaskDuration": {
+    "withTags": 6.274634666666667,
+    "withoutTags": 4.091537,
+    "difference": 2.183097666666667,
+    "cutMetricPercentage": 0.6520757330679119,
+    "percentFasterWithoutTags": "287.4188710140163%"
+  },
+  "DOMComplete": {
+    "withTags": 5617,
+    "withoutTags": 5324,
+    "difference": 293,
+    "cutMetricPercentage": 0.9478369236247107,
+    "percentFasterWithoutTags": "1917.0648464163821%"
+  },
+  "DOMInteractive": {
+    "withTags": 2849,
+    "withoutTags": 2901.6666666666665,
+    "difference": -52.666666666666515,
+    "cutMetricPercentage": 1.0184860184860185,
+    "percentFasterWithoutTags": "-5409.493670886091%"
+  },
+  "DOMLoading": {
+    "withTags": 2324.6666666666665,
+    "withoutTags": 2299,
+    "difference": 25.666666666666515,
+    "cutMetricPercentage": 0.9889589905362777,
+    "percentFasterWithoutTags": "9057.14285714291%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2906.9999999975166,
+    "withoutTags": 3121,
+    "difference": -214.00000000248338,
+    "cutMetricPercentage": 1.0736154110776286,
+    "percentFasterWithoutTags": "-1358.4112149363468%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://zn6rkmz1jbztqk16d-uafieldtesting.siteintercept.qualtrics.com/SIE/?Q_ZID=ZN_6rKmZ1JbzTqk16d",
+      "bytes": 7302,
+      "dnsTime": 2.205,
+      "sslTime": 42.697,
+      "requestTime": 75.452
+    },
+    {
+      "url": "https://cdn.evgnet.com/beacon/underarmour/engage/scripts/evergage.min.js",
+      "bytes": 205229,
+      "dnsTime": 2.74,
+      "sslTime": 15.411,
+      "requestTime": 39.346000000000004
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-5835131",
+      "bytes": 113556,
+      "dnsTime": 1.115,
+      "sslTime": 54.62,
+      "requestTime": 100.108
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 7.254,
+      "sslTime": 37.804,
+      "requestTime": 78.805
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 4.613,
+      "sslTime": 18.489,
+      "requestTime": 46.598000000000006
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 2.675,
+      "sslTime": 24.942,
+      "requestTime": 77.164
+    },
+    {
+      "url": "https://tag.mtrcs.samba.tv/v3/tag/digitas/underarmour-homepage/sambaTag.js",
+      "bytes": 2916,
+      "dnsTime": 4.685,
+      "sslTime": 20.013,
+      "requestTime": 42.60300000000001
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 2.866,
+      "sslTime": 15.568,
+      "requestTime": 28.435999999999996
+    },
+    {
+      "url": "https://7290999.collect.igodigital.com/collect.js",
+      "bytes": 8440,
+      "dnsTime": 3.061,
+      "sslTime": 87.709,
+      "requestTime": 176.15500000000003
+    },
+    {
+      "url": "https://518000498.collect.igodigital.com/collect.js",
+      "bytes": 8440,
+      "dnsTime": 2.979,
+      "sslTime": 91.085,
+      "requestTime": 179.578
+    },
+    {
+      "url": "https://www.bluecore.com/triggermail.js/underarmour.js",
+      "bytes": 82070,
+      "dnsTime": 1.388,
+      "sslTime": 38.186,
+      "requestTime": 87.50500000000001
+    },
+    {
+      "url": "https://www.dwin1.com/15431.js",
+      "bytes": 35236,
+      "dnsTime": 1.614,
+      "sslTime": 12.894,
+      "requestTime": 25.079
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-619920358",
+      "bytes": 131455,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 131.16
+    },
+    {
+      "url": "https://c.tvpixel.com/js/current/dpm_pixel_min.js?aid=under-armour-0c313f28-4a96-40fe-b45c-b5ca3ae60a68&comscore=true",
+      "bytes": 105110,
+      "dnsTime": 5.105,
+      "sslTime": 15.015,
+      "requestTime": 42.622
+    },
+    {
+      "url": "https://login.dotomi.com/profile/visit/js/1_0?dtm_cid=80861&dtm_cmagic=23001e&dtm_fid=101&dtm_promo_id=1&cachebuster=1674690554010",
+      "bytes": 24128,
+      "dnsTime": 6.763,
+      "sslTime": 14.999,
+      "requestTime": 37.406000000000006
+    },
+    {
+      "url": "https://cdn-us.algoliaradar.com/radar.js?appId=TVHBQCC6U2",
+      "bytes": 19096,
+      "dnsTime": 1.435,
+      "sslTime": 14.493,
+      "requestTime": 50.27499999999999
+    },
+    {
+      "url": "https://cnstrc.com/js/cust/under-armour_8a88lZ.js",
+      "bytes": 330514,
+      "dnsTime": 3.077,
+      "sslTime": 11.425,
+      "requestTime": 34.33
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 3.58,
+      "sslTime": 17.031,
+      "requestTime": 35.916999999999994
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C0MMHH4P76SVVJ0VAHFG&lib=ttq",
+      "bytes": 2828,
+      "dnsTime": 2.513,
+      "sslTime": 12.136,
+      "requestTime": 110.66899999999998
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.underarmour.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.240000000000002
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/3d736d43-566f-436d-b000-952ca2e4cdc8.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.022
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.793000000000001
+    },
+    {
+      "url": "https://login-ds.dotomi.com/profile/visit/final/js?dtm_user_agent=Mozilla%2F5.0%20(Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20HeadlessChrome%2F105.0.5173.0%20Safari%2F537.36&dtm_country_code=US&init_wl_code=1&dtm_form_uid=633006887506020624&dtm_dma_code=807&dtm_cmagic=23001e&cachebuster=1674690554010&tcflag=true&dtm_cid=80861&dtm_fid=101&dtm_user_ip=157.131.221.95&dtm_use_flash_cookies=false&tp_user_assignment_type=0&wl_domains_key=&dtm_zip_code=94107&dtm_promo_id=1&dtm_cookies_enabled=true&fp_assignment_type=-1&dtm_user_dc=sjc&dtm_current_dc=&dtm_id_assgn_type=0&dtm_state=CA&dtm_consent=true&dtmc_department=home&data_object_type_code=1&canonical_url=https%3A%2F%2Fwww.underarmour.com%2Fen-us%2F&dtmc_ref=&dtmc_loc=https%3A%2F%2Fwww.underarmour.com%2Fen-us%2F&cli_promo_id=1&dtm_items=%2522%2522&dtmc_coupons=%2522%2522&dtmc_bypass_channel=%2522%2522",
+      "bytes": 19,
+      "dnsTime": 5.976,
+      "sslTime": 17.155,
+      "requestTime": 37.672000000000004
+    },
+    {
+      "url": "https://www.paypalobjects.com/muse/muse.js",
+      "bytes": 55953,
+      "dnsTime": 20.758,
+      "sslTime": 22.35,
+      "requestTime": 51.617000000000004
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-941173670&l=dataLayer&cx=c",
+      "bytes": 187898,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 80.924
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-39057133-1&l=dataLayer&cx=c",
+      "bytes": 112661,
+      "dnsTime": 0,
+      "sslTime": 4.871,
+      "requestTime": 61.248999999999995
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.964
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/CoreModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=uafieldtesting",
+      "bytes": 104596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.897
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.744
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/6.9808af8b656686a98b64.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=uafieldtesting",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.97
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/1.ca40fe67c92ba390e992.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=uafieldtesting",
+      "bytes": 28843,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.229
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/FeedbackButtonModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=uafieldtesting",
+      "bytes": 65510,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.938
+    }
+  ],
+  "numJsRequests": 49,
+  "numThirdPartyJsRequests": 32,
+  "numFirstPartyJsRequests": 17,
+  "numUnique3pHosts": 22,
+  "totalJsBytes": 3607938,
+  "totalDnsTime": 86.40199999999999,
+  "totalSslTime": 588.8929999999999,
+  "totalTime": 3467.4969999999994,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1554.0300000000002,
+  "totalFirstPartyJsBytes": 1347623,
+  "totalThirdPartyDnsTime": 86.40199999999999,
+  "totalThirdPartySslTime": 588.8929999999999,
+  "totalThirdPartyTime": 1913.4669999999999,
+  "totalThirdPartyJsBytes": 2260315,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 35.29169826289139,
+  "percentOfJsRequestTimeIs3p": 55.18294608474067,
+  "percentOfJsIs3p": 62.64838808205684
+}

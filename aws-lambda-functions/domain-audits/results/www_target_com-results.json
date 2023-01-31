@@ -1,0 +1,703 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.3977456666666666,
+    "withoutTags": 0.020886000000000002,
+    "difference": 1.3768596666666666,
+    "cutMetricPercentage": 0.01494263262486714,
+    "percentFasterWithoutTags": "101.51693019307946%"
+  },
+  "TaskDuration": {
+    "withTags": 3.977704333333333,
+    "withoutTags": 0.364578,
+    "difference": 3.613126333333333,
+    "cutMetricPercentage": 0.0916553794470898,
+    "percentFasterWithoutTags": "110.09037510359218%"
+  },
+  "DOMComplete": {
+    "withTags": 3602.6666666666665,
+    "withoutTags": 742.6666666666666,
+    "difference": 2860,
+    "cutMetricPercentage": 0.20614359733530718,
+    "percentFasterWithoutTags": "125.96736596736595%"
+  },
+  "DOMInteractive": {
+    "withTags": 447.6666666666667,
+    "withoutTags": 397,
+    "difference": 50.666666666666686,
+    "cutMetricPercentage": 0.8868205510052122,
+    "percentFasterWithoutTags": "883.5526315789471%"
+  },
+  "DOMLoading": {
+    "withTags": 167.66666666666666,
+    "withoutTags": 181.66666666666666,
+    "difference": -14,
+    "cutMetricPercentage": 1.0834990059642147,
+    "percentFasterWithoutTags": "-1197.6190476190477%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 346.00000000248355,
+    "withoutTags": 359.5,
+    "difference": -13.499999997516454,
+    "cutMetricPercentage": 1.0390173410330046,
+    "percentFasterWithoutTags": "-2562.9629634528583%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://assets.targetimg1.com/ssx/ssx.mod.js?async",
+      "bytes": 981,
+      "dnsTime": 4.073,
+      "sslTime": 28.199,
+      "requestTime": 129.28699999999998
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/9388-f35cb9a53f429a81.js",
+      "bytes": 9996,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.552999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/1533-f502a24636b5be13.js",
+      "bytes": 28299,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.460999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5013-647295b8e47bba2f.js",
+      "bytes": 40116,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.638
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/7840-1ef23c721b807ab8.js",
+      "bytes": 11361,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.481
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/1147-769285103fe6334c.js",
+      "bytes": 9974,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.678
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/1571-d881bfd3d60d9640.js",
+      "bytes": 12583,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.435
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/6509-05d9219457a0d4ef.js",
+      "bytes": 15522,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.887
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/1015-3bfaa5f9510f9f30.js",
+      "bytes": 70890,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.554
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/3706-62b1952db539cb12.js",
+      "bytes": 9974,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.258999999999997
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/721-bd719f852e8550c2.js",
+      "bytes": 12338,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.618000000000002
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2364-bc68c3f2d3fe1455.js",
+      "bytes": 7670,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.897000000000002
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/6258-0b8590a354dd043c.js",
+      "bytes": 18575,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.886000000000001
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/6041-037e0d07687fce4f.js",
+      "bytes": 15589,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.443999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5295-0cfff8bbdfe83e3a.js",
+      "bytes": 7969,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.81
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/1729-6f59c84538a1d8b3.js",
+      "bytes": 19632,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.018
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/8144-0f80335bc3ef1f87.js",
+      "bytes": 13299,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.945
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/3011-4e33f59df62bc37d.js",
+      "bytes": 8855,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.64
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/stof-PageTitleHidden.33d88c7a0883a5ed.js",
+      "bytes": 17337,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.209
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5170.89bd0621481c421f.js",
+      "bytes": 10459,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.616
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/8631.b80a89d8b42931d9.js",
+      "bytes": 9304,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.786999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5496.7690bb68171e84c1.js",
+      "bytes": 7379,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.836
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5314.6f0c166824f84e50.js",
+      "bytes": 12265,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.991999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/6206-a4823f42b9456d11.js",
+      "bytes": 43138,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.180000000000001
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5752.70d1cc1df6fb78fc.js",
+      "bytes": 24760,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.405999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2016.8c186b3bfaf90f17.js",
+      "bytes": 22350,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.998
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-Superhero.2d4b481acf940cf2.js",
+      "bytes": 26815,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.158
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/9627.4de4158f2c6454e9.js",
+      "bytes": 10597,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.191
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-Storyblocks.87785f624e79f944.js",
+      "bytes": 4630,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.277
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/8247.474c325ed91be53e.js",
+      "bytes": 14465,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.363
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/4179.eca32de000baa076.js",
+      "bytes": 43024,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.081000000000003
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-PersonalizationCarousel.88ac6b0352bf379c.js",
+      "bytes": 54730,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.772
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-PubAdContainer.da89c49f791e3ce2.js",
+      "bytes": 11414,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.086
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2146.6f81a37be75f86f7.js",
+      "bytes": 45013,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.281000000000002
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-contentpool.8c8f257d8682195e.js",
+      "bytes": 3691,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.001
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-Banner.5591c171f4380d11.js",
+      "bytes": 6189,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.799
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/slingshot-components-Browse.ee8d1a516df3ade0.js",
+      "bytes": 12316,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.508
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/7829.153aade85cf9fef8.js",
+      "bytes": 8378,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.37
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/connected-components-AddToCart-ToastAddToCartSuccess.5b8f1f192ee63949.js",
+      "bytes": 3300,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.849999999999998
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/AdAddToCartWrapper.0d1cfe546cc14f53.js",
+      "bytes": 15043,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.694000000000003
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/UseGptComponent.2975816d3601774b.js",
+      "bytes": 9622,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.028
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/stof-BaseboardAdWrapper.36329dd23114cd4d.js",
+      "bytes": 12135,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.403000000000002
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/ScheduledDeliveryRateAndTipDrawerDynamic.c7c194ae94f4f1e1.js",
+      "bytes": 20577,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.812
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/webpack-6d3526b33b4dd442.js",
+      "bytes": 19176,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.944000000000003
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/framework-02f33c55339c41bd.js",
+      "bytes": 130209,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.743999999999996
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/main-9886cb8863350f73.js",
+      "bytes": 129513,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.51
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/pages/_app-b7962a688a186a69.js",
+      "bytes": 1025145,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.663000000000004
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/7203-a238d9bb61c7c6b7.js",
+      "bytes": 11915,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.101000000000003
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2565-7a63f28a1b2c268f.js",
+      "bytes": 19174,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.379
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/7136-872111f5313bd43d.js",
+      "bytes": 10389,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.505999999999997
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/7122-61208b36239754fd.js",
+      "bytes": 24013,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.5
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/pages/index-43557193a8ff77c5.js",
+      "bytes": 2899,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.567999999999998
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/CCiCeDF432agwre9N_uyC/_buildManifest.js",
+      "bytes": 3533,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.971999999999998
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/CCiCeDF432agwre9N_uyC/_ssgManifest.js",
+      "bytes": 77,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.118000000000002
+    },
+    {
+      "url": "https://assets.targetimg1.com/ssx/ssx.mod.js?seed=AMBMROuFAQAAhtP_T_vitEekd1IyRhaocuVMQGryIH2e9xuMxvd754T-YLgn&X-GyJwza5Z--z=q",
+      "bytes": 317759,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.992
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/smudge.8be5879d7f23b211.js",
+      "bytes": 33088,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.616999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/murmurhash3js.8eca8676eb5a2980.js",
+      "bytes": 5602,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.488
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/web-firefly-get-tracking-contextual-data.459c457c0ef183c8.js",
+      "bytes": 14425,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.78
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/4455-f114771d982fafb8.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.927
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5409-62a2168d5b14cf85.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.389
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/8291-9621e641745b27e7.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.664
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/pages/c/%5B...subpath%5D-c44a209c1f6142ba.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.42
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2034-d14626c687c3913a.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.75
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5382-ecdda9fd484ad43c.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.155000000000001
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/39-deafa3a0f57826e1.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.59
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/770-59476d92e26730f0.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.701
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/5105-9195165fe95769e4.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.829
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2822-fb9ddcf12634b8e7.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.032
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/pages/pl/%5B...subpath%5D-e984c22b9746f80b.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.645
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.target.com",
+      "bytes": 107,
+      "dnsTime": 0.745,
+      "sslTime": 27.068,
+      "requestTime": 67.859
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/scripts/medallia/embed.prod.20221231-01.js",
+      "bytes": 1081,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.251999999999999
+    },
+    {
+      "url": "https://cdn-usent.kampyle.com/usent/610/onsite/generic1671881595861.js",
+      "bytes": 436764,
+      "dnsTime": 9.549,
+      "sslTime": 10.736,
+      "requestTime": 35.777
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/web-pixelator-marketing-pixels-effect.7f2deb0b9225eb70.js",
+      "bytes": 2757,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.471
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/web-pixelator-script-google-floodlight-add-to-cart-pixel.e16a2596a0b7bce4.js",
+      "bytes": 1984,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.228000000000001
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/web-pixelator-script-google-tag-top-of-funnel-pixel.b74c1c7ccfcd665a.js",
+      "bytes": 3536,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.099000000000001
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/web-pixelator-script-microsoft-bing-top-of-funnel-pixel.c19acc8909525545.js",
+      "bytes": 4156,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.958
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/web-pixelator-script-top-of-funnel-landing-pixel.41ef70747df38725.js",
+      "bytes": 895,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.726
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.517,
+      "sslTime": 16.587,
+      "requestTime": 53.651999999999994
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-2906542",
+      "bytes": 113546,
+      "dnsTime": 0.959,
+      "sslTime": 28.372,
+      "requestTime": 62.347
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1069118966&l=dataLayer&cx=c",
+      "bytes": 175969,
+      "dnsTime": 0.007,
+      "sslTime": 25.904,
+      "requestTime": 91.69200000000001
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dvtp_src.js?t2te=0&seltag=1&adsrv=104&cmp=DV503696&ctx=21728514&sadv=14477366&ord=3118287339&litm=6169965734&scrt=138419589524&splc=/7079046/tgt/homepage&adu=107197886&unit=0x0&dvp_qtpid=&dvp_qtsid=&btreg=6169965734138419589524&btadsrv=6169965734138419589524&spos=clpu&c1=home&c2=&c3=homeclpu&c4=",
+      "bytes": 8039,
+      "dnsTime": 1.2,
+      "sslTime": 15.172,
+      "requestTime": 27.706000000000003
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dvtp_src.js?t2te=0&seltag=1&adsrv=104&cmp=DV503696&ctx=21728514&sadv=27695606&ord=3073520091&litm=6095224485&scrt=138411453452&splc=/7079046/tgt/homepage&adu=107197886&unit=0x0&dvp_qtpid=&dvp_qtsid=&btreg=6095224485138411453452&btadsrv=6095224485138411453452&spos=mega&c1=home&c2=&c3=homemega&c4=",
+      "bytes": 8039,
+      "dnsTime": 0.004,
+      "sslTime": 15.576,
+      "requestTime": 26.945
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dv-measurements3438.js",
+      "bytes": 570622,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.849
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/6166-600ac6bdb833d2b8.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.256
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/4986-7a522e66e2ebb018.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.479999999999999
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/7657-b83fb81eda4cfcc8.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.206
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/3111-2f51e1396e39402f.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.934
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/4516-4d349de3a5b73cb9.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.092
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/2567-2c322c218175bb26.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.746
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/8943-afd3a1b8fdd864f9.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.934
+    },
+    {
+      "url": "https://assets.targetimg1.com/webui/top-of-funnel/_next/static/chunks/pages/p/%5B...subpath%5D-b1bc9bca8f98f624.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.743
+    }
+  ],
+  "numJsRequests": 91,
+  "numThirdPartyJsRequests": 91,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 6,
+  "totalJsBytes": 3876362,
+  "totalDnsTime": 18.054000000000002,
+  "totalSslTime": 167.614,
+  "totalTime": 1873.1249999999998,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 18.054000000000002,
+  "totalThirdPartySslTime": 167.614,
+  "totalThirdPartyTime": 1873.1249999999998,
+  "totalThirdPartyJsBytes": 3876362,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 9.912205538872207,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

@@ -1,0 +1,213 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.909135,
+    "withoutTags": 0.07640033333333333,
+    "difference": 0.8327346666666667,
+    "cutMetricPercentage": 0.9159637090934424,
+    "percentFasterWithoutTags": "109.17463105494987%"
+  },
+  "TaskDuration": {
+    "withTags": 1.5672023333333334,
+    "withoutTags": 0.3138626666666667,
+    "difference": 1.2533396666666667,
+    "cutMetricPercentage": 0.7997306027492302,
+    "percentFasterWithoutTags": "125.0421074999887%"
+  },
+  "DOMComplete": {
+    "withTags": 2955.6666666666665,
+    "withoutTags": 1051,
+    "difference": 1904.6666666666665,
+    "cutMetricPercentage": 0.644411864215631,
+    "percentFasterWithoutTags": "155.18025901295064%"
+  },
+  "DOMInteractive": {
+    "withTags": 1377.6666666666667,
+    "withoutTags": 998.3333333333334,
+    "difference": 379.33333333333337,
+    "cutMetricPercentage": 0.27534478586982825,
+    "percentFasterWithoutTags": "363.18101933216167%"
+  },
+  "DOMLoading": {
+    "withTags": 786,
+    "withoutTags": 746.6666666666666,
+    "difference": 39.33333333333337,
+    "cutMetricPercentage": 0.05004240882103482,
+    "percentFasterWithoutTags": "1998.305084745761%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1052.1000000002484,
+    "withoutTags": 960.6999999998758,
+    "difference": 91.40000000037264,
+    "cutMetricPercentage": 0.0868738713053427,
+    "percentFasterWithoutTags": "1151.0940918992987%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://code.jquery.com/jquery-3.5.1.min.js",
+      "bytes": 89476,
+      "dnsTime": 1.417,
+      "sslTime": 32.239,
+      "requestTime": 51.050999999999995
+    },
+    {
+      "url": "https://cdn.cquotient.com/js/v2/gretel.min.js",
+      "bytes": 66138,
+      "dnsTime": 2.348,
+      "sslTime": 15.048,
+      "requestTime": 31.311
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PWDHTK",
+      "bytes": 410093,
+      "dnsTime": 2.129,
+      "sslTime": 46.771,
+      "requestTime": 103.031
+    },
+    {
+      "url": "https://unpkg.com/cloudinary-core@2.13.0/cloudinary-core-shrinkwrap.min.js",
+      "bytes": 143903,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.423000000000002
+    },
+    {
+      "url": "https://recommender.scarabresearch.com/js/1BFBB8CDEA34505F/scarab-v2.js",
+      "bytes": 97452,
+      "dnsTime": 1.211,
+      "sslTime": 30.829,
+      "requestTime": 91.288
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C9J3CFRC77U92U7NNRQG&lib=ttq",
+      "bytes": 3967,
+      "dnsTime": 14.311,
+      "sslTime": 14.284,
+      "requestTime": 117.942
+    },
+    {
+      "url": "https://edge.fullstory.com/s/fs.js",
+      "bytes": 269538,
+      "dnsTime": 8.289,
+      "sslTime": 52.345,
+      "requestTime": 86.034
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 10.266,
+      "sslTime": 15.668,
+      "requestTime": 63.484
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/sdk.js?sdkid=C45D1VK787TERR10BQ0G",
+      "bytes": 3945,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.484
+    },
+    {
+      "url": "https://cdn.speedcurve.com/js/lux.js?id=370145938",
+      "bytes": 19788,
+      "dnsTime": 24.807,
+      "sslTime": 51.596,
+      "requestTime": 87.716
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-M3XP66ENNS&l=dataLayer&cx=c",
+      "bytes": 217358,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.059
+    },
+    {
+      "url": "https://static.scarabresearch.com/wpjs/wploader.js?ts=2769",
+      "bytes": 31907,
+      "dnsTime": 1.95,
+      "sslTime": 13.672,
+      "requestTime": 24.891000000000002
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
+      "bytes": 258696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.372
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.915
+    },
+    {
+      "url": "https://static.scarabresearch.com/wpjs/wpes6.js?ts=2769",
+      "bytes": 103044,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.756
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.79
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.025
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/reformation.attn.tv.js",
+      "bytes": 230,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.7589999999999995
+    },
+    {
+      "url": "https://edge.fullstory.com/datalayer/v3/latest.js",
+      "bytes": 41036,
+      "dnsTime": 0.005,
+      "sslTime": 15.856,
+      "requestTime": 26.141000000000002
+    },
+    {
+      "url": "https://creatives.attn.tv/creatives-dynamic/multiPage/static/js/vendors~main.e7b0ab7c.chunk.js",
+      "bytes": 190690,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.016
+    },
+    {
+      "url": "https://creatives.attn.tv/creatives-dynamic/multiPage/static/js/main.2f537fc4.js",
+      "bytes": 356138,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.781
+    }
+  ],
+  "numJsRequests": 38,
+  "numThirdPartyJsRequests": 21,
+  "numFirstPartyJsRequests": 17,
+  "numUnique3pHosts": 12,
+  "totalJsBytes": 3207218,
+  "totalDnsTime": 66.73299999999999,
+  "totalSslTime": 288.308,
+  "totalTime": 1448.1480000000004,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 412.87899999999996,
+  "totalFirstPartyJsBytes": 413299,
+  "totalThirdPartyDnsTime": 66.73299999999999,
+  "totalThirdPartySslTime": 288.308,
+  "totalThirdPartyTime": 1035.2689999999998,
+  "totalThirdPartyJsBytes": 2793919,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 34.29456498745737,
+  "percentOfJsRequestTimeIs3p": 71.4891709963346,
+  "percentOfJsIs3p": 87.1134734215136
+}

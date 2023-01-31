@@ -1,0 +1,444 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.819213666666667,
+    "withoutTags": 0.6555703333333333,
+    "difference": 1.1636433333333338,
+    "cutMetricPercentage": 0.6396408265036122,
+    "percentFasterWithoutTags": "156.33773808125625%"
+  },
+  "TaskDuration": {
+    "withTags": 3.6280916666666667,
+    "withoutTags": 1.85186,
+    "difference": 1.7762316666666667,
+    "cutMetricPercentage": 0.4895773949114663,
+    "percentFasterWithoutTags": "204.25779670256978%"
+  },
+  "DOMComplete": {
+    "withTags": 8262.333333333334,
+    "withoutTags": 7455,
+    "difference": 807.3333333333339,
+    "cutMetricPercentage": 0.09771251059022881,
+    "percentFasterWithoutTags": "1023.4104046242768%"
+  },
+  "DOMInteractive": {
+    "withTags": 3979,
+    "withoutTags": 3893.6666666666665,
+    "difference": 85.33333333333348,
+    "cutMetricPercentage": 0.021445924436625657,
+    "percentFasterWithoutTags": "4662.890624999992%"
+  },
+  "DOMLoading": {
+    "withTags": 572,
+    "withoutTags": 467,
+    "difference": 105,
+    "cutMetricPercentage": 0.18356643356643357,
+    "percentFasterWithoutTags": "544.7619047619048%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 3134.4333333348236,
+    "withoutTags": 1061.1333333353202,
+    "difference": 2073.2999999995036,
+    "cutMetricPercentage": 0.6614592749349222,
+    "percentFasterWithoutTags": "151.18088715263465%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://edge.personalizer.io/storefront/2.0.0/js/shopify/storefront.min.js?key=meqjp-ks1s1n8nqe9j2fem2d-qjcib&shop=little-giant-ladder.myshopify.com",
+      "bytes": 839,
+      "dnsTime": 2.288,
+      "sslTime": 13.109,
+      "requestTime": 39.347
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-VFWBVELKT4",
+      "bytes": 220100,
+      "dnsTime": 1.444,
+      "sslTime": 114.914,
+      "requestTime": 183.062
+    },
+    {
+      "url": "https://edge.personalizer.io/runtime.f9c0cdb2978237eac01c.js?key=meqjp-ks1s1n8nqe9j2fem2d-qjcib&shop=little-giant-ladder.myshopify.com",
+      "bytes": 3117,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.776
+    },
+    {
+      "url": "https://edge.personalizer.io/storefront/shopify/main.f9c0cdb2978237eac01c.js?key=meqjp-ks1s1n8nqe9j2fem2d-qjcib&shop=little-giant-ladder.myshopify.com",
+      "bytes": 19933,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 208.617
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-W67KWK6",
+      "bytes": 191822,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 445.015
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 12.016,
+      "sslTime": 50.925,
+      "requestTime": 173.184
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C69U1FFQ6F4QVUID04M0&lib=ttq",
+      "bytes": 2827,
+      "dnsTime": 14.397,
+      "sslTime": 32.988,
+      "requestTime": 472.765
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2718122.js?sv=7",
+      "bytes": 8460,
+      "dnsTime": 9.862,
+      "sslTime": 33.953,
+      "requestTime": 55.076
+    },
+    {
+      "url": "https://www.clickcease.com/monitor/stat.js",
+      "bytes": 175186,
+      "dnsTime": 4.093,
+      "sslTime": 15.744,
+      "requestTime": 41.409
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-973054988",
+      "bytes": 197347,
+      "dnsTime": 0.012,
+      "sslTime": 102.715,
+      "requestTime": 180.058
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-973054988&l=dataLayer&cx=c",
+      "bytes": 197357,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 179.184
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 239.059
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMg.js",
+      "bytes": 250250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 101.55799999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.86699999999999
+    },
+    {
+      "url": "https://edge.personalizer.io/6704.f9c0cdb2978237eac01c.js",
+      "bytes": 12713,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.767
+    },
+    {
+      "url": "https://edge.personalizer.io/8396.f9c0cdb2978237eac01c.js",
+      "bytes": 59338,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.773
+    },
+    {
+      "url": "https://edge.personalizer.io/7593.f9c0cdb2978237eac01c.js",
+      "bytes": 14230,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.287000000000003
+    },
+    {
+      "url": "https://edge.personalizer.io/3552.f9c0cdb2978237eac01c.js",
+      "bytes": 1692,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.876
+    },
+    {
+      "url": "https://edge.personalizer.io/6107.f9c0cdb2978237eac01c.js",
+      "bytes": 29269,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.802
+    },
+    {
+      "url": "https://edge.personalizer.io/989.f9c0cdb2978237eac01c.js",
+      "bytes": 145180,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 276.831
+    },
+    {
+      "url": "https://edge.personalizer.io/4730.f9c0cdb2978237eac01c.js",
+      "bytes": 5987,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 109.211
+    },
+    {
+      "url": "https://edge.personalizer.io/runtime.f9c0cdb2978237eac01c.js",
+      "bytes": 3117,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.865
+    },
+    {
+      "url": "https://edge.personalizer.io/storefront/channel/core.f9c0cdb2978237eac01c.js",
+      "bytes": 4802,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.704
+    },
+    {
+      "url": "https://api.hubapi.com/scriptloader/v1/6192297.js?shop=little-giant-ladder.myshopify.com",
+      "bytes": 964,
+      "dnsTime": 4.005,
+      "sslTime": 16.118,
+      "requestTime": 174.595
+    },
+    {
+      "url": "https://scripts.smartzer.com/embedding/latest/shopify.js?shop=little-giant-ladder.myshopify.com",
+      "bytes": 26320,
+      "dnsTime": 2.517,
+      "sslTime": 18.51,
+      "requestTime": 44.113
+    },
+    {
+      "url": "https://wtbevents.pricespider.com/?key=pageImpression&iid=ffacd40a-0a29-4ead-ada0-f4ce1c059490&uid=undefined&v=2.1.18&cid=5d16325b606ad50031848310&url=https%3A%2F%2Fwww.littlegiantladders.com%2F&_=1675104270570",
+      "bytes": 9,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 204.421
+    },
+    {
+      "url": "https://assets.smartzer.com/panda/objectfit.js",
+      "bytes": 4579,
+      "dnsTime": 11.626,
+      "sslTime": 29.695,
+      "requestTime": 62.684
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/player/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/vendor.js",
+      "bytes": 3069688,
+      "dnsTime": 0.008,
+      "sslTime": 18.147,
+      "requestTime": 746.8629999999999
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/player/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/main.js",
+      "bytes": 455780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 474.85799999999995
+    },
+    {
+      "url": "https://js-na1.hs-scripts.com/6192297.js",
+      "bytes": 857,
+      "dnsTime": 1.082,
+      "sslTime": 18.342,
+      "requestTime": 82.383
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/long_arrow/v1/player/plugin.js",
+      "bytes": 2462,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.35
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/audioDescriptive/v1/player/plugin.js",
+      "bytes": 23330,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.69
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/subtitles/v1/player/plugin.js",
+      "bytes": 27344,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.667
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/drawer/v1/player/plugin.js",
+      "bytes": 95199,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 117.124
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/asset_library/v1/player/plugin.js",
+      "bytes": 9383,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 127.37700000000001
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/groups/v1/player/plugin.js",
+      "bytes": 29586,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 123.315
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/multiOptionProducts/v1/player/plugin.js",
+      "bytes": 139697,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 84.67
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/replayscreen/v1/player/plugin.js",
+      "bytes": 71928,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 127.057
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/styling/v1/player/plugin.js",
+      "bytes": 12538,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 130.60999999999999
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/tags/v1/player/plugin.js",
+      "bytes": 28481,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 137.70999999999998
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/cta_url/v1/player/plugin.js",
+      "bytes": 8849,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 136.27599999999998
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/cta_inline/v1/player/plugin.js",
+      "bytes": 13436,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 135.737
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/cta_disabled/v1/player/plugin.js",
+      "bytes": 12598,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 135.372
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/playbar/v1/player/plugin.js",
+      "bytes": 117100,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 145.89099999999996
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/popup_colorpicker/v1/player/plugin.js",
+      "bytes": 71685,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 153.461
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/popup_group/v1/player/plugin.js",
+      "bytes": 61449,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 166.302
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/shopifyApi/v1/player/plugin.js",
+      "bytes": 11840,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 164.782
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/productMiddleware/v1/player/plugin.js",
+      "bytes": 43495,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 166.88
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/adaptiveBitratePlayer/v1/player/plugin.js",
+      "bytes": 158561,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 185.107
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/analytics/v1/player/plugin.js",
+      "bytes": 12597,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 182.923
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/draft/v1/player/plugin.js",
+      "bytes": 7381,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 183.32000000000002
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/tagDesigns/v1/player/plugin.js",
+      "bytes": 10750,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 184.68000000000004
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/ratio/v1/player/plugin.js",
+      "bytes": 22509,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 183.524
+    },
+    {
+      "url": "https://scripts.smartzer.com/bundles/plugins/c10d6c0b492c61ac6219f7679cd0cdffd403e21b/splashscreen/v1/player/plugin.js",
+      "bytes": 50777,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 182.92000000000002
+    }
+  ],
+  "numJsRequests": 55,
+  "numThirdPartyJsRequests": 54,
+  "numFirstPartyJsRequests": 1,
+  "numUnique3pHosts": 11,
+  "totalJsBytes": 6327319,
+  "totalDnsTime": 63.357,
+  "totalSslTime": 482.1319999999999,
+  "totalTime": 8369.409,
+  "totalFirstPartyDnsTime": 0.007,
+  "totalFirstPartySslTime": 16.972,
+  "totalFirstPartyTime": 131.654,
+  "totalFirstPartyJsBytes": 8291,
+  "totalThirdPartyDnsTime": 63.35,
+  "totalThirdPartySslTime": 465.1599999999999,
+  "totalThirdPartyTime": 8237.755,
+  "totalThirdPartyJsBytes": 6319028,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 6.415704278653589,
+  "percentOfJsRequestTimeIs3p": 98.42696180817546,
+  "percentOfJsIs3p": 99.86896503874706
+}

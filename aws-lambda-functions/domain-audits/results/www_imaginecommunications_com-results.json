@@ -1,0 +1,458 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.0362363333333333,
+    "withoutTags": 0.06534733333333333,
+    "difference": 0.970889,
+    "cutMetricPercentage": 0.9369378092320638,
+    "percentFasterWithoutTags": "106.73066986373657%"
+  },
+  "TaskDuration": {
+    "withTags": 2.4392169999999997,
+    "withoutTags": 0.5837706666666667,
+    "difference": 1.855446333333333,
+    "cutMetricPercentage": 0.7606729263256747,
+    "percentFasterWithoutTags": "131.46254656786084%"
+  },
+  "DOMComplete": {
+    "withTags": -558367935375.6666,
+    "withoutTags": 2021.6666666666667,
+    "difference": -558367937397.3333,
+    "cutMetricPercentage": 1.000000003620671,
+    "percentFasterWithoutTags": "99.99999963793289%"
+  },
+  "DOMInteractive": {
+    "withTags": 2189,
+    "withoutTags": 1546.6666666666667,
+    "difference": 642.3333333333333,
+    "cutMetricPercentage": 0.29343688137657986,
+    "percentFasterWithoutTags": "340.7887908666321%"
+  },
+  "DOMLoading": {
+    "withTags": 777,
+    "withoutTags": 786.3333333333334,
+    "difference": -9.333333333333371,
+    "cutMetricPercentage": -0.01201201201201206,
+    "percentFasterWithoutTags": "-8324.999999999965%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1613.7666666631897,
+    "withoutTags": 1380.8999999985099,
+    "difference": 232.86666666467977,
+    "cutMetricPercentage": 0.14430008468707672,
+    "percentFasterWithoutTags": "693.0002862912792%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/jquery/jquery.min.js?ver=3.6.1",
+      "bytes": 89684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 548.5450000000001
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2",
+      "bytes": 11224,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 544.432
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery/assets/js/jquery.event.move.js",
+      "bytes": 14530,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 543.7289999999999
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery/assets/js/jquery.twentytwenty.js",
+      "bytes": 6298,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 543.433
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-973586675",
+      "bytes": 131596,
+      "dnsTime": 1.303,
+      "sslTime": 30.148,
+      "requestTime": 121.52199999999999
+    },
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-PGKKW2S",
+      "bytes": 117400,
+      "dnsTime": 22.104,
+      "sslTime": 38.073,
+      "requestTime": 110.305
+    },
+    {
+      "url": "https://play.vidyard.com/embed/v4.js",
+      "bytes": 71615,
+      "dnsTime": 2.156,
+      "sslTime": 12.821,
+      "requestTime": 25.35
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js?ver=e122aaff",
+      "bytes": 41234,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 185.04699999999997
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js?ver=e122aaff",
+      "bytes": 113421,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 188.191
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js?ver=e122aaff",
+      "bytes": 13218,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 176.123
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js?ver=e122aaff",
+      "bytes": 1248,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.715
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Bullet/Assets/dist/w-bullet.min.js?ver=e122aaff",
+      "bytes": 5415,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.113
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-includes/js/wp-emoji-release.min.js?ver=6.1.1",
+      "bytes": 18617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 77.82600000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-973586675&l=dataLayer&cx=c",
+      "bytes": 131617,
+      "dnsTime": 0.009,
+      "sslTime": 29.645,
+      "requestTime": 87.263
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KFKGSXF",
+      "bytes": 220092,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 94.526
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery-pro/assets/js/jquery.keyframes.js",
+      "bytes": 16648,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.137
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery-pro/assets/js/bafg-custom-js.js",
+      "bytes": 7329,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.26700000000001
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery-pro/inc/filter-gallery/js/isotope.pkgd.min.js",
+      "bytes": 35445,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.443
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery-pro/inc/filter-gallery/js/bafg-isotope-init.js",
+      "bytes": 714,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.49699999999999
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-form-move-tracker.js?ver=1.16.2",
+      "bytes": 1530,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.735
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/dearpdf-pro/assets/js/dearpdf-pro.min.js?ver=1.2.62",
+      "bytes": 247640,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.769
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/themes/imagine-communications/js/imagineBundle.js?ver=1.13",
+      "bytes": 446038,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 137.378
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/beaf-before-and-after-gallery/assets/js/bafg-custom-js.js",
+      "bytes": 2128,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 137.45700000000002
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/lib/jquery-numerator/jquery-numerator.min.js?ver=0.2.1",
+      "bytes": 1801,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 137.487
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/imagesloaded.min.js?ver=4.1.4",
+      "bytes": 5629,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 137.983
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=3.10.1",
+      "bytes": 5359,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 138.969
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=3.10.0",
+      "bytes": 5014,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 139.20999999999998
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=3.10.0",
+      "bytes": 35686,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 175.741
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9",
+      "bytes": 6475,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 181.627
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0",
+      "bytes": 17823,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 181.706
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/dist/hooks.min.js?ver=4169d3cf8e8d95a3d6d5",
+      "bytes": 4910,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 181.623
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/dist/i18n.min.js?ver=9e794f35a71bb98672ae",
+      "bytes": 10230,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 181.62099999999998
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=3.10.1",
+      "bytes": 21564,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 181.55400000000003
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min.js?ver=4.0.2",
+      "bytes": 12198,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 181.579
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-includes/js/jquery/ui/core.min.js?ver=1.13.2",
+      "bytes": 21440,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 182.568
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/ghostkit/assets/vendor/swiper-5-4-5/swiper.min.js?ver=5.4.5",
+      "bytes": 140930,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 87.259
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/lib/share-link/share-link.min.js?ver=3.10.0",
+      "bytes": 2620,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 87.467
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/lib/dialog/dialog.min.js?ver=4.9.0",
+      "bytes": 10682,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 84.18799999999999
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.10.0",
+      "bytes": 40842,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 96.851
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor-pro/assets/js/preloaded-elements-handlers.min.js?ver=3.10.1",
+      "bytes": 149022,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 192.961
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor/assets/js/preloaded-modules.min.js?ver=3.10.0",
+      "bytes": 43909,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 184.229
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js?ver=3.10.1",
+      "bytes": 3721,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 92.688
+    },
+    {
+      "url": "https://imaginecomm.wpenginepowered.com/wp-content/themes/imagine-communications/requirejs_scripts/require.js",
+      "bytes": 17695,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.94200000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-FJSTDTSZB0&l=dataLayer&cx=c",
+      "bytes": 220283,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 189.13400000000001
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/mainv20220819.js",
+      "bytes": 1125,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 190.162
+    },
+    {
+      "url": "https://tag.demandbase.com/519f77562ad4d56c.min.js",
+      "bytes": 68375,
+      "dnsTime": 0.657,
+      "sslTime": 18.426,
+      "requestTime": 123.62400000000001
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/esw.min.js",
+      "bytes": 30129,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.822
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/deployment.js",
+      "bytes": 42828,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 207.90200000000002
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/purify.min.js",
+      "bytes": 17834,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 207.64399999999998
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/eloquaFormPopv28.js",
+      "bytes": 16366,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 390.59499999999997
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/supportOverlayForm.js",
+      "bytes": 480,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 390.577
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/liveagent.js",
+      "bytes": 2602,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 192.41000000000003
+    },
+    {
+      "url": "https://apps.imaginecommunications.com/visitor/v200/svrGP?pps=70&siteid=1619&ms=327&firstPartyCookieDomain=apps.imaginecommunications.com",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.516
+    },
+    {
+      "url": "https://apps.imaginecommunications.com/visitor/v200/svrGP?pps=50&siteid=1619&DLKey=38bbb2f89223469195a1e0d133f17fca&DLLookup=&ms=327&firstPartyCookieDomain=apps.imaginecommunications.com",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 211.72299999999998
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/footerForm.js",
+      "bytes": 5183,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.56300000000001
+    },
+    {
+      "url": "https://imaginecommunications.com/wp-content/themes/imagine-communications/requirejs_scripts/contactOverlayFormv8.js",
+      "bytes": 14211,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 81.33500000000001
+    }
+  ],
+  "numJsRequests": 56,
+  "numThirdPartyJsRequests": 56,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 2721647,
+  "totalDnsTime": 26.229,
+  "totalSslTime": 129.113,
+  "totalTime": 9509.062999999998,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 26.229,
+  "totalThirdPartySslTime": 129.113,
+  "totalThirdPartyTime": 9509.062999999998,
+  "totalThirdPartyJsBytes": 2721647,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 1.6336204734367625,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

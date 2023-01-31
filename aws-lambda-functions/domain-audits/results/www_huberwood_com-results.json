@@ -1,0 +1,122 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.5878900000000001,
+    "withoutTags": 0.2566623333333333,
+    "difference": 0.3312276666666668,
+    "cutMetricPercentage": 0.5634177595581941,
+    "percentFasterWithoutTags": "177.48819291464176%"
+  },
+  "TaskDuration": {
+    "withTags": 1.1676583333333335,
+    "withoutTags": 0.8214683333333334,
+    "difference": 0.3461900000000001,
+    "cutMetricPercentage": 0.2964822757798729,
+    "percentFasterWithoutTags": "337.2882906303859%"
+  },
+  "DOMComplete": {
+    "withTags": -1675103671253.6667,
+    "withoutTags": -1675103671252.3333,
+    "difference": -1.33349609375,
+    "cutMetricPercentage": 7.960677996437058e-13,
+    "percentFasterWithoutTags": "125617441183724.27%"
+  },
+  "DOMInteractive": {
+    "withTags": 3446.6666666666665,
+    "withoutTags": 3445,
+    "difference": 1.666666666666515,
+    "cutMetricPercentage": 0.0004835589941972481,
+    "percentFasterWithoutTags": "206800.00000001877%"
+  },
+  "DOMLoading": {
+    "withTags": 2755.6666666666665,
+    "withoutTags": 2724.3333333333335,
+    "difference": 31.33333333333303,
+    "cutMetricPercentage": 0.011370509253659017,
+    "percentFasterWithoutTags": "8794.680851063915%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 3075.8666666696467,
+    "withoutTags": 3092.1666666666665,
+    "difference": -16.299999997019768,
+    "cutMetricPercentage": -0.0052993194320312895,
+    "percentFasterWithoutTags": "-18870.347651730226%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.evgnet.com/beacon/huberengwoods/prod/scripts/evergage.min.js",
+      "bytes": 45,
+      "dnsTime": 22.068,
+      "sslTime": 23.146,
+      "requestTime": 172.203
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-MMGWMDG",
+      "bytes": 408378,
+      "dnsTime": 1.269,
+      "sslTime": 29.257,
+      "requestTime": 349.507
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1135629.js?sv=6",
+      "bytes": 9175,
+      "dnsTime": 1.552,
+      "sslTime": 185.695,
+      "requestTime": 197.26
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C6IJIJHQ53292HDCA1DG&lib=ttq",
+      "bytes": 3213,
+      "dnsTime": 28.553,
+      "sslTime": 104.647,
+      "requestTime": 283.43100000000004
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-D11T7EPQRL&l=dataLayer&cx=c",
+      "bytes": 231315,
+      "dnsTime": 0.014,
+      "sslTime": 25.794,
+      "requestTime": 93.568
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.614
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.149
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=3013777&time=1675103668695&url=https%3A%2F%2Fwww.huberwood.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 247.212
+    }
+  ],
+  "numJsRequests": 9,
+  "numThirdPartyJsRequests": 8,
+  "numFirstPartyJsRequests": 1,
+  "numUnique3pHosts": 5,
+  "totalJsBytes": 1447280,
+  "totalDnsTime": 53.456,
+  "totalSslTime": 368.539,
+  "totalTime": 1612.4250000000002,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 165.481,
+  "totalFirstPartyJsBytes": 434427,
+  "totalThirdPartyDnsTime": 53.456,
+  "totalThirdPartySslTime": 368.539,
+  "totalThirdPartyTime": 1446.944,
+  "totalThirdPartyJsBytes": 1012853,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 29.164570294358317,
+  "percentOfJsRequestTimeIs3p": 89.73713506054544,
+  "percentOfJsIs3p": 69.98320988336742
+}

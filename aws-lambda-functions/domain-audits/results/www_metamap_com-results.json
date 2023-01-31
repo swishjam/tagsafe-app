@@ -1,0 +1,283 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.708387,
+    "withoutTags": 0.014147666666666668,
+    "difference": 1.6942393333333334,
+    "cutMetricPercentage": 0.9917186991784258,
+    "percentFasterWithoutTags": "100.83504534384949%"
+  },
+  "TaskDuration": {
+    "withTags": 3.065839333333333,
+    "withoutTags": 0.30535666666666667,
+    "difference": 2.7604826666666664,
+    "cutMetricPercentage": 0.9004003036471362,
+    "percentFasterWithoutTags": "111.06171287919697%"
+  },
+  "DOMComplete": {
+    "withTags": 4478,
+    "withoutTags": 1102,
+    "difference": 3376,
+    "cutMetricPercentage": 0.7539079946404645,
+    "percentFasterWithoutTags": "132.6421800947867%"
+  },
+  "DOMInteractive": {
+    "withTags": 1522.6666666666667,
+    "withoutTags": 1022.6666666666666,
+    "difference": 500.0000000000001,
+    "cutMetricPercentage": 0.3283712784588442,
+    "percentFasterWithoutTags": "304.5333333333333%"
+  },
+  "DOMLoading": {
+    "withTags": 488,
+    "withoutTags": 469.3333333333333,
+    "difference": 18.666666666666686,
+    "cutMetricPercentage": 0.038251366120218615,
+    "percentFasterWithoutTags": "2614.285714285712%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1703.3000000019867,
+    "withoutTags": null,
+    "difference": null,
+    "cutMetricPercentage": null,
+    "percentFasterWithoutTags": "NaN%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.jsdelivr.net/npm/@finsweet/cookie-consent@1/fs-cc.js",
+      "bytes": 27920,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.045
+    },
+    {
+      "url": "https://fast.wistia.com/embed/medias/o4obv5dmta.jsonp",
+      "bytes": 5687,
+      "dnsTime": 14.928,
+      "sslTime": 14.145,
+      "requestTime": 213.12
+    },
+    {
+      "url": "https://fast.wistia.com/assets/external/E-v1.js",
+      "bytes": 643944,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 582.787
+    },
+    {
+      "url": "https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=61be0c5ab2f1c61fbca8b27f",
+      "bytes": 89476,
+      "dnsTime": 38.062,
+      "sslTime": 44.58,
+      "requestTime": 99.785
+    },
+    {
+      "url": "https://cdn.weglot.com/weglot.min.js",
+      "bytes": 90595,
+      "dnsTime": 15.666,
+      "sslTime": 20.087,
+      "requestTime": 212.38
+    },
+    {
+      "url": "https://js.hs-scripts.com/23168500.js",
+      "bytes": 2012,
+      "dnsTime": 32.239,
+      "sslTime": 17.613,
+      "requestTime": 176.643
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js",
+      "bytes": 2532,
+      "dnsTime": 11.668,
+      "sslTime": 18.337,
+      "requestTime": 295.259
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-K5756Z7",
+      "bytes": 233509,
+      "dnsTime": 5.459,
+      "sslTime": 27.572,
+      "requestTime": 134.822
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-3330336.js?sv=6",
+      "bytes": 8453,
+      "dnsTime": 2.465,
+      "sslTime": 18.881,
+      "requestTime": 329.173
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-38MRK69SRX&l=dataLayer&cx=c",
+      "bytes": 240313,
+      "dnsTime": 0.013,
+      "sslTime": 29.134,
+      "requestTime": 88.024
+    },
+    {
+      "url": "https://js.hscollectedforms.net/collectedforms.js",
+      "bytes": 70108,
+      "dnsTime": 1.427,
+      "sslTime": 27.026,
+      "requestTime": 145.27700000000002
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 7.529,
+      "sslTime": 28.698,
+      "requestTime": 60.855
+    },
+    {
+      "url": "https://fast.wistia.com/assets/external/wistia-mux.js",
+      "bytes": 127272,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.934000000000001
+    },
+    {
+      "url": "https://www.datadoghq-browser-agent.com/datadog-logs-v4.js",
+      "bytes": 44332,
+      "dnsTime": 0.809,
+      "sslTime": 42.032,
+      "requestTime": 53.222
+    },
+    {
+      "url": "https://fast.wistia.com/assets/external/externalPlayer.js",
+      "bytes": 94895,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 126.853
+    },
+    {
+      "url": "https://fast.wistia.com/assets/external/wistiaLogo.js",
+      "bytes": 48369,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 95.40199999999999
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.012
+    },
+    {
+      "url": "https://s.adroll.com/j/pre/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.551
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/Y2MNKEB5IFGLZBY4M4JR27?pv=29904371166.43858&arrfrr=https%3A%2F%2Fwww.metamap.com%2F&_s=11f6b0a1120aead910f7eac2b088d37a&_b=2",
+      "bytes": 459,
+      "dnsTime": 5.23,
+      "sslTime": 37.416,
+      "requestTime": 69.889
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=3809369&time=1675104300014&url=https%3A%2F%2Fwww.metamap.com%2F&tm=gtmv2&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.964
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-11007165669",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.965
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-11007165669&l=dataLayer&cx=c",
+      "bytes": 131617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 62.949
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10845873185&l=dataLayer&cx=c",
+      "bytes": 131617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.309
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10845829555&l=dataLayer&cx=c",
+      "bytes": 131467,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 77.288
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10845784869&l=dataLayer&cx=c",
+      "bytes": 131617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 78.62899999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10934492294&l=dataLayer&cx=c",
+      "bytes": 176654,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 114.57099999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10845869591&l=dataLayer&cx=c",
+      "bytes": 131467,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 84.49000000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10907378051&l=dataLayer&cx=c",
+      "bytes": 187472,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.863
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10845872240&l=dataLayer&cx=c",
+      "bytes": 176654,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 88.582
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-10845871280&l=dataLayer&cx=c",
+      "bytes": 187472,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.049
+    },
+    {
+      "url": "https://s.adroll.com/j/sendrolling.js",
+      "bytes": 8287,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.746
+    }
+  ],
+  "numJsRequests": 31,
+  "numThirdPartyJsRequests": 31,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 14,
+  "totalJsBytes": 3261642,
+  "totalDnsTime": 135.495,
+  "totalSslTime": 325.521,
+  "totalTime": 3662.438000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 135.495,
+  "totalThirdPartySslTime": 325.521,
+  "totalThirdPartyTime": 3662.438000000001,
+  "totalThirdPartyJsBytes": 3261642,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 12.587680665174398,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

@@ -1,0 +1,318 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.2091523333333334,
+    "withoutTags": 0.6884436666666667,
+    "difference": 1.5207086666666667,
+    "cutMetricPercentage": 0.6883674990271532,
+    "percentFasterWithoutTags": "145.27123976847636%"
+  },
+  "TaskDuration": {
+    "withTags": 4.459292666666667,
+    "withoutTags": 1.2000190000000002,
+    "difference": 3.259273666666667,
+    "cutMetricPercentage": 0.7308947652236027,
+    "percentFasterWithoutTags": "136.81860201777062%"
+  },
+  "DOMComplete": {
+    "withTags": -558368027789,
+    "withoutTags": 1277.3333333333333,
+    "difference": -558368029066.3334,
+    "cutMetricPercentage": 1.0000000022876192,
+    "percentFasterWithoutTags": "99.9999997712381%"
+  },
+  "DOMInteractive": {
+    "withTags": 1594,
+    "withoutTags": 593.6666666666666,
+    "difference": 1000.3333333333334,
+    "cutMetricPercentage": 0.6275616896695944,
+    "percentFasterWithoutTags": "159.34688437187603%"
+  },
+  "DOMLoading": {
+    "withTags": 459,
+    "withoutTags": 417.6666666666667,
+    "difference": 41.333333333333314,
+    "cutMetricPercentage": 0.09005083514887433,
+    "percentFasterWithoutTags": "1110.4838709677426%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1010,
+    "withoutTags": 527.9333333348235,
+    "difference": 482.0666666651765,
+    "cutMetricPercentage": 0.4772937293714619,
+    "percentFasterWithoutTags": "209.51458996054254%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 21748,
+      "dnsTime": 1.975,
+      "sslTime": 21.194,
+      "requestTime": 64.40599999999999
+    },
+    {
+      "url": "https://cdn.cookielaw.org/opt-out/otCCPAiab.js",
+      "bytes": 22075,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 455.66700000000003
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/6.27.0/otBannerSdk.js",
+      "bytes": 328270,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.93
+    },
+    {
+      "url": "https://native.sharethrough.com/assets/sfp.js?utv=ut4.44.202107201423",
+      "bytes": 282735,
+      "dnsTime": 0.95,
+      "sslTime": 13.569,
+      "requestTime": 43.787
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/tegna-network1/loader.js",
+      "bytes": 634080,
+      "dnsTime": 1.937,
+      "sslTime": 18.326,
+      "requestTime": 40.911
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/aax2/apstag.js",
+      "bytes": 195246,
+      "dnsTime": 2.327,
+      "sslTime": 19.649,
+      "requestTime": 42.30799999999999
+    },
+    {
+      "url": "https://ads.pubmatic.com/AdServer/js/pwt/160138/3965/pwt.js",
+      "bytes": 466787,
+      "dnsTime": 11.447,
+      "sslTime": 20.075,
+      "requestTime": 99.41499999999999
+    },
+    {
+      "url": "https://cdn.opecloud.com/ope-tegna.js",
+      "bytes": 65122,
+      "dnsTime": 4.943,
+      "sslTime": 14.595,
+      "requestTime": 30.97
+    },
+    {
+      "url": "https://widget.perfectmarket.com/tegna-network1/load.js",
+      "bytes": 5711,
+      "dnsTime": 1.961,
+      "sslTime": 13.205,
+      "requestTime": 29.976
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/impl.20230130-10-RELEASE.js",
+      "bytes": 745022,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.119
+    },
+    {
+      "url": "https://sb.scorecardresearch.com/beacon.js",
+      "bytes": 3937,
+      "dnsTime": 1.169,
+      "sslTime": 43.361,
+      "requestTime": 226.633
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/bao-csm/aps-comm/aps_csm.js",
+      "bytes": 6482,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.598999999999998
+    },
+    {
+      "url": "https://collector-21104.us.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 1.105,
+      "sslTime": 175.822,
+      "requestTime": 362.382
+    },
+    {
+      "url": "https://widget.perfectmarket.com/tegna-network1/pmk-202010011.25.js",
+      "bytes": 115056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.247999999999998
+    },
+    {
+      "url": "https://trc.taboola.com/tegna-kusa/trc/3/json?tim=10%3A41%3A19.230&lti=deflated&data=%7B%22id%22%3A494%2C%22ii%22%3A%22_homepage_%22%2C%22it%22%3A%22home%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22uifp%22%3Anull%2C%22lbt%22%3A1675083309299%2C%22vi%22%3A1675104079227%2C%22cv%22%3A%2220230130-10-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.9news.com%2F%22%2C%22bv%22%3A%220%22%2C%22ul%22%3A%5B%22en-US%22%5D%2C%22uad%22%3A%7B%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22%22%2C%22platformVersion%22%3A%22%22%2C%22uaFullVersion%22%3A%22%22%7D%2C%22ccpa_ps%22%3A%221YNY%22%2C%22btv%22%3A%220%22%2C%22cos%22%3A%224g%22%2C%22bu%22%3A%22https%3A%2F%2Fwww.9news.com%2F%22%2C%22vpi%22%3A%22%2F%22%2C%22bad%22%3A-1%2C%22sw%22%3A1920%2C%22sh%22%3A1080%2C%22bw%22%3A1920%2C%22sde%22%3A%221.000%22%2C%22bh%22%3A1080%2C%22dw%22%3A1920%2C%22dh%22%3A4993%2C%22nsid%22%3A%22tegna-network1%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-h2m%22%2C%22s%22%3A9%2C%22uim%22%3A%22thumbnails-o%3Apub%3Dtegna-network1%3Aabp%3D0%22%2C%22uip%22%3A%22Below%20Main%20Column%20Thumbnails%22%2C%22orig_uip%22%3A%22Below%20Main%20Column%20Thumbnails%22%2C%22cd%22%3A3918.5625%2C%22mw%22%3A1140%7D%5D%2C%22cacheKey%22%3A%22home%3D_homepage_%2CBelow%20Main%20Column%20Thumbnails%3Dthumbnails-o%3Apub%3Dtegna-network1%3Aabp%3D0%22%2C%22cb%22%3A%22TRC.callbacks.recommendations_1%22%2C%22lt%22%3A%22deflated%22%7D&llvl=2",
+      "bytes": 86743,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1047.988
+    },
+    {
+      "url": "https://sb.scorecardresearch.com/internal-c2/default/cs.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.386
+    },
+    {
+      "url": "https://collector-16834.us.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 1.235,
+      "sslTime": 457.026,
+      "requestTime": 544.51
+    },
+    {
+      "url": "https://vidstat.taboola.com/lite-unit/3.9.8/UnitFeedManagerDesktop.min.js",
+      "bytes": 106761,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.697999999999999
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/feed-card-placeholder.20230130-10-RELEASE.es6.js",
+      "bytes": 4655,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 47.992000000000004
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/cta-component.20230130-10-RELEASE.es6.js",
+      "bytes": 17463,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.373
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/userx.20230130-10-RELEASE.es6.js",
+      "bytes": 17870,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.471999999999994
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.9news.com",
+      "bytes": 107,
+      "dnsTime": 0.79,
+      "sslTime": 30.444,
+      "requestTime": 61.818
+    },
+    {
+      "url": "https://cdn.tynt.com/rciv.js",
+      "bytes": 16285,
+      "dnsTime": 1.136,
+      "sslTime": 53.084,
+      "requestTime": 188.57
+    },
+    {
+      "url": "https://sync.serverbid.com/id/pubcid.min.js",
+      "bytes": 59798,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.250999999999998
+    },
+    {
+      "url": "https://cdn.adswizz.com/adswizz/js/SynchroClient2.js",
+      "bytes": 9187,
+      "dnsTime": 2.52,
+      "sslTime": 44.635,
+      "requestTime": 250.911
+    },
+    {
+      "url": "https://sync.serverbid.com/id/pubcid.min.js",
+      "bytes": 59798,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.553
+    },
+    {
+      "url": "https://cdn.adswizz.com/adswizz/js/SynchroClient2.js",
+      "bytes": 9187,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 264.63300000000004
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dvtp_src.js#dvp_scripthash=1&t2te=0&seltag=1&adsrv=104&cmp=DV532366&ctx=22212438&sadv=63659592&ord=3126615109&litm=6184690075&scrt=138309604546&splc=/32805352/co-denver-KUSA-B3316_DesktopTablet/front_universal/home&adu=21951416083&unit=1x1&dvp_qtpid=&dvp_qtsid=&btreg=6184690075138309604546&btadsrv=6184690075138309604546",
+      "bytes": 8039,
+      "dnsTime": 10.589,
+      "sslTime": 60.547,
+      "requestTime": 118.169
+    },
+    {
+      "url": "https://cdn-sic.33across.com/1/javascripts/sic.js",
+      "bytes": 454487,
+      "dnsTime": 3.008,
+      "sslTime": 24.769,
+      "requestTime": 149.53199999999998
+    },
+    {
+      "url": "https://de.tynt.com/deb/v2?id=b7ZEtiCYqr6kX6aKkGJozW&dn=RCIV&cc=1&r=&us_privacy=1YNY&pu=https%3A%2F%2Fwww.9news.com%2F",
+      "bytes": 903,
+      "dnsTime": 1.258,
+      "sslTime": 90.421,
+      "requestTime": 174.251
+    },
+    {
+      "url": "https://de.tynt.com/deb/v2?m=xch&id=b7ZEtiCYqr6kX6aKkGJozW&dn=RCIV&cc=1&r=&us_privacy=1YNY&pu=https%3A%2F%2Fwww.9news.com%2F",
+      "bytes": 1345,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 138.41899999999998
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dv-measurements3438.js",
+      "bytes": 570622,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.026
+    },
+    {
+      "url": "https://acdn.adnxs.com/ast/ast.js",
+      "bytes": 97735,
+      "dnsTime": 5.657,
+      "sslTime": 22.852,
+      "requestTime": 136.22500000000002
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.9news.com",
+      "bytes": 107,
+      "dnsTime": 0.007,
+      "sslTime": 119.037,
+      "requestTime": 238.21099999999998
+    },
+    {
+      "url": "https://vidstat.taboola.com/vpaid/units/32_5_1/infra/cmTagFEED_MANAGER.js",
+      "bytes": 862436,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.149000000000001
+    },
+    {
+      "url": "https://vidstat.taboola.com/vpaid/vPlayer/player/v14.9.7/OvaMediaPlayer.js",
+      "bytes": 447427,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 358.265
+    }
+  ],
+  "numJsRequests": 64,
+  "numThirdPartyJsRequests": 36,
+  "numFirstPartyJsRequests": 28,
+  "numUnique3pHosts": 20,
+  "totalJsBytes": 6135005,
+  "totalDnsTime": 54.014,
+  "totalSslTime": 1242.611,
+  "totalTime": 22416.356000000003,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 16900.603000000003,
+  "totalFirstPartyJsBytes": 370143,
+  "totalThirdPartyDnsTime": 54.014,
+  "totalThirdPartySslTime": 1242.611,
+  "totalThirdPartyTime": 5515.7530000000015,
+  "totalThirdPartyJsBytes": 5764862,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 23.50766975968648,
+  "percentOfJsRequestTimeIs3p": 24.60593059817573,
+  "percentOfJsIs3p": 93.96670418361516
+}

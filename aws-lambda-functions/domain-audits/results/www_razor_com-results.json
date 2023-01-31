@@ -1,0 +1,423 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.5616396666666665,
+    "withoutTags": 0.032265999999999996,
+    "difference": 1.5293736666666666,
+    "cutMetricPercentage": 0.979338383438433,
+    "percentFasterWithoutTags": "102.1097525544771%"
+  },
+  "TaskDuration": {
+    "withTags": 3.960388333333333,
+    "withoutTags": 0.5802436666666666,
+    "difference": 3.3801446666666664,
+    "cutMetricPercentage": 0.8534881890791013,
+    "percentFasterWithoutTags": "117.16623765807262%"
+  },
+  "DOMComplete": {
+    "withTags": -1116736499975.6667,
+    "withoutTags": 4509.666666666667,
+    "difference": -1116736504485.3335,
+    "cutMetricPercentage": 1.000000004038255,
+    "percentFasterWithoutTags": "99.9999995961745%"
+  },
+  "DOMInteractive": {
+    "withTags": 5339.333333333333,
+    "withoutTags": 4111.666666666667,
+    "difference": 1227.666666666666,
+    "cutMetricPercentage": 0.22992883006617545,
+    "percentFasterWithoutTags": "434.91718707575365%"
+  },
+  "DOMLoading": {
+    "withTags": 3977,
+    "withoutTags": 3709.6666666666665,
+    "difference": 267.3333333333335,
+    "cutMetricPercentage": 0.06721984745620656,
+    "percentFasterWithoutTags": "1487.6558603491264%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 4692.96666666617,
+    "withoutTags": 4104.10000000149,
+    "difference": 588.8666666646795,
+    "cutMetricPercentage": 0.12547855301154393,
+    "percentFasterWithoutTags": "796.9489414720944%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://razor.com/wp-includes/js/jquery/jquery.min.js",
+      "bytes": 89684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.407999999999994
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/woocommerce-colororimage-variation-select/js/shop-frontend.js",
+      "bytes": 2297,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.98799999999999
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-woocommerce-classic.js",
+      "bytes": 1425,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 78.095
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-woocommerce-enhanced.js",
+      "bytes": 41370,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 83.425
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/pdm/site.js",
+      "bytes": 1334,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 79.878
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js",
+      "bytes": 6475,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 91.921
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/dist/vendor/wp-polyfill.min.js",
+      "bytes": 17823,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.614
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/dist/hooks.min.js",
+      "bytes": 4910,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 80.92399999999999
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/woocommerce-google-adwords-conversion-tracking-tag/js/public/wpm-public.p1.min.js",
+      "bytes": 105714,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.498
+    },
+    {
+      "url": "https://ui.powerreviews.com/stable/4.0/ui.js",
+      "bytes": 52800,
+      "dnsTime": 2.318,
+      "sslTime": 26.171,
+      "requestTime": 77.941
+    },
+    {
+      "url": "https://razor.com/wp-content/uploads/hummingbird-assets/271253238123112d3c701e16611894c7.js",
+      "bytes": 30641,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.994
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/contact-form-7/includes/js/index.js",
+      "bytes": 12652,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.663
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js",
+      "bytes": 3029,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.14099999999999
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js",
+      "bytes": 1834,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 87.64200000000001
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js",
+      "bytes": 2139,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.129
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/duracelltomi-google-tag-manager/js/gtm4wp-form-move-tracker.js",
+      "bytes": 1530,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.679
+    },
+    {
+      "url": "https://razor.com/wp-content/uploads/hummingbird-assets/80146effc512d4c02d0bb258f0ef2fbb.js",
+      "bytes": 408,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 179.725
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/mailchimp-for-woocommerce/public/js/mailchimp-woocommerce-public.min.js",
+      "bytes": 6854,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 75.714
+    },
+    {
+      "url": "https://razor.com/wp-content/uploads/hummingbird-assets/60a3bf350e15cd8ce6c7a6b176d4e6a6.js",
+      "bytes": 467955,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 286.428
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/assets/js/jquery.scrollstop.min.js",
+      "bytes": 1134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.679
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/assets/js/jquery.touchSwipe.min.js",
+      "bytes": 20430,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 73.569
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/assets/js/jquery.validate.min.js",
+      "bytes": 23070,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.741
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/assets/js/additional-methods.min.js",
+      "bytes": 17799,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 49.654
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/assets/js/scripts.js",
+      "bytes": 200403,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.306
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/pinterest-for-woocommerce/assets/js/pinterest-for-woocommerce-tracking.min.js",
+      "bytes": 369,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.150999999999996
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/contact-form-7/modules/recaptcha/index.js",
+      "bytes": 999,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 110.46
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/complianz-gdpr-premium/cookiebanner/js/complianz.min.js",
+      "bytes": 38506,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.425
+    },
+    {
+      "url": "https://razor.com/wp-content/plugins/complianz-gdpr-premium/cookiebanner/js/migrate.min.js",
+      "bytes": 4011,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 283.897
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/jquery/ui/core.min.js",
+      "bytes": 21440,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.012
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/jquery/ui/menu.min.js",
+      "bytes": 10114,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.597
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/dist/dom-ready.min.js",
+      "bytes": 498,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.237
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/dist/i18n.min.js",
+      "bytes": 10230,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 189.76600000000002
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/dist/a11y.min.js",
+      "bytes": 2508,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 108.58099999999999
+    },
+    {
+      "url": "https://razor.com/wp-includes/js/jquery/ui/autocomplete.min.js",
+      "bytes": 8466,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.392
+    },
+    {
+      "url": "https://razor.com/wp-content/themes/razor/assets/js/myacsearch.js",
+      "bytes": 5194,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 71.695
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-W34VJ8",
+      "bytes": 276346,
+      "dnsTime": 1.713,
+      "sslTime": 45.044,
+      "requestTime": 268.244
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 2.109,
+      "sslTime": 39.785,
+      "requestTime": 387.738
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-874963811",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 548.827
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/analytics/bv-analytics.js",
+      "bytes": 40709,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.82
+    },
+    {
+      "url": "https://ui.powerreviews.com/tag-builds/10398/4.0/category.engine.js",
+      "bytes": 400972,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 134.179
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-BC1VBYJE58&l=dataLayer&cx=c",
+      "bytes": 234396,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 119.34
+    },
+    {
+      "url": "https://chimpstatic.com/mcjs-connected/js/users/eb4fe743398086af78efc9a6a/f5256f866ec736a72f217fd20.js",
+      "bytes": 50,
+      "dnsTime": 759.562,
+      "sslTime": 21.051,
+      "requestTime": 1050.184
+    },
+    {
+      "url": "https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js",
+      "bytes": 76452,
+      "dnsTime": 0.018,
+      "sslTime": 40.004,
+      "requestTime": 302.375
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-5994732",
+      "bytes": 113687,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 362.195
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 16.223,
+      "sslTime": 27.19,
+      "requestTime": 86.257
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 516.2470000000001
+    },
+    {
+      "url": "https://assets.pinterest.com/js/pinit_main.js?0.04049531914806215",
+      "bytes": 68091,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.906
+    },
+    {
+      "url": "https://stats.wp.com/s-202305.js",
+      "bytes": 9364,
+      "dnsTime": 3.628,
+      "sslTime": 132.921,
+      "requestTime": 151.18399999999997
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-BC1VBYJE58",
+      "bytes": 234364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 144.361
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=GTM-W34VJ8",
+      "bytes": 276767,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 152.60600000000002
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-821050.js?sv=6",
+      "bytes": 8667,
+      "dnsTime": 2.261,
+      "sslTime": 22.48,
+      "requestTime": 39.559999999999995
+    }
+  ],
+  "numJsRequests": 51,
+  "numThirdPartyJsRequests": 51,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 11,
+  "totalJsBytes": 3184412,
+  "totalDnsTime": 787.832,
+  "totalSslTime": 354.64599999999996,
+  "totalTime": 7530.992,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 787.832,
+  "totalThirdPartySslTime": 354.64599999999996,
+  "totalThirdPartyTime": 7530.992,
+  "totalThirdPartyJsBytes": 3184412,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 15.170352059861436,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

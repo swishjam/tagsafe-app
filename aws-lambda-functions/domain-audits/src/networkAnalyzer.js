@@ -18,7 +18,7 @@ module.exports = class NetworkAnalyzer {
   }
 
   static _calculateThirdPartyJavascriptDnsTime(harEntries, firstPartyUrls) {
-    const jsHarEntries = harEntries.filter(entry => entry.request.method === 'GET' && entry.response.content.mimeType === 'application/javascript');
+    const jsHarEntries = harEntries.filter(entry => entry.request.method === 'GET' && entry.response.content.mimeType.includes('javascript'));
 
     let totalDnsTime = 0;
     let totalSslTime = 0;
@@ -55,12 +55,14 @@ module.exports = class NetworkAnalyzer {
 
       const isFirstParty = firstPartyUrls.find(firstPartyUrl => new URL(firstPartyUrl).hostname === new URL(url).hostname)
       if(isFirstParty) {
+        console.log(`1P ~~~ NetworkAnalyzer: ${url} is first party`);
         totalFirstPartyDnsTime += dnsTime;
         totalFirstPartySslTime += sslTime;
         totalFirstPartyTime += requestTime;
         totalFirstPartyJsBytes += bytes;
         firstPartyJsRequests.push(data);
       } else {
+        console.log(`3P ___ NetworkAnalyzer: ${url} is third party`);
         totalThirdPartyDnsTime += dnsTime;
         totalThirdPartySslTime += sslTime;
         totalThirdPartyTime += requestTime;

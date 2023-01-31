@@ -1,0 +1,444 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 3.030213,
+    "withoutTags": 0.9071910000000001,
+    "difference": 2.1230219999999997,
+    "cutMetricPercentage": 0.700618075363019,
+    "percentFasterWithoutTags": "142.7311163049653%"
+  },
+  "TaskDuration": {
+    "withTags": 7.164118666666667,
+    "withoutTags": 3.9172203333333333,
+    "difference": 3.2468983333333337,
+    "cutMetricPercentage": 0.4532167157476826,
+    "percentFasterWithoutTags": "220.6449950439881%"
+  },
+  "DOMComplete": {
+    "withTags": 4516.333333333333,
+    "withoutTags": 1808.3333333333333,
+    "difference": 2708,
+    "cutMetricPercentage": 0.5996014466012253,
+    "percentFasterWithoutTags": "166.7774495322501%"
+  },
+  "DOMInteractive": {
+    "withTags": 1057.3333333333333,
+    "withoutTags": 1037.6666666666667,
+    "difference": 19.666666666666515,
+    "cutMetricPercentage": 0.018600252206809442,
+    "percentFasterWithoutTags": "5376.271186440718%"
+  },
+  "DOMLoading": {
+    "withTags": 213.66666666666666,
+    "withoutTags": 192.33333333333334,
+    "difference": 21.333333333333314,
+    "cutMetricPercentage": 0.09984399375975031,
+    "percentFasterWithoutTags": "1001.5625000000009%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 544.8999999985099,
+    "withoutTags": 549.7999999995033,
+    "difference": -4.900000000993373,
+    "cutMetricPercentage": -0.0089924756854593,
+    "percentFasterWithoutTags": "-11120.408160980465%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://s.go-mpulse.net/boomerang/XKWTC-YB7RV-VMGLX-72SEJ-UHVB3",
+      "bytes": 209939,
+      "dnsTime": 9.099,
+      "sslTime": 16.259,
+      "requestTime": 52.187
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-KGDJ6VN&gtm_auth=hBkYPiB8e6laHECgR7bIDw&gtm_preview=env-1&gtm_cookies_win=x",
+      "bytes": 500488,
+      "dnsTime": 8.229,
+      "sslTime": 29.268,
+      "requestTime": 95.849
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.1/dist/js/splide.min.js",
+      "bytes": 29615,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.237
+    },
+    {
+      "url": "https://514010235.collect.igodigital.com/collect.js",
+      "bytes": 8440,
+      "dnsTime": 26.058,
+      "sslTime": 88.785,
+      "requestTime": 200.722
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/imajs.js?a=9576&sig=62e22fca4d0b635d7e9bc07b&languageCode=en_US",
+      "bytes": 112603,
+      "dnsTime": 31.841,
+      "sslTime": 20.874,
+      "requestTime": 64.01899999999999
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=GTM-MGCGV4N",
+      "bytes": 121036,
+      "dnsTime": 9.811,
+      "sslTime": 27.632,
+      "requestTime": 73.569
+    },
+    {
+      "url": "https://t.contentsquare.net/uxa/4c2c25a341cbd.js",
+      "bytes": 406994,
+      "dnsTime": 8.561,
+      "sslTime": 10.795,
+      "requestTime": 35.664
+    },
+    {
+      "url": "https://api.bluecore.com/triggermail.js/vans.js",
+      "bytes": 81242,
+      "dnsTime": 7.59,
+      "sslTime": 29.245,
+      "requestTime": 79.335
+    },
+    {
+      "url": "https://cdn.brcdn.com/v1/br-trk-5435.js",
+      "bytes": 15688,
+      "dnsTime": 15.703,
+      "sslTime": 36.631,
+      "requestTime": 61.102
+    },
+    {
+      "url": "https://cdns.brsrvr.com/v1/br-trk-6503.js",
+      "bytes": 17433,
+      "dnsTime": 25.213,
+      "sslTime": 103.326,
+      "requestTime": 294.09799999999996
+    },
+    {
+      "url": "https://gateway.foresee.com/sites/vans/production/gateway.min.js",
+      "bytes": 133222,
+      "dnsTime": 24.253,
+      "sslTime": 13.384,
+      "requestTime": 59.099000000000004
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 21748,
+      "dnsTime": 10.502,
+      "sslTime": 18.055,
+      "requestTime": 50.001000000000005
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-SZRZKGPZER&l=dataLayer&cx=c",
+      "bytes": 217358,
+      "dnsTime": 0.006,
+      "sslTime": 24.912,
+      "requestTime": 73.625
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/1cdaebc8d510462a409a.syteapp.js",
+      "bytes": 6393,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.869
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/ce4e86aa9a61dd484c86.syteapp.js",
+      "bytes": 68814,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.158
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/31dc25682ffca7325e53.syteapp.js",
+      "bytes": 161479,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.796
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/27577b1ae8713137496f.syteapp.js",
+      "bytes": 14377,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.637
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/37e015db14181648605c.syteapp.js",
+      "bytes": 37472,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.539
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/341587e8e23b585db604.syteapp.js",
+      "bytes": 184428,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.884
+    },
+    {
+      "url": "https://gateway.foresee.com/code/6.3.1-mp/mpathy.js",
+      "bytes": 141805,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.191000000000003
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/fs.utils.js",
+      "bytes": 59785,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.525000000000002
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/fs.compress.js",
+      "bytes": 32192,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.014
+    },
+    {
+      "url": "https://resources.xg4ken.com/js/v2/ktag.js?tid=KT-N2781-3F0",
+      "bytes": 9203,
+      "dnsTime": 15.163,
+      "sslTime": 110.32,
+      "requestTime": 205.936
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-10274944",
+      "bytes": 113556,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.561
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-10274944&l=dataLayer&cx=c",
+      "bytes": 113708,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.362
+    },
+    {
+      "url": "https://dynamic.criteo.com/js/ld/ld.js?a=100034",
+      "bytes": 43960,
+      "dnsTime": 1.332,
+      "sslTime": 84.486,
+      "requestTime": 247.12699999999998
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/9314dd020cacad64cc62.syteapp.js",
+      "bytes": 1373,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.578
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/360409e50c8473cf0ebe.syteapp.js",
+      "bytes": 13391,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.343
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/9210989b0bb07742ef50.syteapp.js",
+      "bytes": 2191,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.568000000000001
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/a0e59c5774e0d2f3909c.syteapp.js",
+      "bytes": 13454,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.000000000000002
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/c8930b237408b0588600.syteapp.js",
+      "bytes": 8536,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.735
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/757499114/af43556d3a34da50e5c4.syteapp.js",
+      "bytes": 14158,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.082
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/6.29.0/otBannerSdk.js",
+      "bytes": 333433,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.179
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/fs.feedback.js",
+      "bytes": 36771,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.474
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/fs.survey.js",
+      "bytes": 22031,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.627
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/templates/feedback/default/badge___html.js",
+      "bytes": 2995,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.153999999999998
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/templates/feedback/default/serviceunavailable___html.js",
+      "bytes": 560,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.995
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/templates/feedback/default/epilogue___html.js",
+      "bytes": 1873,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.442
+    },
+    {
+      "url": "https://gateway.foresee.com/code/19.14.5-fs/templates/feedback/default/surveycontents___html.js",
+      "bytes": 13395,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.56
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-9876505",
+      "bytes": 113556,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.315
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-9876505&l=dataLayer&cx=c",
+      "bytes": 113577,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.353
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.269,
+      "sslTime": 16.205,
+      "requestTime": 57.312000000000005
+    },
+    {
+      "url": "https://vfc.inq.com/chatskins/launch/inqChatLaunch10007246.js",
+      "bytes": 4869,
+      "dnsTime": 1.384,
+      "sslTime": 49.649,
+      "requestTime": 110.735
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/launch/chatLoader.min.js?codeVersion=1674595294270",
+      "bytes": 22376,
+      "dnsTime": 10.41,
+      "sslTime": 14.14,
+      "requestTime": 39.454
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/launch/site_10007246_default_helper.js?codeVersion=1674595294270",
+      "bytes": 23637,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.072000000000001
+    },
+    {
+      "url": "https://vfc.inq.com/chatskins/launch/inqChatLaunch10007246.js",
+      "bytes": 4869,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 52.004
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/launch/site_10007246_default_jssdk.js?codeVersion=1674595294270",
+      "bytes": 144764,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.597
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/launch/tcFramework_jssdk.min.js?codeVersion=1674595294270",
+      "bytes": 532139,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.765
+    },
+    {
+      "url": "https://vfc.inq.com/tagserver/js/ads-blocking-detector.min.js",
+      "bytes": 4879,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.105
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/launch/ci/InqFrameworkService.js?codeVersion=1674595294270",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.942
+    },
+    {
+      "url": "https://vfc.inq.com/tagserver/acif/pre-acif.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 49.394
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/launch/acif/acif.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.157
+    },
+    {
+      "url": "https://media-us1.digital.nuance.com/media/sites/10007246/assets/automatons/acif-configs.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.471000000000004
+    },
+    {
+      "url": "https://cobrowse-vfc.inq.com/cobrowse/cbc-min.js?codeVersion=1674595294270",
+      "bytes": 150001,
+      "dnsTime": 1.374,
+      "sslTime": 48.45,
+      "requestTime": 183.885
+    }
+  ],
+  "numJsRequests": 86,
+  "numThirdPartyJsRequests": 54,
+  "numFirstPartyJsRequests": 32,
+  "numUnique3pHosts": 18,
+  "totalJsBytes": 8064222,
+  "totalDnsTime": 208.798,
+  "totalSslTime": 742.4160000000002,
+  "totalTime": 3276.4659999999994,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 440.0619999999999,
+  "totalFirstPartyJsBytes": 3583020,
+  "totalThirdPartyDnsTime": 208.798,
+  "totalThirdPartySslTime": 742.4160000000002,
+  "totalThirdPartyTime": 2836.4040000000005,
+  "totalThirdPartyJsBytes": 4481202,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 33.535913783791024,
+  "percentOfJsRequestTimeIs3p": 86.56900453110153,
+  "percentOfJsIs3p": 55.56893151007003
+}

@@ -1,0 +1,3 @@
+www.youvegotmaids.com loads 31 third party JS scripts, totaling in 3.36 MB of javascript, while you are loading 179 KB of 'first party javascript', meaning 95.06% of all the javascript loaded on the page originates from third party resources. 
+It takes www.youvegotmaids.com 5.67 seconds to download all of the third party javascript on the site. 6.68% of the third party JS download time is due to DNS lookups and SSL connections, which would be eliminated using Tagsafe. 
+If www.youvegotmaids.com had zero third party javascript tags, it would cut the DOM Complete time by 55.54%, the First Contentful Paint time by 14.43%, and DOM Interactive time by 19.42%.

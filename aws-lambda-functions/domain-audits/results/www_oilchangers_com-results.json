@@ -1,0 +1,332 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9523253333333335,
+    "withoutTags": 0.06693,
+    "difference": 0.8853953333333334,
+    "cutMetricPercentage": 0.9297193956127038,
+    "percentFasterWithoutTags": "107.55933507668513%"
+  },
+  "TaskDuration": {
+    "withTags": 1.9970926666666664,
+    "withoutTags": 0.48895333333333335,
+    "difference": 1.508139333333333,
+    "cutMetricPercentage": 0.7551674283850623,
+    "percentFasterWithoutTags": "132.42096552528966%"
+  },
+  "DOMComplete": {
+    "withTags": 3938.3333333333335,
+    "withoutTags": -558368165839.6666,
+    "difference": 558368169778,
+    "cutMetricPercentage": 141777783.2699111,
+    "percentFasterWithoutTags": "7.053291262822456e-7%"
+  },
+  "DOMInteractive": {
+    "withTags": 2794.6666666666665,
+    "withoutTags": 1695.6666666666667,
+    "difference": 1098.9999999999998,
+    "cutMetricPercentage": 0.39324904580152664,
+    "percentFasterWithoutTags": "254.29178040643015%"
+  },
+  "DOMLoading": {
+    "withTags": 1019,
+    "withoutTags": 1016,
+    "difference": 3,
+    "cutMetricPercentage": 0.002944062806673209,
+    "percentFasterWithoutTags": "33966.66666666667%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1688.6666666666667,
+    "withoutTags": 1580.9333333348234,
+    "difference": 107.73333333184337,
+    "cutMetricPercentage": 0.06379786813966247,
+    "percentFasterWithoutTags": "1567.450495071183%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://oilchangers.com/wp-includes/js/jquery/jquery.min.js?ver=3.6.1",
+      "bytes": 89684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 255.189
+    },
+    {
+      "url": "https://oilchangers.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2",
+      "bytes": 11224,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 255.269
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/geodirectory/vendor/ayecode/wp-ayecode-ui/assets/js/select2.min.js?ver=4.0.11",
+      "bytes": 95468,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 255.637
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/geodirectory/vendor/ayecode/wp-ayecode-ui/assets/js/bootstrap.bundle.min.js?ver=0.1.85",
+      "bytes": 136938,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 256.552
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/revslider/public/assets/js/rbtools.min.js?ver=6.5.18",
+      "bytes": 128805,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.224999999999994
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/revslider/public/assets/js/rs6.min.js?ver=6.5.19",
+      "bytes": 386778,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 59.936
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/wpgmza_data-v2d391d530462c7cee51be81d7f6e55b6aa5cac36.js",
+      "bytes": 73,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 255.687
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/wordpress-store-locator-custom-v44842303737844196dcb888f8e5e4f72e790b553.js",
+      "bytes": 880,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 255.649
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-815796857",
+      "bytes": 176627,
+      "dnsTime": 0.873,
+      "sslTime": 64.301,
+      "requestTime": 163.32
+    },
+    {
+      "url": "https://oilchangers.com/wp-includes/js/wp-emoji-release.min.js?ver=6.1.1",
+      "bytes": 18617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.772000000000006
+    },
+    {
+      "url": "https://www.local-marketing-reports.com/external/showcase-reviews/embed/d464de8e71443fb07d11e823656a972a673e2231?id=2410",
+      "bytes": 3224,
+      "dnsTime": 7.74,
+      "sslTime": 65.276,
+      "requestTime": 740.89
+    },
+    {
+      "url": "https://amplify.review-alerts.com/widget-init.js",
+      "bytes": 443418,
+      "dnsTime": 29.129,
+      "sslTime": 26.585,
+      "requestTime": 92.35999999999999
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=5.6.4",
+      "bytes": 9937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 49.315999999999995
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/contact-form-7/includes/js/index.js?ver=5.6.4",
+      "bytes": 12310,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.662
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/geodirectory/assets/aui/js/geodirectory.min.js?ver=2.2.18",
+      "bytes": 55419,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.675999999999995
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/geodirectory/assets/jawj/oms.min.js?ver=2.2.18",
+      "bytes": 9713,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.215
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/geodirectory/assets/js/goMap.min.js?ver=2.2.18",
+      "bytes": 37733,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.544
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/material-design-for-contact-form-7-premium/assets/js/lib/autosize.min.js?ver=1.0",
+      "bytes": 3578,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.332
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/cf7-material-design-vb2fb77436ea892316b77ae2bf2f2ec91beca10c0.js",
+      "bytes": 559026,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.476
+    },
+    {
+      "url": "https://oilchangers.com/wp-includes/js/jquery/ui/core.min.js?ver=1.13.2",
+      "bytes": 21440,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.782000000000004
+    },
+    {
+      "url": "https://oilchangers.com/wp-includes/js/jquery/ui/tabs.min.js?ver=1.13.2",
+      "bytes": 11937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.269
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/mfn-plugins-v5010bf2509eb0c5df3dc3b835349d4cd42fb0251.js",
+      "bytes": 200111,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.663000000000004
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/mfn-menu-v5bb47d93c0ef5885dc8beb251f47eef97b4932d8.js",
+      "bytes": 1590,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.612
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/themes/betheme/assets/animations/animations.min.js?ver=26.1",
+      "bytes": 1831,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.257
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/themes/betheme/assets/jplayer/jplayer.min.js?ver=26.1",
+      "bytes": 52577,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.37899999999999
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/mfn-parallax-v11be68e960d73799cc3151eb63c0fc9aeec81284.js",
+      "bytes": 2446,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.955
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/mfn-scripts-v80785bd50e906018bc71a7718d984a9adbcacb97.js",
+      "bytes": 56551,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 262.58899999999994
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/mfn-hb-vd4a53d0117e6f1ce5bc641ec0870d787a2445972.js",
+      "bytes": 2590,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 261.024
+    },
+    {
+      "url": "https://oilchangers.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9",
+      "bytes": 6475,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 218.421
+    },
+    {
+      "url": "https://oilchangers.com/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0",
+      "bytes": 17823,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 219.128
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/contact-form-7/modules/recaptcha/index.js?ver=5.6.4",
+      "bytes": 999,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 207.852
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/wp-review-slider-pro-premium/public/js/wprev-public.min.js?ver=11.0.1",
+      "bytes": 20462,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.776000000000003
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/wp-review-slider-pro-premium/public/js/wprs-combined.min.js?ver=11.0.1",
+      "bytes": 13138,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.741
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/wordpress-store-locator/public/js/bootstrap.min.js?ver=4.5.3",
+      "bytes": 63240,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.995000000000005
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/wordpress-store-locator-single-v85922100534f8d2c9d195a04c6d5ca66b97ac8b8.js",
+      "bytes": 4618,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.075
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/cache/asset-cleanup/js/item/wordpress-store-locator-public-v029bc31c25d3ab2d54ef4812ffab339344d900b5.js",
+      "bytes": 77564,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.556999999999995
+    },
+    {
+      "url": "https://oilchangers.com/wp-content/plugins/js_composer/assets/js/dist/js_composer_front.min.js?ver=6.6.0",
+      "bytes": 20637,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.573
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 4.561,
+      "sslTime": 24.559,
+      "requestTime": 157.168
+    }
+  ],
+  "numJsRequests": 38,
+  "numThirdPartyJsRequests": 38,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 5,
+  "totalJsBytes": 2794877,
+  "totalDnsTime": 42.303000000000004,
+  "totalSslTime": 180.721,
+  "totalTime": 4855.522999999998,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 42.303000000000004,
+  "totalThirdPartySslTime": 180.721,
+  "totalThirdPartyTime": 4855.522999999998,
+  "totalThirdPartyJsBytes": 2794877,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 4.59320242124278,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

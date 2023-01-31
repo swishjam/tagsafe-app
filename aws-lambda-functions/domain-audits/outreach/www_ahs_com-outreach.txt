@@ -1,0 +1,3 @@
+www.ahs.com loads 8 third party JS scripts, totaling in 759 KB of javascript, while you are loading 1.08 MB of 'first party javascript', meaning 40.71% of all the javascript loaded on the page originates from third party resources. 
+It takes www.ahs.com 1.1 seconds to download all of the third party javascript on the site. 30.34% of the third party JS download time is due to DNS lookups and SSL connections, which would be eliminated using Tagsafe. 
+If www.ahs.com had zero third party javascript tags, it would cut the DOM Complete time by 16361616921.19%, the First Contentful Paint time by 25.45%, and DOM Interactive time by 32.04%.

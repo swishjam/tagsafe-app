@@ -1,0 +1,129 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.86273,
+    "withoutTags": 0.000625,
+    "difference": 0.862105,
+    "cutMetricPercentage": 0.9992755555040396,
+    "percentFasterWithoutTags": "100.07249696962668%"
+  },
+  "TaskDuration": {
+    "withTags": 2.0722533333333337,
+    "withoutTags": 0.23599500000000004,
+    "difference": 1.8362583333333338,
+    "cutMetricPercentage": 0.8861167231805636,
+    "percentFasterWithoutTags": "112.85194984365852%"
+  },
+  "DOMComplete": {
+    "withTags": -558367651776,
+    "withoutTags": 1153.6666666666667,
+    "difference": -558367652929.6666,
+    "cutMetricPercentage": 1.0000000020661415,
+    "percentFasterWithoutTags": "99.99999979338584%"
+  },
+  "DOMInteractive": {
+    "withTags": 990.3333333333334,
+    "withoutTags": 961.3333333333334,
+    "difference": 29,
+    "cutMetricPercentage": 0.0292830696735106,
+    "percentFasterWithoutTags": "3414.942528735632%"
+  },
+  "DOMLoading": {
+    "withTags": 458.3333333333333,
+    "withoutTags": 465,
+    "difference": -6.666666666666686,
+    "cutMetricPercentage": -0.014545454545454587,
+    "percentFasterWithoutTags": "-6874.99999999998%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 914.7666666681567,
+    "withoutTags": 904.1000000039736,
+    "difference": 10.66666666418314,
+    "cutMetricPercentage": 0.011660532737855661,
+    "percentFasterWithoutTags": "8575.93750201071%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-005NYSEWBH",
+      "bytes": 220101,
+      "dnsTime": 0.745,
+      "sslTime": 30.039,
+      "requestTime": 88.974
+    },
+    {
+      "url": "https://dentalbilling.com/wp-content/cache/breeze-minification/js/breeze_1b74f9302a2bf03426f1b521745660bb.js",
+      "bytes": 669289,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 145.727
+    },
+    {
+      "url": "https://dentalbilling.com/wp-includes/js/wp-emoji-release.min.js?ver=6.1.1",
+      "bytes": 18617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 216.878
+    },
+    {
+      "url": "https://js.driftt.com/include/1675103100000/muugvcmsipcf.js",
+      "bytes": 216518,
+      "dnsTime": 2.387,
+      "sslTime": 20.473,
+      "requestTime": 243.73699999999997
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1093139.js?sv=5",
+      "bytes": 8418,
+      "dnsTime": 2.155,
+      "sslTime": 19.917,
+      "requestTime": 32.687
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-N7ZP573",
+      "bytes": 136455,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 284.509
+    },
+    {
+      "url": "https://chimpstatic.com/mcjs-connected/js/users/21a3abdeac0b935f2c39a56b6/9645fa54fe346a70bcd3bdef8.js",
+      "bytes": 3688,
+      "dnsTime": 2.451,
+      "sslTime": 15.657,
+      "requestTime": 37.115
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.001
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/KA3PZUBEHBHBZPRA3K2B72?pv=56832625940.6573&arrfrr=https%3A%2F%2Fdentalbilling.com%2F&_s=d2691100165a5b781427577011a5098f&_b=2",
+      "bytes": 459,
+      "dnsTime": 0.97,
+      "sslTime": 188.539,
+      "requestTime": 251.144
+    }
+  ],
+  "numJsRequests": 9,
+  "numThirdPartyJsRequests": 9,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 1273573,
+  "totalDnsTime": 8.708,
+  "totalSslTime": 274.625,
+  "totalTime": 1407.772,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 8.708,
+  "totalThirdPartySslTime": 274.625,
+  "totalThirdPartyTime": 1407.772,
+  "totalThirdPartyJsBytes": 1273573,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 20.126341481433077,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

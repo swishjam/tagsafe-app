@@ -1,0 +1,73 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.006693,
+    "withoutTags": 0.011000666666666667,
+    "difference": -0.004307666666666667,
+    "cutMetricPercentage": 1.64360774938991,
+    "percentFasterWithoutTags": "-155.37413913178054%"
+  },
+  "TaskDuration": {
+    "withTags": 0.03407166666666667,
+    "withoutTags": 0.085583,
+    "difference": -0.05151133333333334,
+    "cutMetricPercentage": 2.511852467837402,
+    "percentFasterWithoutTags": "-66.14402008619462%"
+  },
+  "DOMComplete": {
+    "withTags": -1674690947234,
+    "withoutTags": 2414.6666666666665,
+    "difference": -1674690949648.6667,
+    "cutMetricPercentage": -1.4418580757571098e-9,
+    "percentFasterWithoutTags": "99.9999998558142%"
+  },
+  "DOMInteractive": {
+    "withTags": 1857.3333333333333,
+    "withoutTags": 1893.6666666666667,
+    "difference": -36.333333333333485,
+    "cutMetricPercentage": 1.019562096195262,
+    "percentFasterWithoutTags": "-5111.9266055045655%"
+  },
+  "DOMLoading": {
+    "withTags": 1837,
+    "withoutTags": 1870.6666666666667,
+    "difference": -33.66666666666674,
+    "cutMetricPercentage": 1.0183269823988388,
+    "percentFasterWithoutTags": "-5456.435643564344%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": null,
+    "withoutTags": 1936.2999999995034,
+    "difference": null,
+    "cutMetricPercentage": null,
+    "percentFasterWithoutTags": "NaN%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.ralphlauren.com/jBdHNCWl/captcha/PXjBdHNCWl/captcha.js?a=c&m=0&u=c9a8f604-9d0b-11ed-9cfa-4f626d524746&v=",
+      "bytes": 65079,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 252.623
+    }
+  ],
+  "numJsRequests": 1,
+  "numThirdPartyJsRequests": 1,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 1,
+  "totalJsBytes": 65079,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 252.623,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 252.623,
+  "totalThirdPartyJsBytes": 65079,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 0,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

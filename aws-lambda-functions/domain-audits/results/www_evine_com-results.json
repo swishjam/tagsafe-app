@@ -1,0 +1,241 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.2991186666666665,
+    "withoutTags": 0.013359666666666666,
+    "difference": 1.2857589999999999,
+    "cutMetricPercentage": 0.9897163615538329,
+    "percentFasterWithoutTags": "101.03904904936824%"
+  },
+  "TaskDuration": {
+    "withTags": 2.2351543333333335,
+    "withoutTags": 0.41803066666666666,
+    "difference": 1.8171236666666668,
+    "cutMetricPercentage": 0.8129745850510248,
+    "percentFasterWithoutTags": "123.00507523703669%"
+  },
+  "DOMComplete": {
+    "withTags": -1116736715401.3333,
+    "withoutTags": 4507,
+    "difference": -1116736719908.3333,
+    "cutMetricPercentage": 1.0000000040358663,
+    "percentFasterWithoutTags": "99.99999959641337%"
+  },
+  "DOMInteractive": {
+    "withTags": 5104,
+    "withoutTags": 4505.333333333333,
+    "difference": 598.666666666667,
+    "cutMetricPercentage": 0.11729362591431564,
+    "percentFasterWithoutTags": "852.5612472160352%"
+  },
+  "DOMLoading": {
+    "withTags": 510.3333333333333,
+    "withoutTags": 660.3333333333334,
+    "difference": -150.00000000000006,
+    "cutMetricPercentage": -0.29392553886348805,
+    "percentFasterWithoutTags": "-340.22222222222206%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 4726.133333332837,
+    "withoutTags": 2810.166666664183,
+    "difference": 1915.9666666686535,
+    "cutMetricPercentage": 0.4053983524238676,
+    "percentFasterWithoutTags": "246.6709580887595%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.evgnet.com/beacon/shophq/engage/scripts/evergage.min.js",
+      "bytes": 176276,
+      "dnsTime": 5.969,
+      "sslTime": 11.829,
+      "requestTime": 279.141
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.3.0/jquery-migrate.min.js",
+      "bytes": 11059,
+      "dnsTime": 11.68,
+      "sslTime": 12.783,
+      "requestTime": 43.260000000000005
+    },
+    {
+      "url": "https://c.la1-c2-ia5.salesforceliveagent.com/content/g/js/48.0/deployment.js",
+      "bytes": 42736,
+      "dnsTime": 0.014,
+      "sslTime": 136.534,
+      "requestTime": 748.503
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js",
+      "bytes": 11084,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.497
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/hls.js/latest/hls.min.js",
+      "bytes": 223766,
+      "dnsTime": 7.164,
+      "sslTime": 15.014,
+      "requestTime": 54.037000000000006
+    },
+    {
+      "url": "https://www.shophq.com/Scripts/jwplayer/8.13.3/jwplayer.js",
+      "bytes": 112377,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.412
+    },
+    {
+      "url": "https://www.shophq.com/signalr/hubs",
+      "bytes": 3394,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 581.574
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js",
+      "bytes": 61486,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.482999999999997
+    },
+    {
+      "url": "https://tv123auctions.live.cgrd.net/component/build/component.js",
+      "bytes": 503254,
+      "dnsTime": 3.038,
+      "sslTime": 1476.541,
+      "requestTime": 4518.384
+    },
+    {
+      "url": "https://tv123auctions.live.cgrd.net/component/build/loader.js",
+      "bytes": 3160,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 2039.191
+    },
+    {
+      "url": "https://www.shophq.com/algolia/js/2.719c0a25.chunk.js",
+      "bytes": 678222,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 190.162
+    },
+    {
+      "url": "https://www.shophq.com/algolia/js/3.50cb2d77.chunk.js",
+      "bytes": 4399,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.068000000000005
+    },
+    {
+      "url": "https://www.shophq.com/algolia/js/main.80f5dd9e.chunk.js",
+      "bytes": 65647,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.501
+    },
+    {
+      "url": "https://www.shophq.com/algolia/js/runtime-main.4adb93ff.js",
+      "bytes": 2374,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.63100000000001
+    },
+    {
+      "url": "https://tv123auctions.live.cgrd.net/component/build/polyfills/systemjs.c12345a3f6a1d7c2542d26a81dfc5f25.js",
+      "bytes": 7743,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 2641.7459999999996
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.esm.browser.js",
+      "bytes": 33346,
+      "dnsTime": 0.009,
+      "sslTime": 9.708,
+      "requestTime": 28.778000000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1067495490",
+      "bytes": 131541,
+      "dnsTime": 1.171,
+      "sslTime": 53.546,
+      "requestTime": 244.52300000000002
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1418995.js?sv=6",
+      "bytes": 8487,
+      "dnsTime": 1.258,
+      "sslTime": 11.606,
+      "requestTime": 21.902
+    },
+    {
+      "url": "https://www.paypal.com/sdk/js?components=shopping&client-id=AebWSCUYL-VKFajg3ieSCxEVTzk3LSJjtt7GlNr1gOUeaOHMGuTriSlgp3_9XmUWYcPZGPgpBA1MaH4I",
+      "bytes": 176662,
+      "dnsTime": 1.389,
+      "sslTime": 17.44,
+      "requestTime": 39.308
+    },
+    {
+      "url": "https://www.shophq.com/scripts/videoJS/6.2.0/video.min.js",
+      "bytes": 182814,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.706
+    },
+    {
+      "url": "https://www.shophq.com/scripts/videoJS/6.2.0/flashfallback/videojs-flash.min.js",
+      "bytes": 7884,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-VQ2XH4GSSP&l=dataLayer&cx=c",
+      "bytes": 223789,
+      "dnsTime": 0.01,
+      "sslTime": 26.202,
+      "requestTime": 73.908
+    },
+    {
+      "url": "https://www.shophq.com/scripts/videoJS/6.2.0/flashfallback/videojs-contrib-hls.min.js",
+      "bytes": 216817,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.579
+    },
+    {
+      "url": "https://www.paypal.com/muse/identity/v2/identity.js",
+      "bytes": 4150,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 75.82400000000001
+    },
+    {
+      "url": "https://tv123auctions.live.cgrd.net/component/build/legacy-component.js",
+      "bytes": 307761,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 323.621
+    }
+  ],
+  "numJsRequests": 25,
+  "numThirdPartyJsRequests": 25,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 9,
+  "totalJsBytes": 3200228,
+  "totalDnsTime": 31.701999999999998,
+  "totalSslTime": 1771.2030000000002,
+  "totalTime": 12221.740999999998,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 31.701999999999998,
+  "totalThirdPartySslTime": 1771.2030000000002,
+  "totalThirdPartyTime": 12221.740999999998,
+  "totalThirdPartyJsBytes": 3200228,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 14.751621720669753,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

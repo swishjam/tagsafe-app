@@ -1,0 +1,171 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.609752,
+    "withoutTags": 0.025620333333333332,
+    "difference": 0.5841316666666666,
+    "cutMetricPercentage": 0.9579823709748663,
+    "percentFasterWithoutTags": "104.38605451396519%"
+  },
+  "TaskDuration": {
+    "withTags": 1.0657896666666666,
+    "withoutTags": 0.3559943333333333,
+    "difference": 0.7097953333333333,
+    "cutMetricPercentage": 0.6659806859952667,
+    "percentFasterWithoutTags": "150.15450463185164%"
+  },
+  "DOMComplete": {
+    "withTags": 1914,
+    "withoutTags": 783,
+    "difference": 1131,
+    "cutMetricPercentage": 0.5909090909090909,
+    "percentFasterWithoutTags": "169.23076923076923%"
+  },
+  "DOMInteractive": {
+    "withTags": 910.3333333333334,
+    "withoutTags": 778,
+    "difference": 132.33333333333337,
+    "cutMetricPercentage": 0.1453679970706701,
+    "percentFasterWithoutTags": "687.9093198992441%"
+  },
+  "DOMLoading": {
+    "withTags": 168.33333333333334,
+    "withoutTags": 164.33333333333334,
+    "difference": 4,
+    "cutMetricPercentage": 0.023762376237623763,
+    "percentFasterWithoutTags": "4208.333333333334%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 763.6666666666666,
+    "withoutTags": 774.2666666656733,
+    "difference": -10.599999999006627,
+    "cutMetricPercentage": -0.013880401570065422,
+    "percentFasterWithoutTags": "-7204.402516398426%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NJGNR68",
+      "bytes": 210406,
+      "dnsTime": 7.864,
+      "sslTime": 31.666,
+      "requestTime": 127.739
+    },
+    {
+      "url": "https://js.hs-scripts.com/14570877.js",
+      "bytes": 2999,
+      "dnsTime": 1.849,
+      "sslTime": 16.359,
+      "requestTime": 133.592
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-Q96ZY5H73B&l=dataLayer&cx=c",
+      "bytes": 223558,
+      "dnsTime": 0.011,
+      "sslTime": 26.359,
+      "requestTime": 87.75
+    },
+    {
+      "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
+      "bytes": 56734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.363000000000001
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 9.693,
+      "sslTime": 16.484,
+      "requestTime": 43.80200000000001
+    },
+    {
+      "url": "https://js.usemessages.com/conversations-embed.js",
+      "bytes": 75187,
+      "dnsTime": 9.608,
+      "sslTime": 26.463,
+      "requestTime": 59.265
+    },
+    {
+      "url": "https://js.hscollectedforms.net/collectedforms.js",
+      "bytes": 70108,
+      "dnsTime": 9.089,
+      "sslTime": 21.62,
+      "requestTime": 130.984
+    },
+    {
+      "url": "https://js.hsleadflows.net/leadflows.js",
+      "bytes": 556117,
+      "dnsTime": 9.486,
+      "sslTime": 17.913,
+      "requestTime": 143.936
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=3448794&time=1674713079799&url=https%3A%2F%2Fpeakflo.co%2F&tm=gtmv2&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.133
+    },
+    {
+      "url": "https://static.hsappstatic.net/head-dlb/static-1.245/bundle.production.js",
+      "bytes": 45062,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 352.223
+    },
+    {
+      "url": "https://static.hsappstatic.net/hubspot-dlb/static-1.346/bundle.production.js",
+      "bytes": 303408,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 365.73199999999997
+    },
+    {
+      "url": "https://static.hsappstatic.net/conversations-visitor-ui/static-1.14337/bundles/visitor.js",
+      "bytes": 632504,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 374.882
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-361300903",
+      "bytes": 193421,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 45.251000000000005
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-361300903&l=dataLayer&cx=c",
+      "bytes": 193442,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.563
+    },
+    {
+      "url": "https://static.hsappstatic.net/conversations-visitor-ui/static-1.14196/i18n-data-data-locales-en-us.js",
+      "bytes": 776,
+      "dnsTime": 0.035,
+      "sslTime": 12.876,
+      "requestTime": 30.301000000000002
+    }
+  ],
+  "numJsRequests": 24,
+  "numThirdPartyJsRequests": 15,
+  "numFirstPartyJsRequests": 9,
+  "numUnique3pHosts": 9,
+  "totalJsBytes": 2602587,
+  "totalDnsTime": 47.63499999999999,
+  "totalSslTime": 169.74000000000004,
+  "totalTime": 2260.871,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 230.35500000000002,
+  "totalFirstPartyJsBytes": 33047,
+  "totalThirdPartyDnsTime": 47.63499999999999,
+  "totalThirdPartySslTime": 169.74000000000004,
+  "totalThirdPartyTime": 2030.516,
+  "totalThirdPartyJsBytes": 2569540,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 10.70540690149696,
+  "percentOfJsRequestTimeIs3p": 89.81122761979785,
+  "percentOfJsIs3p": 98.73022496462174
+}

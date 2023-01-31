@@ -1,0 +1,87 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9550996666666666,
+    "withoutTags": 0.38881266666666664,
+    "difference": 0.566287,
+    "cutMetricPercentage": 0.592908802885842,
+    "percentFasterWithoutTags": "168.66000220147498%"
+  },
+  "TaskDuration": {
+    "withTags": 1.8121783333333334,
+    "withoutTags": 0.9404339999999999,
+    "difference": 0.8717443333333336,
+    "cutMetricPercentage": 0.4810477629593115,
+    "percentFasterWithoutTags": "207.87956560658262%"
+  },
+  "DOMComplete": {
+    "withTags": -1675102296310,
+    "withoutTags": -1675102296321.6667,
+    "difference": 11.666748046875,
+    "cutMetricPercentage": -6.9647973574957795e-12,
+    "percentFasterWithoutTags": "-14357919529758.637%"
+  },
+  "DOMInteractive": {
+    "withTags": 1423,
+    "withoutTags": 1776,
+    "difference": -353,
+    "cutMetricPercentage": -0.24806746310611386,
+    "percentFasterWithoutTags": "-403.1161473087819%"
+  },
+  "DOMLoading": {
+    "withTags": 279.6666666666667,
+    "withoutTags": 318.3333333333333,
+    "difference": -38.66666666666663,
+    "cutMetricPercentage": -0.138259833134684,
+    "percentFasterWithoutTags": "-723.2758620689663%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1238.3333333358169,
+    "withoutTags": 1538.5,
+    "difference": -300.16666666418314,
+    "cutMetricPercentage": -0.24239569313344372,
+    "percentFasterWithoutTags": "-412.54858412417417%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-T9KG6S",
+      "bytes": 210139,
+      "dnsTime": 7.555,
+      "sslTime": 28.126,
+      "requestTime": 112.26100000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-J847V9P2X7&l=dataLayer&cx=c",
+      "bytes": 230091,
+      "dnsTime": 0.005,
+      "sslTime": 271.129,
+      "requestTime": 321.68500000000006
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=19486&time=1675102293764&url=https%3A%2F%2Fwww.alabamamediagroup.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.591
+    }
+  ],
+  "numJsRequests": 65,
+  "numThirdPartyJsRequests": 3,
+  "numFirstPartyJsRequests": 62,
+  "numUnique3pHosts": 2,
+  "totalJsBytes": 1484182,
+  "totalDnsTime": 7.56,
+  "totalSslTime": 299.255,
+  "totalTime": 2488.3410000000003,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 2019.8040000000003,
+  "totalFirstPartyJsBytes": 1043952,
+  "totalThirdPartyDnsTime": 7.56,
+  "totalThirdPartySslTime": 299.255,
+  "totalThirdPartyTime": 468.5370000000001,
+  "totalThirdPartyJsBytes": 440230,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 65.48362242469643,
+  "percentOfJsRequestTimeIs3p": 18.829292287512043,
+  "percentOfJsIs3p": 29.661456613811517
+}

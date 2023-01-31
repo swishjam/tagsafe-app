@@ -1,0 +1,360 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 5.710909666666667,
+    "withoutTags": 0.6282986666666667,
+    "difference": 5.082611,
+    "cutMetricPercentage": 0.8899827342158975,
+    "percentFasterWithoutTags": "112.3617303521097%"
+  },
+  "TaskDuration": {
+    "withTags": 10.470870666666666,
+    "withoutTags": 1.4311863333333334,
+    "difference": 9.039684333333334,
+    "cutMetricPercentage": 0.863317351642073,
+    "percentFasterWithoutTags": "115.83226007191327%"
+  },
+  "DOMComplete": {
+    "withTags": 2290,
+    "withoutTags": 1231.3333333333333,
+    "difference": 1058.6666666666667,
+    "cutMetricPercentage": 0.4622998544395925,
+    "percentFasterWithoutTags": "216.30982367758187%"
+  },
+  "DOMInteractive": {
+    "withTags": 1490,
+    "withoutTags": 773.3333333333334,
+    "difference": 716.6666666666666,
+    "cutMetricPercentage": 0.4809843400447427,
+    "percentFasterWithoutTags": "207.90697674418607%"
+  },
+  "DOMLoading": {
+    "withTags": 184,
+    "withoutTags": 188.33333333333334,
+    "difference": -4.333333333333343,
+    "cutMetricPercentage": -0.023550724637681212,
+    "percentFasterWithoutTags": "-4246.153846153837%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 683.1666666666666,
+    "withoutTags": 515.8666666671634,
+    "difference": 167.29999999950326,
+    "cutMetricPercentage": 0.24488899731569153,
+    "percentFasterWithoutTags": "408.3482765503258%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 21748,
+      "dnsTime": 0.844,
+      "sslTime": 20.675,
+      "requestTime": 61.582
+    },
+    {
+      "url": "https://cdn.cookielaw.org/opt-out/otCCPAiab.js",
+      "bytes": 22075,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 373.79300000000006
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/6.27.0/otBannerSdk.js",
+      "bytes": 328270,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.74699999999999
+    },
+    {
+      "url": "https://native.sharethrough.com/assets/sfp.js?utv=ut4.49.202107201527",
+      "bytes": 282735,
+      "dnsTime": 1.263,
+      "sslTime": 15.077,
+      "requestTime": 36.389
+    },
+    {
+      "url": "https://tagan.adlightning.com/tegna-desktop/op.js?utv=ut4.49.202301232004",
+      "bytes": 41399,
+      "dnsTime": 9.629,
+      "sslTime": 17.693,
+      "requestTime": 40.436
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/tegna-network1/loader.js",
+      "bytes": 634635,
+      "dnsTime": 1.39,
+      "sslTime": 17.062,
+      "requestTime": 39.08
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/aax2/apstag.js",
+      "bytes": 195246,
+      "dnsTime": 1.74,
+      "sslTime": 16.21,
+      "requestTime": 42.655
+    },
+    {
+      "url": "https://ads.pubmatic.com/AdServer/js/pwt/160138/4037/pwt.js",
+      "bytes": 467485,
+      "dnsTime": 1.893,
+      "sslTime": 25.981,
+      "requestTime": 263.605
+    },
+    {
+      "url": "https://cdn.opecloud.com/ope-tegna.js",
+      "bytes": 65122,
+      "dnsTime": 2.008,
+      "sslTime": 20.761,
+      "requestTime": 43.089
+    },
+    {
+      "url": "https://widget.perfectmarket.com/tegna-network1/load.js",
+      "bytes": 5711,
+      "dnsTime": 1.682,
+      "sslTime": 13.532,
+      "requestTime": 54.55200000000001
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/impl.20230130-10-RELEASE.js",
+      "bytes": 745022,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 142.107
+    },
+    {
+      "url": "https://sb.scorecardresearch.com/beacon.js",
+      "bytes": 3937,
+      "dnsTime": 89.755,
+      "sslTime": 11.111,
+      "requestTime": 173.76799999999997
+    },
+    {
+      "url": "https://tagan.adlightning.com/tegna-desktop/b-596bd02-58442906.js",
+      "bytes": 73741,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 100.09
+    },
+    {
+      "url": "https://tagan.adlightning.com/tegna-desktop/bl-ddacba4-b2e472b4.js",
+      "bytes": 32803,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.31400000000001
+    },
+    {
+      "url": "https://c.amazon-adsystem.com/bao-csm/aps-comm/aps_csm.js",
+      "bytes": 6482,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.46300000000001
+    },
+    {
+      "url": "https://collector-16562.us.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 28.728,
+      "sslTime": 232.796,
+      "requestTime": 346.41
+    },
+    {
+      "url": "https://sb.scorecardresearch.com/internal-c2/default/cs.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.787
+    },
+    {
+      "url": "https://trc.taboola.com/tegna-wtsp/trc/3/json?tim=11%3A12%3A15.685&lti=aa_test_for_monitoring_ctrl&data=%7B%22id%22%3A877%2C%22ii%22%3A%22_homepage_%22%2C%22it%22%3A%22home%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22uifp%22%3Anull%2C%22lbt%22%3A1675083309299%2C%22vi%22%3A1675105935681%2C%22cv%22%3A%2220230130-10-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.wtsp.com%2F%22%2C%22bv%22%3A%220%22%2C%22ul%22%3A%5B%22en-US%22%5D%2C%22uad%22%3A%7B%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22%22%2C%22platformVersion%22%3A%22%22%2C%22uaFullVersion%22%3A%22%22%7D%2C%22pev%22%3A8050%2C%22ccpa_ps%22%3A%221YNY%22%2C%22btv%22%3A%220%22%2C%22cos%22%3A%224g%22%2C%22bu%22%3A%22https%3A%2F%2Fwww.wtsp.com%2F%22%2C%22vpi%22%3A%22%2F%22%2C%22bad%22%3A-1%2C%22sw%22%3A1920%2C%22sh%22%3A1080%2C%22bw%22%3A1920%2C%22sde%22%3A%221.000%22%2C%22bh%22%3A1080%2C%22dw%22%3A1920%2C%22dh%22%3A5075%2C%22nsid%22%3A%22tegna-network1%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-h2m%22%2C%22s%22%3A9%2C%22uim%22%3A%22thumbnails-o%3Apub%3Dtegna-network1%3Aabp%3D0%22%2C%22uip%22%3A%22Below%20Main%20Column%20Thumbnails%22%2C%22orig_uip%22%3A%22Below%20Main%20Column%20Thumbnails%22%2C%22cd%22%3A4001.1875%2C%22mw%22%3A1140%7D%5D%2C%22cacheKey%22%3A%22home%3D_homepage_%2CBelow%20Main%20Column%20Thumbnails%3Dthumbnails-o%3Apub%3Dtegna-network1%3Aabp%3D0%22%2C%22cb%22%3A%22TRC.callbacks.recommendations_1%22%2C%22lt%22%3A%22aa_test_for_monitoring_ctrl%22%7D&llvl=2",
+      "bytes": 87266,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 377.656
+    },
+    {
+      "url": "https://widget.perfectmarket.com/tegna-network1/pmk-202010011.25.js",
+      "bytes": 115056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.157
+    },
+    {
+      "url": "https://vidstat.taboola.com/lite-unit/3.9.8/UnitFeedManagerDesktop.min.js",
+      "bytes": 106761,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.25
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/feed-card-placeholder.20230130-10-RELEASE.es6.js",
+      "bytes": 4655,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.110999999999999
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/cta-component.20230130-10-RELEASE.es6.js",
+      "bytes": 17463,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.03
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/userx.20230130-10-RELEASE.es6.js",
+      "bytes": 17870,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.336
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wtsp.com",
+      "bytes": 107,
+      "dnsTime": 0.784,
+      "sslTime": 33.352,
+      "requestTime": 172.15400000000002
+    },
+    {
+      "url": "https://cdn.tynt.com/rciv.js",
+      "bytes": 16285,
+      "dnsTime": 1.201,
+      "sslTime": 46.295,
+      "requestTime": 62.468
+    },
+    {
+      "url": "https://sync.serverbid.com/id/pubcid.min.js",
+      "bytes": 59798,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 123.319
+    },
+    {
+      "url": "https://cdn.adswizz.com/adswizz/js/SynchroClient2.js",
+      "bytes": 9187,
+      "dnsTime": 2.13,
+      "sslTime": 27.221,
+      "requestTime": 63.30299999999999
+    },
+    {
+      "url": "https://sync.serverbid.com/id/pubcid.min.js",
+      "bytes": 59798,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 120.38300000000001
+    },
+    {
+      "url": "https://cdn.adswizz.com/adswizz/js/SynchroClient2.js",
+      "bytes": 9187,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 212.32600000000002
+    },
+    {
+      "url": "https://cdn-sic.33across.com/1/javascripts/sic.js",
+      "bytes": 454487,
+      "dnsTime": 3.03,
+      "sslTime": 68.97,
+      "requestTime": 368.632
+    },
+    {
+      "url": "https://de.tynt.com/deb/v2?id=b7ZEtiCYqr6kX6aKkGJozW&dn=RCIV&cc=1&r=&us_privacy=1YNY&pu=https%3A%2F%2Fwww.wtsp.com%2F",
+      "bytes": 917,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 287.72299999999996
+    },
+    {
+      "url": "https://de.tynt.com/deb/v2?m=xch&id=b7ZEtiCYqr6kX6aKkGJozW&dn=RCIV&cc=1&r=&us_privacy=1YNY&pu=https%3A%2F%2Fwww.wtsp.com%2F&b=1",
+      "bytes": 1345,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 62.493
+    },
+    {
+      "url": "https://acdn.adnxs.com/ast/ast.js",
+      "bytes": 97735,
+      "dnsTime": 102.128,
+      "sslTime": 29.921,
+      "requestTime": 242.729
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wtsp.com",
+      "bytes": 107,
+      "dnsTime": 60.372,
+      "sslTime": 33.022,
+      "requestTime": 133.193
+    },
+    {
+      "url": "https://vidstat.taboola.com/vpaid/units/32_5_1/infra/cmTagFEED_MANAGER.js",
+      "bytes": 862436,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 130.509
+    },
+    {
+      "url": "https://vidstat.taboola.com/vpaid/vPlayer/player/v14.9.7/OvaMediaPlayer.js",
+      "bytes": 447427,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.891000000000002
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wtsp.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.926000000000002
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wtsp.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 52.255
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.wtsp.com",
+      "bytes": 107,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 172.29500000000002
+    },
+    {
+      "url": "https://digital.mediaferry.com/mf/adhesion/ekcs_serve_pushdown_gravity.js?trackurl=https://adclick.g.doubleclick.net/pcs/click%253Fxai%253DAKAOjsuPPOVdpudXLslxkJv2lSdlmMvg1YRfnIH7m8hFDI_bM_U33JbVWnRQhzJ5WYK6zn4Bo80NL5fHXDRsSM4Ezzfpr5uR0OPdrRac2rr4iuFiTFSSv7iGGRkgNDUDdJaX5HglQ_oufU67DI25tovcJ_tLrPtHKSKvTczEbmjqMtzfN-2wjq_Af1DIN9xad8pEippRHeYQYwTPF5zNYeTUGZCVW6i-r7u9xg-X6cv4gaONhrII8yOXgOMDcjp4w5TPdj2mI_1IeZxQM4AvwwWiLFxq6iu5BE5NCJx_sGpcA1gDFtY5gXdOGybQZE_maPOxgQ41llQG0v5F3ZnK_CdnVOnnJ3-Cd1Jdp3dIc9vRuLbVXxA2uZuNux4%2526sai%253DAMfl-YRgxPRTY0mAeOG55tZWIwWDGtArZHZOtfh5IEIYnySEsyl_oUqie8QcgomN8GXN9cLj46OZt8a5OE_UzPg5Qz9hWySARIoFbBxx0oPXam5ZCwpi3pXErUpqt5BqmZ2d%2526sig%253DCg0ArKJSzM3DlBKhrJuiEAE%2526fbs_aeid%253D%255Bgw_fbsaeid%255D%2526urlfix%253D1%2526adurl%253D&cb=25136655",
+      "bytes": 4958,
+      "dnsTime": 0.121,
+      "sslTime": 27.983,
+      "requestTime": 817.9799999999999
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dvtp_src.js#dvp_scripthash=1&t2te=0&seltag=1&adsrv=104&cmp=DV532366&ctx=22212438&sadv=44464512&ord=3131101594&litm=6191165923&scrt=138375790388&splc=/32805352/fl-tampa-WTSP-B3313_DesktopTablet/front_mid3/home&adu=21679000369&unit=300x250&dvp_qtpid=&dvp_qtsid=&btreg=6191165923138375790388&btadsrv=6191165923138375790388",
+      "bytes": 8039,
+      "dnsTime": 1.52,
+      "sslTime": 23.972,
+      "requestTime": 74.53399999999999
+    },
+    {
+      "url": "https://cdn.doubleverify.com/dv-measurements3438.js",
+      "bytes": 570622,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.499000000000002
+    }
+  ],
+  "numJsRequests": 71,
+  "numThirdPartyJsRequests": 42,
+  "numFirstPartyJsRequests": 29,
+  "numUnique3pHosts": 21,
+  "totalJsBytes": 6525640,
+  "totalDnsTime": 310.21799999999996,
+  "totalSslTime": 681.634,
+  "totalTime": 12570.085999999996,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 6922.067,
+  "totalFirstPartyJsBytes": 626584,
+  "totalThirdPartyDnsTime": 310.21799999999996,
+  "totalThirdPartySslTime": 681.634,
+  "totalThirdPartyTime": 5648.018999999999,
+  "totalThirdPartyJsBytes": 5899056,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 17.561059904366473,
+  "percentOfJsRequestTimeIs3p": 44.93222242075354,
+  "percentOfJsIs3p": 90.3981218700388
+}

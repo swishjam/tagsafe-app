@@ -1,0 +1,67 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.4956746666666667,
+    "withoutTags": 0.502235,
+    "difference": -0.006560333333333279,
+    "percentFasterWithoutTags": "-7555.632335755359%"
+  },
+  "TaskDuration": {
+    "withTags": 0.7133763333333333,
+    "withoutTags": 0.7150143333333334,
+    "difference": -0.0016380000000001393,
+    "percentFasterWithoutTags": "-43551.668701664996%"
+  },
+  "DOMComplete": {
+    "withTags": 1310,
+    "withoutTags": 1137.6666666666667,
+    "difference": 172.33333333333326,
+    "percentFasterWithoutTags": "760.1547388781435%"
+  },
+  "DOMInteractive": {
+    "withTags": 529.6666666666666,
+    "withoutTags": 485,
+    "difference": 44.66666666666663,
+    "percentFasterWithoutTags": "1185.820895522389%"
+  },
+  "DOMLoading": {
+    "withTags": 477,
+    "withoutTags": 457.6666666666667,
+    "difference": 19.333333333333314,
+    "percentFasterWithoutTags": "2467.2413793103474%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 838.8666666671634,
+    "withoutTags": 787.53333333383,
+    "difference": 51.33333333333337,
+    "percentFasterWithoutTags": "1634.1558441568104%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://ist-translations.stockx.com/px-translator_v4.js",
+      "bytes": 546,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.632000000000005
+    }
+  ],
+  "numJsRequests": 3,
+  "numThirdPartyJsRequests": 1,
+  "numFirstPartyJsRequests": 2,
+  "numUnique3pHosts": 1,
+  "totalJsBytes": 553043,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 219.24,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 157.608,
+  "totalFirstPartyJsBytes": 552497,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 61.632000000000005,
+  "totalThirdPartyJsBytes": 546,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 0,
+  "percentOfJsRequestTimeIs3p": 28.111658456486044,
+  "percentOfJsIs3p": 0.09872650047103029
+}

@@ -1,0 +1,451 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.3345216666666666,
+    "withoutTags": 0.07050366666666667,
+    "difference": 1.2640179999999999,
+    "cutMetricPercentage": 0.05283066467011277,
+    "percentFasterWithoutTags": "105.57774230008327%"
+  },
+  "TaskDuration": {
+    "withTags": 2.853878,
+    "withoutTags": 0.32336800000000004,
+    "difference": 2.53051,
+    "cutMetricPercentage": 0.11330827736854907,
+    "percentFasterWithoutTags": "112.77876791634887%"
+  },
+  "DOMComplete": {
+    "withTags": -558230354612.6666,
+    "withoutTags": 2699.6666666666665,
+    "difference": -558230357312.3333,
+    "cutMetricPercentage": -4.836115851385143e-9,
+    "percentFasterWithoutTags": "99.99999951638843%"
+  },
+  "DOMInteractive": {
+    "withTags": 2808.6666666666665,
+    "withoutTags": 2580.6666666666665,
+    "difference": 228,
+    "cutMetricPercentage": 0.9188226916686447,
+    "percentFasterWithoutTags": "1231.8713450292398%"
+  },
+  "DOMLoading": {
+    "withTags": 2293,
+    "withoutTags": 2192,
+    "difference": 101,
+    "cutMetricPercentage": 0.955952900130833,
+    "percentFasterWithoutTags": "2270.2970297029706%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2554.799999999503,
+    "withoutTags": 2562,
+    "difference": -7.200000000496857,
+    "cutMetricPercentage": 1.0028182245187482,
+    "percentFasterWithoutTags": "-35483.3333308778%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js",
+      "bytes": 75312,
+      "dnsTime": 21.72,
+      "sslTime": 12.784,
+      "requestTime": 64.681
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js",
+      "bytes": 97362,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 376.064
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.3.0/jquery-migrate.min.js",
+      "bytes": 9459,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 373.20099999999996
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js",
+      "bytes": 239564,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 377.63599999999997
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js",
+      "bytes": 10935,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 362.892
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.09/jquery.form.min.js",
+      "bytes": 12987,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 364.28800000000007
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery.hoverintent/1.8.0/jquery.hoverIntent.min.js",
+      "bytes": 1115,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.39999999999999
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js",
+      "bytes": 76009,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.10300000000001
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js",
+      "bytes": 2771,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.383
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.min.js",
+      "bytes": 5622,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.176
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/unveil/1.3.0/jquery.unveil.min.js",
+      "bytes": 945,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.42999999999999
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js",
+      "bytes": 23070,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.001000000000005
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js",
+      "bytes": 60354,
+      "dnsTime": 0.007,
+      "sslTime": 14.654,
+      "requestTime": 40.37
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js",
+      "bytes": 10490,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.891999999999996
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.7.15/libphonenumber-js.min.js",
+      "bytes": 140091,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.247
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js",
+      "bytes": 73229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 51.650999999999996
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js",
+      "bytes": 42766,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.917
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.2/ScrollMagic.min.js",
+      "bytes": 17621,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.29800000000002
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js",
+      "bytes": 7096,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.336
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/spritespin/3.4.3/spritespin.min.js",
+      "bytes": 33324,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.364
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js",
+      "bytes": 86452,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.22
+    },
+    {
+      "url": "https://pay.google.com/gp/p/js/pay.js",
+      "bytes": 107204,
+      "dnsTime": 16.169,
+      "sslTime": 27.901,
+      "requestTime": 146.844
+    },
+    {
+      "url": "https://live.adyen.com/hpp/js/df.js?v=20235725",
+      "bytes": 45012,
+      "dnsTime": 19.409,
+      "sslTime": 151.568,
+      "requestTime": 619.9830000000001
+    },
+    {
+      "url": "https://cdn.searchspring.net/search/v3/js/searchspring.catalog.js?c1kac2",
+      "bytes": 184599,
+      "dnsTime": 60.191,
+      "sslTime": 16.77,
+      "requestTime": 101.396
+    },
+    {
+      "url": "https://cdn.searchspring.net/ajax_search/sites/c1kac2/js/angular.js",
+      "bytes": 104196,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.769000000000002
+    },
+    {
+      "url": "https://cdn.searchspring.net/search/v3/js/modules/autocomplete2.js",
+      "bytes": 34822,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.791999999999998
+    },
+    {
+      "url": "https://cdn.searchspring.net/search/v3/js/modules/spatial-navigation.js",
+      "bytes": 3575,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.396
+    },
+    {
+      "url": "https://sgtm.specialized.com/gtm.js?id=GTM-W7MDN8P",
+      "bytes": 422900,
+      "dnsTime": 10.982,
+      "sslTime": 39.261,
+      "requestTime": 265.725
+    },
+    {
+      "url": "https://sgtm.specialized.com/gtag/js?id=G-E38NSF3FEW&l=dataLayer&cx=c&sign=3223d9749cc310da3f99fcc4542c7b9ddde34b22cd95f4c972b8a96a69a6c575_20230125",
+      "bytes": 225974,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 193.99200000000002
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=NHdUx9",
+      "bytes": 2905,
+      "dnsTime": 1.052,
+      "sslTime": 15.973,
+      "requestTime": 26.557000000000002
+    },
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-MFNCWNP",
+      "bytes": 111005,
+      "dnsTime": 0.984,
+      "sslTime": 32.38,
+      "requestTime": 76.423
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-332828.js?sv=7",
+      "bytes": 18487,
+      "dnsTime": 0.856,
+      "sslTime": 11.649,
+      "requestTime": 20.644
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.008,
+      "sslTime": 15.017,
+      "requestTime": 53.10200000000001
+    },
+    {
+      "url": "https://nebula-cdn.kampyle.com/wu/654096/onsite/embed.js",
+      "bytes": 1086,
+      "dnsTime": 1.156,
+      "sslTime": 46.765,
+      "requestTime": 55.327000000000005
+    },
+    {
+      "url": "https://lptag.liveperson.net/tag/tag.js?site=75450893",
+      "bytes": 21652,
+      "dnsTime": 2.043,
+      "sslTime": 75.767,
+      "requestTime": 145.536
+    },
+    {
+      "url": "https://unpkg.com/web-vitals@3.1.1/dist/web-vitals.iife.js",
+      "bytes": 6948,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.999000000000002
+    },
+    {
+      "url": "https://static.ads-twitter.com/oct.js",
+      "bytes": 57596,
+      "dnsTime": 1.178,
+      "sslTime": 14.914,
+      "requestTime": 40.927
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 1.157,
+      "sslTime": 12.973,
+      "requestTime": 29.78
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.671
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.897
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.113
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
+      "bytes": 37045,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.888
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
+      "bytes": 34073,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.463
+    },
+    {
+      "url": "https://up.pixel.ad/assets/up.js?um=1",
+      "bytes": 3276,
+      "dnsTime": 19.685,
+      "sslTime": 12.804,
+      "requestTime": 42.851
+    },
+    {
+      "url": "https://accdn.lpsnmedia.net/api/account/75450893/configuration/setting/accountproperties/?cb=accountSettingsCB",
+      "bytes": 7061,
+      "dnsTime": 1.221,
+      "sslTime": 70.049,
+      "requestTime": 108.87900000000002
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/ui-framework.js?version=10.23.0.0-release_5549",
+      "bytes": 40455,
+      "dnsTime": 1.069,
+      "sslTime": 43.194,
+      "requestTime": 93.4
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/UMSClientAPI.min.js?version=10.23.0.0-release_5549",
+      "bytes": 90535,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 155.46499999999997
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/lpChatV3.min.js?version=10.23.0.0-release_5549",
+      "bytes": 93955,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 178.349
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/surveylogicinstance.min.js?version=10.23.0.0-release_5549",
+      "bytes": 7866,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 179.436
+    },
+    {
+      "url": "https://accdn.lpsnmedia.net/api/account/75450893/configuration/le-campaigns/zones?fields=id&fields=zoneValue&cb=lpZonesStaticCB",
+      "bytes": 2054,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 171.30100000000002
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/desktopEmbedded.js?version=10.23.0.0-release_5549",
+      "bytes": 983660,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 185.965
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_secure_storage/3.19.0.0-release_5079/storage.secure.min.js?loc=https%3A%2F%2Fwww.specialized.com&site=75450893&force=1&env=prod&isCrossDomain=true",
+      "bytes": 38341,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.47999999999999
+    },
+    {
+      "url": "https://accdn.lpsnmedia.net/api/account/75450893/configuration/domainprotection/refererrestrictions?cb=lpCb51215x4537",
+      "bytes": 112,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 76.164
+    },
+    {
+      "url": "https://nebula-cdn.kampyle.com/us/wu/654096/onsite/generic1674651874986.js",
+      "bytes": 377871,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.253999999999998
+    },
+    {
+      "url": "https://va.v.liveperson.net/api/js/75450893?&cb=lpCb78322x58330&t=sp&ts=1674691081698&pid=3941648195&tid=664706330&pt=Made%20for%20riders%2C%20by%20riders.%20%7C%20Specialized.com&u=https%3A%2F%2Fwww.specialized.com%2Fus%2Fen&df=0&os=1&identities=%5B%7B%22iss%22%3A%22LivePerson%22%2C%22acr%22%3A%220%22%7D%2C%7B%22iss%22%3A%22LivePerson%22%2C%22acr%22%3A%220%22%2C%22sub%22%3A%2208d553e5-2084-45ce-9553-e5208455ce98%22%2C%22account%22%3A%2275450893%22%7D%5D",
+      "bytes": 242,
+      "dnsTime": 16.77,
+      "sslTime": 160.226,
+      "requestTime": 413.85499999999996
+    }
+  ],
+  "numJsRequests": 71,
+  "numThirdPartyJsRequests": 55,
+  "numFirstPartyJsRequests": 16,
+  "numUnique3pHosts": 18,
+  "totalJsBytes": 6471493,
+  "totalDnsTime": 177.65700000000004,
+  "totalSslTime": 774.649,
+  "totalTime": 7160.5499999999965,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 631.377,
+  "totalFirstPartyJsBytes": 2245000,
+  "totalThirdPartyDnsTime": 177.65700000000004,
+  "totalThirdPartySslTime": 774.649,
+  "totalThirdPartyTime": 6529.172999999997,
+  "totalThirdPartyJsBytes": 4226493,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 14.585400019267377,
+  "percentOfJsRequestTimeIs3p": 91.1825627919643,
+  "percentOfJsIs3p": 65.30939614707148
+}

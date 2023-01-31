@@ -1,0 +1,381 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.514134,
+    "withoutTags": 0.21888766666666667,
+    "difference": 1.2952463333333335,
+    "cutMetricPercentage": 0.8554370573102072,
+    "percentFasterWithoutTags": "116.89930795660747%"
+  },
+  "TaskDuration": {
+    "withTags": 3.0270883333333334,
+    "withoutTags": 0.9458833333333333,
+    "difference": 2.081205,
+    "cutMetricPercentage": 0.6875270130317748,
+    "percentFasterWithoutTags": "145.4488305252646%"
+  },
+  "DOMComplete": {
+    "withTags": -558368457359.6666,
+    "withoutTags": 2006,
+    "difference": -558368459365.6666,
+    "cutMetricPercentage": 1.0000000035926098,
+    "percentFasterWithoutTags": "99.99999964073902%"
+  },
+  "DOMInteractive": {
+    "withTags": 1720.3333333333333,
+    "withoutTags": 1194.6666666666667,
+    "difference": 525.6666666666665,
+    "cutMetricPercentage": 0.30556093780275134,
+    "percentFasterWithoutTags": "327.26696258719096%"
+  },
+  "DOMLoading": {
+    "withTags": 915.3333333333334,
+    "withoutTags": 921,
+    "difference": -5.666666666666629,
+    "cutMetricPercentage": -0.006190823015294933,
+    "percentFasterWithoutTags": "-16152.941176470697%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1555.4666666636865,
+    "withoutTags": 1102.7000000029802,
+    "difference": 452.7666666607063,
+    "cutMetricPercentage": 0.2910809189063778,
+    "percentFasterWithoutTags": "343.5470809138253%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://static.zdassets.com/ekr/snippet.js?key=3154db33-6792-4fbb-8016-b6a52447a075",
+      "bytes": 23416,
+      "dnsTime": 1.856,
+      "sslTime": 35.786,
+      "requestTime": 61.248999999999995
+    },
+    {
+      "url": "https://js.hsforms.net/forms/v2.js",
+      "bytes": 518702,
+      "dnsTime": 5.477,
+      "sslTime": 21.638,
+      "requestTime": 84.311
+    },
+    {
+      "url": "https://www.tintup.com/app/dist/embedded.js",
+      "bytes": 6472,
+      "dnsTime": 2.022,
+      "sslTime": 16.64,
+      "requestTime": 215.84300000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-T8457H9",
+      "bytes": 347551,
+      "dnsTime": 0.816,
+      "sslTime": 37.119,
+      "requestTime": 201.115
+    },
+    {
+      "url": "https://g9508048080.co/gr?id=-N35gajEAEU6paDlII9d&refurl=&winurl=https%3A%2F%2Fwww.thermacell.com%2F",
+      "bytes": 389,
+      "dnsTime": 0.026,
+      "sslTime": 15.878,
+      "requestTime": 377.71999999999997
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/web-widget-framework-59b8a859ce8a473d961c.js",
+      "bytes": 161958,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.464000000000006
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=OPT-T7BKXDS",
+      "bytes": 113156,
+      "dnsTime": 3.976,
+      "sslTime": 108.477,
+      "requestTime": 153.634
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 20.448,
+      "sslTime": 29.528,
+      "requestTime": 70.328
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 3.575,
+      "sslTime": 19.041,
+      "requestTime": 59.772999999999996
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2453605.js?sv=6",
+      "bytes": 8437,
+      "dnsTime": 21.128,
+      "sslTime": 26.565,
+      "requestTime": 61.299
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-4839014",
+      "bytes": 113687,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.034000000000006
+    },
+    {
+      "url": "https://s2.adform.net/banners/scripts/st/trackpoint-async.js",
+      "bytes": 79799,
+      "dnsTime": 26.572,
+      "sslTime": 32.858,
+      "requestTime": 180.58100000000002
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1373934/tfa.js",
+      "bytes": 59693,
+      "dnsTime": 15.184,
+      "sslTime": 24.874,
+      "requestTime": 137.95399999999998
+    },
+    {
+      "url": "https://cdn.resonate.com/analytics.js/v1/101137910/analytics.min.js",
+      "bytes": 189002,
+      "dnsTime": 3.559,
+      "sslTime": 18.83,
+      "requestTime": 215.94199999999998
+    },
+    {
+      "url": "https://js.hs-scripts.com/7001828.js",
+      "bytes": 2517,
+      "dnsTime": 3.197,
+      "sslTime": 13.37,
+      "requestTime": 165.85500000000002
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=CB6QS53C77U94V22BITG&lib=ttq",
+      "bytes": 2845,
+      "dnsTime": 2.26,
+      "sslTime": 14.312,
+      "requestTime": 206.983
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-Y642CDVNRN&l=dataLayer&cx=c",
+      "bytes": 220162,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 53.032
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-LZJGHNMKM0&l=dataLayer&cx=c",
+      "bytes": 222898,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 53.89
+    },
+    {
+      "url": "https://trc.taboola.com/1373934/trc/3/json?tim=1675105387704&data=%7B%22id%22%3A89%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1675105387681%2C%22cv%22%3A%2220230129-6-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.thermacell.com%2F%3F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dbackbonemedia-thermacelltick-sc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22supv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22tim%22%3A1675105387694%2C%22ref%22%3Anull%2C%22item-url%22%3A%22https%3A%2F%2Fwww.thermacell.com%2F%22%2C%22tos%22%3A12%2C%22ssd%22%3A1%2C%22scd%22%3A0%2C%22supv%22%3Atrue%7D%7D&pubit=i",
+      "bytes": 2605,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.394
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-classic-3789e01.js",
+      "bytes": 13518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 201.017
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMg.js",
+      "bytes": 250250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 175.49900000000002
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 2.563,
+      "sslTime": 15.981,
+      "requestTime": 124.717
+    },
+    {
+      "url": "https://js.hscollectedforms.net/collectedforms.js",
+      "bytes": 70108,
+      "dnsTime": 2.282,
+      "sslTime": 13.893,
+      "requestTime": 310.91700000000003
+    },
+    {
+      "url": "https://js.hsleadflows.net/leadflows.js",
+      "bytes": 556117,
+      "dnsTime": 1.746,
+      "sslTime": 24.39,
+      "requestTime": 201.79500000000002
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-8165-3789e01.js",
+      "bytes": 678753,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.510000000000005
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-5324-3789e01.js",
+      "bytes": 505325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.577
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.14
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-locales/classic/en-us-json-3789e01.js",
+      "bytes": 25840,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 81.11300000000001
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/dist/env-config.js",
+      "bytes": 973,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 250.787
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/dist/new-sdk-loader.js",
+      "bytes": 8427,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 250.935
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/dist/tintAnalyticsProxy-bundle.js",
+      "bytes": 289616,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 492.328
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/tint/tint-bundle.js",
+      "bytes": 344457,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 278.753
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/dist/env-config.js",
+      "bytes": 973,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 250.938
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/dist/tintAnalyticsProxy-bundle.js",
+      "bytes": 289616,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 491.698
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/tint/popup-bundle.js",
+      "bytes": 181395,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 432.327
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-sdk-3789e01.js",
+      "bytes": 207015,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 585.839
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-935358350",
+      "bytes": 188368,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.343
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-935358350&l=dataLayer&cx=c",
+      "bytes": 188400,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.926
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/tint/0-bundle.a0088184e1df9909ef5d.js",
+      "bytes": 284835,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 138.216
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/tint/4-bundle.0084b86cffad3175cc0b.js",
+      "bytes": 17804,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 390.204
+    },
+    {
+      "url": "https://cdn.hypemarks.com/app/tint/12-bundle.ce65879b60b2420d3376.js",
+      "bytes": 70540,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 395.437
+    },
+    {
+      "url": "https://cdn.hypemarks.com//app/dist/tint-analytics.js",
+      "bytes": 295701,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 498.586
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-incoming-message-notification-3789e01.js",
+      "bytes": 208,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.247
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 1.305,
+      "sslTime": 16.555,
+      "requestTime": 35.059000000000005
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0.006,
+      "sslTime": 16.37,
+      "requestTime": 31.276000000000003
+    }
+  ],
+  "numJsRequests": 55,
+  "numThirdPartyJsRequests": 45,
+  "numFirstPartyJsRequests": 10,
+  "numUnique3pHosts": 20,
+  "totalJsBytes": 7613669,
+  "totalDnsTime": 117.998,
+  "totalSslTime": 502.1050000000001,
+  "totalTime": 8810.074999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 480.48999999999995,
+  "totalFirstPartyJsBytes": 829289,
+  "totalThirdPartyDnsTime": 117.998,
+  "totalThirdPartySslTime": 502.1050000000001,
+  "totalThirdPartyTime": 8329.584999999997,
+  "totalThirdPartyJsBytes": 6784380,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 7.4445845741414525,
+  "percentOfJsRequestTimeIs3p": 94.54613042454234,
+  "percentOfJsIs3p": 89.10789265989892
+}

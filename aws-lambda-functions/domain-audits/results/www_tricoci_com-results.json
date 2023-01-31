@@ -1,0 +1,129 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.1695936666666666,
+    "withoutTags": 0.34676533333333337,
+    "difference": 0.8228283333333333,
+    "cutMetricPercentage": 0.7035164064100894,
+    "percentFasterWithoutTags": "142.143095866493%"
+  },
+  "TaskDuration": {
+    "withTags": 1.8038239999999999,
+    "withoutTags": 0.716115,
+    "difference": 1.0877089999999998,
+    "cutMetricPercentage": 0.6030017340937918,
+    "percentFasterWithoutTags": "165.83700236000624%"
+  },
+  "DOMComplete": {
+    "withTags": -1116736987786.6667,
+    "withoutTags": 1039,
+    "difference": -1116736988825.6667,
+    "cutMetricPercentage": 1.000000000930389,
+    "percentFasterWithoutTags": "99.99999990696108%"
+  },
+  "DOMInteractive": {
+    "withTags": 925,
+    "withoutTags": 711,
+    "difference": 214,
+    "cutMetricPercentage": 0.23135135135135135,
+    "percentFasterWithoutTags": "432.24299065420564%"
+  },
+  "DOMLoading": {
+    "withTags": 345.3333333333333,
+    "withoutTags": 406.6666666666667,
+    "difference": -61.33333333333337,
+    "cutMetricPercentage": -0.17760617760617772,
+    "percentFasterWithoutTags": "-563.0434782608692%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 774.1000000014901,
+    "withoutTags": 573.3000000019869,
+    "difference": 200.79999999950326,
+    "cutMetricPercentage": 0.2593980105918056,
+    "percentFasterWithoutTags": "385.50796812918577%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js",
+      "bytes": 17548,
+      "dnsTime": 4.215,
+      "sslTime": 12.29,
+      "requestTime": 42.528
+    },
+    {
+      "url": "https://d5zu2f4xvqanl.cloudfront.net/42/fe/loader_2.js?shop=tricoci.myshopify.com",
+      "bytes": 3670,
+      "dnsTime": 2.902,
+      "sslTime": 16.709,
+      "requestTime": 30.363
+    },
+    {
+      "url": "https://discount.orichi.info/Content/front.min.js?v=12",
+      "bytes": 9322,
+      "dnsTime": 1.797,
+      "sslTime": 280.151,
+      "requestTime": 490.66799999999995
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2146049.js?sv=6",
+      "bytes": 8541,
+      "dnsTime": 2.02,
+      "sslTime": 14.974,
+      "requestTime": 27.740000000000002
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=BVDQ7AMIH36PT2AUNQRG&lib=ttq",
+      "bytes": 2847,
+      "dnsTime": 16.275,
+      "sslTime": 18.16,
+      "requestTime": 120.988
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-750481314",
+      "bytes": 195170,
+      "dnsTime": 7.268,
+      "sslTime": 123.524,
+      "requestTime": 204.91899999999998
+    },
+    {
+      "url": "https://d5zu2f4xvqanl.cloudfront.net/1675082046/api/2/29jaS5teXNob3BpZnkuY29tdHJpY.js",
+      "bytes": 34390,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.852
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMg.js",
+      "bytes": 250250,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 122.917
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 109.818
+    }
+  ],
+  "numJsRequests": 9,
+  "numThirdPartyJsRequests": 9,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 6,
+  "totalJsBytes": 638518,
+  "totalDnsTime": 34.477,
+  "totalSslTime": 465.80800000000005,
+  "totalTime": 1177.793,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 34.477,
+  "totalThirdPartySslTime": 465.80800000000005,
+  "totalThirdPartyTime": 1177.793,
+  "totalThirdPartyJsBytes": 638518,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 42.476479313427745,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

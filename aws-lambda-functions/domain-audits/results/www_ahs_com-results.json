@@ -1,0 +1,122 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.0129653333333333,
+    "withoutTags": 0.6507616666666667,
+    "difference": 0.3622036666666666,
+    "cutMetricPercentage": 0.3575676824741616,
+    "percentFasterWithoutTags": "279.66733265170336%"
+  },
+  "TaskDuration": {
+    "withTags": 1.5424853333333335,
+    "withoutTags": 1.0644859999999998,
+    "difference": 0.47799933333333366,
+    "cutMetricPercentage": 0.30988906215423784,
+    "percentFasterWithoutTags": "322.69612649390007%"
+  },
+  "DOMComplete": {
+    "withTags": 3412.6666666666665,
+    "withoutTags": -558367443384.3334,
+    "difference": 558367446797,
+    "cutMetricPercentage": 163616169.2118578,
+    "percentFasterWithoutTags": "6.111865378690988e-7%"
+  },
+  "DOMInteractive": {
+    "withTags": 617,
+    "withoutTags": 419.3333333333333,
+    "difference": 197.66666666666669,
+    "cutMetricPercentage": 0.32036736898973533,
+    "percentFasterWithoutTags": "312.14165261382794%"
+  },
+  "DOMLoading": {
+    "withTags": 526.6666666666666,
+    "withoutTags": 353.3333333333333,
+    "difference": 173.33333333333331,
+    "cutMetricPercentage": 0.3291139240506329,
+    "percentFasterWithoutTags": "303.84615384615387%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 642.0333333363136,
+    "withoutTags": 478.66666666418314,
+    "difference": 163.36666667213046,
+    "cutMetricPercentage": 0.25445200146104374,
+    "percentFasterWithoutTags": "393.0014282686232%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://s.go-mpulse.net/boomerang/E2RN9-RTCA6-BDFTH-Y28F4-RQZ6H",
+      "bytes": 117155,
+      "dnsTime": 3.848,
+      "sslTime": 12.709,
+      "requestTime": 43.815000000000005
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-1685974-4",
+      "bytes": 112650,
+      "dnsTime": 1.694,
+      "sslTime": 28.694,
+      "requestTime": 94.854
+    },
+    {
+      "url": "https://cdn.aimtell.com/sdk/aimtell-worker-sdk.js",
+      "bytes": 26967,
+      "dnsTime": 1.465,
+      "sslTime": 15.472,
+      "requestTime": 38.544000000000004
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.812,
+      "sslTime": 15.656,
+      "requestTime": 60.159000000000006
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-989935931&l=dataLayer&cx=c",
+      "bytes": 181416,
+      "dnsTime": 0.008,
+      "sslTime": 63.257,
+      "requestTime": 113.83800000000001
+    },
+    {
+      "url": "https://tag.havasedge.com/js/evt.js",
+      "bytes": 24737,
+      "dnsTime": 1.844,
+      "sslTime": 12.097,
+      "requestTime": 112.20500000000001
+    },
+    {
+      "url": "https://collector-22761.us.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 0.017,
+      "sslTime": 175.114,
+      "requestTime": 511.29
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-2GZFJJK6B1&l=dataLayer&cx=c",
+      "bytes": 253911,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 128.359
+    }
+  ],
+  "numJsRequests": 43,
+  "numThirdPartyJsRequests": 8,
+  "numFirstPartyJsRequests": 35,
+  "numUnique3pHosts": 6,
+  "totalJsBytes": 1908937,
+  "totalDnsTime": 11.687999999999997,
+  "totalSslTime": 322.999,
+  "totalTime": 19082.937000000005,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 17979.873000000003,
+  "totalFirstPartyJsBytes": 1131887,
+  "totalThirdPartyDnsTime": 11.687999999999997,
+  "totalThirdPartySslTime": 322.999,
+  "totalThirdPartyTime": 1103.064,
+  "totalThirdPartyJsBytes": 777050,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 30.341575828782375,
+  "percentOfJsRequestTimeIs3p": 5.780368084849831,
+  "percentOfJsIs3p": 40.705900718567456
+}

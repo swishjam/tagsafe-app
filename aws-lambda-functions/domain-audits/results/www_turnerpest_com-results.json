@@ -1,0 +1,248 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.1881116666666667,
+    "withoutTags": 0.44544633333333333,
+    "difference": 0.7426653333333333,
+    "cutMetricPercentage": 0.6250804147197162,
+    "percentFasterWithoutTags": "159.9794164801014%"
+  },
+  "TaskDuration": {
+    "withTags": 2.227841,
+    "withoutTags": 1.088985,
+    "difference": 1.138856,
+    "cutMetricPercentage": 0.5111926748811967,
+    "percentFasterWithoutTags": "195.62095646859657%"
+  },
+  "DOMComplete": {
+    "withTags": -558368492170.6666,
+    "withoutTags": -558368493725.3334,
+    "difference": 1554.666748046875,
+    "cutMetricPercentage": -2.784302427243132e-9,
+    "percentFasterWithoutTags": "-35915638696.98403%"
+  },
+  "DOMInteractive": {
+    "withTags": 2849,
+    "withoutTags": 2709,
+    "difference": 140,
+    "cutMetricPercentage": 0.04914004914004914,
+    "percentFasterWithoutTags": "2035.0000000000002%"
+  },
+  "DOMLoading": {
+    "withTags": 1337.3333333333333,
+    "withoutTags": 1318.3333333333333,
+    "difference": 19,
+    "cutMetricPercentage": 0.014207377866400799,
+    "percentFasterWithoutTags": "7038.59649122807%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2210.166666664183,
+    "withoutTags": 2235.833333335817,
+    "difference": -25.66666667163372,
+    "cutMetricPercentage": -0.011613000530124077,
+    "percentFasterWithoutTags": "-8611.038959362862%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-10477433-1",
+      "bytes": 115772,
+      "dnsTime": 9.003,
+      "sslTime": 98.889,
+      "requestTime": 177.60899999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-803313202",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 489.44100000000003
+    },
+    {
+      "url": "https://nexus.ensighten.com/strategus/turner_pest_control/Bootstrap.js",
+      "bytes": 15,
+      "dnsTime": 3.448,
+      "sslTime": 54.292,
+      "requestTime": 759.509
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-984843502",
+      "bytes": 187453,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 493.65500000000003
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.335,
+      "sslTime": 85.579,
+      "requestTime": 129.55
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1913152.js?sv=6",
+      "bytes": 8427,
+      "dnsTime": 4.118,
+      "sslTime": 37.393,
+      "requestTime": 222.815
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PG7GWH4",
+      "bytes": 104214,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 469.625
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-K2VZMPC",
+      "bytes": 113263,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 275.045
+    },
+    {
+      "url": "https://ads.nextdoor.com/public/pixel/ndp.js",
+      "bytes": 6599,
+      "dnsTime": 16.285,
+      "sslTime": 157.369,
+      "requestTime": 2240.86
+    },
+    {
+      "url": "https://s.btstatic.com/tag.js#site=ipopX7E",
+      "bytes": 35314,
+      "dnsTime": 1.228,
+      "sslTime": 18.32,
+      "requestTime": 52.908
+    },
+    {
+      "url": "https://assets.ubembed.com/universalscript/releases/v0.179.2/bundle.js",
+      "bytes": 178069,
+      "dnsTime": 1.52,
+      "sslTime": 20.316,
+      "requestTime": 62.065
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=OPT-KR6ZB63",
+      "bytes": 113154,
+      "dnsTime": 0.934,
+      "sslTime": 65.131,
+      "requestTime": 522.679
+    },
+    {
+      "url": "https://nexus.ensighten.com/choozle/13155/Bootstrap.js",
+      "bytes": 28790,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 350.673
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-DNTL8N18ZF&l=dataLayer&cx=c",
+      "bytes": 232074,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 362.672
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-803313202&l=dataLayer&cx=c",
+      "bytes": 131617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 351.681
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-984843502&l=dataLayer&cx=c",
+      "bytes": 187474,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 359.48699999999997
+    },
+    {
+      "url": "https://nexus.ensighten.com/choozle/13155/code/e0e6832fc906dd79afbe4eabc0660cb0.js?conditionId0=4897139&conditionId1=4897140",
+      "bytes": 1484,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.458000000000002
+    },
+    {
+      "url": "https://nexus.ensighten.com/choozle/13155/code/7e3bcccbe9be6061a65a6eb142929580.js?conditionId0=421905",
+      "bytes": 1862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.158
+    },
+    {
+      "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
+      "bytes": 56734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.413
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=1172138&time=1675105492199&url=https%3A%2F%2Fwww.turnerpest.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.63
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/VW53IQVG5VAQXP22H33TQS?pv=96568181385.0819&arrfrr=https%3A%2F%2Fwww.turnerpest.com%2F&_s=9788153713645ad587466292f71106cf&_b=2",
+      "bytes": 468,
+      "dnsTime": 3.961,
+      "sslTime": 35.553,
+      "requestTime": 67.992
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.313999999999998
+    },
+    {
+      "url": "https://widget.intercom.io/widget/oubg35dt",
+      "bytes": 18639,
+      "dnsTime": 48.429,
+      "sslTime": 13.403,
+      "requestTime": 376.235
+    },
+    {
+      "url": "https://pi.pardot.com/pd.js",
+      "bytes": 5447,
+      "dnsTime": 91.483,
+      "sslTime": 89.89,
+      "requestTime": 265.944
+    },
+    {
+      "url": "https://js.intercomcdn.com/frame-modern.c9f93632.js",
+      "bytes": 474058,
+      "dnsTime": 12.991,
+      "sslTime": 28.272,
+      "requestTime": 98.07499999999999
+    },
+    {
+      "url": "https://js.intercomcdn.com/vendor-modern.f30d948f.js",
+      "bytes": 241978,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 114.51599999999999
+    }
+  ],
+  "numJsRequests": 34,
+  "numThirdPartyJsRequests": 26,
+  "numFirstPartyJsRequests": 8,
+  "numUnique3pHosts": 15,
+  "totalJsBytes": 3432206,
+  "totalDnsTime": 195.735,
+  "totalSslTime": 704.407,
+  "totalTime": 12925.888,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 4502.879,
+  "totalFirstPartyJsBytes": 1018281,
+  "totalThirdPartyDnsTime": 195.735,
+  "totalThirdPartySslTime": 704.407,
+  "totalThirdPartyTime": 8423.009,
+  "totalThirdPartyJsBytes": 2413925,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 10.686703528394663,
+  "percentOfJsRequestTimeIs3p": 65.16387113983967,
+  "percentOfJsIs3p": 70.33158848856974
+}

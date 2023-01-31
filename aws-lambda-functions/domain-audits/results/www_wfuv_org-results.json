@@ -1,0 +1,241 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.6362816666666669,
+    "withoutTags": 0.05713633333333334,
+    "difference": 1.5791453333333336,
+    "cutMetricPercentage": 0.9650816026988019,
+    "percentFasterWithoutTags": "103.61818080497551%"
+  },
+  "TaskDuration": {
+    "withTags": 3.2165486666666667,
+    "withoutTags": 0.4715186666666667,
+    "difference": 2.74503,
+    "cutMetricPercentage": 0.8534085084572014,
+    "percentFasterWithoutTags": "117.1771771771772%"
+  },
+  "DOMComplete": {
+    "withTags": 6543.666666666667,
+    "withoutTags": -1116737190729.3333,
+    "difference": 1116737197273,
+    "cutMetricPercentage": 170659242.61723804,
+    "percentFasterWithoutTags": "5.85962989559753e-7%"
+  },
+  "DOMInteractive": {
+    "withTags": 1964.3333333333333,
+    "withoutTags": 1621,
+    "difference": 343.33333333333326,
+    "cutMetricPercentage": 0.17478364160868826,
+    "percentFasterWithoutTags": "572.1359223300972%"
+  },
+  "DOMLoading": {
+    "withTags": 1047.3333333333333,
+    "withoutTags": 1047,
+    "difference": 0.33333333333325754,
+    "cutMetricPercentage": 0.00031826861871412244,
+    "percentFasterWithoutTags": "314200.0000000714%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1790.3666666646798,
+    "withoutTags": 1602,
+    "difference": 188.36666666467977,
+    "cutMetricPercentage": 0.10521122302594747,
+    "percentFasterWithoutTags": "950.468943558785%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-MSJ6KTE3VH",
+      "bytes": 231764,
+      "dnsTime": 19.081,
+      "sslTime": 34.915,
+      "requestTime": 111.451
+    },
+    {
+      "url": "https://unpkg.com/aos@2.3.1/dist/aos.js",
+      "bytes": 14239,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 381.401
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-XGZ99F1SED&l=dataLayer&cx=c",
+      "bytes": 195044,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 143.504
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-18188937-11&l=dataLayer&cx=c",
+      "bytes": 112727,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 140.693
+    },
+    {
+      "url": "https://static.elfsight.com/platform/platform.js",
+      "bytes": 48965,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.043
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=wfuv.org",
+      "bytes": 107,
+      "dnsTime": 3.198,
+      "sslTime": 48.756,
+      "requestTime": 81.887
+    },
+    {
+      "url": "https://static.elfsight.com/apps/instashow/release/b3e8edaeedbdd52b9eeeb932326e8de5909497e6/app/instashow.js",
+      "bytes": 416602,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 174.183
+    },
+    {
+      "url": "https://vuhaus-assets-production.global.ssl.fastly.net/js/app.d.js?6029292c6501901ed36a",
+      "bytes": 946492,
+      "dnsTime": 11.919,
+      "sslTime": 27.517,
+      "requestTime": 73.077
+    },
+    {
+      "url": "https://vuhaus-assets-production.global.ssl.fastly.net/js/vendor.js?6029292c6501901ed36a",
+      "bytes": 317502,
+      "dnsTime": 11.731,
+      "sslTime": 24.587,
+      "requestTime": 60.275
+    },
+    {
+      "url": "https://vuhaus-assets-production.global.ssl.fastly.net/js/embed.js?6029292c6501901ed36a",
+      "bytes": 104604,
+      "dnsTime": 11.738,
+      "sslTime": 24.637,
+      "requestTime": 54.45
+    },
+    {
+      "url": "https://js-agent.newrelic.com/859.95d4308d-1222.js",
+      "bytes": 6657,
+      "dnsTime": 7.92,
+      "sslTime": 10.721,
+      "requestTime": 26.058
+    },
+    {
+      "url": "https://js-agent.newrelic.com/569.95d4308d-1222.js",
+      "bytes": 7513,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.435
+    },
+    {
+      "url": "https://js-agent.newrelic.com/620.95d4308d-1222.js",
+      "bytes": 2989,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 43.203
+    },
+    {
+      "url": "https://js-agent.newrelic.com/457.95d4308d-1222.js",
+      "bytes": 4809,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.44199999999999
+    },
+    {
+      "url": "https://js-agent.newrelic.com/41.95d4308d-1222.js",
+      "bytes": 828,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.135999999999996
+    },
+    {
+      "url": "https://js-agent.newrelic.com/244.95d4308d-1222.js",
+      "bytes": 6871,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.022
+    },
+    {
+      "url": "https://js-agent.newrelic.com/736.95d4308d-1222.js",
+      "bytes": 4688,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.735
+    },
+    {
+      "url": "https://js-agent.newrelic.com/142.95d4308d-1222.js",
+      "bytes": 2014,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.399
+    },
+    {
+      "url": "https://js-agent.newrelic.com/466.95d4308d-1222.js",
+      "bytes": 6842,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.983000000000004
+    },
+    {
+      "url": "https://js-agent.newrelic.com/885.95d4308d-1222.js",
+      "bytes": 16348,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.717999999999996
+    },
+    {
+      "url": "https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-552f1963658d7726",
+      "bytes": 361292,
+      "dnsTime": 2.1,
+      "sslTime": 14.658,
+      "requestTime": 1710.259
+    },
+    {
+      "url": "https://ssl.p.jwpcdn.com/player/v/7.10.4/jwpsrv.js",
+      "bytes": 17307,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 346.27799999999996
+    },
+    {
+      "url": "https://v1.addthisedge.com/live/boost/ra-552f1963658d7726/_ate.track.config_resp",
+      "bytes": 166,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 292.537
+    },
+    {
+      "url": "https://m.addthis.com/live/red_lojson/300lo.json?si=63d815fa0c2996aa&bkl=0&bl=1&pdt=3608&sid=63d815fa0c2996aa&pub=ra-552f1963658d7726&rev=v8.28.8-wp&ln=en&pc=men&cb=0&ab=-&dp=livesessions.npr.org&dr=wfuv.org&fp=embed%2Fv2%2Fsongoftheday&fr=&of=0&pd=0&irt=0&vcl=0&md=0&ct=1&tct=0&abt=0&cdn=0&pi=1&rb=4&gen=100&chr=UTF-8&colc=1675105786365&jsl=0&skipb=1&callback=addthis.cbs.jsonp__79390632160835750",
+      "bytes": 101,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 275.50100000000003
+    },
+    {
+      "url": "https://s7.addthis.com/static/menu.c9fe060fcef7c720d644.js",
+      "bytes": 23901,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.115
+    }
+  ],
+  "numJsRequests": 25,
+  "numThirdPartyJsRequests": 25,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 10,
+  "totalJsBytes": 2850372,
+  "totalDnsTime": 67.687,
+  "totalSslTime": 185.79099999999997,
+  "totalTime": 4290.784999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 67.687,
+  "totalThirdPartySslTime": 185.79099999999997,
+  "totalThirdPartyTime": 4290.784999999999,
+  "totalThirdPartyJsBytes": 2850372,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 5.9074971129991365,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

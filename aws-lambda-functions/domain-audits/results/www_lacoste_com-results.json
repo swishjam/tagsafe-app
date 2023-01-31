@@ -1,0 +1,65 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.00046766666666666663,
+    "withoutTags": 0.0006526666666666667,
+    "difference": -0.0001850000000000001,
+    "cutMetricPercentage": 1.3955808980755526,
+    "percentFasterWithoutTags": "-252.7927927927926%"
+  },
+  "TaskDuration": {
+    "withTags": 0.033392,
+    "withoutTags": 0.04956066666666666,
+    "difference": -0.016168666666666665,
+    "cutMetricPercentage": 1.4842077942820635,
+    "percentFasterWithoutTags": "-206.52290438296296%"
+  },
+  "DOMComplete": {
+    "withTags": 456,
+    "withoutTags": 449.6666666666667,
+    "difference": 6.333333333333314,
+    "cutMetricPercentage": 0.9861111111111112,
+    "percentFasterWithoutTags": "7200.000000000021%"
+  },
+  "DOMInteractive": {
+    "withTags": 456,
+    "withoutTags": 449,
+    "difference": 7,
+    "cutMetricPercentage": 0.9846491228070176,
+    "percentFasterWithoutTags": "6514.285714285714%"
+  },
+  "DOMLoading": {
+    "withTags": 441.6666666666667,
+    "withoutTags": 437,
+    "difference": 4.666666666666686,
+    "cutMetricPercentage": 0.9894339622641509,
+    "percentFasterWithoutTags": "9464.285714285677%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 476.6666666666667,
+    "withoutTags": 477.1333333328366,
+    "difference": -0.46666666616994235,
+    "cutMetricPercentage": 1.000979020977979,
+    "percentFasterWithoutTags": "-102142.85725157894%"
+  },
+  "thirdPartyJsRequests": [],
+  "numJsRequests": 0,
+  "numThirdPartyJsRequests": 0,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 0,
+  "totalJsBytes": 0,
+  "totalDnsTime": 0,
+  "totalSslTime": 0,
+  "totalTime": 0,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 0,
+  "totalThirdPartySslTime": 0,
+  "totalThirdPartyTime": 0,
+  "totalThirdPartyJsBytes": 0,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": null,
+  "percentOfJsRequestTimeIs3p": null,
+  "percentOfJsIs3p": null
+}

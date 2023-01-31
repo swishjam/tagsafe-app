@@ -1,0 +1,395 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.0940943333333335,
+    "withoutTags": 0.6656153333333333,
+    "difference": 1.4284790000000003,
+    "cutMetricPercentage": 0.31785355737715093,
+    "percentFasterWithoutTags": "146.5960881002334%"
+  },
+  "TaskDuration": {
+    "withTags": 4.079897333333333,
+    "withoutTags": 2.095257,
+    "difference": 1.9846403333333331,
+    "cutMetricPercentage": 0.5135563051749995,
+    "percentFasterWithoutTags": "205.5736379438021%"
+  },
+  "DOMComplete": {
+    "withTags": -558230332416.3334,
+    "withoutTags": 2900.3333333333335,
+    "difference": -558230335316.6667,
+    "cutMetricPercentage": -5.195585343381588e-9,
+    "percentFasterWithoutTags": "99.99999948044146%"
+  },
+  "DOMInteractive": {
+    "withTags": 608.6666666666666,
+    "withoutTags": 1031.3333333333333,
+    "difference": -422.66666666666663,
+    "cutMetricPercentage": 1.6944140197152244,
+    "percentFasterWithoutTags": "-144.006309148265%"
+  },
+  "DOMLoading": {
+    "withTags": 77.33333333333333,
+    "withoutTags": 86,
+    "difference": -8.666666666666671,
+    "cutMetricPercentage": 1.1120689655172415,
+    "percentFasterWithoutTags": "-892.3076923076918%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 204.33333333581686,
+    "withoutTags": 222.63333333283663,
+    "difference": -18.299999997019768,
+    "cutMetricPercentage": 1.0895595432143426,
+    "percentFasterWithoutTags": "-1116.5755921808384%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://accounts.google.com/gsi/client",
+      "bytes": 196981,
+      "dnsTime": 8.989,
+      "sslTime": 82.831,
+      "requestTime": 381.792
+    },
+    {
+      "url": "https://na-library.klarnaservices.com/lib.js",
+      "bytes": 43090,
+      "dnsTime": 15.157,
+      "sslTime": 51.901,
+      "requestTime": 86.543
+    },
+    {
+      "url": "https://z1800flowers3276921z.btttag.com/btt.js?utv=ut4.46.202208111901",
+      "bytes": 80538,
+      "dnsTime": 12.824,
+      "sslTime": 67.494,
+      "requestTime": 104.26899999999999
+    },
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-NZ4446N",
+      "bytes": 194615,
+      "dnsTime": 7.895,
+      "sslTime": 27.088,
+      "requestTime": 82.94000000000001
+    },
+    {
+      "url": "https://rb9c40.1800flowers.com/assets/wxyz.rb.js",
+      "bytes": 47144,
+      "dnsTime": 1.414,
+      "sslTime": 118.223,
+      "requestTime": 212.471
+    },
+    {
+      "url": "https://www.paypalobjects.com/muse/muse.js",
+      "bytes": 55953,
+      "dnsTime": 1.498,
+      "sslTime": 27.097,
+      "requestTime": 40.548
+    },
+    {
+      "url": "https://js.appboycdn.com/web-sdk/2.4/appboy.min.js",
+      "bytes": 190739,
+      "dnsTime": 1.13,
+      "sslTime": 82.269,
+      "requestTime": 115.57
+    },
+    {
+      "url": "https://edge.fullstory.com/s/fs.js",
+      "bytes": 269538,
+      "dnsTime": 1.974,
+      "sslTime": 18.538,
+      "requestTime": 41.055
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 1.867,
+      "sslTime": 24.842,
+      "requestTime": 44.708999999999996
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1046223061&l=dataLayer&cx=c",
+      "bytes": 187777,
+      "dnsTime": 1.983,
+      "sslTime": 28.861,
+      "requestTime": 101.529
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1014041578&l=dataLayer&cx=c",
+      "bytes": 180820,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 421.83899999999994
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-991488418&l=dataLayer&cx=c",
+      "bytes": 176506,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 407.1049999999999
+    },
+    {
+      "url": "https://track.securedvisit.com/js/sv.js",
+      "bytes": 60925,
+      "dnsTime": 1.322,
+      "sslTime": 14.867,
+      "requestTime": 36.124
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 1.519,
+      "sslTime": 143.594,
+      "requestTime": 235.502
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-8175776&l=dataLayer&cx=c",
+      "bytes": 113577,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 133.68200000000002
+    },
+    {
+      "url": "https://zn8gre3bdrts5wjr3-1800flowers.siteintercept.qualtrics.com/WRSiteInterceptEngine/?Q_ZID=ZN_8GRE3bDrtS5WjR3&Q_LOC=https%3A%2F%2Fwww.1800flowers.com%2F",
+      "bytes": 7302,
+      "dnsTime": 2.969,
+      "sslTime": 20.863,
+      "requestTime": 52.693999999999996
+    },
+    {
+      "url": "https://execution-ci360.18f-cloud.com/js/ot-all.min.js",
+      "bytes": 21198,
+      "dnsTime": 3.664,
+      "sslTime": 19.186,
+      "requestTime": 35.371
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/fa889278-9634-4bda-9312-956909a4bf75-latest.js",
+      "bytes": 6952,
+      "dnsTime": 1.387,
+      "sslTime": 21.594,
+      "requestTime": 35.781000000000006
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 2.609,
+      "sslTime": 106.39,
+      "requestTime": 160.07299999999998
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 20.585,
+      "sslTime": 19.917,
+      "requestTime": 59.016
+    },
+    {
+      "url": "https://cdn.pdst.fm/ping.min.js",
+      "bytes": 26948,
+      "dnsTime": 92.082,
+      "sslTime": 15.237,
+      "requestTime": 120.84199999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-10258401&l=dataLayer&cx=c",
+      "bytes": 113567,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 155.072
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-10258401",
+      "bytes": 113546,
+      "dnsTime": 0.007,
+      "sslTime": 68.716,
+      "requestTime": 118.37699999999998
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C0GNVVT2BAPH375F4IU0&lib=ttq",
+      "bytes": 2838,
+      "dnsTime": 91.351,
+      "sslTime": 12.625,
+      "requestTime": 217.917
+    },
+    {
+      "url": "https://d1n00d49gkbray.cloudfront.net/js/1800flowers.js",
+      "bytes": 67265,
+      "dnsTime": 91.1,
+      "sslTime": 21.437,
+      "requestTime": 126.582
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 4.12,
+      "sslTime": 19.083,
+      "requestTime": 90.37
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/v1/loader/jM5Ztz30MpQJGaZJLoixEA",
+      "bytes": 433720,
+      "dnsTime": 1.788,
+      "sslTime": 12.159,
+      "requestTime": 44.269999999999996
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-864GQ5CPBS&l=dataLayer&cx=c",
+      "bytes": 211758,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 56.938
+    },
+    {
+      "url": "https://ext.chtbl.com/trackable.js",
+      "bytes": 4092,
+      "dnsTime": 3.026,
+      "sslTime": 18.681,
+      "requestTime": 30.957
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.1800flowers.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.187
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/a8460f60-9e2d-4c6a-a378-58be5248b83a.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 78.699
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 298.91200000000003
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.804
+    },
+    {
+      "url": "https://edge.fullstory.com/datalayer/v3/latest.js",
+      "bytes": 41036,
+      "dnsTime": 0.008,
+      "sslTime": 17.299,
+      "requestTime": 31.942999999999998
+    },
+    {
+      "url": "https://execution-ci360.18f-cloud.com/js/ot-min.js",
+      "bytes": 176549,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.981
+    },
+    {
+      "url": "https://acdn.adnxs.com/dmp/up/pixie.js",
+      "bytes": 9139,
+      "dnsTime": 0.909,
+      "sslTime": 11.262,
+      "requestTime": 21.899
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/fa889278-9634-4bda-9312-956909a4bf75-additional-latest.js",
+      "bytes": 9824,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.66
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tracker-latest.min.js",
+      "bytes": 9726,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.251
+    },
+    {
+      "url": "https://p.teads.tv/teads-fellow.js",
+      "bytes": 19888,
+      "dnsTime": 1.403,
+      "sslTime": 19.931,
+      "requestTime": 32.179
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1496726/tfa.js",
+      "bytes": 69819,
+      "dnsTime": 1.52,
+      "sslTime": 13.345,
+      "requestTime": 31.823
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.406
+    },
+    {
+      "url": "https://cdn-widget-assets.yotpo.com/widgets-initializer/app.v0.2.0-3926.js",
+      "bytes": 29947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.07
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.952
+    },
+    {
+      "url": "https://trc.taboola.com/1496726/trc/3/json?tim=1674690992427&data=%7B%22id%22%3A544%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1674690992412%2C%22cv%22%3A%2220230125-5-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.1800flowers.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3D1-800-flowerscom-sccnx%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22item-url%22%3A%22https%3A%2F%2Fwww.1800flowers.com%2F%22%2C%22tim%22%3A1674690992426%2C%22ref%22%3Anull%2C%22tos%22%3A10%2C%22ssd%22%3A1%2C%22scd%22%3A0%7D%7D&pubit=i",
+      "bytes": 2506,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.535000000000004
+    },
+    {
+      "url": "https://execution-ci360.18f-cloud.com/js/ot-api.min.js",
+      "bytes": 65727,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.469000000000001
+    },
+    {
+      "url": "https://creatives.attn.tv/creatives-dynamic/multiPage/static/js/vendors~main.e7b0ab7c.chunk.js",
+      "bytes": 190690,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.062000000000001
+    },
+    {
+      "url": "https://creatives.attn.tv/creatives-dynamic/multiPage/static/js/main.2f537fc4.js",
+      "bytes": 356138,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.939999999999998
+    }
+  ],
+  "numJsRequests": 84,
+  "numThirdPartyJsRequests": 47,
+  "numFirstPartyJsRequests": 37,
+  "numUnique3pHosts": 32,
+  "totalJsBytes": 8610149,
+  "totalDnsTime": 376.1,
+  "totalSslTime": 1105.3300000000002,
+  "totalTime": 6264.151000000002,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1745.4409999999998,
+  "totalFirstPartyJsBytes": 4138861,
+  "totalThirdPartyDnsTime": 376.1,
+  "totalThirdPartySslTime": 1105.3300000000002,
+  "totalThirdPartyTime": 4518.71,
+  "totalThirdPartyJsBytes": 4471288,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 32.78435659734748,
+  "percentOfJsRequestTimeIs3p": 72.13603248069849,
+  "percentOfJsIs3p": 51.93043697617776
+}

@@ -1,0 +1,108 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.32224400000000003,
+    "withoutTags": 0.03138733333333333,
+    "difference": 0.2908566666666667,
+    "cutMetricPercentage": 0.9025976175403319,
+    "percentFasterWithoutTags": "110.79134052282338%"
+  },
+  "TaskDuration": {
+    "withTags": 0.799637,
+    "withoutTags": 0.35407133333333335,
+    "difference": 0.4455656666666667,
+    "cutMetricPercentage": 0.5572099173333234,
+    "percentFasterWithoutTags": "179.46557821256425%"
+  },
+  "DOMComplete": {
+    "withTags": 2035,
+    "withoutTags": 1774,
+    "difference": 261,
+    "cutMetricPercentage": 0.12825552825552824,
+    "percentFasterWithoutTags": "779.6934865900382%"
+  },
+  "DOMInteractive": {
+    "withTags": 1259,
+    "withoutTags": 1300.3333333333333,
+    "difference": -41.33333333333326,
+    "cutMetricPercentage": -0.03283028858882705,
+    "percentFasterWithoutTags": "-3045.9677419354894%"
+  },
+  "DOMLoading": {
+    "withTags": 636.6666666666666,
+    "withoutTags": 731.6666666666666,
+    "difference": -95,
+    "cutMetricPercentage": -0.1492146596858639,
+    "percentFasterWithoutTags": "-670.1754385964912%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1221.0000000024836,
+    "withoutTags": 1337.2666666681569,
+    "difference": -116.26666666567326,
+    "cutMetricPercentage": -0.09522249522148793,
+    "percentFasterWithoutTags": "-1050.1720183597329%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=5f1918f31ce771f06c395f4d",
+      "bytes": 89476,
+      "dnsTime": 2.378,
+      "sslTime": 16.085,
+      "requestTime": 33.542
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/ajs-destination.bundle.2cd9e450202b69d545a3.js",
+      "bytes": 9229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 145.372
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/schemaFilter.bundle.d0fc84c62e956d168cce.js",
+      "bytes": 1595,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.445
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/optimizely/3.5.1/optimizely.dynamic.js.gz",
+      "bytes": 7049,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 115.047
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/vendor/commons.c42222c4cb2f8913500f.js.gz",
+      "bytes": 74937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.977
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/auto-track.bundle.42216e9ec2f69b0f51f7.js",
+      "bytes": 1708,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.727
+    }
+  ],
+  "numJsRequests": 6,
+  "numThirdPartyJsRequests": 6,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 2,
+  "totalJsBytes": 183994,
+  "totalDnsTime": 2.378,
+  "totalSslTime": 16.085,
+  "totalTime": 339.10999999999996,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 2.378,
+  "totalThirdPartySslTime": 16.085,
+  "totalThirdPartyTime": 339.10999999999996,
+  "totalThirdPartyJsBytes": 183994,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 5.4445460175164415,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

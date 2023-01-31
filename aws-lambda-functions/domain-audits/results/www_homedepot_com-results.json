@@ -1,0 +1,416 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.706585666666667,
+    "withoutTags": 0.27199466666666666,
+    "difference": 2.434591,
+    "cutMetricPercentage": 0.100493647777883,
+    "percentFasterWithoutTags": "111.17208872729205%"
+  },
+  "TaskDuration": {
+    "withTags": 6.853077333333334,
+    "withoutTags": 0.8132909999999999,
+    "difference": 6.039786333333335,
+    "cutMetricPercentage": 0.11867529876602391,
+    "percentFasterWithoutTags": "113.4655591293268%"
+  },
+  "DOMComplete": {
+    "withTags": 2153.6666666666665,
+    "withoutTags": 1100,
+    "difference": 1053.6666666666665,
+    "cutMetricPercentage": 0.5107568487850178,
+    "percentFasterWithoutTags": "204.39734261309712%"
+  },
+  "DOMInteractive": {
+    "withTags": 834.3333333333334,
+    "withoutTags": 923.3333333333334,
+    "difference": -89,
+    "cutMetricPercentage": 1.1066719936076708,
+    "percentFasterWithoutTags": "-937.4531835205993%"
+  },
+  "DOMLoading": {
+    "withTags": 134.33333333333334,
+    "withoutTags": 267,
+    "difference": -132.66666666666666,
+    "cutMetricPercentage": 1.987593052109181,
+    "percentFasterWithoutTags": "-101.2562814070352%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1244.43333333234,
+    "withoutTags": 409.5,
+    "difference": 834.93333333234,
+    "cutMetricPercentage": 0.32906543808453126,
+    "percentFasterWithoutTags": "149.04583200261345%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://assets.thdstatic.com/account_lib/0.14.0/build/js/accountlib.min.js",
+      "bytes": 7522,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.304
+    },
+    {
+      "url": "https://assets.thdstatic.com/shell/global-shell.d950bcf9925b8fb56e29.js",
+      "bytes": 53174,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.925
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/sync/b2c/desktop/prod/current/sync.js",
+      "bytes": 208754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.079
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/core/b2c/desktop/prod/current/core.js",
+      "bytes": 115964,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.924
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/cookie-utils/v2.1.2/cookie-utils.min.js",
+      "bytes": 20800,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.974999999999994
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/localizer/v9.3.0/localizerAutoInit.amd.js",
+      "bytes": 90439,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.407
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/react/v16.13.1/react.production.min.js",
+      "bytes": 12463,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.688000000000002
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/react/v16.13.1/react-dom.production.min.js",
+      "bytes": 118656,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.284
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/thd-customer/v4.13.0/thd-customer.js",
+      "bytes": 38325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.049
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/digitalData/v8.3.0/global.digitalData.js",
+      "bytes": 5344,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.363
+    },
+    {
+      "url": "https://assets.thdstatic.com/experiences/my-homepage/my-homepage.adece0ffaf101d930c8f.js",
+      "bytes": 16872,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.781999999999996
+    },
+    {
+      "url": "https://assets.thdstatic.com/experiences/my-homepage/runtime.c22151d4a8887d0f6a9f.js",
+      "bytes": 3828,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.306000000000001
+    },
+    {
+      "url": "https://assets.thdstatic.com/experiences/my-homepage/vendors.a877a4e9ce1515ab7c75.js",
+      "bytes": 521359,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 45.985
+    },
+    {
+      "url": "https://assets.thdstatic.com/experiences/my-homepage/consumer-homepage~guest-homepage~pro-homepage.662bef15cd7da52e82c2.js",
+      "bytes": 1916838,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 125.08
+    },
+    {
+      "url": "https://assets.thdstatic.com/experiences/my-homepage/guest-homepage.89bb94e20cc3c7a7c903.js",
+      "bytes": 4303,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.686
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/jquery/v3.6.0/dist/jquery.min.js",
+      "bytes": 89501,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.726
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/event-emitter/v2.0.0/thd-event-emitter.min.js",
+      "bytes": 2728,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.593
+    },
+    {
+      "url": "https://assets.thdstatic.com/ui/thd-overlay/v14.6.7/thd-overlay.min.js",
+      "bytes": 26030,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.215999999999998
+    },
+    {
+      "url": "https://assets.thdstatic.com/data-collection/v6.0.84/data-collection.min.js",
+      "bytes": 369177,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 120.57
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/global-events-orchestrator/v5.2.0/global-events-orchestrator.min.js",
+      "bytes": 80870,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 76.82499999999999
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/thd-cart/v1.0.0/thd-cart.js",
+      "bytes": 16817,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.59199999999998
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/global-privacy-control/v1.4.0/gpc.js",
+      "bytes": 1343,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.85600000000001
+    },
+    {
+      "url": "https://assets.thdstatic.com/core/hoverIntent.js",
+      "bytes": 3009,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 56.352
+    },
+    {
+      "url": "https://assets.thdstatic.com/hf/v30.2.8/js/hfapp.web.bundle.js",
+      "bytes": 335663,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 43.773
+    },
+    {
+      "url": "https://client.px-cloud.net/PXJ770cP7Y/main.min.js",
+      "bytes": 171039,
+      "dnsTime": 9.74,
+      "sslTime": 21.3,
+      "requestTime": 47.471000000000004
+    },
+    {
+      "url": "https://s.go-mpulse.net/boomerang/36T59-9DHSJ-E4G5M-6UFW6-FTNMC",
+      "bytes": 209939,
+      "dnsTime": 19.191,
+      "sslTime": 18.897,
+      "requestTime": 110.591
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/core/b2c/desktop/prod/current/appMeasure.core.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 4.659
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/core/b2c/desktop/prod/current/lodash.core.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 4.541
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/core/b2c/desktop/prod/current/daMap.core.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 4.515000000000001
+    },
+    {
+      "url": "https://localization.thdws.com/LocalizationService/v1/localstore.jsonp?show=metadata,%20localstore&callback=loc1674697916317",
+      "bytes": 1254,
+      "dnsTime": 29.528,
+      "sslTime": 18.471,
+      "requestTime": 165.52200000000002
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/3p/b2c/desktop/prod/current/3p.js",
+      "bytes": 596831,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.788
+    },
+    {
+      "url": "https://assets.thdstatic.com/analytics/3p/b2c/desktop/prod/current/atcImpression.3p.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.667
+    },
+    {
+      "url": "https://zn_42v6draxyafsjmv-homedepot.siteintercept.qualtrics.com/WRSiteInterceptEngine/?Q_ZID=ZN_42V6DRAxYafsjMV&Q_LOC=https%3A%2F%2Fwww.homedepot.com%2F&t=1674689788806",
+      "bytes": 7302,
+      "dnsTime": 16.726,
+      "sslTime": 25.473,
+      "requestTime": 78.82000000000001
+    },
+    {
+      "url": "https://js-agent.newrelic.com/nr-spa-1184.min.js",
+      "bytes": 38395,
+      "dnsTime": 14.698,
+      "sslTime": 33.021,
+      "requestTime": 55.881
+    },
+    {
+      "url": "https://lptag-cdn.liveperson.net/tag/tag.js?site=31564604",
+      "bytes": 21652,
+      "dnsTime": 25.563,
+      "sslTime": 30.873,
+      "requestTime": 65.91199999999999
+    },
+    {
+      "url": "https://1ad356638475.cdn4.forter.com/sn/1ad356638475/sha256-dWFObP2ggl%2B4TsbJy28vkQSv1y2usvTOesWxWy9yNgk%3D/script.js",
+      "bytes": 165267,
+      "dnsTime": 28.421,
+      "sslTime": 18.189,
+      "requestTime": 70.32
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.homedepot.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.155
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-32593878-1",
+      "bytes": 112640,
+      "dnsTime": 1.102,
+      "sslTime": 30.204,
+      "requestTime": 72.261
+    },
+    {
+      "url": "https://ib.adnxs.com/getuidp?callback=__metaPixelCB_xandr",
+      "bytes": 32,
+      "dnsTime": 2.942,
+      "sslTime": 78.26,
+      "requestTime": 98.56600000000002
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/CoreModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 104596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.203
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/6.9808af8b656686a98b64.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.954
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/1.ca40fe67c92ba390e992.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 28843,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.245
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/PopOverModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 9655,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.591
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/FeedbackLinkModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 2767,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.625
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/UserDefinedHTMLModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 6978,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.522999999999996
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/EmbeddedTargetModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 7677,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.929
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/LinkModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=homedepot",
+      "bytes": 1762,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.7
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-9H2R4ZXG4J&l=dataLayer&cx=c",
+      "bytes": 189718,
+      "dnsTime": 0.007,
+      "sslTime": 24.865,
+      "requestTime": 71.591
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-985322823&l=dataLayer&cx=c",
+      "bytes": 131431,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.166
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-3518820&l=dataLayer&cx=c",
+      "bytes": 113567,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 62.818
+    }
+  ],
+  "numJsRequests": 51,
+  "numThirdPartyJsRequests": 50,
+  "numFirstPartyJsRequests": 1,
+  "numUnique3pHosts": 11,
+  "totalJsBytes": 6244832,
+  "totalDnsTime": 147.91800000000003,
+  "totalSslTime": 299.553,
+  "totalTime": 2413.3759999999997,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 64.022,
+  "totalFirstPartyJsBytes": 198041,
+  "totalThirdPartyDnsTime": 147.91800000000003,
+  "totalThirdPartySslTime": 299.553,
+  "totalThirdPartyTime": 2349.3539999999994,
+  "totalThirdPartyJsBytes": 6046791,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 19.046554925311387,
+  "percentOfJsRequestTimeIs3p": 97.34720159643585,
+  "percentOfJsIs3p": 96.82872173342693
+}

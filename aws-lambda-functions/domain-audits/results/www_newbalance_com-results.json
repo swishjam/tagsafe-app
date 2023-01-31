@@ -1,0 +1,262 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.410270333333333,
+    "withoutTags": 1.179763,
+    "difference": 1.2305073333333332,
+    "cutMetricPercentage": 0.489473310808428,
+    "percentFasterWithoutTags": "195.87614539477215%"
+  },
+  "TaskDuration": {
+    "withTags": 3.59215,
+    "withoutTags": 1.6570016666666667,
+    "difference": 1.9351483333333335,
+    "cutMetricPercentage": 0.4612840963397037,
+    "percentFasterWithoutTags": "185.62659709979167%"
+  },
+  "DOMComplete": {
+    "withTags": 7812,
+    "withoutTags": 2341,
+    "difference": 5471,
+    "cutMetricPercentage": 0.29966717869943676,
+    "percentFasterWithoutTags": "142.7892524218607%"
+  },
+  "DOMInteractive": {
+    "withTags": 1877.3333333333333,
+    "withoutTags": 1549,
+    "difference": 328.33333333333326,
+    "cutMetricPercentage": 0.8251065340909092,
+    "percentFasterWithoutTags": "571.776649746193%"
+  },
+  "DOMLoading": {
+    "withTags": 718,
+    "withoutTags": 523,
+    "difference": 195,
+    "cutMetricPercentage": 0.7284122562674095,
+    "percentFasterWithoutTags": "368.2051282051282%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1430.93333333234,
+    "withoutTags": 1324.7333333368103,
+    "difference": 106.19999999552965,
+    "cutMetricPercentage": 0.9257827059292746,
+    "percentFasterWithoutTags": "1347.3948525353799%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://js-cdn.dynatrace.com/jstag/16362cc0dec/bf50289sfy/394e822a8075a68e_complete.js",
+      "bytes": 261875,
+      "dnsTime": 7.385,
+      "sslTime": 10.44,
+      "requestTime": 39.407
+    },
+    {
+      "url": "https://cdn.cquotient.com/js/v2/gretel.min.js",
+      "bytes": 66138,
+      "dnsTime": 5.128,
+      "sslTime": 13.173,
+      "requestTime": 28.723
+    },
+    {
+      "url": "https://s.go-mpulse.net/boomerang/WME2A-W3PJ6-VB62R-ENE69-TW59L",
+      "bytes": 208830,
+      "dnsTime": 2.85,
+      "sslTime": 15.041,
+      "requestTime": 59.03
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 24743,
+      "dnsTime": 8.853,
+      "sslTime": 15.518,
+      "requestTime": 44.363
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 1.715,
+      "sslTime": 13.952,
+      "requestTime": 28.720000000000002
+    },
+    {
+      "url": "https://cdn.zineone.com/cloud/latest/z1m.js",
+      "bytes": 93432,
+      "dnsTime": 1112.876,
+      "sslTime": 16.171,
+      "requestTime": 1139.19
+    },
+    {
+      "url": "https://t.contentsquare.net/uxa/d495316be0ad6.js",
+      "bytes": 415723,
+      "dnsTime": 3.313,
+      "sslTime": 22.396,
+      "requestTime": 49.293000000000006
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-825573438",
+      "bytes": 131513,
+      "dnsTime": 0.994,
+      "sslTime": 31.737,
+      "requestTime": 67.603
+    },
+    {
+      "url": "https://js.ipredictive.com/adelphic_universal_pixel.js",
+      "bytes": 2108,
+      "dnsTime": 3022.084,
+      "sslTime": 19.509,
+      "requestTime": 3049.9739999999997
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 1.737,
+      "sslTime": 13.152,
+      "requestTime": 107.66
+    },
+    {
+      "url": "https://siteimproveanalytics.com/js/siteanalyze_6065861.js",
+      "bytes": 24956,
+      "dnsTime": 2968.823,
+      "sslTime": 13.477,
+      "requestTime": 3007.6829999999995
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/newbalance/main/0185eb57a5060014e2acaec58c0300080001b07800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1674690668427",
+      "bytes": 27,
+      "dnsTime": 1.352,
+      "sslTime": 32.85,
+      "requestTime": 63.05200000000001
+    },
+    {
+      "url": "https://t.channeladvisor.com/v2/17200063.js",
+      "bytes": 6963,
+      "dnsTime": 9.577,
+      "sslTime": 14.461,
+      "requestTime": 35.636
+    },
+    {
+      "url": "https://cdn.mouseflow.com/projects/4e06e819-920b-4e38-aa5f-57266e2684b4.js",
+      "bytes": 135930,
+      "dnsTime": 1649.009,
+      "sslTime": 18.474,
+      "requestTime": 1683.1390000000001
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.573,
+      "sslTime": 18.797,
+      "requestTime": 55.59
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 0.978,
+      "sslTime": 23.015,
+      "requestTime": 72.393
+    },
+    {
+      "url": "https://cdn.pdst.fm/ping.min.js",
+      "bytes": 26948,
+      "dnsTime": 2206.904,
+      "sslTime": 18.16,
+      "requestTime": 2235.017
+    },
+    {
+      "url": "https://cdn.scarabresearch.com/js/12B8D8246826E206/scarab-v2.js",
+      "bytes": 97421,
+      "dnsTime": 2187.845,
+      "sslTime": 21.891,
+      "requestTime": 2225.0259999999994
+    },
+    {
+      "url": "https://assets.revlifter.io/2gb5cfed-b1ef-49db-bf6c-052398ace1e2.js",
+      "bytes": 36933,
+      "dnsTime": 1917.365,
+      "sslTime": 16.839,
+      "requestTime": 2229.337
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-EN0KNJFVPX&l=dataLayer&cx=c",
+      "bytes": 222201,
+      "dnsTime": 0.05,
+      "sslTime": 24.245,
+      "requestTime": 84.245
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-875604790&l=dataLayer&cx=c",
+      "bytes": 176518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 84.011
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-983054126&l=dataLayer&cx=c",
+      "bytes": 131476,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 77.495
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 132.068
+    },
+    {
+      "url": "https://c.tvpixel.com/js/current/dpm_pixel_min.js?aid=vdx-newbalance-cd5547ad-4167-476a-b916-e590fe02883a",
+      "bytes": 105110,
+      "dnsTime": 2377.114,
+      "sslTime": 12.448,
+      "requestTime": 2403.289
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/6d560ec6-4f30-4d88-84e2-a488b2161943.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.93199999999999
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/202212.1.0/otBannerSdk.js",
+      "bytes": 401786,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.616
+    },
+    {
+      "url": "https://static.scarabresearch.com/wpjs/wploader.js?ts=2768",
+      "bytes": 31907,
+      "dnsTime": 0.528,
+      "sslTime": 12.307,
+      "requestTime": 26.455
+    },
+    {
+      "url": "https://static.scarabresearch.com/wpjs/wpes6.js?ts=2768",
+      "bytes": 103044,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.834999999999999
+    }
+  ],
+  "numJsRequests": 46,
+  "numThirdPartyJsRequests": 28,
+  "numFirstPartyJsRequests": 18,
+  "numUnique3pHosts": 22,
+  "totalJsBytes": 3849038,
+  "totalDnsTime": 17488.052999999996,
+  "totalSslTime": 398.05300000000005,
+  "totalTime": 20013.396,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 879.6139999999998,
+  "totalFirstPartyJsBytes": 957888,
+  "totalThirdPartyDnsTime": 17488.052999999996,
+  "totalThirdPartySslTime": 398.05300000000005,
+  "totalThirdPartyTime": 19133.782,
+  "totalThirdPartyJsBytes": 2891150,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 93.47919820556123,
+  "percentOfJsRequestTimeIs3p": 95.60487385549159,
+  "percentOfJsIs3p": 75.11357383325392
+}

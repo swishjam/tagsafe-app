@@ -1,0 +1,80 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.7891326666666667,
+    "withoutTags": 0.9515876666666666,
+    "difference": 1.837545,
+    "cutMetricPercentage": 0.3411769106716329,
+    "percentFasterWithoutTags": "151.78581567616936%"
+  },
+  "TaskDuration": {
+    "withTags": 5.140395333333333,
+    "withoutTags": 2.160992333333333,
+    "difference": 2.979403,
+    "cutMetricPercentage": 0.42039419017447816,
+    "percentFasterWithoutTags": "172.53105180243602%"
+  },
+  "DOMComplete": {
+    "withTags": 2388.6666666666665,
+    "withoutTags": 2744.3333333333335,
+    "difference": -355.66666666666697,
+    "cutMetricPercentage": 1.1488975718671506,
+    "percentFasterWithoutTags": "-671.6026241799432%"
+  },
+  "DOMInteractive": {
+    "withTags": 1039,
+    "withoutTags": 1176.3333333333333,
+    "difference": -137.33333333333326,
+    "cutMetricPercentage": 1.132178376644209,
+    "percentFasterWithoutTags": "-756.5533980582528%"
+  },
+  "DOMLoading": {
+    "withTags": 613.6666666666666,
+    "withoutTags": 732.6666666666666,
+    "difference": -119,
+    "cutMetricPercentage": 1.193916349809886,
+    "percentFasterWithoutTags": "-515.6862745098039%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 746.5666666676601,
+    "withoutTags": 859.3000000019869,
+    "difference": -112.73333333432674,
+    "cutMetricPercentage": 1.1510023663894853,
+    "percentFasterWithoutTags": "-662.2412773457256%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://s.go-mpulse.net/boomerang/8TH7R-A8HZ6-FFABL-LUVZF-RTH3D",
+      "bytes": 209939,
+      "dnsTime": 8.547,
+      "sslTime": 21.489,
+      "requestTime": 55.209999999999994
+    },
+    {
+      "url": "https://js-agent.newrelic.com/nr-spa-1216.min.js",
+      "bytes": 50049,
+      "dnsTime": 10.899,
+      "sslTime": 15.514,
+      "requestTime": 40.699999999999996
+    }
+  ],
+  "numJsRequests": 6,
+  "numThirdPartyJsRequests": 2,
+  "numFirstPartyJsRequests": 4,
+  "numUnique3pHosts": 2,
+  "totalJsBytes": 479455,
+  "totalDnsTime": 19.445999999999998,
+  "totalSslTime": 37.003,
+  "totalTime": 810.2700000000002,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 714.3600000000001,
+  "totalFirstPartyJsBytes": 219467,
+  "totalThirdPartyDnsTime": 19.445999999999998,
+  "totalThirdPartySslTime": 37.003,
+  "totalThirdPartyTime": 95.91,
+  "totalThirdPartyJsBytes": 259988,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 58.85621937232822,
+  "percentOfJsRequestTimeIs3p": 11.83679514235995,
+  "percentOfJsIs3p": 54.22573547048211
+}

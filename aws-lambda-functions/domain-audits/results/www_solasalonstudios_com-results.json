@@ -1,0 +1,164 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.7402836666666667,
+    "withoutTags": 0.06697066666666666,
+    "difference": 0.673313,
+    "cutMetricPercentage": 0.9095337778176024,
+    "percentFasterWithoutTags": "109.94643897662255%"
+  },
+  "TaskDuration": {
+    "withTags": 1.1742716666666666,
+    "withoutTags": 0.3665656666666666,
+    "difference": 0.807706,
+    "cutMetricPercentage": 0.6878357222845934,
+    "percentFasterWithoutTags": "145.3835512756704%"
+  },
+  "DOMComplete": {
+    "withTags": -1116736751459.3333,
+    "withoutTags": -1675105129879.6667,
+    "difference": 558368378420.3335,
+    "cutMetricPercentage": -0.5000000024094012,
+    "percentFasterWithoutTags": "-199.99999903623953%"
+  },
+  "DOMInteractive": {
+    "withTags": 2346.6666666666665,
+    "withoutTags": 2221.3333333333335,
+    "difference": 125.33333333333303,
+    "cutMetricPercentage": 0.05340909090909078,
+    "percentFasterWithoutTags": "1872.3404255319192%"
+  },
+  "DOMLoading": {
+    "withTags": 1078,
+    "withoutTags": 1031,
+    "difference": 47,
+    "cutMetricPercentage": 0.04359925788497217,
+    "percentFasterWithoutTags": "2293.617021276596%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2316.46666666617,
+    "withoutTags": 2206.03333333383,
+    "difference": 110.43333333234023,
+    "cutMetricPercentage": 0.047673180418034894,
+    "percentFasterWithoutTags": "2097.6154542894674%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn.rollbar.com/rollbarjs/refs/tags/v2.22.0/rollbar.min.js",
+      "bytes": 77675,
+      "dnsTime": 1.278,
+      "sslTime": 15.794,
+      "requestTime": 27.814999999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-MR754KX",
+      "bytes": 222708,
+      "dnsTime": 1.47,
+      "sslTime": 66.074,
+      "requestTime": 119.751
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2611645.js?sv=6",
+      "bytes": 8453,
+      "dnsTime": 1.426,
+      "sslTime": 23.934,
+      "requestTime": 124.88900000000001
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=GTM-P72FBWW",
+      "bytes": 113089,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 265.284
+    },
+    {
+      "url": "https://d10lpsik1i8c69.cloudfront.net/w.js",
+      "bytes": 5349,
+      "dnsTime": 2.673,
+      "sslTime": 39.53,
+      "requestTime": 51.080000000000005
+    },
+    {
+      "url": "https://js.hs-scripts.com/4809868.js",
+      "bytes": 1462,
+      "dnsTime": 1.325,
+      "sslTime": 16.235,
+      "requestTime": 145.988
+    },
+    {
+      "url": "https://nexus.ensighten.com/choozle/9776/Bootstrap.js",
+      "bytes": 29276,
+      "dnsTime": 1.836,
+      "sslTime": 273.435,
+      "requestTime": 286.726
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-34803522&l=dataLayer&cx=c",
+      "bytes": 135805,
+      "dnsTime": 0.006,
+      "sslTime": 56.766,
+      "requestTime": 254.24400000000003
+    },
+    {
+      "url": "https://s.adroll.com/j/pre/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.489
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 1.343,
+      "sslTime": 13.797,
+      "requestTime": 33.23499999999999
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/Z3SJA7IDINDFTDUUHLUFKF?pv=94000568496.44638&arrfrr=https%3A%2F%2Fwww.solasalonstudios.com%2F&_s=1322dacb61d257b011f0b7ea56821737&_b=2",
+      "bytes": 468,
+      "dnsTime": 1.182,
+      "sslTime": 62.946,
+      "requestTime": 92.423
+    },
+    {
+      "url": "https://nexus.ensighten.com/choozle/9776/code/6a246e72e850ee57e981c87c183004ef.js?conditionId0=4867504",
+      "bytes": 670,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.957
+    },
+    {
+      "url": "https://nexus.ensighten.com/choozle/9776/code/9a209531cf2d153495d2962989afd4e8.js?conditionId0=421905",
+      "bytes": 516,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.97
+    },
+    {
+      "url": "https://s.adroll.com/j/sendrolling.js",
+      "bytes": 8287,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.927
+    }
+  ],
+  "numJsRequests": 15,
+  "numThirdPartyJsRequests": 14,
+  "numFirstPartyJsRequests": 1,
+  "numUnique3pHosts": 10,
+  "totalJsBytes": 3318563,
+  "totalDnsTime": 12.539000000000001,
+  "totalSslTime": 568.5110000000001,
+  "totalTime": 1566.1580000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 100.38,
+  "totalFirstPartyJsBytes": 2708987,
+  "totalThirdPartyDnsTime": 12.539000000000001,
+  "totalThirdPartySslTime": 568.5110000000001,
+  "totalThirdPartyTime": 1465.778,
+  "totalThirdPartyJsBytes": 609576,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 39.64106433579983,
+  "percentOfJsRequestTimeIs3p": 93.59068497558994,
+  "percentOfJsIs3p": 18.36867342883049
+}

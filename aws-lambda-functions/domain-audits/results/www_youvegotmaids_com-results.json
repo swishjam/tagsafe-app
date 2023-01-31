@@ -1,0 +1,283 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.480691,
+    "withoutTags": 0.108983,
+    "difference": 2.3717080000000004,
+    "cutMetricPercentage": 0.9560674828102332,
+    "percentFasterWithoutTags": "104.59512722476796%"
+  },
+  "TaskDuration": {
+    "withTags": 4.726693999999999,
+    "withoutTags": 0.4731373333333333,
+    "difference": 4.253556666666666,
+    "cutMetricPercentage": 0.8999010019829223,
+    "percentFasterWithoutTags": "111.12333443306659%"
+  },
+  "DOMComplete": {
+    "withTags": 7163,
+    "withoutTags": 3184.3333333333335,
+    "difference": 3978.6666666666665,
+    "cutMetricPercentage": 0.5554469728698403,
+    "percentFasterWithoutTags": "180.03518766756034%"
+  },
+  "DOMInteractive": {
+    "withTags": 2770.3333333333335,
+    "withoutTags": 2232.3333333333335,
+    "difference": 538,
+    "cutMetricPercentage": 0.19420045722536397,
+    "percentFasterWithoutTags": "514.9318463444857%"
+  },
+  "DOMLoading": {
+    "withTags": 1219.3333333333333,
+    "withoutTags": 1120.3333333333333,
+    "difference": 99,
+    "cutMetricPercentage": 0.08119190814652816,
+    "percentFasterWithoutTags": "1231.6498316498316%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2306.833333335817,
+    "withoutTags": 1973.866666669647,
+    "difference": 332.9666666661699,
+    "cutMetricPercentage": 0.14433928184342668,
+    "percentFasterWithoutTags": "692.8120933044124%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://design-assets.hubspot.com/hubfs/Assets/Paraxify/paraxify.min.js",
+      "bytes": 2270,
+      "dnsTime": 31.34,
+      "sslTime": 26.501,
+      "requestTime": 183.28400000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WMB2HNV",
+      "bytes": 229671,
+      "dnsTime": 6.321,
+      "sslTime": 38.747,
+      "requestTime": 272.166
+    },
+    {
+      "url": "https://platform.twitter.com/widgets.js",
+      "bytes": 93239,
+      "dnsTime": 0.023,
+      "sslTime": 26.623,
+      "requestTime": 299.026
+    },
+    {
+      "url": "https://js.driftt.com/include/1675106100000/6pfgwvastcb2.js",
+      "bytes": 216518,
+      "dnsTime": 25.822,
+      "sslTime": 27.183,
+      "requestTime": 1048.335
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-339158.js?sv=5",
+      "bytes": 0,
+      "dnsTime": 31.963,
+      "sslTime": 31.817,
+      "requestTime": 704.4509999999999
+    },
+    {
+      "url": "https://design-assets.hubspot.com/hubfs/Assets/Paraxify/paraxify.min.js",
+      "bytes": 2270,
+      "dnsTime": 0.017,
+      "sslTime": 19.17,
+      "requestTime": 120.09400000000001
+    },
+    {
+      "url": "https://js.usemessages.com/conversations-embed.js",
+      "bytes": 75187,
+      "dnsTime": 1.817,
+      "sslTime": 18.19,
+      "requestTime": 57.434000000000005
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 1.063,
+      "sslTime": 40.801,
+      "requestTime": 62.33500000000001
+    },
+    {
+      "url": "https://js.hsleadflows.net/leadflows.js",
+      "bytes": 556117,
+      "dnsTime": 0.992,
+      "sslTime": 50.223,
+      "requestTime": 95.57900000000001
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-339158.js?sv=7",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 392.39300000000003
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=1323202&time=1675106093469&url=https%3A%2F%2Fwww.youvegotmaids.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 210.694
+    },
+    {
+      "url": "https://platform.twitter.com/js/timeline.16b53cc33aaa562f8f41a495bf720289.js",
+      "bytes": 8264,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 424.227
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-857307963",
+      "bytes": 131596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 433.574
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-857307963&l=dataLayer&cx=c",
+      "bytes": 131617,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 418.52500000000003
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-776754329&l=dataLayer&cx=c",
+      "bytes": 131628,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 424.614
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/runtime-200f8a234c9b058ee035.js",
+      "bytes": 4155,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.5840000000000005
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/modules.20f98d7498a59035a762.js",
+      "bytes": 292698,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.6
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/main-fd9ef5eb169057cda26d.js",
+      "bytes": 90,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.81
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/pages/_app-1de42c5b58d3c0c73bcc.js",
+      "bytes": 1338,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.796
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/pages/timeline-profile/screen-name/%5BscreenName%5D-c33f0b02841cffc3e9b4.js",
+      "bytes": 13508,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.830000000000002
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/0F7sPL8xjjEQhBKtMk8QJ/_buildManifest.js",
+      "bytes": 1325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.41
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/0F7sPL8xjjEQhBKtMk8QJ/_ssgManifest.js",
+      "bytes": 76,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.962
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/2.691622e4391d1973cb65.js",
+      "bytes": 23122,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.773999999999997
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/16.cf2498641ffeea0501f9.js",
+      "bytes": 38240,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.071
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/0.12059cc9aae4f779ab68.js",
+      "bytes": 321522,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.796
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/4.c99a76747fd916e95958.js",
+      "bytes": 249585,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 26.372999999999998
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/1.48b01f08913eb5fa0cc2.js",
+      "bytes": 148324,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.5
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/3.1ccb4322689c37f32bbe.js",
+      "bytes": 679210,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 90.428
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/6.aba35a239a4780e40713.js",
+      "bytes": 2558,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.400999999999996
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/ondemand.Dropdown.4cd773fb670117e677f6.js",
+      "bytes": 7266,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.254
+    },
+    {
+      "url": "https://platform.twitter.com/_next/static/chunks/vendors~ondemand.LottieWeb.d0dde7eb339d57b45e0d.js",
+      "bytes": 151847,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.021
+    }
+  ],
+  "numJsRequests": 41,
+  "numThirdPartyJsRequests": 31,
+  "numFirstPartyJsRequests": 10,
+  "numUnique3pHosts": 9,
+  "totalJsBytes": 3702080,
+  "totalDnsTime": 99.35799999999999,
+  "totalSslTime": 279.255,
+  "totalTime": 7215.009999999999,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 1548.6689999999999,
+  "totalFirstPartyJsBytes": 183021,
+  "totalThirdPartyDnsTime": 99.35799999999999,
+  "totalThirdPartySslTime": 279.255,
+  "totalThirdPartyTime": 5666.341,
+  "totalThirdPartyJsBytes": 3519059,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 6.681789888748312,
+  "percentOfJsRequestTimeIs3p": 78.53545594531401,
+  "percentOfJsIs3p": 95.05626566686836
+}

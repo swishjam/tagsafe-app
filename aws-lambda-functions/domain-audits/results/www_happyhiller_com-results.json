@@ -1,0 +1,283 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.9879586666666667,
+    "withoutTags": 0.018192666666666666,
+    "difference": 0.969766,
+    "cutMetricPercentage": 0.9815855993975456,
+    "percentFasterWithoutTags": "101.87598520330334%"
+  },
+  "TaskDuration": {
+    "withTags": 2.3175616666666667,
+    "withoutTags": 0.558904,
+    "difference": 1.7586576666666667,
+    "cutMetricPercentage": 0.7588396425265922,
+    "percentFasterWithoutTags": "131.78014747232407%"
+  },
+  "DOMComplete": {
+    "withTags": -558367828866,
+    "withoutTags": 6940.666666666667,
+    "difference": -558367835806.6666,
+    "cutMetricPercentage": 1.0000000124302768,
+    "percentFasterWithoutTags": "99.99999875697235%"
+  },
+  "DOMInteractive": {
+    "withTags": 10154.666666666666,
+    "withoutTags": 2316.6666666666665,
+    "difference": 7838,
+    "cutMetricPercentage": 0.7718618697478992,
+    "percentFasterWithoutTags": "129.55685974313172%"
+  },
+  "DOMLoading": {
+    "withTags": 1141,
+    "withoutTags": 1109.6666666666667,
+    "difference": 31.333333333333258,
+    "cutMetricPercentage": 0.027461291264972182,
+    "percentFasterWithoutTags": "3641.489361702136%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2282.299999999503,
+    "withoutTags": 2256.96666666617,
+    "difference": 25.33333333333303,
+    "cutMetricPercentage": 0.011099913829618606,
+    "percentFasterWithoutTags": "9009.078947366568%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://static.addtoany.com/menu/page.js",
+      "bytes": 3076,
+      "dnsTime": 0.013,
+      "sslTime": 13.274,
+      "requestTime": 282.70699999999994
+    },
+    {
+      "url": "https://happyhiller.com/wp-includes/js/jquery/jquery.min.js?ver=3.6.1",
+      "bytes": 89684,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.25
+    },
+    {
+      "url": "https://happyhiller.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2",
+      "bytes": 11224,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 58.208999999999996
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/plugins/add-to-any/addtoany.min.js?ver=1.1",
+      "bytes": 129,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 2617.6449999999995
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/plugins/golocalinteractive-gli-reviews-73ace2e4b3c8/public/js/gli-reviews-public.js?ver=1.4.2",
+      "bytes": 838,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.961
+    },
+    {
+      "url": "https://embed.scheduleengine.net/schedule-engine-v3.js",
+      "bytes": 12482,
+      "dnsTime": 0.808,
+      "sslTime": 19.353,
+      "requestTime": 572.094
+    },
+    {
+      "url": "https://tools.luckyorange.com/core/lo.js?site-id=fd6c53a9",
+      "bytes": 11488,
+      "dnsTime": 5.01,
+      "sslTime": 16.656,
+      "requestTime": 34.96
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/plugins/real-time-auto-find-and-replace/assets/js/rtafar.local.js?ver=1.4.3",
+      "bytes": 19,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.906
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/popper.min.js?ver=20151215",
+      "bytes": 18994,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.48
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/bootstrap.min.js?ver=20151215",
+      "bytes": 59055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 78.53599999999999
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/zipcode.js?ver=20151215",
+      "bytes": 1097,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.698
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/lightgallery.min.js?ver=20151215",
+      "bytes": 24613,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.841
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/slick.min.js?ver=20151215",
+      "bytes": 42862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 74.004
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/aos.js?ver=20151215",
+      "bytes": 14239,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 73.172
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/skip-link-focus-fix.js?ver=20151215",
+      "bytes": 685,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 83.348
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/functions.min.js?ver=20151215",
+      "bytes": 3176,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 47.064
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/themes/happyhiller2021/assets/js/largemap.js",
+      "bytes": 388,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.244
+    },
+    {
+      "url": "https://happyhiller.com/wp-content/plugins/real-time-auto-find-and-replace/assets/js/rtafar.app.min.js?ver=1.4.3",
+      "bytes": 284,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 2649.796
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PG5KLMQ",
+      "bytes": 136147,
+      "dnsTime": 3.22,
+      "sslTime": 29.262,
+      "requestTime": 91.06900000000002
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1431402.js?sv=5",
+      "bytes": 8661,
+      "dnsTime": 1.253,
+      "sslTime": 10.361,
+      "requestTime": 23.346
+    },
+    {
+      "url": "https://static.addtoany.com/menu/modules/core.26680508.js",
+      "bytes": 70738,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 74.70700000000001
+    },
+    {
+      "url": "https://home-c30.incontact.com/inContact/ChatClient/js/embed.min.js",
+      "bytes": 13117,
+      "dnsTime": 0.007,
+      "sslTime": 127.067,
+      "requestTime": 426.505
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-4S2Y4ZZWBH&l=dataLayer&cx=c",
+      "bytes": 220122,
+      "dnsTime": 0.007,
+      "sslTime": 114.226,
+      "requestTime": 254.02599999999998
+    },
+    {
+      "url": "https://home-c30.incontact.com/inContact/ChatClient/js/chatClient-v2.js",
+      "bytes": 1146,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 195.05300000000003
+    },
+    {
+      "url": "https://home-c30.incontact.com/inContact/ChatClient/js/lib/fetch.min.js",
+      "bytes": 10547,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.318999999999996
+    },
+    {
+      "url": "https://home-c30.incontact.com/inContact/ChatClient/js/lib/classListPolyfill.min.js",
+      "bytes": 3519,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 49.434
+    },
+    {
+      "url": "https://home-c30.incontact.com/inContact/ChatClient/js/bundle.min.js",
+      "bytes": 1444047,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 3608.744
+    },
+    {
+      "url": "https://cdn.raygun.io/raygun4js/raygun.min.js",
+      "bytes": 69169,
+      "dnsTime": 1.361,
+      "sslTime": 19.614,
+      "requestTime": 55.949
+    },
+    {
+      "url": "https://unpkg.com/markdown-it@13.0.1/dist/markdown-it.min.js",
+      "bytes": 103012,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.344
+    },
+    {
+      "url": "https://hillerphce.widget.scheduleengine.net/static/js/5.833a1fe4.chunk.js",
+      "bytes": 1156775,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 83.30199999999999
+    },
+    {
+      "url": "https://hillerphce.widget.scheduleengine.net/static/js/main.5b0f33fd.chunk.js",
+      "bytes": 189235,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 54.53099999999999
+    }
+  ],
+  "numJsRequests": 31,
+  "numThirdPartyJsRequests": 31,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 10,
+  "totalJsBytes": 3720568,
+  "totalDnsTime": 11.679,
+  "totalSslTime": 349.813,
+  "totalTime": 11922.244,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 11.679,
+  "totalThirdPartySslTime": 349.813,
+  "totalThirdPartyTime": 11922.244,
+  "totalThirdPartyJsBytes": 3720568,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 3.0320802023511675,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

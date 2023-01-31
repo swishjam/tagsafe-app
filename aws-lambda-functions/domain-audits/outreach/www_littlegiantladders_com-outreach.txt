@@ -1,0 +1,3 @@
+www.littlegiantladders.com loads 54 third party JS scripts, totaling in 6.03 MB of javascript, while you are loading 8.1 KB of 'first party javascript', meaning 99.87% of all the javascript loaded on the page originates from third party resources. 
+It takes www.littlegiantladders.com 8.24 seconds to download all of the third party javascript on the site. 6.42% of the third party JS download time is due to DNS lookups and SSL connections, which would be eliminated using Tagsafe. 
+If www.littlegiantladders.com had zero third party javascript tags, it would cut the DOM Complete time by 9.77%, the First Contentful Paint time by 66.15%, and DOM Interactive time by 2.14%.

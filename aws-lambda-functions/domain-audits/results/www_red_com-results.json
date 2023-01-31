@@ -1,0 +1,220 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.5043906666666667,
+    "withoutTags": 0.4044143333333334,
+    "difference": 1.0999763333333332,
+    "cutMetricPercentage": 0.7311773183029585,
+    "percentFasterWithoutTags": "136.76573041419985%"
+  },
+  "TaskDuration": {
+    "withTags": 2.9501453333333334,
+    "withoutTags": 1.4987113333333333,
+    "difference": 1.4514340000000001,
+    "cutMetricPercentage": 0.4919872874059538,
+    "percentFasterWithoutTags": "203.25728440516988%"
+  },
+  "DOMComplete": {
+    "withTags": 1748.6666666666667,
+    "withoutTags": 1577.3333333333333,
+    "difference": 171.33333333333348,
+    "cutMetricPercentage": 0.09797941288600846,
+    "percentFasterWithoutTags": "1020.6225680933844%"
+  },
+  "DOMInteractive": {
+    "withTags": 962.6666666666666,
+    "withoutTags": 888.3333333333334,
+    "difference": 74.33333333333326,
+    "cutMetricPercentage": 0.07721606648199439,
+    "percentFasterWithoutTags": "1295.0672645739924%"
+  },
+  "DOMLoading": {
+    "withTags": 147.66666666666666,
+    "withoutTags": 118,
+    "difference": 29.666666666666657,
+    "cutMetricPercentage": 0.200902934537246,
+    "percentFasterWithoutTags": "497.7528089887642%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 796.1666666641831,
+    "withoutTags": 477.6666666666667,
+    "difference": 318.49999999751645,
+    "cutMetricPercentage": 0.4000418672788486,
+    "percentFasterWithoutTags": "249.97383568929084%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn1.affirm.com/js/v2/affirm.js",
+      "bytes": 436786,
+      "dnsTime": 1.737,
+      "sslTime": 11.54,
+      "requestTime": 46.178
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1019463.js?sv=6",
+      "bytes": 8596,
+      "dnsTime": 3.659,
+      "sslTime": 17.64,
+      "requestTime": 34.787000000000006
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js",
+      "bytes": 61486,
+      "dnsTime": 3.493,
+      "sslTime": 31.085,
+      "requestTime": 56.717
+    },
+    {
+      "url": "https://di.rlcdn.com/api/segment?pdata=partner%3Dtap324305%2Cdata%3Dtype%3Asite%24audience%3ASS_RED_ClientSite_Control&pid=406006&redirect=1",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.534
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=SHA5cE",
+      "bytes": 2029,
+      "dnsTime": 1920.214,
+      "sslTime": 391.969,
+      "requestTime": 2343.397
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WPDK9R9&l=dataLayer",
+      "bytes": 233631,
+      "dnsTime": 6.533,
+      "sslTime": 49.033,
+      "requestTime": 138.14499999999998
+    },
+    {
+      "url": "https://static.zdassets.com/ekr/asset_composer.js",
+      "bytes": 23416,
+      "dnsTime": 4.473,
+      "sslTime": 38.545,
+      "requestTime": 78.21000000000001
+    },
+    {
+      "url": "https://cdn.heapanalytics.com/js/heap-892465226.js",
+      "bytes": 126879,
+      "dnsTime": 13.709,
+      "sslTime": 21.891,
+      "requestTime": 56.695
+    },
+    {
+      "url": "https://up.pixel.ad/assets/up.js?um=1",
+      "bytes": 3276,
+      "dnsTime": 14.481,
+      "sslTime": 23.433,
+      "requestTime": 73.74100000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-7PMJM52LSK&l=dataLayer&cx=c",
+      "bytes": 231993,
+      "dnsTime": 0.009,
+      "sslTime": 28.099,
+      "requestTime": 102.026
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/web-widget-framework-59b8a859ce8a473d961c.js",
+      "bytes": 161958,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 54.957
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 1.457,
+      "sslTime": 18.527,
+      "requestTime": 30.731
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.895
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 129.853
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 169.50699999999998
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-classic-3789e01.js",
+      "bytes": 13518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.79
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-8165-3789e01.js",
+      "bytes": 678753,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.394
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-5324-3789e01.js",
+      "bytes": 505325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.367000000000004
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-locales/classic/en-us-json-3789e01.js",
+      "bytes": 25840,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.346
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-sdk-3789e01.js",
+      "bytes": 207015,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.187
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=242866&time=1675104834765&url=https%3A%2F%2Fwww.red.com%2F&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 130.86
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-incoming-message-notification-3789e01.js",
+      "bytes": 208,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.551
+    }
+  ],
+  "numJsRequests": 22,
+  "numThirdPartyJsRequests": 22,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 11,
+  "totalJsBytes": 2816725,
+  "totalDnsTime": 1969.7649999999999,
+  "totalSslTime": 631.7620000000001,
+  "totalTime": 3809.868,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 1969.7649999999999,
+  "totalThirdPartySslTime": 631.7620000000001,
+  "totalThirdPartyTime": 3809.868,
+  "totalThirdPartyJsBytes": 2816725,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 68.28391429834315,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

@@ -1,0 +1,122 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.494100666666667,
+    "withoutTags": 0.04627133333333333,
+    "difference": 1.4478293333333336,
+    "cutMetricPercentage": 0.9690306454138967,
+    "percentFasterWithoutTags": "103.19591075191184%"
+  },
+  "TaskDuration": {
+    "withTags": 2.446200333333333,
+    "withoutTags": 0.611517,
+    "difference": 1.834683333333333,
+    "cutMetricPercentage": 0.7500135243761038,
+    "percentFasterWithoutTags": "133.33092904315913%"
+  },
+  "DOMComplete": {
+    "withTags": -1675104633210.6667,
+    "withoutTags": -1675104633223.3333,
+    "difference": 12.66650390625,
+    "cutMetricPercentage": -7.561619528191597e-12,
+    "percentFasterWithoutTags": "-13224680192804.615%"
+  },
+  "DOMInteractive": {
+    "withTags": 14743,
+    "withoutTags": 7061.333333333333,
+    "difference": 7681.666666666667,
+    "cutMetricPercentage": 0.5210382328336612,
+    "percentFasterWithoutTags": "191.92449555218053%"
+  },
+  "DOMLoading": {
+    "withTags": 833.3333333333334,
+    "withoutTags": 679.3333333333334,
+    "difference": 154,
+    "cutMetricPercentage": 0.1848,
+    "percentFasterWithoutTags": "541.1255411255412%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1008.0666666651765,
+    "withoutTags": 904.3666666671634,
+    "difference": 103.69999999801314,
+    "cutMetricPercentage": 0.10287018054179595,
+    "percentFasterWithoutTags": "972.0990035530286%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://js.hs-scripts.com/3927424.js",
+      "bytes": 1977,
+      "dnsTime": 7.41,
+      "sslTime": 15.088,
+      "requestTime": 161.63400000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-T5JK4JL",
+      "bytes": 244820,
+      "dnsTime": 0.801,
+      "sslTime": 27.756,
+      "requestTime": 117.777
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2101984.js?sv=6",
+      "bytes": 0,
+      "dnsTime": 1.075,
+      "sslTime": 15.759,
+      "requestTime": 244.002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-M132DFKZFG&l=dataLayer&cx=c",
+      "bytes": 222912,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 339.98
+    },
+    {
+      "url": "https://js.hsadspixel.net/fb.js",
+      "bytes": 5818,
+      "dnsTime": 12.49,
+      "sslTime": 35.666,
+      "requestTime": 90.01399999999998
+    },
+    {
+      "url": "https://js.hsleadflows.net/leadflows.js",
+      "bytes": 556117,
+      "dnsTime": 12.086,
+      "sslTime": 13.914,
+      "requestTime": 79.507
+    },
+    {
+      "url": "https://js.hsforms.net/forms/v2.js",
+      "bytes": 518702,
+      "dnsTime": 0.842,
+      "sslTime": 12.566,
+      "requestTime": 60.626000000000005
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=4899489&time=1675104616995&url=https%3A%2F%2Fwww.populationmedia.org%2F&tm=gtmv2&cookiesTest=true&liSync=true",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 440.22400000000005
+    }
+  ],
+  "numJsRequests": 8,
+  "numThirdPartyJsRequests": 8,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 7,
+  "totalJsBytes": 1550346,
+  "totalDnsTime": 34.704,
+  "totalSslTime": 120.74900000000001,
+  "totalTime": 1533.7640000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 34.704,
+  "totalThirdPartySslTime": 120.74900000000001,
+  "totalThirdPartyTime": 1533.7640000000001,
+  "totalThirdPartyJsBytes": 1550346,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 10.13539240717607,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

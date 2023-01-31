@@ -1,0 +1,437 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.4459970000000002,
+    "withoutTags": 0.016742666666666666,
+    "difference": 1.4292543333333336,
+    "cutMetricPercentage": 0.011578631675353866,
+    "percentFasterWithoutTags": "101.17142668566335%"
+  },
+  "TaskDuration": {
+    "withTags": 3.1492396666666664,
+    "withoutTags": 0.6555336666666667,
+    "difference": 2.4937059999999995,
+    "cutMetricPercentage": 0.20815616975907097,
+    "percentFasterWithoutTags": "126.2875281475309%"
+  },
+  "DOMComplete": {
+    "withTags": -558230317546.3334,
+    "withoutTags": -558230325034.6666,
+    "difference": 7488.333251953125,
+    "cutMetricPercentage": 1.0000000134144151,
+    "percentFasterWithoutTags": "-7454667130.375567%"
+  },
+  "DOMInteractive": {
+    "withTags": 864.3333333333334,
+    "withoutTags": 810.6666666666666,
+    "difference": 53.66666666666674,
+    "cutMetricPercentage": 0.9379097570381796,
+    "percentFasterWithoutTags": "1610.559006211178%"
+  },
+  "DOMLoading": {
+    "withTags": 167.66666666666666,
+    "withoutTags": 154.33333333333334,
+    "difference": 13.333333333333314,
+    "cutMetricPercentage": 0.9204771371769385,
+    "percentFasterWithoutTags": "1257.5000000000018%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 874.9333333323399,
+    "withoutTags": 844,
+    "difference": 30.933333332339885,
+    "cutMetricPercentage": 0.9646449253287394,
+    "percentFasterWithoutTags": "2828.4482759496955%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://smiledirectclub.com/_nuxt/a21712b.js",
+      "bytes": 3115,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 43.677
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/7244098.js",
+      "bytes": 249986,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.617999999999995
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/fa88a62.js",
+      "bytes": 3734590,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.12
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/7ab7639.js",
+      "bytes": 226862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.518
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/a4d7e9e.js",
+      "bytes": 10593,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.619
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/6d33933.js",
+      "bytes": 20358,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.19299999999998
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/7f15105.js",
+      "bytes": 19619,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.408
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/8eaa62d.js",
+      "bytes": 6061,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.18299999999999
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/8f20e62.js",
+      "bytes": 5747,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.678
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/e31fc3f.js",
+      "bytes": 19891,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.372
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/d093d6f.js",
+      "bytes": 2229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.046
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/3d986b3.js",
+      "bytes": 2048,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 67.807
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/25fd616.js",
+      "bytes": 2071,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.415
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/daa2e7b.js",
+      "bytes": 1773,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.638
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/8042ec8.js",
+      "bytes": 3381,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.295
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/fd11393.js",
+      "bytes": 8225,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.24300000000001
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/1fdb95c.js",
+      "bytes": 11039,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 69.53200000000001
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/6e12578.js",
+      "bytes": 3039,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 70.304
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/0ea4833.js",
+      "bytes": 6827,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.616
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/0d65ab2.js",
+      "bytes": 2760,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.613
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-59PCWW5",
+      "bytes": 213026,
+      "dnsTime": 0.976,
+      "sslTime": 76.862,
+      "requestTime": 131.01
+    },
+    {
+      "url": "https://static.fbot.me/friendbuy.js",
+      "bytes": 352312,
+      "dnsTime": 9.374,
+      "sslTime": 17.802,
+      "requestTime": 48.828
+    },
+    {
+      "url": "https://campaign.fbot.me/7923c519-a1da-463a-bb18-85c9f4840724/campaigns.js",
+      "bytes": 1001132,
+      "dnsTime": 12.61,
+      "sslTime": 18.859,
+      "requestTime": 54.985
+    },
+    {
+      "url": "https://smiledirectclub.com/_nuxt/17b9be2.js",
+      "bytes": 9021,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.781
+    },
+    {
+      "url": "https://rum.layer0.co/latest.js",
+      "bytes": 24360,
+      "dnsTime": 9.635,
+      "sslTime": 52.048,
+      "requestTime": 86.825
+    },
+    {
+      "url": "https://cdn.heapanalytics.com/js/heap-4290068433.js",
+      "bytes": 132958,
+      "dnsTime": 5.353,
+      "sslTime": 16.714,
+      "requestTime": 36.813
+    },
+    {
+      "url": "https://cdn3.optimizely.com/js/geo4.js",
+      "bytes": 317,
+      "dnsTime": 1.147,
+      "sslTime": 14.601,
+      "requestTime": 25.655
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-44790758-2&l=dataLayer&cx=c",
+      "bytes": 112661,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 90.69
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-44790758-2",
+      "bytes": 112640,
+      "dnsTime": 0,
+      "sslTime": 20.54,
+      "requestTime": 61.852000000000004
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 8.692,
+      "sslTime": 18.803,
+      "requestTime": 74.617
+    },
+    {
+      "url": "https://s.yimg.com/wi/ytc.js",
+      "bytes": 16553,
+      "dnsTime": 9.901,
+      "sslTime": 13.056,
+      "requestTime": 131.298
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1346347/tfa.js",
+      "bytes": 59680,
+      "dnsTime": 20.074,
+      "sslTime": 14.417,
+      "requestTime": 56.144000000000005
+    },
+    {
+      "url": "https://cdnssl.clicktale.net/www47/ptc/e64c9b88-feb3-4deb-a23a-244ec43990cd.js",
+      "bytes": 409078,
+      "dnsTime": 33.464,
+      "sslTime": 15.095,
+      "requestTime": 70.4
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=&lib=ttq",
+      "bytes": 2770,
+      "dnsTime": 25.988,
+      "sslTime": 15.274,
+      "requestTime": 216.77700000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-ZBEGN9TDYW&l=dataLayer&cx=c",
+      "bytes": 228246,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 81.152
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-332937241&l=dataLayer&cx=c",
+      "bytes": 187553,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 53.312
+    },
+    {
+      "url": "https://www.mczbf.com/tags/383485233314/tag.js",
+      "bytes": 51897,
+      "dnsTime": 6.65,
+      "sslTime": 19.148,
+      "requestTime": 38.182
+    },
+    {
+      "url": "https://b-code.liadm.com/a-045l.min.js",
+      "bytes": 34674,
+      "dnsTime": 1.948,
+      "sslTime": 14.007,
+      "requestTime": 35.853
+    },
+    {
+      "url": "https://trc.taboola.com/1346347/trc/3/json?tim=1674690966614&data=%7B%22id%22%3A96%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1674690966607%2C%22cv%22%3A%2220230125-5-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.smiledirectclub.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dsmiledirectclub-sc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22item-url%22%3A%22https%3A%2F%2Fsmiledirectclub.com%2F%22%2C%22tim%22%3A1674690966613%2C%22ref%22%3Anull%2C%22tos%22%3A3%2C%22ssd%22%3A1%2C%22scd%22%3A0%7D%7D&pubit=i",
+      "bytes": 2470,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.321999999999996
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/8523cef0-5303-442f-8f0a-160b05601726.js",
+      "bytes": 148,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 64.757
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/smiledirectclub/main/0185eb5c3003001cf7fe40161f6300080001c07800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1674690966707",
+      "bytes": 27,
+      "dnsTime": 0.96,
+      "sslTime": 32.308,
+      "requestTime": 60.181
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2769426.js?sv=6",
+      "bytes": 9278,
+      "dnsTime": 11.169,
+      "sslTime": 14.754,
+      "requestTime": 35.595
+    },
+    {
+      "url": "https://collector-26392.us.tvsquared.com/tv2track.js",
+      "bytes": 20818,
+      "dnsTime": 18.674,
+      "sslTime": 169.003,
+      "requestTime": 270.39599999999996
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.615,
+      "sslTime": 33.903,
+      "requestTime": 73.16400000000002
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
+      "bytes": 243947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.233
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.171000000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/config.js?sdkid=C621T79RBA57FARJBQF0&hostname=smiledirectclub.com",
+      "bytes": 871,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.476
+    },
+    {
+      "url": "https://cdnssl.clicktale.net/ptc/e64c9b88-feb3-4deb-a23a-244ec43990cd.js",
+      "bytes": 28288,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.111999999999998
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/33XGM3WJQZECTPKVUJQNHT?pv=87876780888.41483&arrfrr=https%3A%2F%2Fsmiledirectclub.com%2F&_s=9443bc46138a89e819f16bf82d925927&_b=2",
+      "bytes": 468,
+      "dnsTime": 7.849,
+      "sslTime": 32.484,
+      "requestTime": 70.696
+    },
+    {
+      "url": "https://s.adroll.com/j/exp/index.js",
+      "bytes": 28,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.709
+    },
+    {
+      "url": "https://s.adroll.com/j/pre/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.576
+    },
+    {
+      "url": "https://bat.bing.com/p/action/5012548.js",
+      "bytes": 3726,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 303.189
+    },
+    {
+      "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
+      "bytes": 56734,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.940999999999999
+    }
+  ],
+  "numJsRequests": 53,
+  "numThirdPartyJsRequests": 53,
+  "numFirstPartyJsRequests": 0,
+  "numUnique3pHosts": 23,
+  "totalJsBytes": 7842994,
+  "totalDnsTime": 186.07900000000004,
+  "totalSslTime": 609.6780000000001,
+  "totalTime": 3737.5869999999995,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 0,
+  "totalFirstPartyJsBytes": 0,
+  "totalThirdPartyDnsTime": 186.07900000000004,
+  "totalThirdPartySslTime": 609.6780000000001,
+  "totalThirdPartyTime": 3737.5869999999995,
+  "totalThirdPartyJsBytes": 7842994,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.290661595302,
+  "percentOfJsRequestTimeIs3p": 100,
+  "percentOfJsIs3p": 100
+}

@@ -1,0 +1,507 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.007419666666667,
+    "withoutTags": 0.4442786666666667,
+    "difference": 1.5631410000000001,
+    "cutMetricPercentage": 0.7786817205968724,
+    "percentFasterWithoutTags": "128.4221747536957%"
+  },
+  "TaskDuration": {
+    "withTags": 3.8276583333333334,
+    "withoutTags": 1.2331853333333334,
+    "difference": 2.594473,
+    "cutMetricPercentage": 0.6778225155066522,
+    "percentFasterWithoutTags": "147.53124558757534%"
+  },
+  "DOMComplete": {
+    "withTags": 6230.666666666667,
+    "withoutTags": 3790.3333333333335,
+    "difference": 2440.3333333333335,
+    "cutMetricPercentage": 0.39166488337256583,
+    "percentFasterWithoutTags": "255.32031143286437%"
+  },
+  "DOMInteractive": {
+    "withTags": 3023.6666666666665,
+    "withoutTags": 3037.3333333333335,
+    "difference": -13.66666666666697,
+    "cutMetricPercentage": -0.0045198985778856695,
+    "percentFasterWithoutTags": "-22124.390243901948%"
+  },
+  "DOMLoading": {
+    "withTags": 2338,
+    "withoutTags": 2339.3333333333335,
+    "difference": -1.333333333333485,
+    "cutMetricPercentage": -0.0005702879954377609,
+    "percentFasterWithoutTags": "-175349.99999998006%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 3233.9666666636863,
+    "withoutTags": 3115.9666666686535,
+    "difference": 117.9999999950328,
+    "cutMetricPercentage": 0.03648769828440044,
+    "percentFasterWithoutTags": "2740.649717626966%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://www.googleoptimize.com/optimize.js?id=OPT-TNT429G",
+      "bytes": 113154,
+      "dnsTime": 7.746,
+      "sslTime": 34.482,
+      "requestTime": 117.28
+    },
+    {
+      "url": "https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-60918a43302c75d7",
+      "bytes": 361292,
+      "dnsTime": 38.363,
+      "sslTime": 18.878,
+      "requestTime": 106.65299999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-56565055-1",
+      "bytes": 115795,
+      "dnsTime": 0.009,
+      "sslTime": 167.291,
+      "requestTime": 547.784
+    },
+    {
+      "url": "https://d26ky332zktp97.cloudfront.net/colibrius-g.js",
+      "bytes": 53066,
+      "dnsTime": 33.312,
+      "sslTime": 141.784,
+      "requestTime": 475.08200000000005
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/v1/loader/Qu9erVT5sUzwwWc-RLMzfA",
+      "bytes": 146112,
+      "dnsTime": 13.851,
+      "sslTime": 130.301,
+      "requestTime": 510.659
+    },
+    {
+      "url": "https://cdn.pickystory.com/widget/dist/latest/pickystory-widget.min.js",
+      "bytes": 514928,
+      "dnsTime": 57.18,
+      "sslTime": 141.331,
+      "requestTime": 688.534
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WKFRZT9",
+      "bytes": 97050,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 979.544
+    },
+    {
+      "url": "https://staticw2.yotpo.com/osf4TeeCPHxnXdAaTG9ZwRPOApkQepDUwaRs1Dpo/widget.js",
+      "bytes": 451782,
+      "dnsTime": 13.515,
+      "sslTime": 165.578,
+      "requestTime": 654.5600000000001
+    },
+    {
+      "url": "https://cdn.equalweb.com/core/3.0.0/accessibility.js",
+      "bytes": 34573,
+      "dnsTime": 15.3,
+      "sslTime": 143.329,
+      "requestTime": 492.938
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2538549.js?sv=6",
+      "bytes": 8399,
+      "dnsTime": 13.647,
+      "sslTime": 531.498,
+      "requestTime": 935.52
+    },
+    {
+      "url": "https://z.moatads.com/addthismoatframe568911941483/moatframe.js",
+      "bytes": 1705,
+      "dnsTime": 87.307,
+      "sslTime": 131.043,
+      "requestTime": 568.623
+    },
+    {
+      "url": "https://client-builds.production.gorgias.chat/new_bundle/gorgias-chat-bundle-loader.js?applicationId=7732&ignore=/static/js/main.js",
+      "bytes": 1470,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1043.6290000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-56565055-1&l=dataLayer&cx=c",
+      "bytes": 112726,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 337.445
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/widget-assets/yotpo-pixel/2022-12-06_09-10-14/bundle.js",
+      "bytes": 52809,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 74.914
+    },
+    {
+      "url": "https://cdn-widget-assets.yotpo.com/widgets-initializer/app.v0.2.0-3926.js",
+      "bytes": 29947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 75.071
+    },
+    {
+      "url": "https://cdn.pickystory.com/widget/dist/latest/js/coupons.5fc6654a.js",
+      "bytes": 13610,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.809000000000001
+    },
+    {
+      "url": "https://v1.addthisedge.com/live/boost/ra-60918a43302c75d7/_ate.track.config_resp",
+      "bytes": 1515,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 161.36
+    },
+    {
+      "url": "https://m.addthis.com/live/red_lojson/300lo.json?si=63d851292ab31503&bkl=0&bl=1&pdt=2233&sid=63d851292ab31503&pub=ra-60918a43302c75d7&rev=v8.28.8-wp&ln=en&pc=men&cb=0&ab=-&dp=www.candle-lite.com&fp=&fr=&of=0&pd=0&irt=0&vcl=0&md=0&ct=1&tct=0&abt=0&cdn=0&pi=1&rb=0&gen=100&chr=UTF-8&colc=1675120939127&jsl=262144&uvs=63d85129329b9e34000&skipb=1&callback=addthis.cbs.jsonp__61398282084313220",
+      "bytes": 172,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 225.826
+    },
+    {
+      "url": "https://cdn.equalweb.com/assets/scripts/locale.js",
+      "bytes": 30051,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 73.08399999999999
+    },
+    {
+      "url": "https://script.hotjar.com/modules.4b160a4831adaf5337e6.js",
+      "bytes": 267962,
+      "dnsTime": 30.435,
+      "sslTime": 10.707,
+      "requestTime": 87.416
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-HKVS86L17S&l=dataLayer&cx=c",
+      "bytes": 220162,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 551.434
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 8.502,
+      "sslTime": 31.561,
+      "requestTime": 63.474
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 9.618,
+      "sslTime": 23.311,
+      "requestTime": 56.606
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=CCVIV83C77U87GSMI6EG&lib=ttq",
+      "bytes": 2826,
+      "dnsTime": 9.074,
+      "sslTime": 34.381,
+      "requestTime": 154.83700000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-465859573",
+      "bytes": 194632,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 452.18300000000005
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-465859573&l=dataLayer&cx=c",
+      "bytes": 194653,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 450.478
+    },
+    {
+      "url": "https://s7.addthis.com/static/layers.fa6cd1947ce26e890d3d.js",
+      "bytes": 269557,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.141999999999996
+    },
+    {
+      "url": "https://cdn.pickystory.com/widget/dist/latest/js/browserapi.5e8a6657.js",
+      "bytes": 13072,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 63.623
+    },
+    {
+      "url": "https://config.gorgias.chat/gorgias-chat-bundle.js?rev=10b46357&applicationId=7732",
+      "bytes": 464201,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.757
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzNg.js",
+      "bytes": 276436,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.146
+    },
+    {
+      "url": "https://cdn.pickystory.com/widget/dist/latest/js/storefront.deceaeed.js",
+      "bytes": 10368,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.916000000000004
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/465859573/?random=1675120940232&cv=11&fst=1675120940232&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&label=0WeaCPys_KsCEPXnkd4B&tiba=Candle-lite%20Company&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.candle-lite.com%2F&capi=1&gtm_ee=1&auid=702615069.1675120940&data=event%3Dpage_view%3Bpage_path%3D%2F&rfmt=3&fmt=4",
+      "bytes": 1920,
+      "dnsTime": 85.285,
+      "sslTime": 31.941,
+      "requestTime": 146.30599999999998
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/155822046451604?v=2.9.95&r=stable",
+      "bytes": 386196,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 327.92
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/linkid.js",
+      "bytes": 1569,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 313.96200000000005
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.047
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/671.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.923
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/gcmw.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 47.12200000000001
+    },
+    {
+      "url": "https://assets.gorgias.chat/87788532c35a75e5b8415beb2dae0a513ecbcad9/static/js/amplitude.js",
+      "bytes": 55078,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 138.488
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YxSTsB&shop=candle-lite-company.myshopify.com",
+      "bytes": 2905,
+      "dnsTime": 8.966,
+      "sslTime": 17.483,
+      "requestTime": 34.249
+    },
+    {
+      "url": "https://quizify.arhamcommerce.com/js/shortcode.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 34820,
+      "dnsTime": 14.275,
+      "sslTime": 289.539,
+      "requestTime": 590.569
+    },
+    {
+      "url": "https://static.rechargecdn.com/assets/js/widget.min.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 391568,
+      "dnsTime": 8.357,
+      "sslTime": 38.086,
+      "requestTime": 102.869
+    },
+    {
+      "url": "https://vellir-us-west-2.s3-us-west-2.amazonaws.com/peek-mode/peek-mode.min.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 47007,
+      "dnsTime": 10.109,
+      "sslTime": 46.778,
+      "requestTime": 133.63
+    },
+    {
+      "url": "https://instafeed.nfcube.com/cdn/9d7334393d2e6dfb2b01079810905ecc.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 16800,
+      "dnsTime": 12.163,
+      "sslTime": 76.043,
+      "requestTime": 110.35000000000001
+    },
+    {
+      "url": "https://platform-api.sharethis.com/js/sharethis.js?shop=candle-lite-company.myshopify.com#property=60b4b8facdfdc30011c6f754&product=inline-share-buttons&ver=1622642021",
+      "bytes": 197313,
+      "dnsTime": 8.55,
+      "sslTime": 14.793,
+      "requestTime": 65.797
+    },
+    {
+      "url": "https://dttrk.com/shopify/track.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 3396,
+      "dnsTime": 9.93,
+      "sslTime": 77.796,
+      "requestTime": 121.79700000000001
+    },
+    {
+      "url": "https://app.backinstock.org/bis/widget/41982_1652154867.js?v=6&shop=candle-lite-company.myshopify.com",
+      "bytes": 107562,
+      "dnsTime": 11.524,
+      "sslTime": 72.601,
+      "requestTime": 151.419
+    },
+    {
+      "url": "https://cdn-loyalty.yotpo.com/loader/Qu9erVT5sUzwwWc-RLMzfA.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 151729,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.060000000000002
+    },
+    {
+      "url": "https://cdn.pickystory.com/widget/static/js/noop.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.803999999999998
+    },
+    {
+      "url": "https://wiser.expertvillagemedia.com/assets/js/wiser_script.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 6153,
+      "dnsTime": 49.084,
+      "sslTime": 145.867,
+      "requestTime": 413.52400000000006
+    },
+    {
+      "url": "https://id-shop.govx.com/app/candle-lite-company.myshopify.com/govx.js?shop=candle-lite-company.myshopify.com",
+      "bytes": 24664,
+      "dnsTime": 7.794,
+      "sslTime": 39.696,
+      "requestTime": 125.944
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 10.011,
+      "sslTime": 12.757,
+      "requestTime": 33.068000000000005
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
+      "bytes": 12659,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.477
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.898
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.831
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
+      "bytes": 37045,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.119
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
+      "bytes": 34073,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.177
+    },
+    {
+      "url": "https://buttons-config.sharethis.com/js/60b4b8facdfdc30011c6f754.js",
+      "bytes": 348,
+      "dnsTime": 22.764,
+      "sslTime": 38.869,
+      "requestTime": 89.536
+    },
+    {
+      "url": "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js",
+      "bytes": 89476,
+      "dnsTime": 11.312,
+      "sslTime": 57.717,
+      "requestTime": 113.571
+    },
+    {
+      "url": "https://t.sharethis.com/1/d/t.dhj?cid=c010&cls=B&dmn=www.candle-lite.com&rnd=1675120941912",
+      "bytes": 2319,
+      "dnsTime": 109.311,
+      "sslTime": 139.075,
+      "requestTime": 345.268
+    },
+    {
+      "url": "https://platform-api.sharethis.com/panorama.js",
+      "bytes": 42280,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.486000000000004
+    },
+    {
+      "url": "https://quizify.arhamcommerce.com/js/shortcode_popup_quiz.js",
+      "bytes": 4851,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 356.581
+    },
+    {
+      "url": "https://t.sharethis.com/1.1109.23351/a/US/t_.js?cid=c010&cls=B#cid=c010&cls=B&dmn=www.candle-lite.com&rnd=1675120941912&tt=t.dhj&dhjLcy=686&lbl=pxcel&flbl=pxcel&ll=d&ver=1.1109.23351&ell=d&cck=__stid&pn=%2F&qs=na&rdn=www.candle-lite.com&rpn=%2F&rqs=na&cc=US&cont=NA&ipaddr=&htmReqTime=1675120942790",
+      "bytes": 25292,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 205.43400000000003
+    },
+    {
+      "url": "https://live.bb.eight-cdn.com/static/script-0e3c7e71fe5a25a23fa4.js",
+      "bytes": 5020,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 320.75500000000005
+    }
+  ],
+  "numJsRequests": 83,
+  "numThirdPartyJsRequests": 63,
+  "numFirstPartyJsRequests": 20,
+  "numUnique3pHosts": 37,
+  "totalJsBytes": 6781021,
+  "totalDnsTime": 717.327,
+  "totalSslTime": 2899.756,
+  "totalTime": 20389.81299999999,
+  "totalFirstPartyDnsTime": 0.033,
+  "totalFirstPartySslTime": 95.24,
+  "totalFirstPartyTime": 5728.504999999999,
+  "totalFirstPartyJsBytes": 685886,
+  "totalThirdPartyDnsTime": 717.294,
+  "totalThirdPartySslTime": 2804.516,
+  "totalThirdPartyTime": 14661.307999999995,
+  "totalThirdPartyJsBytes": 6095135,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 24.021117351876114,
+  "percentOfJsRequestTimeIs3p": 71.90506357267721,
+  "percentOfJsIs3p": 89.88521050148643
+}
