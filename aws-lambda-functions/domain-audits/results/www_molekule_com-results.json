@@ -1,42 +1,42 @@
 {
   "numExecutions": 3,
   "ScriptDuration": {
-    "withTags": 0.8851936666666668,
-    "withoutTags": 0.170974,
-    "difference": 0.7142196666666668,
-    "cutMetricPercentage": 0.8068513067385255,
-    "percentFasterWithoutTags": "123.93857352009815%"
+    "withTags": 0.8535599999999999,
+    "withoutTags": 0.16590200000000002,
+    "difference": 0.6876579999999999,
+    "cutMetricPercentage": 0.8056352218941844,
+    "percentFasterWithoutTags": "124.1256554857211%"
   },
   "TaskDuration": {
-    "withTags": 2.0131433333333333,
-    "withoutTags": 0.8075403333333333,
-    "difference": 1.205603,
-    "cutMetricPercentage": 0.5988659525816178,
-    "percentFasterWithoutTags": "166.98227636571352%"
+    "withTags": 1.9347613333333333,
+    "withoutTags": 0.7240756666666668,
+    "difference": 1.2106856666666665,
+    "cutMetricPercentage": 0.6257545288962428,
+    "percentFasterWithoutTags": "159.80707351233752%"
   },
   "DOMComplete": {
-    "withTags": -558374889643,
-    "withoutTags": 2116,
-    "difference": -558374891759,
-    "cutMetricPercentage": 1.0000000037895687,
-    "percentFasterWithoutTags": "99.99999962104313%"
+    "withTags": 3454,
+    "withoutTags": 1445.3333333333333,
+    "difference": 2008.6666666666667,
+    "cutMetricPercentage": 0.5815479637135689,
+    "percentFasterWithoutTags": "171.95486226352472%"
   },
   "DOMInteractive": {
-    "withTags": 1158,
-    "withoutTags": 1115.6666666666667,
-    "difference": 42.33333333333326,
-    "cutMetricPercentage": 0.03655728267127224,
-    "percentFasterWithoutTags": "2735.4330708661464%"
+    "withTags": 818.3333333333334,
+    "withoutTags": 831.6666666666666,
+    "difference": -13.333333333333258,
+    "cutMetricPercentage": -0.016293279022403167,
+    "percentFasterWithoutTags": "-6137.5000000000355%"
   },
   "DOMLoading": {
-    "withTags": 985.3333333333334,
-    "withoutTags": 979.6666666666666,
-    "difference": 5.6666666666667425,
-    "cutMetricPercentage": 0.005751014884979779,
-    "percentFasterWithoutTags": "17388.235294117418%"
+    "withTags": 724.3333333333334,
+    "withoutTags": 739.3333333333334,
+    "difference": -15,
+    "cutMetricPercentage": -0.020708697653014266,
+    "percentFasterWithoutTags": "-4828.888888888889%"
   },
   "FirstContentfulPaint": {
-    "withTags": 2773.6666666666665,
+    "withTags": 2198.933333332961,
     "withoutTags": null,
     "difference": null,
     "cutMetricPercentage": null,
@@ -46,329 +46,350 @@
     {
       "url": "https://tags.tiqcdn.com/utag/molekule/main/prod/utag.js",
       "bytes": 281468,
-      "dnsTime": 2.728,
-      "sslTime": 20.221,
-      "requestTime": 127.14399999999999
+      "dnsTime": 14.245,
+      "sslTime": 25.267,
+      "requestTime": 93.677
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=UA-76485335-2",
-      "bytes": 112650,
-      "dnsTime": 2.122,
-      "sslTime": 29.884,
-      "requestTime": 92.172
+      "bytes": 112459,
+      "dnsTime": 4.336,
+      "sslTime": 29.512,
+      "requestTime": 90.2
     },
     {
       "url": "https://static.cdn.prismic.io/prismic.js?new=true&repo=molekule",
       "bytes": 29677,
-      "dnsTime": 18.713,
-      "sslTime": 18.369,
-      "requestTime": 48.95100000000001
+      "dnsTime": 2902.398,
+      "sslTime": 12.905,
+      "requestTime": 2925.7200000000007
     },
     {
       "url": "https://d2jjzw81hqbuqv.cloudfront.net/integration/clients/molekule.min.js",
       "bytes": 42806,
-      "dnsTime": 0.012,
-      "sslTime": 9.256,
-      "requestTime": 270.80600000000004
+      "dnsTime": 1.01,
+      "sslTime": 15.914,
+      "requestTime": 28.945
     },
     {
       "url": "https://cdn1.affirm.com/js/v2/affirm.js",
       "bytes": 436786,
-      "dnsTime": 1.813,
-      "sslTime": 11.185,
-      "requestTime": 32.92
+      "dnsTime": 393.318,
+      "sslTime": 15.458,
+      "requestTime": 427.68100000000004
     },
     {
       "url": "https://js.joinclyde.com/widget.js",
       "bytes": 152140,
-      "dnsTime": 915.783,
-      "sslTime": 17.201,
-      "requestTime": 1049.7160000000001
+      "dnsTime": 998.725,
+      "sslTime": 15.83,
+      "requestTime": 1051.011
     },
     {
-      "url": "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=molekule/main/202301250440&cb=1675124666712",
+      "url": "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=molekule/main/202301250440&cb=1675204848562",
       "bytes": 2,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 30.657999999999998
+      "requestTime": 135.592
     },
     {
       "url": "https://tags.tiqcdn.com/utag/molekule/main/prod/utag.42.js?utv=ut4.49.202211031952",
       "bytes": 14750,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 30.442999999999998
+      "requestTime": 63.409
     },
     {
       "url": "https://connect.facebook.net/en_US/fbevents.js",
       "bytes": 108696,
-      "dnsTime": 1.05,
-      "sslTime": 24.866,
-      "requestTime": 55.116
+      "dnsTime": 1.214,
+      "sslTime": 11.797,
+      "requestTime": 30.113999999999997
     },
     {
       "url": "https://sc-static.net/scevent.min.js",
       "bytes": 30923,
-      "dnsTime": 0.666,
-      "sslTime": 20.231,
-      "requestTime": 100.80600000000001
+      "dnsTime": 1053.601,
+      "sslTime": 15.906,
+      "requestTime": 1111.905
     },
     {
       "url": "https://bat.bing.com/bat.js",
       "bytes": 39396,
-      "dnsTime": 1.735,
-      "sslTime": 22.894,
-      "requestTime": 59.624
+      "dnsTime": 1.851,
+      "sslTime": 14.009,
+      "requestTime": 51.88499999999999
     },
     {
       "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4MDK53R2Q3OG0JB0V8G&lib=ttq",
       "bytes": 2872,
-      "dnsTime": 2.655,
-      "sslTime": 18.752,
-      "requestTime": 164.355
+      "dnsTime": 1048.267,
+      "sslTime": 15.032,
+      "requestTime": 1154.71
     },
     {
       "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Tru2R9",
       "bytes": 2905,
-      "dnsTime": 1.305,
-      "sslTime": 16.523,
-      "requestTime": 50.49
+      "dnsTime": 1052.909,
+      "sslTime": 14.471,
+      "requestTime": 1074.8890000000001
     },
     {
       "url": "https://c.amazon-adsystem.com/aat/amzn.js",
       "bytes": 6674,
-      "dnsTime": 0.984,
-      "sslTime": 22.001,
-      "requestTime": 50.994
+      "dnsTime": 1674.187,
+      "sslTime": 16.694,
+      "requestTime": 1702.923
     },
     {
       "url": "https://dynamic.criteo.com/js/ld/ld.js?a=99897",
       "bytes": 43959,
-      "dnsTime": 1.717,
-      "sslTime": 87.314,
-      "requestTime": 576.517
+      "dnsTime": 1042.205,
+      "sslTime": 105.242,
+      "requestTime": 1307.8709999999999
     },
     {
       "url": "https://www.google-analytics.com/analytics.js",
       "bytes": 50234,
-      "dnsTime": 0.684,
-      "sslTime": 32.707,
-      "requestTime": 52.004000000000005
+      "dnsTime": 0.837,
+      "sslTime": 30.299,
+      "requestTime": 39.998
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=G-R13PSN21GK&l=dataLayer&cx=c",
-      "bytes": 221539,
+      "bytes": 221226,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 49.251999999999995
+      "requestTime": 47.876999999999995
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=AW-932745876&l=dataLayer&cx=c",
-      "bytes": 194730,
+      "bytes": 194614,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 46.878
+      "requestTime": 47.340999999999994
     },
     {
       "url": "https://static.ads-twitter.com/uwt.js",
       "bytes": 57596,
-      "dnsTime": 1.668,
-      "sslTime": 22.535,
-      "requestTime": 37.505
+      "dnsTime": 1.244,
+      "sslTime": 14.639,
+      "requestTime": 24.669
     },
     {
       "url": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
       "bytes": 13352,
-      "dnsTime": 1.777,
-      "sslTime": 26.61,
-      "requestTime": 49.495
+      "dnsTime": 1014.386,
+      "sslTime": 27.438,
+      "requestTime": 1052.9940000000001
     },
     {
       "url": "https://pzapi-nb.com/b/1100l573/1101l141.js",
       "bytes": 1485,
-      "dnsTime": 1.047,
-      "sslTime": 345.277,
-      "requestTime": 920.981
+      "dnsTime": 50.951,
+      "sslTime": 151.114,
+      "requestTime": 345.735
     },
     {
-      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
-      "bytes": 27750,
-      "dnsTime": 780.416,
-      "sslTime": 18.408,
-      "requestTime": 838.176
-    },
-    {
-      "url": "https://static-tracking.klaviyo.com/onsite/js/static.aa7cf055e48f28bbd282.js?cb=1",
-      "bytes": 12659,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 817.7360000000001
-    },
-    {
-      "url": "https://static.klaviyo.com/onsite/js/runtime.81f6cc401344ed6c92c2.js?cb=1",
-      "bytes": 19473,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 13.230000000000002
-    },
-    {
-      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
-      "bytes": 36134,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 20.012
-    },
-    {
-      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
-      "bytes": 37045,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 14.594
-    },
-    {
-      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
-      "bytes": 34073,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 13.246000000000002
-    },
-    {
-      "url": "https://visitor-service-us-west-2.tealiumiq.com/molekule/main/01860535f141000fd18e5602707400080001507800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675124666985",
-      "bytes": 27,
-      "dnsTime": 778.629,
-      "sslTime": 33.646,
-      "requestTime": 841.507
-    },
-    {
-      "url": "https://tr.snapchat.com/config/com/bab5b151-436e-42e8-b486-067ac6360772.js",
-      "bytes": 148,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 61.632
-    },
-    {
-      "url": "https://visitor-service-us-west-2.tealiumiq.com/molekule/main/01860535f141000fd18e5602707400080001507800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675124667001",
-      "bytes": 27,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 1023.1610000000001
-    },
-    {
-      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675124667022&cv=11&fst=1675124667022&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=1950271803.1675124667&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675204848903&cv=11&fst=1675204848903&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=2024448666.1675204849&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
       "bytes": 1480,
-      "dnsTime": 55.518,
-      "sslTime": 31.89,
-      "requestTime": 565.1490000000001
+      "dnsTime": 0.999,
+      "sslTime": 27.103,
+      "requestTime": 64.01400000000001
     },
     {
-      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675124667049&cv=11&fst=1675124667049&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=1950271803.1675124667&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675204848928&cv=11&fst=1675204848928&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=2024448666.1675204849&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
       "bytes": 1480,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 1029.536
+      "requestTime": 298.119
     },
     {
-      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675124667056&cv=11&fst=1675124667056&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=1950271803.1675124667&data=event%3Dpage_view&rfmt=3&fmt=4",
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675204848937&cv=11&fst=1675204848937&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=2024448666.1675204849&uamb=0&uaw=0&data=event%3Dpage_view&rfmt=3&fmt=4",
       "bytes": 1478,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 593.0980000000001
+      "requestTime": 267.826
     },
     {
-      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675124667063&cv=11&fst=1675124667063&bg=ffffff&guid=ON&async=1&gtm=2oa1p0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=1950271803.1675124667&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/932745876/?random=1675204848942&cv=11&fst=1675204848942&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmolekule.com%2F&tiba=Air%20Purifiers%20for%20Your%20Home%20%26%20Office%20%7C%20Molekule&did=dYmQxMT&gdid=dYmQxMT&auid=2024448666.1675204849&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
       "bytes": 1480,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 591.216
-    },
-    {
-      "url": "https://visitor-service-us-west-2.tealiumiq.com/molekule/main/01860535f141000fd18e5602707400080001507800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675124667120",
-      "bytes": 27,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 542.3750000000001
-    },
-    {
-      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
-      "bytes": 258696,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 122.758
-    },
-    {
-      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
-      "bytes": 116780,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 13.606
-    },
-    {
-      "url": "https://www.google-analytics.com/plugins/ua/ec.js",
-      "bytes": 2779,
-      "dnsTime": 0.033,
-      "sslTime": 25.689,
-      "requestTime": 33.15
-    },
-    {
-      "url": "https://www.google-analytics.com/gtm/js?id=GTM-TGRHXPH&t=gtag_UA_76485335_2&cid=361169789.1675124667",
-      "bytes": 113405,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 53.767
+      "requestTime": 216.351
     },
     {
       "url": "https://connect.facebook.net/signals/plugins/identity.js?v=2.9.95",
       "bytes": 65286,
-      "dnsTime": 0.005,
-      "sslTime": 10.981,
-      "requestTime": 31.622
+      "dnsTime": 0.022,
+      "sslTime": 12.837,
+      "requestTime": 29.948
     },
     {
       "url": "https://connect.facebook.net/signals/config/1074042985993431?v=2.9.95&r=stable",
       "bytes": 386523,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 49.016
+      "requestTime": 45.843
     },
     {
       "url": "https://connect.facebook.net/signals/config/1044990009541557?v=2.9.95&r=stable",
       "bytes": 386225,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 384.43100000000004
+      "requestTime": 17.956
     },
     {
-      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=421628&time=1675124667448&url=https%3A%2F%2Fmolekule.com%2F&liSync=true",
-      "bytes": 0,
+      "url": "https://www.google-analytics.com/plugins/ua/ec.js",
+      "bytes": 2779,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 58.12199999999999
+      "requestTime": 34.562
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/js?id=GTM-TGRHXPH&t=gtag_UA_76485335_2&cid=231981185.1675204849",
+      "bytes": 113219,
+      "dnsTime": 0,
+      "sslTime": 16.034,
+      "requestTime": 56.913
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/molekule/main/018609fd6b950014f7575fb46d6e00080001507800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675204849389",
+      "bytes": 27,
+      "dnsTime": 1.031,
+      "sslTime": 30.519,
+      "requestTime": 59.63399999999999
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/molekule/main/018609fd6b950014f7575fb46d6e00080001507800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675204849393",
+      "bytes": 27,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.75999999999999
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/molekule/main/018609fd6b950014f7575fb46d6e00080001507800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675204849439",
+      "bytes": 27,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.46300000000001
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.7d9ea490a2bcf6e5fa8b.js?cb=1",
+      "bytes": 27750,
+      "dnsTime": 1.493,
+      "sslTime": 12.231,
+      "requestTime": 24.049
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.c73a89c306a5df965ecf.js?cb=1",
+      "bytes": 12678,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.391
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.8c184955a7a6fe4ce4a8.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.113
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.679
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/vendors~signup_forms.a31dd14a1ce62f91235b.js?cb=1",
+      "bytes": 37045,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.449
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/signup_forms.e4023c6f8e62b93d2fc6.js?cb=1",
+      "bytes": 34073,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.078
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/bab5b151-436e-42e8-b486-067ac6360772.js",
+      "bytes": 148,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.85100000000001
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
+      "bytes": 258696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 24.474
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.463999999999999
     },
     {
       "url": "https://widgets.joinclyde.dev/static/js/modal.9a0708dd.5a6da7a0.js",
       "bytes": 420764,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 41.501999999999995
+      "requestTime": 41.829
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=421628&time=1675204850385&url=https%3A%2F%2Fmolekule.com%2F",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 57.814
+    },
+    {
+      "url": "https://sslwidget.criteo.com/event?a=99897&v=5.13.0&p0=e%3Dexd%26site_type%3Dd&p1=e%3Dvh&p2=e%3Ddis&adce=1&tld=molekule.com&dy=1&fu=https%253A%252F%252Fmolekule.com%252F&dtycbr=90132",
+      "bytes": 9020,
+      "dnsTime": 12.495,
+      "sslTime": 88.021,
+      "requestTime": 192.369
+    },
+    {
+      "url": "https://js-agent.newrelic.com/nr-spa-1210.min.js",
+      "bytes": 42072,
+      "dnsTime": 16.016,
+      "sslTime": 19.026,
+      "requestTime": 45.457
+    },
+    {
+      "url": "https://bam.nr-data.net/1/NRJS-b2b6bcf31f3994b03ff?a=1499621493&sa=1&v=1210.e2a3f80&t=Unnamed%20Transaction&rst=4474&ck=1&ref=https://molekule.com/&be=1460&fe=4398&af=err,xhr,stn,ins,spa&perf=%7B%22timing%22:%7B%22of%22:1675204847113,%22n%22:0,%22f%22:351,%22dn%22:355,%22dne%22:371,%22c%22:371,%22s%22:681,%22ce%22:745,%22rq%22:746,%22rp%22:757,%22rpe%22:785,%22dl%22:766,%22di%22:850,%22ds%22:1104,%22de%22:1105,%22dc%22:4396,%22l%22:4396,%22le%22:4417%7D,%22navigation%22:%7B%7D%7D&fp=963&fcp=2411&jsonp=NREUM.setToken",
+      "bytes": 49,
+      "dnsTime": 1.214,
+      "sslTime": 60.104,
+      "requestTime": 237.341
     }
   ],
-  "numJsRequests": 71,
-  "numThirdPartyJsRequests": 44,
+  "numJsRequests": 74,
+  "numThirdPartyJsRequests": 47,
   "numFirstPartyJsRequests": 27,
-  "numUnique3pHosts": 23,
-  "totalJsBytes": 4881764,
-  "totalDnsTime": 2571.06,
-  "totalSslTime": 866.4399999999999,
-  "totalTime": 14862.388999999997,
+  "numUnique3pHosts": 26,
+  "totalJsBytes": 4932118,
+  "totalDnsTime": 11288.954000000003,
+  "totalSslTime": 797.4019999999999,
+  "totalTime": 15493.748000000007,
   "totalFirstPartyDnsTime": 0,
   "totalFirstPartySslTime": 0,
-  "totalFirstPartyTime": 3212.92,
+  "totalFirstPartyTime": 661.855,
   "totalFirstPartyJsBytes": 1113385,
-  "totalThirdPartyDnsTime": 2571.06,
-  "totalThirdPartySslTime": 866.4399999999999,
-  "totalThirdPartyTime": 11649.469,
-  "totalThirdPartyJsBytes": 3768379,
-  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 29.507782715246506,
-  "percentOfJsRequestTimeIs3p": 78.38221028934178,
-  "percentOfJsIs3p": 77.19297778425995
+  "totalThirdPartyDnsTime": 11288.954000000003,
+  "totalThirdPartySslTime": 797.4019999999999,
+  "totalThirdPartyTime": 14831.893000000004,
+  "totalThirdPartyJsBytes": 3818733,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 81.4889643553928,
+  "percentOfJsRequestTimeIs3p": 95.72824470876895,
+  "percentOfJsIs3p": 77.42582395636114
 }

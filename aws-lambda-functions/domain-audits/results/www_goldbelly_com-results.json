@@ -1,0 +1,500 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.5219786666666668,
+    "withoutTags": 0.507931,
+    "difference": 1.014047666666667,
+    "cutMetricPercentage": 0.6662693038185381,
+    "percentFasterWithoutTags": "150.0894599629274%"
+  },
+  "TaskDuration": {
+    "withTags": 3.06931,
+    "withoutTags": 1.3402613333333335,
+    "difference": 1.7290486666666667,
+    "cutMetricPercentage": 0.5633346474180407,
+    "percentFasterWithoutTags": "177.51437881254935%"
+  },
+  "DOMComplete": {
+    "withTags": -558401687772.6666,
+    "withoutTags": 2748.6666666666665,
+    "difference": -558401690521.3333,
+    "cutMetricPercentage": 1.0000000049223823,
+    "percentFasterWithoutTags": "99.99999950776176%"
+  },
+  "DOMInteractive": {
+    "withTags": 1505,
+    "withoutTags": 1576.6666666666667,
+    "difference": -71.66666666666674,
+    "cutMetricPercentage": -0.04761904761904767,
+    "percentFasterWithoutTags": "-2099.9999999999977%"
+  },
+  "DOMLoading": {
+    "withTags": 674.3333333333334,
+    "withoutTags": 811,
+    "difference": -136.66666666666663,
+    "cutMetricPercentage": -0.2026693030153237,
+    "percentFasterWithoutTags": "-493.4146341463416%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 2350.233333333085,
+    "withoutTags": 2110.600000000248,
+    "difference": 239.63333333283663,
+    "cutMetricPercentage": 0.10196150736786218,
+    "percentFasterWithoutTags": "980.7622757009138%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js",
+      "bytes": 92629,
+      "dnsTime": 8.809,
+      "sslTime": 29.74,
+      "requestTime": 57.327999999999996
+    },
+    {
+      "url": "https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js",
+      "bytes": 29097,
+      "dnsTime": 2.534,
+      "sslTime": 16.378,
+      "requestTime": 40.251
+    },
+    {
+      "url": "https://cdn.ywxi.net/js/1.js",
+      "bytes": 19068,
+      "dnsTime": 3.847,
+      "sslTime": 14.462,
+      "requestTime": 31.2
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/vanilla-lazyload@11.0.6/dist/lazyload.min.js",
+      "bytes": 5273,
+      "dnsTime": 9.213,
+      "sslTime": 14.834,
+      "requestTime": 34.44
+    },
+    {
+      "url": "https://js.stripe.com/v3/",
+      "bytes": 439606,
+      "dnsTime": 4.146,
+      "sslTime": 13.594,
+      "requestTime": 36.077
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion_async.js",
+      "bytes": 41978,
+      "dnsTime": 3.21,
+      "sslTime": 28.871,
+      "requestTime": 67.64
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/sdk.js",
+      "bytes": 3093,
+      "dnsTime": 3.519,
+      "sslTime": 18.948,
+      "requestTime": 35.679
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-808839901",
+      "bytes": 181176,
+      "dnsTime": 0.652,
+      "sslTime": 27.844,
+      "requestTime": 82.373
+    },
+    {
+      "url": "https://d2jjzw81hqbuqv.cloudfront.net/integration/clients/goldbelly.min.js",
+      "bytes": 48949,
+      "dnsTime": 0.669,
+      "sslTime": 12.517,
+      "requestTime": 22.517999999999997
+    },
+    {
+      "url": "https://cdn.segment.com/analytics.js/v1/0slics4f70/analytics.min.js",
+      "bytes": 105475,
+      "dnsTime": 1.534,
+      "sslTime": 16.771,
+      "requestTime": 29.679000000000002
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 271.089
+    },
+    {
+      "url": "https://js.adsrvr.org/up_loader.1.1.0.js",
+      "bytes": 4593,
+      "dnsTime": 1.457,
+      "sslTime": 12.955,
+      "requestTime": 22.38
+    },
+    {
+      "url": "https://media-cdn.ipredictive.com/js/cirt_v2.min.js",
+      "bytes": 16888,
+      "dnsTime": 1.094,
+      "sslTime": 24.427,
+      "requestTime": 34.929
+    },
+    {
+      "url": "https://na-library.klarnaservices.com/lib.js",
+      "bytes": 40566,
+      "dnsTime": 2.538,
+      "sslTime": 15.029,
+      "requestTime": 28.289999999999996
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 2.485,
+      "sslTime": 16.909,
+      "requestTime": 55.69199999999999
+    },
+    {
+      "url": "https://platform.twitter.com/widgets.js",
+      "bytes": 93239,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.959
+    },
+    {
+      "url": "https://static.ads-twitter.com/oct.js",
+      "bytes": 57596,
+      "dnsTime": 1.176,
+      "sslTime": 12.321,
+      "requestTime": 24.135
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/ajs-destination.bundle.2cd9e450202b69d545a3.js",
+      "bytes": 9229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.102
+    },
+    {
+      "url": "https://cdn.segment.com/analytics-next/bundles/schemaFilter.bundle.d0fc84c62e956d168cce.js",
+      "bytes": 1595,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.615
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/google-tag-manager/2.5.1/google-tag-manager.dynamic.js.gz",
+      "bytes": 3013,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 6.542000000000001
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/google-analytics/2.18.5/google-analytics.dynamic.js.gz",
+      "bytes": 15942,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.947000000000001
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/rollbar/3.1.1/rollbar.dynamic.js.gz",
+      "bytes": 11076,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.227
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/adwords/2.5.3/adwords.dynamic.js.gz",
+      "bytes": 3714,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.821
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/blueshift/2.0.1/blueshift.dynamic.js.gz",
+      "bytes": 3563,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.843
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/fullstory/3.1.0/fullstory.dynamic.js.gz",
+      "bytes": 5144,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.452000000000002
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/bing-ads/2.0.1/bing-ads.dynamic.js.gz",
+      "bytes": 2397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.273
+    },
+    {
+      "url": "https://cdn.segment.com/next-integrations/integrations/vendor/commons.c42222c4cb2f8913500f.js.gz",
+      "bytes": 74937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.688
+    },
+    {
+      "url": "https://cdn.rollbar.com/rollbarjs/refs/tags/v2.21.1/rollbar.min.js",
+      "bytes": 77125,
+      "dnsTime": 1.714,
+      "sslTime": 14.851,
+      "requestTime": 78.137
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-5DSK9KS&l=dataLayer",
+      "bytes": 237428,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 94.229
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 0.949,
+      "sslTime": 32.799,
+      "requestTime": 47.686
+    },
+    {
+      "url": "https://cdn.getblueshift.com/blueshift.js",
+      "bytes": 4271,
+      "dnsTime": 1.593,
+      "sslTime": 13.176,
+      "requestTime": 24.586000000000002
+    },
+    {
+      "url": "https://edge.fullstory.com/s/fs.js",
+      "bytes": 271304,
+      "dnsTime": 0.716,
+      "sslTime": 15.227,
+      "requestTime": 43.399
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/808839901/?random=1675205060413&cv=9&fst=1675205060413&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=466465925&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=-480&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&frm=0&url=https%3A%2F%2Fwww.goldbelly.com%2F&tiba=Goldbelly%20%7C%20The%20Best%20Gourmet%20Food%20%26%20Food%20Gifts%20%7C%20Delivery%20Nationwide&hn=www.googleadservices.com&uaa=&uab=&uam=&uap=&uapv=&uaw=0&uafvl=&async=1&rfmt=3&fmt=4",
+      "bytes": 1848,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.444
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/808839901/?random=1675205060420&cv=9&fst=1675205060420&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=466465925&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=-480&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&data=path%3D%2F%3Breferrer%3D%3Bsearch%3D%3Btitle%3DGoldbelly%20%7C%20The%20Best%20Gourmet%20Food%20%26%20Food%20Gifts%20%7C%20Delivery%20Nationwide%3Burl%3Dhttps%3A%2F%2Fwww.goldbelly.com%2F%3Bsha256_email%3D%3Bmd5_email%3D&frm=0&url=https%3A%2F%2Fwww.goldbelly.com%2F&tiba=Goldbelly%20%7C%20The%20Best%20Gourmet%20Food%20%26%20Food%20Gifts%20%7C%20Delivery%20Nationwide&hn=www.googleadservices.com&uaa=&uab=&uam=&uap=&uapv=&uaw=0&uafvl=&async=1&rfmt=3&fmt=4",
+      "bytes": 1881,
+      "dnsTime": 1.266,
+      "sslTime": 35.867,
+      "requestTime": 72.81899999999999
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/sdk.js?hash=38dd41146255ca6c4c558c2b8c1995f1",
+      "bytes": 307819,
+      "dnsTime": 0.033,
+      "sslTime": 15.609,
+      "requestTime": 46.884
+    },
+    {
+      "url": "https://load.fomo.com/api/v1/9cvBoq5Fzo1I_LY0gyDwSQ/load.js",
+      "bytes": 61592,
+      "dnsTime": 2.827,
+      "sslTime": 19.801,
+      "requestTime": 47.016999999999996
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/989018299/?random=1675205060699&cv=9&fst=1675205060699&num=1&value=0&label=8Jt6CP3cwQUQu_HM1wM&bg=ffffff&hl=en&guid=ON&resp=GooglemKTybQhCsO&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=-480&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&data=ecomm_pagetype%3Dhome&frm=0&url=https%3A%2F%2Fwww.goldbelly.com%2F&tiba=Goldbelly%20%7C%20The%20Best%20Gourmet%20Food%20%26%20Food%20Gifts%20%7C%20Delivery%20Nationwide&hn=www.googleadservices.com&async=1&rfmt=3&fmt=4",
+      "bytes": 1878,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.212
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1774517649433672?v=2.9.95&r=stable",
+      "bytes": 522611,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.927999999999997
+    },
+    {
+      "url": "https://www.trustedsite.com/rpc/ajax?do=tmjs-visit&host=goldbelly.com&rand=1675205061189",
+      "bytes": 10,
+      "dnsTime": 2.534,
+      "sslTime": 36.974,
+      "requestTime": 74.696
+    },
+    {
+      "url": "https://js.stripe.com/v3/fingerprinted/js/m-outer-8cb24ab2d649fd36a488d04d8c457933.js",
+      "bytes": 631,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.75
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/808839901/?random=1675205061832&cv=11&fst=1675205061832&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.goldbelly.com%2F&tiba=Goldbelly%20%7C%20The%20Best%20Gourmet%20Food%20%26%20Food%20Gifts%20%7C%20Delivery%20Nationwide&auid=1814718374.1675205062&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1514,
+      "dnsTime": 0.006,
+      "sslTime": 26.892,
+      "requestTime": 67.283
+    },
+    {
+      "url": "https://ob.fishrobotflower.com/i/8e7291ad631e8cb5685878a4c9e7d98f.js",
+      "bytes": 87872,
+      "dnsTime": 1.246,
+      "sslTime": 16.93,
+      "requestTime": 28.619
+    },
+    {
+      "url": "https://cdn.levelaccess.net/accessjs/YW1wMTI5MTY/access.js",
+      "bytes": 472401,
+      "dnsTime": 2.109,
+      "sslTime": 11.708,
+      "requestTime": 37.697
+    },
+    {
+      "url": "https://cdn.attn.tv/goldbelly/dtag.js",
+      "bytes": 3808,
+      "dnsTime": 1.932,
+      "sslTime": 15.891,
+      "requestTime": 28.893
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-8D6CCBYQ00&l=dataLayer&cx=c",
+      "bytes": 219809,
+      "dnsTime": 0.006,
+      "sslTime": 24.163,
+      "requestTime": 72.19399999999999
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/linkid.js",
+      "bytes": 1569,
+      "dnsTime": 0.007,
+      "sslTime": 25.254,
+      "requestTime": 35.44500000000001
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/js?id=GTM-MSFVCT7&cid=1422964528.1675205062",
+      "bytes": 113134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.647000000000006
+    },
+    {
+      "url": "https://rs.fullstory.com/rec/integrations?OrgId=HQ1NT",
+      "bytes": 2993,
+      "dnsTime": 0.006,
+      "sslTime": 20.327,
+      "requestTime": 131.03199999999998
+    },
+    {
+      "url": "https://obs.fishrobotflower.com/ct?id=36323&url=https%3A%2F%2Fwww.goldbelly.com%2F&sf=0&tpi=&ch=cheq4ppc&uvid=&tsf=0&tsfmi=&tsfu=&cb=1675205062625&hl=2&op=0&ag=1886357753&rand=549812526735676786892209379937201915915102716898705901272628010952992919015&fs=1920x1080&fst=1920x1080&np=macintel&nv=google%20inc.&ref=&ss=1920x1080&nc=0&at=&di=W1siZWYiLDg2MzJdLFsxMiwie1wiZVwiOjAsXCJ3Z2xcIjoxfSJdLFsyNyxbImh0dHBzOi8vcGxhdGZvcm0udHdpdHRlci5jb20vd2lkZ2V0cy93aWRnZXRfaWZyYW1lLjJiMmQ3M2RhZjYzNjgwNTIyM2ZiMTFkNDhmM2U5NGY3Lmh0bWw%2Fb3JpZ2luPWh0dHBzJTNBJTJGJTJGd3d3LmdvbGRiZWxseS5jb20iLCJodHRwczovL3d3dy5nb2xkYmVsbHkuY29tLyJdXSxbImNiIiwiMCwwLDAsMCwxLDAsMCwwLDAsMiwxLDAsMSwxLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwxLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDEsMCwwLDQiXSxbLTEsIi0iXSxbLTIsIjcsZVlYV1cxOXZycTNxZE1iMGxtVWtpQmRGcEFTa2lBMEJTNWdpSXFLZ3FJSW5aQkZDeUFIZUZhUUs0WHhBWkdRQVFVNlRYMGxrcElTQ005azB3dnArenl0ZjlaKzh5Wk9Sa1M0UCJdLFstMywiW10iXSxbLTQsIi0iXSxbLTUsIi0iXSxbLTYsIntcIndcIjpbXCIwXCIsXCJfc2Zfc3RhcnRwdFwiLFwiR0JcIixcIl9fZGF0YVwiLFwiaXNNb2JpbGVBcHBcIixcImlzTmF0aXZlTW9iaWxlQXBwXCIsXCJhbmFseXRpY3NcIixcInBpeGVsSWRzXCIsXCJpXCIsXCJmYnFcIixcIl9mYnFcIixcInJlbWFya2V0aW5nXCIsXCJmYkFzeW5jSW5pdFwiLFwiYXBpUGF0aFwiLFwiZ3RhZ1wiLFwiZGF0YUxheWVyXCIsXCJndGFnUHJvcGVydHlJZFwiLFwiX3RhbGthYmxlcVwiLFwidGFsa2FibGVQbGFjZW1lbnRzQ29uZmlnXCIsXCJ0YWxrYWJsZVwiLFwiX1RBTEtBQkxFX1BFUl9DTElFTlRfQ09ORklHXCIsXCJmaXJlX3RuX3BpeGVsXCIsXCJob21lcGFnZVwiLFwidHRkX2RvbV9yZWFkeVwiLFwiVFREVW5pdmVyc2FsUGl4ZWxBcGlcIixcImNpYWRzX3NldHRpbmdzXCIsXCJfY2FxXCIsXCJDaVwiLFwib25sb2FkRGF0ZVRpbWVcIixcInVubG9hZERhdGVUaW1lXCIsXCJuYXZHZW9TdXBwb3J0ZWRcIixcImNpdHJhY2tlcl9yZWZcIixcInBsdWdpbnNcIixcImRvY3VtZW50QWxpYXNcIixcIm5hdmlnYXRvckFsaWFzXCIsXCJzY3JlZW5BbGlhc1wiLFwid2luZG93QWxpYXNcIixcImxvY2F0aW9uSHJlZkFsaWFzXCIsXCJsb2NhdGlvbkhvc3RuYW1lQWxpYXNcIixcImhhc0xvYWRlZFwiLFwicmVnaXN0ZXJlZE9uTG9hZEhhbmRsZXJzXCIsXCJpbmZvX2RlbW9ncmFwaGljc1wiLFwiU0RLX1ZFUlNJT05cIixcIm5hdk1lbnVzXCIsXCJ1ZXRxXCIsXCJ0d3R0clwiLFwid2VicGFja0NodW5rX3NlZ21lbnRfYW5hbHl0aWNzX25leHRcIixcImFuYWx5dGljc1dyaXRlS2V5XCIsXCJfX1NFR01FTlRfSU5TUEVDVE9SX19cIixcIkFuYWx5dGljc05leHRcIl0sXCJuXCI6W10sXCJkXCI6W119Il0sWy03LCItIl0sWy04LCItIl0sWy05LCIrIl0sWy0xMCwiLSJdLFstMTEsIntcInRcIjpcIlwiLFwibVwiOltcImRlc2NyaXB0aW9uXCIsXCJrZXl3b3Jkc1wiLFwib2c6dGl0bGVcIixcIm9nOmRlc2NyaXB0aW9uXCJdfSJdLFstMTIsIm51bGwiXSxbLTEzLCItIl0sWy0xNCwiLSJdLFstMTUsIi0iXSxbLTE2LCIwIl0sWy0xNywiOCJdLFstMTgsIlswLDAsMCwxXSJdLFstMTksIlswLDAsMCwwLDAsMCwxLDI0LDI0LFwiLVwiLDE5MjAsMTA4MCwxOTIwLDEwODAsMCwwLDE5MjAsMTA4MCwwLDAsMCwwLFwiLVwiLFwiLVwiXSJdLFstMjAsIjE0MjI5NjQ1MjguMTY3NTIwNTA2MiJdLFstMjEsIi0iXSxbLTIyLCJbXCJuXCIsXCJuXCJdIl0sWy0yMywiKyJdLFstMjQsIltdIl0sWy0yNSwiW1wiWzQwMDI3Njg3NDgsZnVuY3Rpb24oKXtmb3IodmFyIGU9W10scj0wO3I8YXJndW1lbnRzLmxlbmd0aDtyKyspZVtyXT1hcmd1bWVudHNbcl07dmFyIGk9e3RoYXQ6dGhpcyxhcmdzOmUscmVzdWx0Om51bGx9O3Qub24mJnQuX2JlZm9yZShpKTt2YXIgbz1uLmFwcGx5KHRoaXMsZSk7cmV0dXJuIGkucmVzdWx0PW8sdC5vbiYmKHQuX2FmdGVyU3luYyhpKSx0Ll9hZnRlckFzeW5jKGkpKSxpLnJlc3VsdH1dXCIsXCJcIixcIls0NDA5NjUwMjEsZnVuY3Rpb24gdG9TdHJpbmcoKSB7IFtuYXRpdmUgY29kZV0gfV1cIl0iXSxbLTI2LCJ7XCJ0amhzXCI6NDIxMDAwMDAsXCJ1amhzXCI6MjQ1MDAwMDAsXCJqaHNsXCI6MjE5MDAwMDAwMH0iXSxbLTI3LCJbMCw5LjgsMCxcIjRnXCIsbnVsbF0iXSxbLTI4LCJlbi1VUyJdLFstMjksIi0iXSxbLTMwLCJbXCJ2XCIsMF0iXSxbLTMxLCJ0cnVlIl0sWy0zMiwiMCJdLFstMzMsIltcIls0MDAyNzY4NzQ4LGZ1bmN0aW9uKCl7Zm9yKHZhciBlPVtdLHI9MDtyPGFyZ3VtZW50cy5sZW5ndGg7cisrKWVbcl09YXJndW1lbnRzW3JdO3ZhciBpPXt0aGF0OnRoaXMsYXJnczplLHJlc3VsdDpudWxsfTt0Lm9uJiZ0Ll9iZWZvcmUoaSk7dmFyIG89bi5hcHBseSh0aGlzLGUpO3JldHVybiBpLnJlc3VsdD1vLHQub24mJih0Ll9hZnRlclN5bmMoaSksdC5fYWZ0ZXJBc3luYyhpKSksaS5yZXN1bHR9XVwiLFwiXCIsXCJbNDQwOTY1MDIxLGZ1bmN0aW9uIHRvU3RyaW5nKCkgeyBbbmF0aXZlIGNvZGVdIH1dXCJdIl0sWy0zNCwiLSJdLFstMzUsIlsxNjc1MjA1MDYyNTg4LDhdIl0sWy0zNiwiW1wiMTYvOVwiLFwiMTYvOVwiXSJdLFstMzcsIi0iXSxbLTM4LCJpLC0xLC0xLDEsMCwyMywwLDE4LDM2Miw2NzgsLTEsMCwyNjQ4LjQsMjY0OC40LDQwNDEsNDA0MiJdLFstMzksIltcIjIwMDMwMTA3XCIsMCxcIkdlY2tvXCIsXCJOZXRzY2FwZVwiLFwiTW96aWxsYVwiLG51bGwsbnVsbCx0cnVlLDgsZmFsc2UsbnVsbCwwXSJdLFstNDAsIjMzIl0sWy00MSwiLSJdLFstNDIsIjE3MjQyOTc2NTMiXSxbLTQzLCIwMDAwMDAwMTAwMDAwMDAwMTAxMTEwMTAwMCJdLFstNDQsIjAsMCwwLDUiXSxbLTQ1LCI2MjAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDYzMCw1NzEsNDkzLDYwOCw3OTIsNjc3LDAsMCwwLDAsMCJdLFstNDYsIjAiXSxbLTQ3LCJBbWVyaWNhL0xvc19BbmdlbGVzLGVuLVVTLGxhdG4sZ3JlZ29yeSJdLFstNDgsIjAsMCJdLFstNDksIi0iXSxbLTUwLCItIl0sWy01MSwiLSJdLFstNTIsIi0iXSxbLTUzLCIxMDAiXSxbLTU0LCJ7XCJoXCI6W1wiXzNcIixcIjI4NzI4OTkzMjBcIl0sXCJkXCI6W10sXCJiXCI6W1wiNDE4MDIzOTM3XCIsXCIzODAxMjE1OTYyXCIsXCIzODEyMjM5MzI0XCIsXCIxNzQ0NjczMDMwXCIsXCIyNzg0NDAxMTc1XCIsXCIxMTc0OTg5NTU5XCIsXCIxOTE4MDMxOTg0XCIsXCIxMTc0OTg5NTU5XCIsXCJfMFwiLFwiMTc0NDY3MzAzMFwiXSxcInNcIjoxfSJdLFstNTUsIjEiXSxbImRkYiIsIjAsNywwLDAsMSwxLDAsMCwwLDAsMSwwLDAsMCw1LDAsMCwwLDAsMCwwLDAsMCwwLDAsMSwwLDAsMCwwLDAsMCwwLDAsMCwyLDAsMCwwLDAsMCwxLDEsMywxMiwwLDE1LDAsMSwwLDEsMCwwLDAsMCJdLFsiYm5jaCIsNjZdLFsiYWJuY2giLDY2XV0%3D&dep=0&pre=0&sdd=%7B%7D&cri=87rtnsvsIE&pto=4079&ver=50&gac=1422964528.1675205062&mei=&ap=&duid=1.1675205062.Pa1Kqr0Kj5EzdaKF&suid=1.1675205062.HbOyrIXKO6dxrd0x&tuid=1.1675205062.eI1GBVvcsIlwyx6X&fbc=1.1675205062209.688419787&gtm=WyJMb2FkZWQgYSBQYWdlIl0%3D&it=147%2C3326%2C338&fbcl=-&gacl=&gacsd=-&rtic=-&bgc=cde77ca0a1b811ed9fb45784029ffba2&spa=1&urid=0",
+      "bytes": 2903,
+      "dnsTime": 1.026,
+      "sslTime": 89.48,
+      "requestTime": 191.38500000000002
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.950000000000001
+    },
+    {
+      "url": "https://m.stripe.network/out-4.5.42.js",
+      "bytes": 88253,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.264
+    },
+    {
+      "url": "https://edge.fullstory.com/datalayer/v3/latest.js",
+      "bytes": 41036,
+      "dnsTime": 0.013,
+      "sslTime": 17.266,
+      "requestTime": 28.286999999999995
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/goldbelly.attn.tv.js",
+      "bytes": 32232,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.924999999999999
+    },
+    {
+      "url": "https://static.zdassets.com/ekr/snippet.js?key=edfa10fb-0952-4d08-8393-bd1a5d7564a9",
+      "bytes": 23416,
+      "dnsTime": 0.684,
+      "sslTime": 14.726,
+      "requestTime": 39.18000000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-19048290-1",
+      "bytes": 112459,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.408
+    },
+    {
+      "url": "https://js.adsrvr.org/universal_pixel.1.1.0.js",
+      "bytes": 487,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.508000000000001
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/web-widget-framework-59b8a859ce8a473d961c.js",
+      "bytes": 161958,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.676000000000002
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-classic-3789e01.js",
+      "bytes": 13518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.244
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-8165-3789e01.js",
+      "bytes": 678753,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.203
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-5324-3789e01.js",
+      "bytes": 505325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.575
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-locales/classic/en-us-json-3789e01.js",
+      "bytes": 25840,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.007
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-sdk-3789e01.js",
+      "bytes": 207015,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.079
+    }
+  ],
+  "numJsRequests": 83,
+  "numThirdPartyJsRequests": 62,
+  "numFirstPartyJsRequests": 21,
+  "numUnique3pHosts": 30,
+  "totalJsBytes": 8389221,
+  "totalDnsTime": 65.55,
+  "totalSslTime": 722.5409999999999,
+  "totalTime": 3250.1059999999998,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 648.649,
+  "totalFirstPartyJsBytes": 2505969,
+  "totalThirdPartyDnsTime": 65.55,
+  "totalThirdPartySslTime": 722.5409999999999,
+  "totalThirdPartyTime": 2601.456999999999,
+  "totalThirdPartyJsBytes": 5883252,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 30.294215895169526,
+  "percentOfJsRequestTimeIs3p": 80.04222016143471,
+  "percentOfJsIs3p": 70.12870444109173
+}

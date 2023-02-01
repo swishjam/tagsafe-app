@@ -1,0 +1,7 @@
+name = "potential-performance-improvements-tester"
+main = "src/index.js"
+compatibility_date = "2023-01-31"
+
+[env.dev]
+
+[env.production]

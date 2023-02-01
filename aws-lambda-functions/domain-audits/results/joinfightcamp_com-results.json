@@ -1,0 +1,157 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.7038129999999999,
+    "withoutTags": 0.13607966666666668,
+    "difference": 0.5677333333333332,
+    "cutMetricPercentage": 0.8066536613181815,
+    "percentFasterWithoutTags": "123.96894081728513%"
+  },
+  "TaskDuration": {
+    "withTags": 1.6065883333333335,
+    "withoutTags": 1.023067,
+    "difference": 0.5835213333333336,
+    "cutMetricPercentage": 0.3632052600074901,
+    "percentFasterWithoutTags": "275.3264090887279%"
+  },
+  "DOMComplete": {
+    "withTags": 1537.3333333333333,
+    "withoutTags": 639.6666666666666,
+    "difference": 897.6666666666666,
+    "cutMetricPercentage": 0.5839115351257589,
+    "percentFasterWithoutTags": "171.25881916078723%"
+  },
+  "DOMInteractive": {
+    "withTags": 349.6666666666667,
+    "withoutTags": 350.3333333333333,
+    "difference": -0.6666666666666288,
+    "cutMetricPercentage": -0.001906577693040883,
+    "percentFasterWithoutTags": "-52450.00000000299%"
+  },
+  "DOMLoading": {
+    "withTags": 118,
+    "withoutTags": 116.33333333333333,
+    "difference": 1.6666666666666714,
+    "cutMetricPercentage": 0.014124293785310774,
+    "percentFasterWithoutTags": "7079.99999999998%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 326.59999999962747,
+    "withoutTags": 322.19999999987584,
+    "difference": 4.399999999751628,
+    "cutMetricPercentage": 0.013472137170106084,
+    "percentFasterWithoutTags": "7422.727273137805%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://js.stripe.com/v3/",
+      "bytes": 439606,
+      "dnsTime": 16.151,
+      "sslTime": 20.893,
+      "requestTime": 66.935
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-753449862",
+      "bytes": 181623,
+      "dnsTime": 9.452,
+      "sslTime": 43.766,
+      "requestTime": 111.943
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WQQXMXZ&gtm_auth=miv05EkVSnjqAUqIhrKmLA&gtm_preview=env-2&gtm_cookies_win=x",
+      "bytes": 279287,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 114.68799999999999
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/753449862/?random=1675207152909&cv=11&fst=1675207152909&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fjoinfightcamp.com%2F&tiba=FightCamp%20%7C%20Interactive%20At-Home%20Boxing%20Workouts%20%26%20Equipment&auid=1474337466.1675207153&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1495,
+      "dnsTime": 14.57,
+      "sslTime": 27.226,
+      "requestTime": 78.336
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-VKW03CGELH&l=dataLayer&cx=c",
+      "bytes": 238673,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 72.008
+    },
+    {
+      "url": "https://tag.getdrip.com/2680799.js",
+      "bytes": 7398,
+      "dnsTime": 38.788,
+      "sslTime": 13.016,
+      "requestTime": 61.236
+    },
+    {
+      "url": "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+      "bytes": 174025,
+      "dnsTime": 10.141,
+      "sslTime": 30.844,
+      "requestTime": 127.753
+    },
+    {
+      "url": "https://www.dwin1.com/19038.js",
+      "bytes": 37567,
+      "dnsTime": 16.757,
+      "sslTime": 13.788,
+      "requestTime": 38.966
+    },
+    {
+      "url": "https://js.stripe.com/v3/fingerprinted/js/m-outer-8cb24ab2d649fd36a488d04d8c457933.js",
+      "bytes": 631,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.314
+    },
+    {
+      "url": "https://m.stripe.network/out-4.5.42.js",
+      "bytes": 88253,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.378
+    },
+    {
+      "url": "https://d14jnfavjicsbe.cloudfront.net/client.js",
+      "bytes": 88366,
+      "dnsTime": 11.937,
+      "sslTime": 13.058,
+      "requestTime": 37.157
+    },
+    {
+      "url": "https://api.getdrip.com/client/events/visit?drip_account_id=2680799&referrer=&url=https%3A%2F%2Fjoinfightcamp.com%2F&domain=joinfightcamp.com&time_zone=America%2FLos_Angeles&enable_third_party_cookies=f&callback=Drip_853092601",
+      "bytes": 84,
+      "dnsTime": 17.983,
+      "sslTime": 17.53,
+      "requestTime": 270.40999999999997
+    },
+    {
+      "url": "https://api.getdrip.com/client/track?url=https%3A%2F%2Fjoinfightcamp.com%2F&visitor_uuid=76f1bf7ff88b49a387b2c0169265f1ca&_action=Started%20a%20new%20session&source=drip&drip_account_id=2680799&callback=Drip_956087158",
+      "bytes": 101,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.84700000000001
+    }
+  ],
+  "numJsRequests": 26,
+  "numThirdPartyJsRequests": 13,
+  "numFirstPartyJsRequests": 13,
+  "numUnique3pHosts": 9,
+  "totalJsBytes": 2326988,
+  "totalDnsTime": 135.779,
+  "totalSslTime": 180.121,
+  "totalTime": 1738.3539999999996,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 627.3829999999999,
+  "totalFirstPartyJsBytes": 789879,
+  "totalThirdPartyDnsTime": 135.779,
+  "totalThirdPartySslTime": 180.121,
+  "totalThirdPartyTime": 1110.971,
+  "totalThirdPartyJsBytes": 1537109,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 28.434585601244315,
+  "percentOfJsRequestTimeIs3p": 63.909364835931015,
+  "percentOfJsIs3p": 66.0557338499382
+}
