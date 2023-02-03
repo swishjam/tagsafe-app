@@ -38,5 +38,9 @@ class FindAndCreateTagsForTagSnippetJob < ApplicationJob
     TagManager::MarkTagAsTagsafeHostedIfPossible.new(tag).determine!
     TagManager::TagVersionFetcher.new(tag).fetch_and_capture_first_tag_version! if tag.is_tagsafe_hostable
     tag.send(:enable_aws_event_bridge_rules_for_release_check_interval_if_necessary!)
+  rescue => e
+    Sentry.capture_exception(e)
+    Rails.logger.error("Error creating Tag from found Tag data: #{e.message}")
+    Rails.logger.error("Tag data: #{tag_data_obj}")
   end
 end

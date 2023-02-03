@@ -31,6 +31,7 @@ class Tag < ApplicationRecord
   
   # VALIDATIONS
   validate :only_tagsafe_hostable_tags_can_be_tagsafe_hosted
+  validates_uniqueness_of :full_url, scope: :tag_snippet_id
   validates :release_monitoring_interval_in_minutes, inclusion: { in: SUPPORTED_RELEASE_MONITORING_INTERVALS }
   validates :load_type, inclusion: { in: ['async', 'defer', 'synchronous'] }
   validates :configured_load_type, inclusion: { in: ['default', 'async', 'defer', 'synchronous'] }

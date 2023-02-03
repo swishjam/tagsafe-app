@@ -89,11 +89,11 @@ module TagsafeJsDataConsumer
     end
     
     def errors
-      @payload['errors']
+      @payload['errors'] || []
     end
 
     def warnings
-      @payload['warnings']
+      @payload['warnings'] || []
     end
 
     private

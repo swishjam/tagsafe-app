@@ -1,10 +1,11 @@
 export default class ScriptInjector {
-  constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode }) {
+  constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode, errorReporter }) {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
     this.tagInterceptionRules = tagInterceptionRules;
     this.disableScriptInterception = disableScriptInterception;
     this.debugMode = debugMode;
+    this.errorReporter = errorReporter;
     this.afterAllTagsAddedCallbacks = [];
     this._numTagsInjected = 0;
   }
@@ -32,19 +33,21 @@ export default class ScriptInjector {
         document.head.appendChild(htmlFragment);
         this._numTagsInjected += 1;
         if (this.debugMode) {
-          console.log(`%c[Tagsafe Log] Added ${tagConfig.uid} to DOM.`, 'background-color: purple; color: white; padding: 5px;')
+          console.log(`%c[Tagsafe Log] Added ${tagConfig.uid} to DOM.`, 'background-color: #7587f8; color: white; padding: 5px;')
         }
       } else if (this.debugMode) {
-        console.log(`%c[Tagsafe Log] Ignored ${tagConfig.uid} tag because it is not configured to be added to this URL.`, 'background-color: purple; color: white; padding: 5px;')
+        console.log(`%c[Tagsafe Log] Ignored ${tagConfig.uid} tag because it is not configured to be added to this URL.`, 'background-color: #7587f8; color: white; padding: 5px;')
       }
     } catch(err) {
-      console.warn(`[Tagsafe Error] Unable to add tag ${tagConfig.uid}`);
+      const errMsg = `[Tagsafe Error] Unable to add tag ${tagConfig.uid}`;
+      errorReporter.reportError(`${errMsg} - ${err.message}`);
+      console.warn(errMsg);
     }
   }
 
   _reRouteScriptSrc(scriptTag, tagConfig) {
     const ogSrc = scriptTag.getAttribute('src');
-    if(this.debugMode) console.log(`[Tagsafe Log] Remapping embedded script tag ${ogSrc} to ${tagConfig['configuredTagUrl']}`, 'background-color: purple; color: white; padding: 5px;');
+    if(this.debugMode) console.log(`[Tagsafe Log] Remapping embedded script tag ${ogSrc} to ${tagConfig['configuredTagUrl']}`, 'background-color: #7587f8; color: white; padding: 5px;');
     if (tagConfig['configuredTagUrl']) {
       scriptTag.setAttribute('src', tagConfig['configuredTagUrl']);
       scriptTag.setAttribute('data-tagsafe-og-src', ogSrc);
@@ -65,7 +68,7 @@ export default class ScriptInjector {
     }
 
     if (this.debugMode) {
-      console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
+      console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: #7587f8; color: white; padding: 5px;');
       console.log({
         configuredUrl: tagConfig['configuredTagUrl'],
         configuredLoadType: tagConfig['configuredLoadType'],

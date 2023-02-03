@@ -10,7 +10,7 @@ class User < ApplicationRecord
   # has_many :initiated_audits, class_name: Audit.to_s, foreign_key: :initiated_by_container_user_id
 
   validates_presence_of :email, :first_name, :last_name
-  validates :password, length: { minimum: 8 }
+  validates :password, length: { minimum: 8 }, if: :password_digest_changed?
   validates_uniqueness_of :email, conditions: -> { where(deleted_at: nil) }
   validate :only_tagsafe_emails_can_become_tagsafe_admins
 
