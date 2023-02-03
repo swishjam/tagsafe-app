@@ -44,13 +44,13 @@ export default class Tagsafe {
     scriptInjector.beginInjecting();
 
     if(settings.debugMode) {
-      console.log('%c[Tagsafe Log] TagsafeJS initialized', 'background-color: purple; color: white; padding: 5px;');
-      console.log('%c[Tagsafe Log] Tag configurations:', 'background-color: purple; color: white; padding: 5px;');
+      console.log('%c[Tagsafe Log] TagsafeJS initialized', 'background-color: #7587f8; color: white; padding: 5px;');
+      console.log('%c[Tagsafe Log] Tag configurations:', 'background-color: #7587f8; color: white; padding: 5px;');
       console.log(tagConfigurations);
-      console.log('%c[Tagsafe Log] Tag intercept rules:', 'background-color: purple; color: white; padding: 5px;');
+      console.log('%c[Tagsafe Log] Tag intercept rules:', 'background-color: #7587f8; color: white; padding: 5px;');
       console.log(tagInterceptionRules);
-      console.log(`%c[Tagsafe Log] First party domain(s): ${settings.firstPartyDomains.join(', ')}`, 'background-color: purple; color: white; padding: 5px;');
-      console.log(`%c[Tagsafe Log] Reporting sample rate: ${settings.reportingSampleRate * 100}%`, 'background-color: purple; color: white; padding: 5px;')
+      console.log(`%c[Tagsafe Log] First party domain(s): ${settings.firstPartyDomains.join(', ')}`, 'background-color: #7587f8; color: white; padding: 5px;');
+      console.log(`%c[Tagsafe Log] Reporting sample rate: ${settings.reportingSampleRate * 100}%`, 'background-color: #7587f8; color: white; padding: 5px;')
     }
   }
 }

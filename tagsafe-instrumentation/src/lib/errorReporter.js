@@ -7,7 +7,6 @@ export class ErrorReporter {
   reportError = (errMsg) => {
     const http = new XMLHttpRequest();
     http.open('POST', this.reportingURL, true);
-    http.setRequestHeader('Content-type', 'application/json');
     http.send(JSON.stringify({
       container_uid: this.containerUid,
       tagsafe_consumer_resque_queue: 'tagsafe_js_events',

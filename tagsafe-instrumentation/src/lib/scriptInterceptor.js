@@ -108,7 +108,7 @@ export default class ScriptInterceptor {
       }
 
       if (this.debugMode) {
-        console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: purple; color: white; padding: 5px;');
+        console.log(`%c[Tagsafe Log] Intercepted ${ogSrc} with config:`, 'background-color: #7587f8; color: white; padding: 5px;');
         console.log({ 
           configuredUrl: tagConfig['configuredTagUrl'],
           configuredLoadType: tagConfig['configuredLoadType'],

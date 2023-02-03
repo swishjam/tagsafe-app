@@ -3,7 +3,6 @@
 const PagePerformanceMeasurer = require('./src/pagePerformanceMeasurer');
 const NetworkAnalyzer = require('./src/networkAnalyzer');
 const fs = require('fs');
-const { removeListener } = require('process');
 
 require('dotenv').config();
 
@@ -15,6 +14,7 @@ module.exports.handle = async (event, _context) => {
   } = event;
 
   const urls = [
+    ['https://mackweldon.com/'],
     // ['https://www.eightsleep.com']
     // ['http://www.pourri.com', null],
     // ['http://www.pourri.com', null],
@@ -65,7 +65,7 @@ module.exports.handle = async (event, _context) => {
     // ['http://www.lifepharm.com', null],
     // ['http://www.littlegiantladders.com', null],
     // ['http://www.metamap.com', null],
-    ['http://www.molekule.com', 'https://molekule.com'],
+    // ['http://www.molekule.com', 'https://molekule.com'],
     // ['http://www.neatmethod.com', null],
     // ['http://www.neatmethod.com', null],
     // ['http://www.newwavecom.com', null],
