@@ -4,7 +4,7 @@ import ScriptInterceptor from './scriptInterceptor';
 import ScriptInjector from './scriptInjector';
 
 export default class Tagsafe {
-  static init({ containerUid, tagConfigurations, tagInterceptionRules, settings }) {
+  static init({ containerUid, tagConfigurations, tagInterceptionRules, settings, errorReporter }) {
     if(this._initialized) throw new Error(`Tagsafe already initialized.`);
     this._initialized = true;
 
@@ -28,6 +28,7 @@ export default class Tagsafe {
       dataReporter, 
       firstPartyDomains: settings.firstPartyDomains,
       disableScriptInterception,
+      errorReporter,
       debugMode: settings.debugMode
     })
     scriptInterceptor.interceptInjectedScriptTags();
@@ -37,7 +38,8 @@ export default class Tagsafe {
       onLoadScripts: tagConfigurations.onLoad,
       tagInterceptionRules,
       disableScriptInterception,
-      debugMode: settings.debugMode
+      debugMode: settings.debugMode,
+      errorReporter
     })
     scriptInjector.beginInjecting();
 

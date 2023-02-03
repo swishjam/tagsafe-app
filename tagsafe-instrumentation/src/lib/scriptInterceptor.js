@@ -5,12 +5,14 @@ export default class ScriptInterceptor {
     tagInterceptionRules, 
     firstPartyDomains, 
     disableScriptInterception,
+    errorReporter,
     debugMode = false 
   }) {
     this.firstPartyDomains = firstPartyDomains;
     this.tagInterceptionRules = tagInterceptionRules;
     this.debugMode = debugMode;
     this.disableScriptInterception = disableScriptInterception;
+    this.errorReporter = errorReporter;
     
     if(this.debugMode && this.disableScriptInterception) {
       console.warn('[Tagsafe Log] Tagsafe CDN re-router is disabled based on configuration sample rate.');
@@ -76,7 +78,9 @@ export default class ScriptInterceptor {
       }
       return newNode;
     } catch(err) {
-      console.error(`[Tagsafe Error] Tagsafe intercept error: ${err}`);
+      const errMsg = `[Tagsafe Error] Tagsafe intercept error: ${err}`;
+      console.error(errMsg);
+      errorReporter.reportError(`${errMsg} - ${err.message}`);
       return newNode;
     }
   }

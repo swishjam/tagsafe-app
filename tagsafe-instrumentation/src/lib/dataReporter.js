@@ -108,7 +108,12 @@ export default class DataReporter {
         console.log(`Sending data to Tagsafe API`);
         console.log(body);
       }
-      await fetch(this.reportingURL, { method: 'POST', body: JSON.stringify(body) });
+      // await fetch(this.reportingURL, { method: 'POST', body: JSON.stringify(body) });
+      const http = new XMLHttpRequest();
+      http.open('POST', this.reportingURL, true);
+      http.setRequestHeader('Content-type', 'application/json');
+      http.send(JSON.stringify(body));
+
       this.dataReported.third_party_tags.concat(this.dataToReport.third_party_tags);
       this.dataReported.errors.concat(this.dataToReport.errors);
       this._flushPendingData();

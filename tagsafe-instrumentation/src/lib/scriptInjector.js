@@ -1,10 +1,11 @@
 export default class ScriptInjector {
-  constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode }) {
+  constructor({ immediateScripts, onLoadScripts, tagInterceptionRules, disableScriptInterception, debugMode, errorReporter }) {
     this.immediateScripts = immediateScripts;
     this.onLoadScripts = onLoadScripts;
     this.tagInterceptionRules = tagInterceptionRules;
     this.disableScriptInterception = disableScriptInterception;
     this.debugMode = debugMode;
+    this.errorReporter = errorReporter;
     this.afterAllTagsAddedCallbacks = [];
     this._numTagsInjected = 0;
   }
@@ -38,7 +39,9 @@ export default class ScriptInjector {
         console.log(`%c[Tagsafe Log] Ignored ${tagConfig.uid} tag because it is not configured to be added to this URL.`, 'background-color: purple; color: white; padding: 5px;')
       }
     } catch(err) {
-      console.warn(`[Tagsafe Error] Unable to add tag ${tagConfig.uid}`);
+      const errMsg = `[Tagsafe Error] Unable to add tag ${tagConfig.uid}`;
+      errorReporter.reportError(`${errMsg} - ${err.message}`);
+      console.warn(errMsg);
     }
   }
 
