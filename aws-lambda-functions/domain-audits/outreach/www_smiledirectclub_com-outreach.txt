@@ -1,3 +1,3 @@
-www.smiledirectclub.com loads 53 third party JS scripts, totaling in 7.48 MB of javascript, while you are loading 0 Bytes of 'first party javascript', meaning 100% of all the javascript loaded on the page originates from third party resources. 
-It takes www.smiledirectclub.com 3.74 seconds to download all of the third party javascript on the site. 21.29% of the third party JS download time is due to DNS lookups and SSL connections, which would be eliminated using Tagsafe. 
-If www.smiledirectclub.com had zero third party javascript tags, it would cut the DOM Complete time by 100.0%, the First Contentful Paint time by 96.46%, and DOM Interactive time by 93.79%.
+www.smiledirectclub.com loads 90 third party JS scripts, totaling in 7.25 MB of javascript, while you are loading 4.18 MB of 'first party javascript', meaning 63.45% of all the javascript loaded on the page originates from third party resources. 
+It takes www.smiledirectclub.com 5.81 seconds to download all of the third party javascript on the site. 25.7% of the third party JS download time is due to DNS lookups and SSL connections, which would be eliminated using Tagsafe. 
+If www.smiledirectclub.com had zero third party javascript tags, it would cut the DOM Complete time by 55.12%, the First Contentful Paint time by 0.52%, and DOM Interactive time by -2.54%.

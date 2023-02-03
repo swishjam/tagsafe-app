@@ -23,6 +23,6 @@ def generate_outreach_from_results_file(file_path)
   puts "Wrote outreach for #{site_name} to ./outreach/#{file_name.gsub('-results.json', '-outreach.txt')}"
 end
 
-Dir.glob('./results/www_molekule_com-results.json'){ |file_path| generate_outreach_from_results_file(file_path) }
+Dir.glob('./results/www_prettylittlething_com-results.json'){ |file_path| generate_outreach_from_results_file(file_path) }
 
 puts "DONE!"

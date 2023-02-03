@@ -1,0 +1,682 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.6467253333333334,
+    "withoutTags": 0.21266333333333334,
+    "difference": 1.434062,
+    "cutMetricPercentage": 0.8708568277729376,
+    "percentFasterWithoutTags": "114.82943787181681%"
+  },
+  "TaskDuration": {
+    "withTags": 4.383721333333334,
+    "withoutTags": 1.5250789999999999,
+    "difference": 2.858642333333334,
+    "cutMetricPercentage": 0.6521040266853946,
+    "percentFasterWithoutTags": "153.3497661535598%"
+  },
+  "DOMComplete": {
+    "withTags": 2821.3333333333335,
+    "withoutTags": 1545.3333333333333,
+    "difference": 1276.0000000000002,
+    "cutMetricPercentage": 0.4522684310018904,
+    "percentFasterWithoutTags": "221.1076280041797%"
+  },
+  "DOMInteractive": {
+    "withTags": 205.33333333333334,
+    "withoutTags": 213,
+    "difference": -7.666666666666657,
+    "cutMetricPercentage": -0.03733766233766229,
+    "percentFasterWithoutTags": "-2678.2608695652207%"
+  },
+  "DOMLoading": {
+    "withTags": 68.66666666666667,
+    "withoutTags": 70.66666666666667,
+    "difference": -2,
+    "cutMetricPercentage": -0.029126213592233007,
+    "percentFasterWithoutTags": "-3433.3333333333335%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 178.53333333383003,
+    "withoutTags": 186.50000000248352,
+    "difference": -7.966666668653488,
+    "cutMetricPercentage": -0.04462285288628449,
+    "percentFasterWithoutTags": "-2241.004183547765%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://gepi.global-e.com/includes/js/1021",
+      "bytes": 244705,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 403.146
+    },
+    {
+      "url": "https://cdn.optimizely.com/js/18267933827.js",
+      "bytes": 288482,
+      "dnsTime": 11.282,
+      "sslTime": 22.018,
+      "requestTime": 74.078
+    },
+    {
+      "url": "https://gepi.global-e.com/Configurations/GetMerchantConfigurations/hDOncxeMFCg%3d?WebStoreCode=www.wearfigs.com&WebStoreInstanceCode=www.wearfigs.com&jsoncallback=callback_GetConfigurations",
+      "bytes": 16096,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.203
+    },
+    {
+      "url": "https://web.global-e.com/merchant/clientsdk/1021",
+      "bytes": 50896,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.126000000000005
+    },
+    {
+      "url": "https://www.datadoghq-browser-agent.com/datadog-rum-v3.js",
+      "bytes": 117677,
+      "dnsTime": 0.728,
+      "sslTime": 15.856,
+      "requestTime": 31.906
+    },
+    {
+      "url": "https://connect.nosto.com/include/shopify-1398942",
+      "bytes": 205149,
+      "dnsTime": 6.345,
+      "sslTime": 20.195,
+      "requestTime": 43.132000000000005
+    },
+    {
+      "url": "https://gepi.global-e.com/Localize/SetLocalize/hDOncxeMFCg%3d?&cacheBuster=1675278832475&jsoncallback=callback_SetLocalize",
+      "bytes": 142,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 212.85500000000002
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.2/js/player.module.js",
+      "bytes": 490184,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.263000000000005
+    },
+    {
+      "url": "https://f.vimeocdn.com/p/4.19.2/js/vendor.module.js",
+      "bytes": 386494,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.419
+    },
+    {
+      "url": "https://js-agent.newrelic.com/nr-spa-1216.min.js",
+      "bytes": 50049,
+      "dnsTime": 8.8,
+      "sslTime": 12.905,
+      "requestTime": 30.569000000000003
+    },
+    {
+      "url": "https://gepi.global-e.com/Utils/IsThirdPartCookiesAllowed?jsoncallback=callback_IsThirdPartCookiesAllowed",
+      "bytes": 54,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 193.636
+    },
+    {
+      "url": "https://gepi.global-e.com/Configurations/GetLocalizeConfigurations/hDOncxeMFCg%3d?WebStoreCode=www.wearfigs.com&WebStoreInstanceCode=www.wearfigs.com&CountryCode=US&CurrencyCode=USD&jsoncallback=callback_GetConfigurations",
+      "bytes": 2295,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.762
+    },
+    {
+      "url": "https://bam.nr-data.net/1/689d5b4562?a=2815207&sa=1&v=1216.487a282&t=Unnamed%20Transaction&rst=910&ck=1&ref=https://player.vimeo.com/video/793184005&be=469&fe=680&dc=601&af=err,xhr,stn,ins,spa&perf=%7B%22timing%22:%7B%22of%22:1675278832034,%22n%22:0,%22f%22:1,%22dn%22:3,%22dne%22:5,%22c%22:5,%22s%22:13,%22ce%22:38,%22rq%22:38,%22rp%22:207,%22rpe%22:211,%22dl%22:393,%22di%22:598,%22ds%22:599,%22de%22:600,%22dc%22:679,%22l%22:679,%22le%22:681%7D,%22navigation%22:%7B%7D%7D&ja=%7B%22environment%22:%22production%22,%22js_modules%22:true,%22version_js%22:%224.19.2%22,%22version_backend%22:%221.55.0%22,%22visibility_state%22:%22visible%22,%22vimeo_session%22:%22989776ca9bcef0089f621b8047943cac2e0a041f1675278832%22,%22locale%22:%22en%22,%22product%22:%22vimeo-vod%22,%22video_embed_permission%22:%22public%22,%22video_privacy%22:%22disable%22,%22chromecast_test%22:1,%22chromecast_group%22:false,%22llhls_timeout_test%22:1,%22llhls_timeout_group%22:false,%22cmcd_test%22:1,%22cmcd_group%22:false%7D&jsonp=NREUM.setToken",
+      "bytes": 49,
+      "dnsTime": 1.261,
+      "sslTime": 57.255,
+      "requestTime": 174.853
+    },
+    {
+      "url": "https://webservices.global-e.com/merchant/changeshippingandcurrency?autoshow=false&merchantid=1021&country=US&culture=en-US&currency=USD&v=1.0&environment=live&loadSwitcherData=false",
+      "bytes": 35466,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.429000000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NLWDV6S&gtm_auth=&gtm_preview=&gtm_cookies_win=x",
+      "bytes": 369968,
+      "dnsTime": 4.752,
+      "sslTime": 29.379,
+      "requestTime": 88.48800000000001
+    },
+    {
+      "url": "https://webservices.global-e.com/merchant/freeShippingBanner?merchantId=1021&country=US&currency=USD&culture=en-US&cb=1675278834",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 226.198
+    },
+    {
+      "url": "https://cdn.heapanalytics.com/js/heap-4169410828.js",
+      "bytes": 137849,
+      "dnsTime": 9.488,
+      "sslTime": 12.243,
+      "requestTime": 35.147000000000006
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 7.98,
+      "sslTime": 26.381,
+      "requestTime": 44.768
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 11.691,
+      "sslTime": 16.485,
+      "requestTime": 62.749
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/615428503/?random=1675278834008&cv=11&fst=1675278834008&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=TyMaCLic5vIBEJfjuqUC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&auid=1965448891.1675278834&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1518,
+      "dnsTime": 6.377,
+      "sslTime": 71.064,
+      "requestTime": 116.81599999999999
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/984949555/?random=1675278834016&cv=11&fst=1675278834016&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=pBt0CK7t-PIBELPG1NUD&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&auid=1965448891.1675278834&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 43,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 415.831
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/671967648/?random=1675278834018&cv=11&fst=1675278834018&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=CJFiCLnb6PIBEKDTtcAC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&auid=1965448891.1675278834&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 421.47
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/655922783/?random=1675278834020&cv=11&fst=1675278834020&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=6uaLCL3u6PIBEN-s4rgC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&auid=1965448891.1675278834&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 419.38700000000006
+    },
+    {
+      "url": "https://unpkg.com/node-forge@0.7.0/dist/forge.min.js",
+      "bytes": 272829,
+      "dnsTime": 7.923,
+      "sslTime": 12.101,
+      "requestTime": 55.9
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 9.823,
+      "sslTime": 51.276,
+      "requestTime": 79.883
+    },
+    {
+      "url": "https://container.pepperjam.com/43119890.js",
+      "bytes": 8688,
+      "dnsTime": 15.401,
+      "sslTime": 26.813,
+      "requestTime": 52.162000000000006
+    },
+    {
+      "url": "https://cdn.taboola.com/libtrc/unip/1100083/tfa.js",
+      "bytes": 69827,
+      "dnsTime": 14.625,
+      "sslTime": 19.24,
+      "requestTime": 48.645999999999994
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 9.242,
+      "sslTime": 14.952,
+      "requestTime": 48.286
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1435364.js?sv=6",
+      "bytes": 8920,
+      "dnsTime": 15.117,
+      "sslTime": 11.424,
+      "requestTime": 33.085
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/6f0e2a53-075f-4449-a4f8-cf34aa283652-latest.js",
+      "bytes": 6952,
+      "dnsTime": 11.885,
+      "sslTime": 11.67,
+      "requestTime": 33.236000000000004
+    },
+    {
+      "url": "https://b-code.liadm.com/a-04bo.min.js",
+      "bytes": 34680,
+      "dnsTime": 9.797,
+      "sslTime": 13.117,
+      "requestTime": 35.352
+    },
+    {
+      "url": "https://cdn1.affirm.com/js/v2/affirm.js",
+      "bytes": 436786,
+      "dnsTime": 7.753,
+      "sslTime": 20.384,
+      "requestTime": 49.558
+    },
+    {
+      "url": "https://cdn.attn.tv/wearfigs/dtag.js",
+      "bytes": 7885,
+      "dnsTime": 10.995,
+      "sslTime": 12.014,
+      "requestTime": 32.506
+    },
+    {
+      "url": "https://static.criteo.net/js/ld/ld.js",
+      "bytes": 43748,
+      "dnsTime": 9.102,
+      "sslTime": 158.47,
+      "requestTime": 377.975
+    },
+    {
+      "url": "https://api.fouanalytics.com/api/init-1242fbdx1278dia53814.js",
+      "bytes": 481,
+      "dnsTime": 11.305,
+      "sslTime": 22.32,
+      "requestTime": 73.76899999999999
+    },
+    {
+      "url": "https://cdn.pbbl.co/r/1535.js",
+      "bytes": 17846,
+      "dnsTime": 16.406,
+      "sslTime": 14.817,
+      "requestTime": 40.565
+    },
+    {
+      "url": "https://cdn.pdst.fm/ping.min.js",
+      "bytes": 26948,
+      "dnsTime": 7.206,
+      "sslTime": 28.246,
+      "requestTime": 45.338
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-HSQT51TL60&l=dataLayer&cx=c",
+      "bytes": 219937,
+      "dnsTime": 0.006,
+      "sslTime": 24.415,
+      "requestTime": 74.412
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 8.791,
+      "sslTime": 23.899,
+      "requestTime": 41.066
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 8.319,
+      "sslTime": 27.968,
+      "requestTime": 79.06200000000001
+    },
+    {
+      "url": "https://djnf6e5yyirys.cloudfront.net/js/friendbuy.min.js",
+      "bytes": 123993,
+      "dnsTime": 7.457,
+      "sslTime": 28.854,
+      "requestTime": 54.95399999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C3D48FATO1NMNN16JA80&lib=ttq",
+      "bytes": 2861,
+      "dnsTime": 15.022,
+      "sslTime": 12.55,
+      "requestTime": 117.991
+    },
+    {
+      "url": "https://rbqnb9ch.wearfigs.com/assets/wxyz.rb.js",
+      "bytes": 47141,
+      "dnsTime": 18.648,
+      "sslTime": 98.168,
+      "requestTime": 202.459
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/984949555/?random=1675278834048&cv=11&fst=1675278834048&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=FZAXCPTEmsIDELPG1NUD&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2056,
+      "dnsTime": 8.034,
+      "sslTime": 35.422,
+      "requestTime": 73.846
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/655922783/?random=1675278834057&cv=11&fst=1675278834057&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=WlwoCPzh7sMDEN-s4rgC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.702
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/671967648/?random=1675278834060&cv=11&fst=1675278834060&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=ydwXCLny7sMDEKDTtcAC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2054,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.20100000000001
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/615428503/?random=1675278834062&cv=11&fst=1675278834062&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=UX-pCKSn88MDEJfjuqUC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.332
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/984949555/?random=1675278834070&cv=11&fst=1675278834070&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=FZAXCPTEmsIDELPG1NUD&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.998000000000005
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/655922783/?random=1675278834073&cv=11&fst=1675278834073&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=WlwoCPzh7sMDEN-s4rgC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.236000000000004
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/671967648/?random=1675278834076&cv=11&fst=1675278834076&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=ydwXCLny7sMDEKDTtcAC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.815999999999995
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/615428503/?random=1675278834078&cv=11&fst=1675278834078&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=UX-pCKSn88MDEJfjuqUC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2054,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.833
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/984949555/?random=1675278834082&cv=11&fst=1675278834082&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=FZAXCPTEmsIDELPG1NUD&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.22
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/655922783/?random=1675278834085&cv=11&fst=1675278834085&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=WlwoCPzh7sMDEN-s4rgC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2052,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.944
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/671967648/?random=1675278834087&cv=11&fst=1675278834087&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=ydwXCLny7sMDEKDTtcAC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.834
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/615428503/?random=1675278834090&cv=11&fst=1675278834090&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=UX-pCKSn88MDEJfjuqUC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.218
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/984949555/?random=1675278834095&cv=11&fst=1675278834095&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=FZAXCPTEmsIDELPG1NUD&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 42.091
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/655922783/?random=1675278834096&cv=11&fst=1675278834096&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=WlwoCPzh7sMDEN-s4rgC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.896
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/671967648/?random=1675278834100&cv=11&fst=1675278834100&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=ydwXCLny7sMDEKDTtcAC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.349999999999994
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/615428503/?random=1675278834102&cv=11&fst=1675278834102&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=UX-pCKSn88MDEJfjuqUC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.wearfigs.com%2F&tiba=FIGS%20Scrubs%20Official%20Site%20-%20Medical%20Uniforms%20%26%20Apparel&value=0&bttype=purchase&auid=1965448891.1675278834&ec_mode=m&uamb=0&uaw=0&em=tv.1~em.e0&rfmt=3&fmt=4",
+      "bytes": 2056,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.705000000000005
+    },
+    {
+      "url": "https://widget.privy.com/assets/widget.js",
+      "bytes": 329575,
+      "dnsTime": 14.04,
+      "sslTime": 47.702,
+      "requestTime": 122.641
+    },
+    {
+      "url": "https://trc.taboola.com/1100083/trc/3/json?tim=1675278834183&data=%7B%22id%22%3A702%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1675278834176%2C%22cv%22%3A%2220230129-6-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.wearfigs.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dtaboolaaccount-alexwearfigscom%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22supv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22tim%22%3A1675278834182%2C%22ref%22%3Anull%2C%22item-url%22%3A%22https%3A%2F%2Fwww.wearfigs.com%2F%22%2C%22tos%22%3A3%2C%22ssd%22%3A1%2C%22scd%22%3A0%2C%22supv%22%3Atrue%7D%7D&pubit=i",
+      "bytes": 2431,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 43.406
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1411344802476211?v=2.9.95&r=stable",
+      "bytes": 387037,
+      "dnsTime": 0.006,
+      "sslTime": 13.37,
+      "requestTime": 39.068
+    },
+    {
+      "url": "https://acdn.adnxs.com/dmp/up/pixie.js",
+      "bytes": 9139,
+      "dnsTime": 49.651,
+      "sslTime": 40.357,
+      "requestTime": 115.08000000000001
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tag-manager/6f0e2a53-075f-4449-a4f8-cf34aa283652-additional-latest.js",
+      "bytes": 12276,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.489999999999998
+    },
+    {
+      "url": "https://d2hrivdxn8ekm8.cloudfront.net/tracker-latest.min.js",
+      "bytes": 9726,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.223
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/cfc785d1-a6c1-4b34-bdee-2b6334c192e8.js",
+      "bytes": 148,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 73.859
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
+      "bytes": 258696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.36
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.283
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 90.89800000000001
+    },
+    {
+      "url": "https://rbqnb9ch.wearfigs.com/integrations?source=figs",
+      "bytes": 59,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.563
+    },
+    {
+      "url": "https://getrockerbox.com/jpuid?jsonp=RB.jsonPUID",
+      "bytes": 67,
+      "dnsTime": 30.405,
+      "sslTime": 17.952,
+      "requestTime": 142.672
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0.006,
+      "sslTime": 51.777,
+      "requestTime": 66.19500000000001
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/wearfigs.attn.tv.js",
+      "bytes": 12259,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.115
+    },
+    {
+      "url": "https://api.fouanalytics.com/s/pp.js",
+      "bytes": 17837,
+      "dnsTime": 0.006,
+      "sslTime": 29.499,
+      "requestTime": 60.907
+    },
+    {
+      "url": "https://assets.privy.com/packs/js/755-086626e486c3e2950d93.js",
+      "bytes": 90259,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 59.94799999999999
+    },
+    {
+      "url": "https://assets.privy.com/packs/js/908-000e1ac551df9d63c8a5.js",
+      "bytes": 39402,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.28
+    },
+    {
+      "url": "https://assets.privy.com/packs/js/864-f9538eba7e93bec99a2f.js",
+      "bytes": 19147,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.211000000000002
+    },
+    {
+      "url": "https://assets.privy.com/packs/js/538-805fe981917f253d98ff.js",
+      "bytes": 110477,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.025
+    },
+    {
+      "url": "https://assets.privy.com/packs/js/legacy_widget-82c58b253f70cfe8abb6.chunk.js",
+      "bytes": 116770,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.459000000000003
+    },
+    {
+      "url": "https://sslwidget.criteo.com/event?a=%5B38779%2C76417%2C83917%2C75649%5D&v=5.13.0&p0=e%3Dce%26m%3D%255B%252Cundefined%255D&p1=e%3Dvh&p2=e%3Ddis&adce=1&tld=wearfigs.com&fu=https%253A%252F%252Fwww.wearfigs.com%252F&dtycbr=69104",
+      "bytes": 28659,
+      "dnsTime": 14.476,
+      "sslTime": 83.754,
+      "requestTime": 220.77800000000002
+    },
+    {
+      "url": "https://static.zdassets.com/ekr/snippet.js?key=a0110022-31dd-4efb-94cd-540e657e5305",
+      "bytes": 23416,
+      "dnsTime": 8.29,
+      "sslTime": 10.707,
+      "requestTime": 41.164
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/web-widget-framework-c82fe813e62b58e096bc.js",
+      "bytes": 161958,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 23.732000000000003
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-classic-34c91d3.js",
+      "bytes": 13518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.520000000000003
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-8165-34c91d3.js",
+      "bytes": 678753,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 56.111000000000004
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-5324-34c91d3.js",
+      "bytes": 505325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 31.201999999999998
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-locales/classic/en-us-json-34c91d3.js",
+      "bytes": 25840,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.473
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-sdk-34c91d3.js",
+      "bytes": 207015,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.102
+    },
+    {
+      "url": "https://static.zdassets.com/web_widget/latest/classic/web-widget-chat-incoming-message-notification-34c91d3.js",
+      "bytes": 208,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 22.188000000000002
+    }
+  ],
+  "numJsRequests": 112,
+  "numThirdPartyJsRequests": 88,
+  "numFirstPartyJsRequests": 24,
+  "numUnique3pHosts": 42,
+  "totalJsBytes": 9859557,
+  "totalDnsTime": 408.455,
+  "totalSslTime": 1256.537,
+  "totalTime": 8015.939999999999,
+  "totalFirstPartyDnsTime": 0.014,
+  "totalFirstPartySslTime": 9.518,
+  "totalFirstPartyTime": 954.3289999999998,
+  "totalFirstPartyJsBytes": 2519721,
+  "totalThirdPartyDnsTime": 408.441,
+  "totalThirdPartySslTime": 1247.019,
+  "totalThirdPartyTime": 7061.610999999999,
+  "totalThirdPartyJsBytes": 7339836,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 23.443092518123702,
+  "percentOfJsRequestTimeIs3p": 88.09460899158427,
+  "percentOfJsIs3p": 74.44387207254849
+}

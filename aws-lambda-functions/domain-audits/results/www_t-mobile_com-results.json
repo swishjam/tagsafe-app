@@ -1,0 +1,633 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 2.500591,
+    "withoutTags": 1.3543023333333333,
+    "difference": 1.1462886666666667,
+    "cutMetricPercentage": 0.4584070992284091,
+    "percentFasterWithoutTags": "218.14670882785197%"
+  },
+  "TaskDuration": {
+    "withTags": 3.4471089999999998,
+    "withoutTags": 1.7166456666666665,
+    "difference": 1.7304633333333332,
+    "cutMetricPercentage": 0.5020042398814002,
+    "percentFasterWithoutTags": "199.20150479929265%"
+  },
+  "DOMComplete": {
+    "withTags": 3339.3333333333335,
+    "withoutTags": 2663.3333333333335,
+    "difference": 676,
+    "cutMetricPercentage": 0.20243561589139547,
+    "percentFasterWithoutTags": "493.9842209072978%"
+  },
+  "DOMInteractive": {
+    "withTags": 1484,
+    "withoutTags": 929,
+    "difference": 555,
+    "cutMetricPercentage": 0.37398921832884097,
+    "percentFasterWithoutTags": "267.3873873873874%"
+  },
+  "DOMLoading": {
+    "withTags": 490.3333333333333,
+    "withoutTags": 494.3333333333333,
+    "difference": -4,
+    "cutMetricPercentage": -0.008157715839564922,
+    "percentFasterWithoutTags": "-12258.333333333332%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 4354,
+    "withoutTags": 3236,
+    "difference": 1118,
+    "cutMetricPercentage": 0.25677537896187413,
+    "percentFasterWithoutTags": "389.4454382826476%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/launch-31a1bb9770e3.min.js",
+      "bytes": 372210,
+      "dnsTime": 2.571,
+      "sslTime": 210.303,
+      "requestTime": 711.999
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/Samsung_Galaxy-S23-Logo-2?ts=1675100249389&$pngtransparent$&op_colorize=ffffff&dpr=off&req=set,json",
+      "bytes": 2682,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 334.457
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/Samsung_Galaxy-S23-gold-phone-2?ts=1675103558810&fmt=png-alpha&dpr=off&req=set,json",
+      "bytes": 2731,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.28099999999999
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/Samsung_Galaxy-S23-Series-White-Logo-2?ts=1675275178765&$pngtransparent$&op_colorize=ffffff&dpr=off&req=set,json",
+      "bytes": 2888,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.163
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/fg-card-blank-19?ts=1675165277511&fmt=png-alpha&dpr=off&req=set,json",
+      "bytes": 2557,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.82100000000001
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/Samsung_Galaxy-S23-Ultra-Logo-2?ts=1675153436900&$pngtransparent$&dpr=off&req=set,json",
+      "bytes": 2760,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.758
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/Samsung_Galaxy-S23_w-Pen-2?ts=1675166184123&$pngtransparent$&fmt=png-alpha&dpr=off&req=set,json",
+      "bytes": 2667,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 135.497
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/1938812-HINT-4:1-to-1-ratio?ts=1673330443240&fmt=png-alpha&dpr=off&req=set,json",
+      "bytes": 482,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.60399999999998
+    },
+    {
+      "url": "https://unpkg.com/web-vitals@3.1.1/dist/web-vitals.iife.js",
+      "bytes": 6948,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 114.635
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC173d288ff6fb4ad28f41cab9330196b8-source.min.js",
+      "bytes": 1019,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.516
+    },
+    {
+      "url": "https://smetrics.t-mobile.com/id?d_visid_ver=5.5.0&d_fieldgroup=A&mcorgid=1358406C534BC94D0A490D4D%40AdobeOrg&mid=76373344471797314462229250744971588498&ts=1675297030670",
+      "bytes": 48,
+      "dnsTime": 25.322,
+      "sslTime": 111.197,
+      "requestTime": 242.989
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC2e2e02edcbb64d6ebb11ce72d4085d7a-source.min.js",
+      "bytes": 359,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.785
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.js",
+      "bytes": 164026,
+      "dnsTime": 82.68,
+      "sslTime": 306.807,
+      "requestTime": 650.5989999999999
+    },
+    {
+      "url": "https://lptag.liveperson.net/tag/tag.js?site=62258097",
+      "bytes": 21707,
+      "dnsTime": 83.779,
+      "sslTime": 310.465,
+      "requestTime": 602.2039999999998
+    },
+    {
+      "url": "https://solutions.invocacdn.com/js/pnapi_integration-latest.min.js",
+      "bytes": 126812,
+      "dnsTime": 85.52,
+      "sslTime": 302.23,
+      "requestTime": 581.34
+    },
+    {
+      "url": "https://zn3edajdvgwonv9nr-tmobilecx.siteintercept.qualtrics.com/SIE/?Q_ZID=ZN_3eDAJdvgWOnv9Nr",
+      "bytes": 7302,
+      "dnsTime": 83.841,
+      "sslTime": 311.858,
+      "requestTime": 528.927
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/otSDKStub.js",
+      "bytes": 25593,
+      "dnsTime": 89.728,
+      "sslTime": 305.667,
+      "requestTime": 514.158
+    },
+    {
+      "url": "https://tmobilees.mpeasylink.com/mpel/mpel.js",
+      "bytes": 5096,
+      "dnsTime": 3.146,
+      "sslTime": 360.031,
+      "requestTime": 466.351
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC536a0c02824c45d6b2c8edf111a7d524-source.min.js",
+      "bytes": 341,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 103.578
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC1d5672e7a2504cbbad3fcecc34d4bcb9-source.min.js",
+      "bytes": 1334,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.027
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC5e101bff8ab142bb99e1b31530f9e5ec-source.min.js",
+      "bytes": 1287,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.79499999999999
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RCe7953e351bb24c11ba95323cc84227a6-source.min.js",
+      "bytes": 1665,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.64800000000001
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC64ee82b3bf3243bf8d9a762da7b83739-source.min.js",
+      "bytes": 658,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.137
+    },
+    {
+      "url": "https://cdn.cookielaw.org/consent/42e79501-7037-481a-85d9-e60ca08e147b/42e79501-7037-481a-85d9-e60ca08e147b.json",
+      "bytes": 4596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 122.27000000000001
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.t-mobile.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 151.313
+    },
+    {
+      "url": "https://tmobilees.mpeasylink.com/mpel/mpel?href=https%3A%2F%2Fwww.t-mobile.com%2F&ref=&lang=&country=undefined&curr=undefined&region=undefined&osl=en-US",
+      "bytes": 2880,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.645
+    },
+    {
+      "url": "https://solutions.invocacdn.com/js/networks/1639/1045158119/tag-live.js",
+      "bytes": 22950,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 101.606
+    },
+    {
+      "url": "https://lptag.liveperson.net/lptag/api/account/62258097/configuration/applications/taglets/.jsonp?v=2.0&df=undefined&b=undefined",
+      "bytes": 293678,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 520.582
+    },
+    {
+      "url": "https://t-mobile.scene7.com/is/image/Tmusprod/fg-2925316_iPhone_14_lineup_750x750_nologo-2?ts=1669025914596&$pngtransparent$&dpr=off&req=set,json",
+      "bytes": 2877,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 129.79899999999998
+    },
+    {
+      "url": "https://googletagmanager.com/gtag/js?id=G-SK38WR4SG9",
+      "bytes": 196254,
+      "dnsTime": 84.126,
+      "sslTime": 120.414,
+      "requestTime": 500.00800000000004
+    },
+    {
+      "url": "https://tmobilees.mpeasylink.com/mpel/mpel_ssd.js",
+      "bytes": 3276,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.192
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.4.js?utv=ut4.48.202301191802",
+      "bytes": 166248,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 209.675
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.120.js?utv=ut4.48.202209291853",
+      "bytes": 845,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.791
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.83.js?utv=ut4.48.202209291853",
+      "bytes": 1636,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.88
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.84.js?utv=ut4.48.202206131938",
+      "bytes": 1054,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 126.221
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.85.js?utv=ut4.48.202208301837",
+      "bytes": 1176,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.10799999999999
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.88.js?utv=ut4.48.202207141710",
+      "bytes": 2398,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.251
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.89.js?utv=ut4.48.202209291853",
+      "bytes": 1695,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.765
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.93.js?utv=ut4.48.202209291853",
+      "bytes": 16877,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 121.75900000000001
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.96.js?utv=ut4.48.202209291853",
+      "bytes": 1755,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 125.263
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.122.js?utv=ut4.48.202208301837",
+      "bytes": 1686,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.93299999999999
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.144.js?utv=ut4.48.202211031653",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 107.85399999999998
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tmobile/rainier/prod/utag.156.js?utv=ut4.48.202301311707",
+      "bytes": 1422,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 110.673
+    },
+    {
+      "url": "https://accdn.lpsnmedia.net/api/account/62258097/configuration/setting/accountproperties/?cb=accountSettingsCB",
+      "bytes": 6883,
+      "dnsTime": 79.4,
+      "sslTime": 447.851,
+      "requestTime": 643.179
+    },
+    {
+      "url": "https://tmo-assets.fs.liveperson.com/build/master.js",
+      "bytes": 412264,
+      "dnsTime": 104.246,
+      "sslTime": 228.255,
+      "requestTime": 663.571
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/ui-framework.js?version=10.23.0.0-release_5549",
+      "bytes": 40455,
+      "dnsTime": 97.454,
+      "sslTime": 434.034,
+      "requestTime": 745.385
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/UMSClientAPI.min.js?version=10.23.0.0-release_5549",
+      "bytes": 90535,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1050.8
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/lpChatV3.min.js?version=10.23.0.0-release_5549",
+      "bytes": 93955,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1153.301
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/surveylogicinstance.min.js?version=10.23.0.0-release_5549",
+      "bytes": 7866,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1153.78
+    },
+    {
+      "url": "https://accdn.lpsnmedia.net/api/account/62258097/configuration/le-campaigns/zones?fields=id&fields=zoneValue&cb=lpZonesStaticCB",
+      "bytes": 17277,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 832.088
+    },
+    {
+      "url": "https://js.adsrvr.org/up_loader.1.1.0.js",
+      "bytes": 4593,
+      "dnsTime": 0.917,
+      "sslTime": 188.969,
+      "requestTime": 313.14500000000004
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 1.712,
+      "sslTime": 331.987,
+      "requestTime": 480.13000000000005
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 0.949,
+      "sslTime": 320.004,
+      "requestTime": 556.8620000000001
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 1.941,
+      "sslTime": 151.809,
+      "requestTime": 254.988
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-71671299-16",
+      "bytes": 112468,
+      "dnsTime": 1.094,
+      "sslTime": 125.539,
+      "requestTime": 371.443
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 1.741,
+      "sslTime": 118.238,
+      "requestTime": 207.577
+    },
+    {
+      "url": "https://mov.t-mobile.com/p/js/1.js",
+      "bytes": 45525,
+      "dnsTime": 1.327,
+      "sslTime": 99.667,
+      "requestTime": 269.944
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/CoreModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=tmobilecx",
+      "bytes": 104596,
+      "dnsTime": 0.008,
+      "sslTime": 106.85,
+      "requestTime": 311.61899999999997
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 1.336,
+      "sslTime": 106.158,
+      "requestTime": 210.198
+    },
+    {
+      "url": "https://cdn.cookielaw.org/scripttemplates/202209.1.0/otBannerSdk.js",
+      "bytes": 384522,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 260.522
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC2da4e4a9d4304f6eaa8794b67d6fb6bf-source.min.js",
+      "bytes": 857,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 101.553
+    },
+    {
+      "url": "https://cdn.cookielaw.org/consent/42e79501-7037-481a-85d9-e60ca08e147b/a3c4419e-7f74-4dba-954a-7508a2c850e1/en.json",
+      "bytes": 143675,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 130.06
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/destination?id=UA-71671299-16&l=dataLayer&cx=c",
+      "bytes": 112484,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 319.687
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-71671299-16&l=dataLayer&cx=c",
+      "bytes": 112480,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 319.52099999999996
+    },
+    {
+      "url": "https://assets.adobedtm.com/a18f612bc208/7fa79028d944/8a8cd8e94091/RC8696bf7bcebf4509bfdf40bcf64f59c7-source.min.js",
+      "bytes": 507,
+      "dnsTime": 0.005,
+      "sslTime": 99.669,
+      "requestTime": 206.446
+    },
+    {
+      "url": "https://lptag.liveperson.net/lptag/api/account/62258097/configuration/applications/taglets/.jsonp?v=2.0&df=0&ct=lpMobileLandscape%2ClpSecureStorage%2Clp_sdes%2Ccobrowse%2Cscraper%2ClpActivityMonitor%2CrendererStub%2Clp_version_detector%2Clp_external_js%2Clp_monitoringSDK%2ClpTransporter%2ClpUnifiedWindow%2CSMT%2Chooks%2Clp_SMT%2Cauthenticator%2CcleanCCPatterns%2Clp_global_utils%2CunAuthMessaging%2CjsLoader&b=1",
+      "bytes": 12463,
+      "dnsTime": 0.005,
+      "sslTime": 213.744,
+      "requestTime": 437.743
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_secure_storage/3.19.0.0-release_5079/storage.secure.min.js?loc=https%3A%2F%2Fwww.t-mobile.com&site=62258097&env=prod&isCrossDomain=true",
+      "bytes": 38341,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 366.116
+    },
+    {
+      "url": "https://cdn.quantummetric.com/qscripts/quantum-tmobile.js",
+      "bytes": 292318,
+      "dnsTime": 2.5,
+      "sslTime": 109.152,
+      "requestTime": 381.47799999999995
+    },
+    {
+      "url": "https://lpcdn.lpsnmedia.net/le_unified_window/10.23.0.0-release_5549/desktopEmbedded.js?version=10.23.0.0-release_5549",
+      "bytes": 983660,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 982.403
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0.006,
+      "sslTime": 94.993,
+      "requestTime": 188.73
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/86292fe7-f506-4f94-b31a-d2e23fdcbcfc.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 350.364
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/074b0311-9717-4162-86a4-5dc1438e0fbc.js",
+      "bytes": 143,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 357.35200000000003
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1634503019919677?v=2.9.95&r=stable",
+      "bytes": 386772,
+      "dnsTime": 0.011,
+      "sslTime": 98.443,
+      "requestTime": 411.352
+    },
+    {
+      "url": "https://js.adsrvr.org/universal_pixel.1.1.0.js",
+      "bytes": 487,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.91
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 2.148,
+      "sslTime": 105.139,
+      "requestTime": 247.1
+    },
+    {
+      "url": "https://accdn.lpsnmedia.net/api/account/62258097/configuration/domainprotection/refererrestrictions?cb=lpCb78669x79696",
+      "bytes": 820,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 213.961
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/6.9808af8b656686a98b64.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=tmobilecx",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.40700000000001
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/1.ca40fe67c92ba390e992.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=tmobilecx",
+      "bytes": 28843,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 125.078
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/LinkModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=tmobilecx",
+      "bytes": 1762,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 125.38
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/UserDefinedHTMLModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=tmobilecx",
+      "bytes": 6978,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 135.364
+    },
+    {
+      "url": "https://pixel.mathtag.com/event/js?mt_id=1604155&mt_adid=256329&mt_exem=&mt_excl=&v1=&v2=&v3=&s1=&s2=&s3=",
+      "bytes": 1439,
+      "dnsTime": 40.128,
+      "sslTime": 112.473,
+      "requestTime": 305.468
+    }
+  ],
+  "numJsRequests": 111,
+  "numThirdPartyJsRequests": 81,
+  "numFirstPartyJsRequests": 30,
+  "numUnique3pHosts": 27,
+  "totalJsBytes": 6022725,
+  "totalDnsTime": 877.6410000000001,
+  "totalSslTime": 5831.946000000003,
+  "totalTime": 29309.745,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 4555.883,
+  "totalFirstPartyJsBytes": 689363,
+  "totalThirdPartyDnsTime": 877.6410000000001,
+  "totalThirdPartySslTime": 5831.946000000003,
+  "totalThirdPartyTime": 24753.862000000005,
+  "totalThirdPartyJsBytes": 5333362,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 27.105212915867437,
+  "percentOfJsRequestTimeIs3p": 84.45608107474155,
+  "percentOfJsIs3p": 88.55396851093151
+}

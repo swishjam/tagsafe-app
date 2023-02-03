@@ -1,0 +1,325 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.6884326666666667,
+    "withoutTags": 0.4022853333333334,
+    "difference": 1.2861473333333333,
+    "cutMetricPercentage": 0.7617403753935109,
+    "percentFasterWithoutTags": "131.27832425626718%"
+  },
+  "TaskDuration": {
+    "withTags": 2.983181,
+    "withoutTags": 1.1597503333333334,
+    "difference": 1.8234306666666666,
+    "cutMetricPercentage": 0.6112370207059734,
+    "percentFasterWithoutTags": "163.60265594597146%"
+  },
+  "DOMComplete": {
+    "withTags": 4270.333333333333,
+    "withoutTags": 2173.3333333333335,
+    "difference": 2096.9999999999995,
+    "cutMetricPercentage": 0.49106236827726163,
+    "percentFasterWithoutTags": "203.6401208075028%"
+  },
+  "DOMInteractive": {
+    "withTags": 2690.3333333333335,
+    "withoutTags": 1885.3333333333333,
+    "difference": 805.0000000000002,
+    "cutMetricPercentage": 0.29921942758022557,
+    "percentFasterWithoutTags": "334.20289855072457%"
+  },
+  "DOMLoading": {
+    "withTags": 831.6666666666666,
+    "withoutTags": 900,
+    "difference": -68.33333333333337,
+    "cutMetricPercentage": -0.08216432865731468,
+    "percentFasterWithoutTags": "-1217.0731707317066%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 1602.3333333358169,
+    "withoutTags": 1263.5,
+    "difference": 338.83333333581686,
+    "cutMetricPercentage": 0.21146245059410756,
+    "percentFasterWithoutTags": "472.89719625894907%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://consent.trustarc.com/notice?domain=seaworld.com&c=teconsent&js=nj&noticeType=bb&gtm=1",
+      "bytes": 13843,
+      "dnsTime": 13.365,
+      "sslTime": 16.882,
+      "requestTime": 66.265
+    },
+    {
+      "url": "https://cdn.optimizely.com/js/10197326612.js",
+      "bytes": 469991,
+      "dnsTime": 10.494,
+      "sslTime": 15.87,
+      "requestTime": 132.277
+    },
+    {
+      "url": "https://www.google.com/recaptcha/api.js",
+      "bytes": 850,
+      "dnsTime": 8.027,
+      "sslTime": 143.596,
+      "requestTime": 185.284
+    },
+    {
+      "url": "https://code.jquery.com/jquery-3.3.1.min.js",
+      "bytes": 86927,
+      "dnsTime": 9.333,
+      "sslTime": 29.771,
+      "requestTime": 83.255
+    },
+    {
+      "url": "https://code.jquery.com/ui/1.12.1/jquery-ui.min.js",
+      "bytes": 253668,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 86.592
+    },
+    {
+      "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js",
+      "bytes": 37045,
+      "dnsTime": 8.176,
+      "sslTime": 92.114,
+      "requestTime": 133.147
+    },
+    {
+      "url": "https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57cdaccf02186424test",
+      "bytes": 361292,
+      "dnsTime": 24.007,
+      "sslTime": 211.728,
+      "requestTime": 458.828
+    },
+    {
+      "url": "https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993",
+      "bytes": 17031,
+      "dnsTime": 12.433,
+      "sslTime": 93.513,
+      "requestTime": 169.77200000000002
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-5D4M6P",
+      "bytes": 384630,
+      "dnsTime": 50.501,
+      "sslTime": 38.14,
+      "requestTime": 148.928
+    },
+    {
+      "url": "https://consent.trustarc.com/asset/notice.js/v/v1.7-10255",
+      "bytes": 77875,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.411999999999999
+    },
+    {
+      "url": "https://cdn.quantummetric.com/qscripts/quantum-seaworld.js",
+      "bytes": 305243,
+      "dnsTime": 2.602,
+      "sslTime": 24.262,
+      "requestTime": 318.71200000000005
+    },
+    {
+      "url": "https://consent.trustarc.com/notice?domain=seaworld.com&country=us&js=nj2&c=teconsent&noticeType=bb&gtm=1",
+      "bytes": 13762,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 35.342
+    },
+    {
+      "url": "https://www.gstatic.com/recaptcha/releases/RGRQD9tdxHtnt-Bxkx9pM75S/recaptcha__en.js",
+      "bytes": 411605,
+      "dnsTime": 10.161,
+      "sslTime": 83.029,
+      "requestTime": 130.398
+    },
+    {
+      "url": "https://schema.milestoneinternet.com/schema/js/msschemaloader_seaworld_min.js",
+      "bytes": 6793,
+      "dnsTime": 28.46,
+      "sslTime": 14.978,
+      "requestTime": 132.27700000000002
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 8.633,
+      "sslTime": 39.329,
+      "requestTime": 61.296
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WSBDS73&l=dataLayer",
+      "bytes": 479941,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 93.63499999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-57JXVM8&l=dataLayer",
+      "bytes": 158199,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 54.288
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-LQC6L9VX3L&l=dataLayer&cx=c",
+      "bytes": 219412,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.44
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js",
+      "bytes": 96003,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.002
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/linkid.js",
+      "bytes": 1569,
+      "dnsTime": 0.009,
+      "sslTime": 27.648,
+      "requestTime": 35.91
+    },
+    {
+      "url": "https://z.moatads.com/addthismoatframe568911941483/moatframe.js",
+      "bytes": 1705,
+      "dnsTime": 2.24,
+      "sslTime": 36.286,
+      "requestTime": 66.84700000000001
+    },
+    {
+      "url": "https://v1.addthisedge.com/live/boost/ra-57cdaccf02186424test/_ate.track.config_resp",
+      "bytes": 27,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.419999999999995
+    },
+    {
+      "url": "https://m.addthis.com/live/red_lojson/300lo.json?si=63dae815875cf4f8&bkl=0&bl=1&pdt=933&sid=63dae815875cf4f8&pub=ra-57cdaccf02186424test&rev=v8.28.8-wp&ln=en&pc=men&cb=0&ab=-&dp=seaworld.com&fp=&fr=&of=0&pd=0&irt=0&vcl=0&md=0&ct=1&tct=0&abt=0&cdn=0&pi=1&rb=0&gen=100&chr=UTF-8&mk=SeaWorld%20Theme%20Parks%20Orlando%20San%20Antonio%20San%20Diego&colc=1675290645961&jsl=33&uvs=63dae815f371b99a000&skipb=1&callback=addthis.cbs.jsonp__35012628172145320",
+      "bytes": 136,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 2733.215
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/991674247/?random=1675290646086&cv=11&fst=1675290646086&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fseaworld.com%2F&tiba=Visit%20with%20Purpose%3A%20SeaWorld%20Orlando%2C%20San%20Diego%20%26%20San%20Antonio%20-%20Park%20to%20Planet%20%7C%20SeaWorld&auid=1712434821.1675290646&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1509,
+      "dnsTime": 3.197,
+      "sslTime": 39.865,
+      "requestTime": 80.788
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/867912333/?random=1675290646094&cv=11&fst=1675290646094&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=5g_WCNnB72sQjZXtnQM&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fseaworld.com%2F&tiba=Visit%20with%20Purpose%3A%20SeaWorld%20Orlando%2C%20San%20Diego%20%26%20San%20Antonio%20-%20Park%20to%20Planet%20%7C%20SeaWorld&auid=1712434821.1675290646&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1565,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 389.86
+    },
+    {
+      "url": "https://ads.nextdoor.com/public/pixel/ndp.js",
+      "bytes": 6599,
+      "dnsTime": 1.203,
+      "sslTime": 72.346,
+      "requestTime": 105.563
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion.js",
+      "bytes": 45922,
+      "dnsTime": 9.062,
+      "sslTime": 74.502,
+      "requestTime": 118.15599999999999
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 5.568,
+      "sslTime": 27.79,
+      "requestTime": 49.217999999999996
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 5.151,
+      "sslTime": 24.348,
+      "requestTime": 75.38799999999999
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/881754062/?random=1675290646568&cv=9&fst=1675290646568&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=375603261%2C466465926&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=-480&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&frm=0&url=https%3A%2F%2Fseaworld.com%2F&tiba=Visit%20with%20Purpose%3A%20SeaWorld%20Orlando%2C%20San%20Diego%20%26%20San%20Antonio%20-%20Park%20to%20Planet%20%7C%20SeaWorld&hn=www.googleadservices.com&uaa=&uab=&uam=&uap=&uapv=&uaw=0&uafvl=&rfmt=3&fmt=4",
+      "bytes": 1674,
+      "dnsTime": 0.007,
+      "sslTime": 25.563,
+      "requestTime": 174.933
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/477248613277829?v=2.9.95&r=stable",
+      "bytes": 522234,
+      "dnsTime": 0.027,
+      "sslTime": 17.365,
+      "requestTime": 66.663
+    },
+    {
+      "url": "https://zn88kiqxnnojsefct-seaworldcx.siteintercept.qualtrics.com/SIE/?Q_ZID=ZN_88KIqXnnoJSEFCt",
+      "bytes": 7302,
+      "dnsTime": 1.912,
+      "sslTime": 17.539,
+      "requestTime": 51.879
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=seaworld.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.629
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/CoreModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=seaworldcx",
+      "bytes": 104596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 28.691999999999997
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/6.9808af8b656686a98b64.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=seaworldcx",
+      "bytes": 1754,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 27.627
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/1.ca40fe67c92ba390e992.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=seaworldcx",
+      "bytes": 28843,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.157000000000004
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/FeedbackButtonModule.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=seaworldcx",
+      "bytes": 65510,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 25.96
+    }
+  ],
+  "numJsRequests": 60,
+  "numThirdPartyJsRequests": 37,
+  "numFirstPartyJsRequests": 23,
+  "numUnique3pHosts": 22,
+  "totalJsBytes": 8303109,
+  "totalDnsTime": 214.56800000000007,
+  "totalSslTime": 1166.464,
+  "totalTime": 7554.817999999998,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 985.7629999999998,
+  "totalFirstPartyJsBytes": 3864288,
+  "totalThirdPartyDnsTime": 214.56800000000007,
+  "totalThirdPartySslTime": 1166.464,
+  "totalThirdPartyTime": 6569.054999999999,
+  "totalThirdPartyJsBytes": 4438821,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.02329787161167,
+  "percentOfJsRequestTimeIs3p": 86.95186303627699,
+  "percentOfJsIs3p": 53.459746222770285
+}

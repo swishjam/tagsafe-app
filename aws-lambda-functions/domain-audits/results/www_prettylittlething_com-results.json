@@ -1,0 +1,311 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 1.178241,
+    "withoutTags": 0.4913526666666666,
+    "difference": 0.6868883333333335,
+    "cutMetricPercentage": 0.582977789207245,
+    "percentFasterWithoutTags": "171.5331215893898%"
+  },
+  "TaskDuration": {
+    "withTags": 2.7413756666666664,
+    "withoutTags": 0.974444,
+    "difference": 1.7669316666666663,
+    "cutMetricPercentage": 0.6445419677979194,
+    "percentFasterWithoutTags": "155.14893520688878%"
+  },
+  "DOMComplete": {
+    "withTags": 4466.333333333333,
+    "withoutTags": 3444,
+    "difference": 1022.333333333333,
+    "cutMetricPercentage": 0.22889767893126348,
+    "percentFasterWithoutTags": "436.8764264753832%"
+  },
+  "DOMInteractive": {
+    "withTags": 3300,
+    "withoutTags": 3313,
+    "difference": -13,
+    "cutMetricPercentage": -0.00393939393939394,
+    "percentFasterWithoutTags": "-25384.615384615383%"
+  },
+  "DOMLoading": {
+    "withTags": 2181.6666666666665,
+    "withoutTags": 2379.3333333333335,
+    "difference": -197.66666666666697,
+    "cutMetricPercentage": -0.09060351413292604,
+    "percentFasterWithoutTags": "-1103.709949409779%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 3185.8666666671634,
+    "withoutTags": 3292.0999999990067,
+    "difference": -106.23333333184337,
+    "cutMetricPercentage": -0.03334519126093166,
+    "percentFasterWithoutTags": "-2998.93316602935%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/1581.576c16a9e3d5cf17.js",
+      "bytes": 9806,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.821
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/6278.7d29895b40355833.js",
+      "bytes": 30837,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.082999999999998
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/6008.03d1ed88f8afa6d7.js",
+      "bytes": 15562,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.354
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/3115.08e7179f82d2aca1.js",
+      "bytes": 726,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.517
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/4153.4ac5a5ede91153fe.js",
+      "bytes": 2774,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.921
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/710.3c77d3b38176854a.js",
+      "bytes": 886,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.261999999999999
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/1643.7f72b399d29b0c5b.js",
+      "bytes": 353,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.804
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/webpack-c2933b576ff45626.js",
+      "bytes": 6156,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.051
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/framework-560765ab0625ba27.js",
+      "bytes": 130057,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.511
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/main-585e91651f106787.js",
+      "bytes": 106442,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.617999999999995
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/pages/_app-353eb31614222d52.js",
+      "bytes": 595742,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 52.256
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/7553-882ee076f2d73a08.js",
+      "bytes": 88345,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.595
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/chunks/pages/index-ce40e4eaa1aecbee.js",
+      "bytes": 40081,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.446
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/MrrsklutJjq8fVz7ZZfNV/_buildManifest.js",
+      "bytes": 5835,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.160999999999994
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/MrrsklutJjq8fVz7ZZfNV/_ssgManifest.js",
+      "bytes": 77,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 32.427
+    },
+    {
+      "url": "https://cdn-skin.prettylittlething.com/euw1/_next/static/MrrsklutJjq8fVz7ZZfNV/_middlewareManifest.js",
+      "bytes": 92,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.825
+    },
+    {
+      "url": "https://c.webtrends-optimize.com/acs/accounts/50a3b436-6ed2-49e9-a687-e53195f5a897/js/wt.js",
+      "bytes": 113729,
+      "dnsTime": 15.732,
+      "sslTime": 21,
+      "requestTime": 57.837999999999994
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/imajs.js?a=6822&sig=JMQ+pSG9bWfS2c5oW2x3bJpG0jezy/BYaLfGMtoewlQ=",
+      "bytes": 112622,
+      "dnsTime": 30.692,
+      "sslTime": 18.513,
+      "requestTime": 67.929
+    },
+    {
+      "url": "https://c.webtrends-optimize.com/acs/common/js/5.3/sizzle.min.js",
+      "bytes": 19850,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.834000000000001
+    },
+    {
+      "url": "https://c.webtrends-optimize.com/acs/common/js/5.3/common.js",
+      "bytes": 20846,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 14.036
+    },
+    {
+      "url": "https://c.webtrends-optimize.com/acs/common/js/5.3/wt_debugger.js",
+      "bytes": 4304,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.926
+    },
+    {
+      "url": "https://wt-lib-plt.webtrends-optimize.workers.dev/",
+      "bytes": 79949,
+      "dnsTime": 13.254,
+      "sslTime": 32.597,
+      "requestTime": 75.894
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/3442c261d1417b8ee79b.syteapp.js",
+      "bytes": 6393,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.421000000000001
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/40b4f1c774c347c951a8.syteapp.js",
+      "bytes": 458,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 80.912
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/3e3c854b1e1a851771ee.syteapp.js",
+      "bytes": 68801,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 16.383
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/9013d9b80ef834c54165.syteapp.js",
+      "bytes": 161479,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.928
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/f3722b090b22bf07a345.syteapp.js",
+      "bytes": 14377,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.172999999999998
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/vendors/be5c2d2eca316a55e907.syteapp.js",
+      "bytes": 37509,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.604
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/6170dffbc2277dd68928.syteapp.js",
+      "bytes": 184655,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.352999999999998
+    },
+    {
+      "url": "https://c.webtrends-optimize.com/acs/accounts/50a3b436-6ed2-49e9-a687-e53195f5a897/manager/tagasync.js?5584362",
+      "bytes": 203951,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.05
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/957c7ae7ceed5bad06a1.syteapp.js",
+      "bytes": 13383,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.286999999999999
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/9e0d316782222ae1d6a4.syteapp.js",
+      "bytes": 1374,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 20.186000000000003
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/ff89f9b8d8694c64fe6d.syteapp.js",
+      "bytes": 2194,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.359
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/d75e871a198d67c2e70a.syteapp.js",
+      "bytes": 13444,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.351
+    },
+    {
+      "url": "https://cdn.syteapi.com/assets/imajs/764383393/6e6f6471c4fa0542a207.syteapp.js",
+      "bytes": 13602,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.841999999999999
+    }
+  ],
+  "numJsRequests": 37,
+  "numThirdPartyJsRequests": 35,
+  "numFirstPartyJsRequests": 2,
+  "numUnique3pHosts": 4,
+  "totalJsBytes": 2540845,
+  "totalDnsTime": 59.678,
+  "totalSslTime": 72.11000000000001,
+  "totalTime": 956.8900000000001,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 54.931999999999995,
+  "totalFirstPartyJsBytes": 434154,
+  "totalThirdPartyDnsTime": 59.678,
+  "totalThirdPartySslTime": 72.11000000000001,
+  "totalThirdPartyTime": 901.9580000000001,
+  "totalThirdPartyJsBytes": 2106691,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 14.61132336538952,
+  "percentOfJsRequestTimeIs3p": 94.25931925299669,
+  "percentOfJsIs3p": 82.91300728694588
+}

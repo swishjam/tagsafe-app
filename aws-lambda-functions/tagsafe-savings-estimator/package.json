@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "deploy-prod": "serverless deploy --stage production",
+    "deploy-staging": "serverless deploy --stage staging",
+    "deploy-dev": "serverless deploy --stage collin-dev",
+    "locally": "serverless invoke local --function estimate-tagsafe-performance-improvements --path ./test.json --stage local"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "chrome-aws-lambda": "^10.1.0",
+    "lighthouse": "^9.6.8",
+    "puppeteer-core": "^10.4.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.1308.0",
+    "puppeteer": "^19.6.3",
+    "serverless": "^3.25.1"
+  }
+}

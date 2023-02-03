@@ -1,65 +1,801 @@
 {
   "numExecutions": 3,
   "ScriptDuration": {
-    "withTags": 0.0009363333333333333,
-    "withoutTags": 0.0008226666666666668,
-    "difference": 0.00011366666666666654,
-    "cutMetricPercentage": 0.8786044855820578,
-    "percentFasterWithoutTags": "823.7536656891505%"
+    "withTags": 5.185561333333333,
+    "withoutTags": 1.7444393333333335,
+    "difference": 3.441122,
+    "cutMetricPercentage": 0.6635968179336933,
+    "percentFasterWithoutTags": "150.69391126886327%"
   },
   "TaskDuration": {
-    "withTags": 0.15118633333333334,
-    "withoutTags": 0.14088466666666666,
-    "difference": 0.010301666666666681,
-    "cutMetricPercentage": 0.9318611250135043,
-    "percentFasterWithoutTags": "1467.5910046917954%"
+    "withTags": 9.303540333333332,
+    "withoutTags": 3.7234966666666662,
+    "difference": 5.580043666666667,
+    "cutMetricPercentage": 0.5997763718693325,
+    "percentFasterWithoutTags": "166.72880875304975%"
   },
   "DOMComplete": {
-    "withTags": 152.33333333333334,
-    "withoutTags": 197.66666666666666,
-    "difference": -45.333333333333314,
-    "cutMetricPercentage": 1.2975929978118161,
-    "percentFasterWithoutTags": "-336.0294117647061%"
+    "withTags": 5960.666666666667,
+    "withoutTags": 4352,
+    "difference": 1608.666666666667,
+    "cutMetricPercentage": 0.2698803265853932,
+    "percentFasterWithoutTags": "370.53460422710316%"
   },
   "DOMInteractive": {
-    "withTags": 150.66666666666666,
-    "withoutTags": 197.33333333333334,
-    "difference": -46.666666666666686,
-    "cutMetricPercentage": 1.3097345132743363,
-    "percentFasterWithoutTags": "-322.85714285714266%"
+    "withTags": 1636.6666666666667,
+    "withoutTags": 1657.3333333333333,
+    "difference": -20.666666666666515,
+    "cutMetricPercentage": -0.012627291242362433,
+    "percentFasterWithoutTags": "-7919.354838709736%"
   },
   "DOMLoading": {
-    "withTags": 129.33333333333334,
-    "withoutTags": 135.66666666666666,
-    "difference": -6.333333333333314,
-    "cutMetricPercentage": 1.0489690721649483,
-    "percentFasterWithoutTags": "-2042.105263157901%"
+    "withTags": 417.3333333333333,
+    "withoutTags": 387.6666666666667,
+    "difference": 29.66666666666663,
+    "cutMetricPercentage": 0.07108626198083058,
+    "percentFasterWithoutTags": "1406.7415730337095%"
   },
   "FirstContentfulPaint": {
-    "withTags": 270.59999999900657,
-    "withoutTags": 268.5333333313465,
-    "difference": 2.0666666676600585,
-    "cutMetricPercentage": 0.9923626508955371,
-    "percentFasterWithoutTags": "13093.548380754984%"
+    "withTags": 1553.1333333328366,
+    "withoutTags": 1326.1999999980133,
+    "difference": 226.93333333482337,
+    "cutMetricPercentage": 0.1461132334645422,
+    "percentFasterWithoutTags": "684.4007050481664%"
   },
-  "thirdPartyJsRequests": [],
-  "numJsRequests": 0,
-  "numThirdPartyJsRequests": 0,
-  "numFirstPartyJsRequests": 0,
-  "numUnique3pHosts": 0,
-  "totalJsBytes": 0,
-  "totalDnsTime": 0,
-  "totalSslTime": 0,
-  "totalTime": 0,
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://cnstrc.com/js/cust/sephora_L16704.js",
+      "bytes": 245009,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 222.141
+    },
+    {
+      "url": "https://edge1.certona.net/cd/1e15a405/www.sephora.com/scripts/resonance.js",
+      "bytes": 17166,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 115.158
+    },
+    {
+      "url": "https://p11.techlab-cdn.com/e/65319_1825202523.js",
+      "bytes": 55237,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 240.203
+    },
+    {
+      "url": "https://p11.techlab-cdn.com/e/65257_1825232159.js",
+      "bytes": 14330,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.843
+    },
+    {
+      "url": "https://p11.techlab-cdn.com/e/64885_1825232283.js",
+      "bytes": 3705,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 269.571
+    },
+    {
+      "url": "https://p11.techlab-cdn.com/e/65226_1825232221.js",
+      "bytes": 70689,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 317.397
+    },
+    {
+      "url": "https://s.go-mpulse.net/boomerang/FS9BD-W3YYU-T5EYF-DZEKW-5ERXU",
+      "bytes": 208830,
+      "dnsTime": 83.931,
+      "sslTime": 114.541,
+      "requestTime": 466.4889999999999
+    },
+    {
+      "url": "https://smetrics.sephora.com/id?d_visid_ver=4.3.0&d_fieldgroup=A&mcorgid=F6281253512D2BB50A490D45%40AdobeOrg&mid=05676637861769072563148403152976442070&ts=1675298118957",
+      "bytes": 48,
+      "dnsTime": 7.326,
+      "sslTime": 108.533,
+      "requestTime": 223.426
+    },
+    {
+      "url": "https://www.google.com/recaptcha/api.js?onload=onloadcallback&render=explicit",
+      "bytes": 909,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.94900000000001
+    },
+    {
+      "url": "https://www.res-x.com/ws/r2/Resonance.aspx?appid=sephora01&tk=54746609702189257&pg=36150229702189257&sg=1&ev=&ei=&bx=true&sc=home1_rr&sc=home2_rr&sc=home3_rr&sc=home4_rr&no=20&language=ENGLISH&ccb=Sephora.certona&vr=5.12x&url=https%3A%2F%2Fwww.sephora.com%2F&ref=",
+      "bytes": 98095,
+      "dnsTime": 97.479,
+      "sslTime": 331.94,
+      "requestTime": 850.2729999999999
+    },
+    {
+      "url": "https://e309da9b9aaf.cdn4.forter.com/sn/e309da9b9aaf/script.js",
+      "bytes": 330445,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 378.007
+    },
+    {
+      "url": "https://www.gstatic.com/recaptcha/releases/gEr-ODersURoIfof1hiDm7R5/recaptcha__en.js",
+      "bytes": 411743,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 427.423
+    },
+    {
+      "url": "https://www.google.com/recaptcha/api2/webworker.js?hl=en&v=gEr-ODersURoIfof1hiDm7R5",
+      "bytes": 102,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.742
+    },
+    {
+      "url": "https://s.btstatic.com/tag.js",
+      "bytes": 35314,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 116.091
+    },
+    {
+      "url": "https://s.thebrighttag.com/tag?site=cQnp5gw&referrer=https%3A%2F%2Fwww.sephora.com%2F&H=-lnkkz3",
+      "bytes": 113161,
+      "dnsTime": 86.717,
+      "sslTime": 112.157,
+      "requestTime": 605.05
+    },
+    {
+      "url": "https://cdn.clarip.com/sephora/donotsell/assets/js/donotsell.min.js",
+      "bytes": 5741,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 126.683
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.com/wdcus/114065/onsite/embed.js",
+      "bytes": 1100,
+      "dnsTime": 95.258,
+      "sslTime": 95.666,
+      "requestTime": 280.84200000000004
+    },
+    {
+      "url": "https://sephora-track.inside-graph.com/gtm/IN-1000800/inside.min.js",
+      "bytes": 11463,
+      "dnsTime": 103.64,
+      "sslTime": 109.633,
+      "requestTime": 326.371
+    },
+    {
+      "url": "https://cdn.clarip.com/sephora/donotsell/assets/js/donotsell-manager-extended.min.js",
+      "bytes": 16841,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.98800000000001
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.com/wdcus/114065/onsite/generic1668508096945.js",
+      "bytes": 363237,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 215.906
+    },
+    {
+      "url": "https://s.btstatic.com/lib/32cbe8765a6a41d0553df50d1cff9556f184d138.js?v=2",
+      "bytes": 11325,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 100.77599999999998
+    },
+    {
+      "url": "https://sephora-track.inside-graph.com/ig.js",
+      "bytes": 125683,
+      "dnsTime": 0.025,
+      "sslTime": 103.701,
+      "requestTime": 427.606
+    },
+    {
+      "url": "https://s.btstatic.com/lib/75f5ddb198f7bc466a45081bd722f04984b8b24c.js?v=2",
+      "bytes": 330,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.248
+    },
+    {
+      "url": "https://api.bluecore.com/triggermail.js/sephora.js",
+      "bytes": 300715,
+      "dnsTime": 57.659,
+      "sslTime": 109.561,
+      "requestTime": 542.858
+    },
+    {
+      "url": "https://s.btstatic.com/forex.js",
+      "bytes": 3235,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.369
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.com/resources/dist/assets/js/liveform-web-vendor-8f5080b98d.js",
+      "bytes": 529015,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 282.148
+    },
+    {
+      "url": "https://resources.digital-cloud.medallia.com/resources/dist/assets/js/liveform-web-app-81d1228a8f.js",
+      "bytes": 567878,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 291.745
+    },
+    {
+      "url": "https://s.btstatic.com/lib/b08d27c0e961566e2db56eefcece4b22642eee13.js?v=2",
+      "bytes": 183,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 108.475
+    },
+    {
+      "url": "https://s.btstatic.com/lib/79676213ec9fde90c38c3c4bf096b87855980e05.js?v=2",
+      "bytes": 922,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 99.898
+    },
+    {
+      "url": "https://s.btstatic.com/lib/c41836e07ae8871981433e0701318d7c580ed533.js?v=2",
+      "bytes": 483,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 99.37400000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=UA-165841114-1",
+      "bytes": 115550,
+      "dnsTime": 54.216,
+      "sslTime": 104.094,
+      "requestTime": 401.872
+    },
+    {
+      "url": "https://s.btstatic.com/lib/1a0f0d9ade84f60b28f20c2dbcd8debcc36b200c.js?v=2",
+      "bytes": 1782,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 98.64999999999999
+    },
+    {
+      "url": "https://s.btstatic.com/lib/c67ea5460ea21dd81d84091e18818042653d2592.js?v=2",
+      "bytes": 505,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 97.616
+    },
+    {
+      "url": "https://siteassets.bluecore.com/bcQuery.js",
+      "bytes": 86943,
+      "dnsTime": 63.539,
+      "sslTime": 102.879,
+      "requestTime": 380.62800000000004
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/deployments/sephora/main_site/production/en_US/bv.js",
+      "bytes": 66782,
+      "dnsTime": 71.041,
+      "sslTime": 100.288,
+      "requestTime": 288.51800000000003
+    },
+    {
+      "url": "https://s.btstatic.com/lib/4080461b2adb3d454a4f390dd74c4aa6a9bebba3.js?v=2",
+      "bytes": 1227,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.502
+    },
+    {
+      "url": "https://s.btstatic.com/lib/b7f567d8b5bb8fe39524d44a644bb7e48ce6ed2d.js?v=2",
+      "bytes": 2993,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 99.30300000000001
+    },
+    {
+      "url": "https://s.btstatic.com/BrightTag.jquery-1.5.1.js",
+      "bytes": 84267,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 152.183
+    },
+    {
+      "url": "https://s.thebrighttag.com/tag?site=cQnp5gw&H=-lnkkz3&referrer=https%3A%2F%2Fwww.sephora.com%2F&mode=v2&cf=7560672%2C7560698%2C7560765",
+      "bytes": 3833,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.70899999999999
+    },
+    {
+      "url": "https://cdn.branch.io/branch-latest.min.js",
+      "bytes": 73796,
+      "dnsTime": 73.407,
+      "sslTime": 106.291,
+      "requestTime": 311.814
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 76.011,
+      "sslTime": 107.098,
+      "requestTime": 414.66600000000005
+    },
+    {
+      "url": "https://static.ads-twitter.com/uwt.js",
+      "bytes": 57596,
+      "dnsTime": 74.909,
+      "sslTime": 99.406,
+      "requestTime": 282.306
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/apps/api/api-0.8.2.js",
+      "bytes": 32372,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.308
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/deployments/sephora/main_site/production/en_US/api-config.js",
+      "bytes": 1727,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.36999999999999
+    },
+    {
+      "url": "https://apps.bazaarvoice.com/analytics/bv-analytics.js",
+      "bytes": 40709,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.893
+    },
+    {
+      "url": "https://app.link/_r?sdk=web2.71.0&branch_key=key_live_akBBpYuxVkOgVJQkUavMSejhFxaGtcX4&callback=branch_callback__0",
+      "bytes": 91,
+      "dnsTime": 86.641,
+      "sslTime": 117.187,
+      "requestTime": 389.349
+    },
+    {
+      "url": "https://assets.adobedtm.com/2f3ab3feab3d/ad943721620d/launch-1aafb95a572f.min.js",
+      "bytes": 51330,
+      "dnsTime": 68.403,
+      "sslTime": 206.683,
+      "requestTime": 476.156
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-HX1JZMWBCJ&l=dataLayer&cx=c",
+      "bytes": 260028,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 668.5830000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=DC-5878462&l=dataLayer&cx=c",
+      "bytes": 113527,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 590.4359999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-969432509&l=dataLayer&cx=c",
+      "bytes": 180963,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 684.5390000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-876588114&l=dataLayer&cx=c",
+      "bytes": 131446,
+      "dnsTime": 0,
+      "sslTime": 196.925,
+      "requestTime": 576.762
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-857992431&l=dataLayer&cx=c",
+      "bytes": 131437,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 654.0939999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1072439557&l=dataLayer&cx=c",
+      "bytes": 131382,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 644.454
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 70.288,
+      "sslTime": 102.023,
+      "requestTime": 305.88100000000003
+    },
+    {
+      "url": "https://s.thebrighttag.com/tag?site=cQnp5gw&H=-lnkkz3&referrer=https%3A%2F%2Fwww.sephora.com%2F&mode=v2&cf=7560666%2C7560668%2C7560716%2C7560739%2C7560746%2C7560747%2C7560755%2C7560757%2C7560762",
+      "bytes": 46517,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 111.436
+    },
+    {
+      "url": "https://onsitestats.bluecore.com/events?ns=sephora&stats_type=eyJldmVudF90eXBlIjoiaWRlbnRpZnkiLCJ2aXNpdG9yX3R5cGUiOiJuZXciLCJyZWZlcnJhbCI6ImRpcmVjdCIsInNlc3Npb25faWQiOiIxNjc1Mjk4MTI3MDczIiwicGFnZV91cmwiOiJodHRwczovL3d3dy5zZXBob3JhLmNvbS8iLCJzZXNzaW9uX3NvdXJjZSI6ImRpcmVjdCIsInNlc3Npb25fbWVkaXVtIjoiZGlyZWN0Iiwib3JpZ2luYWxfdXNlcl90eXBlIjoibmV3IiwiY3VycmVudF91c2VyX3R5cGUiOiJuZXciLCJzZXNzaW9uX3B2YyI6IjEiLCJkYXlfcHZjIjoiMSIsInBhZ2VfdHlwZSI6ImRlZmF1bHQiLCJkaXN0aW5jdF9pZCI6IjE4NjBmOGNiNzM4Nzg2LTA4NWE5NTQ0OTQwMmZlLTFhNTI1NjM1LTFmYTQwMC0xODYwZjhjYjczOTEwOGUifQ%3D%3D&device_type=desktop&distinct_id=1860f8cb738786-085a95449402fe-1a525635-1fa400-1860f8cb739108e",
+      "bytes": 23,
+      "dnsTime": 0.894,
+      "sslTime": 105.645,
+      "requestTime": 240.337
+    },
+    {
+      "url": "https://s.btstatic.com/lib/2e355791ec06226ee8ae11b285c1ee2478f2decc.js?v=2",
+      "bytes": 85549,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 148.31
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 70.927,
+      "sslTime": 101.544,
+      "requestTime": 276.929
+    },
+    {
+      "url": "https://securepubads.g.doubleclick.net/tag/js/gpt.js",
+      "bytes": 81737,
+      "dnsTime": 77.749,
+      "sslTime": 104.205,
+      "requestTime": 390.185
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 77.036,
+      "sslTime": 101.672,
+      "requestTime": 273.38
+    },
+    {
+      "url": "https://assistjs.skimresources.com/assist.js",
+      "bytes": 10010,
+      "dnsTime": 76.386,
+      "sslTime": 103.621,
+      "requestTime": 272.592
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 75.377,
+      "sslTime": 106.614,
+      "requestTime": 318.963
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4E2IGE9UAPKMTRVH0H0&lib=ttq",
+      "bytes": 2816,
+      "dnsTime": 72.02,
+      "sslTime": 109.591,
+      "requestTime": 396.54200000000003
+    },
+    {
+      "url": "https://connect.facebook.net/signals/plugins/identity.js?v=2.9.95",
+      "bytes": 65286,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 292.17499999999995
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/354147298086799?v=2.9.95&r=stable",
+      "bytes": 386913,
+      "dnsTime": 0,
+      "sslTime": 96.76,
+      "requestTime": 479.867
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0.012,
+      "sslTime": 91.876,
+      "requestTime": 180.1
+    },
+    {
+      "url": "https://assistjs.skimresources.com/js/skimtag.sephora.com.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 89.82099999999998
+    },
+    {
+      "url": "https://js.appboycdn.com/web-sdk/4.2/braze.min.js",
+      "bytes": 202451,
+      "dnsTime": 103.09,
+      "sslTime": 106.074,
+      "requestTime": 435.882
+    },
+    {
+      "url": "https://s.thebrighttag.com/tag?site=cQnp5gw&H=-lnkkz3&referrer=https%3A%2F%2Fwww.sephora.com%2F&mode=v2&cf=7560677%2C7560683%2C7560727",
+      "bytes": 3568,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 106.827
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/95d85870-438e-42a9-86f3-75285d9af5b1.js",
+      "bytes": 148,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 436.223
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/876588114/?random=1675298127596&cv=11&fst=1675298127596&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.sephora.com%2F&tiba=Makeup%2C%20Skincare%2C%20Fragrance%2C%20Hair%20%26%20Beauty%20Products%20%7C%20Sephora&auid=1509793675.1675298128&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1503,
+      "dnsTime": 83.666,
+      "sslTime": 104.064,
+      "requestTime": 316.931
+    },
+    {
+      "url": "https://securepubads.g.doubleclick.net/gpt/pubads_impl_2023012601.js",
+      "bytes": 394862,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 516.298
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1072439557/?random=1675298127720&cv=11&fst=1675298127720&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.sephora.com%2F&tiba=Makeup%2C%20Skincare%2C%20Fragrance%2C%20Hair%20%26%20Beauty%20Products%20%7C%20Sephora&auid=1509793675.1675298128&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1504,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 285.60200000000003
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzNA.js",
+      "bytes": 270133,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 288.057
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/857992431/?random=1675298127777&cv=11&fst=1675298127777&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.sephora.com%2F&tiba=Makeup%2C%20Skincare%2C%20Fragrance%2C%20Hair%20%26%20Beauty%20Products%20%7C%20Sephora&auid=1509793675.1675298128&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1503,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 221.881
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/969432509/?random=1675298127892&cv=11&fst=1675298127892&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.sephora.com%2F&tiba=Makeup%2C%20Skincare%2C%20Fragrance%2C%20Hair%20%26%20Beauty%20Products%20%7C%20Sephora&auid=1509793675.1675298128&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1503,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 115.89399999999999
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 136.761
+    },
+    {
+      "url": "https://adservice.google.com/adsid/integrator.js?domain=www.sephora.com",
+      "bytes": 107,
+      "dnsTime": 85.167,
+      "sslTime": 102.823,
+      "requestTime": 293.91299999999995
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/969432509/?random=1675298128616&cv=11&fst=1675298128616&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.sephora.com%2F&tiba=Makeup%2C%20Skincare%2C%20Fragrance%2C%20Hair%20%26%20Beauty%20Products%20%7C%20Sephora&auid=1509793675.1675298128&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dform_start&rfmt=3&fmt=4",
+      "bytes": 1502,
+      "dnsTime": 0.052,
+      "sslTime": 199.546,
+      "requestTime": 316.233
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/969432509/?random=1675298128635&cv=11&fst=1675298128635&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.sephora.com%2F&tiba=Makeup%2C%20Skincare%2C%20Fragrance%2C%20Hair%20%26%20Beauty%20Products%20%7C%20Sephora&auid=1509793675.1675298128&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dform_submit&rfmt=3&fmt=4",
+      "bytes": 1503,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 306.859
+    },
+    {
+      "url": "https://tpc.googlesyndication.com/sodar/sodar2.js",
+      "bytes": 17314,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 638.9899999999999
+    },
+    {
+      "url": "https://tpc.googlesyndication.com/pagead/js/r20230131/r20110914/abg_lite_fy2021.js",
+      "bytes": 22853,
+      "dnsTime": 36.893,
+      "sslTime": 106.807,
+      "requestTime": 256.536
+    },
+    {
+      "url": "https://tpc.googlesyndication.com/pagead/js/r20230131/r20110914/client/window_focus_fy2021.js",
+      "bytes": 2689,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 612.475
+    },
+    {
+      "url": "https://www.googletagservices.com/activeview/js/current/rx_lidar.js?cache=r20110914",
+      "bytes": 160281,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 431.569
+    },
+    {
+      "url": "https://cdn.ampproject.org/rtv/012301181928000/amp4ads-v0.mjs",
+      "bytes": 226389,
+      "dnsTime": 83.647,
+      "sslTime": 105.7,
+      "requestTime": 464.89500000000004
+    },
+    {
+      "url": "https://cdn.ampproject.org/rtv/012301181928000/v0/amp-ad-exit-0.1.mjs",
+      "bytes": 14868,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 631.178
+    },
+    {
+      "url": "https://cdn.ampproject.org/rtv/012301181928000/v0/amp-analytics-0.1.mjs",
+      "bytes": 96222,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 604.581
+    },
+    {
+      "url": "https://cdn.ampproject.org/rtv/012301181928000/v0/amp-fit-text-0.1.mjs",
+      "bytes": 5139,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 622.5840000000001
+    },
+    {
+      "url": "https://cdn.ampproject.org/rtv/012301181928000/v0/amp-form-0.1.mjs",
+      "bytes": 41173,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 621.731
+    },
+    {
+      "url": "https://sephora-cdn.inside-graph.com//js/frontend-framework.js.bundle?v=354b3a6-51501",
+      "bytes": 197910,
+      "dnsTime": 98.816,
+      "sslTime": 106.526,
+      "requestTime": 437.726
+    },
+    {
+      "url": "https://pagead2.googlesyndication.com/pagead/js/dv3.js",
+      "bytes": 79655,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 366.372
+    },
+    {
+      "url": "https://tpc.googlesyndication.com/pagead/js/r20230131/r20110914/client/qs_click_protection_fy2021.js",
+      "bytes": 18455,
+      "dnsTime": 0,
+      "sslTime": 117.27,
+      "requestTime": 239.53500000000003
+    },
+    {
+      "url": "https://s.thebrighttag.com/tag?site=cQnp5gw&H=-lnkkz3&referrer=https%3A%2F%2Fwww.sephora.com%2F&mode=v2&cf=7560690",
+      "bytes": 1596,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 103.998
+    },
+    {
+      "url": "https://pagead2.googlesyndication.com/bg/qd5KMEVePpT1ECIYP18qBYKfQjivfqNOtA0cTjFsQVM.js",
+      "bytes": 36628,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 127.86100000000002
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/dbm/ad?dbm_c=AKAmf-C3prD1FKLeRZtMxhjEOoFWsQhcAD9oiMXrSIwimUGxGOt9jmC9KJxHQktFX4yBvW8DxX8KHEEKqnv1CvGigt6kMV4Mt9CKuLl3GY-yvg43MQ8ipeT-WjgzPyEL7mC0POoh6-BYivrf2eAiDnzCMuf2bECJeYoCOVnb8gG9SJ3Ej9TxS_A&dbm_d=AKAmf-AMIbAIATtLEGKaeceymiZ3tEjebs9zSX3h_70kygsMgsEyFtCHAMMbZ9M7asWFxMQBGOnQbzjdXqTJfzA1Z5XMtpsgvmOGRxY5seK5NIqD3ecdzwqupVIMsiGrJyjy7OBZLhYmEQa6_txg2y_LzbAxHTM0x9uItLXE0C60TXZV6KWn1WK-1h4uWdH-Wvds-N7BOCzXrwgGbiH30aLyzWKIN4DyDmQRh4MR2WNWFA6fYhJeu0cZ5DWBH49KY2pKXtKlDtpvQZQ8aMjtXAljSTPinLV6o5K_7a81K8HEPYAUDJKsaJbmkD6AgCSok7gXw0yBkuH-P-X9UfXgkCYzHDfAAQjCWawfOds4_4-uIpnrOvalPxPeCWDUllmGGIMTPZk0m68ZxG_49_tfBcD3FbhC3-x9Ff-KxrG0l-LNvT53sq5FJtcg0Kho7s86cUc13obX8LGpyKvtQxFsT_jZ2L0vRKKB2YFSmRE86u0ESisHRrVV3b5ltL8OBd344hRQ7K0PuJ16Pgf__smBHfDQ1klZFBXMrUsicbX_Siv_12nLRmmW5iPsbZW3CG7EqTwbV5XUmXp3MsyIKYJ65MxhRswFgzcoSwPSy-Lve0o8N9mG0UZBDETf6GVd0_2XeLkfeAqd5IN-SNan5ywU6Tho6iC-LiONr_Gsngw_jeK9cE_NTz8Enbrw_LHS1r1OoykuxtZu3OrNJ21l-ct8QPXMIbrvowjfYcKNjJnyKN7FyqqM-4CFCCPjTlpyXM-AZOBkbfy5gvLpRXbi3CC5ln5pifL_EIqnrmnSyTQY1EdutmfNAwK7vt07E9Tu77bKfpd-sD2V2mUhLA2Ge63rswQ1ztO6sGedvg-LZ88fJ6yTTSNjWXe29Zq9x29WGZU7Vs4Cl-Gaed7d10MOVpbcos_GH0EdkeqfLOhc5nQ6tWWw_TrtIH4a_CTn2i8gvYZIw8E2ja8jIKfrWfVmj4iySd2wdVCDH-yW8Y5b0T5hAQnjjnG8UgU3j21Ko1-VqZVjRaSwQ_90g43edVazdiqT-hJMjKZ5fT8XRR-SK0Z3gWzayR8i_lHVINRqTr2VXLG5mc5VNglWWFrS3kwIgwrMc3B85iancuDEzYfSsv97jKvCvV3t_LGzf4pXtDik9-uScfob73gCPsNoiyz_CAQQ4JgW3914HYuQ6MLAVV0WKuXAFHV3lLFGGg6Vi2VYhEurqhMfa3prvR1Ipqj4wF1JJvMcXh3Tx4LZnko2LhOqtAxBd9pSE-yomCu0eztcUMrXo1y_rO55r1Vk9gqxlxQVWfDNvivK9WJ2MZgDN9OFMhD1z3YaziRkCxFj_DBDKa6aewSU0oGa3MlznV78rpyHUOOQR7vqI5raInaz6E9QIjBcZ6-kmoNPfqHy1N7BZDrUjPkq5PU5CA1AgwVntbSWFIvBthe_Rm32OwfYOCEfh_-ibAKPARS6_VBu7NivsBKTqhJ11J7TQHSaqEfnpwzr4vSkYbBR6B2jMjS19l2WwWKhvB7Vc3LA5SqSsscZ38PEv2Zp7nI6cvWOEQWMDtZvzBP9H1LEbSRTd3JT1iqXgV5qOJsvRB5WF2csGJJ4FQJ2hDL9jM21rNZKws4IAQ0-_CIDpamlHq1BIldPlKhhSAnd7QXe8sfhHrF8z4PBYkozugzRwb0F0YeI5mhyosA434zbEDPcnDkMiKuO0DLnolvsBw5tCqSN0oTXuZP3UJ5A9-EbgHa3N4uUSPl8r_nlxGBmjzWBBEAcGRY8240DjOXQ7CB8s0Z0tXqVol7bDM0Jl-B__FnfqrwiAb0AjKzQqfFLkHTeBGGB-b68Dp97UO2ydKNMa-iNCjbygOFqicKS9wQVl9EaLG-YcwqgB5FnAccsz8AGSFr8MV7OEgS9soAggyf3tFYrGUZCdy6r4aV_WuiCSVIVqPjFtwyqhJg1ZbGNtOvys-ydHQUuN9ghcpW2Pvax3p8MoP44raKBXPwE00c1iJjqG6N2nbCi700HqLaatMUVBmgMyU_PHFhX5fzpIPImLS7GsF1-etXWAOR9Vrjp-qTCI7l73783aHFsqQKkwxX_d5u2eRMGe_8mLnus7mPpmiKHugip6z02sBwRvNtXkY4ivVI8wEZcuyWIOVfoxYqKqCsKtZVjKSPpIILt8PnSMYTm_vpMc70Bh7iiMM6UVxIgDRZcjX4OqOBrXU1EJ7itg-IDOorjjs2OUD_a4HcGEFiWNCOjjzzJQZ_N-dCe-s0iiDeklJT51wwlgC9GneXjCtY4hNmAusOPDOBHbRHNwxUnZSgzu6FkmDfCaCNXVC1dJ4MZWLT0df-XOnsY4LyhFj4C2ZEyfiqc1eoaq3T_4hP8p48MHzv1V4jeXHyCeGUXN_iaRVwchJlCUVqsK5bDExC0Gw5MIQVGqr4jVZkGei0AWdToYtlTC58Mr-zI67lSzeJgX7k9SRg43FTHRf54Alr1ul9KmTacFdbCaDRUKpcdaRjPSWLIuz1e29BlYE46nCfSAhz1VQyIERYjCfOs-S7ecj9DuBo-w_pOkCcjkodCniTm8aCuoZconLMdV-kRJQKFgRHjqxBrByK1TUVna0R8_lzuwyqJ1Yjf6Ng0pIbiaYxvkQoLMGF8rv-Av2oed6S4YZvev0FkubX098hBAtJxcMWk9pq5-LIM6yLSEFX5_EzxECK4IqpLBBUK8qARaCzMyuN_IS4dEmX-rbOn9bhmqkhBz-ppxGwA4RBA45MrXlnNgg_Z_JC-n5ORNHjGz6yozPaGKdE55E3d1tLY9iknFeKZ76t2ml3L9L35Y0r_-cXygSXeBF3gvpWoslgxi33DEoAQaHC42Txy2yYD5ULl2JdAkjS-twRD-nP29oxBUx6Zj0kT_Rajau28RAYV-iWNYgkakntaN-pv4pCyFWATS3A87tjTMKa9kqpC27TPd5Mf306LjOD_Tps40dU4A-10wmxQ6UBi1bkdc3VbRwU96sIhQ-726-ytRYD75xoJSxRv5CkkUcvpZf-YwssEUbn9_63k2vzFhkj3p0X1l7bMBbusfWDi0tGSRCa3hQ_iXFz5DqiIYdCtMFhJvkGzR_AjVZp-VdH3ZuRCUGYiPMhsbPZi-SMFjexLze9MciI4HI_mjar74pmMmqCbe06AwKwzrmeJCjMcDLAzTiFWG2-FE7PWBufl7cWMob7cVJZnXtrBrWhqqiceFqnSbaG3To1JyAKxBmn5O6_6Xsojj2ZB8PEo6GbZZe3u_WEQzQbNOX9zfAmr5-sVqxE2W4lY8mTS&cid=CAQSPADUE5ym47UaqGvhMkKqkBZ2PRRKnSDXXhABfTkBWcn8qAsg3AjB86eqryw0KQ-Mbyo4br-Jovxav0M2hxgB&uach=WyJtYWNPUyIsIjEzLjEuMCIsImFybSIsIiIsIjEwNS4wLjUxNzMuMCIsW10sZmFsc2UsbnVsbCwiNjQiLFtbIkNocm9taXVtIiwiMTA1LjAuNTE3My4wIl0sWyJOb3QpQTtCcmFuZCIsIjguMC4wLjAiXV0sZmFsc2Vd&dv3_ver=m202301230201&nel=1&rfl=https%3A%2F%2Fwww.sephora.com%2F&ds=l&xdt=0&iif=1&cor=9647893309198166000&adk=531095043&idt=367&cac=0&dtd=9",
+      "bytes": 83027,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 199.395
+    },
+    {
+      "url": "https://s0.2mdn.net/879366/express_html_inpage_rendering_lib_200_276.js",
+      "bytes": 108331,
+      "dnsTime": 1.147,
+      "sslTime": 101.712,
+      "requestTime": 344.072
+    },
+    {
+      "url": "https://pagead2.googlesyndication.com/pagead/js/r20230131/r20110914/elements/html/omrhp.js",
+      "bytes": 8124,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 102.051
+    },
+    {
+      "url": "https://pagead2.googlesyndication.com/pagead/js/r20230131/r20110914/abg_lite.js",
+      "bytes": 29144,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 104.197
+    },
+    {
+      "url": "https://tpc.googlesyndication.com/sodar/UFYwWwmt.js",
+      "bytes": 41610,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 112.284
+    },
+    {
+      "url": "https://cdn.bttrack.com/js/15733/analytics/1.0/analytics.min.js",
+      "bytes": 599,
+      "dnsTime": 91.841,
+      "sslTime": 207.361,
+      "requestTime": 406.11799999999994
+    },
+    {
+      "url": "https://static.narrativ.com/tags/sephorapmg.js",
+      "bytes": 159264,
+      "dnsTime": 86.331,
+      "sslTime": 121.136,
+      "requestTime": 433.962
+    },
+    {
+      "url": "https://s0.2mdn.net/ads/studio/cached_libs/createjs_2015.11.26_54e1c3722102182bb133912ad4442e19_min.js",
+      "bytes": 190630,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 217.903
+    },
+    {
+      "url": "https://s0.2mdn.net/sadbundle/868736749385001748/300x250.js",
+      "bytes": 75790,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 108.39600000000002
+    },
+    {
+      "url": "https://sephora-cdn.inside-graph.com/custom/1-customScript.js?v=354b3a6-51501",
+      "bytes": 12177,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 117.14999999999999
+    },
+    {
+      "url": "https://bttrack.com/engagement/js?goalId=15733&cb=1675298131476",
+      "bytes": 10120,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 105.545
+    }
+  ],
+  "numJsRequests": 115,
+  "numThirdPartyJsRequests": 105,
+  "numFirstPartyJsRequests": 10,
+  "numUnique3pHosts": 44,
+  "totalJsBytes": 16046655,
+  "totalDnsTime": 2291.5409999999993,
+  "totalSslTime": 4629.153,
+  "totalTime": 34090.840000000004,
   "totalFirstPartyDnsTime": 0,
   "totalFirstPartySslTime": 0,
-  "totalFirstPartyTime": 0,
-  "totalFirstPartyJsBytes": 0,
-  "totalThirdPartyDnsTime": 0,
-  "totalThirdPartySslTime": 0,
-  "totalThirdPartyTime": 0,
-  "totalThirdPartyJsBytes": 0,
-  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": null,
-  "percentOfJsRequestTimeIs3p": null,
-  "percentOfJsIs3p": null
+  "totalFirstPartyTime": 2582.096,
+  "totalFirstPartyJsBytes": 7330770,
+  "totalThirdPartyDnsTime": 2291.5409999999993,
+  "totalThirdPartySslTime": 4629.153,
+  "totalThirdPartyTime": 31508.744,
+  "totalThirdPartyJsBytes": 8715885,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.964360115401615,
+  "percentOfJsRequestTimeIs3p": 92.4258363830284,
+  "percentOfJsIs3p": 54.315899481854636
 }

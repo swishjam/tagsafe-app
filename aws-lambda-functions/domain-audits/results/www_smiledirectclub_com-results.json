@@ -1,437 +1,696 @@
 {
   "numExecutions": 3,
   "ScriptDuration": {
-    "withTags": 1.4459970000000002,
-    "withoutTags": 0.016742666666666666,
-    "difference": 1.4292543333333336,
-    "cutMetricPercentage": 0.011578631675353866,
-    "percentFasterWithoutTags": "101.17142668566335%"
+    "withTags": 1.5848820000000001,
+    "withoutTags": 0.3341186666666667,
+    "difference": 1.2507633333333334,
+    "cutMetricPercentage": 0.7891838845625941,
+    "percentFasterWithoutTags": "126.71318048445082%"
   },
   "TaskDuration": {
-    "withTags": 3.1492396666666664,
-    "withoutTags": 0.6555336666666667,
-    "difference": 2.4937059999999995,
-    "cutMetricPercentage": 0.20815616975907097,
-    "percentFasterWithoutTags": "126.2875281475309%"
+    "withTags": 3.4394493333333336,
+    "withoutTags": 1.6050653333333333,
+    "difference": 1.8343840000000002,
+    "cutMetricPercentage": 0.5333365379806922,
+    "percentFasterWithoutTags": "187.49887337293245%"
   },
   "DOMComplete": {
-    "withTags": -558230317546.3334,
-    "withoutTags": -558230325034.6666,
-    "difference": 7488.333251953125,
-    "cutMetricPercentage": 1.0000000134144151,
-    "percentFasterWithoutTags": "-7454667130.375567%"
+    "withTags": 4410.666666666667,
+    "withoutTags": 1979.6666666666667,
+    "difference": 2431,
+    "cutMetricPercentage": 0.5511638452237001,
+    "percentFasterWithoutTags": "181.43425202248733%"
   },
   "DOMInteractive": {
-    "withTags": 864.3333333333334,
-    "withoutTags": 810.6666666666666,
-    "difference": 53.66666666666674,
-    "cutMetricPercentage": 0.9379097570381796,
-    "percentFasterWithoutTags": "1610.559006211178%"
+    "withTags": 880,
+    "withoutTags": 902.3333333333334,
+    "difference": -22.33333333333337,
+    "cutMetricPercentage": -0.02537878787878792,
+    "percentFasterWithoutTags": "-3940.29850746268%"
   },
   "DOMLoading": {
-    "withTags": 167.66666666666666,
-    "withoutTags": 154.33333333333334,
-    "difference": 13.333333333333314,
-    "cutMetricPercentage": 0.9204771371769385,
-    "percentFasterWithoutTags": "1257.5000000000018%"
+    "withTags": 200.66666666666666,
+    "withoutTags": 202.33333333333334,
+    "difference": -1.6666666666666856,
+    "cutMetricPercentage": -0.008305647840531656,
+    "percentFasterWithoutTags": "-12039.999999999864%"
   },
   "FirstContentfulPaint": {
-    "withTags": 874.9333333323399,
-    "withoutTags": 844,
-    "difference": 30.933333332339885,
-    "cutMetricPercentage": 0.9646449253287394,
-    "percentFasterWithoutTags": "2828.4482759496955%"
+    "withTags": 932.3333333333334,
+    "withoutTags": 927.4666666686535,
+    "difference": 4.866666664679883,
+    "cutMetricPercentage": 0.005219878439056006,
+    "percentFasterWithoutTags": "19157.534254396276%"
   },
   "thirdPartyJsRequests": [
     {
-      "url": "https://smiledirectclub.com/_nuxt/a21712b.js",
-      "bytes": 3115,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 43.677
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/7244098.js",
-      "bytes": 249986,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 46.617999999999995
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/fa88a62.js",
-      "bytes": 3734590,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 98.12
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/7ab7639.js",
-      "bytes": 226862,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 65.518
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/a4d7e9e.js",
-      "bytes": 10593,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 61.619
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/6d33933.js",
-      "bytes": 20358,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 68.19299999999998
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/7f15105.js",
-      "bytes": 19619,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 69.408
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/8eaa62d.js",
-      "bytes": 6061,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 65.18299999999999
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/8f20e62.js",
-      "bytes": 5747,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 66.678
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/e31fc3f.js",
-      "bytes": 19891,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 67.372
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/d093d6f.js",
-      "bytes": 2229,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 65.046
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/3d986b3.js",
-      "bytes": 2048,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 67.807
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/25fd616.js",
-      "bytes": 2071,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 64.415
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/daa2e7b.js",
-      "bytes": 1773,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 68.638
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/8042ec8.js",
-      "bytes": 3381,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 65.295
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/fd11393.js",
-      "bytes": 8225,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 64.24300000000001
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/1fdb95c.js",
-      "bytes": 11039,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 69.53200000000001
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/6e12578.js",
-      "bytes": 3039,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 70.304
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/0ea4833.js",
-      "bytes": 6827,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 65.616
-    },
-    {
-      "url": "https://smiledirectclub.com/_nuxt/0d65ab2.js",
-      "bytes": 2760,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 65.613
+      "url": "https://static.ada.support/embed2.js",
+      "bytes": 17265,
+      "dnsTime": 11.775,
+      "sslTime": 17.944,
+      "requestTime": 40.909
     },
     {
       "url": "https://www.googletagmanager.com/gtm.js?id=GTM-59PCWW5",
-      "bytes": 213026,
-      "dnsTime": 0.976,
-      "sslTime": 76.862,
-      "requestTime": 131.01
+      "bytes": 218153,
+      "dnsTime": 9.153,
+      "sslTime": 123.324,
+      "requestTime": 229.80499999999998
+    },
+    {
+      "url": "https://static.ada.support/embed2.59e32c8.js",
+      "bytes": 187538,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.346
     },
     {
       "url": "https://static.fbot.me/friendbuy.js",
       "bytes": 352312,
-      "dnsTime": 9.374,
-      "sslTime": 17.802,
-      "requestTime": 48.828
+      "dnsTime": 1.371,
+      "sslTime": 20.73,
+      "requestTime": 49.814
     },
     {
       "url": "https://campaign.fbot.me/7923c519-a1da-463a-bb18-85c9f4840724/campaigns.js",
-      "bytes": 1001132,
-      "dnsTime": 12.61,
-      "sslTime": 18.859,
-      "requestTime": 54.985
+      "bytes": 1042638,
+      "dnsTime": 1.471,
+      "sslTime": 16.915,
+      "requestTime": 350.28000000000003
     },
     {
-      "url": "https://smiledirectclub.com/_nuxt/17b9be2.js",
-      "bytes": 9021,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 27.781
+      "url": "https://cdn.optimizely.com/js/10650703775.js",
+      "bytes": 1153581,
+      "dnsTime": 3.78,
+      "sslTime": 65.672,
+      "requestTime": 141.918
     },
     {
       "url": "https://rum.layer0.co/latest.js",
       "bytes": 24360,
-      "dnsTime": 9.635,
-      "sslTime": 52.048,
-      "requestTime": 86.825
+      "dnsTime": 4.86,
+      "sslTime": 75.507,
+      "requestTime": 104.856
     },
     {
       "url": "https://cdn.heapanalytics.com/js/heap-4290068433.js",
       "bytes": 132958,
-      "dnsTime": 5.353,
-      "sslTime": 16.714,
-      "requestTime": 36.813
+      "dnsTime": 5.352,
+      "sslTime": 23.786,
+      "requestTime": 48.69200000000001
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.js",
+      "bytes": 92951,
+      "dnsTime": 9.174,
+      "sslTime": 27.583,
+      "requestTime": 78.60300000000001
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/978698150/?random=1675289380172&cv=11&fst=1675289380172&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fsmiledirectclub.com%2F&tiba=Clear%20Aligners%20%26%20Teeth%20Straightening%20Kits%20%7C%20SmileDirectClub&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 1466,
+      "dnsTime": 1.105,
+      "sslTime": 29.098,
+      "requestTime": 60.396
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/787456439/?random=1675289380179&cv=11&fst=1675289380179&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&label=B9v2CK-AvfsBELfDvvcC&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fsmiledirectclub.com%2F&tiba=Clear%20Aligners%20%26%20Teeth%20Straightening%20Kits%20%7C%20SmileDirectClub&value=0&bttype=purchase&auid=976605391.1675289380&uamb=0&uaw=0&rfmt=3&fmt=4",
+      "bytes": 2025,
+      "dnsTime": 1.411,
+      "sslTime": 34.205,
+      "requestTime": 69.02499999999999
+    },
+    {
+      "url": "https://c.hrzn-nxt.com/js/v2.12.0/connect.min.js",
+      "bytes": 101515,
+      "dnsTime": 1.02,
+      "sslTime": 13.794,
+      "requestTime": 29.292
+    },
+    {
+      "url": "https://embed.accruesavings.com/main.js",
+      "bytes": 1406,
+      "dnsTime": 1.715,
+      "sslTime": 23.626,
+      "requestTime": 39.884
+    },
+    {
+      "url": "https://api.ipify.org/?format=jsonp&callback=ipifyCallback",
+      "bytes": 39,
+      "dnsTime": 2.468,
+      "sslTime": 23.992,
+      "requestTime": 43.005
     },
     {
       "url": "https://cdn3.optimizely.com/js/geo4.js",
       "bytes": 317,
-      "dnsTime": 1.147,
-      "sslTime": 14.601,
-      "requestTime": 25.655
+      "dnsTime": 2.832,
+      "sslTime": 10.519,
+      "requestTime": 33.386
+    },
+    {
+      "url": "https://sdc.ada.support/embed/x-storage/59e32c8/sentry.b6985341d53aea5af72f.js",
+      "bytes": 84742,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.723
+    },
+    {
+      "url": "https://sdc.ada.support/embed/x-storage/59e32c8/index.js",
+      "bytes": 24042,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.347999999999999
+    },
+    {
+      "url": "https://sdc.ada.support/embed/button/59e32c8/sentry.b6985341d53aea5af72f.js",
+      "bytes": 84742,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 18.538999999999998
+    },
+    {
+      "url": "https://sdc.ada.support/embed/button/59e32c8/preact.8ab2422822c47580185f.js",
+      "bytes": 8984,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 17.698999999999998
+    },
+    {
+      "url": "https://sdc.ada.support/embed/button/59e32c8/index.js",
+      "bytes": 45647,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.085
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.729.js?utv=ut4.46.202210171534",
+      "bytes": 2253,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 75.985
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.733.js?utv=ut4.46.202210171534",
+      "bytes": 23091,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 66.877
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.723.js?utv=ut4.46.202210171534",
+      "bytes": 20697,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 49.238
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.661.js?utv=ut4.46.202210171534",
+      "bytes": 6374,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.251999999999995
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.688.js?utv=ut4.46.202211071830",
+      "bytes": 3787,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 48.998999999999995
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.715.js?utv=ut4.46.202210171534",
+      "bytes": 5445,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.690000000000005
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.727.js?utv=ut4.46.202210171534",
+      "bytes": 11157,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 200.024
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.738.js?utv=ut4.46.202210171534",
+      "bytes": 8577,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.699999999999996
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.744.js?utv=ut4.46.202210171534",
+      "bytes": 1946,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.706999999999994
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.762.js?utv=ut4.46.202210171534",
+      "bytes": 14313,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 41.608999999999995
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.766.js?utv=ut4.46.202210171534",
+      "bytes": 12106,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.401999999999994
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.768.js?utv=ut4.46.202212221759",
+      "bytes": 6910,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 46.736
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.771.js?utv=ut4.46.202210192157",
+      "bytes": 5081,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.690000000000005
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.775.js?utv=ut4.46.202210171534",
+      "bytes": 4346,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 61.498
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.776.js?utv=ut4.46.202210171534",
+      "bytes": 4812,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 38.80800000000001
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.780.js?utv=ut4.46.202210171534",
+      "bytes": 4160,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.954
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.786.js?utv=ut4.46.202210171534",
+      "bytes": 9857,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 76.27999999999999
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.787.js?utv=ut4.46.202211021717",
+      "bytes": 5975,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 37.639
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.173.js?utv=ut4.46.202212191511",
+      "bytes": 20002,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.620999999999995
+    },
+    {
+      "url": "https://embed.accruesavings.com/assets/index-4801b7d8.js",
+      "bytes": 40047,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 44.461999999999996
+    },
+    {
+      "url": "https://embed.accruesavings.com/assets/appConfig-fd046f28.js",
+      "bytes": 143600,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.15
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=smiledirectclub/static/202301311710&cb=1675289380907",
+      "bytes": 2,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 34.94
+    },
+    {
+      "url": "https://mp.accruesavings.com/lib.min.js",
+      "bytes": 51562,
+      "dnsTime": 34.123,
+      "sslTime": 96.554,
+      "requestTime": 291.53
+    },
+    {
+      "url": "https://embed.accruesavings.com/assets/quickstart-519360b0.js",
+      "bytes": 56900,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.33
+    },
+    {
+      "url": "https://embed.accruesavings.com/assets/clsx.m-1229b3e0.js",
+      "bytes": 360,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.122
+    },
+    {
+      "url": "https://embed.accruesavings.com/assets/getImageUrl-75c28174.js",
+      "bytes": 20179,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.906
+    },
+    {
+      "url": "https://acsbapp.com/apps/app/dist/js/app.js",
+      "bytes": 441518,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 416.769
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 1.636,
+      "sslTime": 20.867,
+      "requestTime": 37.995000000000005
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=UA-44790758-2&l=dataLayer&cx=c",
-      "bytes": 112661,
+      "bytes": 112489,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 90.69
+      "requestTime": 85.80799999999999
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=UA-44790758-2",
-      "bytes": 112640,
+      "bytes": 112459,
       "dnsTime": 0,
-      "sslTime": 20.54,
-      "requestTime": 61.852000000000004
+      "sslTime": 24.151,
+      "requestTime": 90.563
     },
     {
       "url": "https://sc-static.net/scevent.min.js",
       "bytes": 30923,
-      "dnsTime": 8.692,
-      "sslTime": 18.803,
-      "requestTime": 74.617
+      "dnsTime": 1.838,
+      "sslTime": 18.941,
+      "requestTime": 74.71
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.658.js?utv=ut4.46.202301311710",
+      "bytes": 3230,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.116
     },
     {
       "url": "https://s.yimg.com/wi/ytc.js",
       "bytes": 16553,
-      "dnsTime": 9.901,
-      "sslTime": 13.056,
-      "requestTime": 131.298
+      "dnsTime": 1.768,
+      "sslTime": 17.053,
+      "requestTime": 32.071999999999996
     },
     {
       "url": "https://cdn.taboola.com/libtrc/unip/1346347/tfa.js",
       "bytes": 59680,
-      "dnsTime": 20.074,
-      "sslTime": 14.417,
-      "requestTime": 56.144000000000005
+      "dnsTime": 1.775,
+      "sslTime": 23.204,
+      "requestTime": 35.235
     },
     {
       "url": "https://cdnssl.clicktale.net/www47/ptc/e64c9b88-feb3-4deb-a23a-244ec43990cd.js",
-      "bytes": 409078,
-      "dnsTime": 33.464,
-      "sslTime": 15.095,
-      "requestTime": 70.4
+      "bytes": 427655,
+      "dnsTime": 1.225,
+      "sslTime": 13.547,
+      "requestTime": 43.679
     },
     {
       "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=&lib=ttq",
       "bytes": 2770,
-      "dnsTime": 25.988,
-      "sslTime": 15.274,
-      "requestTime": 216.77700000000002
+      "dnsTime": 1.682,
+      "sslTime": 16.143,
+      "requestTime": 162.664
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.742.js?utv=ut4.46.202301311710",
+      "bytes": 2677,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.561
+    },
+    {
+      "url": "https://inmobi-helix.s3.amazonaws.com/custom/js/idspPixel/v5/min.pixel.js",
+      "bytes": 1646,
+      "dnsTime": 2.51,
+      "sslTime": 89.854,
+      "requestTime": 194.98399999999998
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=G-ZBEGN9TDYW&l=dataLayer&cx=c",
-      "bytes": 228246,
+      "bytes": 228784,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 81.152
+      "requestTime": 80.642
     },
     {
       "url": "https://www.googletagmanager.com/gtag/js?id=AW-332937241&l=dataLayer&cx=c",
-      "bytes": 187553,
+      "bytes": 187579,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 53.312
+      "requestTime": 68.138
     },
     {
       "url": "https://www.mczbf.com/tags/383485233314/tag.js",
-      "bytes": 51897,
-      "dnsTime": 6.65,
-      "sslTime": 19.148,
-      "requestTime": 38.182
+      "bytes": 51896,
+      "dnsTime": 1.285,
+      "sslTime": 14.389,
+      "requestTime": 28.678000000000004
+    },
+    {
+      "url": "https://s.adroll.com/j/roundtrip.js",
+      "bytes": 58362,
+      "dnsTime": 1.482,
+      "sslTime": 13.881,
+      "requestTime": 35.69
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.782.js?utv=ut4.46.202301311710",
+      "bytes": 2119,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.124999999999998
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.785.js?utv=ut4.46.202301311710",
+      "bytes": 4664,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 15.464
     },
     {
       "url": "https://b-code.liadm.com/a-045l.min.js",
       "bytes": 34674,
-      "dnsTime": 1.948,
-      "sslTime": 14.007,
-      "requestTime": 35.853
+      "dnsTime": 2.158,
+      "sslTime": 11.88,
+      "requestTime": 23.159
     },
     {
-      "url": "https://trc.taboola.com/1346347/trc/3/json?tim=1674690966614&data=%7B%22id%22%3A96%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1674690966607%2C%22cv%22%3A%2220230125-5-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.smiledirectclub.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dsmiledirectclub-sc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22item-url%22%3A%22https%3A%2F%2Fsmiledirectclub.com%2F%22%2C%22tim%22%3A1674690966613%2C%22ref%22%3Anull%2C%22tos%22%3A3%2C%22ssd%22%3A1%2C%22scd%22%3A0%7D%7D&pubit=i",
-      "bytes": 2470,
+      "url": "https://cdn.quantummetric.com/qscripts/quantum-smiledirectclub.js",
+      "bytes": 233568,
+      "dnsTime": 1.243,
+      "sslTime": 26.21,
+      "requestTime": 63.677
+    },
+    {
+      "url": "https://tags.tiqcdn.com/utag/smiledirectclub/static/prod/utag.794.js?utv=ut4.46.202301311710",
+      "bytes": 3685,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 34.321999999999996
-    },
-    {
-      "url": "https://tr.snapchat.com/config/com/8523cef0-5303-442f-8f0a-160b05601726.js",
-      "bytes": 148,
-      "dnsTime": 0,
-      "sslTime": 0,
-      "requestTime": 64.757
-    },
-    {
-      "url": "https://visitor-service-us-west-2.tealiumiq.com/smiledirectclub/main/0185eb5c3003001cf7fe40161f6300080001c07800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1674690966707",
-      "bytes": 27,
-      "dnsTime": 0.96,
-      "sslTime": 32.308,
-      "requestTime": 60.181
-    },
-    {
-      "url": "https://static.hotjar.com/c/hotjar-2769426.js?sv=6",
-      "bytes": 9278,
-      "dnsTime": 11.169,
-      "sslTime": 14.754,
-      "requestTime": 35.595
+      "requestTime": 14.271
     },
     {
       "url": "https://collector-26392.us.tvsquared.com/tv2track.js",
       "bytes": 20818,
-      "dnsTime": 18.674,
-      "sslTime": 169.003,
-      "requestTime": 270.39599999999996
+      "dnsTime": 17.806,
+      "sslTime": 176.98,
+      "requestTime": 277.669
     },
     {
       "url": "https://bat.bing.com/bat.js",
       "bytes": 39396,
-      "dnsTime": 1.615,
-      "sslTime": 33.903,
-      "requestTime": 73.16400000000002
+      "dnsTime": 1.789,
+      "sslTime": 123.667,
+      "requestTime": 160.189
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-2769426.js?sv=6",
+      "bytes": 9145,
+      "dnsTime": 1.641,
+      "sslTime": 12.731,
+      "requestTime": 22.459
+    },
+    {
+      "url": "https://trc.taboola.com/1346347/trc/3/json?tim=1675289381056&data=%7B%22id%22%3A108%2C%22ii%22%3A%22%2F%22%2C%22it%22%3A%22video%22%2C%22sd%22%3Anull%2C%22ui%22%3Anull%2C%22vi%22%3A1675289381043%2C%22cv%22%3A%2220230129-6-RELEASE%22%2C%22uiv%22%3A%22default%22%2C%22u%22%3A%22https%3A%2F%2Fwww.smiledirectclub.com%2F%22%2C%22e%22%3Anull%2C%22cb%22%3A%22TFASC.trkCallback%22%2C%22qs%22%3A%22%22%2C%22r%22%3A%5B%7B%22li%22%3A%22rbox-tracking%22%2C%22s%22%3A0%2C%22uim%22%3A%22rbox-tracking%3Apub%3Dsmiledirectclub-sc%3Aabp%3D0%22%2C%22uip%22%3A%22rbox-tracking%22%2C%22orig_uip%22%3A%22rbox-tracking%22%7D%5D%2C%22mpv%22%3Atrue%2C%22mpvd%22%3A%7B%22en%22%3A%22page_view%22%2C%22item-url%22%3A%22https%3A%2F%2Fsmiledirectclub.com%2F%22%2C%22tim%22%3A1675289381055%2C%22ref%22%3Anull%2C%22tos%22%3A5%2C%22ssd%22%3A1%2C%22scd%22%3A0%7D%7D&pubit=i",
+      "bytes": 2468,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.606
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/332937241/?random=1675289381089&cv=11&fst=1675289381089&bg=ffffff&guid=ON&async=1&gtm=2oa1u0&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fsmiledirectclub.com%2F&tiba=Clear%20Aligners%20%26%20Teeth%20Straightening%20Kits%20%7C%20SmileDirectClub&did=dYmQxMT&gdid=dYmQxMT&auid=976605391.1675289380&uamb=0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1497,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.272999999999996
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 3.768,
+      "sslTime": 30.657,
+      "requestTime": 45.614000000000004
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/8523cef0-5303-442f-8f0a-160b05601726.js",
+      "bytes": 148,
+      "dnsTime": 0.004,
+      "sslTime": 12.327,
+      "requestTime": 80.63099999999999
+    },
+    {
+      "url": "https://visitor-service-us-west-2.tealiumiq.com/smiledirectclub/main/01860f074723001ec661e6f3d23a00080001c07800bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1675289381240",
+      "bytes": 27,
+      "dnsTime": 1.139,
+      "sslTime": 36.312,
+      "requestTime": 68.758
     },
     {
       "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMA.js",
       "bytes": 243947,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 27.233
+      "requestTime": 32.36
     },
     {
       "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
       "bytes": 116780,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 15.171000000000001
+      "requestTime": 22.674
     },
     {
       "url": "https://analytics.tiktok.com/i18n/pixel/config.js?sdkid=C621T79RBA57FARJBQF0&hostname=smiledirectclub.com",
       "bytes": 871,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 89.476
+      "requestTime": 88.985
+    },
+    {
+      "url": "https://connect.facebook.net/signals/plugins/identity.js?v=2.9.95",
+      "bytes": 65286,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 30.803
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/881337945249235?v=2.9.95&r=stable",
+      "bytes": 389269,
+      "dnsTime": 0,
+      "sslTime": 10.326,
+      "requestTime": 53.108000000000004
     },
     {
       "url": "https://cdnssl.clicktale.net/ptc/e64c9b88-feb3-4deb-a23a-244ec43990cd.js",
       "bytes": 28288,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 13.111999999999998
+      "requestTime": 11.372
     },
     {
-      "url": "https://d.adroll.com/consent/check/33XGM3WJQZECTPKVUJQNHT?pv=87876780888.41483&arrfrr=https%3A%2F%2Fsmiledirectclub.com%2F&_s=9443bc46138a89e819f16bf82d925927&_b=2",
-      "bytes": 468,
-      "dnsTime": 7.849,
-      "sslTime": 32.484,
-      "requestTime": 70.696
+      "url": "https://s.adroll.com/j/pre/33XGM3WJQZECTPKVUJQNHT/X4IMGHSCCZEJVANNPBTPSY/index.js",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.858
     },
     {
       "url": "https://s.adroll.com/j/exp/index.js",
       "bytes": 28,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 10.709
+      "requestTime": 10.472
+    },
+    {
+      "url": "https://d.adroll.com/consent/check/33XGM3WJQZECTPKVUJQNHT?pv=24613872797.04812&arrfrr=https%3A%2F%2Fsmiledirectclub.com%2F&_s=10365ed0628c0688e1104c4f6c10c1ff&_b=2",
+      "bytes": 468,
+      "dnsTime": 4.086,
+      "sslTime": 34.57,
+      "requestTime": 70.59200000000001
     },
     {
       "url": "https://s.adroll.com/j/pre/index.js",
       "bytes": 0,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 16.576
+      "requestTime": 9.718
     },
     {
       "url": "https://bat.bing.com/p/action/5012548.js",
       "bytes": 3726,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 303.189
+      "requestTime": 119.12
+    },
+    {
+      "url": "https://www.clarity.ms/tag/uet/5012548",
+      "bytes": 898,
+      "dnsTime": 7.687,
+      "sslTime": 13.989,
+      "requestTime": 102.90700000000001
+    },
+    {
+      "url": "https://s.adroll.com/pixel/33XGM3WJQZECTPKVUJQNHT/X4IMGHSCCZEJVANNPBTPSY/ZEA3N5AXOVHBLG3D5UY277.js",
+      "bytes": 3020,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 9.038
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/252685895534370?v=2.9.95&r=stable",
+      "bytes": 386629,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 19.389
     },
     {
       "url": "https://www.clarity.ms/eus-f/s/0.7.1/clarity.js",
       "bytes": 56734,
       "dnsTime": 0,
       "sslTime": 0,
-      "requestTime": 11.940999999999999
+      "requestTime": 13.110000000000001
     }
   ],
-  "numJsRequests": 53,
-  "numThirdPartyJsRequests": 53,
-  "numFirstPartyJsRequests": 0,
-  "numUnique3pHosts": 23,
-  "totalJsBytes": 7842994,
-  "totalDnsTime": 186.07900000000004,
-  "totalSslTime": 609.6780000000001,
-  "totalTime": 3737.5869999999995,
+  "numJsRequests": 113,
+  "numThirdPartyJsRequests": 90,
+  "numFirstPartyJsRequests": 23,
+  "numUnique3pHosts": 37,
+  "totalJsBytes": 11985697,
+  "totalDnsTime": 148.132,
+  "totalSslTime": 1344.9279999999997,
+  "totalTime": 7432.342999999996,
   "totalFirstPartyDnsTime": 0,
   "totalFirstPartySslTime": 0,
-  "totalFirstPartyTime": 0,
-  "totalFirstPartyJsBytes": 0,
-  "totalThirdPartyDnsTime": 186.07900000000004,
-  "totalThirdPartySslTime": 609.6780000000001,
-  "totalThirdPartyTime": 3737.5869999999995,
-  "totalThirdPartyJsBytes": 7842994,
-  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 21.290661595302,
-  "percentOfJsRequestTimeIs3p": 100,
-  "percentOfJsIs3p": 100
+  "totalFirstPartyTime": 1622.8839999999998,
+  "totalFirstPartyJsBytes": 4380173,
+  "totalThirdPartyDnsTime": 148.132,
+  "totalThirdPartySslTime": 1344.9279999999997,
+  "totalThirdPartyTime": 5809.458999999997,
+  "totalThirdPartyJsBytes": 7605524,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 25.700499822789013,
+  "percentOfJsRequestTimeIs3p": 78.16457071477998,
+  "percentOfJsIs3p": 63.45499973843825
 }
