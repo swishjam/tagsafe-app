@@ -23,7 +23,6 @@ async function sendDataToResqueConnector(message, lambdaEndpoint) {
     tagsafe_consumer_resque_klass: 'TagsafeJsDataConsumerJob',
     data: {
       enqueued_at_ts: new Date(),
-      event_type: message.eventType || 'NewTags',
       cloudflare_message_id: message.id,
       ...message.body
     }
