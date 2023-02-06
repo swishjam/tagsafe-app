@@ -1,0 +1,507 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 3.408341666666667,
+    "withoutTags": 1.2076323333333334,
+    "difference": 2.200709333333333,
+    "cutMetricPercentage": 0.6456833112877474,
+    "percentFasterWithoutTags": "154.8746858588625%"
+  },
+  "TaskDuration": {
+    "withTags": 6.421009333333333,
+    "withoutTags": 3.7383156666666664,
+    "difference": 2.6826936666666668,
+    "cutMetricPercentage": 0.4177993719367485,
+    "percentFasterWithoutTags": "239.34933060440122%"
+  },
+  "DOMComplete": {
+    "withTags": -1675444063112,
+    "withoutTags": 7840,
+    "difference": -1675444070952,
+    "cutMetricPercentage": 1.0000000046793565,
+    "percentFasterWithoutTags": "99.99999953206435%"
+  },
+  "DOMInteractive": {
+    "withTags": 5855,
+    "withoutTags": 6266.333333333333,
+    "difference": -411.33333333333303,
+    "cutMetricPercentage": -0.07025334471961281,
+    "percentFasterWithoutTags": "-1423.419773095625%"
+  },
+  "DOMLoading": {
+    "withTags": 3858.6666666666665,
+    "withoutTags": 3955,
+    "difference": -96.33333333333348,
+    "cutMetricPercentage": -0.02496544574982727,
+    "percentFasterWithoutTags": "-4005.536332179924%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 4855.8666666646795,
+    "withoutTags": 4760.0333333313465,
+    "difference": 95.83333333333303,
+    "cutMetricPercentage": 0.0197355775831377,
+    "percentFasterWithoutTags": "5066.991304345768%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://browser.sentry-cdn.com/7.21.0/bundle.min.js",
+      "bytes": 55621,
+      "dnsTime": 10.424,
+      "sslTime": 20.541,
+      "requestTime": 47.917
+    },
+    {
+      "url": "https://d2fj3s7h83rb61.cloudfront.net/tK3XbI76bA/bin",
+      "bytes": 141013,
+      "dnsTime": 32.047,
+      "sslTime": 18.021,
+      "requestTime": 199.164
+    },
+    {
+      "url": "https://cdn.attn.tv/mackweldon/dtag.js",
+      "bytes": 5394,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 50.244
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VPKf8G",
+      "bytes": 2029,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.440999999999995
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/v1/loader/7y73YHjNUo8nThUz7aFtjw",
+      "bytes": 156125,
+      "dnsTime": 7.963,
+      "sslTime": 26.72,
+      "requestTime": 68.563
+    },
+    {
+      "url": "https://open-signin.okasconcepts.com/customer/script?shop=mack-weldon.myshopify.com",
+      "bytes": 3360,
+      "dnsTime": 7.468,
+      "sslTime": 26.085,
+      "requestTime": 74.22899999999998
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-836163994",
+      "bytes": 181441,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 55.312000000000005
+    },
+    {
+      "url": "https://staticw2.yotpo.com/Bfh0Ntn1JZv5vEvrBWAVKyjeVxByh0HRLHvT6M1n/widget.js",
+      "bytes": 456922,
+      "dnsTime": 7.34,
+      "sslTime": 12.025,
+      "requestTime": 56.483000000000004
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VPKf8G",
+      "bytes": 2029,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 21.036
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/fender_analytics.655ce7424169cb36416e.js?cb=1",
+      "bytes": 28184,
+      "dnsTime": 7.594,
+      "sslTime": 20.247,
+      "requestTime": 42.343
+    },
+    {
+      "url": "https://static-tracking.klaviyo.com/onsite/js/static.18cfb961fcdbcf83a5c0.js?cb=1",
+      "bytes": 3927,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.713000000000001
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/runtime.8c184955a7a6fe4ce4a8.js?cb=1",
+      "bytes": 19473,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 10.753000000000002
+    },
+    {
+      "url": "https://static.klaviyo.com/onsite/js/sharedUtils.ae687c467514b4d47273.js?cb=1",
+      "bytes": 36134,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 12.497
+    },
+    {
+      "url": "https://cdn.optimizely.com/js/10894713027.js",
+      "bytes": 342081,
+      "dnsTime": 6.491,
+      "sslTime": 15.835,
+      "requestTime": 110.524
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NRVN85",
+      "bytes": 411251,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 363.99399999999997
+    },
+    {
+      "url": "https://acsbapp.com/apps/app/dist/js/app.js",
+      "bytes": 441518,
+      "dnsTime": 11.187,
+      "sslTime": 19.178,
+      "requestTime": 474.659
+    },
+    {
+      "url": "https://cdn-widgetsrepository.yotpo.com/widget-assets/yotpo-pixel/2022-12-06_09-10-14/bundle.js",
+      "bytes": 52809,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 33.758
+    },
+    {
+      "url": "https://cdn-widget-assets.yotpo.com/widgets-initializer/app.v0.2.0-3926.js",
+      "bytes": 29947,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 40.359
+    },
+    {
+      "url": "https://cdn3.optimizely.com/js/geo4.js",
+      "bytes": 317,
+      "dnsTime": 7.936,
+      "sslTime": 11.976,
+      "requestTime": 28.458
+    },
+    {
+      "url": "https://cdn.attn.tv/tag/4-latest/unified-tag.js?v=4-latest_263507365a",
+      "bytes": 90397,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.493
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 7.55,
+      "sslTime": 16.445,
+      "requestTime": 39.576
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 6.395,
+      "sslTime": 26.443,
+      "requestTime": 42.97200000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1045031656",
+      "bytes": 132348,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 338.747
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=AW-1045031656&l=dataLayer&cx=c",
+      "bytes": 132360,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 337.561
+    },
+    {
+      "url": "https://open-signin.okasconcepts.com/js/vendor/jquery-1.11.0.min.js",
+      "bytes": 121964,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 65.771
+    },
+    {
+      "url": "https://www.google-analytics.com/gtm/optimize.js?id=GTM-WV276J3",
+      "bytes": 120319,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 345.132
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1929841.js?sv=7",
+      "bytes": 8424,
+      "dnsTime": 6.02,
+      "sslTime": 22.016,
+      "requestTime": 60.871
+    },
+    {
+      "url": "https://init.blackcrow.ai/js/core/mackweldon.js",
+      "bytes": 139763,
+      "dnsTime": 7.199,
+      "sslTime": 18.287,
+      "requestTime": 43.627
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 8.843,
+      "sslTime": 18.617,
+      "requestTime": 64.139
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 8.067,
+      "sslTime": 15.419,
+      "requestTime": 32.758
+    },
+    {
+      "url": "https://5icdyvga.micpn.com/p/js/1.js",
+      "bytes": 42781,
+      "dnsTime": 96.999,
+      "sslTime": 10.694,
+      "requestTime": 116.977
+    },
+    {
+      "url": "https://static.hotjar.com/c/hotjar-1152340.js?sv=6",
+      "bytes": 8408,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 59.86
+    },
+    {
+      "url": "https://tag.rmp.rakuten.com/120335.ct.js",
+      "bytes": 44312,
+      "dnsTime": 9.91,
+      "sslTime": 11.416,
+      "requestTime": 44.156
+    },
+    {
+      "url": "https://track.securedvisit.com/js/sv.js?sv_cid=6256_04721&sv_origin=mackweldon.com",
+      "bytes": 65329,
+      "dnsTime": 8.57,
+      "sslTime": 15.013,
+      "requestTime": 44.501
+    },
+    {
+      "url": "https://lsdm.co/smrtdsh/rec.cfm",
+      "bytes": 2003,
+      "dnsTime": 9.782,
+      "sslTime": 32.58,
+      "requestTime": 189.908
+    },
+    {
+      "url": "https://code.jquery.com/jquery-3.3.1.min.js",
+      "bytes": 86927,
+      "dnsTime": 8.136,
+      "sslTime": 35.126,
+      "requestTime": 64.82000000000001
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-W99NY9QB61&l=dataLayer&cx=c",
+      "bytes": 225487,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 351.12600000000003
+    },
+    {
+      "url": "https://tracker.adreadyclick.com/index.js",
+      "bytes": 8627,
+      "dnsTime": 15.633,
+      "sslTime": 17.786,
+      "requestTime": 57.35999999999999
+    },
+    {
+      "url": "https://www.googleadservices.com/pagead/conversion/1045031656/?random=1675444053700&cv=11&fst=1675444053700&bg=ffffff&guid=ON&async=1&gtm=45be3210&u_w=1920&u_h=1080&label=jtnlCPPkqroBEOjVp_ID&tiba=Mack%20Weldon%20%7C%20Daily%20Wear%20System&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmackweldon.com%2F&capi=1&gtm_ee=1&auid=1400739347.1675444053&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dpage_view%3Bpage_path%3D%2F&rfmt=3&fmt=4",
+      "bytes": 2100,
+      "dnsTime": 9.314,
+      "sslTime": 28.151,
+      "requestTime": 69.148
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/324327734435365?v=2.9.95&r=stable",
+      "bytes": 386618,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 330.059
+    },
+    {
+      "url": "https://cdn.attn.tv/growth-tag-assets/client-configs/mackweldon.attn.tv.js",
+      "bytes": 45195,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 11.075
+    },
+    {
+      "url": "https://beacon.lynx.cognitivlabs.com/container/conv/v2?tags=mackweldon_retargeting&rf=1",
+      "bytes": 2055,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 77.674
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.73589e70.js",
+      "bytes": 57031,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 317.57599999999996
+    },
+    {
+      "url": "https://script.hotjar.com/modules.bca0d1c28285412bb689.js",
+      "bytes": 266405,
+      "dnsTime": 7.104,
+      "sslTime": 9.607,
+      "requestTime": 48.703
+    },
+    {
+      "url": "https://assets.bounceexchange.com/assets/smart-tag/versioned/main_697d8428dfe1f864dd84e72c2b4ab95f.br.js",
+      "bytes": 391444,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 76.751
+    },
+    {
+      "url": "https://assets.bounceexchange.com/assets/smart-tag/versioned/cjs_min_49801052853ad1235b09865bb69bab38.js",
+      "bytes": 47315,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 36.753
+    },
+    {
+      "url": "https://assets.bounceexchange.com/assets/smart-tag/versioned/wknd_audiences_3763c270ade5551be4d45789f8919dd5.js",
+      "bytes": 55050,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 94.47300000000001
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1045031656/?random=1675444054444&cv=11&fst=1675444054444&bg=ffffff&guid=ON&async=1&gtm=45be3210&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmackweldon.com%2F&tiba=Mack%20Weldon%20%7C%20Daily%20Wear%20System&auid=1400739347.1675444053&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=4",
+      "bytes": 1461,
+      "dnsTime": 7.135,
+      "sslTime": 24.705,
+      "requestTime": 73.389
+    },
+    {
+      "url": "https://track.securedvisit.com/citecapture/?cc_event=viewpage&cc_context=View%20Page&sv_cid=6256_04721&sv_onetag_id=3959&sv_session=dcb9dfa499e5d0dbf06648d5f1227368&sv_ver=1.9.2&sv_dt=2023-02-03T17%3A07%3A34.528Z&sv_referrer=&sv_url=https%3A%2F%2Fmackweldon.com%2F&sv_title=Mack%20Weldon%20%7C%20Daily%20Wear%20System&sv_keywords=",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 8.693000000000001
+    },
+    {
+      "url": "https://aa.agkn.com/adscores/g.js?sid=9212306938&cv1=ab3128ca-ee89-4848-90d8-aa241fe2fbad",
+      "bytes": 24,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 29.660999999999998
+    },
+    {
+      "url": "https://assets.bounceexchange.com/assets/smart-tag/versioned/inbox_6424cb18bd68fadd3f1395637e663bb8.br.js",
+      "bytes": 74941,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.836
+    },
+    {
+      "url": "https://assets.bounceexchange.com/assets/smart-tag/versioned/sms_2579b6aa71148c3eb940153c85a653a0.br.js",
+      "bytes": 40083,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 39.628
+    },
+    {
+      "url": "https://assets.bounceexchange.com/assets/smart-tag/versioned/onsite_8ae76e7011e535c7fe621711e8067004.br.js",
+      "bytes": 166373,
+      "dnsTime": 0,
+      "sslTime": 16.894,
+      "requestTime": 46.299
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1045031656/?random=1675444055018&cv=11&fst=1675444055018&bg=ffffff&guid=ON&async=1&gtm=45be3210&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmackweldon.com%2F&tiba=Mack%20Weldon%20%7C%20Daily%20Wear%20System&auid=1400739347.1675444053&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dblackcrow_target%7Cremarketing%7Call%7Cconversion%7Csite%7Crats%7C10%7Cmackweldon%7Cscore_4%3Bnon_interaction%3Dtrue&rfmt=3&fmt=4",
+      "bytes": 1566,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 429.63699999999994
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1045031656/?random=1675444055078&cv=11&fst=1675444055078&bg=ffffff&guid=ON&async=1&gtm=45be3210&u_w=1920&u_h=1080&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fmackweldon.com%2F&tiba=Mack%20Weldon%20%7C%20Daily%20Wear%20System&auid=1400739347.1675444053&fledge=1&uaa=arm&uab=64&uafvl=Chromium%3B105.0.5173.0%7CNot)A%253BBrand%3B8.0.0.0&uamb=0&uap=macOS&uapv=13.1.0&uaw=0&data=event%3Dblackcrow_target%7Clookaliking%7Call%7Cconversion%7Csite%7Crats%7C10%7Cmackweldon%7Cscore_4%3Bnon_interaction%3Dtrue&rfmt=3&fmt=4",
+      "bytes": 1566,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 342.31899999999996
+    },
+    {
+      "url": "https://lsdm.co/smrtdsh/rec2.cfm?cookie=ab3128ca-ee89-4848-90d8-aa241fe2fbad&ns=000&scr=000",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 68.615
+    },
+    {
+      "url": "https://www.paypalobjects.com/api/checkout.min.js",
+      "bytes": 883079,
+      "dnsTime": 9.913,
+      "sslTime": 41.992,
+      "requestTime": 84.83399999999999
+    },
+    {
+      "url": "https://www.paypal.com/checkoutnow/remembered?callback=shopifypaypalisrememberedcallback",
+      "bytes": 73,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 289.614
+    },
+    {
+      "url": "https://pay.google.com/gp/p/js/pay.js",
+      "bytes": 107204,
+      "dnsTime": 7.575,
+      "sslTime": 23.68,
+      "requestTime": 130.899
+    },
+    {
+      "url": "https://www.paypal.com/tagmanager/pptm.js?id=mackweldon.com&mrid=PHVXGGTNK6H22&source=checkoutjs&t=xo&v=4.0.336",
+      "bytes": 13613,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 13.043999999999999
+    },
+    {
+      "url": "https://www.paypalobjects.com/muse/muse.js",
+      "bytes": 55953,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 7.904999999999999
+    },
+    {
+      "url": "https://api.bounceexchange.com/bounce/init1.js?wklzs=1013&wklz=C4ewVgigvAZgrgOwMbAJYgQMhQZygRgDYB2AVgBZKAGU24wzYALxCnIA4rMB3AUwCMcqYLwD6qACZt85BgCdeOEABs4aDAQCcAJioAPfDVKYFMXnIVyo2AIbLlqBAHNRcOcqgALYMAAOOAFIAZgBBAO0AMXCIgFsbJABrPmUJDAA6JBAY6MwAN1QhYFFMkATUXigA4gAhcO1lXzrgsO1tbz9A7VJQ8NJI3si4xOTUhAysgajW8IBhOrkmnunp4gARbBBS8sqauolJRZbtdlJCCnZKQnZ8diDtfGPidibtOdb8iUOiMkpyIyDSOwnqRZnVcocqrVWrxcuZRMoQE4nLwJOIEIcYHYcLxQa0kDY5EUAI7AACehyouO0+MJolydjgOOmoUprzqODg-BiwhEqIwhSZ2mamOU2KpNOAGKxTLe9URyNRjnEEl4CDQMHKn2ZIRFYrWVIkTgiqDkOGAABkQDYtULQsA5IyqZ4CRIAJKrCGtbTmgCiygA0vUgglzQB1EIqJi8c0zXKaMo+-A2UkAcResqUMGA7s9rV9Ae0ACUHJoYABlACqABUkKtuNVtAAtEIJADyKdIMQAGum9k4IbtWgUAAoKfIgOA4GaT0AxcxS0UyuoFMucnBIOSofjz7W6nH6tZ5Ak4ADaCKRKLRAF1YNKj6aTzC4eeFdfb4v76eJaISaSb1x6Qfb96VUXh-0-E9fDkEBUSg1AkDA99sQgqCYNEBAbDnG89wgpUzRARJsLvQDTw5LkeUvflhEQnCSJPCUiI-OiX0vJVJFVdVNUY5DchVGB6IJYBuN4PI+LPeVWIQZUONQDUUWEjYtjEUAQHhAlkSQkT+F8KAuF4PwoBPAAiCUjIAGhMmwRCcEA5FJcyTM8XhEgnYAHM8LJeAc1CJDgFAHOxAkkE8Iyr0wXxgDwDy5w2GJfAcGxkDEGBlBsJxrFyZ1rGdORFSkb0-UDZRgzDCNlCjGM4wTJNU0wTMikkKACoLYtUFLSsazrBtmzbDtuyAA",
+      "bytes": 36216,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 60.025999999999996
+    },
+    {
+      "url": "https://www.gstatic.com/_/mss/boq-payments-consumer/_/js/k=boq-payments-consumer.InstantbuyFrontendBuyflowPayframeUi.en_US.I5QqlDZyvdc.es5.O/am=zAAg/d=1/excm=_b,_r,_tp,payframeview/ed=1/dg=0/wt=2/rs=AMitfrg_7_XGdT-k3ACaBxTxlHGjiNFhfQ/m=_b,_tp,_r",
+      "bytes": 157974,
+      "dnsTime": 8.276,
+      "sslTime": 25.788,
+      "requestTime": 56.99799999999999
+    }
+  ],
+  "numJsRequests": 94,
+  "numThirdPartyJsRequests": 63,
+  "numFirstPartyJsRequests": 31,
+  "numUnique3pHosts": 36,
+  "totalJsBytes": 9892546,
+  "totalDnsTime": 340.883,
+  "totalSslTime": 601.622,
+  "totalTime": 8755.582999999999,
+  "totalFirstPartyDnsTime": 0.012,
+  "totalFirstPartySslTime": 20.335,
+  "totalFirstPartyTime": 1928.1719999999998,
+  "totalFirstPartyJsBytes": 3300711,
+  "totalThirdPartyDnsTime": 340.871,
+  "totalThirdPartySslTime": 581.2869999999999,
+  "totalThirdPartyTime": 6827.410999999999,
+  "totalThirdPartyJsBytes": 6591835,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 13.506701149235049,
+  "percentOfJsRequestTimeIs3p": 77.97779999344418,
+  "percentOfJsIs3p": 66.63436288292215
+}

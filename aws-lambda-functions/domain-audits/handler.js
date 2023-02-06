@@ -15,6 +15,7 @@ module.exports.handle = async (event, _context) => {
 
   const urls = [
     ['https://www.prettylittlething.com/', 'https://prettylittlething.com/'],
+    ['https://mackweldon.com/'],
     // ['https://www.eightsleep.com']
     // ['http://www.pourri.com', null],
     // ['http://www.pourri.com', null],

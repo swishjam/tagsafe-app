@@ -1,7 +1,7 @@
 <%= form_with url: login_path, html: { class: 'mt-10 grid grid-cols-1 gap-y-8' }, data: { controller: 'loading_form' } do %>
   <div class="">
     <label for="email" class="mb-3 block text-sm font-medium text-gray-700">Email address</label>
-    <input id="email" type="email" name="email" autocomplete="email" required="" value="<%= user.email %>" class="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm">
+    <input id="email" type="email" name="email" autocomplete="email" required="" value="<%= user&.email %>" class="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm">
   </div>
   <div class="">
     <label for="password" class="mb-3 block text-sm font-medium text-gray-700">Password</label>
