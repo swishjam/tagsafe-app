@@ -9,7 +9,10 @@
     "cheerio": "^1.0.0-rc.12",
     "chrome-aws-lambda": "^10.1.0",
     "lighthouse": "^9.6.8",
-    "puppeteer-core": "^10.4.0"
+    "puppeteer-core": "^10.4.0",
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "^2.11.1",
+    "uglify-js": "^3.17.4"
   },
   "devDependencies": {
     "aws-sdk": "^2.1308.0",

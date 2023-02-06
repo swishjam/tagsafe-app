@@ -20,3 +20,4 @@ serverless_sdk/*
 *.png
 *.html
 timeline.json
+_results/*

@@ -11,18 +11,25 @@
             <% end %>
 
             <div class="min-w-0 flex-1">
-              <p class="truncate text-sm font-medium text-gray-900"><%= tag_snippet.name %></p>
-              <p class="truncate text-sm text-gray-500">
+              <span class="truncate text-sm font-medium text-gray-900">
+                <%= tag_snippet.name %>
                 <% if tag_snippet.live? %>
-                  <span class='green-glowing-circular-icon' data-controller='tooltip' title='Tag is live'></span>
+                  <div class='inline-block ml-1 w-2 h-2 bg-green-400 rounded-full shadow-lg shadow-green-200' data-controller='tooltip' title='Tag is live'></div>
                 <% elsif tag_snippet.draft? %>
-                  <span class='tagsafe-pill orange small-text mb-1'>Draft</span>
+                  <div class='inline-block' data-controller='tooltip' title='Tag is in a draft state, publish it by pressing the `set live` button on the tag details page.'>
+                    <div class='inline-block ml-1 w-2 h-2 bg-orange-400 rounded-full shadow-lg shadow-orange-200'></div>
+                    <span class='text-xs text-gray-500'>Draft</span>
+                  </div>
                 <% elsif tag_snippet.paused? %>
-                  <span class='tagsafe-pill red small-text mb-1'>Paused</span>
+                  <div class='inline-block' data-controller='tooltip' title='Tag is in a paused state, unpause it by pressing the `unpause` button on the tag details page.'>
+                    <div class='inline-block ml-1 w-2 h-2 bg-blue-400 rounded-full shadow-lg shadow-blue-200'></div>
+                    <span class='text-xs text-gray-500'>Paused</span>
+                  </div>
                 <% elsif tag_snippet.deleted? %>
-                  <span class='tagsafe-pill red small-text mb-1'>Removed</span>
+                  <div class='inline-block ml-1 w-2 h-2 bg-red-400 rounded-full shadow-lg shadow-red-200'></div>
+                  <span class='text-xs text-gray-600'>Removed</span>
                 <% end %>
-              </p>
+              </span>
             </div>
             <div>
               <%= link_to container_tag_snippet_path(container, tag_snippet), class: 'inline-flex items-center rounded-full border border-gray-300 bg-white px-2.5 py-0.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50', target: '_top' do %>

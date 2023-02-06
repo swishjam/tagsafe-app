@@ -1,3 +1,5 @@
 {
-  "page_url": "https://www.tagsafe.io/demo?tagsafe-disable-tag-re-route=true"
+  "page_url": "https://www.under510.com/",
+  "num_iterations": 10,
+  "first_party_urls": ["https://under510.com/"]
 }

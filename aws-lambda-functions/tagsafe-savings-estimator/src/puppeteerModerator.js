@@ -1,4 +1,8 @@
 const chromium = require('chrome-aws-lambda');
+// const puppeteer = require('puppeteer-extra');
+// const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+// puppeteer.use(StealthPlugin());
 
 class PuppeteerModerator {
   async launch() {
@@ -29,10 +33,12 @@ class PuppeteerModerator {
 
   _initializePuppeteer = async () => {
     const executablePath = process.env.CHROMIUM_EXECUTABLE || await chromium.executablePath;
+    // return await puppeteer.launch({
     return await chromium.puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: executablePath
+      executablePath: executablePath,
+      headless: true
     });
   }
 }
