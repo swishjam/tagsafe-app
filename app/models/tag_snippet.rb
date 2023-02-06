@@ -40,7 +40,7 @@ class TagSnippet < ApplicationRecord
   end
 
   def try_image_url
-    return if tags.none?
+    return 'https://cdn3.iconfinder.com/data/icons/online-marketing-line-3/48/109-512.png' if tags.none?
     tags.first.try_image_url
   end
 

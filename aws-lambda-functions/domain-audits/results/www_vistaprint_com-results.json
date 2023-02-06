@@ -1,0 +1,381 @@
+{
+  "numExecutions": 3,
+  "ScriptDuration": {
+    "withTags": 0.613634,
+    "withoutTags": 0.5668876666666666,
+    "difference": 0.046746333333333445,
+    "cutMetricPercentage": 0.07617950330870428,
+    "percentFasterWithoutTags": "1312.6890522607803%"
+  },
+  "TaskDuration": {
+    "withTags": 1.6657696666666668,
+    "withoutTags": 1.6633149999999999,
+    "difference": 0.002454666666666938,
+    "cutMetricPercentage": 0.0014735930878000166,
+    "percentFasterWithoutTags": "67861.33894621738%"
+  },
+  "DOMComplete": {
+    "withTags": -558431746922,
+    "withoutTags": 1438,
+    "difference": -558431748360,
+    "cutMetricPercentage": 1.0000000025750686,
+    "percentFasterWithoutTags": "99.99999974249315%"
+  },
+  "DOMInteractive": {
+    "withTags": 833,
+    "withoutTags": 843,
+    "difference": -10,
+    "cutMetricPercentage": -0.012004801920768308,
+    "percentFasterWithoutTags": "-8330%"
+  },
+  "DOMLoading": {
+    "withTags": 574.6666666666666,
+    "withoutTags": 594.3333333333334,
+    "difference": -19.666666666666742,
+    "cutMetricPercentage": -0.034222737819025656,
+    "percentFasterWithoutTags": "-2922.0338983050733%"
+  },
+  "FirstContentfulPaint": {
+    "withTags": 756.2000000004967,
+    "withoutTags": 803.8333333333334,
+    "difference": -47.63333333283663,
+    "cutMetricPercentage": -0.0629903905485392,
+    "percentFasterWithoutTags": "-1587.5437368965336%"
+  },
+  "thirdPartyJsRequests": [
+    {
+      "url": "https://js-agent.newrelic.com/nr-1167.min.js",
+      "bytes": 26895,
+      "dnsTime": 40.054,
+      "sslTime": 92.895,
+      "requestTime": 231.553
+    },
+    {
+      "url": "https://bam.nr-data.net/1/0fe601f563?a=1119997089&sa=1&v=1167.2a4546b&t=Unnamed%20Transaction&rst=1926&ref=https://www.vistaprint.com/&be=761&fe=1598&dc=985&af=err,xhr,stn,ins&perf=%7B%22timing%22:%7B%22of%22:1675295232484,%22n%22:0,%22f%22:2,%22dn%22:27,%22dne%22:36,%22c%22:36,%22s%22:134,%22ce%22:298,%22rq%22:303,%22rp%22:650,%22rpe%22:769,%22dl%22:657,%22di%22:983,%22ds%22:984,%22de%22:985,%22dc%22:1596,%22l%22:1597,%22le%22:1598%7D,%22navigation%22:%7B%7D%7D&fp=882&fcp=882&jsonp=NREUM.setToken",
+      "bytes": 49,
+      "dnsTime": 1.163,
+      "sslTime": 182.71,
+      "requestTime": 315.553
+    },
+    {
+      "url": "https://evs.dcp.vpdcp.com/9BNvi137tW/SuhmnezHrgTNy6dFgaLDGOBjna0gQVdq.min.js",
+      "bytes": 105497,
+      "dnsTime": 117.76,
+      "sslTime": 144.586,
+      "requestTime": 402.5660000000001
+    },
+    {
+      "url": "https://evs.dcp.vpdcp.com/analytics-next/bundles/ajs-destination.bundle.2cd9e450202b69d545a3.js",
+      "bytes": 9229,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.699
+    },
+    {
+      "url": "https://evs.dcp.vpdcp.com/analytics-next/bundles/schemaFilter.bundle.d0fc84c62e956d168cce.js",
+      "bytes": 1595,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 110.27499999999999
+    },
+    {
+      "url": "https://evs.dcp.vpdcp.com/next-integrations/integrations/tag-injector/1.0.7/tag-injector.dynamic.js.gz",
+      "bytes": 2817,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.417
+    },
+    {
+      "url": "https://evs.dcp.vpdcp.com/next-integrations/integrations/google-tag-manager/2.5.1/google-tag-manager.dynamic.js.gz",
+      "bytes": 3013,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.071
+    },
+    {
+      "url": "https://evs.dcp.vpdcp.com/next-integrations/integrations/vendor/commons.c42222c4cb2f8913500f.js.gz",
+      "bytes": 74937,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 142.66
+    },
+    {
+      "url": "https://uci.starbug.vpsvc.com/index.js",
+      "bytes": 38146,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 463.49299999999994
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-TX2GVCC&l=dataLayer",
+      "bytes": 439091,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 974.7969999999999
+    },
+    {
+      "url": "https://s.pinimg.com/ct/core.js",
+      "bytes": 1146,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 568.1439999999999
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-PKH9B2B&l=dataLayer",
+      "bytes": 143951,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 511.619
+    },
+    {
+      "url": "https://cdn.quantummetric.com/qscripts/quantum-vistaprint.js",
+      "bytes": 513201,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 594.5999999999999
+    },
+    {
+      "url": "https://zn0gsrcbql2stgk3a-vistaprint.siteintercept.qualtrics.com/SIE/?Q_ZID=ZN_0GSrcbQl2StgK3A",
+      "bytes": 7302,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 537.684
+    },
+    {
+      "url": "https://bat.bing.com/bat.js",
+      "bytes": 39396,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 501.929
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/620967259/?random=1675295238541&cv=11&fst=1675295238541&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&hl=en&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.vistaprint.com%2F&tiba=Vistaprint%20US%20Online%20Printing%3A%20Business%20Cards%2C%20Signage%20%26%20More&auid=1227539996.1675295239&data=locale%3DUS%3BpageSection%3DHome%20Page%3BpageStage%3DDiscover%3BpageName%3DHome%20Page%3Becomm_pagetype%3Dhome&rfmt=3&fmt=4",
+      "bytes": 1606,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 498.25
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/867422543/?random=1675295238548&cv=11&fst=1675295238548&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&hl=en&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.vistaprint.com%2F&tiba=Vistaprint%20US%20Online%20Printing%3A%20Business%20Cards%2C%20Signage%20%26%20More&auid=1227539996.1675295239&data=locale%3DUS%3BpageSection%3DHome%20Page%3BpageStage%3DDiscover%3BpageName%3DHome%20Page%3Becomm_pagetype%3Dhome&rfmt=3&fmt=4",
+      "bytes": 1606,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 498.82499999999993
+    },
+    {
+      "url": "https://www.google-analytics.com/analytics.js",
+      "bytes": 50234,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 525.786
+    },
+    {
+      "url": "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/618990810/?random=1675295238571&cv=11&fst=1675295238571&bg=ffffff&guid=ON&async=1&gtm=2wg1u0&u_w=1920&u_h=1080&hl=en&hn=www.googleadservices.com&frm=0&url=https%3A%2F%2Fwww.vistaprint.com%2F&tiba=Vistaprint%20US%20Online%20Printing%3A%20Business%20Cards%2C%20Signage%20%26%20More&auid=1227539996.1675295239&data=locale%3DUS%3BpageSection%3DHome%20Page%3BpageStage%3DDiscover%3BpageName%3DHome%20Page%3Becomm_pagetype%3Dhome&rfmt=3&fmt=4",
+      "bytes": 1606,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 475.92099999999994
+    },
+    {
+      "url": "https://sc-static.net/scevent.min.js",
+      "bytes": 30923,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 517.672
+    },
+    {
+      "url": "https://static.criteo.net/js/ld/ld.js",
+      "bytes": 43748,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 565.7479999999999
+    },
+    {
+      "url": "https://socialladder.rkiapps.com/ecom/socialladder-ecom.js",
+      "bytes": 4282,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1123.128
+    },
+    {
+      "url": "https://www.redditstatic.com/ads/pixel.js",
+      "bytes": 23348,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1003.4
+    },
+    {
+      "url": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+      "bytes": 13352,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1004.8649999999999
+    },
+    {
+      "url": "https://utt.impactcdn.com/A3228661-39ba-433c-b688-54e3ffa2dd351.js",
+      "bytes": 43567,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1146.3029999999999
+    },
+    {
+      "url": "https://connect.facebook.net/en_US/fbevents.js",
+      "bytes": 108696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1272.4089999999999
+    },
+    {
+      "url": "https://tags.creativecdn.com/Sou99GdoKN3iP18UHlb8.js",
+      "bytes": 4036,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1009.213
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C8P0U0N3FJSJ824KQU20&lib=ttq",
+      "bytes": 2861,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1176.902
+    },
+    {
+      "url": "https://www.googletagmanager.com/gtag/js?id=G-77FLVBN2P6&l=dataLayer&cx=c",
+      "bytes": 223531,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 467.918
+    },
+    {
+      "url": "https://b-code.liadm.com/a-051j.min.js",
+      "bytes": 34674,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 690.3079999999999
+    },
+    {
+      "url": "https://dx.mountain.com/spx?dxver=4.0.0&shaid=32567&tdr=&plh=https%3A%2F%2Fwww.vistaprint.com%2F&cb=44462792233763350term=value",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1271.055
+    },
+    {
+      "url": "https://js.adsrvr.org/up_loader.1.1.0.js",
+      "bytes": 4593,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 698.393
+    },
+    {
+      "url": "https://siteintercept.qualtrics.com/dxjsmodule/13.80b1174311323ca5c15d.chunk.js?Q_CLIENTVERSION=1.83.0&Q_CLIENTTYPE=web&Q_BRANDID=www.vistaprint.com",
+      "bytes": 63913,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 574.336
+    },
+    {
+      "url": "https://www.google-analytics.com/plugins/ua/linkid.js",
+      "bytes": 1569,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 299.407
+    },
+    {
+      "url": "https://s.pinimg.com/ct/lib/main.f6304d83.js",
+      "bytes": 56364,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 174.68300000000002
+    },
+    {
+      "url": "https://tr.snapchat.com/config/com/76e259cc-13b7-4844-a1f4-1c13afe863a2.js",
+      "bytes": 148,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 600.422
+    },
+    {
+      "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=1245164&time=1675295239603&url=https%3A%2F%2Fwww.vistaprint.com%2F",
+      "bytes": 0,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 1281.604
+    },
+    {
+      "url": "https://b-code.liadm.com/sync-container.js",
+      "bytes": 5904,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 118.62599999999999
+    },
+    {
+      "url": "https://sslwidget.criteo.com/event?a=70351&v=5.13.0&p0=e%3Dexd%26site_type%3Dd&p1=e%3Dvh%26tms%3Dgtm-criteo-2.0.0%26ui_page_stage%3DDiscover%26ui_page_name%3DHome%2520Page%26ui_page_section%3DHome%2520Page%26ui_product_category%3Dundefined&p2=e%3Ddis&adce=1&tld=vistaprint.com&fu=https%253A%252F%252Fwww.vistaprint.com%252F&dtycbr=7916",
+      "bytes": 9043,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 824.221
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/main.MWE2YWY2YTgzMQ.js",
+      "bytes": 258696,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 287.609
+    },
+    {
+      "url": "https://connect.facebook.net/signals/plugins/identity.js?v=2.9.95",
+      "bytes": 65286,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 290.86400000000003
+    },
+    {
+      "url": "https://connect.facebook.net/signals/config/1050145865347054?v=2.9.95&r=stable",
+      "bytes": 386922,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 478.42099999999994
+    },
+    {
+      "url": "https://analytics.tiktok.com/i18n/pixel/static/identify_c4832.js",
+      "bytes": 116780,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 132.251
+    },
+    {
+      "url": "https://js.adsrvr.org/universal_pixel.1.1.0.js",
+      "bytes": 487,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 113.991
+    },
+    {
+      "url": "https://js.adsrvr.org/universal_pixel.1.1.0.js",
+      "bytes": 487,
+      "dnsTime": 0,
+      "sslTime": 0,
+      "requestTime": 109.423
+    }
+  ],
+  "numJsRequests": 69,
+  "numThirdPartyJsRequests": 45,
+  "numFirstPartyJsRequests": 24,
+  "numUnique3pHosts": 27,
+  "totalJsBytes": 7560434,
+  "totalDnsTime": 158.977,
+  "totalSslTime": 420.19100000000003,
+  "totalTime": 29351.415000000005,
+  "totalFirstPartyDnsTime": 0,
+  "totalFirstPartySslTime": 0,
+  "totalFirstPartyTime": 4414.401,
+  "totalFirstPartyJsBytes": 4595907,
+  "totalThirdPartyDnsTime": 158.977,
+  "totalThirdPartySslTime": 420.19100000000003,
+  "totalThirdPartyTime": 24937.014000000003,
+  "totalThirdPartyJsBytes": 2964527,
+  "percentOfThirdPartyJsRequestTimeIsDnsOrSsl": 2.322523458502289,
+  "percentOfJsRequestTimeIs3p": 84.96017653663375,
+  "percentOfJsIs3p": 39.2110691000014
+}
