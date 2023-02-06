@@ -35,10 +35,30 @@ class Container < ApplicationRecord
   attribute :tagsafe_js_re_route_eligible_tags_sample_rate, default: 1.0
   attribute :tagsafe_js_enabled, default: true
   attribute :defer_script_tags_by_default, default: false
+  attribute :subscription_tier, default: 'free'
+
+  VALIDATE_SUBSCRIPTION_TIERS = %w[free pro enterprise]
 
   validates :name, presence: true
   validates :tagsafe_js_reporting_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
   validates :tagsafe_js_re_route_eligible_tags_sample_rate, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :subscription_tier, presence: true, inclusion: { in: VALIDATE_SUBSCRIPTION_TIERS }
+
+  self::VALIDATE_SUBSCRIPTION_TIERS.each do |tier|
+    define_method("#{tier}_subscription_tier?") { subscription_tier == tier }
+  end
+
+  def can_host_with_tagsafe?
+    free_subscription_tier?
+  end
+
+  def tagsafe_js_reporting_disabled?
+    tagsafe_js_reporting_sample_rate.zero?
+  end
+
+  def tagsafe_js_reporting_enabled?
+    !tagsafe_js_reporting_disabled?
+  end
 
   def publish_instrumentation!(description = '')
     InstrumentationBuild.create!(container: self, description: description)

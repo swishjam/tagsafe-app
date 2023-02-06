@@ -15,11 +15,11 @@ module.exports.handle = async (event, _context) => {
 
   const firstPartyHosts = first_party_urls.map(url => new URL(url).host).concat(new URL(page_url).host).concat(knownFirstPartyHosts);
 
-  const tagHoster = new TagHoster({ pageUrl: page_url, firstPartyHosts });
-  const { tagUrlsToTagsafeCDNMap, totalOriginalByteSize, totalMinifiedByteSize } = await tagHoster.findAllThirdPartyTagsAndUploadThemToS3();
+  const tagHoster = new TagHoster({ pageUrl: page_url, firstPartyHosts, hostAllResources: true });
+  const { resourceUrlsToTagsafeCDNMap } = await tagHoster.findAllThirdPartyTagsAndUploadThemToS3();
 
-  console.log(`Warming up tagsafe CDN...`);
-  for(let [_tagUrl, tagsafeCDNUrl] of Object.entries(tagUrlsToTagsafeCDNMap)) {
+  console.log(`Warming up tagsafe CDN from:...`);
+  for (let [_resourceUrl, tagsafeCDNUrl] of Object.entries(resourceUrlsToTagsafeCDNMap)) {
     await fetch(tagsafeCDNUrl);
   }
 
@@ -28,8 +28,8 @@ module.exports.handle = async (event, _context) => {
 
   for(let i = 0; i < num_iterations; i++) {
     console.log(`Running iteration ${i + 1} of ${num_iterations}...`);
-    const withTagsafePerformanceMeasurer = new PerformanceMeasurer({ pageUrl: page_url, tagUrlsToTagsafeCDNMap });
-    const withoutTagsafePerformanceMeasurer = new PerformanceMeasurer({ pageUrl: page_url, tagUrlsToTagsafeCDNMap: {} });
+    const withTagsafePerformanceMeasurer = new PerformanceMeasurer({ pageUrl: page_url, resourceUrlsToTagsafeCDNMap });
+    const withoutTagsafePerformanceMeasurer = new PerformanceMeasurer({ pageUrl: page_url, resourceUrlsToTagsafeCDNMap: {} });
     const [withTagsafePerformanceMetric, withoutTagsafePerformanceMetric] = await Promise.all([
       withTagsafePerformanceMeasurer.measurePerformance(),
       withoutTagsafePerformanceMeasurer.measurePerformance(),
@@ -47,11 +47,11 @@ module.exports.handle = async (event, _context) => {
   await tagHoster.purgeUploadedThirdPartyTagsFromS3();
 
   const results = {
-    tagUrlsToTagsafeCDNMap,
-    numThirdPartyTags: Object.keys(tagUrlsToTagsafeCDNMap).length,
-    totalOriginalByteSize,
-    totalMinifiedByteSize,
-    percentBytesSaved: (totalOriginalByteSize - totalMinifiedByteSize) / totalOriginalByteSize,
+    resourceUrlsToTagsafeCDNMap,
+    numResources: Object.keys(resourceUrlsToTagsafeCDNMap).length,
+    // totalOriginalByteSize,
+    // totalMinifiedByteSize,
+    // percentBytesSaved: (totalOriginalByteSize - totalMinifiedByteSize) / totalOriginalByteSize,
     withTagsafeAverages,
     withoutTagsafeAverages,
     averageTagsafeSavings: measureDiff(withTagsafeAverages, withoutTagsafeAverages),

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_31_153859) do
+ActiveRecord::Schema.define(version: 2023_02_06_033301) do
 
   create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 2023_01_31_153859) do
     t.boolean "defer_script_tags_by_default"
     t.float "tagsafe_js_re_route_eligible_tags_sample_rate"
     t.bigint "created_by_user_id"
+    t.string "subscription_tier"
     t.index ["created_by_user_id"], name: "index_containers_on_created_by_user_id"
     t.index ["name"], name: "index_containers_on_name"
     t.index ["uid"], name: "index_containers_on_uid"
