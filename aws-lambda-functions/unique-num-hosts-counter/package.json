@@ -3,7 +3,7 @@
     "deploy-prod": "serverless deploy --stage production",
     "deploy-staging": "serverless deploy --stage staging",
     "deploy-dev": "serverless deploy --stage collin-dev",
-    "locally": "serverless invoke local --function estimate-tagsafe-performance-improvements --path ./test.json --stage local"
+    "locally": "serverless invoke local --function count-hosts --stage local"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
@@ -12,7 +12,6 @@
     "puppeteer-core": "^10.4.0",
     "puppeteer-extra": "^3.3.4",
     "puppeteer-extra-plugin-stealth": "^2.11.1",
-    "puppeteer-har": "^1.1.2",
     "uglify-js": "^3.17.4"
   },
   "devDependencies": {
