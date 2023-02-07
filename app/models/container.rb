@@ -44,13 +44,26 @@ class Container < ApplicationRecord
     InstrumentationBuild.create!(container: self, description: description)
   end
 
+  def publish_speed_optimization_instrumentation!
+    TagsafeInstrumentationManager::InstrumentationWriter.new(self, type: 'speed-optimization').write_current_instrumentation_to_cdn
+  end
+
   def tagsafe_instrumentation_url(use_cdn: true)
     url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : 'tagsafe-instrumentation.s3.us-east-1.amazonaws.com'
     "https://#{url_host}/#{tagsafe_instrumentation_pathname}"
   end
 
+  def tagsafe_speed_optimization_instrumentation_url(use_cdn: true)
+    url_host = use_cdn ? ENV['CLOUDFRONT_HOSTNAME'] : 'tagsafe-instrumentation.s3.us-east-1.amazonaws.com'
+    "https://#{url_host}/#{tagsafe_speed_optimization_instrumentation_pathname}"
+  end
+
   def tagsafe_instrumentation_pathname
     "#{instrumentation_key}/instrumentation.js"
+  end
+
+  def tagsafe_speed_optimization_instrumentation_pathname
+    "#{instrumentation_key}/speed-optimization-instrumentation.js"
   end
 
   def instrumentation_cache_seconds
