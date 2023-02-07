@@ -15,7 +15,7 @@ class Tag < ApplicationRecord
 
   # RELATIONS
   belongs_to :container
-  belongs_to :tag_snippet
+  belongs_to :tag_snippet, optional: true
   belongs_to :primary_audit, class_name: Audit.to_s, optional: true
   belongs_to :tag_identifying_data, optional: true
   belongs_to :tagsafe_js_event_batch, optional: true

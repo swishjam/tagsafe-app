@@ -1,7 +1,9 @@
 module TagsafeInstrumentationManager
   class InstrumentationWriter
-    def initialize(container)
+    def initialize(container, type: 'tag-manager')
       @container = container
+      @type = type
+      raise "Invalid type: #{type}, must be either `tag-manager` or `speed-optimization`." unless ['tag-manager', 'speed-optimization'].include?(type)
     end
 
     def write_current_instrumentation_to_cdn
@@ -16,11 +18,11 @@ module TagsafeInstrumentationManager
     private
 
     def instrumentation_compiler
-      @instrumentation_compiler ||= InstrumentationCompiler.new(@container)
+      @instrumentation_compiler ||= InstrumentationCompiler.new(@container, @type)
     end
 
     def instrumentation_aws_handler
-      @instrumentation_aws_handler ||= InstrumentationAwsHandler.new(@container)
+      @instrumentation_aws_handler ||= InstrumentationAwsHandler.new(@container, @type)
     end
   end
 end

@@ -2,8 +2,9 @@ module TagsafeInstrumentationManager
   class InstrumentationCompiler
     class InstrumentationBuildFailedError < StandardError; end;
 
-    def initialize(container)
+    def initialize(container, type = 'tag-manager')
       @container = container
+      @type = type
     end
 
     def compile_instrumentation
@@ -33,7 +34,12 @@ module TagsafeInstrumentationManager
 
     def copy_instrumentation_directory_to_unique_directory
       delete_compiled_instrumentation_file if Dir.exists?(unique_directory_for_containers_instrumentation)
-      FileUtils.copy_entry(Rails.root.join('tagsafe-instrumentation'), unique_directory_for_containers_instrumentation)
+      dir_to_copy = Rails.root.join(
+        @type == 'speed-optimization' ? 
+          'tagsafe-speed-optimizer-instrumentation' :
+          @container.tagsafe_js_reporting_disabled? ? 'tagsafe-instrumentation-without-reporting' : 'tagsafe-instrumentation'
+      )
+      FileUtils.copy_entry(dir_to_copy, unique_directory_for_containers_instrumentation)
     end
 
     def run_webpack_system_command
