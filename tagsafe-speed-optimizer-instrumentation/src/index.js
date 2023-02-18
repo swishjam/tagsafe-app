@@ -30,7 +30,6 @@ if(params.has('tagsafe-disabled') || params.has('disable-tagsafe')) {
       settings: mergedSettings,
       errorReporter,
       tagInterceptionRules,
-      tagConfigurations
     });
   } catch(err) {
     errorReporter.reportError(err.message);

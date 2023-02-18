@@ -3,7 +3,7 @@ import DataReporter from "./dataReporter";
 import { NodeInterceptor } from './nodeInterceptor';
 
 export default class Tagsafe {
-  static init({ containerUid, tagConfigurations, tagInterceptionRules, settings, errorReporter }) {
+  static init({ containerUid, tagInterceptionRules, settings, errorReporter }) {
     if(this._initialized) throw new Error(`Tagsafe already initialized.`);
     this._initialized = true;
 
@@ -34,8 +34,6 @@ export default class Tagsafe {
 
     if(settings.debugMode) {
       console.log('%c[Tagsafe Log] TagsafeJS initialized', 'background-color: #7587f8; color: white; padding: 5px;');
-      console.log('%c[Tagsafe Log] Tag configurations:', 'background-color: #7587f8; color: white; padding: 5px;');
-      console.log(tagConfigurations);
       console.log('%c[Tagsafe Log] Tag intercept rules:', 'background-color: #7587f8; color: white; padding: 5px;');
       console.log(tagInterceptionRules);
       console.log(`%c[Tagsafe Log] First party domain(s): ${settings.firstPartyDomains.join(', ')}`, 'background-color: #7587f8; color: white; padding: 5px;');

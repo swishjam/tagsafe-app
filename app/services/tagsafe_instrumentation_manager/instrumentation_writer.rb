@@ -12,7 +12,10 @@ module TagsafeInstrumentationManager
       instrumentation_aws_handler.write_containers_compiled_instrumentation_to_s3(instrumentation_compiler.compiled_instrumentation)
       instrumentation_aws_handler.purge_containers_instrumentation_cloudfront_cache
       instrumentation_compiler.delete_compiled_instrumentation_file
-      @container.tagsafe_instrumentation_url
+      {
+        tag_manager_url: @container.tagsafe_instrumentation_url,
+        speed_optimizer_url: @container.tagsafe_speed_optimization_instrumentation_url
+      }
     end
 
     private

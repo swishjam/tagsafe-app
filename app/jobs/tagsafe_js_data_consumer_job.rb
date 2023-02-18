@@ -15,8 +15,9 @@ class TagsafeJsDataConsumerJob < ApplicationJob
     else
       payload_parser = TagsafeJsDataConsumer::PayloadParser.new(data)
       TagsafeJsDataConsumer::PerformanceMetrics.new(payload_parser).consume!
-      TagsafeJsDataConsumer::Resources.new(payload_parser).consume!
+      num_new_resources = TagsafeJsDataConsumer::Resources.new(payload_parser).consume!
       payload_parser.page_load.processing_completed!
+      payload_parser.container.publish_instrumentation! if num_new_resources.count > 0
     end
   end
 end

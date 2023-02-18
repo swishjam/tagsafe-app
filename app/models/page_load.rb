@@ -20,6 +20,5 @@ class PageLoad < ApplicationRecord
     raise "Cannot mark PageLoad processing complete, `enqueued_at` is nil." if enqueued_at.nil?
     raise "Cannot mark PageLoad processing complete, `tagsafe_consumer_received_at` is nil." if tagsafe_consumer_received_at.nil?
     update!(tagsafe_consumer_processed_at: Time.current, seconds_to_complete: Time.current - page_load_ts)
-    
   end
 end

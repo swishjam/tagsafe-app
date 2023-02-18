@@ -78,6 +78,14 @@ class Container < ApplicationRecord
     !tagsafe_js_enabled?
   end
 
+  def tagsafe_js_reporting_disabled?
+    tagsafe_js_reporting_sample_rate.zero?
+  end
+
+  def tagsafe_js_reporting_enabled?
+    !tagsafe_js_reporting_disabled?
+  end
+
   def has_tag?(tag)
     tags.include?(tag)
   end

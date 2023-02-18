@@ -3,16 +3,18 @@ import { isThirdPartyUrl, getScriptTagLoadType } from "./utils";
 export class NodeInterceptor {
   constructor({ 
     tagInterceptionRules, 
+    dataReporter,
+    errorReporter,
     firstPartyDomains, 
     disableScriptInterception,
-    errorReporter,
     debugMode = false 
   }) {
     this.firstPartyDomains = firstPartyDomains;
+    this.dataReporter = dataReporter;
+    this.errorReporter = errorReporter;
     this.tagInterceptionRules = tagInterceptionRules;
     this.debugMode = debugMode;
     this.disableScriptInterception = disableScriptInterception;
-    this.errorReporter = errorReporter;
     window.Tagsafe.host = this._reMapScriptTagIfNecessary;
     
     if(this.debugMode && this.disableScriptInterception) {
@@ -73,7 +75,9 @@ export class NodeInterceptor {
         const ogSrc = node.getAttribute('src');
         const reRouteTagConfig = this.tagInterceptionRules[ogSrc];
         node.setAttribute('data-tagsafe-intercepted', 'true');
+        window.Tagsafe.interceptedTags = (window.Tagsafe.interceptedTags || []).concat([ogSrc]);
         if (isThirdPartyUrl(ogSrc, this.firstPartyDomains)) {
+          window.Tagsafe.interceptedThirdPartyTags = (window.Tagsafe.interceptedThirdPartyTags || []).concat([ogSrc]);
           const shouldHostTag = reRouteTagConfig && reRouteTagConfig['configuredTagUrl'];
           this.dataReporter.recordThirdPartyTag({ 
             tagUrl: ogSrc, 
@@ -82,7 +86,10 @@ export class NodeInterceptor {
             hostedByTagsafe: shouldHostTag
           })
           if (shouldHostTag) {
+            window.Tagsafe.tagsafedHostedTags = (window.Tagsafe.tagsafedHostedTags || []).concat([ogSrc]);
             return this._interceptInjectedScriptTag(node, reRouteTagConfig);
+          } else {
+            window.Tagsafe.notTagsafeHostedTags = (window.Tagsafe.notTagsafeHostedTags || []).concat([ogSrc]);
           }
         }
       }
