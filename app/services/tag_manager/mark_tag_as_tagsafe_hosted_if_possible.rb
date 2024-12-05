@@ -12,7 +12,11 @@ module TagManager
       if is_in_unhostable_tag_list? || !tag_has_static_content?
         @tag.update!(is_tagsafe_hostable: false, is_tagsafe_hosted: false, release_monitoring_interval_in_minutes: 0)
       else
-        @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: true)
+        if @tag.container.can_host_with_tagsafe?
+          @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: true)
+        else
+          @tag.update!(is_tagsafe_hostable: true, is_tagsafe_hosted: false)
+        end
       end
     end
 

@@ -1,0 +1,82 @@
+{
+  "numThirdPartyTags": 11,
+  "totalOriginalByteSize": 1818427,
+  "totalMinifiedByteSize": 1534108,
+  "percentBytesSaved": 0.15635436561379698,
+  "withTagsafeAverages": {
+    "totalJsNetworkTime": 17839.75000000298,
+    "serverResponseTime": 254.4,
+    "domProcessingTime": 44.8,
+    "domInteractiveTime": 1776.4,
+    "domContentLoadedTime": 2444.1,
+    "loadTime": 13.9,
+    "pageLoadTime": 5789,
+    "pageUnloadTime": 0
+  },
+  "withoutTagsafeAverages": {
+    "totalJsNetworkTime": 19783.060000011326,
+    "serverResponseTime": 146.6,
+    "domProcessingTime": 33.5,
+    "domInteractiveTime": 1640.5,
+    "domContentLoadedTime": 2153.7,
+    "loadTime": 14.3,
+    "pageLoadTime": 5224,
+    "pageUnloadTime": 0
+  },
+  "averageTagsafeSavings": {
+    "totalJsNetworkTime": 1943.3100000083468,
+    "totalJsNetworkTimePercentSavings": "9.823101178519574%",
+    "serverResponseTime": -107.80000000000001,
+    "serverResponseTimePercentSavings": "-73.53342428376536%",
+    "domProcessingTime": -11.299999999999997,
+    "domProcessingTimePercentSavings": "-33.731343283582085%",
+    "domInteractiveTime": -135.9000000000001,
+    "domInteractiveTimePercentSavings": "-8.284059737884796%",
+    "domContentLoadedTime": -290.4000000000001,
+    "domContentLoadedTimePercentSavings": "-13.483772113107682%",
+    "loadTime": 0.40000000000000036,
+    "loadTimePercentSavings": "2.7972027972027997%",
+    "pageLoadTime": -565,
+    "pageLoadTimePercentSavings": "-10.815467075038285%",
+    "pageUnloadTime": 0,
+    "pageUnloadTimePercentSavings": "NaN%"
+  },
+  "withTagsafeMedians": {
+    "totalJsNetworkTime": 12363.199999988079,
+    "serverResponseTime": 143,
+    "domProcessingTime": 42,
+    "domInteractiveTime": 1234,
+    "domContentLoadedTime": 2234,
+    "loadTime": 7,
+    "pageLoadTime": 5372,
+    "pageUnloadTime": 0
+  },
+  "withoutTagsafeMedians": {
+    "totalJsNetworkTime": 10859.599999964237,
+    "serverResponseTime": 153,
+    "domProcessingTime": 32,
+    "domInteractiveTime": 972,
+    "domContentLoadedTime": 2077,
+    "loadTime": 11,
+    "pageLoadTime": 4734,
+    "pageUnloadTime": 0
+  },
+  "medianTagsafeSavings": {
+    "totalJsNetworkTime": -1503.6000000238419,
+    "totalJsNetworkTimePercentSavings": "-13.845813842395607%",
+    "serverResponseTime": 10,
+    "serverResponseTimePercentSavings": "6.535947712418301%",
+    "domProcessingTime": -10,
+    "domProcessingTimePercentSavings": "-31.25%",
+    "domInteractiveTime": -262,
+    "domInteractiveTimePercentSavings": "-26.954732510288064%",
+    "domContentLoadedTime": -157,
+    "domContentLoadedTimePercentSavings": "-7.558979297063072%",
+    "loadTime": 4,
+    "loadTimePercentSavings": "36.36363636363637%",
+    "pageLoadTime": -638,
+    "pageLoadTimePercentSavings": "-13.476975073933248%",
+    "pageUnloadTime": 0,
+    "pageUnloadTimePercentSavings": "NaN%"
+  }
+}

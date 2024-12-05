@@ -1,32 +1,36 @@
 const PuppeteerModerator = require('./puppeteerModerator');
+const PuppeteerHar = require('puppeteer-har');
 
 require('dotenv').config();
 
 module.exports = class PerformanceMeasurer {
-  constructor({ pageUrl, tagUrlsToTagsafeCDNMap }) {
+  constructor({ pageUrl, resourceUrlsToTagsafeCDNMap }) {
     this.pageUrl = pageUrl;
-    this.tagUrlsToTagsafeCDNMap = tagUrlsToTagsafeCDNMap;
-    this.numTagsafeHostedTags = 0;
+    this.resourceUrlsToTagsafeCDNMap = resourceUrlsToTagsafeCDNMap;
+    this.ignoreQueryParamsWhenOverridingRequests = true;
+    this.numTagsafeHostedResources = 0;
+    this.totalNumRequests = 0;
   }
 
   async measurePerformance() {
     console.log(`Measuring the page performance of ${this.pageUrl}...`);
-
     const puppeteerModerator = new PuppeteerModerator()
     const page = await puppeteerModerator.launch();
+    
+    const har = new PuppeteerHar(page);
+    const fileName = `${Object.keys(this.resourceUrlsToTagsafeCDNMap).length > 0 ? 'tagsafe-hosted-' : 'not-tagsafe-hosted-'}-${Date.now()}-${Math.random() * 1_000_000_000_000}-results.har`;
+    await har.start({ path: `./${fileName}` });
 
     await page.setRequestInterception(true);
     page.on('request', request => {
-      if(request.resourceType() === 'script') {
-        const tagsafeCDNUrl = this.tagUrlsToTagsafeCDNMap[request.url()];
-        if(tagsafeCDNUrl) {
-          console.log(`Intercepting script tag request to ${request.url()} and overriding it with ${tagsafeCDNUrl}`);
-          this.numTagsafeHostedTags += 1;
-        }
-        request.continue({ url: tagsafeCDNUrl || request.url() });
-      } else {
-        request.continue();
+      const parsedUrl = new URL(request.url());
+      const tagsafeCDNUrl = this.resourceUrlsToTagsafeCDNMap[request.url()] || this.resourceUrlsToTagsafeCDNMap[`${parsedUrl.protocol }//${parsedUrl.host}${parsedUrl.pathname}`];
+      if(tagsafeCDNUrl) {
+        console.log(`Intercepting ${request.resourceType()} resource request to ${request.url()} and overriding it with ${tagsafeCDNUrl}`);
+        this.numTagsafeHostedResources += 1;
       }
+      this.totalNumRequests += 1;
+      request.continue({ url: tagsafeCDNUrl || request.url() });
     })
 
     console.log(`Navigating to ${this.pageUrl}...`);
@@ -35,7 +39,10 @@ module.exports = class PerformanceMeasurer {
     console.log(`Measuring performance metrics...`);
     const perfMetrics = await this._gatherPerformanceMetrics(page);
 
+    await har.stop();
+    console.log(`Wrote HAR file to ${fileName}`);
     await puppeteerModerator.shutdown();
+    console.log(`HOSTED ${this.numTagsafeHostedResources} OF ${this.totalNumRequests} RESOURCES!!!!`);
     return { ...perfMetrics };
   }
 
@@ -64,12 +71,15 @@ module.exports = class PerformanceMeasurer {
       const pageUnloadTime = unloadEventEnd - unloadEventStart;
 
       let totalJsNetworkTime = 0;
+      let totalNetworkTime = 0;
       window.performance.getEntriesByType('resource').forEach(resource => {
         if (resource.initiatorType === 'script') totalJsNetworkTime += resource.duration;
+        totalNetworkTime += resource.duration;
       })
 
       return {
-        numTagsafeHostedTags: this.numTagsafeHostedTags,
+        numTagsafeHostedResources: this.numTagsafeHostedResources,
+        totalNetworkTime,
         totalJsNetworkTime,
         serverResponseTime,
         domProcessingTime,

@@ -1,0 +1,3 @@
+TAGSAFE_PROXY_URL: https://dev-tagsafe-proxier.tagsafe.workers.dev/
+S3_BUCKET_NAME: dev-tagsafe-savings-estimator
+CDN_HOST: cdn-collin-dev.tagsafe.io

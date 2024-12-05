@@ -29,6 +29,8 @@ class ContainersController < LoggedInController
   end
   
   def create
+    container_params[:tagsafe_js_reporting_sample_rate] = 0.0
+    container_params[:subscription_tier] = 'free'
     @container = current_user.containers_created.new(container_params)
     if @container.save
       current_user.containers << @container
