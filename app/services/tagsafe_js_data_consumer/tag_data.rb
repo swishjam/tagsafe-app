@@ -7,7 +7,7 @@ module TagsafeJsDataConsumer
     end
 
     def url
-      @tag_data['tag_url'] || missing_attr!('tag_url')
+      @tag_data['tag_url']&.strip || missing_attr!('tag_url')
     end
 
     def parsed_url

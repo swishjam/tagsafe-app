@@ -32,3 +32,4 @@ ffmpeg*
 .server-killer
 ._new_relic.html
 dump.rdb
+.node_modules/*

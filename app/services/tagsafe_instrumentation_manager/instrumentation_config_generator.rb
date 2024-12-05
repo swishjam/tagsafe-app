@@ -53,18 +53,16 @@ module TagsafeInstrumentationManager
     
     def build_tag_interceptions_hash
       js = '{'
-      @container.tag_snippets.in_live_state.each do |tag_snippet|
-        tag_snippet.tags.each do |tag|
-          js += "
-            '#{tag.full_url}': {
-              tag: '#{tag.uid}',
-              tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
-              configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
-              configuredLoadType: #{"\"#{tag.configured_load_strategy_based_on_preferences}\""},
-              sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
-            },
-          "
-        end
+      @container.tags.each do |tag|
+        js += "
+          '#{tag.full_url}': {
+            tag: '#{tag.uid}',
+            tagVersion: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.uid}\"" : 'null'},
+            configuredTagUrl: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.js_file_url}\"" : 'null'},
+            configuredLoadType: #{"\"#{tag.configured_load_strategy_based_on_preferences}\""},
+            sha256: #{tag.is_tagsafe_hosted && tag.has_current_live_tag_version? ? "\"#{tag.current_live_tag_version.sha_256}\"" : 'null'},
+          },
+        "
       end
       js += '}'
     end
